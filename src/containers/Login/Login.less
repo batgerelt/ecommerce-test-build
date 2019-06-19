@@ -1,0 +1,124 @@
+@import "~antd/lib/style/themes/default.less";
+@main-color: #edb920;
+.main {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #FFF;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px #cecece;
+    .tabs {
+        padding: 0 2px;
+        margin: 0 -2px;
+        :global {
+            .ant-tabs-tab {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .ant-input-affix-wrapper .ant-input:not(:first-child) {
+                padding-left: 34px;
+            }
+            .ant-input-affix-wrapper .ant-input {
+                font-size: 10px;
+            }
+        }
+    }
+    :global {
+        .ant-tabs .ant-tabs-bar {
+            border-bottom: 0;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .ant-form-item {
+            width: 85%;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+    }
+    .prefixIcon {
+        font-size: @font-size-base;
+        color: @disabled-color;
+    }
+    .getCaptcha {
+        display: block;
+        width: 100%;
+    }
+    .additional {
+        text-align: left;
+        .forgot {
+            float: right;
+        }
+        .submit {
+            width: 100%;
+            background: @main-color;
+            border-color: @main-color;
+        }
+        :global {
+            .ant-form-item-control {
+                line-height: 22px;
+            }
+        }
+    }
+    .other {
+        text-align: left;
+        margin-top: 24px;
+        line-height: 22px;
+        .register {
+            float: right;
+        }
+    }
+}
+
+.container {
+    background: #f0f2f5;
+    width: 100%;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.top {
+    text-align: center;
+}
+
+.header {
+    // height: 44px;
+    line-height: 44px;
+    margin: 20px 0px;
+    a {
+        text-decoration: none;
+    }
+}
+
+.logo {
+    // height: 44px;
+    vertical-align: top;
+    margin-right: 16px;
+}
+
+.title {
+    font-size: 33px;
+    color: @heading-color;
+    font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    position: relative;
+    top: 2px;
+}
+
+.desc {
+    font-size: @font-size-base;
+    color: @text-color-secondary;
+    margin-top: 12px;
+    margin-bottom: 40px;
+}
+
+.footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}

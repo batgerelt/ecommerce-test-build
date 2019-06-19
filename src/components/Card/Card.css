@@ -1,0 +1,21 @@
+.big-product .info-container .price {
+    width: 100%;
+}
+
+.basketIcon {
+    background: #fbb92e;
+    color: #FFF;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 26px;
+}
+
+.search-hover {
+  z-index: 1;
+  background: transparent !important;
+}
+
+.single-product .image-container .search-hover a {
+  z-index: 10;
+  position: relative;
+}

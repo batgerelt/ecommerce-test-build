@@ -1,0 +1,55 @@
+@import '~normalize.css/normalize';
+@import '~flexboxgrid/dist/flexboxgrid.min';
+@import 'ladda';
+@import 'bootstrap/bootstrap';
+@import '~react-table/react-table';
+@import '~react-toastify/dist/ReactToastify.min';
+
+@import '~react-datepicker/dist/react-datepicker.css';
+
+.rt-th {
+    outline: none;
+    padding: 15px !important;
+}
+
+.rt-td {
+    padding: 15px !important;
+}
+
+$primary-color: $color-primary;
+@import '~loaders.css/src/animations/line-scale';
+
+.custom-loader {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+
+    &.abs {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        z-index: 99999;
+        background: rgba($white, 0.8);
+    }
+}
+
+.ladda-button {
+    // padding: 10px 15px;
+    // font-size: 1rem;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    display: block;
+}
+
+.react-datepicker__time-container,
+.react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box {
+    width: 100px;
+}

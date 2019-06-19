@@ -1,0 +1,37 @@
+@import "~antd/dist/antd.css";
+@import "variables";
+@import "common";
+@import "basic";
+@import "lg";
+@import "nresponsive";
+
+.fixed-mobile-menu {
+    display: none;
+}
+
+.swiper-slide .col-five {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+}
+
+@media (max-width: 767.97px) {
+    .fixed-mobile-menu {
+        display: block;
+    }
+}
+
+/*
+@import 'vendors';
+@import 'dashboard';
+@import 'components/Header';
+@import 'components/Sidebar';
+@import 'components/pagination';
+
+@import 'pages/Home';
+@import 'pages/Login';
+@import 'pages/CreateRegion';
+@import 'pages/CreateCategory';
+@import 'pages/Content';
+@import 'pages/Editor';
+*/

@@ -1,0 +1,20 @@
+.section-footer .social {
+  padding: 0;
+}
+
+.section-footer .social li {
+  list-style-type: none;
+  display: inline;
+}
+
+.section-footer .social span {
+  display: inline;
+}
+
+.section-footer .social a {
+  margin-right: 50px;
+}
+
+.section-footer ul.list-unstyled span {
+  font-size: 0.8rem;
+}

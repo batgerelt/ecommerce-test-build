@@ -1,0 +1,177 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@eredessil/react-id-swiper": "^1.7.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-brands-svg-icons": "^5.9.0",
+    "@fortawesome/free-regular-svg-icons": "^5.9.0",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "antd": "^3.16.1",
+    "async-waterfall": "^0.1.5",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "clone-deep": "^2.0.1",
+    "faker": "^4.1.0",
+    "fs-extra": "3.0.1",
+    "getstorybook": "^1.7.0",
+    "glamor": "^2.20.40",
+    "lodash": "^4.17.11",
+    "lodash-decorators": "^4.5.0",
+    "moment": "^2.24.0",
+    "namor": "^1.1.2",
+    "normalizr": "^3.3.0",
+    "object-assign": "4.1.1",
+    "promise": "8.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-transition-group": "^15.4.2",
+    "react-beautiful-dnd": "^3.0.0",
+    "react-bootstrap": "^0.31.5",
+    "react-ckeditor-component": "^1.0.7",
+    "react-color": "^2.17.0",
+    "react-container-query": "^0.11.0",
+    "react-dev-utils": "^4.2.3",
+    "react-dnd": "^2.6.0",
+    "react-dnd-html5-backend": "^2.6.0",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^16.8.6",
+    "react-draft-wysiwyg": "^1.13.2",
+    "react-export-excel": "^0.5.3",
+    "react-fa": "^5.0.0",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.0.4",
+    "react-id-swiper": "^2.1.2",
+    "react-intl": "^2.9.0",
+    "react-intl-redux": "^2.1.1",
+    "react-jsonschema-form": "^1.4.0",
+    "react-messenger-customer-chat": "^0.7.2",
+    "react-moment": "^0.8.4",
+    "react-notification-badge": "^1.5.0",
+    "react-print-tool": "^2.0.0",
+    "react-quill": "^1.3.3",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.2.2",
+    "react-router-scroll-top": "^0.2.1",
+    "react-sortable-hoc": "^0.8.4",
+    "react-stars": "^2.2.5",
+    "react-svg": "^10.0.8",
+    "react-toastify": "^5.2.1",
+    "reactstrap": "^6.5.0",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.4.0",
+    "redux-promise-middleware": "^6.1.1",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^2.5.4",
+    "semantic-ui-less": "^2.4.1",
+    "shortid": "^2.2.14",
+    "slide-toolkit": "^1.0.0",
+    "styled-components": "^2.2.4",
+    "survey-react": "^1.0.78",
+    "whatwg-fetch": "2.0.3",
+    "with-query": "^1.0.2"
+  },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js --env=jsdom",
+    "flow": "flow"
+  },
+  "devDependencies": {
+    "autoprefixer": "7.1.2",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "7.2.3",
+    "babel-jest": "20.0.3",
+    "babel-loader": "7.1.1",
+    "babel-plugin-import": "^1.11.0",
+    "babel-preset-react-app": "^3.0.3",
+    "babel-runtime": "6.26.0",
+    "case-sensitive-paths-webpack-plugin": "2.1.1",
+    "chalk": "1.1.3",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.28.11",
+    "dotenv": "4.0.0",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-react-app": "^2.0.1",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-flowtype": "2.35.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "0.11.2",
+    "flow-bin": "^0.57.3",
+    "html-webpack-plugin": "2.29.0",
+    "jest": "20.0.4",
+    "less": "^2.7.3",
+    "less-loader": "^4.1.0",
+    "less-vars-to-js": "^1.3.0",
+    "node-sass-chokidar": "0.0.3",
+    "postcss-flexbugs-fixes": "3.2.0",
+    "postcss-loader": "2.0.6",
+    "style-loader": "0.18.2",
+    "sw-precache-webpack-plugin": "0.11.4",
+    "url-loader": "0.5.9",
+    "webpack": "^3.12.0",
+    "webpack-dev-server": "2.8.2",
+    "webpack-manifest-plugin": "1.2.1"
+  },
+  "files.associations": {
+    "*.js": "flow"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.js?(x)",
+      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "import",
+        {
+          "libraryName": "antd",
+          "style": true
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}

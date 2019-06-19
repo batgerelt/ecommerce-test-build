@@ -1,0 +1,229 @@
+// $black: #000;
+// $white: #fff;
+// $color-header-top: #e5e5e5;
+// $color-primary: #0067b1;
+// $color-primary-dark: #003861;
+// $color-blue-text: #297fca;
+// $color-blue-hover: #56ccf2;
+// $color-menu-hover: #fed030;
+// $color-bg: #f2f2f2;
+// $color-default: #333333;
+// $color-placeholder: #bdbdbd;
+
+// $font-default: 'Lato', sans-serif;
+// $font-title: 'Roboto', sans-serif;
+
+$dark1: rgba(38, 42, 50, 0.1);
+$dark2: rgba(38, 42, 50, 0.2);
+$dark3: rgba(38, 42, 50, 0.3);
+$dark4: rgba(38, 42, 50, 0.4);
+$dark5: rgba(38, 42, 50, 0.5);
+$dark6: rgba(38, 42, 50, 0.6);
+$dark7: rgba(38, 42, 50, 0.7);
+$dark8: rgba(38, 42, 50, 0.8);
+$dark9: rgba(38, 42, 50, 0.9);
+$dark: rgba(38, 42, 50, 1);
+
+$gray05: rgba(73, 75, 87, 0.05);
+$gray1: rgba(73, 75, 87, 0.1);
+$gray2: rgba(73, 75, 87, 0.2);
+$gray3: rgba(73, 75, 87, 0.3);
+$gray4: rgba(73, 75, 87, 0.4);
+$gray5: rgba(73, 75, 87, 0.5);
+$gray6: rgba(73, 75, 87, 0.6);
+$gray7: rgba(73, 75, 87, 0.7);
+$gray8: rgba(73, 75, 87, 0.8);
+$gray9: rgba(73, 75, 87, 0.9);
+$gray: rgba(73, 75, 87, 1);
+
+$main1: rgba(254, 180, 21, 0.1);
+$main2: rgba(254, 180, 21, 0.2);
+$main3: rgba(254, 180, 21, 0.3);
+$main4: rgba(254, 180, 21, 0.4);
+$main5: rgba(254, 180, 21, 0.5);
+$main6: rgba(254, 180, 21, 0.6);
+$main7: rgba(254, 180, 21, 0.7);
+$main8: rgba(254, 180, 21, 0.8);
+$main9: rgba(254, 180, 21, 0.9);
+$main: rgba(254, 180, 21, 1);
+
+$warning1: rgba(255,155,0,0.1);
+$warning2: rgba(255,155,0,0.2);
+$warning3: rgba(255,155,0,0.3);
+$warning4: rgba(255,155,0,0.4);
+$warning5: rgba(255,155,0,0.5);
+$warning6: rgba(255,155,0,0.6);
+$warning7: rgba(255,155,0,0.7);
+$warning8: rgba(255,155,0,0.8);
+$warning9: rgba(255,155,0,0.9);
+$warning: rgba(255,155,0,1);
+
+$success1: rgba(76,175,80,0.1);
+$success2: rgba(76,175,80,0.2);
+$success3: rgba(76,175,80,0.3);
+$success4: rgba(76,175,80,0.4);
+$success5: rgba(76,175,80,0.5);
+$success6: rgba(76,175,80,0.6);
+$success7: rgba(76,175,80,0.7);
+$success8: rgba(76,175,80,0.8);
+$success9: rgba(76,175,80,0.9);
+$success: rgba(76,175,80,1);
+
+$info1: rgba(0,122,255,0.1);
+$info2: rgba(0,122,255,0.2);
+$info3: rgba(0,122,255,0.3);
+$info4: rgba(0,122,255,0.4);
+$info5: rgba(0,122,255,0.5);
+$info6: rgba(0,122,255,0.6);
+$info7: rgba(0,122,255,0.7);
+$info8: rgba(0,122,255,0.8);
+$info9: rgba(0,122,255,0.9);
+$info: rgba(0,122,255,1);
+
+//Color Black
+$black05: rgba(0,0,0,0.05);
+$black1: rgba(0,0,0,0.1);
+$black2: rgba(0,0,0,0.2);
+$black3: rgba(0,0,0,0.3);
+$black4: rgba(0,0,0,0.4);
+$black5: rgba(0,0,0,0.5);
+$black6: rgba(0,0,0,0.6);
+$black7: rgba(0,0,0,0.7);
+$black8: rgba(0,0,0,0.8);
+$black9: rgba(0,0,0,0.9);
+$black: rgba(0,0,0,1);
+
+//Color White
+$white1: rgba(255,255,255,0.1);
+$white2: rgba(255,255,255,0.2);
+$white3: rgba(255,255,255,0.3);
+$white4: rgba(255,255,255,0.4);
+$white5: rgba(255,255,255,0.5);
+$white6: rgba(255,255,255,0.6);
+$white7: rgba(255,255,255,0.7);
+$white8: rgba(255,255,255,0.8);
+$white9: rgba(255,255,255,0.9);
+$white: rgba(255,255,255,1);
+
+//Color socials
+$facebook9: rgba(59,89,153 ,0.9);
+$facebook: rgba(59,89,153 ,1);
+$youtube: rgba(229,45,39 ,1);
+$instagram: rgba(63,114,155 ,1);
+$twitter: rgba(85,172,238 ,1);
+$linkedin: rgba(0,119,181 ,1);
+$google9: rgba(221,75,57 ,0.9);
+$google: rgba(221,75,57 ,1);
+$tumblr: rgba(52,70,93 ,1);
+
+//Color socials
+$red: rgba(255,31,25,1);
+$blue: rgba(3,169,244,1);
+$pink: rgba(233,30,99,1);
+$purple: rgba(120,104,255,1);
+$indigo: rgba(63,81,181,1);
+$cyan: rgba(0,188,212,1);
+$green: rgba(76,175,80,1);
+$lime: rgba(205,220,57,1);
+$yellow: rgba(255,235,59,1);
+$orange: rgba(255,152,0,1);
+$brown: rgba(121,85,72,1);
+
+@mixin transform($translate) {
+  -webkit-transform: $translate;
+  -moz-transform: $translate;
+  -ms-transform: $translate;
+  -o-transform: $translate;
+  transform: $translate;
+}
+@mixin box-shadow($bshadow) {
+  -webkit-box-shadow: $bshadow;
+  -moz-box-shadow: $bshadow;
+  -ms-box-shadow: $bshadow;
+  -o-box-shadow: $bshadow;
+  box-shadow: $bshadow;
+}
+@mixin box-shadow-double($bshadow1, $bshadow2) {
+  -webkit-box-shadow: $bshadow1, $bshadow2;
+  -moz-box-shadow: $bshadow1, $bshadow2;
+  -ms-box-shadow: $bshadow1, $bshadow2;
+  -o-box-shadow: $bshadow1, $bshadow2;
+  box-shadow: $bshadow1, $bshadow2;
+}
+@mixin text-shadow($tshadow) {
+  -webkit-text-shadow: $tshadow;
+  -moz-text-shadow: $tshadow;
+  -ms-text-shadow: $tshadow;
+  -o-text-shadow: $tshadow;
+  text-shadow: $tshadow;
+}
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin transition($transition) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+@mixin filter($filter) {
+  -webkit-filter: $filter;
+  -moz-filter: $filter;
+  -ms-filter: $filter;
+  -o-filter: $filter;
+  filter: $filter;
+}
+@mixin gradient($from, $to) {
+  background: -webkit-linear-gradient($from, $to);
+  background: -moz-linear-gradient($from, $to);
+  background: -ms-linear-gradient($from, $to);
+  background: -o-linear-gradient($from, $to);
+  background: linear-gradient($from, $to);
+}
+@mixin multi-gradient($deg, $multi1, $multi2, $multi3, $multi4) {
+  background: -webkit-linear-gradient($deg, $multi1, $multi2, $multi3, $multi4);
+  background: -moz-linear-gradient($deg, $multi1, $multi2, $multi3, $multi4);
+  background: -ms-linear-gradient($deg, $multi1, $multi2, $multi3, $multi4);
+  background: -o-linear-gradient($deg, $multi1, $multi2, $multi3, $multi4);
+  background: linear-gradient($deg, $multi1, $multi2, $multi3, $multi4);
+}
+@mixin deg-gradient($deg, $from, $to) {
+  background: -webkit-linear-gradient($deg, $from, $to);
+  background: -moz-linear-gradient($deg, $from, $to);
+  background: -ms-linear-gradient($deg, $from, $to);
+  background: -o-linear-gradient($deg, $from, $to);
+  background: linear-gradient($deg, $from, $to);
+}
+@mixin three-gradient($deg, $from, $mid, $to) {
+  background: -webkit-linear-gradient($deg, $from, $mid, $to);
+  background: -moz-linear-gradient($deg, $from, $mid, $to);
+  background: -ms-linear-gradient($deg, $from, $mid, $to);
+  background: -o-linear-gradient($deg, $from, $mid, $to);
+  background: linear-gradient($deg, $from, $mid, $to);
+}
+@mixin blend($blend-mode) {
+  background-blend-mode: $blend-mode;
+  -o-background-blend-mode: $blend-mode;
+  -ms-background-blend-mode: $blend-mode;
+  -moz-background-blend-mode: $blend-mode;
+  -webkit-background-blend-mode: $blend-mode;
+}
+@mixin calc($width, $percent) {
+  #{$width}: calc(#{$percent});
+  #{$width}: -o-calc(#{$percent});
+  #{$width}: -ms-calc(#{$percent});
+  #{$width}: -moz-calc(#{$percent});
+  #{$width}: -webkit-calc(#{$percent});
+}
+@mixin backface($visibility) {
+  backface-visibility: $visibility;
+  -o-backface-visibility: $visibility;
+  -ms-backface-visibility: $visibility;
+  -moz-backface-visibility: $visibility;
+  -webkit-backface-visibility: $visibility;
+}

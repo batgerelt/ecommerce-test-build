@@ -1,0 +1,46 @@
+.dashboard {
+    position: relative;
+    background: rgba($black, 0.02);
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+
+    .comp-content {
+        padding-left: 320px;
+        padding-top: 80px;
+        padding-bottom: 20px;
+        padding-right: 20px;
+    }
+
+    .page {
+        &.page-light {
+            background: $white;
+            border-radius: 3px;
+            .page-header {
+                padding: 20px;
+            }
+
+            .page-footer {
+                padding: 20px;
+            }
+        }
+        .page-header {
+            padding: 20px 0 40px 0;
+        }
+
+        .page-footer {
+            padding: 20px 0;
+            border-top: solid 1px rgba($black, 0.1);
+        }
+
+        .page-content {
+            // background: $white;
+            // padding: 20px;
+        }
+    }
+
+    .row {
+        width: 100%;
+    }
+}
