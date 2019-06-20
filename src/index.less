@@ -1,15 +1,27 @@
-// html,
-// body,
-// :global(#root) {
-//   height: 100%;
-//   overflow: hidden;
-//   overflow-y: auto;
-// }
-
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0 #ffffff; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fbbd2d; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fbd680; 
 }
 
 .globalSpin {

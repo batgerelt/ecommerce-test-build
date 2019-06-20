@@ -76,6 +76,7 @@ class Homepage extends React.Component {
         />,
       );
     }
+
     blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
     if (items.blocks.banners[2].length) {
       blocksToRender.push(
