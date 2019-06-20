@@ -38,7 +38,6 @@ class AuthModel extends BaseModel {
   login = ({ formData: body }) => asyncFn({
     body, url: '/api/login/adminlogin', method: 'POST', model: this.loginModel,
   })
-
   logout = () => asyncFn({
     url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
   })

@@ -1,7 +1,7 @@
 import Exception from './Exception';
 import SideNav from './SideNav';
 import PrivateRoute from './PrivateRoute';
-import Loading from "./Loading";
+import Loader from "./Loader";
 
 import Slider from "./Slider";
 // import Card from "./Card";
@@ -18,8 +18,8 @@ export {
   Exception,
   SideNav,
   PrivateRoute,
-  Loading,
 
+  Loader,
   Slider,
   // Card,
   CardList,

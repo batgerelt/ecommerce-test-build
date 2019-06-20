@@ -8,7 +8,7 @@
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
-class CrudModel extends BaseModel {
+class Model extends BaseModel {
   initialState = {
     current: {
       error: false,
@@ -17,6 +17,7 @@ class CrudModel extends BaseModel {
       data: {},
     },
     mainmenu: [],
+    menuslug: [],
   }
 
   constructor(data = {}) {
@@ -28,28 +29,34 @@ class CrudModel extends BaseModel {
           response: this.buildActionName('response', data.model, 'menu'),
           error: this.buildActionName('error', data.model, 'menu'),
         },
+        menuslug: {
+          request: this.buildActionName('request', data.model, 'menuslug'),
+          response: this.buildActionName('response', data.model, 'menuslug'),
+          error: this.buildActionName('error', data.model, 'menuslug'),
+        },
       };
     }
   }
-  getMenu = () => asyncFn({
-    url: `/menu`, method: 'GET', model: this.model.menu,
-  });
+  getMenu = () => asyncFn({ url: `/menu`, method: 'GET', model: this.model.menu });
+  getMenuSlug = ({ slug }) => asyncFn({ url: `/menu/${slug}`, method: 'GET', model: this.model.menuslug });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
-      // GET STATIC INFO
+      // GET MENU
       case this.model.menu.request:
-        return {
-          ...state,
-          current: this.requestCase(state.current, action),
-        };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.menu.error:
-        return {
-          ...state,
-          current: this.errorCase(state.current, action),
-        };
+        return { ...state, current: this.errorCase(state.current, action) };
       case this.model.menu.response:
-        return { mainmenu: action.payload.data };
+        return { ...state, mainmenu: action.payload.data };
+
+      // GET MENU SLUG
+      case this.model.menuslug.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.menuslug.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.menuslug.response:
+        return { ...state, menuslug: action.payload.data };
 
       default:
         return state;
@@ -57,4 +64,4 @@ class CrudModel extends BaseModel {
   }
 }
 
-export default CrudModel;
+export default Model;

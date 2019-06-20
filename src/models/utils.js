@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import withQuery from 'with-query';
 import { message } from 'antd';
 
@@ -87,7 +88,7 @@ const asyncFn = ({
         throw new Error('no data provided');
       }
 
-      dispatch({
+      return dispatch({
         type: model.response,
         payload: data,
         name,

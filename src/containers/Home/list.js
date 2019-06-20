@@ -89,7 +89,59 @@ class Homepage extends React.Component {
     return blocksToRender;
   }
 
+  renderSlider = () => {
+    try {
+      const { brand } = this.props;
+      const brandParams = {
+        slidesPerView: 5,
+        spaceBetween: 10,
+        loop: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          type: "bullets",
+          clickable: true,
+        },
+      };
+
+      const brandParams1 = {
+        slidesPerView: brand.length,
+        spaceBetween: 10,
+        loop: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          type: "bullets",
+          clickable: true,
+        },
+      };
+
+      return (
+        <Slider
+          data={brand}
+          params={brand.length <= 5 ? brandParams1 : brandParams}
+          elContainer={"brands"}
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   render() {
+    const { banners } = this.props;
     // const {
     //   categories,
     //   banners,
@@ -129,54 +181,19 @@ class Homepage extends React.Component {
     //   });
     // });
 
-    // const sliderParams = {
-    //   autoplay: {
-    //     delay: 5000,
-    //     disableOnInteraction: false,
-    //   },
-    //   pagination: {
-    //     el: ".swiper-pagination",
-    //     type: "bullets",
-    //     clickable: true,
-    //   },
-    //   spaceBetween: 0,
-    // };
+    const sliderParams = {
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        type: "bullets",
+        clickable: true,
+      },
+      spaceBetween: 0,
+    };
 
-    // const brandParams = {
-    //   slidesPerView: 5,
-    //   spaceBetween: 10,
-    //   loop: true,
-    //   autoplay: {
-    //     delay: 5000,
-    //     disableOnInteraction: false,
-    //   },
-    //   navigation: {
-    //     nextEl: ".swiper-button-next",
-    //     prevEl: ".swiper-button-prev",
-    //   },
-    //   pagination: {
-    //     type: "bullets",
-    //     clickable: true,
-    //   },
-    // };
-
-    // const brandParams1 = {
-    //   slidesPerView: brands.length,
-    //   spaceBetween: 10,
-    //   loop: true,
-    //   autoplay: {
-    //     delay: 5000,
-    //     disableOnInteraction: false,
-    //   },
-    //   navigation: {
-    //     nextEl: ".swiper-button-next",
-    //     prevEl: ".swiper-button-prev",
-    //   },
-    //   pagination: {
-    //     type: "bullets",
-    //     clickable: true,
-    //   },
-    // };
 
     // return (
     //   <div className="top-container">
@@ -189,24 +206,41 @@ class Homepage extends React.Component {
     //     </div>
     //     <div className="homerenderblocks">{this.renderBlocks(items)}</div>
 
-    //     <div className="main-slide brands-list">
-    //       <div className="container pad10">
-    //         <Slider
-    //           data={brands}
-    //           params={brands.length <= 5 ? brandParams1 : brandParams}
-    //           elContainer={"brands"}
-    //         />
-    //       </div>
-    //     </div>
-
-    //     <MessengerCustomerChat
-    //       pageId="169275059877520"
-    //       appId={SOCIAL_IDS.facebook}
-    //       htmlRef={window.location.pathname}
+    // <div className="main-slide brands-list">
+    //   <div className="container pad10">
+    //     <Slider
+    //       data={brands}
+    //       params={brands.length <= 5 ? brandParams1 : brandParams}
+    //       elContainer={"brands"}
     //     />
     //   </div>
+    // </div>;
+
+
+    //   </div>
     // );
-    return <div>hello</div>;
+    return (
+      <div className="top-container">
+        <div className="main-slide">
+          {/* <Slider
+            data={banners[0]}
+            params={sliderParams}
+            elContainer={"banner"}
+          /> */}
+          <div className="main-slide brands-list">
+            <div className="container pad10">
+              {this.renderSlider()}
+
+              {/* <MessengerCustomerChat
+                pageId="169275059877520"
+                appId={SOCIAL_IDS.facebook}
+                htmlRef={window.location.pathname}
+              /> */}
+            </div>
+          </div>;
+        </div>
+      </div>
+    );
   }
 }
 

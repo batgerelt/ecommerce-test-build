@@ -1,4 +1,4 @@
-class BaseModel {
+class Model {
   url = null;
   model = null;
   initialState = {};
@@ -47,4 +47,4 @@ class BaseModel {
   }
 }
 
-export default BaseModel;
+export default Model;

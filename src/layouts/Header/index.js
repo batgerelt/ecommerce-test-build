@@ -139,7 +139,9 @@ class AppHeader extends Component {
                     <li className="list-inline-item">
                       <form>
                         <select className="classic" defaultValue="0">
-                          <option value="0" defaultValue>МОН</option>
+                          <option value="0" defaultValue>
+                              МОН
+                          </option>
                           <option value="1">ENG</option>
                         </select>
                       </form>

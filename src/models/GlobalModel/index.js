@@ -1,6 +1,6 @@
 import BaseModel from '../BaseModel';
 
-class GlobalModel extends BaseModel {
+class Model extends BaseModel {
   constructor(data = {}) {
     super(data);
     this.initialState = {
@@ -27,4 +27,4 @@ class GlobalModel extends BaseModel {
   }
 }
 
-export default GlobalModel;
+export default Model;

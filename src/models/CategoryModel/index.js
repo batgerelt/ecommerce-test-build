@@ -1,7 +1,7 @@
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
-class CrudModel extends BaseModel {
+class Model extends BaseModel {
   initialState = {
     current: {
       error: false,
@@ -10,6 +10,8 @@ class CrudModel extends BaseModel {
       data: {},
     },
     categorymenu: [],
+    categoryinfo: [],
+    categoryproducts: [],
   }
 
   constructor(data = {}) {
@@ -21,28 +23,50 @@ class CrudModel extends BaseModel {
           response: this.buildActionName('response', data.model, 'categorymenu'),
           error: this.buildActionName('error', data.model, 'categorymenu'),
         },
+        categoryinfo: {
+          request: this.buildActionName('request', data.model, 'categoryinfo'),
+          response: this.buildActionName('response', data.model, 'categoryinfo'),
+          error: this.buildActionName('error', data.model, 'categoryinfo'),
+        },
+        categoryproducts: {
+          request: this.buildActionName('request', data.model, 'categoryproducts'),
+          response: this.buildActionName('response', data.model, 'categoryproducts'),
+          error: this.buildActionName('error', data.model, 'categoryproducts'),
+        },
       };
     }
   }
-  getCategoryMenu = () => asyncFn({
-    url: `/categorymenu`, method: 'GET', model: this.model.categorymenu,
-  });
+  getCategoryMenu = () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
+  getCategoryInfo = ({ id, rowcount, ordercol }) => asyncFn({ url: `/categoryinfo/${id}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryinfo });
+  getCategoryProducts = ({
+    id, startswith, rowcount, ordercol,
+  }) => asyncFn({ url: `/categoryproducts/${id}/${startswith}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryproducts });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET CATEGORY MENU
       case this.model.categorymenu.request:
-        return {
-          ...state,
-          current: this.requestCase(state.current, action),
-        };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.categorymenu.error:
-        return {
-          ...state,
-          current: this.errorCase(state.current, action),
-        };
+        return { ...state, current: this.errorCase(state.current, action) };
       case this.model.categorymenu.response:
-        return { categorymenu: action.payload.data };
+        return { ...state, categorymenu: action.payload.data };
+
+      // GET CATEGORY INFO
+      case this.model.categoryinfo.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categoryinfo.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categoryinfo.response:
+        return { ...state, categoryinfo: action.payload.data };
+
+      // GET CATEGORY PRODUCTS
+      case this.model.categoryproducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categoryproducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categoryproducts.response:
+        return { ...state, categoryproducts: action.payload.data };
 
       default:
         return state;
@@ -50,4 +74,4 @@ class CrudModel extends BaseModel {
   }
 }
 
-export default CrudModel;
+export default Model;

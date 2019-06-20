@@ -51,6 +51,7 @@ class Slider extends React.Component {
 
       return (
         <div
+          className="test"
           style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}
           key={index}
         >

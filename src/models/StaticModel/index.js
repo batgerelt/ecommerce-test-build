@@ -8,7 +8,7 @@
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
-class CrudModel extends BaseModel {
+class Model extends BaseModel {
   initialState = {
     current: {
       error: false,
@@ -44,37 +44,19 @@ class CrudModel extends BaseModel {
     switch (action.type) {
       // GET STATIC INFO
       case this.model.staticinfo.request:
-        return {
-          ...state,
-          current: this.requestCase(state.current, action),
-        };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.staticinfo.error:
-        return {
-          ...state,
-          current: this.errorCase(state.current, action),
-        };
+        return { ...state, current: this.errorCase(state.current, action) };
       case this.model.staticinfo.response:
-        return {
-          ...state,
-          staticinfo: action.payload.data[0],
-        };
+        return { ...state, staticinfo: action.payload.data[0] };
 
       // GET STATIC PAGE
       case this.model.staticpage.request:
-        return {
-          ...state,
-          current: this.requestCase(state.current, action),
-        };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.staticpage.error:
-        return {
-          ...state,
-          current: this.errorCase(state.current, action),
-        };
+        return { ...state, current: this.errorCase(state.current, action) };
       case this.model.staticpage.response:
-        return {
-          ...state,
-          staticpage: action.payload.data,
-        };
+        return { ...state, staticpage: action.payload.data };
 
       default:
         return state;
@@ -82,4 +64,4 @@ class CrudModel extends BaseModel {
   }
 }
 
-export default CrudModel;
+export default Model;

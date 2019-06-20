@@ -1,7 +1,7 @@
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
-class CrudModel extends BaseModel {
+class Model extends BaseModel {
   initialState = {
     all: {
       error: false,
@@ -176,4 +176,4 @@ class CrudModel extends BaseModel {
   }
 }
 
-export default CrudModel;
+export default Model;
