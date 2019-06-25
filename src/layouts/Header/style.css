@@ -63,6 +63,6 @@ select:-moz-focusing {
   content: '';
 }
 
-.btn, .input-search{
+/* .btn, .input-search{
   box-shadow: none !important;
-}
+} */

@@ -201,6 +201,7 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
+                              style={{ boxShadow: 'none' }}
                             >
                               {this.state.item}
                             </button>
@@ -245,6 +246,7 @@ class AppHeader extends Component {
                                 type="text"
                                 className="form-control input-search"
                                 placeholder="Бүгдээс хайх"
+                                style={{ boxShadow: 'none' }}
                                 onChange={e => this.onSuggestion(e)}
                               />
                               <datalist id="cat" className="list-unstyled">
@@ -274,7 +276,7 @@ class AppHeader extends Component {
                             />
                             <span
                               className="text-uppercase d-none d-sm-block"
-                              style={{ color: "black" }}
+                              style={{ color: "black", boxShadow: 'none' }}
                             >
                                 Хайх
                             </span>
