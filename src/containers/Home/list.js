@@ -90,7 +90,7 @@ class Homepage extends React.Component {
     return blocksToRender;
   }
 
-  renderSlider = () => {
+  renderBrandSlider = () => {
     try {
       const { brand } = this.props;
       const brandParams = {
@@ -195,31 +195,6 @@ class Homepage extends React.Component {
       spaceBetween: 0,
     };
 
-
-    // return (
-    //   <div className="top-container">
-    //     <div className="main-slide">
-    //       <Slider
-    //         data={banners[0]}
-    //         params={sliderParams}
-    //         elContainer={"banner"}
-    //       />
-    //     </div>
-    //     <div className="homerenderblocks">{this.renderBlocks(items)}</div>
-
-    // <div className="main-slide brands-list">
-    //   <div className="container pad10">
-    //     <Slider
-    //       data={brands}
-    //       params={brands.length <= 5 ? brandParams1 : brandParams}
-    //       elContainer={"brands"}
-    //     />
-    //   </div>
-    // </div>;
-
-
-    //   </div>
-    // );
     return (
       <div className="top-container">
         <div className="main-slide">
@@ -228,17 +203,20 @@ class Homepage extends React.Component {
             params={sliderParams}
             elContainer={"banner"}
           /> */}
-          <div className="main-slide brands-list">
-            <div className="container pad10">
-              {this.renderSlider()}
+        </div>
 
-              {/* <MessengerCustomerChat
+        {/* <div className="homerenderblocks">{this.renderBlocks(items)}</div> */}
+
+        <div className="main-slide brands-list">
+          <div className="container pad10">
+            {this.renderBrandSlider()}
+
+            {/* <MessengerCustomerChat
                 pageId="169275059877520"
                 appId={SOCIAL_IDS.facebook}
                 htmlRef={window.location.pathname}
               /> */}
-            </div>
-          </div>;
+          </div>
         </div>
       </div>
     );

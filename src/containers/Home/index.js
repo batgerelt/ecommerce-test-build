@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
   ...state.brand,
   ...state.category,
   ...state.banner,
+  ...state.product,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -29,27 +30,27 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   state = {
-    iscat: true,
-    isbrand: true,
-    isbanner: true,
-    emartprod: true,
+    category: true,
+    brand: true,
+    banner: true,
+    emart: true,
+    discount: true,
   }
 
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд  */
   componentWillMount() {
-    this.props.getCategoryMenu().then(res => this.setState({ iscat: false })); // Menu-ийн өгөгдөл авах хүсэлт
-    this.props.getBrand().then(res => this.setState({ isbrand: false })); // Brand-ийн өгөгдөл авах хүсэлт
-    // this.props.getEmartProduct({
-    //   jumcd: "99", startWith: 0, rowCount: 10, orderCol: "price_asc",
-    // }).then(res => this.setState({ emartprod: false }));
+    this.props.getCategoryMenu().then(r => this.setState({ category: false })); // Menu-ийн өгөгдөл авах хүсэлт
+    this.props.getBrand().then(r => this.setState({ brand: false })); // Brand-ийн өгөгдөл авах хүсэлт
+    this.props.getEmartProduct({ }).then(r => this.setState({ emart: false }));
+    this.props.getDiscountProduct({ }).then(r => this.setState({ discount: false }));
   }
 
   render() {
-    const { iscat, isbrand } = this.state;
+    const { category, brand } = this.state;
 
     return (
-      <Spin spinning={iscat || isbrand} indicator={<Loader />}>
-        {iscat || isbrand ? <div /> : <Home {...this.props} {...this.state} /> }
+      <Spin spinning={category || brand} indicator={<Loader />}>
+        <Home {...this.props} {...this.state} />
       </Spin>
     );
   }
