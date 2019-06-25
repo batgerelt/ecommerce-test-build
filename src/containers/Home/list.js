@@ -7,18 +7,33 @@ import { Icon } from "react-fa";
 import { Slider, Widget, Banner } from "../../components";
 import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
 
+
+const sliderParams = {
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    type: "bullets",
+    clickable: true,
+  },
+  spaceBetween: 0,
+};
+
 class Homepage extends React.Component {
-  getBlocks(widgets, products) {
+  getBlocks = (widgets, products) => {
     let blocks = [];
 
     widgets.forEach((widget) => {
       switch (widget.slug) {
         case WIDGET_SLUGS.onlyemart:
-          widget.items = products.prodsEmart;
+          widget.items = products.emartproduct;
           widget.readMore = "Бусад Имартын барааг үзэх";
           break;
         case WIDGET_SLUGS.discount:
-          widget.items = products.prodsDiscount;
+
+          widget.items = products.discountproduct;
           widget.interval = (
             <span>
               {moment()
@@ -36,17 +51,17 @@ class Homepage extends React.Component {
           );
           break;
         case WIDGET_SLUGS.package:
-          widget.items = products.prodsPackage;
+          widget.items = products.packageAll;
           widget.readMore = "Бусад багцыг үзэх";
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.recipe:
-          widget.items = products.recipes;
+          widget.items = products.recipeAll;
           widget.readMore = "Бусад хоолны жорыг үзэх";
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.new:
-          widget.items = products.prodsNew;
+          widget.items = products.newproduct;
           widget.readMore = "Бусад шинэ барааг үзэх";
           break;
         default:
@@ -56,38 +71,75 @@ class Homepage extends React.Component {
         blocks.push(<Widget key={widget.slug} data={widget} />);
       }
     });
-
     return blocks;
   }
 
-  renderBlocks(items) {
-    const widgets = items.blocks.widgets.sort(
-      (obj1, obj2) => obj1.orders - obj2.orders,
-    );
+  renderBlocks = () => {
+    try {
+      const {
+        homepagebanner, widget, emartproduct, discountproduct,
+        packageAll, newproduct, recipeAll, categorymenu,
+      } = this.props;
 
-    let blocksToRender = [];
+      const items = {
+        products: {
+          emartproduct,
+          discountproduct,
+          packageAll,
+          newproduct,
+          recipeAll,
+        },
+        blocks: {
+          widget,
+          banner: homepagebanner,
+        },
+      };
 
-    blocksToRender.push(this.getBlocks(widgets.slice(0, 2), items.products));
-    if (items.blocks.banners[1].length) {
-      blocksToRender.push(
-        <Banner
-          key={items.blocks.banners[1][0].id}
-          data={items.blocks.banners[1]}
-        />,
+      // const root = [];
+      // categorymenu.forEach((category) => {
+      //   if (category.parentid === 0) {
+      //     category.children = [];
+      //     root.push(category);
+      //   }
+      //   root.forEach((entry) => {
+      //     if (entry.id === category.parentid) {
+      //       entry.children.push(category);
+      //     }
+      //   });
+      // });
+
+      const widgets = items.blocks.widget.sort(
+        (obj1, obj2) => obj1.orders - obj2.orders,
       );
-    }
 
-    blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
-    if (items.blocks.banners[2].length) {
-      blocksToRender.push(
-        <Banner
-          key={items.blocks.banners[2][0].id}
-          data={items.blocks.banners[2]}
-        />,
-      );
-    }
+      let blocksToRender = [];
 
-    return blocksToRender;
+      blocksToRender.push(this.getBlocks(widgets.slice(0, 2), items.products));
+      if (items.blocks.banner.middle.length) {
+        blocksToRender.push(
+          <Banner
+            key={items.blocks.banner.middle[0].id}
+            data={items.blocks.banner.middle}
+          />,
+        );
+      }
+
+      blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
+      if (items.blocks.banner.footer.length) {
+        blocksToRender.push(
+          <Banner
+            key={items.blocks.banner.footer[0].id}
+            data={items.blocks.banner.footer}
+          />,
+        );
+      }
+      console.log(blocksToRender);
+
+      return blocksToRender;
+    } catch (error) {
+      // return console.log(error);
+      return null;
+    }
   }
 
   renderBrandSlider = () => {
@@ -142,71 +194,31 @@ class Homepage extends React.Component {
     }
   }
 
+  renderMainBanner = () => {
+    try {
+      const { homepagebanner } = this.props;
+      return (
+        <Slider
+          data={homepagebanner.header === undefined ? [] : homepagebanner.header}
+          params={sliderParams}
+          elContainer={"banner"}
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   render() {
-    const { banners } = this.props;
-    // const {
-    //   categories,
-    //   banners,
-    //   brands,
-    //   widgets,
-    //   prodsEmart,
-    //   prodsDiscount,
-    //   prodsPackage,
-    //   prodsNew,
-    //   recipes,
-    // } = this.props.container;
-
-    // const items = {
-    //   products: {
-    //     prodsEmart,
-    //     prodsDiscount,
-    //     prodsPackage,
-    //     prodsNew,
-    //     recipes,
-    //   },
-    //   blocks: {
-    //     widgets,
-    //     banners,
-    //   },
-    // };
-
-    // const root = [];
-    // categories.forEach((category) => {
-    //   if (category.parentid === 0) {
-    //     category.children = [];
-    //     root.push(category);
-    //   }
-    //   root.forEach((entry) => {
-    //     if (entry.id === category.parentid) {
-    //       entry.children.push(category);
-    //     }
-    //   });
-    // });
-
-    const sliderParams = {
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        type: "bullets",
-        clickable: true,
-      },
-      spaceBetween: 0,
-    };
-
     return (
       <div className="top-container">
         <div className="main-slide">
-          {/* <Slider
-            data={banners[0]}
-            params={sliderParams}
-            elContainer={"banner"}
-          /> */}
+          {this.renderMainBanner()}
         </div>
 
-        {/* <div className="homerenderblocks">{this.renderBlocks(items)}</div> */}
+        <div className="homerenderblocks">
+          {this.renderBlocks()}
+        </div>
 
         <div className="main-slide brands-list">
           <div className="container pad10">

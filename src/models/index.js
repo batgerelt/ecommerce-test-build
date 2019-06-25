@@ -7,6 +7,8 @@ import BannerModel from "./BannerModel/";
 import WidgetModel from "./WidgetModel/";
 import ProductModel from "./ProductModel/";
 import LocationModel from "./LocationModel/";
+import PackageModel from "./PackageModel/";
+import RecipeModel from "./RecipeModel/";
 
 /** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -18,6 +20,8 @@ const Banner = new BannerModel({ model: 'banner' });
 const Widget = new WidgetModel({ model: 'widget' });
 const Product = new ProductModel({ model: 'product' });
 const Location = new LocationModel({ model: 'systemlocation' });
+const Package = new PackageModel({ model: 'package' });
+const Recipe = new RecipeModel({ model: 'recipe' });
 
 export {
   Auth,
@@ -29,4 +33,6 @@ export {
   Widget,
   Product,
   Location,
+  Package,
+  Recipe,
 };

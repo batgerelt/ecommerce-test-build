@@ -37,7 +37,7 @@ class Model extends BaseModel {
     }
   }
 
-  getHomePageBanner = ({ id }) => asyncFn({ url: `/homepagebanner/${id}`, method: 'GET', model: this.model.homepagebanner });
+  getHomePageBanner = () => asyncFn({ url: `/homepagebanners`, method: 'GET', model: this.model.homepagebanner });
   getPagesBanner = ({ id }) => asyncFn({ url: `/pagesbanner/${id}`, method: 'GET', model: this.model.pagesbanner });
   getBanner= ({ id }) => asyncFn({ url: `/banner/${id}`, method: 'GET', model: this.model.banner });
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Spin } from "antd";
 
 import {
   Category as CategoryModel,
   Brand as BrandModel,
   Banner as BannerModel,
   Product as ProductModel,
+  Widget as WidgetModel,
+  Package as PackageModel,
+  Recipe as RecipeModel,
 } from "../../models";
-import { Loader } from "../../components";
 import Home from "./list";
 
 const mapStateToProps = state => ({
@@ -17,6 +18,9 @@ const mapStateToProps = state => ({
   ...state.category,
   ...state.banner,
   ...state.product,
+  ...state.widget,
+  ...state.package,
+  ...state.recipe,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -25,34 +29,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...BrandModel,
     ...BannerModel,
     ...ProductModel,
+    ...WidgetModel,
+    ...PackageModel,
+    ...RecipeModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
-  state = {
-    category: true,
-    isbrand: true,
-    banner: true,
-    emart: true,
-    discount: true,
-  }
-
-  /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд  */
+  /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getCategoryMenu().then(r => this.setState({ category: false })); // Menu-ийн өгөгдөл авах хүсэлт
-    this.props.getBrand().then(r => this.setState({ isbrand: false })); // Brand-ийн өгөгдөл авах хүсэлт
-    this.props.getEmartProduct({ }).then(r => this.setState({ emart: false }));
-    this.props.getDiscountProduct({ }).then(r => this.setState({ discount: false }));
+    this.props.getCategoryMenu();
+    this.props.getBrand();
+    this.props.getHomePageBanner();
+    this.props.getEmartProduct({});
+    this.props.getDiscountProduct({});
+    this.props.getWidget();
+    this.props.getWidget();
+    this.props.getAllPackage();
+    this.props.getNewProduct({});
+    this.props.getRecipeAll();
   }
 
   render() {
-    const { category, isbrand } = this.state;
-
-    return (
-      <Spin spinning={category || isbrand} indicator={<Loader />}>
-        <Home {...this.props} {...this.state} />
-      </Spin>
-    );
+    return <Home {...this.props} {...this.state} />;
   }
 }
 

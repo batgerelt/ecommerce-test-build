@@ -105,7 +105,7 @@ class Model extends BaseModel {
   }) => asyncFn({ url: `/product/discountproduct/${jumcd}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.discountproduct });
   getNewProduct = ({
     jumcd = '99', startsWith = 0, rowCount = 10, orderCol = `price_asc`,
-  }) => asyncFn({ url: `/product/${jumcd}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.newproduct });
+  }) => asyncFn({ url: `/product/newproduct/${jumcd}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.newproduct });
   getProductAvailable= ({
     custid, skucd, qty, iscart,
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
