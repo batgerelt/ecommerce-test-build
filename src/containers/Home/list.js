@@ -93,6 +93,7 @@ class Homepage extends React.Component {
   renderBrandSlider = () => {
     try {
       const { brand } = this.props;
+
       const brandParams = {
         slidesPerView: 5,
         spaceBetween: 10,

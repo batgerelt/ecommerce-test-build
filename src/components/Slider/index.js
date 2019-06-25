@@ -7,15 +7,22 @@ import PropTypes from "prop-types";
 import styles from "./styles.less";
 
 class Slider extends React.Component {
-  render() {
+  renderRepice = () => {
     try {
-      let repice = this.props.data.map((item, index) => (
+      return this.props.data.map((item, index) => (
         <div
           style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}
           key={index}
         />
       ));
-      let indents = this.props.data.map((item, index) => {
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderIndents = () => {
+    try {
+      return this.props.data.map((item, index) => {
         const container = (
           <div key={index} className="container pad10">
             <div className="slide-container">
@@ -54,22 +61,24 @@ class Slider extends React.Component {
           </div>
         );
       });
-
-      return (
-        this.props.data.length !== 0 && (
-          <Swiper
-            {...this.props.params}
-            shouldSwiperUpdate
-            rebuildOnUpdate
-            className={this.props.elContainer}
-          >
-            {this.props.type ? repice : indents}
-          </Swiper>
-        )
-      );
     } catch (error) {
       return console.log(error);
     }
+  }
+
+  render() {
+    return (
+      this.props.data.length !== 0 && (
+        <Swiper
+          {...this.props.params}
+          shouldSwiperUpdate
+          rebuildOnUpdate
+          className={this.props.elContainer}
+        >
+          {this.props.type ? this.renderRepice() : this.renderIndents()}
+        </Swiper>
+      )
+    );
   }
 }
 

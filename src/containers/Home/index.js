@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = {
     category: true,
-    brand: true,
+    isbrand: true,
     banner: true,
     emart: true,
     discount: true,
@@ -40,16 +40,16 @@ class Page extends React.Component {
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд  */
   componentWillMount() {
     this.props.getCategoryMenu().then(r => this.setState({ category: false })); // Menu-ийн өгөгдөл авах хүсэлт
-    this.props.getBrand().then(r => this.setState({ brand: false })); // Brand-ийн өгөгдөл авах хүсэлт
+    this.props.getBrand().then(r => this.setState({ isbrand: false })); // Brand-ийн өгөгдөл авах хүсэлт
     this.props.getEmartProduct({ }).then(r => this.setState({ emart: false }));
     this.props.getDiscountProduct({ }).then(r => this.setState({ discount: false }));
   }
 
   render() {
-    const { category, brand } = this.state;
+    const { category, isbrand } = this.state;
 
     return (
-      <Spin spinning={category || brand} indicator={<Loader />}>
+      <Spin spinning={category || isbrand} indicator={<Loader />}>
         <Home {...this.props} {...this.state} />
       </Spin>
     );
