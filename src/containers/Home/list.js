@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import MessengerCustomerChat from "react-messenger-customer-chat";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon } from "react-fa";
 
 import { Slider, Widget, Banner } from "../../components";
@@ -95,19 +94,6 @@ class Homepage extends React.Component {
         },
       };
 
-      // const root = [];
-      // categorymenu.forEach((category) => {
-      //   if (category.parentid === 0) {
-      //     category.children = [];
-      //     root.push(category);
-      //   }
-      //   root.forEach((entry) => {
-      //     if (entry.id === category.parentid) {
-      //       entry.children.push(category);
-      //     }
-      //   });
-      // });
-
       const widgets = items.blocks.widget.sort(
         (obj1, obj2) => obj1.orders - obj2.orders,
       );
@@ -133,7 +119,6 @@ class Homepage extends React.Component {
           />,
         );
       }
-      console.log(blocksToRender);
 
       return blocksToRender;
     } catch (error) {

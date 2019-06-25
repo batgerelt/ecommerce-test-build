@@ -6,7 +6,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { CARD_LIST_TYPES, CARD_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
-// import { Card } from "../";
+import { Card } from "../";
 
 class CardList extends React.Component {
   getCardsAccordingToSeq = (cardTypes, items) => {
@@ -26,14 +26,14 @@ class CardList extends React.Component {
           break;
         }
 
-        // cards.push(
-        //   <Card
-        //     key={p}
-        //     type={cardType}
-        //     item={items[p]}
-        //     isLastInRow={j === cardsInRow - 1}
-        //   />,
-        // );
+        cards.push(
+          <Card
+            key={p}
+            type={cardType}
+            item={items[p]}
+            isLastInRow={j === cardsInRow - 1}
+          />,
+        );
       }
     }
 
@@ -85,16 +85,16 @@ class CardList extends React.Component {
             ? CARD_NUMS_IN_ROW.slim
             : CARD_NUMS_IN_ROW.wide;
 
-        // items.forEach((item, index) => {
-        //   cardList.push(
-        //     <Card
-        //       key={index}
-        //       type={cardType}
-        //       item={item}
-        //       isLastInRow={(index + 1) % cardsInRow === 0}
-        //     />,
-        //   );
-        // });
+        items.forEach((item, index) => {
+          cardList.push(
+            <Card
+              key={index}
+              type={cardType}
+              item={item}
+              isLastInRow={(index + 1) % cardsInRow === 0}
+            />,
+          );
+        });
       }
 
       cardList = <div className="row row10">{cardList}</div>;
@@ -131,14 +131,14 @@ class CardList extends React.Component {
             ? items[i].recipeid
             : i;
 
-        // cardsTemp.push(
-        //   <Card
-        //     key={key}
-        //     type={CARD_TYPES.tile}
-        //     item={items[i]}
-        //     className={className}
-        //   />,
-        // );
+        cardsTemp.push(
+          <Card
+            key={key}
+            type={CARD_TYPES.tile}
+            item={items[i]}
+            className={className}
+          />,
+        );
 
         if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
           cardList.push(
@@ -152,9 +152,9 @@ class CardList extends React.Component {
 
       cardList = <div className="row row10">{cardList}</div>;
     } else {
-      // items.forEach((item, index) => {
-      //   cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} />);
-      // });
+      items.forEach((item, index) => {
+        cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} />);
+      });
     }
 
     return <div>{cardList}</div>;

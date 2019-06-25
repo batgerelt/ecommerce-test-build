@@ -243,7 +243,7 @@ class AppHeader extends Component {
                               <input
                                 list="cat"
                                 type="text"
-                                className="form-control"
+                                className="form-control input-search"
                                 placeholder="Бүгдээс хайх"
                                 onChange={e => this.onSuggestion(e)}
                               />

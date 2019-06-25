@@ -62,3 +62,7 @@ select:-moz-focusing {
 .top-nav form:after {
   content: '';
 }
+
+.btn, .input-search{
+  box-shadow: none !important;
+}

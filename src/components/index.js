@@ -4,7 +4,7 @@ import PrivateRoute from './PrivateRoute';
 import Loader from "./Loader";
 
 import Slider from "./Slider";
-// import Card from "./Card";
+import Card from "./Card";
 import CardList from "./CardList";
 import Widget from "./Widget";
 import Banner from "./Banner";
@@ -12,6 +12,7 @@ import Category from "./Category";
 import MainMenu from "./MainMenu";
 import CartButton from "./CartButton";
 import UserButton from "./UserButton";
+import Label from "./Label";
 
 
 export {
@@ -21,7 +22,7 @@ export {
 
   Loader,
   Slider,
-  // Card,
+  Card,
   CardList,
   Widget,
   Banner,
@@ -29,4 +30,5 @@ export {
   MainMenu,
   CartButton,
   UserButton,
+  Label,
 };
