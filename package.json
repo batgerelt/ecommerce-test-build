@@ -28,6 +28,8 @@
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
     "react-id-swiper": "^2.1.2",
+    "react-image-magnify": "^2.7.4",
+    "react-images": "^1.0.0",
     "react-messenger-customer-chat": "^0.7.2",
     "react-motion": "^0.5.2",
     "react-notification-badge": "^1.5.0",
