@@ -95,14 +95,14 @@ class Model extends BaseModel {
     }
   }
 
-  getProductDetail = ({ skucd }) => asyncFn({ url: `/detail/${skucd}`, method: 'GET', model: this.model.detail });
-  getProductAttribute = ({ skucd }) => asyncFn({ url: `/attribute/${skucd}`, method: 'GET', model: this.model.attribute });
-  getProductRelational = ({ skucd }) => asyncFn({ url: `/relational/${skucd}`, method: 'GET', model: this.model.relational });
-  getProductCollection = ({ skucd }) => asyncFn({ url: `/collection/${skucd}`, method: 'GET', model: this.model.collection });
-  getProductRate = ({ skucd }) => asyncFn({ url: `/rate/${skucd}`, method: 'GET', model: this.model.rate });
-  getProductComment= ({ skucd }) => asyncFn({ url: `/comment/${skucd}`, method: 'GET', model: this.model.comment });
-  getProductDetailimg= ({ skucd }) => asyncFn({ url: `/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
-  getProductDetailCategory= ({ skucd }) => asyncFn({ url: `/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
+  getProductDetail = ({ skucd }) => asyncFn({ url: `/product/detail/${skucd}`, method: 'GET', model: this.model.detail });
+  getProductAttribute = ({ skucd }) => asyncFn({ url: `/product/attribute/${skucd}`, method: 'GET', model: this.model.attribute });
+  getProductRelational = ({ skucd }) => asyncFn({ url: `/product/relational/${skucd}`, method: 'GET', model: this.model.relational });
+  getProductCollection = ({ skucd }) => asyncFn({ url: `/product/collection/${skucd}`, method: 'GET', model: this.model.collection });
+  getProductRate = ({ skucd }) => asyncFn({ url: `/product/rate/${skucd}`, method: 'GET', model: this.model.rate });
+  getProductComment= ({ skucd }) => asyncFn({ url: `/product/comment/${skucd}`, method: 'GET', model: this.model.comment });
+  getProductDetailimg= ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
+  getProductDetailCategory= ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
   getEmartProduct = ({
     jumcd = '99', startsWith = 0, rowCount = 10, orderCol = `price_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.emartproduct });
@@ -150,7 +150,7 @@ class Model extends BaseModel {
       case this.model.detail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.detail.response:
-        return { ...state, detail: action.payload.data };
+        return { ...state, detail: action.payload.data[0] };
 
       // GET ATTRIBUTE
       case this.model.attribute.request:

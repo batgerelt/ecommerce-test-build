@@ -1,19 +1,27 @@
 /* eslint-disable import/first */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
 
-import { Home, Discount, New, Recipe, Package, Season } from '../';
+import {
+  Home,
+  Discount,
+  New,
+  Recipe,
+  Package,
+  Season,
+  ProductDetail,
+} from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import {
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
-} from '../../models';
+} from "../../models";
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,15 +29,18 @@ import "react-toastify/dist/ReactToastify.css";
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...bindActionCreators({
-    ...CategoryModel,
-    ...StaticModel,
-    ...MenuModel,
-  }, dispatch),
+  ...bindActionCreators(
+    {
+      ...CategoryModel,
+      ...StaticModel,
+      ...MenuModel,
+    },
+    dispatch,
+  ),
 });
 
 class App extends Component {
-  state = { dataSource: {} }
+  state = { dataSource: {} };
 
   componentWillMount() {
     this.props.getCategoryMenu();
@@ -42,12 +53,18 @@ class App extends Component {
     // this.LoginModal.handleLoginModal();
   }
 
-  hadleLogin = () => { this.LoginModal.handleLoginModal(); }
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
   render() {
     const { category, menu, staticcontent } = this.props;
 
-    if (category.categorymenu.length !== 0 && staticcontent.staticinfo !== null
-      && menu.mainmenu.length !== 0 && staticcontent.staticpage.length !== 0) {
+    if (
+      category.categorymenu.length !== 0 &&
+      staticcontent.staticinfo !== null &&
+      menu.mainmenu.length !== 0 &&
+      staticcontent.staticpage.length !== 0
+    ) {
       return (
         <Router>
           <ScrollToTop>
@@ -65,6 +82,7 @@ class App extends Component {
               <Route path="/recipe" component={Recipe} />
               <Route path="/package" component={Package} />
               <Route path="/season" component={Season} />
+              <Route path="/productdetail/:id" component={ProductDetail} />
             </Switch>
 
             {/** fixed footer */}
@@ -85,4 +103,7 @@ App.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
