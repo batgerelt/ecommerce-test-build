@@ -2,18 +2,18 @@
 import React from "react";
 
 import { CardList, Banner, PageBanner } from "../../components";
-import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
+import { CARD_LIST_TYPES } from "../../utils/Consts";
 
 class Discount extends React.Component {
   renderMainBanner = () => {
     try {
-      const { pagebanner } = this.props;
+      const { packagebanner, menuPackage } = this.props;
 
       return (
         <PageBanner
-          title={'Багц'}
-          subtitle={'Таньд хэрэгцээтэй бараануудыг нэг доороос'}
-          banners={pagebanner}
+          title={menuPackage.menunm}
+          subtitle={menuPackage.subtitle}
+          banners={packagebanner.length === 0 ? [] : packagebanner.header}
           bgColor="#fffdb7"
         />
       );
@@ -46,9 +46,9 @@ class Discount extends React.Component {
 
   renderSubBanner = () => {
     try {
-      const { pagebanner } = this.props;
+      const { packagebanner } = this.props;
 
-      return <Banner data={pagebanner} />;
+      return <Banner data={packagebanner.length === 0 ? [] : packagebanner.footer} />;
     } catch (error) {
       return console.log(error);
     }

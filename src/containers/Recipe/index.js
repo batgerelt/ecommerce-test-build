@@ -27,9 +27,8 @@ class Page extends React.Component {
   /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.props.getRecipeProduct();
-    // this.props.getPagesBanner({ id: 'E1' });
-    this.props.getPagesBanner({ id: 'E2' });
-    this.props.getMenuSlug({ id: 'recipe' });
+    this.props.getRecipeMenu({});
+    this.props.getRecipeBanner();
   }
 
   render() {

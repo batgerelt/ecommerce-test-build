@@ -12,6 +12,11 @@ class Model extends BaseModel {
     homepagebanner: [],
     pagebanner: [],
     banner: [],
+    discountbanner: [],
+    newbanner: [],
+    packagebanner: [],
+    recipebanner: [],
+    seasonbanner: [],
   }
 
   constructor(data = {}) {
@@ -33,13 +38,42 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'banner'),
           error: this.buildActionName('error', data.model, 'banner'),
         },
+        discountbanner: {
+          request: this.buildActionName('request', data.model, 'discountbanner'),
+          response: this.buildActionName('response', data.model, 'discountbanner'),
+          error: this.buildActionName('error', data.model, 'discountbanner'),
+        },
+        newbanner: {
+          request: this.buildActionName('request', data.model, 'newbanner'),
+          response: this.buildActionName('response', data.model, 'newbanner'),
+          error: this.buildActionName('error', data.model, 'newbanner'),
+        },
+        packagebanner: {
+          request: this.buildActionName('request', data.model, 'packagebanner'),
+          response: this.buildActionName('response', data.model, 'packagebanner'),
+          error: this.buildActionName('error', data.model, 'packagebanner'),
+        },
+        recipebanner: {
+          request: this.buildActionName('request', data.model, 'recipebanner'),
+          response: this.buildActionName('response', data.model, 'recipebanner'),
+          error: this.buildActionName('error', data.model, 'recipebanner'),
+        },
+        seasonbanner: {
+          request: this.buildActionName('request', data.model, 'seasonbanner'),
+          response: this.buildActionName('response', data.model, 'seasonbanner'),
+          error: this.buildActionName('error', data.model, 'seasonbanner'),
+        },
       };
     }
   }
 
   getHomePageBanner = () => asyncFn({ url: `/homepagebanners`, method: 'GET', model: this.model.homepagebanner });
   getPagesBanner = ({ id }) => asyncFn({ url: `/pagesbanner/${id}`, method: 'GET', model: this.model.pagesbanner });
-  getBanner= ({ id }) => asyncFn({ url: `/banner/${id}`, method: 'GET', model: this.model.banner });
+  getDiscountBanner = () => asyncFn({ url: `/discountbanners`, method: 'GET', model: this.model.discountbanner });
+  getNewBanner = () => asyncFn({ url: `/newbanners`, method: 'GET', model: this.model.newbanner });
+  getPackageBanner = () => asyncFn({ url: `/packagebanners`, method: 'GET', model: this.model.packagebanner });
+  getRecipeBanner = () => asyncFn({ url: `/recipebanners`, method: 'GET', model: this.model.recipebanner });
+  getSeasonBanner = () => asyncFn({ url: `/seasonbanners`, method: 'GET', model: this.model.seasonbanner });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -66,6 +100,46 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.banner.response:
         return { ...state, banner: action.payload.data };
+
+      // GET DISCOUNT BANNER
+      case this.model.discountbanner.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.discountbanner.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.discountbanner.response:
+        return { ...state, discountbanner: action.payload.data };
+
+      // GET NEWBANNER
+      case this.model.newbanner.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.newbanner.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.newbanner.response:
+        return { ...state, newbanner: action.payload.data };
+
+      // GET PACKAGEBANNER
+      case this.model.packagebanner.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.packagebanner.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.packagebanner.response:
+        return { ...state, packagebanner: action.payload.data };
+
+      // GET RECIPEBANNER
+      case this.model.recipebanner.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.recipebanner.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.recipebanner.response:
+        return { ...state, recipebanner: action.payload.data };
+
+      // GET SEASONBANNER
+      case this.model.seasonbanner.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.seasonbanner.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.seasonbanner.response:
+        return { ...state, seasonbanner: action.payload.data };
 
       default:
         return state;

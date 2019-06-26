@@ -6,6 +6,7 @@ import {
   Banner as BannerModel,
   Product as ProductModel,
   Menu as MenuModel,
+  Filter as FilterModel,
 } from "../../models";
 import List from "./list";
 
@@ -13,6 +14,8 @@ const mapStateToProps = state => ({
   ...state.banner,
   ...state.product,
   ...state.menu,
+  ...state.filter,
+
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -20,15 +23,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...BannerModel,
     ...ProductModel,
     ...MenuModel,
+    ...FilterModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getNewProduct({});
-    this.props.getNewMenu({});
-    this.props.getNewBanner();
+    this.props.getSeasonBanner();
+    this.props.getSeasonMenu({});
+    this.props.seasonFilter({
+      body: {
+        promotid: null, parameters: [], minprice: 0, maxprice: 0, ordercol: "price_asc",
+      },
+    });
   }
 
   render() {

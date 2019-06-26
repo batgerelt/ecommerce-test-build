@@ -7,13 +7,13 @@ import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Const
 class Discount extends React.Component {
   renderMainBanner = () => {
     try {
-      const { pagebanner } = this.props;
+      const { discountbanner, menuDiscount } = this.props;
 
       return (
         <PageBanner
-          title={'Хямдралтай'}
-          subtitle={'Хамгийн бодит хямдрал зарласан бүтээгдэхүүнүүдийг эндээс сонгоорой'}
-          banners={pagebanner}
+          title={menuDiscount.menunm}
+          subtitle={menuDiscount.subtitle}
+          banners={discountbanner.length === 0 ? [] : discountbanner.header}
           bgColor="#4286f4"
         />
       );
@@ -49,8 +49,8 @@ class Discount extends React.Component {
 
   renderSubBanner = () => {
     try {
-      const { pagebanner } = this.props;
-      return <Banner data={pagebanner} />;
+      const { discountbanner } = this.props;
+      return <Banner data={discountbanner.length === 0 ? [] : discountbanner.footer} />;
     } catch (error) {
       return console.log(error);
     }

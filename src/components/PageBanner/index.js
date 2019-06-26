@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 class PageHeader extends React.Component {
   state = {
@@ -28,13 +27,11 @@ class PageHeader extends React.Component {
     }
   };
 
-  render() {
-    const { title, subtitle, bgColor } = this.props;
-    return (
-      <div
-        className="whole-page-title"
-        style={{ padding: "0", backgroundColor: `${bgColor}` }}
-      >
+  renderContent = () => {
+    try {
+      const { title, subtitle, bgColor } = this.props;
+
+      return (
         <div
           className="whole-page-title class container pad10"
           style={{
@@ -59,13 +56,23 @@ class PageHeader extends React.Component {
             </div>
           </div>
         </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  render() {
+    const { bgColor } = this.props;
+    return (
+      <div
+        className="whole-page-title"
+        style={{ padding: "0", backgroundColor: `${bgColor}` }}
+      >
+        {this.renderContent()}
       </div>
     );
   }
 }
-
-PageHeader.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default PageHeader;

@@ -32,12 +32,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
+  /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.props.getAllPackage();
-    // this.props.getPagesBanner({ id: 'L1' });
-    this.props.getPagesBanner({ id: 'L2' });
-    this.props.getMenuSlug({ id: 'package' });
+    this.props.getPackageBanner();
+    this.props.getPackageMenu({});
     this.props.getWidget();
   }
 

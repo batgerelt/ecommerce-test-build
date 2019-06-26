@@ -6,7 +6,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ScrollToTop from "react-router-scroll-top";
 
-import { Home, Discount, New, Recipe, Package } from '../';
+import { Home, Discount, New, Recipe, Package, Season } from '../';
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import {
@@ -64,6 +64,7 @@ class App extends Component {
               <Route path="/new" component={New} />
               <Route path="/recipe" component={Recipe} />
               <Route path="/package" component={Package} />
+              <Route path="/season" component={Season} />
             </Switch>
 
             {/** fixed footer */}

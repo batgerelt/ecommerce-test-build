@@ -14,6 +14,7 @@ import CartButton from "./CartButton";
 import UserButton from "./UserButton";
 import Label from "./Label";
 import PageBanner from "./PageBanner";
+import FilterSet from "./FilterSet";
 
 
 export {
@@ -33,4 +34,5 @@ export {
   UserButton,
   Label,
   PageBanner,
+  FilterSet,
 };
