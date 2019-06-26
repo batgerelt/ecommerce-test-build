@@ -19,6 +19,7 @@ class Model extends BaseModel {
     rate: [],
     comment: [],
     detailimg: [],
+    recipeproduct: [],
   }
 
   constructor(data = {}) {
@@ -85,6 +86,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'productdetailcategorys'),
           error: this.buildActionName('error', data.model, 'productdetailcategorys'),
         },
+        recipe: {
+          request: this.buildActionName('request', data.model, 'recipe'),
+          response: this.buildActionName('response', data.model, 'recipe'),
+          error: this.buildActionName('error', data.model, 'recipe'),
+        },
       };
     }
   }
@@ -109,6 +115,8 @@ class Model extends BaseModel {
   getProductAvailable= ({
     custid, skucd, qty, iscart,
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
+  getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
+
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -207,6 +215,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.productdetailcategorys.response:
         return { ...state, productdetailcategorys: action.payload.data };
+
+      // GET PRODUCT DETAIL CATEGORYS
+      case this.model.recipe.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.recipe.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.recipe.response:
+        return { ...state, recipeproduct: action.payload.data };
 
       default:
         return state;

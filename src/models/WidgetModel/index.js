@@ -9,18 +9,18 @@ class Model extends BaseModel {
       isLoading: false,
       data: {},
     },
-    widget: [],
-    pagewidget: [],
+    widgetAll: [],
+    pageWidget: [],
   }
 
   constructor(data = {}) {
     super(data);
     if (data.model) {
       this.model = {
-        widget: {
-          request: this.buildActionName('request', data.model, 'widget'),
-          response: this.buildActionName('response', data.model, 'widget'),
-          error: this.buildActionName('error', data.model, 'widget'),
+        all: {
+          request: this.buildActionName('request', data.model, 'all'),
+          response: this.buildActionName('response', data.model, 'all'),
+          error: this.buildActionName('error', data.model, 'all'),
         },
         pagewidget: {
           request: this.buildActionName('request', data.model, 'pagewidget'),
@@ -30,18 +30,18 @@ class Model extends BaseModel {
       };
     }
   }
-  getWidget = () => asyncFn({ url: `/widget`, method: 'GET', model: this.model.widget });
+  getWidget = () => asyncFn({ url: `/widget`, method: 'GET', model: this.model.all });
   getPageWidget = ({ id }) => asyncFn({ url: `/pagewidget/${id}`, method: 'GET', model: this.model.pagewidget });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET WIDGET
-      case this.model.widget.request:
+      case this.model.all.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.widget.error:
+      case this.model.all.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.widget.response:
-        return { ...state, widget: action.payload.data };
+      case this.model.all.response:
+        return { ...state, widgetAll: action.payload.data };
 
       // GET WIDGET
       case this.model.pagewidget.request:
@@ -49,7 +49,7 @@ class Model extends BaseModel {
       case this.model.pagewidget.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.pagewidget.response:
-        return { ...state, pagewidget: action.payload.data };
+        return { ...state, pageWidget: action.payload.data };
 
       default:
         return state;

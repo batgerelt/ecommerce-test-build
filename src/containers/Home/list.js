@@ -76,7 +76,7 @@ class Homepage extends React.Component {
   renderBlocks = () => {
     try {
       const {
-        homepagebanner, widget, emartproduct, discountproduct,
+        homepagebanner, widgetAll, emartproduct, discountproduct,
         packageAll, newproduct, recipeAll, categorymenu,
       } = this.props;
 
@@ -89,7 +89,7 @@ class Homepage extends React.Component {
           recipeAll,
         },
         blocks: {
-          widget,
+          widget: widgetAll,
           banner: homepagebanner,
         },
       };

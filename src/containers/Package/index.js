@@ -1,56 +1,48 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import {
-  Category as CategoryModel,
-  Brand as BrandModel,
   Banner as BannerModel,
   Product as ProductModel,
-  Widget as WidgetModel,
+  Menu as MenuModel,
   Package as PackageModel,
-  Recipe as RecipeModel,
+  Widget as WidgetModel,
 } from "../../models";
 import List from "./list";
 
 const mapStateToProps = state => ({
-  ...state.brand,
-  ...state.category,
   ...state.banner,
   ...state.product,
-  ...state.widget,
+  ...state.menu,
   ...state.package,
-  ...state.recipe,
+  ...state.widget,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
-    ...CategoryModel,
-    ...BrandModel,
     ...BannerModel,
     ...ProductModel,
-    ...WidgetModel,
+    ...MenuModel,
     ...PackageModel,
-    ...RecipeModel,
+    ...WidgetModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
-  /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
+  /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getCategoryMenu();
-    this.props.getBrand();
-    this.props.getHomePageBanner();
-    this.props.getEmartProduct({});
-    this.props.getDiscountProduct({});
-    this.props.getWidget();
     this.props.getAllPackage();
-    this.props.getNewProduct({});
-    this.props.getRecipeAll();
+    // this.props.getPagesBanner({ id: 'L1' });
+    this.props.getPagesBanner({ id: 'L2' });
+    this.props.getMenuSlug({ id: 'package' });
+    this.props.getWidget();
   }
 
   render() {
-    return <List {...this.props} />;
+    return <List {...this.props} {...this.state} />;
   }
 }
 

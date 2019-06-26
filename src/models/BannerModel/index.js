@@ -10,7 +10,7 @@ class Model extends BaseModel {
       data: {},
     },
     homepagebanner: [],
-    pagesbanner: [],
+    pagebanner: [],
     banner: [],
   }
 
@@ -57,7 +57,7 @@ class Model extends BaseModel {
       case this.model.pagesbanner.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.pagesbanner.response:
-        return { ...state, pagesbanner: action.payload.data };
+        return { ...state, pagebanner: action.payload.data };
 
       // GET BANNER
       case this.model.banner.request:

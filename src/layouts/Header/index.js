@@ -276,7 +276,7 @@ class AppHeader extends Component {
                             />
                             <span
                               className="text-uppercase d-none d-sm-block"
-                              style={{ color: "black", boxShadow: 'none' }}
+                              style={{ color: "black", boxShadow: 'none !important' }}
                             >
                                 Хайх
                             </span>

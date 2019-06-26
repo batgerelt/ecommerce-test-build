@@ -13,6 +13,7 @@ import MainMenu from "./MainMenu";
 import CartButton from "./CartButton";
 import UserButton from "./UserButton";
 import Label from "./Label";
+import PageBanner from "./PageBanner";
 
 
 export {
@@ -31,4 +32,5 @@ export {
   CartButton,
   UserButton,
   Label,
+  PageBanner,
 };
