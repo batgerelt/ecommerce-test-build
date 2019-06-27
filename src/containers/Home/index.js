@@ -10,6 +10,7 @@ import {
   Widget as WidgetModel,
   Package as PackageModel,
   Recipe as RecipeModel,
+  Search as SearchModel,
 } from "../../models";
 import List from "./list";
 
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   ...state.widget,
   ...state.package,
   ...state.recipe,
+  ...state.search,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -32,6 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...WidgetModel,
     ...PackageModel,
     ...RecipeModel,
+    ...SearchModel,
   }, dispatch),
 });
 

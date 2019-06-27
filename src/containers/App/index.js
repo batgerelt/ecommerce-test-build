@@ -15,6 +15,8 @@ import {
   Season,
   ProductDetail,
   Static,
+  Category,
+  ProductList,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -55,9 +57,6 @@ class App extends Component {
   }
 
   hadleLogin = () => { this.LoginModal.handleLoginModal(); }
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
 
   render() {
     return (
@@ -78,6 +77,8 @@ class App extends Component {
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
             <Route path="/info/:id" component={Static} />
+            <Route path="/CategoryInfo/:id" component={Category} />
+            <Route path="/brand/:id" component={ProductList} />
           </Switch>
 
           {/** fixed footer */}

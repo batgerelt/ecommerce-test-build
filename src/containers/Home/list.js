@@ -120,7 +120,7 @@ class Homepage extends React.Component {
         );
       }
 
-      return blocksToRender;
+      return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -168,11 +168,16 @@ class Homepage extends React.Component {
       };
 
       return (
-        <Slider
-          data={brand}
-          params={brand.length <= 5 ? brandParams1 : brandParams}
-          elContainer={"brands"}
-        />
+        <div className="main-slide brands-list">
+          <div className="container pad10">
+            <Slider
+              data={brand}
+              params={brand.length <= 5 ? brandParams1 : brandParams}
+              elContainer={"brands"}
+              {...this.props}
+            />
+          </div>
+        </div>
       );
     } catch (error) {
       return console.log(error);
@@ -183,11 +188,14 @@ class Homepage extends React.Component {
     try {
       const { homepagebanner } = this.props;
       return (
-        <Slider
-          data={homepagebanner.header === undefined ? [] : homepagebanner.header}
-          params={sliderParams}
-          elContainer={"banner"}
-        />
+        <div className="main-slide">
+          <Slider
+            data={homepagebanner.header === undefined ? [] : homepagebanner.header}
+            params={sliderParams}
+            elContainer={"banner"}
+          />
+        </div>
+
       );
     } catch (error) {
       return console.log(error);
@@ -197,25 +205,21 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="top-container">
-        <div className="main-slide">
-          {this.renderMainBanner()}
-        </div>
+        {this.renderMainBanner()}
+        {this.renderBlocks()}
+        {this.renderBrandSlider()}
 
-        <div className="homerenderblocks">
-          {this.renderBlocks()}
-        </div>
-
-        <div className="main-slide brands-list">
+        {/* <div className="main-slide brands-list">
           <div className="container pad10">
             {this.renderBrandSlider()}
 
-            {/* <MessengerCustomerChat
-                pageId="169275059877520"
-                appId={SOCIAL_IDS.facebook}
-                htmlRef={window.location.pathname}
-              /> */}
+            <MessengerCustomerChat
+              pageId="169275059877520"
+              appId={SOCIAL_IDS.facebook}
+              htmlRef={window.location.pathname}
+            />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
