@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from "react";
 import { Avatar } from "antd";
 import { Link } from "react-router-dom";
@@ -25,12 +26,12 @@ class List extends React.Component {
             </Link>
           </li>
           <li>
-            <span>{recipe.recipenm}</span>
+            <span>{recipe === null ? null : recipe.recipenm}</span>
           </li>
         </ul>
       );
     } catch (error) {
-      return null/* console.log(error) */;
+      return console.log(error);
     }
   };
   renderTitleDate = () => {

@@ -17,6 +17,7 @@ class Page extends React.Component {
   state = { isloading: true }
 
   componentWillMount() {
+    console.log('asdsd');
     this.props.getCategoryInfo({ id: this.props.match.params.id }).then(res => this.setState({ isloading: false }));
   }
 

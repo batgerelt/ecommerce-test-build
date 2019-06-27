@@ -12,6 +12,8 @@ class Model extends BaseModel {
     recipeAll: [],
     recipeDetail: [],
     recipeProducts: [],
+    recipe: null,
+    steps: [],
   }
 
   constructor(data = {}) {
