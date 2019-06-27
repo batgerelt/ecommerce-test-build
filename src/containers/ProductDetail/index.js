@@ -23,13 +23,24 @@ class Page extends React.Component {
   state = {
     detail: true,
     relational: true,
-    rate: true,
+    attribute: true,
     comment: true,
-    detailimg: true,
     collection: true,
+    category: true,
   };
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
+    this.getData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { id } = this.props.match.params;
+    if (id !== nextProps.match.params.id) {
+      this.getData();
+    }
+  }
+
+  getData = () => {
     const { id } = this.props.match.params;
     this.props
       .getProductDetail({ skucd: id })
@@ -38,46 +49,37 @@ class Page extends React.Component {
       .getProductRelational({ skucd: id })
       .then(r => this.setState({ relational: false }));
     this.props
-      .getProductRate({ skucd: id })
-      .then(r => this.setState({ rate: false }));
-    this.props
       .getProductComment({ skucd: id })
       .then(r => this.setState({ comment: false }));
-    this.props
-      .getProductDetailimg({ skucd: id })
-      .then(r => this.setState({ detailimg: false }));
+
     this.props
       .getProductCollection({ skucd: id })
       .then(r => this.setState({ collection: false }));
-  }
+    this.props
+      .getProductAttribute({ skucd: id })
+      .then(r => this.setState({ attribute: false }));
+    this.props.getCategorys().then(r => this.setState({ category: false }));
+  };
 
   render() {
     const {
       detail,
       relational,
-      rate,
       comment,
-      detailimg,
       collection,
+      category,
+      attribute,
     } = this.state;
 
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+      <Spin
+        spinning={
+          detail || relational || comment || collection || category || attribute
+        }
+        indicator={<Loader />}
       >
-        <Spin
-          spinning={
-            detail || relational || rate || comment || detailimg || collection
-          }
-          indicator={<Loader />}
-        >
-          <List {...this.props} />
-        </Spin>
-      </div>
+        <List {...this.props} />
+      </Spin>
     );
   }
 }

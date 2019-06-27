@@ -23,6 +23,7 @@
     "react": "^16.8.6",
     "react-collapse": "^4.0.3",
     "react-dev-utils": "^4.2.3",
+    "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.6",
     "react-fa": "^5.0.0",
     "react-facebook-login": "^4.1.1",

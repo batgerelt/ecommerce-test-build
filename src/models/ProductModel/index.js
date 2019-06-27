@@ -20,6 +20,7 @@ class Model extends BaseModel {
     comment: [],
     detailimg: [],
     recipeproduct: [],
+    categorymenu: [],
   }
 
   constructor(data = {}) {
@@ -86,6 +87,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'productdetailcategorys'),
           error: this.buildActionName('error', data.model, 'productdetailcategorys'),
         },
+        categorymenu: {
+          request: this.buildActionName('request', data.model, 'categorymenu'),
+          response: this.buildActionName('response', data.model, 'categorymenu'),
+          error: this.buildActionName('error', data.model, 'categorymenu'),
+        },
         recipe: {
           request: this.buildActionName('request', data.model, 'recipe'),
           response: this.buildActionName('response', data.model, 'recipe'),
@@ -102,7 +108,8 @@ class Model extends BaseModel {
   getProductRate = ({ skucd }) => asyncFn({ url: `/product/rate/${skucd}`, method: 'GET', model: this.model.rate });
   getProductComment= ({ skucd }) => asyncFn({ url: `/product/comment/${skucd}`, method: 'GET', model: this.model.comment });
   getProductDetailimg= ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
-  getProductDetailCategory= ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
+  getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
+  getCategorys= () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
   getEmartProduct = ({
     jumcd = '99', startsWith = 0, rowCount = 10, orderCol = `price_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.emartproduct });
@@ -207,7 +214,6 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.prodavailablesku.response:
         return { ...state, prodavailablesku: action.payload.data };
-
         // GET PRODUCT DETAIL CATEGORYS
       case this.model.productdetailcategorys.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -216,6 +222,13 @@ class Model extends BaseModel {
       case this.model.productdetailcategorys.response:
         return { ...state, productdetailcategorys: action.payload.data };
 
+      // GET CATEGORY MENU
+      case this.model.categorymenu.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categorymenu.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categorymenu.response:
+        return { ...state, categorymenu: action.payload.data };
       // GET PRODUCT DETAIL CATEGORYS
       case this.model.recipe.request:
         return { ...state, current: this.requestCase(state.current, action) };
