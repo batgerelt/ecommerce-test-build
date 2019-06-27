@@ -18,7 +18,7 @@ class Slider extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderIndents = () => {
     try {
@@ -50,7 +50,11 @@ class Slider extends React.Component {
 
         return (
           <div key={index}>
-            <img alt={item.imgnm} src={process.env.IMAGE + item.imgnm} className={styles.brandImg} />
+            <img
+              alt={item.imgnm}
+              src={process.env.IMAGE + item.imgnm}
+              className={styles.brandImg}
+            />
             {item.brandid ? (
               <Link to={item.brandid ? `/brand/${item.brandid}` : ""}>
                 {container}
@@ -64,7 +68,7 @@ class Slider extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   render() {
     return (

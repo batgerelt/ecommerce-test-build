@@ -15,7 +15,7 @@ import UserButton from "./UserButton";
 import Label from "./Label";
 import PageBanner from "./PageBanner";
 import FilterSet from "./FilterSet";
-
+import CardSlider from "./CardSlider";
 
 export {
   Exception,
@@ -35,4 +35,5 @@ export {
   Label,
   PageBanner,
   FilterSet,
+  CardSlider,
 };
