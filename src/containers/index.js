@@ -8,6 +8,7 @@ import New from "./New";
 import Recipe from "./Recipe";
 import Package from "./Package";
 import Season from "./Season";
+import Static from "./Static";
 
 
 export {
@@ -20,5 +21,6 @@ export {
   Recipe,
   Package,
   Season,
+  Static,
   Exception500,
 };

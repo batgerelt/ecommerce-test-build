@@ -18,6 +18,7 @@ class Model extends BaseModel {
     },
     staticpage: [],
     staticinfo: null,
+    staticpages: [],
   }
 
   constructor(data = {}) {
@@ -34,11 +35,17 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'staticpage'),
           error: this.buildActionName('error', data.model, 'staticpage'),
         },
+        staticpages: {
+          request: this.buildActionName('request', data.model, 'staticpages'),
+          response: this.buildActionName('response', data.model, 'staticpages'),
+          error: this.buildActionName('error', data.model, 'staticpages'),
+        },
       };
     }
   }
   getStaticInfo = () => asyncFn({ url: `/staticinfo`, method: 'GET', model: this.model.staticinfo });
-  getStaticPage = () => asyncFn({ url: `/staticpages`, method: 'GET', model: this.model.staticpage });
+  getStaticPages = () => asyncFn({ url: `/staticpages`, method: 'GET', model: this.model.staticpages });
+  getStaticPage = ({ id }) => asyncFn({ url: `/staticpages/${id}`, method: 'GET', model: this.model.staticpage });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -56,7 +63,15 @@ class Model extends BaseModel {
       case this.model.staticpage.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.staticpage.response:
-        return { ...state, staticpage: action.payload.data };
+        return { ...state, staticpage: action.payload.data[0] };
+
+      // GET STATIC PAGES
+      case this.model.staticpages.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.staticpages.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.staticpages.response:
+        return { ...state, staticpages: action.payload.data };
 
       default:
         return state;
