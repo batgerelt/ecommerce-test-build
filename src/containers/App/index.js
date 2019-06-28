@@ -26,6 +26,7 @@ import {
   Static as StaticModel,
   Menu as MenuModel,
   Auth as AuthModel,
+  Cart as CartModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -40,6 +41,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...StaticModel,
       ...MenuModel,
       ...AuthModel,
+      ...CartModel,
     },
     dispatch,
   ),

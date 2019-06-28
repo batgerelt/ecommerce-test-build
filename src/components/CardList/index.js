@@ -32,6 +32,7 @@ class CardList extends React.Component {
             type={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
+            {...this.props}
           />,
         );
       }
@@ -92,6 +93,7 @@ class CardList extends React.Component {
               type={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
+              {...this.props}
             />,
           );
         });
@@ -137,6 +139,7 @@ class CardList extends React.Component {
             type={CARD_TYPES.tile}
             item={items[i]}
             className={className}
+          // {...this.props}
           />,
         );
 
@@ -153,7 +156,7 @@ class CardList extends React.Component {
       cardList = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
-        cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} />);
+        cardList.push(<Card key={index} type={CARD_TYPES.list} {...this.props} item={item} />);
       });
     }
 

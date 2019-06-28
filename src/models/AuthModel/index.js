@@ -35,9 +35,9 @@ class AuthModel extends BaseModel {
     };
   }
 
-  login = ({ formData: body }) => asyncFn({
+  login = ({ body } = {}) => asyncFn({
     body, url: '/login/userlogin', method: 'POST', model: this.loginModel,
-  })
+  }, console.log(body))
   logout = () => asyncFn({
     url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
   })
