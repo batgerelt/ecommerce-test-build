@@ -22,7 +22,10 @@ class LoginModal extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('values: ', values);
-        this.props.login({ body: values }).then(res => console.log(res));
+        this.props.login({ body: { ...values } }).then((res) => {
+          console.log('res: ', res);
+          localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+        });
       }
     });
   };
@@ -39,32 +42,32 @@ class LoginModal extends React.Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator('email', {
-            rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
-          })(
-            <Input
-              allowClear
-              className="form-control"
-              placeholder="Имэйл"
-              size="large"
-            />,
-          )}
+              rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
+            })(
+              <Input
+                allowClear
+                className="form-control"
+                placeholder="Имэйл"
+                size="large"
+              />,
+            )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
-          })(
-            <Input.Password
-              allowClear
-              className="form-control"
-              placeholder="Нууц үг"
-              size="large"
-              type="password"
-            />,
-          )}
+              rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
+            })(
+              <Input.Password
+                allowClear
+                className="form-control"
+                placeholder="Нууц үг"
+                size="large"
+                type="password"
+              />,
+            )}
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="btn btn-block btn-login text-uppercase">
-            Log in
+              Log in
             </Button>
           </Form.Item>
           <div className="form-group">
@@ -77,7 +80,7 @@ class LoginModal extends React.Component {
                     id="rememberMe"
                   />
                   <label className="custom-control-label" htmlFor="rememberMe">
-                  Сануулах
+                    Сануулах
                   </label>
                 </div>
               </div>
@@ -88,7 +91,7 @@ class LoginModal extends React.Component {
                     className="btn btn-link"
                     onClick={this.props.handleReset}
                   >
-                  Нууц үгээ мартсан
+                    Нууц үгээ мартсан
                   </Link>
                 </div>
               </div>
@@ -105,7 +108,7 @@ class LoginModal extends React.Component {
             className="btn btn-link"
             onClick={this.showRegisterModal}
           >
-              Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
+            Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
           </Link>
         </div>
       </Modal>

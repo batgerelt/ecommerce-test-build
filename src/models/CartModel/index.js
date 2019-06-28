@@ -9,40 +9,51 @@ class Model extends BaseModel {
       isLoading: false,
       data: {},
     },
-    cartProducts: [],
+    products: [],
+    addedProducts: [],
   }
 
   constructor(data = {}) {
     super(data);
     if (data.model) {
       this.model = {
-        cartProducts: {
-          request: this.buildActionName('request', data.model, 'cartProducts'),
-          response: this.buildActionName('response', data.model, 'cartProducts'),
-          error: this.buildActionName('error', data.model, 'cartProducts'),
+        products: {
+          request: this.buildActionName('request', data.model, 'products'),
+          response: this.buildActionName('response', data.model, 'products'),
+          error: this.buildActionName('error', data.model, 'products'),
         },
-        addProduct: {
-          request: this.buildActionName('request', data.model, 'addProduct'),
-          response: this.buildActionName('response', data.model, 'addProduct'),
-          error: this.buildActionName('error', data.model, 'addProduct'),
+        addedProducts: {
+          request: this.buildActionName('request', data.model, 'addedProducts'),
+          response: this.buildActionName('response', data.model, 'addedProducts'),
+          error: this.buildActionName('error', data.model, 'addedProducts'),
         },
       };
     }
   }
 
-  getCartProducts = custid => asyncFn({ url: `/basket/${custid}`, method: 'GET', model: this.model.cart });
+  getProducts = custid => asyncFn({ url: `/basket/${custid}`, method: 'GET', model: this.model.cart });
 
-  addToProduct = skucd => asyncFn({ url: `/basket/${custid}`, method: 'GET', model: this.model.cart });
+  addToCart = ({ custid, body } = {}) => asyncFn({
+    body, url: `/basket/${custid}`, method: 'PUT', model: this.model.addedProducts,
+  });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET CART PRODUCTS
-      case this.model.cartProducts.request:
+      case this.model.products.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.cartProducts.error:
+      case this.model.products.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.cartProducts.response:
-        return { ...state, cartProducts: action.payload.data };
+      case this.model.products.response:
+        return { ...state, products: action.payload.data };
+
+      // GET ADDED PRODUCTS
+      case this.model.addedProducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.addedProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.addedProducts.response:
+        return { ...state, addedProducts: action.payload.data };
 
       default:
         return state;

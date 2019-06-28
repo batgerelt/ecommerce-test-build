@@ -5,20 +5,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Rate, message } from "antd";
-import { connect } from "react-redux";
-
-import { toast } from "react-toastify";
+import { connect } from 'react-redux';
+import { Rate } from "antd";
 
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
-import "./Card.css";
-
 const formatter = new Intl.NumberFormat("en-US");
 
 class Card extends React.Component {
+  handleAddToCart = async (item) => {
+    console.log(this.props.auth);
+    if (this.props.auth.isLogged) {
+      const added = await this.props.addToCart({ custid: 14, body: { skucd: item.cd } });
+      console.log('added: ', added);
+    }
+  }
+
   render() {
+    console.log('Card', this.props);
     const {
       type, item, isLastInRow, className,
     } = this.props;
@@ -72,33 +77,30 @@ class Card extends React.Component {
       }
     }
 
-    let isDisabled = true;
+    let heartDisabled = true;
+
+    let cartDisabled = true;
     if (
       item.id ||
       item.recipeid ||
       item.availableqty > 0 ||
       item.isgift !== 0
     ) {
-      isDisabled = false;
+      cartDisabled = false;
     }
 
     const hover = (
       <div className="search-hover">
-        <Link to="">
+        <button className="btn btn-link" disabled={heartDisabled}>
           <i className="fa fa-heart-o" aria-hidden="true" />
-          <span />
-        </Link>
-        <Link
-          to=""
-          style={{
-            color: isDisabled ? "rgba(255, 155, 0, 0.5)" : "#ff9b00",
-            fontSize: "1.6em",
-            marginBottom: "8px",
-            pointerEvents: isDisabled ? "none" : "auto",
-          }}
+        </button>
+        <button
+          onClick={() => this.handleAddToCart(item)}
+          className="btn btn-link"
+          disabled={false}
         >
           <i className="fa fa-cart-plus" aria-hidden="true" />
-        </Link>
+        </button>
       </div>
     );
 
@@ -108,7 +110,7 @@ class Card extends React.Component {
           <div
             className={`col-five pad10${
               isLastInRow ? " d-none d-xl-block lol" : " col-md-3 col-6"
-            }`}
+              }`}
           >
             <div className="single-product small-product sale-product timed-product">
               <div className="image-container">
@@ -143,8 +145,8 @@ class Card extends React.Component {
                     {item.name
                       ? item.name
                       : item.packagenm
-                      ? item.packagenm
-                      : ""}
+                        ? item.packagenm
+                        : ""}
                   </span>
                 </Link>
                 <Link to={item.route ? item.route : ""} className="cat">
@@ -158,8 +160,8 @@ class Card extends React.Component {
                     {item.shortnm
                       ? item.shortnm
                       : item.featuretxt
-                      ? item.featuretxt
-                      : ""}
+                        ? item.featuretxt
+                        : ""}
                   </span>
                 </Link>
 
@@ -213,8 +215,8 @@ class Card extends React.Component {
                     {item.name
                       ? item.name
                       : item.packagenm
-                      ? item.packagenm
-                      : ""}
+                        ? item.packagenm
+                        : ""}
                   </span>
                 </Link>
                 <Link to={item.route ? item.route : ""} className="cat">
@@ -228,8 +230,8 @@ class Card extends React.Component {
                     {item.shortnm
                       ? item.shortnm
                       : item.featuretxt
-                      ? item.featuretxt
-                      : ""}
+                        ? item.featuretxt
+                        : ""}
                   </span>
                 </Link>
 
@@ -252,7 +254,7 @@ class Card extends React.Component {
           <div
             className={`single-product big-product food-post food-${
               className || "short"
-            }`}
+              }`}
           >
             <div className="image-container">
               <Link to={item.route ? item.route : ""}>
@@ -356,15 +358,15 @@ class Card extends React.Component {
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </Link>
-                <a
+                <button
                   onClick={this.handleAddToCart(item)}
                   style={{
                     fontSize: "1.1rem",
                   }}
+                  disabled={heartDisabled}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                  <span />
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -375,6 +377,10 @@ class Card extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
 Card.propTypes = {
   type: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
@@ -382,4 +388,4 @@ Card.propTypes = {
   className: PropTypes.string,
 };
 
-export default Card;
+export default connect(mapStateToProps)(Card);
