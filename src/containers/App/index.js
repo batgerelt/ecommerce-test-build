@@ -55,12 +55,6 @@ class App extends Component {
     this.props.getStaticPages();
   }
 
-  componentDidMount() {
-    // this.LoginModal.handleLoginModal();
-  }
-
-  hadleLogin = () => { this.LoginModal.handleLoginModal(); }
-
   render() {
     return (
       <Router>
@@ -80,9 +74,11 @@ class App extends Component {
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
             <Route path="/info/:id" component={Static} />
-            <Route path="/CategoryInfo/:id" component={Category} />
+            <Route path="/category/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/emart" component={ProductList} />
+            <Route path="/search/:word" component={ProductList} />
           </Switch>
 
           {/** fixed footer */}
