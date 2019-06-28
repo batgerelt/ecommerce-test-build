@@ -9,6 +9,7 @@ import Recipe from "./Recipe";
 import Package from "./Package";
 import Season from "./Season";
 import Static from "./Static";
+import Cart from "./Cart";
 import ProductDetail from "./ProductDetail";
 
 export {
@@ -24,4 +25,5 @@ export {
   Static,
   ProductDetail,
   Exception500,
+  Cart,
 };

@@ -10,6 +10,7 @@ import LocationModel from "./LocationModel/";
 import PackageModel from "./PackageModel/";
 import RecipeModel from "./RecipeModel/";
 import FilterModel from "./FilterModel/";
+import CartModel from "./CartModel/";
 
 /** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -24,6 +25,7 @@ const Location = new LocationModel({ model: 'systemlocation' });
 const Package = new PackageModel({ model: 'package' });
 const Recipe = new RecipeModel({ model: 'recipe' });
 const Filter = new FilterModel({ model: 'filter' });
+const Cart = new CartModel({ model: 'cart' });
 
 export {
   Auth,
@@ -38,4 +40,5 @@ export {
   Package,
   Recipe,
   Filter,
+  Cart,
 };
