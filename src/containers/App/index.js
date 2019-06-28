@@ -25,6 +25,7 @@ import {
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
+  Auth as AuthModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
+      ...AuthModel,
     },
     dispatch,
   ),
@@ -64,7 +66,7 @@ class App extends Component {
       <Router>
         <ScrollToTop>
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} />
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
 
           {/** fixed header */}
           <Header {...this.props} {...this} />

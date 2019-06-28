@@ -36,7 +36,7 @@ class AuthModel extends BaseModel {
   }
 
   login = ({ formData: body }) => asyncFn({
-    body, url: '/api/login/adminlogin', method: 'POST', model: this.loginModel,
+    body, url: '/login/userlogin', method: 'POST', model: this.loginModel,
   })
   logout = () => asyncFn({
     url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
@@ -63,7 +63,7 @@ class AuthModel extends BaseModel {
           ...state,
           isLoading: false,
           isLogged: true,
-          data: action.payload,
+          data: action.payload.data,
         };
       case this.loggedModel.request:
         return {
