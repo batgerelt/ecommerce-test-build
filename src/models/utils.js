@@ -6,10 +6,10 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
-  const localData = JSON.parse(localStorage.getItem('persist:root'));
-  if (JSON.parse(localData.auth).data.value !== undefined) {
-    bearerHeader += JSON.parse(localData.auth).data.value.access_token;
-  }
+  // const localData = JSON.parse(localStorage.getItem('auth'));
+  // if (JSON.parse(localData.auth).data.value !== undefined) {
+  //   bearerHeader += JSON.parse(localData.auth).data.value.access_token;
+  // }
   if (method === 'GET') {
     return fetch(withQuery(process.env.API + url, body), {
       credentials: 'include',

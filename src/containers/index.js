@@ -11,6 +11,9 @@ import Season from "./Season";
 import Static from "./Static";
 import Cart from "./Cart";
 import ProductDetail from "./ProductDetail";
+import Category from "./Category";
+import ProductList from "./ProductList";
+import RecipeDetail from "./RecipeDetail";
 
 export {
   App,
@@ -24,6 +27,9 @@ export {
   Season,
   Static,
   ProductDetail,
+  RecipeDetail,
   Exception500,
   Cart,
+  Category,
+  ProductList,
 };

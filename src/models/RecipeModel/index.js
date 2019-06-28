@@ -12,6 +12,8 @@ class Model extends BaseModel {
     recipeAll: [],
     recipeDetail: [],
     recipeProducts: [],
+    recipe: null,
+    steps: [],
   }
 
   constructor(data = {}) {
@@ -24,14 +26,14 @@ class Model extends BaseModel {
           error: this.buildActionName('error', data.model, 'recipeall'),
         },
         recipedetail: {
-          request: this.buildActionName('request', data.model, 'recipeall'),
-          response: this.buildActionName('response', data.model, 'recipeall'),
-          error: this.buildActionName('error', data.model, 'recipeall'),
+          request: this.buildActionName('request', data.model, 'recipedetail'),
+          response: this.buildActionName('response', data.model, 'recipedetail'),
+          error: this.buildActionName('error', data.model, 'recipedetail'),
         },
         recipeproducts: {
-          request: this.buildActionName('request', data.model, 'recipeall'),
-          response: this.buildActionName('response', data.model, 'recipeall'),
-          error: this.buildActionName('error', data.model, 'recipeall'),
+          request: this.buildActionName('request', data.model, 'recipeproducts'),
+          response: this.buildActionName('response', data.model, 'recipeproducts'),
+          error: this.buildActionName('error', data.model, 'recipeproducts'),
         },
       };
     }
@@ -56,7 +58,7 @@ class Model extends BaseModel {
       case this.model.recipedetail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipedetail.response:
-        return { ...state, recipeDetail: action.payload.data };
+        return { ...state, recipe: action.payload.data[0].recipe, steps: action.payload.data[0].steps };
 
       // GET BRAND
       case this.model.recipeproducts.request:
@@ -64,7 +66,7 @@ class Model extends BaseModel {
       case this.model.recipeproducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeproducts.response:
-        return { ...state, recipeProducts: action.payload.data };
+        return { ...state, recipeProducts: action.payload.data[0] };
 
       default:
         return state;

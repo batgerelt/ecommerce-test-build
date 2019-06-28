@@ -20,9 +20,15 @@ class Slider extends React.Component {
     }
   };
 
+  handleDetail = (id) => {
+    this.props.searchProductBrand({ id });
+  }
+
   renderIndents = () => {
+    const { data } = this.props;
+
     try {
-      return this.props.data.map((item, index) => {
+      return data.map((item, index) => {
         const container = (
           <div key={index} className="container pad10">
             <div className="slide-container">
@@ -56,7 +62,11 @@ class Slider extends React.Component {
               className={styles.brandImg}
             />
             {item.brandid ? (
-              <Link to={item.brandid ? `/brand/${item.brandid}` : ""}>
+              <Link
+                to={`/brand/${item.brandid}`}
+                onClick={() => this.handleDetail(item.brandid)}
+                style={{ padding: '100%' }}
+              >
                 {container}
               </Link>
             ) : (

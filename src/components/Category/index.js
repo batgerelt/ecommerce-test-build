@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 class MainMenu extends React.Component {
+  handleDetail = (id) => {
+    this.props.getCategoryInfo({ id });
+  }
+
   render() {
     const data = this.props && this.props.dataSource;
     let indents = data.map((item, index) => (
@@ -17,7 +21,7 @@ class MainMenu extends React.Component {
           </li>
           {item.children &&
               item.children.map((it, ind) => (
-                <li key={ind}>
+                <li key={ind} onClick={() => this.handleDetail(it.id)}>
                   <Link
                     to={it.route ? it.route : " "}
                     className="list-unstyled"

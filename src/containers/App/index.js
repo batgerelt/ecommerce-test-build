@@ -15,6 +15,9 @@ import {
   Season,
   ProductDetail,
   Static,
+  Category,
+  ProductList,
+  RecipeDetail,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -22,6 +25,7 @@ import {
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
+  Auth as AuthModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -35,6 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
+      ...AuthModel,
     },
     dispatch,
   ),
@@ -55,16 +60,13 @@ class App extends Component {
   }
 
   hadleLogin = () => { this.LoginModal.handleLoginModal(); }
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
 
   render() {
     return (
       <Router>
         <ScrollToTop>
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} />
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
 
           {/** fixed header */}
           <Header {...this.props} {...this} />
@@ -78,6 +80,9 @@ class App extends Component {
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
             <Route path="/info/:id" component={Static} />
+            <Route path="/CategoryInfo/:id" component={Category} />
+            <Route path="/brand/:id" component={ProductList} />
+            <Route path="/recipedetail/:id" component={RecipeDetail} />
           </Switch>
 
           {/** fixed footer */}
