@@ -37,13 +37,23 @@ class Model extends BaseModel {
     }
   }
   getCategoryMenu = () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
-  getCategoryInfo = ({ id, rowcount, ordercol }) => asyncFn({ url: `/categoryinfo/${id}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryinfo });
+  getCategoryInfo = ({
+    id, rowcount = 20, ordercol = 'price_asc',
+  }) => asyncFn({ url: `/categoryinfo/${id}/${rowcount}/${ordercol}`, method: 'GET', model: this.model.categoryinfo });
   getCategoryProducts = ({
     id, startswith, rowcount, ordercol,
   }) => asyncFn({ url: `/categoryproducts/${id}/${startswith}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryproducts });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // GET CATEGORY INFO
+      case this.model.categoryinfo.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categoryinfo.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categoryinfo.response:
+        return { ...state, categoryinfo: action.payload.data[0] };
+
       // GET CATEGORY MENU
       case this.model.categorymenu.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -51,14 +61,6 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.categorymenu.response:
         return { ...state, categorymenu: action.payload.data };
-
-      // GET CATEGORY INFO
-      case this.model.categoryinfo.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.categoryinfo.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.categoryinfo.response:
-        return { ...state, categoryinfo: action.payload.data };
 
       // GET CATEGORY PRODUCTS
       case this.model.categoryproducts.request:

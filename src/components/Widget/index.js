@@ -31,6 +31,7 @@ class Widget extends React.Component {
           type={CARD_LIST_TYPES.vertical}
           items={data.items}
           cardsInCol={2}
+          {...this.props}
         />
       );
     } else {
@@ -39,6 +40,7 @@ class Widget extends React.Component {
           type={CARD_LIST_TYPES.horizontal}
           items={data.items}
           seq={data.type}
+          {...this.props}
         />
       );
     }

@@ -1,13 +1,10 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "antd";
-import { connect } from "react-redux";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
-import { LoginModal } from "../../components/Login";
-// import RegisterModal from "../../components/RegisterModal";
-// import api from "../../api";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
@@ -30,38 +27,6 @@ class AppHeader extends Component {
       pro: false,
     };
   }
-
-  componentWillMount() {
-    const { categorymenu } = this.props.category;
-    let root = [];
-
-    categorymenu.map((item) => {
-      if (item.parentid === 0) {
-        item.children = [];
-        root.push(item);
-      }
-      return null;
-    });
-
-    root.map((item, i) => {
-      categorymenu.map((item1, i1) => {
-        if (item.id === item1.parentid) {
-          item.children.push(item1);
-        }
-        return null;
-      });
-      return null;
-    });
-    this.setState({ menucategories: root });
-  }
-
-  handleChange = (e) => {
-    // api.search
-    //   .findHistorySuggestion({ custid: "14", word: this.state.word })
-    //   .then((res) => {
-    //     console.log(res.success);
-    //   });
-  };
 
   onSuggestion = (e) => {
     const { suggestion } = this.state;
@@ -122,14 +87,14 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <Link to="" className="e-phone">
+                    <div className="e-phone" style={{ padding: 9 }}>
                       <Icon
                         type="phone"
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
-                      <strong onClick={() => this.props.hadleLogin()}> {staticinfo.phone} </strong>
-                    </Link>
+                      <strong> {staticinfo.phone} </strong>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -146,7 +111,7 @@ class AppHeader extends Component {
                         </select>
                       </form>
                     </li>
-                    <UserButton />
+                    <UserButton {...this.props} />
                   </ul>
                 </div>
               </div>
@@ -162,9 +127,25 @@ class AppHeader extends Component {
   renderTopMain = () => {
     try {
       const { staticinfo } = this.props.staticcontent;
-      const { menucategories } = this.state;
+      const { categorymenu } = this.props.category;
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
+
+      let root = [];
+      categorymenu.map((item) => {
+        if (item.parentid === 0) {
+          item.children = [];
+          root.push(item);
+        }
+      });
+
+      root.map((item, i) => {
+        categorymenu.map((item1, i1) => {
+          if (item.id === item1.parentid) {
+            item.children.push(item1);
+          }
+        });
+      });
 
       return (
         <div className="top-main">
@@ -215,7 +196,7 @@ class AppHeader extends Component {
                               >
                                 <span>Бүх бараа</span>
                               </a>
-                              {menucategories.map((entry, index) => (
+                              {root.map((entry, index) => (
                                 <a
                                   className="dropdown-item"
                                   key={index}
@@ -368,7 +349,23 @@ class AppHeader extends Component {
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
-      const { menucategories } = this.state;
+      const { categorymenu } = this.props.category;
+
+      let root = [];
+      categorymenu.map((item) => {
+        if (item.parentid === 0) {
+          item.children = [];
+          root.push(item);
+        }
+      });
+
+      root.map((item, i) => {
+        categorymenu.map((item1, i1) => {
+          if (item.id === item1.parentid) {
+            item.children.push(item1);
+          }
+        });
+      });
 
       return (
         <div className="main-nav">
@@ -391,7 +388,7 @@ class AppHeader extends Component {
 
                 <div className="drop-container">
                   <div className="container pad10">
-                    <Category dataSource={menucategories} />
+                    <Category dataSource={root} {...this.props} />
                   </div>
                 </div>
               </li>
@@ -405,33 +402,26 @@ class AppHeader extends Component {
     }
   }
 
-  renderLoginModal = () => {
-    try {
-      return (
-        <LoginModal />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  }
-
   render() {
+    const { mainmenu } = this.props.menu;
+    const { staticinfo } = this.props.staticcontent;
+    const { categorymenu } = this.props.category;
+
     return (
       <div className="wrap" id="main-header">
-        <div className="top-container">
-          {this.renderTopNavigation()}
-          {this.renderTopMain()}
-          {this.renderMainNavigation()}
-        </div>
-
+        {
+          mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
+            <div className="top-container">
+              {this.renderTopNavigation()}
+              {this.renderTopMain()}
+              {this.renderMainNavigation()}
+            </div>
+          )
+        }
         {/* <RegisterModal /> */}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(AppHeader);
+export default AppHeader;

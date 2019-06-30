@@ -6982,6 +6982,10 @@ react-dev-utils@^4.2.3:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
+react-device-detect@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.6.2.tgz#2587e4d1dc15bdfce7a1bf5417624ecd2a2fc31f"
+
 react-dom@^16.2.0, react-dom@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
@@ -7037,6 +7041,7 @@ react-id-swiper@^2.1.2:
 react-image-magnify@^2.7.4:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/react-image-magnify/-/react-image-magnify-2.7.4.tgz#9e1210927922eff8146589bc22af7cd7279ec652"
+  integrity sha512-2sE7vr/xYJK7CxNaL6ZQ0OYwH542BBOuALD+lqgTOFQ4OfA1xmD+xyg7wQpO1mxzuyWSccxTgDayncdGfI2y6w==
   dependencies:
     clamp "1.0.1"
     detect-it "3.0.3"

@@ -122,6 +122,8 @@ class Label extends React.Component {
 Label.propTypes = {
   type: PropTypes.number.isRequired,
   data: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  seq: PropTypes.number,
 };
 
 export default Label;

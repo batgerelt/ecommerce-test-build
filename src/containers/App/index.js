@@ -14,6 +14,10 @@ import {
   Package,
   Season,
   ProductDetail,
+  Static,
+  Category,
+  ProductList,
+  RecipeDetail,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -21,6 +25,8 @@ import {
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
+  Auth as AuthModel,
+  Cart as CartModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -34,6 +40,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
+      ...AuthModel,
+      ...CartModel,
     },
     dispatch,
   ),
@@ -46,53 +54,40 @@ class App extends Component {
     this.props.getCategoryMenu();
     this.props.getStaticInfo();
     this.props.getMenu();
-    this.props.getStaticPage();
+    this.props.getStaticPages();
   }
 
-  componentDidMount() {
-    // this.LoginModal.handleLoginModal();
-  }
-
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
   render() {
-    const { category, menu, staticcontent } = this.props;
+    return (
+      <Router>
+        <ScrollToTop>
+          {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
 
-    if (
-      category.categorymenu.length !== 0 &&
-      staticcontent.staticinfo !== null &&
-      menu.mainmenu.length !== 0 &&
-      staticcontent.staticpage.length !== 0
-    ) {
-      return (
-        <Router>
-          <ScrollToTop>
-            {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-            <LoginModal onRef={ref => (this.LoginModal = ref)} />
+          {/** fixed header */}
+          <Header {...this.props} {...this} />
+          {/** Үндсэн root болон nested root-үүд доор байрлана */}
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/discount" component={Discount} />
+            <Route path="/new" component={New} />
+            <Route path="/recipe" component={Recipe} />
+            <Route path="/package" component={Package} />
+            <Route path="/season" component={Season} />
+            <Route path="/productdetail/:id" component={ProductDetail} />
+            <Route path="/info/:id" component={Static} />
+            <Route path="/category/:id" component={Category} />
+            <Route path="/brand/:id" component={ProductList} />
+            <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/emart" component={ProductList} />
+            <Route path="/search/:word" component={ProductList} />
+          </Switch>
 
-            {/** fixed header */}
-            <Header {...this.props} {...this} />
-
-            {/** Үндсэн root болон nested root-үүд доор байрлана */}
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/discount" component={Discount} />
-              <Route path="/new" component={New} />
-              <Route path="/recipe" component={Recipe} />
-              <Route path="/package" component={Package} />
-              <Route path="/season" component={Season} />
-              <Route path="/productdetail/:id" component={ProductDetail} />
-            </Switch>
-
-            {/** fixed footer */}
-            <Footer {...this.props} />
-          </ScrollToTop>
-        </Router>
-      );
-    }
-
-    return null;
+          {/** fixed footer */}
+          <Footer {...this.props} />
+        </ScrollToTop>
+      </Router>
+    );
   }
 }
 
