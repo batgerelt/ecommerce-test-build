@@ -38,7 +38,7 @@ class Model extends BaseModel {
   }
   getAllPackage = () => asyncFn({ url: `/package`, method: 'GET', model: this.model.all });
   getDetailPackage = ({ id }) => asyncFn({ url: `/package/${id}`, method: 'GET', model: this.model.detail });
-  getInfoPackage = ({ id }) => asyncFn({ url: `/packageimf/${id}`, method: 'GET', model: this.model.detail });
+  getInfoPackage = ({ id }) => asyncFn({ url: `/packageimf/${id}`, method: 'GET', model: this.model.info });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -56,7 +56,7 @@ class Model extends BaseModel {
       case this.model.detail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.detail.response:
-        return { ...state, packageDetail: action.payload.data };
+        return { ...state, packageDetail: action.payload.data[0] };
 
       // GET PACKAGE INFORMATION
       case this.model.info.request:
@@ -64,7 +64,7 @@ class Model extends BaseModel {
       case this.model.info.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.info.response:
-        return { ...state, packageInfo: action.payload.data };
+        return { ...state, images: action.payload.data[0].images, info: action.payload.data[0].products[0] };
 
       default:
         return state;
