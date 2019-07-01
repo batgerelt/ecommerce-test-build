@@ -21,15 +21,14 @@ class LoginModal extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('values: ', values);
+        this.props.login({ body: { ...values } }).then((res) => {
+          console.log('res: ', res);
+          localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+        });
       }
     });
   };
-
-  handleLogin = () => {
-    this.props.form.getFieldValue('email');
-    console.log('this.props.form.getFieldValue();: ', this.props.form.getFieldValue('email'));
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -43,28 +42,33 @@ class LoginModal extends React.Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator('email', {
-            rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="И-мэйл"
-              size="large"
-              className="form-control"
-            />,
-          )}
+              rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
+            })(
+              <Input
+                allowClear
+                className="form-control"
+                placeholder="Имэйл"
+                size="large"
+              />,
+            )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
-          })(
-            <Input.Password
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Нууц үг"
-              size="large"
-              className="form-control"
-            />,
-          )}
+              rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
+            })(
+              <Input.Password
+                allowClear
+                className="form-control"
+                placeholder="Нууц үг"
+                size="large"
+                type="password"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="btn btn-block btn-login text-uppercase">
+              Log in
+            </Button>
           </Form.Item>
           <div className="form-group">
             <div className="row row10">
@@ -76,7 +80,7 @@ class LoginModal extends React.Component {
                     id="rememberMe"
                   />
                   <label className="custom-control-label" htmlFor="rememberMe">
-                  Сануулах
+                    Сануулах
                   </label>
                 </div>
               </div>
@@ -87,20 +91,12 @@ class LoginModal extends React.Component {
                     className="btn btn-link"
                     onClick={this.props.handleReset}
                   >
-                  Нууц үгээ мартсан
+                    Нууц үгээ мартсан
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-          <Form.Item>
-            <Button
-              type="primary"
-              className="btn btn-block btn-login text-uppercase"
-            >
-            Нэвтрэх
-            </Button>
-          </Form.Item>
         </Form>
 
         <FacebookLogin />
@@ -112,7 +108,7 @@ class LoginModal extends React.Component {
             className="btn btn-link"
             onClick={this.showRegisterModal}
           >
-              Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
+            Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
           </Link>
         </div>
       </Modal>
@@ -121,53 +117,3 @@ class LoginModal extends React.Component {
 }
 
 export default Form.create({ name: 'normal_login' })(LoginModal);
-
-
-// class Content extends React.Component {
-//   handleSubmit = (e) => {
-//     e.preventDefault();
-//     this.props.form.validateFields((err, values) => {
-//       if (!err) {
-//         console.log('Received values of form: ', values);
-//       }
-//     });
-//   };
-//   render() {
-//     const { getFieldDecorator } = this.props.form;
-
-//     return (
-//       <Form onSubmit={this.handleSubmit} >
-//         <Form.Item>
-//           {getFieldDecorator("email", {
-//               rule: [
-//                 { type: 'email', message: 'The input is not valid E-mail!' },
-//                 { required: true, message: "Имэйл хаяг оруулна уу" },
-//               ],
-//               })(
-//                 <Input allowClear placeholder="Имэйл" size="large" />,
-//               )}
-//         </Form.Item>
-
-//         <Form.Item>
-//           {getFieldDecorator("password", {
-//                   rule: [{ required: true, message: "Нууц үг оруулна уу" }],
-//                 })(
-//                   <Input.Password allowClear placeholder="Нууц үг" size="large" />,
-//                 )}
-//         </Form.Item>
-
-//         <Form.Item>
-//           <Button
-//             type="primary"
-//             htmlType="submit"
-//             className="btn btn-block btn-login text-uppercase"
-//           >
-//               Нэвтрэх
-//           </Button>
-//         </Form.Item>
-//       </Form>
-//     );
-//   }
-// }
-
-// const LoginForm = Form.create({ name: 'LoginModal' })(Content);

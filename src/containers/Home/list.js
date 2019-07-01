@@ -6,7 +6,6 @@ import { Icon } from "react-fa";
 import { Slider, Widget, Banner } from "../../components";
 import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
 
-
 const sliderParams = {
   autoplay: {
     delay: 5000,
@@ -67,7 +66,7 @@ class Homepage extends React.Component {
       }
 
       if (widget.items.length > 0) {
-        blocks.push(<Widget key={widget.slug} data={widget} />);
+        blocks.push(<Widget key={widget.slug} data={widget} {...this.props} />);
       }
     });
     return blocks;
@@ -77,7 +76,7 @@ class Homepage extends React.Component {
     try {
       const {
         homepagebanner, widgetAll, emartproduct, discountproduct,
-        packageAll, newproduct, recipeAll, categorymenu,
+        packageAll, newproduct, recipeAll,
       } = this.props;
 
       const items = {
@@ -203,6 +202,7 @@ class Homepage extends React.Component {
   }
 
   render() {
+    console.log('List', this.props);
     return (
       <div className="top-container">
         {this.renderMainBanner()}

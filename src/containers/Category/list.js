@@ -29,10 +29,6 @@ class CategoryInfo extends React.Component {
     isLeftPanel: false,
   };
 
-  componentWillMount() {
-    console.log('hello');
-  }
-
   renderBreadCrumb = () => {
     try {
       const { parents } = this.props.categoryinfo;

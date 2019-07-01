@@ -1,0 +1,320 @@
+/* eslint-disable radix */
+import React from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const formatter = new Intl.NumberFormat("en-US");
+
+class Cart extends React.Component {
+  getUnitPrice = (product) => {
+    if (product.sprice) {
+      if (
+        product.issalekg &&
+        product.kgproduct &&
+        product.kgproduct[0] &&
+        product.kgproduct[0].salegramprice
+      ) {
+        // Хямдарсан бөгөөд кг-ын бараа
+        return {
+          price: product.kgproduct[0].salegramprice,
+          sprice: product.kgproduct[0].salegramprice,
+        };
+      }
+
+      // Хямдарсан бараа
+      return { price: product.price, sprice: product.sprice };
+    }
+
+    if (
+      product.issalekg &&
+      product.kgproduct &&
+      product.kgproduct[0] &&
+      product.kgproduct[0].salegramprice
+    ) {
+      // Хямдраагүй бөгөөд кг-ын бараа
+      return { price: product.kgproduct[0].salegramprice, sprice: null };
+    }
+
+    // Хямдраагүй бараа
+    return { price: product.price, sprice: null };
+  };
+
+  renderUnitPrice = (product) => {
+    if (product.sprice) {
+      if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
+        return (
+          <p className="price">
+            <strong>{formatter.format(this.getUnitPrice(product).sprice)}₮</strong>
+            {product.kgproduct[0].salegram && (
+              <span
+                style={{
+                  fontSize: "0.8em",
+                  color: "#999",
+                }}
+              >
+                {product.kgproduct[0].salegram} гр-н үнэ
+              </span>
+            )}
+          </p>
+        );
+      }
+
+      return (
+        <p className="price">
+          <strong>{formatter.format(this.getUnitPrice(product).sprice)}₮</strong>
+          <br />
+          <span
+            style={{
+              fontSize: "0.8em",
+              textDecoration: "line-through",
+              color: "#999",
+            }}
+          >
+            {formatter.format(this.getUnitPrice(product).price)}
+          </span>
+        </p>
+      );
+    }
+
+    if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
+      return (
+        <p className="price">
+          <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
+          {product.kgproduct[0].salegram && (
+            <span
+              style={{
+                fontSize: "0.8em",
+                color: "#999",
+              }}
+            >
+              {product.kgproduct[0].salegram} гр-н үнэ
+            </span>
+          )}
+        </p>
+      );
+    }
+
+    return (
+      <p className="price">
+        <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
+      </p>
+    );
+  };
+
+  renderTotalPrice = (product) => {
+    const price = this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
+
+    return (
+      <p className="price total">
+        <strong>{formatter.format(price * product.qty)}₮</strong>
+      </p>
+    );
+  };
+
+  renderContent = () => {
+    try {
+      const products = this.props.cartProducts;
+
+      let content = (
+        <div style={{ textAlign: "center" }}>
+          <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> Таны сагс хоосон
+          байна
+        </div>
+      );
+
+      if (products && products.length > 0) {
+        content = (
+          <table className="table table-borderless">
+            <thead className="thead-light">
+              <tr>
+                <th className="column-1" style={{ width: "36%" }}>
+                  <span>Бүтээгдэхүүний нэр</span>
+                </th>
+                <th className="column-2" style={{ width: "18%" }}>
+                  Нэгжийн үнэ
+                </th>
+                <th className="column-3" style={{ width: "24%" }}>
+                  Тоо ширхэг
+                </th>
+                <th className="column-4">
+                  <p className="price total">
+                    <strong>Барааны үнэ</strong>
+                  </p>
+                </th>
+              </tr>
+            </thead>
+            {products.map((prod, index) => (
+              <tbody key={index}>
+                <tr>
+                  <td>
+                    <div className="flex-this">
+                      <div className="image-container default">
+                        <Link to={prod.route || ""}>
+                          <span
+                            className="image"
+                            style={{
+                              backgroundImage: `url(${process.env.IMAGE}${prod.img || ""})`,
+                            }}
+                          />
+                        </Link>
+                      </div>
+                      <div className="info-container">
+                        <Link
+                          to={prod.route || ""}
+                          style={{ color: "#6c757d" }}
+                        >
+                          <strong>{prod.name}</strong>
+                          <span>{prod.featuretxt || ""}</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{this.renderUnitPrice(prod)}</td>
+                  <td>
+                    <form>
+                      <div className="input-group e-input-group">
+                        <div className="input-group-prepend" id="button-addon4">
+                          <button
+                            onClick={() => this.handleDecrementClick(prod)}
+                            className="btn"
+                            type="button"
+                          >
+                            <i className="fa fa-minus" aria-hidden="true" />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={prod.qty}
+                          name="productQty"
+                          maxLength={5}
+                          onChange={this.handleQtyChange(prod)}
+                          onKeyDown={this.handleQtyKeyDown(prod)}
+                          onBlur={this.handleQtyBlur(prod)}
+                        />
+                        <div className="input-group-append" id="button-addon4">
+                          <button
+                            onClick={() => this.handleIncrementClick(prod)}
+                            className="btn"
+                            type="button"
+                          >
+                            <i className="fa fa-plus" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                  <td>{this.renderTotalPrice(prod)}</td>
+                </tr>
+                <tr className="table-action">
+                  <td colSpan="5">
+                    <div className="text-right single-action">
+                      <ul className="list-unstyled">
+                        <li>
+                          <Link to="">
+                            <i className="fa fa-heart" aria-hidden="true" />{" "}
+                            <span>Хадгалах</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="" onClick={this.handleRemoveClick(prod)}>
+                            <i className="fa fa-times" aria-hidden="true" />{" "}
+                            <span>Устгах</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
+          </table>
+        );
+      }
+
+      return content;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderWishlistProducts = () => {
+
+  };
+
+  render() {
+    return (
+      <div className="section">
+        <div className="container pad10">
+          <div className="cart-container">
+            <Link to="/" className="btn btn-gray">
+              <span className="text-uppercase">Нүүр хуудас руу буцах</span>
+            </Link>
+            <h1 className="title">
+              <span className="text-uppercase">Миний сагс</span>
+            </h1>
+            <div className="row row10">
+              <div className="col-xl-8 col-lg-8 pad10">
+                <div className="row">
+                  <div className="col">
+                    <h5 className="title">
+                      <span>Сагсан дахь бараанууд</span>
+                    </h5>
+                  </div>
+                  <div className="col">
+                    <Link
+                      to=""
+                      className="btn btn-border pull-right"
+                      onClick={e => this.handleClearClick(e)}
+                    >
+                      <i className="fa fa-trash fa-2x" aria-hidden="true" />{" "}
+                      <span className="text-uppercase">Сагс хоослох</span>
+                    </Link>
+                  </div>
+                </div>
+                <div className="cart-table table-responsive">{this.renderContent()}</div>
+              </div>
+              <div className="col-xl-4 col-lg-4 pad10">
+                <div className="cart-info">
+                  <h5 className="title">
+                    <span>Төлбөр</span>
+                  </h5>
+
+                  <div className="block cart-info-container">
+                    <p className="count">
+                      <span>Нийт бараа: </span>
+                      {/* <span>{this.props.cart.totalQty}ш</span> */}
+                    </p>
+                    {/* {deliveryInfo && (
+                      <p className="delivery">
+                        <span>Хүргэлт:</span>
+                        <span>{deliveryInfo}</span>
+                      </p>
+                    )} */}
+                    <p className="total flex-space">
+                      <span>Нийт дүн:</span>
+                      <strong>
+                        {/* {formatter.format(this.props.cart.totalPrice)}₮ */}
+                      </strong>
+                    </p>
+                    {/* <Link
+                      to="/checkout"
+                      className={`btn btn-main btn-block${
+                        products && products.length ? "" : " disabled"
+                        }`}
+                    >
+                      <span className="text-uppercase">Баталгаажуулах</span>
+                    </Link> */}
+                  </div>
+                  {/* {this.renderWishlistProducts()} */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Cart;

@@ -11,6 +11,7 @@ import {
   Package as PackageModel,
   Recipe as RecipeModel,
   Search as SearchModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 
@@ -23,6 +24,7 @@ const mapStateToProps = state => ({
   ...state.package,
   ...state.recipe,
   ...state.search,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -35,6 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...PackageModel,
     ...RecipeModel,
     ...SearchModel,
+    ...CartModel,
   }, dispatch),
 });
 
