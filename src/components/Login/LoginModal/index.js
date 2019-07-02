@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 
 import { FacebookLogin, GoogleLogin } from "../";
-import style from "./styles.less";
 
 class LoginModal extends React.Component {
   state = { visible: false };
@@ -15,6 +14,11 @@ class LoginModal extends React.Component {
 
   handleLoginModal = () => {
     this.setState({ visible: !this.state.visible });
+  }
+
+  handleRegistrationModal = () => {
+    this.handleLoginModal();
+    this.props.RegistrationModal.handleSignup();
   }
 
   handleSubmit = (e) => {
@@ -106,7 +110,7 @@ class LoginModal extends React.Component {
           <Link
             to=""
             className="btn btn-link"
-            onClick={this.showRegisterModal}
+            onClick={this.handleRegistrationModal}
           >
             Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
           </Link>

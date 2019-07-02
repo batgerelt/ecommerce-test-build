@@ -22,6 +22,7 @@ import {
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
+import { RegistrationModal } from "../../components/Registration";
 import {
   Category as CategoryModel,
   Static as StaticModel,
@@ -63,7 +64,9 @@ class App extends Component {
       <Router>
         <ScrollToTop>
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
+          <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
+
 
           {/** fixed header */}
           <Header {...this.props} {...this} />

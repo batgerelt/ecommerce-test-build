@@ -20,6 +20,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName('response', 'logout'),
       error: this.buildActionName('error', 'logout'),
     };
+    this.signupModel = {
+      request: this.buildActionName('request', 'signup'),
+      response: this.buildActionName('response', 'signup'),
+      error: this.buildActionName('error', 'signup'),
+    };
 
     this.initialState = {
       user: {
@@ -38,12 +43,25 @@ class AuthModel extends BaseModel {
   login = ({ body } = {}) => asyncFn({
     body, url: '/login/userlogin', method: 'POST', model: this.loginModel,
   }, console.log(body))
+
   logout = () => asyncFn({
     url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
   })
 
+  signup = ({ body } = {}) => asyncFn({
+    body, url: '/customer', method: 'POST', model: this.signupModel,
+  })
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      case this.signupModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+          /* success: action.payload.success,
+          message: action.payload.message, */
+        };
       case this.loginModel.request:
         return {
           ...state,
