@@ -73,7 +73,7 @@ class LoginRegisterPanel extends React.Component {
                 alt="icon"
                 width="40px"
                 height="40px"
-                src={require("../../../scss/assets/images/demo/login.svg")}
+                src={require("../../../../scss/assets/images/demo/login.svg")}
               />
               <p className="text">
                 <strong>{"Нэвтрэх"}</strong>
@@ -155,7 +155,7 @@ class LoginRegisterPanel extends React.Component {
                 alt="icon"
                 width="40px"
                 height="40px"
-                src={require("../../../scss/assets/images/demo/user.svg")}
+                src={require("../../../../scss/assets/images/demo/user.svg")}
               />
               <p className="text">
                 <strong>{"Бүртгүүлэх"}</strong>

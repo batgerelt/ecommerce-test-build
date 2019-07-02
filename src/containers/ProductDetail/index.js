@@ -71,7 +71,6 @@ class Page extends React.Component {
       attributeLoad,
     } = this.state;
     // eslint-disable-next-line no-redeclare
-    console.log("detail", this.props.detail);
     return (
       <Spin
         spinning={
