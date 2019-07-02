@@ -28,7 +28,7 @@ class FacebookLogin extends React.Component {
     return (
       <ReactFacebookLogin
         appId={SOCIAL_IDS.facebook}
-        autoLoad
+        // autoLoad
         fields="name,email,picture"
         callback={this.handleResponse}
         cssClass="btn btn-block btn-social btn-facebook"

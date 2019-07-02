@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "antd";
-import { connect } from "react-redux";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
@@ -88,14 +87,14 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <Link to="" className="e-phone">
+                    <div className="e-phone" style={{ padding: 9 }}>
                       <Icon
                         type="phone"
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
-                      <strong onClick={() => this.props.hadleLogin()}> {staticinfo.phone} </strong>
-                    </Link>
+                      <strong> {staticinfo.phone} </strong>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -112,7 +111,7 @@ class AppHeader extends Component {
                         </select>
                       </form>
                     </li>
-                    <UserButton />
+                    <UserButton {...this.props} />
                   </ul>
                 </div>
               </div>
@@ -389,7 +388,7 @@ class AppHeader extends Component {
 
                 <div className="drop-container">
                   <div className="container pad10">
-                    <Category dataSource={root} />
+                    <Category dataSource={root} {...this.props} />
                   </div>
                 </div>
               </li>
@@ -419,15 +418,10 @@ class AppHeader extends Component {
             </div>
           )
         }
-
         {/* <RegisterModal /> */}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
-
-export default connect(mapStateToProps)(AppHeader);
+export default AppHeader;

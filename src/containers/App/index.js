@@ -16,6 +16,10 @@ import {
   ProductDetail,
   Static,
   Checkout,
+  Category,
+  ProductList,
+  RecipeDetail,
+  PackageDetail,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -23,6 +27,8 @@ import {
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
+  Auth as AuthModel,
+  Cart as CartModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -36,6 +42,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
+      ...AuthModel,
+      ...CartModel,
     },
     dispatch,
   ),
@@ -67,7 +75,7 @@ class App extends Component {
       <Router>
         <ScrollToTop>
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} />
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
 
           {/** fixed header */}
           <Header {...this.props} {...this} />
@@ -82,6 +90,12 @@ class App extends Component {
             <Route path="/productdetail/:id" component={ProductDetail} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/info/:id" component={Static} />
+            <Route path="/category/:id" component={Category} />
+            <Route path="/brand/:id" component={ProductList} />
+            <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/packagedetail/:id" component={PackageDetail} />
+            <Route path="/emart" component={ProductList} />
+            <Route path="/search/:word" component={ProductList} />
           </Switch>
 
           {/** fixed footer */}

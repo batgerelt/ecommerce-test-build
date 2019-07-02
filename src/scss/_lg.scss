@@ -1368,6 +1368,18 @@ body {
   transition: 0.2s ease-out;
 }
 
+.single-product .image-container .search-hover button {
+  color: #ff9b00;
+  font-size: 1.6rem;
+  margin: 4px;
+}
+
+.single-product .image-container .search-hover button[disabled] {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: rgba(255, 155, 0, 0.7);
+}
+
 .single-product .image-container .search-hover a {
   font-size: 1.4rem;
   color: #ff9b00;

@@ -1,8 +1,8 @@
 /* eslint-disable react/no-danger */
+/* eslint-disable import/first */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { CardSlider } from "../../../../components";
-// eslint-disable-next-line import/first
 import { isMobile } from "react-device-detect";
 
 class Moreinfo extends Component {
