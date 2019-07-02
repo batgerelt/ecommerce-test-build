@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 import {
   CARD_LIST_TYPES,
   CARD_TYPES,
-  PRODUCTS_PER_PAGE,
 } from "../../utils/Consts";
 import { CardList, FilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
@@ -218,7 +217,7 @@ class CategoryInfo extends React.Component {
 
     let selectedCat = null;
     let cats = <div className="block">Ангилал байхгүй байна</div>;
-    cats = parents.map((parent, index) => {
+    cats = parents && parents.map((parent, index) => {
       if (parent.id === parseInt(id)) {
         selectedCat = parent.catnm;
         return (
@@ -241,7 +240,7 @@ class CategoryInfo extends React.Component {
               >
                 <div className="collapse-content">
                   <ul className="list-unstyled">
-                    {subcategorys.map((sub, index) => {
+                    {subcategorys && subcategorys.map((sub, index) => {
                       if (sub.parentid === parent.id) {
                         return (
                           <li key={index}>
