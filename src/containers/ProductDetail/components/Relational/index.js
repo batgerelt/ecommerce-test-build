@@ -30,7 +30,7 @@ class Relational extends Component {
         !isShowMoreClicked && relatedProducts.length > limit
           ? relatedProducts.slice(0, limit)
           : relatedProducts;
-
+      console.log(relatedProducts, "dwd");
       return (
         !!relatedProducts.length && (
           <div
@@ -52,7 +52,9 @@ class Relational extends Component {
                         <span
                           className="image"
                           style={{
-                            backgroundImage: process.env.IMAGE + prod.img,
+                            backgroundImage: `url(${process.env.IMAGE}${
+                              prod.img
+                            })`,
                           }}
                         />
                       </Link>

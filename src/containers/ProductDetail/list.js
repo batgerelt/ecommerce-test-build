@@ -14,6 +14,7 @@ import {
   Delivery,
   Moreinfo,
   Comment,
+  Breadcrumb,
 } from "./components";
 
 class Discount extends React.Component {
@@ -96,10 +97,25 @@ class Discount extends React.Component {
     }
   };
 
+  renderBreadCrumb = () => {
+    try {
+      const { detail, categorymenu } = this.props;
+      return (
+        <Breadcrumb
+          product={detail.length === 0 ? [] : detail.products[0]}
+          categories={categorymenu}
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
   render() {
     return (
       <div className="section">
         <div className="container">
+          {/* this.renderBreadCrumb() */}
           <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
             <div className="row row10">
               <div className="col-sm-9 col-md-9 col-lg-9 row">

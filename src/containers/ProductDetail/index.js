@@ -21,60 +21,65 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   state = {
-    detail: true,
-    relational: true,
-    attribute: true,
-    comment: true,
-    collection: true,
-    category: true,
+    detailLoad: true,
+    relationalLoad: true,
+    attributeLoad: true,
+    commentLoad: true,
+    collectionLoad: true,
+    categoryLoad: true,
   };
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.getData();
   }
 
-  componentWillReceiveProps(nextProps) {
+  /* componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
       this.getData();
     }
-  }
+  } */
 
   getData = () => {
     const { id } = this.props.match.params;
     this.props
       .getProductDetail({ skucd: id })
-      .then(r => this.setState({ detail: false }));
+      .then(r => this.setState({ detailLoad: false }));
     this.props
       .getProductRelational({ skucd: id })
-      .then(r => this.setState({ relational: false }));
+      .then(r => this.setState({ relationalLoad: false }));
     this.props
       .getProductComment({ skucd: id })
-      .then(r => this.setState({ comment: false }));
+      .then(r => this.setState({ commentLoad: false }));
 
     this.props
       .getProductCollection({ skucd: id })
-      .then(r => this.setState({ collection: false }));
+      .then(r => this.setState({ collectionLoad: false }));
     this.props
       .getProductAttribute({ skucd: id })
-      .then(r => this.setState({ attribute: false }));
-    this.props.getCategorys().then(r => this.setState({ category: false }));
+      .then(r => this.setState({ attributeLoad: false }));
+    this.props.getCategorys().then(r => this.setState({ categoryLoad: false }));
   };
 
   render() {
     const {
-      detail,
-      relational,
-      comment,
-      collection,
-      category,
-      attribute,
+      detailLoad,
+      relationalLoad,
+      commentLoad,
+      collectionLoad,
+      categoryLoad,
+      attributeLoad,
     } = this.state;
-
+    // eslint-disable-next-line no-redeclare
     return (
       <Spin
         spinning={
-          detail || relational || comment || collection || category || attribute
+          detailLoad ||
+          relationalLoad ||
+          commentLoad ||
+          collectionLoad ||
+          categoryLoad ||
+          attributeLoad
         }
         indicator={<Loader />}
       >

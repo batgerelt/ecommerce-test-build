@@ -15,6 +15,7 @@ import {
   Season,
   ProductDetail,
   Static,
+  Checkout,
   Category,
   ProductList,
   RecipeDetail,
@@ -59,6 +60,17 @@ class App extends Component {
     this.props.getStaticPages();
   }
 
+  componentDidMount() {
+    // this.LoginModal.handleLoginModal();
+  }
+
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
+
   render() {
     return (
       <Router>
@@ -79,6 +91,7 @@ class App extends Component {
             <Route path="/package" component={Package} />
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
+            <Route path="/checkout" component={Checkout} />
             <Route path="/info/:id" component={Static} />
             <Route path="/category/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />

@@ -11,6 +11,7 @@ import Season from "./Season";
 import Static from "./Static";
 import Cart from "./Cart";
 import ProductDetail from "./ProductDetail";
+import Checkout from "./Checkout";
 import Category from "./Category";
 import ProductList from "./ProductList";
 import RecipeDetail from "./RecipeDetail";
@@ -28,6 +29,7 @@ export {
   Season,
   Static,
   ProductDetail,
+  Checkout,
   RecipeDetail,
   Exception500,
   Cart,

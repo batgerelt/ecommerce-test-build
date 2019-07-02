@@ -11,11 +11,6 @@ class Detail extends Component {
 
   renderDetails = () => {
     const { detail, categorymenu } = this.props;
-
-    if (detail.length === 0 || detail === null) {
-      return <div>Бараа олдсонгүй</div>;
-    }
-
     const selectedCat =
       detail.catid && categorymenu.find(cat => cat.id === detail.catid);
 
