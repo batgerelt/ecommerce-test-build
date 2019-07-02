@@ -15,6 +15,7 @@ import {
   Season,
   ProductDetail,
   Static,
+  Checkout,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -54,7 +55,9 @@ class App extends Component {
     // this.LoginModal.handleLoginModal();
   }
 
-  hadleLogin = () => { this.LoginModal.handleLoginModal(); }
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
   hadleLogin = () => {
     this.LoginModal.handleLoginModal();
   };
@@ -77,6 +80,7 @@ class App extends Component {
             <Route path="/package" component={Package} />
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
+            <Route path="/checkout" component={Checkout} />
             <Route path="/info/:id" component={Static} />
           </Switch>
 

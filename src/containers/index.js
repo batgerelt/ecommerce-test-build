@@ -10,6 +10,7 @@ import Package from "./Package";
 import Season from "./Season";
 import Static from "./Static";
 import ProductDetail from "./ProductDetail";
+import Checkout from "./Checkout";
 
 export {
   App,
@@ -23,5 +24,6 @@ export {
   Season,
   Static,
   ProductDetail,
+  Checkout,
   Exception500,
 };
