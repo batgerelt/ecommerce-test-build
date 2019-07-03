@@ -32,8 +32,20 @@ class AppHeader extends Component {
 
   handleSearch = () => {
     const { word, keywordid } = this.state;
-
     keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
+
+    const params = {
+      catid: 0,
+      keywordid,
+      parameters: [],
+      minprice: 0,
+      maxprice: 0,
+      ordercol: 'price_asc',
+      rowcount: 20,
+      startswith: 0,
+    };
+
+    this.props.searchKeyWordFilter({ body: { ...params } });
   }
 
   handleChangeKeyWord = (e) => {
