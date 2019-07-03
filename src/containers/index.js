@@ -17,6 +17,7 @@ import ProductList from "./ProductList";
 import RecipeDetail from "./RecipeDetail";
 import Search from "./Search";
 import PackageDetail from "./PackageDetail";
+import Profile from "./UserProfile";
 
 export {
   App,
@@ -38,4 +39,5 @@ export {
   ProductList,
   Search,
   PackageDetail,
+  Profile,
 };

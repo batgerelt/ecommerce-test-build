@@ -21,6 +21,7 @@ import {
   RecipeDetail,
   Search,
   PackageDetail,
+  Profile,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -106,6 +107,8 @@ class App extends Component {
             <Route path="/recipedetail/:id" component={RecipeDetail} />
             <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
+            <Route path="/search/:word" component={ProductList} />
+            <Route path="/profile" component={Profile} />
             <Route path="/search/:id/:key" component={Search} />
           </Switch>
 
