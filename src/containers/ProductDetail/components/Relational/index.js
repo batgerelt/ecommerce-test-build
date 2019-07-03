@@ -30,7 +30,6 @@ class Relational extends Component {
         !isShowMoreClicked && relatedProducts.length > limit
           ? relatedProducts.slice(0, limit)
           : relatedProducts;
-      console.log(relatedProducts, "dwd");
       return (
         !!relatedProducts.length && (
           <div

@@ -4,6 +4,17 @@ import { Link } from "react-router-dom";
 class MainMenu extends React.Component {
   handleDetail = (id) => {
     this.props.getCategoryInfo({ id });
+    this.props.categoryFilter({
+      body: {
+        catid: id,
+        parameters: [],
+        minprice: 0,
+        maxprice: 0,
+        ordercol: "price_asc",
+        rowcount: 0,
+        startswith: 0,
+      },
+    });
   }
 
   render() {
@@ -20,16 +31,16 @@ class MainMenu extends React.Component {
             </Link>
           </li>
           {item.children &&
-              item.children.map((it, ind) => (
-                <li key={ind} onClick={() => this.handleDetail(it.id)}>
-                  <Link
-                    to={it.route ? it.route : " "}
-                    className="list-unstyled"
-                  >
-                    <span>{it.name}</span>
-                  </Link>
-                </li>
-                ))}
+            item.children.map((it, ind) => (
+              <li key={ind} onClick={() => this.handleDetail(it.id)}>
+                <Link
+                  to={it.route ? it.route : " "}
+                  className="list-unstyled"
+                >
+                  <span>{it.name}</span>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
     ));

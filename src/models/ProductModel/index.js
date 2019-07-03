@@ -111,7 +111,7 @@ class Model extends BaseModel {
   getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
   getCategorys= () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
   getEmartProduct = ({
-    jumcd = '99', start = 0, rowcnt = 10, order = `price_desc`,
+    jumcd = '99', start = 0, rowcnt = 20, order = `price_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.emartproduct });
   getDiscountProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `price_asc`,

@@ -15,6 +15,7 @@ import Checkout from "./Checkout";
 import Category from "./Category";
 import ProductList from "./ProductList";
 import RecipeDetail from "./RecipeDetail";
+import Search from "./Search";
 import PackageDetail from "./PackageDetail";
 import Profile from "./UserProfile";
 
@@ -36,6 +37,7 @@ export {
   Cart,
   Category,
   ProductList,
+  Search,
   PackageDetail,
   Profile,
 };

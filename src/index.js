@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/first */
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,7 +9,7 @@ import moment from 'moment';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import 'antd/dist/antd.less';
 
-import './index.less';
+import './index.css';
 import './utils/momentLocale';
 import mnMN from './utils/locale';
 import App from './containers/App';

@@ -7,19 +7,18 @@ class Breadcrumb extends Component {
   renderBreadCrumb = () => {
     try {
       const { product, categories } = this.props;
-
       let parentCats = [];
       let catId = product.catid;
-
       while (catId && catId !== 0) {
         // eslint-disable-next-line no-loop-func
         const category = categories.find(cat => cat.id === catId);
         if (category) {
           parentCats.push(category);
           catId = category.parentid;
+        } else {
+          catId = undefined;
         }
       }
-
       if (parentCats.length) {
         parentCats = parentCats.reverse();
       }

@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import {
   Banner as BannerModel,
@@ -15,16 +15,18 @@ const mapStateToProps = state => ({
   ...state.product,
   ...state.menu,
   ...state.filter,
-
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...bindActionCreators({
-    ...BannerModel,
-    ...ProductModel,
-    ...MenuModel,
-    ...FilterModel,
-  }, dispatch),
+  ...bindActionCreators(
+    {
+      ...BannerModel,
+      ...ProductModel,
+      ...MenuModel,
+      ...FilterModel,
+    },
+    dispatch,
+  ),
 });
 
 class Page extends React.Component {
@@ -34,7 +36,11 @@ class Page extends React.Component {
     this.props.getSeasonMenu({});
     this.props.seasonFilter({
       body: {
-        promotid: null, parameters: [], minprice: 0, maxprice: 0, ordercol: "price_asc",
+        promotid: null,
+        parameters: [],
+        minprice: 0,
+        maxprice: 0,
+        ordercol: "price_asc",
       },
     });
   }
@@ -44,4 +50,7 @@ class Page extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Page);

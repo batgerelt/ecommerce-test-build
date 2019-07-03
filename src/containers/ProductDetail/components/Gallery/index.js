@@ -89,6 +89,7 @@ class Gallery extends Component {
                   ))}
                 </div>
               )}
+              { this.renderMagnify() }
             </div>
           </div>
 
@@ -114,7 +115,7 @@ class Gallery extends Component {
             </div>
           )}
 
-          <Lightbox
+          {/* <Lightbox
             images={this.renderImages()}
             currentImage={current}
             showThumbnails
@@ -125,7 +126,7 @@ class Gallery extends Component {
             onClickNext={this.handleLightBoxClickNext}
             onClose={this.handleLightBoxClose}
             onClickThumbnail={this.handleLightBoxThumbnailClick}
-          />
+          /> */}
         </div>
       );
     } catch (error) {
@@ -136,7 +137,7 @@ class Gallery extends Component {
   render() {
     const { images } = this.props;
 
-    return images.length === 0 ? null : this.renderMagnify();
+    return images.length === 0 ? null : this.renderContent();
   }
 }
 

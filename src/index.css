@@ -23,3 +23,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #fbd680; 
 }
+
+.activeLink{
+  color: #fbd680;
+}
