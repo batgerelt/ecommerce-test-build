@@ -2,10 +2,11 @@
 /* eslint-disable radix */
 /* eslint-disable no-unused-expressions */
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Spin, Select } from "antd";
 import { toast } from "react-toastify";
-
+import { bindActionCreators } from "redux";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 import { PageBanner, CardList, FilterSet } from "../../components";
 // import FilterSet from "../components/FilterSet";
@@ -15,7 +16,8 @@ class Season extends React.Component {
   constructor(props) {
     super(props);
 
-    const attributes = props.seasonfilter.length === 0 ? [] : props.seasonfilter.attributes;
+    const attributes =
+      props.seasonfilter.length === 0 ? [] : props.seasonfilter.attributes;
     const prices = this.getPrices(attributes);
 
     this.state = {
@@ -36,7 +38,6 @@ class Season extends React.Component {
 
   showLeftPanel = (e) => {
     this.setState({ isLeftPanel: !this.state.isLeftPanel });
-    console.log(this.state.isLeftPanel);
   };
 
   getPrices = (attributes) => {
@@ -78,6 +79,12 @@ class Season extends React.Component {
       maxprice: maxPrice,
       ordercol: sort,
     };
+
+    this.props.seasonFilter({
+      body: data,
+    }).then((res) => {
+      this.setState({ loading: false });
+    });
 
     // api.season.findAllFilteredInfo(data).then((res) => {
     //   if (res.success) {
@@ -172,14 +179,9 @@ class Season extends React.Component {
     });
   };
 
-  handleListViewClick = (e) => {
+  handleViewChange = (e) => {
     e.preventDefault();
-    this.setState({ isListViewOn: true });
-  };
-
-  handleGridViewClick = (e) => {
-    e.preventDefault();
-    this.setState({ isListViewOn: false });
+    this.setState({ isListViewOn: !this.state.isListViewOn });
   };
 
   handlePromoCatClick = cat => (e) => {
@@ -263,7 +265,7 @@ class Season extends React.Component {
   render() {
     const { menuSeason, seasonbanner } = this.props;
     const { attributes, products } = this.props.seasonfilter;
-
+    const { isListViewOn, loading } = this.state;
     const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
     const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
 
@@ -290,7 +292,7 @@ class Season extends React.Component {
     );
 
     let result = null;
-    if (this.state.isListViewOn) {
+    if (isListViewOn) {
       result = (
         <CardList
           type={CARD_LIST_TYPES.list}
@@ -322,7 +324,10 @@ class Season extends React.Component {
           <div className="container pad10">
             <div className="row row10">
               <div className="col-xl-3 pad10">
-                <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+                <div
+                  className={`left-panel-container ${leftPanel1}`}
+                  onClick={this.showLeftPanel}
+                >
                   <div className={leftPanel}>
                     <button
                       className="button buttonBlack filter-cross"
@@ -365,7 +370,10 @@ class Season extends React.Component {
                     <div className="col-lg-6 pad10">
                       <div className="total-result">
                         <p className="text">
-                          <strong>{products === undefined ? 0 : products.length}</strong> бараа олдлоо
+                          <strong>
+                            {products === undefined ? 0 : products.length}
+                          </strong>{" "}
+                          бараа олдлоо
                         </p>
                       </div>
                     </div>
@@ -399,26 +407,30 @@ class Season extends React.Component {
                             className="form-control"
                             id="inputState"
                           >
-                            <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                            <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                            <Select.Option value="price_desc">
+                              Үнэ буурахаар
+                            </Select.Option>
+                            <Select.Option value="price_asc">
+                              Үнэ өсөхөөр
+                            </Select.Option>
                           </Select>
                         </div>
                         <div className="form-group flex-this">
                           <Link
                             to=""
                             className={
-                              this.state.isListViewOn ? "btn active" : "btn"
+                              isListViewOn ? "btn active" : "btn"
                             }
-                            onClick={this.handleListViewClick}
+                            onClick={this.handleViewChange}
                           >
                             <i className="fa fa-th-list" aria-hidden="true" />
                           </Link>
                           <Link
                             to=""
                             className={
-                              this.state.isListViewOn ? "btn" : "btn active"
+                              isListViewOn ? "btn" : "btn active"
                             }
-                            onClick={this.handleGridViewClick}
+                            onClick={this.handleViewChange}
                           >
                             <i className="fa fa-th" aria-hidden="true" />
                           </Link>
@@ -428,7 +440,7 @@ class Season extends React.Component {
                   </div>
                 </div>
 
-                <Spin spinning={this.state.loading}>{result}</Spin>
+                <Spin spinning={loading}>{result}</Spin>
               </div>
             </div>
           </div>

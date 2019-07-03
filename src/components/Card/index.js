@@ -15,12 +15,15 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Card extends React.Component {
   handleAddToCart = async (item) => {
+    // console.log(this.props.auth);
     if (this.props.auth.isLogged) {
       const added = await this.props.addToCart({ custid: 14, body: { skucd: item.cd } });
+      // console.log('added: ', added);
     }
   }
 
   render() {
+    // console.log('Card', this.props);
     const {
       type, item, isLastInRow, className,
     } = this.props;

@@ -70,8 +70,8 @@ class Slider extends React.Component {
                 {container}
               </Link>
             ) : (
-              container
-            )}
+                container
+              )}
           </div>
         );
       });

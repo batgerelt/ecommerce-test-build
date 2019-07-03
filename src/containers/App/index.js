@@ -15,13 +15,16 @@ import {
   Season,
   ProductDetail,
   Static,
+  Checkout,
   Category,
   ProductList,
   RecipeDetail,
   Search,
+  PackageDetail,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
+import { RegistrationModal } from "../../components/Registration";
 import {
   Category as CategoryModel,
   Static as StaticModel,
@@ -30,6 +33,7 @@ import {
   Cart as CartModel,
   Product as ProductModel,
   Search as SearchModel,
+  Filter as FilterModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -47,6 +51,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CartModel,
       ...ProductModel,
       ...SearchModel,
+      ...FilterModel,
     },
     dispatch,
   ),
@@ -63,12 +68,25 @@ class App extends Component {
     this.props.getNewProduct({});
   }
 
+  componentDidMount() {
+    // this.LoginModal.handleLoginModal();
+  }
+
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
+  hadleLogin = () => {
+    this.LoginModal.handleLoginModal();
+  };
+
   render() {
     return (
       <Router>
         <ScrollToTop>
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
+          <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
+
 
           {/** fixed header */}
           <Header {...this.props} {...this} />
@@ -81,10 +99,12 @@ class App extends Component {
             <Route path="/package" component={Package} />
             <Route path="/season" component={Season} />
             <Route path="/productdetail/:id" component={ProductDetail} />
+            <Route path="/checkout" component={Checkout} />
             <Route path="/info/:id" component={Static} />
             <Route path="/category/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
             <Route path="/search/:id/:key" component={Search} />
           </Switch>

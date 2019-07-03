@@ -296,7 +296,6 @@ class List extends React.Component {
             </div>
             <div className="col-md-8">
               <h4>
-
                 АЛХАМ {++index}
               </h4>
               {step.description}

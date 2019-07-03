@@ -1,12 +1,11 @@
 /* eslint-disable radix */
 import React from "react";
-import { CardList, Banner, PageBanner } from "../../components";
-
 import {
-  CARD_TYPES,
-  CARD_LIST_TYPES,
-  CARD_NUMS_IN_ROW,
-} from "../../utils/Consts";
+  FacebookShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  TwitterIcon,
+} from "react-share";
 import {
   Relational,
   Gallery,
@@ -14,13 +13,13 @@ import {
   Delivery,
   Moreinfo,
   Comment,
+  Breadcrumb,
 } from "./components";
 
 class Discount extends React.Component {
   renderRealational = () => {
     try {
       const { relational } = this.props;
-
       return <Relational relatedProducts={relational} />;
     } catch (error) {
       return console.log(error);
@@ -87,7 +86,7 @@ class Discount extends React.Component {
       const { detail, comment } = this.props;
       return (
         <Comment
-          product={detail.length === 0 ? [] : detail.products[0]}
+          product={detail.length === 0 ? {} : detail.products[0]}
           comments={comment}
         />
       );
@@ -96,15 +95,69 @@ class Discount extends React.Component {
     }
   };
 
+  renderBreadCrumb = () => {
+    try {
+      const { detail, categorymenu } = this.props;
+      return (
+        <Breadcrumb
+          product={detail.length === 0 ? {} : detail.products[0]}
+          categories={categorymenu}
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
+  renderSocialButtons = (product) => {
+    try {
+      return (
+        <div className="social-buttons">
+          <ul
+            className="list-inline"
+            style={{ display: "inline-block", verticalAlign: "middle" }}
+          >
+            <li className="list-inline-item">
+              <span>Хуваалцах:</span>
+            </li>
+            <li className="list-inline-item" style={{ cursor: "pointer" }}>
+              <FacebookShareButton
+                url={window.location.href}
+                quote={product.name}
+                className="Demo__some-network__share-button"
+              >
+                <FacebookIcon size={25} round />
+              </FacebookShareButton>
+            </li>
+            <li className="list-inline-item" style={{ cursor: "pointer" }}>
+              <TwitterShareButton
+                url={window.location.href}
+                quote={product.name}
+                className="Demo__some-network__share-button"
+              >
+                <TwitterIcon size={25} round />
+              </TwitterShareButton>
+            </li>
+          </ul>
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
   render() {
+    const { detail, categorymenu } = this.props;
     return (
       <div className="section">
         <div className="container">
+          { this.renderBreadCrumb() }
           <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
             <div className="row row10">
               <div className="col-sm-9 col-md-9 col-lg-9 row">
                 <div className="col-xl-5 col-lg-5 col-md-5">
                   {this.renderGallery()}
+                  {this.renderSocialButtons(detail.length === 0 ? {} : detail.products[0])}
                 </div>
                 {this.renderDetails()}
               </div>
