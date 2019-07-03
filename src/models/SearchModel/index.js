@@ -13,6 +13,7 @@ class Model extends BaseModel {
     searchattribute: [],
     searchword: [],
     searchkeyword: [],
+    searchkeywordfilter: [],
   }
 
   constructor(data = {}) {
@@ -39,20 +40,32 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'searchkeyword'),
           error: this.buildActionName('error', data.model, 'searchkeyword'),
         },
+        searchkeywordfilter: {
+          request: this.buildActionName('request', data.model, 'searchkeywordfilter'),
+          response: this.buildActionName('response', data.model, 'searchkeywordfilter'),
+          error: this.buildActionName('error', data.model, 'searchkeywordfilter'),
+        },
       };
     }
   }
 
   searchWord = ({ keyword, rownum = 10 } = {}) => asyncFn({ url: `/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
+
   searchProductBrand = ({
     id, start = 0, rowcnt = 20, order = `price_asc`,
   }) => asyncFn({ url: `/search/brand/${id}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.productbrand });
+
   searchAttribute = ({ body } = {}) => asyncFn({
     body, url: `/search/att`, method: 'POST', model: this.model.searchattribute,
   });
+
   searchKeyWord = ({
     catid = 0, keywordid, startsWith = 10, rowCount = 0, orderCol = 'price_asc',
   } = {}) => asyncFn({ url: `/search/keyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
+
+  searchKeyWordFilter = ({ body } = {}) => asyncFn({
+    body, url: `/keywordfilter`, method: 'POST', model: this.model.searchkeywordfilter,
+  })
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -87,6 +100,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.searchkeyword.response:
         return { ...state, searchkeyword: action.payload.data[0] };
+
+      // GET SEARCH KEY WORD FILTER
+      case this.model.searchkeywordfilter.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.searchkeywordfilter.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.searchkeywordfilter.response:
+        return { ...state, searchkeywordfilter: action.payload.data };
 
       default:
         return state;

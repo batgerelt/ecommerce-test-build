@@ -21,6 +21,19 @@ class Page extends React.Component {
   componentWillMount() {
     const { id, key } = this.props.match.params;
     parseInt(key) === 1 ? this.props.searchKeyWord({ keywordid: id }) : this.props.searchWord({ keyword: id });
+
+    const params = {
+      catid: 0,
+      keywordid: id,
+      parameters: [],
+      minprice: 0,
+      maxprice: 0,
+      ordercol: 'price_asc',
+      rowcount: 20,
+      startswith: 0,
+    };
+
+    this.props.searchKeyWordFilter({ body: { ...params } });
   }
 
   render() {

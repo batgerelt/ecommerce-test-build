@@ -6,47 +6,107 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Link } from "react-router-dom";
 import { Spin, Select } from "antd";
 import {
   CARD_LIST_TYPES,
   CARD_TYPES,
 } from "../../utils/Consts";
-import { CardList, FilterSet } from "../../components";
+import { CardList, FilterSet, Loader } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 
 class CategoryInfo extends React.Component {
   state = {
     loading: false,
+    catid: 0,
     isListViewOn: false,
-    minPrice: null,
-    maxPrice: null,
-    sort: "price_asc",
-    checkedList: [],
+    minprice: 0,
+    maxprice: 0,
+    ordercol: "price_asc",
+    parameters: [],
     isLeftPanel: false,
   };
 
-  renderBreadCrumb = () => {
-    try {
-      const { parents } = this.props.categoryinfo;
-      return (
-        <div className="e-breadcrumb">
-          <ul className="list-unstyled">
-            {
-              parents.map(category => (
-                <li key={category.catnm}>
-                  <Link to={category.route ? category.route : ""}>
-                    <span>{category.catnm}</span>
-                  </Link>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      );
-    } catch (error) {
-      return console.log(error);
+  handleordercolChange = (value) => {
+    const {
+      parameters, minprice, maxprice, catid,
+    } = this.state;
+
+    const params = {
+      catid,
+      keywordid: this.props.match.params.id,
+      parameters,
+      minprice,
+      maxprice,
+      ordercol: value,
+      rowcount: 20,
+      startswith: 0,
+    };
+    this.fetchProductData(params);
+
+    this.setState({ ordercol: value });
+  };
+
+  handleViewChange = () => {
+    this.setState({ isListViewOn: !this.state.isListViewOn });
+  };
+
+  handlePriceAfterChange = (value) => {
+    const { parameters, catid, ordercol } = this.state;
+
+    const params = {
+      catid,
+      keywordid: this.props.match.params.id,
+      parameters,
+      minprice: value[0],
+      maxprice: value[1],
+      ordercol,
+      rowcount: 20,
+      startswith: 0,
+    };
+
+    this.fetchProductData(params);
+    this.setState({
+      minprice: value[0],
+      maxprice: value[1],
+    });
+  };
+
+  handleAttributeChange = (e) => {
+    const {
+      catid, ordercol, minprice, maxprice,
+    } = this.state;
+
+    let parameters = this.state.parameters;
+    const i = parameters.indexOf(e.target.value);
+
+    if (e.target.checked) {
+      parameters.push(e.target.value);
+    } else if (i !== -1) {
+      parameters.splice(i, 1);
     }
+
+    const params = {
+      catid,
+      keywordid: this.props.match.params.id,
+      parameters,
+      minprice,
+      maxprice,
+      ordercol,
+      rowcount: 20,
+      startswith: 0,
+    };
+
+    this.fetchProductData(params);
+    this.setState({ parameters });
+  };
+
+  fetchProductData = (params) => {
+    this.setState({ loading: true });
+    this.props.searchKeyWordFilter({
+      body: { ...params },
+    }).then((res) => {
+      this.setState({ loading: false });
+    });
   }
 
   renderLeftPanel = () => {
@@ -62,8 +122,8 @@ class CategoryInfo extends React.Component {
           key={index}
           onAttributeChange={this.handleAttributeChange}
           onPriceAfterChange={this.handlePriceAfterChange}
-          minPrice={this.state.minPrice}
-          maxPrice={this.state.maxPrice}
+          minPrice={this.state.minprice}
+          maxPrice={this.state.maxprice}
           data={attr}
         />
       ));
@@ -113,14 +173,14 @@ class CategoryInfo extends React.Component {
   renderFilteredList = () => {
     try {
       const { key } = this.props.match.params;
-      const { products } = parseInt(key) === 1 ? this.props.searchkeyword : [];
+      const { searchkeywordfilter } = this.props;
 
       let result = null;
       if (this.state.isListViewOn) {
         result = (
           <CardList
             type={CARD_LIST_TYPES.list}
-            items={products}
+            items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             cardType={CARD_TYPES.list}
           />
         );
@@ -128,7 +188,7 @@ class CategoryInfo extends React.Component {
         result = (
           <CardList
             type={CARD_LIST_TYPES.horizontal}
-            items={products}
+            items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             showAll
             cardType={CARD_TYPES.wide}
           />
@@ -143,7 +203,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     {/* <strong>"{selectedCat}"</strong> */}
-                    {products.length}{" "}
+                    {searchkeywordfilter.length}{" "}
                           бараа олдлоо
                   </p>
                 </div>
@@ -171,7 +231,7 @@ class CategoryInfo extends React.Component {
                     </label>
                     <Select
                       defaultValue={this.state.sort}
-                      onChange={this.handleSortChange}
+                      onChange={this.handleordercolChange}
                       className="form-control"
                       id="inputState"
                     >
@@ -180,31 +240,25 @@ class CategoryInfo extends React.Component {
                     </Select>
                   </div>
                   <div className="form-group flex-this">
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn active" : "btn"
-                            }
-                      onClick={this.handleListViewClick}
+                    <div
+                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
-                    </Link>
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn" : "btn active"
-                            }
-                      onClick={this.handleGridViewClick}
+                    </div>
+                    <div
+                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
-                    </Link>
+                    </div>
                   </div>
                 </form>
               </div>
             </div>
           </div>
 
-          <Spin spinning={this.state.loading}>{result}</Spin>
+          <Spin spinning={this.state.loading} indicator={<Loader />} >{result}</Spin>
         </div>
       );
     } catch (error) {
@@ -218,7 +272,6 @@ class CategoryInfo extends React.Component {
       <div className="top-container">
         <div className="section">
           <div className="container pad10">
-            {/* {this.renderBreadCrumb()} */}
             <div className="row row10">
               {this.renderLeftPanel()}
               {this.renderFilteredList()}
