@@ -25,7 +25,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName('response', 'signup'),
       error: this.buildActionName('error', 'signup'),
     };
-
+    this.resetModel = {
+      request: this.buildActionName('request', 'reset'),
+      response: this.buildActionName('response', 'reset'),
+      error: this.buildActionName('error', 'reset'),
+    };
     this.initialState = {
       user: {
         name: '',
@@ -52,8 +56,18 @@ class AuthModel extends BaseModel {
     body, url: '/customer', method: 'POST', model: this.signupModel,
   })
 
+  reset = ({ mail }) => asyncFn({
+    url: `/customer/checkchangepass/${mail}`, method: 'PUT', model: this.resetModel,
+  });
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      case this.resetModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
       case this.signupModel.request:
         return {
           ...state,

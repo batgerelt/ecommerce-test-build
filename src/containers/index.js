@@ -16,6 +16,7 @@ import Category from "./Category";
 import ProductList from "./ProductList";
 import RecipeDetail from "./RecipeDetail";
 import PackageDetail from "./PackageDetail";
+import Profile from "./UserProfile";
 
 export {
   App,
@@ -36,4 +37,5 @@ export {
   Category,
   ProductList,
   PackageDetail,
+  Profile,
 };

@@ -20,6 +20,7 @@ import {
   ProductList,
   RecipeDetail,
   PackageDetail,
+  Profile,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -99,6 +100,7 @@ class App extends Component {
             <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
             <Route path="/search/:word" component={ProductList} />
+            <Route path="/profile" component={Profile} />
           </Switch>
 
           {/** fixed footer */}
