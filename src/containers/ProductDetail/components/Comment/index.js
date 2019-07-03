@@ -11,10 +11,11 @@ class Comment extends Component {
     comments: this.props.comments,
   };
 
+
   renderCommentList = () => {
     try {
       const { isLoggedIn, user, product } = this.props;
-      const { comments } = this.state;
+      const { comments } = this.props;
       const { rate, rate_user_cnt } = product;
 
       return (

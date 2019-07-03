@@ -30,6 +30,7 @@ import {
   Menu as MenuModel,
   Auth as AuthModel,
   Cart as CartModel,
+  Filter as FilterModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -45,6 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...MenuModel,
       ...AuthModel,
       ...CartModel,
+      ...FilterModel,
     },
     dispatch,
   ),

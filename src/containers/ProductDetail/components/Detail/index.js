@@ -71,7 +71,6 @@ class Detail extends Component {
 
   getRateValue = () => {
     const { detail } = this.props;
-
     let average = 0;
     if (detail && detail.rate && detail.rate.length) {
       let total = detail.rate.reduce((acc, curr) => acc + curr.rate, 0);
