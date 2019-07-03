@@ -93,7 +93,6 @@ class CardList extends React.Component {
               type={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
-              {...this.props}
             />,
           );
         });

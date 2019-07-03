@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
@@ -22,33 +23,34 @@ class AppHeader extends Component {
       item: "Бүх бараа",
       suggestion: [],
       word: "",
-      k: [],
+      keywordid: null,
       isSearch: false,
       pro: false,
     };
   }
 
-  onSuggestion = (e) => {
+  handleSearch = () => {
+    const { word, keywordid } = this.state;
+
+    keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
+  }
+
+  handleChangeKeyWord = (e) => {
     const { suggestion } = this.state;
-    suggestion.map((item, i) => {
+
+    suggestion.map((item) => {
       if (e.target.value === item.keyword) {
-        this.setState({ k: item });
+        this.setState({ keywordid: item.id });
       }
       return null;
     });
-    this.setState({
-      word: e.target.value,
-    });
+
+    this.setState({ word: e.target.value });
+
     if (this.state.word.length >= 1) {
-      // api.search
-      //   .findSuggestion({ keyword: e.target.value, rownum: 10 })
-      //   .then((res) => {
-      //     if (res.success) {
-      //       this.setState({
-      //         suggestion: res.data,
-      //       });
-      //     }
-      //   });
+      this.props.searchWord({ keyword: e.target.value }).then((res) => {
+        res === undefined ? null : res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+      });
     }
   };
 
@@ -102,14 +104,10 @@ class AppHeader extends Component {
                 <div className="text-right">
                   <ul className="list-inline right-panel">
                     <li className="list-inline-item">
-                      <form>
-                        <select className="classic" defaultValue="0">
-                          <option value="0" defaultValue>
-                              МОН
-                          </option>
-                          <option value="1">ENG</option>
-                        </select>
-                      </form>
+                      <select className="classic" defaultValue="0">
+                        <option value="0" defaultValue> МОН </option>
+                        <option value="1">ENG</option>
+                      </select>
                     </li>
                     <UserButton {...this.props} />
                   </ul>
@@ -128,6 +126,8 @@ class AppHeader extends Component {
     try {
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
+      const { keywordid, word } = this.state;
+
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
 
@@ -228,7 +228,7 @@ class AppHeader extends Component {
                                 className="form-control input-search"
                                 placeholder="Бүгдээс хайх"
                                 style={{ boxShadow: 'none' }}
-                                onChange={e => this.onSuggestion(e)}
+                                onChange={e => this.handleChangeKeyWord(e)}
                               />
                               <datalist id="cat" className="list-unstyled">
                                 {this.state.suggestion.map(item => (
@@ -244,12 +244,7 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={
-                                this.state.word
-                                  ? `/search/${this.state.word}`
-                                  : ""
-                              }
-                            onClick={this.handleChange}
+                            to={keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`}
                           >
                             <i
                               className="fa fa-search d-block d-sm-none"
@@ -258,8 +253,9 @@ class AppHeader extends Component {
                             <span
                               className="text-uppercase d-none d-sm-block"
                               style={{ color: "black", boxShadow: 'none !important' }}
+                              onClick={this.handleSearch}
                             >
-                                Хайх
+                              Хайх
                             </span>
                           </Link>
                           <Link
@@ -381,7 +377,7 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Link to="">
+                <Link to="" >
                   <span>Ангилал</span>
                   <Icon type="down" style={{ color: "#feb415" }} />
                 </Link>

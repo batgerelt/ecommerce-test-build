@@ -18,6 +18,7 @@ import {
   Category,
   ProductList,
   RecipeDetail,
+  Search,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -27,6 +28,8 @@ import {
   Menu as MenuModel,
   Auth as AuthModel,
   Cart as CartModel,
+  Product as ProductModel,
+  Search as SearchModel,
 } from "../../models";
 
 import "../../scss/app.scss";
@@ -42,6 +45,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...MenuModel,
       ...AuthModel,
       ...CartModel,
+      ...ProductModel,
+      ...SearchModel,
     },
     dispatch,
   ),
@@ -55,6 +60,7 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getMenu();
     this.props.getStaticPages();
+    this.props.getNewProduct({});
   }
 
   render() {
@@ -80,7 +86,7 @@ class App extends Component {
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
             <Route path="/emart" component={ProductList} />
-            <Route path="/search/:word" component={ProductList} />
+            <Route path="/search/:id/:key" component={Search} />
           </Switch>
 
           {/** fixed footer */}

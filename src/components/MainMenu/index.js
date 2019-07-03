@@ -7,7 +7,7 @@ class MainMenu extends React.Component {
       const data = this.props && this.props.dataSource;
       let indents = data.map((item, index) => (
         <li className="list-inline-item" key={index + 1000}>
-          <Link to={item.link} key={index}>
+          <Link to={item.link} key={index} className={{ color: 'black' }}>
             <span>{item.menunm}</span>
           </Link>
         </li>

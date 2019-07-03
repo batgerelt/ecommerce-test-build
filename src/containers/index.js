@@ -14,6 +14,7 @@ import ProductDetail from "./ProductDetail";
 import Category from "./Category";
 import ProductList from "./ProductList";
 import RecipeDetail from "./RecipeDetail";
+import Search from "./Search";
 
 export {
   App,
@@ -32,4 +33,5 @@ export {
   Cart,
   Category,
   ProductList,
+  Search,
 };
