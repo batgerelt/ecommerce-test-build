@@ -65,12 +65,9 @@ class Season extends React.Component {
 
   notify = message => toast(message, { autoClose: 5000 });
 
-  fetchProductData = (
-    {
-      promoCatId, checkedList, minPrice, maxPrice, sort,
-    },
-    shouldChangeFilterSet = false,
-  ) => {
+  fetchProductData = ({
+    promoCatId, checkedList, minPrice, maxPrice, sort,
+  }) => {
     this.setState({ loading: true });
     const data = {
       promotid: promoCatId,

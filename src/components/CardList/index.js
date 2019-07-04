@@ -32,7 +32,6 @@ class CardList extends React.Component {
             type={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
-            {...this.props}
           />,
         );
       }
@@ -103,14 +102,10 @@ class CardList extends React.Component {
       let cardsInColCalculated = Math.ceil(items.length / 3);
 
       if (cardsInCol) {
-        cardsInColCalculated =
-          cardsInColCalculated < cardsInCol ? cardsInColCalculated : cardsInCol;
+        cardsInColCalculated = cardsInColCalculated < cardsInCol ? cardsInColCalculated : cardsInCol;
       }
 
-      const cardsCount =
-        items.length > cardsInColCalculated * 3
-          ? cardsInColCalculated * 3
-          : items.length;
+      const cardsCount = items.length > cardsInColCalculated * 3 ? cardsInColCalculated * 3 : items.length;
 
       let cardsTemp = [];
 
@@ -118,19 +113,13 @@ class CardList extends React.Component {
         let className = "short";
 
         if (
-          (cardsInColCalculated % 2 !== 0 && i % 2 === 0) ||
-          (cardsInColCalculated % 2 === 0 &&
-            ((Math.floor(i / cardsInColCalculated) % 2 === 0 && i % 2 === 0) ||
-              (Math.floor(i / cardsInColCalculated) % 2 !== 0 && i % 2 !== 0)))
+          (cardsInColCalculated % 2 !== 0 && i % 2 === 0) || (cardsInColCalculated % 2 === 0 &&
+            ((Math.floor(i / cardsInColCalculated) % 2 === 0 && i % 2 === 0) || (Math.floor(i / cardsInColCalculated) % 2 !== 0 && i % 2 !== 0)))
         ) {
           className = "long";
         }
 
-        const key = items[i].cd
-          ? items[i].cd
-          : items[i].recipeid
-            ? items[i].recipeid
-            : i;
+        const key = items[i].cd ? items[i].cd : items[i].recipeid ? items[i].recipeid : i;
 
         cardsTemp.push(
           <Card
@@ -138,7 +127,6 @@ class CardList extends React.Component {
             type={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-          // {...this.props}
           />,
         );
 
@@ -155,7 +143,7 @@ class CardList extends React.Component {
       cardList = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
-        cardList.push(<Card key={index} type={CARD_TYPES.list} {...this.props} item={item} />);
+        cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} />);
       });
     }
 
