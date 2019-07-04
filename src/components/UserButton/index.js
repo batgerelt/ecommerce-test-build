@@ -30,7 +30,6 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-
     /* console.log(localStorage.getItem('auth'));
     localStorage.clear();
  */
@@ -49,7 +48,7 @@ class UserButton extends React.Component {
               <div className="profile-menu">
                 <ul className="list-unstyled">
                   <li>
-                    <Link to="#" className="flex-this">
+                    <Link to="/profile" className="flex-this">
                       <Avatar size="small" src={profile} shape="square" style={{ width: "30px" }} /><span>Профайл хуудас</span>
                     </Link>
                   </li>

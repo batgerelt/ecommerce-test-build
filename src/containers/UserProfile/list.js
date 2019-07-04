@@ -13,6 +13,9 @@ import {
   UserProfile,
   UserHistory,
   UserWish,
+  UserDelivery,
+  UserAddress,
+  UserPassword,
 } from "./Component";
 
 class List extends React.Component {
@@ -72,17 +75,17 @@ class List extends React.Component {
                           </Link>
                         </li>
                         <li>
-                          <Link to="#" className="flex-this">
+                          <Link to={`${match.path}/delivery`} className="flex-this">
                             <Avatar size="small" shape="square" src={store} className="marginRight10" /><span>Захиалгын түүх</span>
                           </Link>
                         </li>
                         <li>
-                          <Link to="#" className="flex-this">
+                          <Link to={`${match.path}/address`} className="flex-this">
                             <Avatar size="small" shape="square" src={location} className="marginRight10" /><span>Хүргэлтийн хаяг</span>
                           </Link>
                         </li>
                         <li>
-                          <Link to="#" className="flex-this">
+                          <Link to={`${match.path}/password`} className="flex-this">
                             <Avatar size="small" shape="square" src={password} className="marginRight10" /><span>Нууц үгээ солих</span>
                           </Link>
                         </li>
@@ -97,6 +100,9 @@ class List extends React.Component {
                     <Route exact path="/profile" component={UserProfile} {...this} />
                     <Route path="/profile/history" component={UserHistory} {...this} />
                     <Route path="/profile/wish" component={UserWish} {...this} />
+                    <Route path="/profile/delivery" component={UserDelivery} {...this} />
+                    <Route path="/profile/address" component={UserAddress} {...this} />
+                    <Route path="/profile/password" component={UserPassword} {...this} />
                   </Switch>
 
                 </div>

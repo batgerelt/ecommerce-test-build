@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getWish({ id: this.props.data[0].info.customerInfo.id });
+    this.props.getWish({ custid: this.props.data[0].info.customerInfo.id });
   }
   render() {
     return <List {...this.props} />;

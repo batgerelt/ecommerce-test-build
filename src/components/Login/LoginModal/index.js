@@ -31,7 +31,12 @@ class LoginModal extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.login({ body: { ...values } }).then((res) => {
-          localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+          if (res.payload.success) {
+            localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+            this.handleLoginModal();
+          } else {
+            message.success(res.payload.message);
+          }
         });
       }
     });
@@ -125,7 +130,7 @@ class LoginModal extends React.Component {
 
           <div className="text-center">
             <Link
-              to=""
+              to="#"
               className="btn btn-link"
               onClick={this.handleRegistrationModal}
             >Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү

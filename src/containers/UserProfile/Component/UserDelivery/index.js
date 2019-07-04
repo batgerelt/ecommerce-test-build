@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getHistory({ custid: this.props.data[0].info.customerInfo.id });
+    this.props.getDelivery({ custid: this.props.data[0].info.customerInfo.id });
   }
   render() {
     return <List {...this.props} />;

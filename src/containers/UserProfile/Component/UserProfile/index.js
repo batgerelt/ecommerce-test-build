@@ -1,28 +1,29 @@
-import React from "react";
-import { Divider } from "antd";
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import List from "./list";
+import {
+  Auth as AuthModel,
+  Profile as ProfileModel,
+} from "../../../../models";
 
-class Component extends React.Component {
-  state = {};
+const mapStateToProps = state => ({
+  ...state.auth,
+  ...state.profile,
+});
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  ...bindActionCreators({
+    AuthModel,
+    ...ProfileModel,
+  }, dispatch),
+});
+
+class UserProfile extends React.Component {
+  componentWillMount() { }
   render() {
-    console.log("Профайл хуудас", this.props);
-    return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span>Профайл хуудас</span>
-          </p>
-          <div className="user-profile-contain">
-            <div className="row row10">
-              <div className="col-md-12">
-                <p>Имарт карт</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <List {...this.props} />;
   }
 }
 
-export default Component;
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
