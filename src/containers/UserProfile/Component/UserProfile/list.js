@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Divider } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -24,16 +24,47 @@ class Component extends React.Component {
             <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
               <div className="form-group">
                 <Form.Item>
-                  {getFieldDecorator("name", {
+                  {getFieldDecorator("lastname", {
                     rules: [
                       {
                         required: true,
-                        message: "Нэрээ заавал оруулна уу",
+                        message: "Овгоо заавал оруулна уу! ",
+                      },
+                    ],
+                  })(<Input placeholder="Овог" />)}
+                </Form.Item>
+              </div>{" "}
+            </div>
+
+            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
+              <div className="form-group">
+                <Form.Item>
+                  {getFieldDecorator("firstname", {
+                    rules: [
+                      {
+                        required: true,
+                        message: "Нэрээ заавал оруулна уу! ",
                       },
                     ],
                   })(<Input placeholder="Нэр" />)}
                 </Form.Item>
-              </div>
+              </div>{" "}
+            </div>
+
+            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
+              <div className="form-group">
+                <Form.Item>
+                  {getFieldDecorator("email", {
+                    rules: [
+                      {
+                        required: true,
+                        type: "email",
+                        message: "Зөв имэйл оруулна уу! ",
+                      },
+                    ],
+                  })(<Input placeholder="Имэйл" />)}
+                </Form.Item>
+              </div>{" "}
             </div>
 
             <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
@@ -43,20 +74,14 @@ class Component extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: "Утсаа заавал оруулна уу! ",
-                      },
-                      {
                         pattern: new RegExp("^[0-9]*$"),
-                        message: "Утсаа зөв оруулна уу! ",
-                      },
-                      {
                         len: 8,
-                        message: "Утасны дугаар 8 оронтой байх ёстой! ",
+                        message: "Утсаа заавал оруулна уу! ",
                       },
                     ],
                   })(<Input placeholder="Утас 1" />)}
                 </Form.Item>
-              </div>
+              </div>{" "}
             </div>
 
             <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
@@ -66,17 +91,16 @@ class Component extends React.Component {
                     rules: [
                       {
                         pattern: new RegExp("^[0-9]*$"),
-                        message: "Утас зөв оруулна уу! ",
-                      },
-                      {
                         len: 8,
                         message: "Утасны дугаар 8 оронтой байх ёстой! ",
                       },
                     ],
                   })(<Input placeholder="Утас 2" />)}
                 </Form.Item>
-              </div>
+              </div>{" "}
             </div>
+
+            <div className="col-xl-4" style={{ marginBottom: "-9px" }} />
 
             <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
               <div className="form-group">
@@ -156,7 +180,7 @@ class Component extends React.Component {
               </div>{" "}
             </div>
 
-            <div className="col-xl-12">
+            <div className="col-xl-12" style={{ marginBottom: "-9px" }}>
               <div className="form-group">
                 <Form.Item>
                   {getFieldDecorator("homeaddress", {
@@ -172,11 +196,47 @@ class Component extends React.Component {
             </div>
           </div>
 
-          <div className="text-right">
-            <button className="btn btn-dark" onClick={this.handleSubmit}>
-              <span className="text-uppercase">Хадгалах</span>
-            </button>
+          <div className="col-xl-12">
+            <div className="form-group text text-right" style={{ marginRight: "-10px" }}>
+              <button
+                className="btn btn-dark"
+                onClick={this.handleSubmit}
+              >
+                <span className="text-uppercase">Хадгалах</span>
+              </button>
+            </div>
           </div>
+          <Divider />
+          <div className="row row10">
+            <div className="col-md-12">
+              <p>Имарт карт</p>
+            </div>
+          </div>
+
+          <Form>
+            <div className="row row10">
+              <div className="col-xl-6">
+                <Input placeholder="1234" disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
+              </div>
+
+              <div className="col-xl-6">
+                <Input placeholder="*****" disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
+              </div>
+            </div>
+
+            <div className="col-xl-12">
+              <div className="form-group text text-right" style={{ marginRight: "-10px", marginTop: "20px" }}>
+                <button
+                  className="btn btn-dark"
+                  onClick={this.handleSubmit}
+                  style={{ width: "108.28px" }}
+                >
+                  <span className="text-uppercase">Холбох</span>
+                </button>
+              </div>
+            </div>
+
+          </Form>
         </Form>
       );
     } catch (error) {
@@ -184,7 +244,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

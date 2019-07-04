@@ -14,6 +14,38 @@ class Component extends React.Component {
       }
     });
   }
+  renderDeliveryAddress = () => {
+    try {
+      const { useraddress } = this.props;
+      console.log("useraddress", useraddress.addrs);
+      return useraddress.addrs.map((item, index) => (
+        <tr key={index} style={{ width: "100%", padding: "70px" }}>
+          <td style={{ width: "5%" }}>{item.name}</td>
+          <td style={{ width: "5%" }}>{item.phone1}</td>
+          <td style={{ width: "15%" }}>{item.provincenm}</td>
+          <td style={{ width: "10%" }}>{item.districtnm}</td>
+          <td style={{ width: "10%" }}>{item.address}</td>
+          <td style={{ width: "5%" }}>
+            <div className="action">
+              <ul className="list-unstyled flex-this end">
+                <li>
+                  <a onClick={e => this.onDelete(e, item)}>
+                    <i
+                      className="fa fa-times"
+                      aria-hidden="true"
+                      style={{ color: "black" }}
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      ));
+    } catch (error) {
+      return console.log(error);
+    }
+  }
   renderAddress = () => {
     try {
       const { getFieldDecorator } = this.props.form;
@@ -177,6 +209,25 @@ class Component extends React.Component {
               <span className="text-uppercase">Хадгалах</span>
             </button>
           </div>
+
+          <div className="delivery-address">
+            <p className="title">
+              <span>Бүртгэлтэй хаягууд</span>
+            </p>
+            <table style={{ width: "100%" }} className="table bordered">
+              <div
+                className="frame frameMargin"
+                style={{
+                  maxHeight: "300px",
+                  overflow: "auto",
+                  minHeight: "auto",
+                }}
+              >
+                <tbody style={{ width: "100%" }}>{this.renderDeliveryAddress()}</tbody>
+              </div>
+            </table>
+          </div>
+
         </Form>
       );
     } catch (error) {
