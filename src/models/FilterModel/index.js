@@ -36,7 +36,7 @@ class Model extends BaseModel {
   });
   categoryFilter = ({ body } = {}) => asyncFn({
     body, url: `/categoryfilter`, method: 'POST', model: this.model.categoryfilter,
-  }, console.log(body));
+  });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
