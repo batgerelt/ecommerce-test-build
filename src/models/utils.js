@@ -6,6 +6,7 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
+  localStorage.clear();
   const localData = JSON.parse(localStorage.getItem('auth'));
   if (localData !== null) {
     bearerHeader += localData.access_token;

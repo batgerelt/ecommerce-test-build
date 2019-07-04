@@ -24,10 +24,6 @@ body {
   background: #fbd680; 
 }
 
-.activeLink{
-  color: #fbd680;
-}
-
 select {
   border: none;
   box-shadow: none;
