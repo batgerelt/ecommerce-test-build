@@ -69,17 +69,6 @@ class App extends Component {
     this.props.getNewProduct({});
   }
 
-  componentDidMount() {
-    // this.LoginModal.handleLoginModal();
-  }
-
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
-
   render() {
     return (
       <Router>
