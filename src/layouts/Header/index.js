@@ -76,7 +76,7 @@ class AppHeader extends Component {
   };
 
   togglePopup = () => {
-    this.props.onChange();
+    this.props.Mobilemenu.handleOpen();
   };
 
   toggleDropdown = () => {
