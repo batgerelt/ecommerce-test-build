@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-danger */
 import React from 'react';
@@ -31,7 +32,13 @@ class Page extends React.Component {
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (auth !== null) {
-      this.props.getUserInfo({ id: auth.customerInfo.id });
+      this.props.getUserInfo({ id: auth.customerInfo.id }).then((res) => {
+        if (res.payload.success) {
+          this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
+          this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
+        }
+      });
+      this.props.getSystemLocation();
     }
   }
 

@@ -53,7 +53,7 @@ class Model extends BaseModel {
   getUserInfo = ({ id } = {}) => asyncFn({ url: `/customer/address/${id}`, method: 'GET', model: this.model.useraddress });
   getSystemLocation = () => asyncFn({ url: `/systemlocation`, method: 'GET', model: this.model.systemlocation });
   getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
-  getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.districtlocation });
+  getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
