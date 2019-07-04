@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable react/no-string-refs */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { Radio } from "antd";
@@ -5,12 +7,14 @@ import { Radio } from "antd";
 const RadioGroup = Radio.Group;
 
 class PaymentPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 1,
-    };
-  }
+  state = {
+    value: 1,
+  };
+
+  componentWillUnmount() { this.props.onRef(null); }
+  componentDidMount() { this.props.onRef(this); }
+
+  handleGetValue = () => { return console.log('LoginRegister'); }
 
   render() {
     return (
@@ -38,7 +42,6 @@ class PaymentPanel extends React.Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   name="regno"
-                  // eslint-disable-next-line react/no-string-refs
                   ref="regno"
                   aria-describedby="emailHelp"
                   placeholder="Байгууллагын регистэр"
@@ -48,7 +51,6 @@ class PaymentPanel extends React.Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   name="regno"
-                  // eslint-disable-next-line react/no-string-refs
                   ref="regno"
                   readOnly
                   aria-describedby="emailHelp"
@@ -74,14 +76,12 @@ class PaymentPanel extends React.Component {
                     className="form-control"
                     id="exampleInputEmail1"
                     name="cardno"
-                    // eslint-disable-next-line react/no-string-refs
                     ref="cardno"
                     aria-describedby="emailHelp"
                     placeholder="Картын дугаар"
                   />
                   <input
                     type="password"
-                    // eslint-disable-next-line react/no-string-refs
                     ref="cardpass"
                     name="cardpass"
                     className="form-control"
@@ -111,7 +111,6 @@ class PaymentPanel extends React.Component {
                     id="exampleInputEmail1"
                     readOnly
                     name="cardInfo"
-                    // eslint-disable-next-line react/no-string-refs
                     ref="cardInfo"
                     aria-describedby="emailHelp"
                     placeholder="Картын дугаар"

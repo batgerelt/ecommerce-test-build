@@ -1,25 +1,29 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable array-callback-return */
 import React from "react";
 import { Form } from "antd";
 
 class PaymentTypePanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
-  /*   changeRadio = e => {
+  componentWillUnmount() { this.props.onRef(null); }
+  componentDidMount() { this.props.onRef(this); }
+
+  handleGetValue = () => { return console.log('PaymentPanel'); }
+
+  changeRadio = (e) => {
     const { paymentTypes, changeRadio } = this.props;
     if (paymentTypes !== 0) {
       paymentTypes.map((item, i) => {
-        if (item.id == e.target.id) {
+        if (item.id === e.target.id) {
           changeRadio(item);
-          //this.setState({ chosenPayment: item });
+          // this.setState({ chosenPayment: item });
         }
       });
     }
-  }; */
+  };
 
-  /* renderPaymentTypes = () => {
+  renderPaymentTypes = () => {
     const { paymentTypes, chosenPayment } = this.props;
     let tmp;
     if (paymentTypes.length !== 0) {
@@ -33,7 +37,7 @@ class PaymentTypePanel extends React.Component {
               className="form-check-input radio-button"
               type="radio"
               name="paymentRadios"
-              defaultChecked={item.id == 1}
+              defaultChecked={item.id === 1}
               id={item.id}
               onChange={this.changeRadio}
             />
@@ -55,14 +59,14 @@ class PaymentTypePanel extends React.Component {
     }
 
     return tmp;
-  }; */
+  };
 
   render() {
     const { onSubmit } = this.props;
     return (
       <Form onSubmit={e => onSubmit(e)} name="payment">
         <div className="content-container">
-          {/*  {this.renderPaymentTypes()} */}
+          {this.renderPaymentTypes()}
         </div>
         <hr />
         <div className="text-right">

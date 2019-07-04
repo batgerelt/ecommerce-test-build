@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/no-access-key */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Icon } from "antd";
+import { Icon, Form } from "antd";
 
-import { Category, MainMenu, UserButton, CartButton } from "../../components";
+import { Category, MainMenu, UserButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
@@ -31,8 +32,20 @@ class AppHeader extends Component {
 
   handleSearch = () => {
     const { word, keywordid } = this.state;
-
     keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
+
+    const params = {
+      catid: 0,
+      keywordid,
+      parameters: [],
+      minprice: 0,
+      maxprice: 0,
+      ordercol: 'price_asc',
+      rowcount: 20,
+      startswith: 0,
+    };
+
+    this.props.searchKeyWordFilter({ body: { ...params } });
   }
 
   handleChangeKeyWord = (e) => {
@@ -102,11 +115,11 @@ class AppHeader extends Component {
               </div>
               <div className="col-lg-6 col-md-6 d-none d-md-block  pad10">
                 <div className="text-right">
-                  <ul className="list-inline right-panel">
-                    <li className="list-inline-item">
-                      <select className="classic" defaultValue="0">
-                        <option value="0" defaultValue> МОН </option>
-                        <option value="1">ENG</option>
+                  <ul className="list-inline right-panel" style={{ boxShadow: 'none' }}>
+                    <li className="list-inline-item" style={{ boxShadow: 'none' }}>
+                      <select className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
+                        <option value="0" defaultValue style={{ boxShadow: 'none' }}> МОН </option>
+                        <option value="1" style={{ boxShadow: 'none' }}>ENG</option>
                       </select>
                     </li>
                     <UserButton {...this.props} />
@@ -168,7 +181,7 @@ class AppHeader extends Component {
                     <img alt="logo" src={process.env.IMAGE + staticinfo.logopath} />
                   </Link>
                   <div className="search">
-                    <form className={searchClass}>
+                    <Form className={searchClass}>
                       <ul className="list-unstyled list-float clr mainsearch">
                         <li>
                           <div
@@ -245,6 +258,7 @@ class AppHeader extends Component {
                           <Link
                             className="btn"
                             to={keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`}
+                            style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i
                               className="fa fa-search d-block d-sm-none"
@@ -252,7 +266,6 @@ class AppHeader extends Component {
                             />
                             <span
                               className="text-uppercase d-none d-sm-block"
-                              style={{ color: "black", boxShadow: 'none !important' }}
                               onClick={this.handleSearch}
                             >
                               Хайх
@@ -277,7 +290,7 @@ class AppHeader extends Component {
                           </Link>
                         </li>
                       </ul>
-                    </form>
+                    </Form>
                   </div>
                 </div>
               </div>

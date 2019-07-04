@@ -69,17 +69,6 @@ class App extends Component {
     this.props.getNewProduct({});
   }
 
-  componentDidMount() {
-    // this.LoginModal.handleLoginModal();
-  }
-
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
-  hadleLogin = () => {
-    this.LoginModal.handleLoginModal();
-  };
-
   render() {
     return (
       <Router>
@@ -107,7 +96,6 @@ class App extends Component {
             <Route path="/recipedetail/:id" component={RecipeDetail} />
             <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
-            <Route path="/search/:word" component={ProductList} />
             <Route path="/profile" component={Profile} />
             <Route path="/search/:id/:key" component={Search} />
           </Switch>

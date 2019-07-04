@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable radix */
 import React from "react";
 import { Collapse } from "antd";
@@ -6,20 +7,15 @@ import {
   PaymentTypePanel,
   PaymentPanel,
   DeliveryInfo,
+  DeliveryPanel,
 } from "./components";
 
-import {
-  CARD_TYPES,
-  CARD_LIST_TYPES,
-  CARD_NUMS_IN_ROW,
-} from "../../utils/Consts";
-
-// eslint-disable-next-line prefer-destructuring
 const Panel = Collapse.Panel;
 class Checkout extends React.Component {
   state = {
     activeKey: ["1"],
   };
+
   deliveryInfo = () => (
     <div className="title-container flex-space">
       <h5 className="title">
@@ -85,36 +81,39 @@ class Checkout extends React.Component {
                         activeKey={this.state.activeKey}
                         onChange={this.callback}
                       >
-                        <Panel
-                          showArrow={false}
-                          header={this.customerTab()}
-                          key="1"
-                        >
-                          <LoginRegisterPanel />
-                        </Panel>
-
+                        {
+                          localStorage.getItem("auth") === null ?
+                            <Panel
+                              showArrow={false}
+                              header={this.customerTab()}
+                              key="1"
+                            >
+                              <LoginRegisterPanel onRef={ref => (this.LoginRegisterPanel = ref)} {...this} {...this.props} />
+                            </Panel>
+                            : ''
+                        }
                         <Panel
                           header={this.deliveryInfo()}
                           showArrow={false}
                           // disabled={!isLoggedIn}
                           key={"2"}
                         >
-                          {/* <DeliveryPanel /> */}
+                          <DeliveryPanel onRef={ref => (this.DeliveryPanel = ref)} {...this} {...this.props} />
                         </Panel>
                         <Panel
                           header={this.paymentType()}
                           showArrow={false}
-                          key="3"
+                          key={"3"}
                         >
-                          <PaymentTypePanel />
+                          <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
                         </Panel>
                         <Panel
                           header={this.optionType()}
                           showArrow={false}
                           key="4"
-                          /*  disabled={
-                            this.state.collapseType === "payment" ? false : true
-                          } */
+                        /*  disabled={
+                          this.state.collapseType === "payment" ? false : true
+                        } */
                         >
                           <PaymentPanel />
                         </Panel>
@@ -123,7 +122,7 @@ class Checkout extends React.Component {
                   </div>
                 </div>
               </div>
-              <DeliveryInfo />
+              <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} />
             </div>
           </div>
         </div>

@@ -20,6 +20,7 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     localStorage.clear();
   }
+
   render() {
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (

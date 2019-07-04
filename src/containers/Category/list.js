@@ -127,7 +127,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleViewChange = (e) => {
-    e.preventDefault();
     this.setState({ isListViewOn: !this.state.isListViewOn });
   };
 
@@ -313,20 +312,18 @@ class CategoryInfo extends React.Component {
                     </Select>
                   </div>
                   <div className="form-group flex-this">
-                    <Link
-                      to=""
+                    <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
-                    </Link>
-                    <Link
-                      to=""
+                    </div>
+                    <div
                       className={this.state.isListViewOn ? "btn" : "btn active"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
-                    </Link>
+                    </div>
                   </div>
                 </form>
               </div>
