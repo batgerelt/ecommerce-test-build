@@ -17,6 +17,9 @@ class UserButton extends React.Component {
 
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
+  handleLogoutClick = () => {
+    localStorage.clear();
+  }
   render() {
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
@@ -26,7 +29,6 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-
     /* console.log(localStorage.getItem('auth'));
     localStorage.clear();
  */
@@ -45,7 +47,7 @@ class UserButton extends React.Component {
               <div className="profile-menu">
                 <ul className="list-unstyled">
                   <li>
-                    <Link to="#" className="flex-this">
+                    <Link to="/profile" className="flex-this">
                       <Avatar size="small" src={profile} shape="square" style={{ width: "30px" }} /><span>Профайл хуудас</span>
                     </Link>
                   </li>
@@ -75,7 +77,7 @@ class UserButton extends React.Component {
                     </Link>
                   </li>
                 </ul>
-                <div className="text-left" /* onClick={this.handleLogoutClick} */>
+                <div className="text-left" onClick={this.handleLogoutClick}>
                   <button className="btn btn-gray">
                     <i className="fa fa-chevron-left" aria-hidden="true" />
                     <span className="text-uppercase">Гарах</span>

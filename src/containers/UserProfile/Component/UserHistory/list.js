@@ -1,5 +1,6 @@
 import React from "react";
 import { Divider, Rate } from "antd";
+import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -13,20 +14,20 @@ class Component extends React.Component {
           <div className="product">
             <div className="flex-this">
               <div className="image-container default">
-                <a href={item.route ? item.route : " "}>
+                <Link to={item.route ? item.route : " "}>
                   <span
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + item.img})`,
                     }}
                   />
-                </a>
+                </Link>
               </div>
               <div className="info">
-                <a href={item.route ? item.route : " "}>
+                <Link to={item.route ? item.route : " "}>
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
-                </a>
+                </Link>
                 {item.rate ? (<Rate rate={item.rate} numOfVotes={item.rateusercnt} />) : (<Rate rate={0} numOfVotes={0} />)}
               </div>
             </div>
@@ -37,27 +38,27 @@ class Component extends React.Component {
           <div className="action">
             <ul className="list-unstyled flex-this end">
               <li>
-                <a>
+                <Link to="#">
                   <i
                     className="fa fa-heart"
                     aria-hidden="true"
                   /* onClick={() => this.oneSave(item)} */
                   />
-                </a>
+                </Link>
               </li>
               <li>
-                <a>
+                <Link to="#">
                   <i
                     className="fa fa-cart-plus"
                     aria-hidden="true"
                   /* onClick={() => this.handleSingleAddToCartClick(item)} */
                   />
-                </a>
+                </Link>
               </li>
               <li>
-                <a /* onClick={e => this.onDelete(e, item)} */>
+                <Link to="#" /* onClick={e => this.onDelete(e, item)} */>
                   <i className="fa fa-times" aria-hidden="true" />
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
