@@ -27,13 +27,13 @@ class Component extends React.Component {
           <td style={{ textAlign: "center" }}>{formatter.format(item.totalamount)}₮</td>
           <td style={{ textAlign: "center", paddingRight: "5px" }}>
             <Link
+              to={"/new"}
               style={{ color: "#feb415" }}
-              to={"/order/"}
               className="d-none d-lg-block d-xl-block"
             >
               <span>Цааш үзэх</span>
             </Link>
-            <Link style={{ color: "#feb415" }} to={"/order/"} className="d-lg-none d-xl-none" >
+            <Link to={"/order"} style={{ color: "#feb415" }} className="d-lg-none d-xl-none" >
               <Avatar size="small" src={arrow} />
             </Link>
           </td>

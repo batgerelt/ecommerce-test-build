@@ -10,7 +10,15 @@ class Component extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
+        const params = {
+          email: this.props.data[0].info.customerInfo.email,
+          oldPass: values.oldPassword,
+          NewPass: values.password,
+        };
+        console.log(params);
+        this.props.resetPassword({ body: params }).then((res) => {
+          console.log(res);
+        });
       }
     });
   }
