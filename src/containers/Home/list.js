@@ -202,7 +202,6 @@ class Homepage extends React.Component {
   }
 
   render() {
-    console.log('List', this.props);
     return (
       <div className="top-container">
         {this.renderMainBanner()}

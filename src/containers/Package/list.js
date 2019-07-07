@@ -33,6 +33,7 @@ class Discount extends React.Component {
                 type={CARD_LIST_TYPES.horizontal}
                 seq={widgetAll.find(i => i.slug === 'package').type}
                 items={packageAll.slice(0, 8)}
+                {...this.props}
               />
             }
           </div>
@@ -67,6 +68,7 @@ class Discount extends React.Component {
                 seq={widgetAll.find(i => i.slug === 'package').type}
                 items={packageAll.slice(8)}
                 second
+                {...this.props}
               />
             }
           </div>

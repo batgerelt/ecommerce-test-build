@@ -7,6 +7,7 @@ import {
   Product as ProductModel,
   Menu as MenuModel,
   Filter as FilterModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 
@@ -15,7 +16,7 @@ const mapStateToProps = state => ({
   ...state.product,
   ...state.menu,
   ...state.filter,
-
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProductModel,
     ...MenuModel,
     ...FilterModel,
+    ...CartModel,
   }, dispatch),
 });
 

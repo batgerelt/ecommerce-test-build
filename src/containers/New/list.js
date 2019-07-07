@@ -4,7 +4,7 @@ import React from "react";
 import { CardList, Banner, PageBanner } from "../../components";
 import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
 
-class Discount extends React.Component {
+class New extends React.Component {
   renderMainBanner = () => {
     try {
       const { newbanner, menuNew } = this.props;
@@ -38,6 +38,7 @@ class Discount extends React.Component {
               type={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={newproduct.slice(0, cardsLength)}
+              {...this.props}
             />
           </div>
         </div>
@@ -73,6 +74,7 @@ class Discount extends React.Component {
               items={newproduct.slice(cardsLength)}
               showAll
               cardType={CARD_TYPES.slim}
+              {...this.props}
             />
           </div>
         </div>
@@ -93,4 +95,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default New;

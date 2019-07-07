@@ -18,6 +18,7 @@ import {
   Category,
   ProductList,
   RecipeDetail,
+  Cart,
 } from "../";
 import { Header, Footer } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -85,6 +86,7 @@ class App extends Component {
             <Route path="/CategoryInfo/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/cart" component={Cart} />
           </Switch>
 
           {/** fixed footer */}

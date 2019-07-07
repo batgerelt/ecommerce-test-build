@@ -5,7 +5,7 @@ import { createLogger } from "redux-logger";
 import { persistReducer } from "redux-persist";
 import { applyMiddleware, createStore, compose } from "redux";
 
-import reducers from "./reducers";
+import reducers from "../store/reducer";
 
 const middleware = applyMiddleware(promise(), thunk, createLogger());
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

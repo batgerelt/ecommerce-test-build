@@ -10,6 +10,7 @@ import {
   Menu as MenuModel,
   Package as PackageModel,
   Widget as WidgetModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 
@@ -19,6 +20,7 @@ const mapStateToProps = state => ({
   ...state.menu,
   ...state.package,
   ...state.widget,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -28,6 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...MenuModel,
     ...PackageModel,
     ...WidgetModel,
+    ...CartModel,
   }, dispatch),
 });
 

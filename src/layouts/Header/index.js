@@ -106,7 +106,7 @@ class AppHeader extends Component {
                       <form>
                         <select className="classic" defaultValue="0">
                           <option value="0" defaultValue>
-                              МОН
+                            МОН
                           </option>
                           <option value="1">ENG</option>
                         </select>
@@ -208,12 +208,12 @@ class AppHeader extends Component {
                                       src={process.env.IMAGE + entry.icon}
                                       alt="category"
                                     />
-                                      ) : (
-                                        " "
-                                      )}
+                                  ) : (
+                                      " "
+                                    )}
                                   <span>{entry.name}</span>
                                 </a>
-                                  ))}
+                              ))}
                             </div>
                           </div>
                         </li>
@@ -237,7 +237,7 @@ class AppHeader extends Component {
                                     key={item.id}
                                     value={item.keyword}
                                   />
-                                    ))}
+                                ))}
                               </datalist>
                             </label>
                           </div>
@@ -246,10 +246,10 @@ class AppHeader extends Component {
                           <Link
                             className="btn"
                             to={
-                                this.state.word
-                                  ? `/search/${this.state.word}`
-                                  : ""
-                              }
+                              this.state.word
+                                ? `/search/${this.state.word}`
+                                : ""
+                            }
                             onClick={this.handleChange}
                           >
                             <i
@@ -260,7 +260,7 @@ class AppHeader extends Component {
                               className="text-uppercase d-none d-sm-block"
                               style={{ color: "black", boxShadow: 'none !important' }}
                             >
-                                Хайх
+                              Хайх
                             </span>
                           </Link>
                           <Link
@@ -277,7 +277,7 @@ class AppHeader extends Component {
                               className="text-uppercase d-none d-sm-block"
                               style={{ color: "black" }}
                             >
-                                Хаах
+                              Хаах
                             </span>
                           </Link>
                         </li>
@@ -317,23 +317,22 @@ class AppHeader extends Component {
                             <span className="text-uppercase">бараа</span>
                           </p>
                         </a>
-                        ) : (
-                          <a className="row10">
-                            {/* <Icon type="heart" theme="filled" /> */}
-                            <img
-                              src={heartImage}
-                              alt="wishlist"
-                              height="25px"
-                            />
-                            <p>
-                              <small>Хадгалсан</small>
-                              <span className="text-uppercase">бараа</span>
-                            </p>
-                          </a>
-                        )}
+                      ) : (
+                        <a className="row10">
+                          <img
+                            src={heartImage}
+                            alt="wishlist"
+                            height="25px"
+                          />
+                          <p>
+                            <small>Хадгалсан</small>
+                            <span className="text-uppercase">бараа</span>
+                          </p>
+                        </a>
+                      )}
                     </li>
                     <li className="list-inline-item">
-                      {/* <CartButton /> */}
+                      <CartButton {...this.props} />
                     </li>
                   </ul>
                 </div>
