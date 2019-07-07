@@ -1,3 +1,11 @@
+/**
+ * @author B.Batgerelt
+ * @email batgereltb@gmail.com
+ * @create date 2019-06-29 12:21:39
+ * @modify date 2019-06-29 12:21:39
+ * @desc [description]
+ */
+
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 

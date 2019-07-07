@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,7 +14,7 @@ const mapStateToProps = state => ({
   ...state.product,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     ...SearchModel,
     ...ProductModel,
@@ -21,16 +22,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  state = { brand: true, emart: true, attribute: true }
+  state = {
+    brand: true, emart: true, attribute: true, products: [],
+  }
 
   componentWillMount() {
-    this.props.searchProductBrand({ id: this.props.match.params.id }).then(r => this.setState({ brand: false }));
-    this.props.searchAttribute({ body: { brandid: 0, ismart: 1 } }).then(r => this.setState({ attribute: false }));
+    this.props.match.params.id ?
+      this.props.searchProductBrand({ id: this.props.match.params.id })
+        .then(res => this.setState({ products: res.payload.data })) :
+      this.props.getEmartProduct({ start: 0, rowcnt: 100 })
+        .then(res => this.setState({ products: res.payload.data }));
   }
 
   render() {
-    const { brand, emart, attribute } = this.state;
-    return brand || emart || attribute ? null : <List {...this.props} id={this.props.match.params.id} />;
+    return <List {...this.props} id={this.props.match.params.id} {...this.state} />;
   }
 }
 

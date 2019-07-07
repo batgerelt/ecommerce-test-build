@@ -12,6 +12,9 @@ import RecipeModel from "./RecipeModel/";
 import FilterModel from "./FilterModel/";
 import CartModel from "./CartModel/";
 import SearchModel from "./SearchModel/";
+import ProfileModel from "./ProfileModel";
+import CheckoutModel from "./CheckoutModel";
+import UserModel from "./UserModel";
 
 /** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -28,6 +31,9 @@ const Recipe = new RecipeModel({ model: 'recipe' });
 const Filter = new FilterModel({ model: 'filter' });
 const Cart = new CartModel({ model: 'cart' });
 const Search = new SearchModel({ model: 'search' });
+const Profile = new ProfileModel({ model: 'profile' });
+const Checkout = new CheckoutModel({ model: 'checkout' });
+const User = new UserModel({ model: 'user' });
 
 export {
   Auth,
@@ -44,4 +50,7 @@ export {
   Filter,
   Cart,
   Search,
+  Profile,
+  Checkout,
+  User,
 };

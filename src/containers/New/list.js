@@ -1,10 +1,35 @@
 /* eslint-disable radix */
 import React from "react";
+import InfiniteScroll from 'react-infinite-scroller';
 
-import { CardList, Banner, PageBanner } from "../../components";
+import { CardList, Banner, PageBanner, Loader } from "../../components";
 import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
 
 class New extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      start: 20,
+      isload: false,
+      products: props.newproduct,
+    };
+  }
+
+  componentDidMount() { this.setState({ isload: true }); }
+
+  handleNext = () => {
+    const { products } = this.state;
+    this.setState({ isload: false });
+    this.props.getNewProduct({ start }).then((res) => {
+      this.setState(
+        { products: products.concat(res.payload.data) },
+        () => this.setState({ isload: true }),
+      );
+      start += 20;
+    });
+  }
+
   renderMainBanner = () => {
     try {
       const { newbanner, menuNew } = this.props;
@@ -26,7 +51,7 @@ class New extends React.Component {
     try {
       const seq = "1,1";
       const cardTypes = seq.split(",");
-      const { newproduct } = this.props;
+      const { products } = this.state;
 
       let cardsLength = 0;
       cardTypes.map(i => cardsLength += parseInt(i) === CARD_TYPES.slim ? CARD_NUMS_IN_ROW.slim : CARD_NUMS_IN_ROW.wide);
@@ -37,7 +62,7 @@ class New extends React.Component {
             <CardList
               type={CARD_LIST_TYPES.horizontal}
               seq={seq}
-              items={newproduct.slice(0, cardsLength)}
+              items={products.slice(0, cardsLength)}
               {...this.props}
             />
           </div>
@@ -59,8 +84,7 @@ class New extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { newproduct } = this.props;
-
+      const { products, isload } = this.state;
       const seq = "1,1";
       const cardTypes = seq.split(",");
       let cardsLength = 0;
@@ -69,13 +93,22 @@ class New extends React.Component {
       return (
         <div className="section">
           <div className="container pad10">
-            <CardList
-              type={CARD_LIST_TYPES.horizontal}
-              items={newproduct.slice(cardsLength)}
-              showAll
-              cardType={CARD_TYPES.slim}
-              {...this.props}
-            />
+            <InfiniteScroll
+              threshold={100}
+              pageStart={0}
+              loadMore={this.handleNext}
+              hasMore={isload}
+              loader={<div style={{ display: 'flex', justifyContent: 'center' }} key={0}><Loader /></div>}
+              getScrollParent={() => this.scrollParentRef}
+            >
+              <CardList
+                type={CARD_LIST_TYPES.horizontal}
+                items={newproduct.slice(cardsLength)}
+                showAll
+                cardType={CARD_TYPES.slim}
+                {...this.props}
+              />
+            </InfiniteScroll>
           </div>
         </div>
       );
@@ -85,7 +118,7 @@ class New extends React.Component {
   }
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container" ref={ref => this.scrollParentRef = ref}>
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}

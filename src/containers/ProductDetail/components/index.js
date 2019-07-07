@@ -6,6 +6,7 @@ import Detail from "./Detail";
 import Delivery from "./Delivery";
 import Moreinfo from "./MoreInfo";
 import Comment from "./Comment";
+import Breadcrumb from "./Breadcrumb";
 
 export {
   Relational,
@@ -16,4 +17,5 @@ export {
   Delivery,
   Moreinfo,
   Comment,
+  Breadcrumb,
 };
