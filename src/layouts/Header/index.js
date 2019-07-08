@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Icon, Form } from "antd";
 
-import { Category, MainMenu, UserButton } from "../../components";
+import { Category, MainMenu, UserButton, CartButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
@@ -76,7 +76,7 @@ class AppHeader extends Component {
   };
 
   togglePopup = () => {
-    this.props.onChange();
+    this.props.Mobilemenu.handleOpen();
   };
 
   toggleDropdown = () => {
@@ -220,12 +220,12 @@ class AppHeader extends Component {
                                       src={process.env.IMAGE + entry.icon}
                                       alt="category"
                                     />
-                                      ) : (
-                                        " "
-                                      )}
+                                  ) : (
+                                      " "
+                                    )}
                                   <span>{entry.name}</span>
                                 </a>
-                                  ))}
+                              ))}
                             </div>
                           </div>
                         </li>
@@ -249,7 +249,7 @@ class AppHeader extends Component {
                                     key={item.id}
                                     value={item.keyword}
                                   />
-                                    ))}
+                                ))}
                               </datalist>
                             </label>
                           </div>
@@ -285,7 +285,7 @@ class AppHeader extends Component {
                               className="text-uppercase d-none d-sm-block"
                               style={{ color: "black" }}
                             >
-                                Хаах
+                              Хаах
                             </span>
                           </Link>
                         </li>
@@ -325,23 +325,22 @@ class AppHeader extends Component {
                             <span className="text-uppercase">бараа</span>
                           </p>
                         </a>
-                        ) : (
-                          <a className="row10">
-                            {/* <Icon type="heart" theme="filled" /> */}
-                            <img
-                              src={heartImage}
-                              alt="wishlist"
-                              height="25px"
-                            />
-                            <p>
-                              <small>Хадгалсан</small>
-                              <span className="text-uppercase">бараа</span>
-                            </p>
-                          </a>
-                        )}
+                      ) : (
+                        <a className="row10">
+                          <img
+                            src={heartImage}
+                            alt="wishlist"
+                            height="25px"
+                          />
+                          <p>
+                            <small>Хадгалсан</small>
+                            <span className="text-uppercase">бараа</span>
+                          </p>
+                        </a>
+                      )}
                     </li>
                     <li className="list-inline-item">
-                      {/* <CartButton /> */}
+                      <CartButton {...this.props} />
                     </li>
                   </ul>
                 </div>

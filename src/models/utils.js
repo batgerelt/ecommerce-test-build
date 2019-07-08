@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+import _ from 'lodash';
 import withQuery from 'with-query';
 import { message } from 'antd';
 
@@ -6,12 +7,19 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
-  /* localStorage.clear(); */
-  const localData = JSON.parse(localStorage.getItem('auth'));
+  const root = JSON.parse(localStorage.getItem('persist:root'));
+  const serializedAuth = root.auth;
+  const auth = JSON.parse(serializedAuth);
+
+  let localData = null;
+  if (!_.isEmpty(auth.data)) {
+    localData = auth.data[0].info;
+  }
 
   if (localData !== null) {
     bearerHeader += localData.access_token;
   }
+
   if (method === 'GET') {
     return fetch(withQuery(process.env.API + url, body), {
       credentials: 'include',

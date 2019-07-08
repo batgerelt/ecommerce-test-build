@@ -38,6 +38,7 @@ class Discount extends React.Component {
               type={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={discountproduct.slice(0, cardsLength)}
+              {...this.props}
             />
           </div>
         </div>
@@ -73,6 +74,7 @@ class Discount extends React.Component {
               items={discountproduct.slice(cardsLength)}
               showAll
               cardType={CARD_TYPES.slim}
+              {...this.props}
             />
           </div>
         </div>

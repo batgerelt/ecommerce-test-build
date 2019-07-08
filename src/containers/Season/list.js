@@ -65,12 +65,9 @@ class Season extends React.Component {
 
   notify = message => toast(message, { autoClose: 5000 });
 
-  fetchProductData = (
-    {
-      promoCatId, checkedList, minPrice, maxPrice, sort,
-    },
-    shouldChangeFilterSet = false,
-  ) => {
+  fetchProductData = ({
+    promoCatId, checkedList, minPrice, maxPrice, sort,
+  }) => {
     this.setState({ loading: true });
     const data = {
       promotid: promoCatId,
@@ -298,6 +295,7 @@ class Season extends React.Component {
           type={CARD_LIST_TYPES.list}
           items={products || []}
           cardType={CARD_TYPES.list}
+          {...this.props}
         />
       );
     } else {
@@ -307,6 +305,7 @@ class Season extends React.Component {
           items={products || []}
           showAll
           cardType={CARD_TYPES.wide}
+          {...this.props}
         />
       );
     }

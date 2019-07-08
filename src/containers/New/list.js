@@ -5,8 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { CardList, Banner, PageBanner, Loader } from "../../components";
 import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
 
-let start = 20;
-class Discount extends React.Component {
+class New extends React.Component {
   constructor(props) {
     super(props);
 
@@ -64,6 +63,7 @@ class Discount extends React.Component {
               type={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={products.slice(0, cardsLength)}
+              {...this.props}
             />
           </div>
         </div>
@@ -103,9 +103,10 @@ class Discount extends React.Component {
             >
               <CardList
                 type={CARD_LIST_TYPES.horizontal}
-                items={products.slice(cardsLength)}
+                items={newproduct.slice(cardsLength)}
                 showAll
                 cardType={CARD_TYPES.slim}
+                {...this.props}
               />
             </InfiniteScroll>
           </div>
@@ -127,4 +128,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default New;

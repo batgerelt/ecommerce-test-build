@@ -470,6 +470,12 @@
             .swiper-slide {
                 background-size: contain !important;
                 background-position: left;
+
+                img{
+                    width: 100%;
+                    height: auto;
+                    margin-top: 50%;
+                }
             }
         }
     }

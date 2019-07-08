@@ -6,6 +6,20 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
 
+import { Header, Footer, Mobilemenu } from "../../layouts";
+import { LoginModal } from "../../components/Login";
+import { RegistrationModal } from "../../components/Registration";
+import {
+  Category as CategoryModel,
+  Static as StaticModel,
+  Menu as MenuModel,
+  Auth as AuthModel,
+  Cart as CartModel,
+  Product as ProductModel,
+  Search as SearchModel,
+  Filter as FilterModel,
+  Recipe as RecipeModel,
+} from "../../models";
 import {
   Home,
   Discount,
@@ -19,23 +33,11 @@ import {
   Category,
   ProductList,
   RecipeDetail,
+  Cart,
   Search,
   PackageDetail,
   Profile,
 } from "../";
-import { Header, Footer } from "../../layouts";
-import { LoginModal } from "../../components/Login";
-import { RegistrationModal } from "../../components/Registration";
-import {
-  Category as CategoryModel,
-  Static as StaticModel,
-  Menu as MenuModel,
-  Auth as AuthModel,
-  Cart as CartModel,
-  Product as ProductModel,
-  Search as SearchModel,
-  Filter as FilterModel,
-} from "../../models";
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -53,6 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...ProductModel,
       ...SearchModel,
       ...FilterModel,
+      ...RecipeModel,
     },
     dispatch,
   ),
@@ -76,7 +79,7 @@ class App extends Component {
           {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
           <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
           <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
-
+          <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
 
           {/** fixed header */}
           <Header {...this.props} {...this} />
@@ -94,6 +97,7 @@ class App extends Component {
             <Route path="/category/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/cart" component={Cart} />
             <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
             <Route path="/profile" component={Profile} />

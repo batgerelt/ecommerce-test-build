@@ -15,15 +15,23 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Card extends React.Component {
   handleAddToCart = async (item) => {
-    // console.log(this.props.auth);
-    if (this.props.auth.isLogged) {
-      const added = await this.props.addToCart({ custid: 14, body: { skucd: item.cd } });
-      // console.log('added: ', added);
+    try {
+      if (this.props.auth.isLogged) {
+        await this.props.addAndSaveToDb(
+          this.props.auth.data[0].info.customerInfo.id,
+          item.cd,
+          item.addminqty || 1,
+          0,
+        );
+      } else {
+        this.props.increment(item);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
   render() {
-    // console.log('Card', this.props);
     const {
       type, item, isLastInRow, className,
     } = this.props;
