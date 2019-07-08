@@ -94,7 +94,6 @@ class AuthModel extends BaseModel {
         return {
           ...state,
           isLoading: false,
-          isLogged: true,
           data: action.payload.data,
         };
       case this.loggedModel.request:

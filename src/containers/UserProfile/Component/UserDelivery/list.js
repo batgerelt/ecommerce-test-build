@@ -12,9 +12,23 @@ class Component extends React.Component {
     return <span>{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>;
   };
   renderType = (item) => {
-    const it = item;
-    return <span>{it.statusnm}</span>;
-    /* style={{ padding: "5px 10px", backgroundColor: it.customerstatuscolor, color: "white", borderRadius: "15px" }} */
+    try {
+      const prod = item;
+      return (
+        <span
+          style={{
+            backgroundColor: item.customerstatuscolor,
+            padding: "5px 10px",
+            color: "white",
+            borderRadius: "15px",
+          }}
+        >
+          {prod.statusnm}
+        </span>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
   };
   renderDelivery = () => {
     try {
@@ -48,7 +62,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Үзсэн барааны түүх</span>
+            <span>Захиалгын түүх</span>
           </p>
           <div
             className="frame frameMargin"

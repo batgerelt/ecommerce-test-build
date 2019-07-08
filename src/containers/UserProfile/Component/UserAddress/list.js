@@ -1,23 +1,116 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin } from "antd";
+import { Form, message, Input, Select, Table, Divider, Tag } from "antd";
+
 import { Link } from "react-router-dom";
 
+const { Option } = Select.Option;
+const { Column, ColumnGroup } = Table;
 const formatter = new Intl.NumberFormat("en-US");
+const data = [
+  {
+    key: '1',
+    firstName: 'John',
+    lastName: 'Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park',
+    tags: ['nice', 'developer'],
+  },
+  {
+    key: '2',
+    firstName: 'Jim',
+    lastName: 'Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+    tags: ['loser'],
+  },
+  {
+    key: '3',
+    firstName: 'Joe',
+    lastName: 'Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+    tags: ['cool', 'teacher'],
+  },
+];
 
 class Component extends React.Component {
-  state = {};
+  state = { dis: "", loc: null };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
+        const param = {
+          custid: this.props.data[0].info.customerInfo.id,
+          locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
+          address: values.homeaddress,
+          name: values.name,
+          phonE1: values.phone1,
+          phonE2: values.phone2,
+        };
+        this.props.addAddress({ body: { ...param } }).then((res) => {
+          if (res.payload.success) {
+            message.success(res.payload.message);
+            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((response) => {
+              message.success(response.payload.message);
+            });
+          }
+        });
       }
     });
   }
+
+  renderLocation = (location) => {
+    try {
+      const loc = location;
+      return loc.map((item, index) => (
+        <Select.Option key={index} value={item.id}>{item.name}</Select.Option>
+      ));
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderCommit = (location) => {
+    try {
+      const loc = location;
+      return loc.map((item, index) => (
+        <Select.Option key={index} value={item.locid}>{item.name}</Select.Option>
+      ));
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  onchangesysloc = (e) => {
+    this.props.getDistrictLocation({ id: e });
+    this.props.getCommmitteLocation({ provid: e, distid: this.props.districtlocation[0].id });
+    this.setState({ dis: e });
+    this.setState({ loc: this.props.committelocation[0].id });
+  }
+
+  onchangesub = (e) => {
+    this.props.getCommmitteLocation({ provid: this.state.dis === "" ? "11" : this.state.dis, distid: e });
+    this.setState({ loc: this.props.committelocation[0].locid });
+  }
+
+  onchangesyscom = (e) => {
+    this.setState({ loc: e });
+  }
+
+  onDelete = (e, item) => {
+    this.props.deleteAddress({ id: item.id, custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+      if (res.payload.success) {
+        console.log(res.payload.success);
+        this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((response) => {
+          console.log(response);
+        });
+      }
+    });
+  }
+
   renderDeliveryAddress = () => {
     try {
       const { useraddress } = this.props;
-      console.log("useraddress", useraddress.addrs);
       return useraddress.addrs.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
           <td style={{ width: "5%" }}>{item.name}</td>
@@ -25,20 +118,14 @@ class Component extends React.Component {
           <td style={{ width: "15%" }}>{item.provincenm}</td>
           <td style={{ width: "10%" }}>{item.districtnm}</td>
           <td style={{ width: "10%" }}>{item.address}</td>
-          <td style={{ width: "5%" }}>
-            <div className="action">
-              <ul className="list-unstyled flex-this end">
-                <li>
-                  <a onClick={e => this.onDelete(e, item)}>
-                    <i
-                      className="fa fa-times"
-                      aria-hidden="true"
-                      style={{ color: "black" }}
-                    />
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
+            <Link to="#">
+              <i
+                className="fa fa-times"
+                aria-hidden="true"
+                style={{ color: "black" }}
+              />
+            </Link>
           </td>
         </tr>
       ));
@@ -114,23 +201,17 @@ class Component extends React.Component {
               <div className="form-group">
                 <Form.Item>
                   {getFieldDecorator("mainLocation", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Хот/аймаг сонгоно уу!",
-                      },
-                    ],
+                    initialValue: this.props.systemlocation === undefined ? null : this.props.systemlocation[16].id,
+                    rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
                   })(
                     <Select
                       placeholder="Хот/аймаг *"
                       showSearch
                       optionFilterProp="children"
                       className="col-md-12"
-                      onChange={e =>
-                        this.onChangeMainLoc(e, this.props.form)
-                      }
+                      onChange={this.onchangesysloc}
                     >
-                      {/* {this.renderMainLocation()} */}
+                      {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
                     </Select>,
                   )}
                 </Form.Item>
@@ -141,6 +222,7 @@ class Component extends React.Component {
               <div className="form-group">
                 <Form.Item>
                   {getFieldDecorator("subLocation", {
+                    initialValue: this.props.districtlocation === undefined ? null : this.props.districtlocation[0].id,
                     rules: [
                       {
                         required: true,
@@ -152,15 +234,9 @@ class Component extends React.Component {
                       showSearch
                       optionFilterProp="children"
                       placeholder="Дүүрэг/Сум *"
-                      onChange={e =>
-                        this.onChangeSubLoc(
-                          e,
-                          this.props.form.validateFields,
-                          undefined,
-                        )
-                      }
+                      onChange={this.onchangesub}
                     >
-                      {/* {this.renderSubLocation()} */}
+                      {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
                     </Select>,
                   )}
                 </Form.Item>
@@ -171,6 +247,7 @@ class Component extends React.Component {
               <div className="form-group">
                 <Form.Item>
                   {getFieldDecorator("commiteLocation", {
+                    initialValue: this.props.committelocation === undefined ? null : this.props.committelocation[0].locid,
                     rules: [
                       { required: true, message: "Хороо сонгоно уу!" },
                     ],
@@ -179,9 +256,9 @@ class Component extends React.Component {
                       placeholder="Хороо *"
                       showSearch
                       optionFilterProp="children"
-                      onChange={this.onStreet}
+                      onChange={this.onchangesyscom}
                     >
-                      {/* {this.renderCommiteLocation()} */}
+                      {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
                     </Select>,
                   )}
                 </Form.Item>
@@ -223,9 +300,28 @@ class Component extends React.Component {
                   minHeight: "auto",
                 }}
               >
-                <tbody style={{ width: "100%" }}>{this.renderDeliveryAddress()}</tbody>
+                {this.props.useraddress.addrs === undefined ? null : this.renderDeliveryAddress()}
               </div>
             </table>
+            {/* <Table dataSource={this.props.useraddress.addrs} footer={null} size="small">
+              <Table.Column dataIndex="name" />
+              <Table.Column dataIndex="phone1" />
+              <Table.Column dataIndex="provincenm" />
+              <Table.Column dataIndex="districtnm" />
+              <Table.Column dataIndex="address" />
+              <Table.Column
+                key="action"
+                render={(text, record) => (
+                  <Link to="#" onClick={e => this.onDelete(e)}>
+                    <i
+                      className="fa fa-times"
+                      aria-hidden="true"
+                      style={{ color: "black" }}
+                    />
+                  </Link>
+                )}
+              />
+            </Table> */}
           </div>
 
         </Form>
@@ -235,7 +331,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
@@ -243,7 +338,7 @@ class Component extends React.Component {
             <span>Хүргэлтийн хаяг</span>
           </p>
           <div className="user-profile-contain">
-            {this.renderAddress()}
+            {this.props.useraddress === undefined ? null : this.renderAddress()}
           </div>
         </div>
       </div>

@@ -88,11 +88,11 @@ class List extends React.Component {
 
                   <Switch>
                     <Route exact path="/profile" component={UserProfile} {...this} />
-                    <Route exact path="/profile/history" component={UserHistory} {...this} />
-                    <Route exact path="/profile/wish" component={UserWish} {...this} />
-                    <Route exact path="/profile/delivery" component={UserDelivery} {...this} />
-                    <Route exact path="/profile/address" component={UserAddress} {...this} />
-                    <Route exact path="/profile/password" component={UserPassword} {...this} />
+                    <Route path="/profile/history" component={UserHistory} {...this} />
+                    <Route path="/profile/wish" component={UserWish} {...this} />
+                    <Route path="/profile/delivery" component={UserDelivery} {...this} />
+                    <Route path="/profile/address" component={UserAddress} {...this} />
+                    <Route path="/profile/password" component={UserPassword} {...this} />
                   </Switch>
 
                 </div>
