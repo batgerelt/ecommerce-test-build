@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable import/first */
 import React, { PureComponent } from "react";
@@ -20,34 +21,17 @@ class Bookmarks extends PureComponent {
 
   // data nemeh heseg
   loadMoreRows = () => {
-    console.log('loadMoreRows');
     this.props.getNewProduct({ start }).then((res) => {
       this.setState({ products: this.state.products.concat(res.payload.data) });
       start += 20;
     });
   }
 
-  rowRenderer = ({ index, key, style }) => {
-    let content;
-
-    if (!this.isRowLoaded({ index })) {
-      content = (<Loader />);
-    } else {
-      content = (
-        <Card type={1} item={this.state.products[index]} />
-      );
-    }
-    console.log('style: ', style);
-
-    return (
-      <div
-        key={key}
-        style={style}
-      >
-        {content}
-      </div>
-    );
-  }
+  rowRenderer = ({ index, key, style }) => (
+    <div key={key} style={style} >
+      { !this.isRowLoaded({ index }) ? <Loader /> : <Card type={1} item={this.state.products[index]} /> }
+    </div>
+  )
 
   render() {
     return (
@@ -67,14 +51,14 @@ class Bookmarks extends PureComponent {
                         <List
                           autoHeight
                           rowRenderer={this.rowRenderer}
-                          // columnCount={5}
-                          // columnWidth={340}
+                          columnCount={5}
+                          columnWidth={340}
                           rowCount={this.state.products.length}
                           ref={registerChild}
                           height={height}
                           rowHeight={340}
                           width={width}
-                          // rowCount={this.state.products.length}
+                          // rowCount={this.state.products.length / 5}
                           onRowsRendered={onRowsRendered}
                           // rowRenderer={this.rowRenderer}
                           isScrolling={isScrolling}
@@ -94,3 +78,4 @@ class Bookmarks extends PureComponent {
 }
 
 export default Bookmarks;
+
