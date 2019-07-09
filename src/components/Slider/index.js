@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
-import Swiper from "react-id-swiper";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import Swiper from '@eredessil/react-id-swiper';
 import styles from "./styles.less";
 
 class Slider extends React.Component {

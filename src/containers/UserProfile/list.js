@@ -24,17 +24,7 @@ class List extends React.Component {
     /* var data = new FormData();
     data.append("uploadimage", fileList[0].originFileObj);
     data.append("custid", this.props.user.id);
-    api.customer
-      .uploadImage(data)
-      .then(res => {
-        console.log(res);
-        if (res.success == true) {
-          console.log(res);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      }); */
+    */
   };
   render() {
     const { match } = this.props;
@@ -58,7 +48,7 @@ class List extends React.Component {
                         <p className="text text-right" style={{ marginBottom: "-3px" }} >Таны мэдээлэл</p>
                         <Progress percent={50} strokeColor="#feb415" status="active" />
                       </div>
-                      <ul className="list-unstyled">
+                      <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                         <li>
                           <Link to={`${match.path}`} className="flex-this">
                             <Avatar size="small" shape="square" src={profile} className="marginRight10" /><span>Профайл хуудас</span>

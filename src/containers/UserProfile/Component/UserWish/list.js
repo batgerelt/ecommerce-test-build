@@ -6,6 +6,11 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {};
+  onDelete = (item) => {
+    this.props.deleteWish({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
+      this.props.getWish({ custid: this.props.data[0].info.customerInfo.id });
+    });
+  }
   renderProducts = () => {
     try {
       const { wish } = this.props;
@@ -47,7 +52,7 @@ class Component extends React.Component {
                 </Link>
               </li>
               <li>
-                <Link to="#" /* onClick={e => this.onDelete(e, item)} */>
+                <Link to="#" onClick={e => this.onDelete(item)}>
                   <i className="fa fa-times" aria-hidden="true" />
                 </Link>
               </li>

@@ -13,6 +13,7 @@ import {
 } from "../../utils/Consts";
 import { CardList, FilterSet, Loader } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
+import styles from "./style.less";
 
 class CategoryInfo extends React.Component {
   state = {
@@ -172,7 +173,6 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { key } = this.props.match.params;
       const { searchkeywordfilter } = this.props;
 
       let result = null;
@@ -258,7 +258,9 @@ class CategoryInfo extends React.Component {
             </div>
           </div>
 
-          <Spin spinning={this.state.loading} indicator={<Loader />} >{result}</Spin>
+          <div className={styles.center}>
+            <Spin spinning={this.state.loading} indicator={<Loader />} >{result}</Spin>
+          </div>
         </div>
       );
     } catch (error) {

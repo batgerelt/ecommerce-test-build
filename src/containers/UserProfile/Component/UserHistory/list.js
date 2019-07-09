@@ -1,11 +1,21 @@
 import React from "react";
-import { Divider, Rate } from "antd";
+import { Divider, Rate, message } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {};
+  onDelete = (item) => {
+    this.props.deleteHistory({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
+      this.props.getHistory({ custid: this.props.data[0].info.customerInfo.id });
+    });
+  }
+  addHistory = (item) => {
+    this.props.addWish({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
+      message.success(res.payload.message);
+    });
+  }
   renderProducts = () => {
     try {
       const { history } = this.props;
@@ -42,7 +52,7 @@ class Component extends React.Component {
                   <i
                     className="fa fa-heart"
                     aria-hidden="true"
-                  /* onClick={() => this.oneSave(item)} */
+                    onClick={() => this.addHistory(item)}
                   />
                 </Link>
               </li>
@@ -56,7 +66,7 @@ class Component extends React.Component {
                 </Link>
               </li>
               <li>
-                <Link to="#" /* onClick={e => this.onDelete(e, item)} */>
+                <Link to="#" onClick={e => this.onDelete(item)}>
                   <i className="fa fa-times" aria-hidden="true" />
                 </Link>
               </li>

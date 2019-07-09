@@ -34,6 +34,7 @@ class Discount extends React.Component {
               type={CARD_LIST_TYPES.vertical}
               cardsInCol={2}
               items={recipeproduct.slice(0, cardsInCol * 3)}
+              {...this.props}
             />
           </div>
         </div>
@@ -64,6 +65,7 @@ class Discount extends React.Component {
             <CardList
               type={CARD_LIST_TYPES.vertical}
               items={recipeproduct.slice(cardsInCol * 3)}
+              {...this.props}
             />
           </div>
         </div>

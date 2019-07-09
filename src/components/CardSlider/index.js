@@ -1,8 +1,8 @@
 import React from "react";
-import Swiper from "react-id-swiper";
 import PropTypes from "prop-types";
-import Card from "../Card";
 
+import Swiper from '@eredessil/react-id-swiper';
+import Card from "../Card";
 import { CARD_TYPES } from "../../utils/Consts";
 
 class CardSlider extends React.Component {
