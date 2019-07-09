@@ -353,7 +353,7 @@ class Card extends React.Component {
                 <Link
                   to=""
                   className="wishlist"
-                  onClick={this.handleSave(item)}
+                  // onClick={this.handleSave(item)}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </Link>
