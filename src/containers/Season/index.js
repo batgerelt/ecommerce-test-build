@@ -7,6 +7,7 @@ import {
   Product as ProductModel,
   Menu as MenuModel,
   Filter as FilterModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 
@@ -15,18 +16,17 @@ const mapStateToProps = state => ({
   ...state.product,
   ...state.menu,
   ...state.filter,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...bindActionCreators(
-    {
-      ...BannerModel,
-      ...ProductModel,
-      ...MenuModel,
-      ...FilterModel,
-    },
-    dispatch,
-  ),
+  ...bindActionCreators({
+    ...BannerModel,
+    ...ProductModel,
+    ...MenuModel,
+    ...FilterModel,
+    ...CartModel,
+  }, dispatch),
 });
 
 class Page extends React.Component {

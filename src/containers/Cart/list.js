@@ -6,6 +6,88 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
+  handleDelClick = product => (e) => {
+    e.preventDefault();
+
+    let { products } = this.props;
+
+    let found = products.find(prod => prod.cd === product.cd);
+    if (found) {
+      if (this.props.isLogged) {
+        this.props.deleteFromDb(
+          this.props.data[0].info.customerInfo.id,
+          found.cd,
+        );
+      } else {
+        this.props.deleteFromLocal(product);
+      }
+    } else {
+      throw new Error('Бараа олдсонгүй!');
+    }
+  };
+
+  handleInputChange = product => (e) => {
+    let { products } = this.props;
+
+    let found = products.find(prod => prod.cd === product.cd);
+    if (found) {
+      found.qty = parseInt(e.target.value);
+
+      if (this.props.isLogged) {
+        this.props.modifyAndSaveToDb(
+          this.props.data[0].info.customerInfo.id,
+          found.cd,
+          found.qty,
+          1,
+        );
+      } else {
+        this.props.replaceReduxStoreBy(found);
+      }
+    } else {
+      throw new Error('Бараа олдсонгүй!');
+    }
+  };
+
+  handleIncClick = (product) => {
+    let { products } = this.props;
+
+    let found = products.find(prod => prod.cd === product.cd);
+    if (found) {
+      if (this.props.isLogged) {
+        this.props.addAndSaveToDb(
+          this.props.data[0].info.customerInfo.id,
+          found.cd,
+          found.qty + (found.addminqty || 1),
+          1,
+        );
+      } else {
+        this.props.increment(found);
+      }
+    } else {
+      throw new Error('Бараа олдсонгүй!');
+    }
+  };
+
+  handleDecClick = (product) => {
+    let { products } = this.props;
+
+    let found = products.find(prod => prod.cd === product.cd);
+    if (found) {
+      if (this.props.isLogged) {
+        this.props.reduceAndSaveToDb(
+          this.props.data[0].info.customerInfo.id,
+          found.cd,
+          found.qty - (found.addminqty || 1),
+          1,
+        );
+      } else {
+        this.props.decrement(found);
+      }
+    } else {
+      throw new Error('Бараа олдсонгүй!');
+    }
+  };
+
   getUnitPrice = (product) => {
     if (product.sprice) {
       if (
@@ -101,19 +183,34 @@ class Cart extends React.Component {
     );
   };
 
-  renderTotalPrice = (product) => {
-    const price = this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
+  renderTotalQty = () => {
+    const { products } = this.props;
 
-    return (
-      <p className="price total">
-        <strong>{formatter.format(price * product.qty)}₮</strong>
-      </p>
-    );
+    return products && products.reduce((acc, cur) => acc + cur.qty, 0);
+  };
+
+  renderTotalPrice = (product = null) => {
+    if (product) {
+      const price = this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
+
+      return (
+        <p className="price total">
+          <strong>{formatter.format(price * product.qty)}₮</strong>
+        </p>
+      );
+    }
+
+    const { products } = this.props;
+
+    return products && products.reduce((acc, cur) => {
+      const unitPrice = this.getUnitPrice(cur).sprice || this.getUnitPrice(cur).price;
+      return acc + (unitPrice * cur.qty);
+    }, 0);
   };
 
   renderContent = () => {
     try {
-      const products = this.props.cartProducts;
+      let { products } = this.props;
 
       let content = (
         <div style={{ textAlign: "center" }}>
@@ -175,7 +272,7 @@ class Cart extends React.Component {
                       <div className="input-group e-input-group">
                         <div className="input-group-prepend" id="button-addon4">
                           <button
-                            onClick={() => this.handleDecrementClick(prod)}
+                            onClick={() => this.handleDecClick(prod)}
                             className="btn"
                             type="button"
                           >
@@ -188,13 +285,13 @@ class Cart extends React.Component {
                           value={prod.qty}
                           name="productQty"
                           maxLength={5}
-                          onChange={this.handleQtyChange(prod)}
-                          onKeyDown={this.handleQtyKeyDown(prod)}
-                          onBlur={this.handleQtyBlur(prod)}
+                          onChange={this.handleInputChange(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
-                            onClick={() => this.handleIncrementClick(prod)}
+                            onClick={() => this.handleIncClick(prod)}
                             className="btn"
                             type="button"
                           >
@@ -217,7 +314,7 @@ class Cart extends React.Component {
                           </Link>
                         </li>
                         <li>
-                          <Link to="" onClick={this.handleRemoveClick(prod)}>
+                          <Link to="" onClick={this.handleDelClick(prod)}>
                             <i className="fa fa-times" aria-hidden="true" />{" "}
                             <span>Устгах</span>
                           </Link>
@@ -265,7 +362,6 @@ class Cart extends React.Component {
                     <Link
                       to=""
                       className="btn btn-border pull-right"
-                      onClick={e => this.handleClearClick(e)}
                     >
                       <i className="fa fa-trash fa-2x" aria-hidden="true" />{" "}
                       <span className="text-uppercase">Сагс хоослох</span>
@@ -283,7 +379,7 @@ class Cart extends React.Component {
                   <div className="block cart-info-container">
                     <p className="count">
                       <span>Нийт бараа: </span>
-                      {/* <span>{this.props.cart.totalQty}ш</span> */}
+                      <span>{this.renderTotalQty()}ш</span>
                     </p>
                     {/* {deliveryInfo && (
                       <p className="delivery">
@@ -294,7 +390,7 @@ class Cart extends React.Component {
                     <p className="total flex-space">
                       <span>Нийт дүн:</span>
                       <strong>
-                        {/* {formatter.format(this.props.cart.totalPrice)}₮ */}
+                        {formatter.format(this.renderTotalPrice())}₮
                       </strong>
                     </p>
                     {/* <Link

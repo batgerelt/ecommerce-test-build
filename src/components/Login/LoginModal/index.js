@@ -12,6 +12,13 @@ class LoginModal extends React.Component {
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
 
+  asyncForEach = async (array, callback) => {
+    for (let index = 0; index < array.length; index++) {
+      // eslint-disable-next-line no-await-in-loop
+      await callback(array[index], index, array);
+    }
+  }
+
   handleLoginModal = () => {
     this.setState({ visible: !this.state.visible });
   }
@@ -28,16 +35,32 @@ class LoginModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.props.login({ body: { ...values } }).then((res) => {
-          if (res.payload.success) {
-            localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
-            this.handleLoginModal();
-          } else {
-            message.success(res.payload.message);
-          }
-        });
+        try {
+          await this.props.login({ body: { ...values } });
+
+          let products = this.props.cart.products.map(prod => ({
+            skucd: prod.cd,
+            qty: prod.qty,
+          }));
+
+          const custId = this.props.auth.data[0].info.customerInfo.id;
+
+          await this.props.saveAllToDb({
+            custid: custId,
+            iscart: 0,
+            body: products,
+          });
+
+          products = await this.props.getProducts(custId);
+
+          products.payload.data.forEach((savedProd) => {
+            this.props.replaceReduxStoreBy(savedProd);
+          });
+        } catch (e) {
+          console.log(e);
+        }
       }
     });
   };

@@ -65,7 +65,6 @@ class Component extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

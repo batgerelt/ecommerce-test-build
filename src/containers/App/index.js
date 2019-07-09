@@ -18,6 +18,7 @@ import {
   Product as ProductModel,
   Search as SearchModel,
   Filter as FilterModel,
+  Recipe as RecipeModel,
 } from "../../models";
 import {
   Home,
@@ -32,9 +33,11 @@ import {
   Category,
   ProductList,
   RecipeDetail,
+  Cart,
   Search,
   PackageDetail,
   Profile,
+  PassReset,
 } from "../";
 
 import "../../scss/app.scss";
@@ -53,6 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...ProductModel,
       ...SearchModel,
       ...FilterModel,
+      ...RecipeModel,
     },
     dispatch,
   ),
@@ -94,10 +98,12 @@ class App extends Component {
             <Route path="/category/:id" component={Category} />
             <Route path="/brand/:id" component={ProductList} />
             <Route path="/recipedetail/:id" component={RecipeDetail} />
+            <Route path="/cart" component={Cart} />
             <Route path="/packagedetail/:id" component={PackageDetail} />
             <Route path="/emart" component={ProductList} />
             <Route path="/profile" component={Profile} />
             <Route path="/search/:id/:key" component={Search} />
+            <Route path="/ResetPassword/:key" component={PassReset} />
           </Switch>
 
           {/** fixed footer */}
