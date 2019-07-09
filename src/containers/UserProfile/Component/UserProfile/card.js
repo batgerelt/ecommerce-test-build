@@ -9,27 +9,15 @@ class Component extends React.Component {
   componentWillMount() { }
 
   handleSubmit = (e) => {
-    /* e.preventDefault();
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const param = {
-          id: this.props.userInfo.info.id,
-          username: this.props.userInfo.info.username,
-          firstname: values.firstname,
-          imgnm: this.props.userInfo.info.imgnm,
-          lastname: values.lastname,
-          email: values.email,
-          phonE1: values.phone1,
-          phonE2: values.phone2,
-          locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
-          address: values.address,
-          adrsid: this.props.useraddress.main.id,
-        };
-        this.props.updateMain({ body: param }).then((res) => {
-          message.success(res.payload.message);
+        console.log(this.props);
+        this.props.emartCard({ custid: this.props.data[0].info.customerInfo.id, cardno: values.cardno, pincode: values.password }).then((res) => {
+          console.log(res);
         });
       }
-    }); */
+    });
   }
 
   render() {
@@ -38,36 +26,33 @@ class Component extends React.Component {
       <Form>
         <div className="row row10">
           <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
-            <Input placeholder="Картын дугаар" />
-          </div>
-          <div className="col-xl-12" style={{ marginBottom: "-9px" }}>
             <div className="form-group">
               <Form.Item>
-                {getFieldDecorator("cardNo", {
+                {getFieldDecorator("cardno", {
                   rules: [
                     {
                       required: true,
-                      message: "Гэрийн хаягаа заавал оруулна уу!",
+                      message: "Картын дугаар оруулна уу! ",
                     },
                   ],
                 })(<Input placeholder="Картын дугаар" />)}
               </Form.Item>
-            </div>
+            </div>{" "}
           </div>
 
-          <div className="col-xl-12" style={{ marginBottom: "-9px" }}>
+          <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
             <div className="form-group">
               <Form.Item>
                 {getFieldDecorator("password", {
                   rules: [
                     {
                       required: true,
-                      message: "Гэрийн хаягаа заавал оруулна уу!",
+                      message: "Нууц үгээ оруулна уу! ",
                     },
                   ],
-                })(<Input placeholder="Гэрийн хаяг" type="password" />)}
+                })(<Input.Password placeholder="Нууц үг" />)}
               </Form.Item>
-            </div>
+            </div>{" "}
           </div>
 
           <div className="col-xl-12">
@@ -75,6 +60,7 @@ class Component extends React.Component {
               <button
                 className="btn btn-dark marginBottom"
                 style={{ width: "108.28px" }}
+                onClick={this.handleSubmit}
               >
                 <span className="text-uppercase">Холбох</span>
               </button>

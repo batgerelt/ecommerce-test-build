@@ -18,6 +18,8 @@ class Component extends React.Component {
         console.log(params);
         this.props.resetPassword({ body: params }).then((res) => {
           console.log(res);
+          /* this.props.form.resetFields();
+        console.log('this.props.form: ', this.props.form); */
         });
       }
     });

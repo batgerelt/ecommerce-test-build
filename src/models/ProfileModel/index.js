@@ -97,6 +97,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'changepassword'),
           error: this.buildActionName('error', data.model, 'changepassword'),
         },
+        emartCard: {
+          request: this.buildActionName('request', data.model, 'emartcard'),
+          response: this.buildActionName('response', data.model, 'emartcard'),
+          error: this.buildActionName('error', data.model, 'emartcard'),
+        },
       };
     }
   }
@@ -105,7 +110,7 @@ class Model extends BaseModel {
   getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
   getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
   // GET
-  getUserInfo = ({ id } = {}) => asyncFn({ url: `/customer/address/${id}`, method: 'GET', model: this.model.useraddress });
+  getUserInfo = ({ custid } = {}) => asyncFn({ url: `/customer/address/${custid}`, method: 'GET', model: this.model.useraddress });
   getCustomer = ({ custid }) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.customer });
   getHistory = ({ custid }) => asyncFn({ url: `/customer/viewlist/${custid}`, method: 'GET', model: this.model.history });
   getWish = ({ custid }) => asyncFn({ url: `/customer/wishlist/${custid}`, method: 'GET', model: this.model.wish });
@@ -120,6 +125,7 @@ class Model extends BaseModel {
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
   });
+  emartCard = ({ custid, cardno, pincode }) => asyncFn({ url: `/customer/card/${custid}/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
   changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword });
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
@@ -201,6 +207,13 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.changePassword.response:
         return { ...state, changePass: action.payload };
+      // PUT Emart card
+      case this.model.emartCard.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.emartCard.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.emartCard.response:
+        return { ...state, emartCard: action.payload };
       // LOCATION
       // GET COMMITTE LOCATION
       case this.model.committelocation.request:

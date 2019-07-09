@@ -24,7 +24,6 @@ class UserProfile extends React.Component {
     this.props.getHistory({ custid: this.props.data[0].info.customerInfo.id });
   }
   render() {
-    console.log("this", this.props);
     return <List {...this.props} />;
   }
 }

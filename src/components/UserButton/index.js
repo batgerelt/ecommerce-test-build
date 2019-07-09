@@ -37,7 +37,7 @@ class UserButton extends React.Component {
       const user = this.props.auth.data[0].info.customerInfo;
       content = (
         <li className="list-inline-item user" onClick={this.showpro}>
-          <Link to="/profile" className="flex-this">
+          <Link to="#" className="flex-this">
             <div className="image-container default">
               <span className="image" style={{ backgroundImage: `url(${avatar})` }} />
             </div>
