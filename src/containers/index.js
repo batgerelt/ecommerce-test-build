@@ -17,6 +17,7 @@ import RecipeDetail from "./RecipeDetail";
 import Search from "./Search";
 import PackageDetail from "./PackageDetail";
 import Profile from "./UserProfile";
+import PassReset from "./PasswordReset";
 
 export {
   App,
@@ -38,4 +39,5 @@ export {
   Search,
   PackageDetail,
   Profile,
+  PassReset,
 };

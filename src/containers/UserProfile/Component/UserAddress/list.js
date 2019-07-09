@@ -34,7 +34,12 @@ const data = [
 ];
 
 class Component extends React.Component {
-  state = { dis: "", loc: null };
+  state = {
+    dis: "",
+    loc: null,
+    id: this.props.data[0].info.customerInfo.id,
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -50,9 +55,7 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((response) => {
-              message.success(response.payload.message);
-            });
+            this.props.getUserInfo({ id: this.state.id });
           }
         });
       }
@@ -331,6 +334,7 @@ class Component extends React.Component {
     }
   };
   render() {
+    console.log("id", this.state.id);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

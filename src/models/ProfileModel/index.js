@@ -92,6 +92,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'updatemain'),
           error: this.buildActionName('error', data.model, 'updatemain'),
         },
+        changePassword: {
+          request: this.buildActionName('request', data.model, 'changepassword'),
+          response: this.buildActionName('response', data.model, 'changepassword'),
+          error: this.buildActionName('error', data.model, 'changepassword'),
+        },
       };
     }
   }
@@ -115,6 +120,7 @@ class Model extends BaseModel {
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
   });
+  changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword });
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
@@ -188,6 +194,13 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.updateMain.response:
         return { ...state, response: action.payload.data };
+      // PUT Change password
+      case this.model.changePassword.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.changePassword.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.changePassword.response:
+        return { ...state, changePass: action.payload };
       // LOCATION
       // GET COMMITTE LOCATION
       case this.model.committelocation.request:
