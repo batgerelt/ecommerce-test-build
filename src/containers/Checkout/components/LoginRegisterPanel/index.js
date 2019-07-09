@@ -10,10 +10,13 @@ class LoginRegisterPanel extends React.Component {
   state = {
     loading: false,
     defaultActiveKey: 1,
+    collapse: false,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
+  componentDidMount() {
+    this.props.onRef(this);
+  }
 
   changeTab = (e) => {
     this.setState({ defaultActiveKey: e });

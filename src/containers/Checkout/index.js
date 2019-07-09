@@ -26,18 +26,16 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Page extends React.Component {
+  state = {
+    loading: false,
+  }
   componentWillMount() {
     let auth = JSON.parse(localStorage.getItem("auth"));
     this.props.getPaymentTypes();
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (auth !== null) {
-      this.props.getUserInfo({ id: auth.customerInfo.id }).then((res) => {
-        if (res.payload.success) {
-          this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
-          this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
-        }
-      });
+      this.props.getUserInfo({ custid: auth.customerInfo.id });
       this.props.getSystemLocation();
     }
   }

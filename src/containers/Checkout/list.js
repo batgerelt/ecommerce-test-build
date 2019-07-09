@@ -14,7 +14,11 @@ const Panel = Collapse.Panel;
 class Checkout extends React.Component {
   state = {
     activeKey: ["1"],
+    customerInfo: null,
   };
+
+  componentDidMount() {
+  }
 
   deliveryInfo = () => (
     <div className="title-container flex-space">
@@ -115,7 +119,7 @@ class Checkout extends React.Component {
                           this.state.collapseType === "payment" ? false : true
                         } */
                         >
-                          <PaymentPanel />
+                          <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />
                         </Panel>
                       </Collapse>
                     </div>
