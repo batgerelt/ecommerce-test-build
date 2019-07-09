@@ -33,7 +33,7 @@ class UserButton extends React.Component {
     /* console.log(localStorage.getItem('auth'));
     localStorage.clear();
  */
-    if (this.props.auth.isLogged) {
+    /* if (this.props.auth.isLogged) {
       const user = this.props.auth.data[0].info.customerInfo;
       content = (
         <li className="list-inline-item user" onClick={this.showpro}>
@@ -121,7 +121,7 @@ class UserButton extends React.Component {
           </div>
         </li>
       );
-    }
+    } */
 
     return content;
   }

@@ -19,7 +19,6 @@ const request = ({
   if (localData !== null) {
     bearerHeader += localData.access_token;
   }
-
   if (method === 'GET') {
     return fetch(withQuery(process.env.API + url, body), {
       credentials: 'include',
