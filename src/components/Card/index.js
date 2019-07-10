@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { Rate } from "antd";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
@@ -14,17 +16,57 @@ import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 const formatter = new Intl.NumberFormat("en-US");
 
 class Card extends React.Component {
-  handleAddToCart = async (item) => {
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: 'top-center',
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleIncrement = async (item) => {
     try {
       if (this.props.auth.isLogged) {
-        await this.props.addAndSaveToDb(
-          this.props.auth.data[0].info.customerInfo.id,
-          item.cd,
-          item.addminqty || 1,
-          0,
-        );
+        // eslint-disable-next-line no-lonely-if
+        if (item.cd) {
+          const result = await this.props.incrementProductRemotely({
+            custid: this.props.auth.data[0].info.customerInfo.id,
+            skucd: item.cd,
+            qty: item.addminqty || 1,
+            iscart: 0,
+          });
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+        } else if (item.recipeid) {
+          //
+        } else if (item.id) {
+          //
+        } else {
+          //
+        }
       } else {
-        this.props.increment(item);
+        // eslint-disable-next-line no-lonely-if
+        if (item.cd) {
+          this.props.incrementProductLocally(item);
+        } else if (item.recipeid) {
+          const result = await this.props.getRecipeProducts({
+            id: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.incrementRecipeProductsLocally(result.payload.data[0].products);
+        } else if (item.id) {
+          //
+        } else {
+          //
+        }
       }
     } catch (e) {
       console.log(e);
@@ -103,7 +145,7 @@ class Card extends React.Component {
           <i className="fa fa-heart-o" aria-hidden="true" />
         </button>
         <button
-          onClick={() => this.handleAddToCart(item)}
+          onClick={() => this.handleIncrement(item)}
           className="btn btn-link"
           disabled={false}
         >
@@ -111,6 +153,7 @@ class Card extends React.Component {
         </button>
       </div>
     );
+
     switch (type) {
       case CARD_TYPES.slim:
         return (
@@ -366,7 +409,7 @@ class Card extends React.Component {
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </Link>
                 <button
-                  onClick={this.handleAddToCart(item)}
+                  onClick={this.handleIncrement(item)}
                   style={{
                     fontSize: "1.1rem",
                   }}

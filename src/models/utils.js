@@ -7,17 +7,11 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
-  const root = JSON.parse(localStorage.getItem('persist:root'));
-  const serializedAuth = root.auth;
-  const auth = JSON.parse(serializedAuth);
+  // bitgii hamaagvi uurchluud baildaa uur zunduu gazar ashiglchihsn bgaa ymiig !!!!!!!!!!!!!!!!!!!!
+  const root = JSON.parse(localStorage.getItem('auth'));
 
-  let localData = null;
-  if (!_.isEmpty(auth.data)) {
-    localData = auth.data[0].info;
-  }
-
-  if (localData !== null) {
-    bearerHeader += localData.access_token;
+  if (root !== null) {
+    bearerHeader += root.access_token;
   }
   if (method === 'GET') {
     return fetch(withQuery(process.env.API + url, body), {
@@ -31,7 +25,7 @@ const request = ({
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
-        localStorage.clear();
+        // localStorage.clear();
       }
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -96,7 +90,6 @@ const asyncFn = ({
       if (!data) {
         throw new Error('no data provided');
       }
-
       return dispatch({
         type: model.response,
         payload: data,

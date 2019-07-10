@@ -1,19 +1,20 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, Rate } from "antd";
+import { Button, Rate, message } from "antd";
+import moment from "moment";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
     productQty: this.props.detail.saleminqty || 1,
+    rate: 0,
   };
 
   renderDetails = () => {
     const { detail, categorymenu } = this.props;
     const selectedCat =
       detail.catid && categorymenu.find(cat => cat.id === detail.catid);
-
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
@@ -34,14 +35,14 @@ class Detail extends Component {
           <div className="main-rating">
             <Rate
               allowHalf
-              defaultValue={this.getRateValue()}
+              value={detail.rate ? detail.rate / 2 : 0}
               onChange={this.handleRateChange}
             />
 
             <p className="text">
               (
-              {!!detail.rate && !!detail.rate.length
-                ? `${detail.rate.length} хүн үнэлгээ өгсөн байна`
+              {detail.rate_user_cnt
+                ? `${detail.rate_user_cnt} хүн үнэлгээ өгсөн байна`
                 : "Одоогоор үнэлгээ өгөөгүй байна"}
               )
             </p>
@@ -59,7 +60,20 @@ class Detail extends Component {
   };
 
   handleRateChange = (e) => {
-    console.log(e);
+    const {
+      isLoggedIn, detail, addRate, getProductDetail,
+    } = this.props;
+    if (isLoggedIn !== null) {
+      let custid = isLoggedIn.customerInfo.id;
+      let skucd = detail.cd;
+      let rate = e / 2;
+      addRate({ custid, skucd, rate }).then((res) => {
+        if (res.payload.success) {
+          message.success(res.payload.message);
+          getProductDetail({ skucd });
+        }
+      });
+    }
   };
 
   round = (value, step) => {
@@ -69,20 +83,15 @@ class Detail extends Component {
     return Math.round(value * inv) / inv;
   };
 
-  getRateValue = () => {
-    const { detail } = this.props;
-    let average = 0;
-    if (detail && detail.rate && detail.rate.length) {
-      let total = detail.rate.reduce((acc, curr) => acc + curr.rate, 0);
-      if (total > 0) {
-        average = this.round(total / detail.rate.length, 0.5);
-      }
-    }
-    return average;
-  };
 
   renderCartInfo = () => {
-    const { detail } = this.props;
+    const { isLoggedIn } = this.props;
+    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
+
+    if (!detail) {
+      return null;
+    }
+
     const { productQty } = this.state;
 
     let priceInfo = null;
@@ -171,7 +180,6 @@ class Detail extends Component {
         </div>
       );
     }
-
     return (
       <form>
         <div className="row row10">
@@ -194,8 +202,8 @@ class Detail extends Component {
                 className="form-control"
                 value={productQty}
                 name="productQty"
-                onChange={this.handleQtyChange(detail)}
-                onKeyDown={this.handleQtyKeyDown(detail)}
+                onChange={this.handleInputChange(detail)}
+                // onKeyDown={this.handleQtyKeyDown(detail)}
                 /*  onBlur={() => this.handleQtyBlur(detail)} */
                 disabled={detail.availableqty < 1}
               />
@@ -227,7 +235,7 @@ class Detail extends Component {
             className="btn btn-gray text-uppercase"
             style={{ marginRight: "10px" }}
             onClick={this.handleSaveClick}
-            disabled={!(this.props.isLoggedIn && this.props.user)}
+            disabled={isLoggedIn === null}
           >
             <span>Хадгалах</span>
           </button>
@@ -236,13 +244,14 @@ class Detail extends Component {
             type="button"
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
-            /* onClick={() => this.props.onUpdateCart(detail)} */
+          /* onClick={() => this.props.onUpdateCart(detail)} */
+            onClick={() => this.handleAddToCart(detail)}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
             <span>Сагсанд нэмэх</span>
           </button>
 
-          {detail.sprice === 100 && (
+          {detail.sdate !== null && detail.edate !== null && (
             <p className="text text-right">
               Хямдрал {this.generateDate(detail)} хоногийн дараа дуусна
             </p>
@@ -252,8 +261,34 @@ class Detail extends Component {
     );
   };
 
+  generateDate = (detail) => {
+    if (detail.sdate !== null && detail.edate !== null) {
+      let edate = moment(detail.edate);
+      let now = moment();
+      return moment.duration(edate.diff(now)).days() + 1;
+    }
+    return 0;
+  }
+
+  handleSaveClick = () => {
+    const { isLoggedIn, addWishList, detail } = this.props;
+    if (isLoggedIn !== null) {
+      let custid = isLoggedIn.customerInfo.id;
+      let skucd = detail.cd;
+      addWishList({ custid, skucd }).then((res) => {
+        if (res.payload.success) {
+          message.success(res.payload.message);
+        }
+      });
+    }
+  }
+
   getPrice = () => {
-    const { detail } = this.props;
+    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
+
+    if (!detail) {
+      return null;
+    }
 
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
@@ -271,37 +306,58 @@ class Detail extends Component {
 
   getTotalPrice = () => this.state.productQty * this.getPrice();
 
-  handleQtyChange = product => (e) => {
+  handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
-      this.setState({ productQty: product.addminqty });
-    } else if (e.target.value < product.addminqty) {
-      this.setState({ productQty: product.addminqty });
+      this.setState({ productQty: product.saleminqty });
+    } else if (e.target.value < product.saleminqty) {
+      this.setState({ productQty: product.saleminqty });
+    } else if (e.target.value > product.availableqty) {
+      this.setState({ productQty: product.availableqty });
     } else {
-      // eslint-disable-next-line radix
-      this.setState({ productQty: parseInt(e.target.value) });
+      this.setState({ productQty: parseInt(e.target.value, 10) });
     }
   };
 
-  handleQtyKeyDown = product => (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      product.qty = this.state.productQty;
-      this.props.onQtyChange(product);
-      this.setState({ productQty: product.qty });
-    }
-  };
+  // handleQtyKeyDown = product => (e) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     product.qty = this.state.productQty;
+  //     this.props.onQtyChange(product);
+  //     this.setState({ productQty: product.qty });
+  //   }
+  // };
 
   handleIncrementClick = (product) => {
-    product.qty = this.state.productQty;
-    // this.props.onIncrement(product);
-    this.setState({ productQty: product.qty });
+    const productQty = this.state.productQty + product.addminqty > product.availableqty
+      ? product.availableqty
+      : this.state.productQty + product.addminqty;
+    this.setState({ productQty });
   };
 
-  handleDecrementClick = (product) => {
-    product.qty = this.state.productQty;
-    // this.props.onDecrement(product);
-    this.setState({ productQty: product.qty });
+  handleDecrementClick = async (product) => {
+    const productQty = this.state.productQty - product.addminqty < product.saleminqty
+      ? product.saleminqty
+      : this.state.productQty - product.addminqty;
+    this.setState({ productQty });
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleAddToCart = async (product) => {
+    if (this.props.isLogged) {
+      const result = await this.props.increaseProductByQtyRemotely({
+        custid: this.props.data[0].info.customerInfo.id,
+        skucd: product.cd,
+        qty: this.state.productQty,
+        iscart: 0,
+      });
+      if (!result.payload.success) {
+        return this.handleNotify(result.payload.message);
+      }
+    } else {
+      product.qty = this.state.productQty;
+      this.props.increaseProductByQtyLocally(product);
+    }
   };
 
   render() {

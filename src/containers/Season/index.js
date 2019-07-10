@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import { Spin } from "antd";
 import {
   Banner as BannerModel,
   Product as ProductModel,
@@ -9,6 +9,7 @@ import {
   Filter as FilterModel,
   Cart as CartModel,
 } from "../../models";
+import { Loader } from "../../components";
 import List from "./list";
 
 const mapStateToProps = state => ({
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
+  state = {
+    loading: true,
+  }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.props.getSeasonBanner();
@@ -42,11 +46,21 @@ class Page extends React.Component {
         maxprice: 0,
         ordercol: "price_asc",
       },
+    }).then((res) => {
+      this.setState({ loading: false });
     });
   }
 
   render() {
-    return <List {...this.props} />;
+    const { loading } = this.state;
+    return (
+      <Spin
+        spinning={loading}
+        indicator={<Loader />}
+      >
+        <List {...this.props} />
+      </Spin>
+    );
   }
 }
 

@@ -34,6 +34,7 @@ class DeliveryPanel extends React.Component {
     const { deliveryTypes } = this.props;
     let found = deliveryTypes.find(item => item.id === 1);
     this.props.DeliveryInfo.setDeliveryType(found);
+    console.log(main);
     if (main !== null) {
       this.setState({ chosenAddress: main });
       this.getDistrict(main.provinceid, false);
@@ -244,6 +245,10 @@ class DeliveryPanel extends React.Component {
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
         {deliveryTypes.map((item, i) => {
+          let k = item.logo;
+          if (parseInt(defaultActiveKey) === item.id) {
+            k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
+          }
           return (
             <TabPane
               tab={
@@ -252,7 +257,7 @@ class DeliveryPanel extends React.Component {
                     alt="icon"
                     width="40px"
                     height="40px"
-                    src={require("../../../../scss/assets/images/demo/" + item.logo)}
+                    src={require("../../../../scss/assets/images/demo/" + k)}
                   />
                   <p className="text">
                     <strong>{item.typenm}</strong>
