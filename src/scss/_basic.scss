@@ -547,7 +547,7 @@ body {
   .info-container {
     .rating,
     .price {
-      width: 50%;
+      width: 100%;
       float: left;
     }
     &:after {
@@ -2629,6 +2629,13 @@ form {
   margin: 20px 0;
 }
 
+.page-loader{
+  min-height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .delivery-address {
   margin-top: 20px;
 }
@@ -2753,9 +2760,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   }
 
   li.disabled {
-    pointer-events: none;
-    cursor: not-allowed;
-    opacity: 0.5;
+    // pointer-events: none;
+    // cursor: not-allowed;
+    // opacity: 0.5;
   }
 
   li.selected {
@@ -2986,4 +2993,8 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   padding: "2px 64px";
   margin-top: "4px";
   margin-left: "3px";
+}
+
+.marginLeft {
+  margin-left: 0;
 }

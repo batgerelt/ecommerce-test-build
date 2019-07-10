@@ -1,17 +1,26 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-undef */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable import/first */
 import React, { PureComponent } from "react";
-import { InfiniteLoader, WindowScroller, List, AutoSizer, Grid } from "react-virtualized";
+import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import { Card, Loader } from "../../components";
 import 'react-virtualized/styles.css';
 
-let start = 20;
+const ITEM_HEIGHT = 340;
+const RowItem = React.memo(function RowItem({ item }) {
+  return <Card type={1} item={item} />;
+});
+
 class Bookmarks extends PureComponent {
+  infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
-
     this.state = {
-      products: props.newproduct,
+      products: props.products,
+      fetch: false,
     };
   }
 
@@ -19,73 +28,92 @@ class Bookmarks extends PureComponent {
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
   // data nemeh heseg
-  loadMoreRows = () => {
-    console.log('loadMoreRows');
-    this.props.getNewProduct({ start }).then((res) => {
-      this.setState({ products: this.state.products.concat(res.payload.data) });
-      start += 20;
-    });
+  loadMoreRows = (key) => {
+    this.props.getNewProduct({ start: this.props.count });
   }
 
-  rowRenderer = ({ index, key, style }) => {
-    let content;
+  noRowsRenderer = () => (
+    <div>
+      No data
+    </div>
+  );
 
-    if (!this.isRowLoaded({ index })) {
-      content = (<Loader />);
-    } else {
-      content = (
-        <Card type={1} item={this.state.products[index]} />
-      );
+  getMaxItemsAmountPerRow = (width) => {
+    if (width > 1100) {
+      return Math.max(Math.floor(width / 207.99), 1);
     }
-    console.log('style: ', style);
+    return Math.max(Math.floor(width / 160), 1);
+  }
 
-    return (
-      <div
-        key={key}
-        style={style}
-      >
-        {content}
-      </div>
-    );
+  getRowsAmount = (width, itemsAmount, hasMore) => {
+    const maxItemsPerRow = getMaxItemsAmountPerRow(width);
+    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+  }
+
+  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
+    const result = [];
+    const startIndex = rowIndex * maxItemsPerRow;
+    for (let i = startIndex; i < Math.min(startIndex + maxItemsPerRow, itemsAmount); i++) {
+      result.push(i);
+    }
+    return result;
   }
 
   render() {
     return (
-      <div className="top-container" ref={ref => this.scrollParentRef = ref}>
+      <div className="top-container">
         <div className="section">
           <div className="container pad10">
-            <InfiniteLoader
-              isRowLoaded={this.isRowLoaded}
-              loadMoreRows={this.loadMoreRows}
-              rowCount={this.state.products.length + 1}
-            >
-              {({ onRowsRendered, registerChild }) => (
-                <WindowScroller>
-                  {({ height, isScrolling, scrollTop }) => (
-                    <AutoSizer disableHeight>
-                      {({ width }) => (
-                        <List
-                          autoHeight
-                          rowRenderer={this.rowRenderer}
-                          // columnCount={5}
-                          // columnWidth={340}
-                          rowCount={this.state.products.length}
-                          ref={registerChild}
-                          height={height}
-                          rowHeight={340}
-                          width={width}
-                          // rowCount={this.state.products.length}
-                          onRowsRendered={onRowsRendered}
-                          // rowRenderer={this.rowRenderer}
-                          isScrolling={isScrolling}
-                          scrollTop={scrollTop}
-                        />
-                      )}
-                    </AutoSizer>
-                  )}
-                </WindowScroller>
-              )}
-            </InfiniteLoader>
+            <AutoSizer disableHeight>
+              {({ width }) => {
+                const { newproduct } = this.props;
+                const rowCount = getRowsAmount(width, newproduct.length, true);
+                return (
+                  <InfiniteLoader
+                    ref={this.infiniteLoaderRef}
+                    rowCount={rowCount}
+                    isRowLoaded={({ index }) => {
+                      const { newproduct } = this.props;
+                      const maxItemsPerRow = getMaxItemsAmountPerRow(width);
+                      const allItemsLoaded = generateIndexesForRow(index, maxItemsPerRow, newproduct.length).length > 0;
+
+                      return !true || allItemsLoaded;
+                    }}
+                    loadMoreRows={this.loadMoreRows}
+                  >
+                    {({ onRowsRendered, registerChild }) => (
+                      <WindowScroller>
+                        {({ height, scrollTop }) => (
+                          <List
+                            autoHeight
+                            ref={registerChild}
+                            height={height}
+                            scrollTop={scrollTop}
+                            width={width}
+                            rowCount={rowCount}
+                            rowHeight={ITEM_HEIGHT}
+                            onRowsRendered={onRowsRendered}
+                            rowRenderer={({ index, style, key }) => {
+                              const { newproduct } = this.props;
+                              const maxItemsPerRow = getMaxItemsAmountPerRow(width);
+                              const rowItems = generateIndexesForRow(index, maxItemsPerRow, newproduct.length).map(itemIndex => newproduct[itemIndex]);
+                              return (
+                                <div style={style} key={key} className="row marginLeft">
+                                  {rowItems.map(itemId => (
+                                    <RowItem key={itemId.cd} item={itemId} />
+                                  ))}
+                                </div>
+                              );
+                            }}
+                            noRowsRenderer={this.noRowsRenderer}
+                          />
+                        )}
+                      </WindowScroller>
+                    )}
+                  </InfiniteLoader>
+                );
+              }}
+            </AutoSizer>
           </div>
         </div>
       </div>

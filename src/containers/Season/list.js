@@ -29,11 +29,15 @@ class Season extends React.Component {
       checkedList: [],
       attributes: this.props.seasonfilter.attributes || [],
       products: this.props.seasonfilter.products || [],
-      promoCats: this.props.seasonfilter.promoCats || [],
+      promoCats: this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions,
       selectedPromoCatId: null,
       searchProdItem: [],
       isLeftPanel: false,
     };
+  }
+
+  componentWillMount() {
+    console.log(this.props.seasonfilter, "did");
   }
 
   showLeftPanel = (e) => {
@@ -222,8 +226,9 @@ class Season extends React.Component {
   };
 
   renderPromoCats = () => {
-    const { promoCats, selectedPromoCatId } = this.state;
-
+    const { selectedPromoCatId } = this.state;
+    // console.log(this.state.promoCats);
+    let promoCats = this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions;
     if (promoCats.length) {
       return (
         <ul className="list-unstyled category-list">
@@ -247,11 +252,11 @@ class Season extends React.Component {
             );
           })}
 
-          {selectedPromoCatId && (
+          {/* selectedPromoCatId && (
             <Link to="" className="cancel" onClick={this.handlePromoCatCancel}>
               <span className="badge badge-pill badge-danger">Цуцлах</span>
             </Link>
-          )}
+          ) */}
         </ul>
       );
     }

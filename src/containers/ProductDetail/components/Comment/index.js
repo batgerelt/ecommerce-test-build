@@ -17,7 +17,6 @@ class Comment extends Component {
       const { isLoggedIn, user, product } = this.props;
       const { comments } = this.props;
       const { rate, rate_user_cnt } = product;
-
       return (
         <div
           className="comments-container"
@@ -36,8 +35,8 @@ class Comment extends Component {
                             ? user.picture.data.url
                             : user.picture
                           : // eslint-disable-next-line no-undef
-                            p1
-                      })`,
+                          p1
+                        })`,
                     }}
                   />
                 </div>
@@ -48,8 +47,8 @@ class Comment extends Component {
                         ? `${user.firstname} ${user.lastname}`
                         : user.firstname
                       : user.email
-                      ? user.email
-                      : ""}
+                        ? user.email
+                        : ""}
                   </strong>
                 </p>
               </div>
@@ -90,7 +89,7 @@ class Comment extends Component {
 
               <div className="comments-list">
                 <div className="main-rating">
-                  <Rate allowHalf disabled defaultValue={rate} />
+                  <Rate allowHalf disabled value={rate / 2} />
                   <p className="text">
                     ({rate_user_cnt} хүн үнэлгээ өгсөн байна)
                   </p>

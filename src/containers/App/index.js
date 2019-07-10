@@ -70,7 +70,7 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getMenu();
     this.props.getStaticPages();
-    this.props.getNewProduct({});
+    // this.props.getNewProduct({});
   }
 
   render() {

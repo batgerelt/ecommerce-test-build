@@ -15,6 +15,9 @@ import {
   Comment,
   Breadcrumb,
 } from "./components";
+import { NotFound } from "../../components";
+// eslint-disable-next-line import/first
+import { height } from "@material-ui/system";
 
 class Discount extends React.Component {
   renderRealational = () => {
@@ -41,11 +44,18 @@ class Discount extends React.Component {
   };
   renderDetails = () => {
     try {
-      const { detail, categorymenu } = this.props;
+      const {
+        detail, categorymenu, addWishList, addRate, getProductDetail,
+      } = this.props;
+      console.log(this.props);
       return (
         <Detail
-          detail={detail.length === 0 ? [] : detail.products[0]}
+          detail={detail.length === 0 ? {} : detail.products[0]}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
+          isLoggedIn={JSON.parse(localStorage.getItem("auth"))}
+          addWishList={addWishList}
+          addRate={addRate}
+          getProductDetail={getProductDetail}
         />
       );
     } catch (error) {
@@ -148,10 +158,13 @@ class Discount extends React.Component {
 
   render() {
     const { detail, categorymenu } = this.props;
+    if (detail.length === 0 || detail.products.length === 0) {
+      return <NotFound />;
+    }
     return (
       <div className="section">
         <div className="container">
-          { this.renderBreadCrumb() }
+          {this.renderBreadCrumb()}
           <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
             <div className="row row10">
               <div className="col-sm-9 col-md-9 col-lg-9 row">

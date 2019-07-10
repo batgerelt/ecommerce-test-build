@@ -1,19 +1,20 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, Rate } from "antd";
+import { Button, Rate, message } from "antd";
+import moment from "moment";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
     productQty: this.props.detail.saleminqty || 1,
+    rate: 0,
   };
 
   renderDetails = () => {
     const { detail, categorymenu } = this.props;
     const selectedCat =
       detail.catid && categorymenu.find(cat => cat.id === detail.catid);
-
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
@@ -34,14 +35,14 @@ class Detail extends Component {
           <div className="main-rating">
             <Rate
               allowHalf
-              defaultValue={this.getRateValue()}
+              value={detail.rate ? detail.rate / 2 : 0}
               onChange={this.handleRateChange}
             />
 
             <p className="text">
               (
-              {!!detail.rate && !!detail.rate.length
-                ? `${detail.rate.length} хүн үнэлгээ өгсөн байна`
+              {detail.rate_user_cnt
+                ? `${detail.rate_user_cnt} хүн үнэлгээ өгсөн байна`
                 : "Одоогоор үнэлгээ өгөөгүй байна"}
               )
             </p>
@@ -59,7 +60,20 @@ class Detail extends Component {
   };
 
   handleRateChange = (e) => {
-    console.log(e);
+    const {
+      isLoggedIn, detail, addRate, getProductDetail,
+    } = this.props;
+    if (isLoggedIn !== null) {
+      let custid = isLoggedIn.customerInfo.id;
+      let skucd = detail.cd;
+      let rate = e / 2;
+      addRate({ custid, skucd, rate }).then((res) => {
+        if (res.payload.success) {
+          message.success(res.payload.message);
+          getProductDetail({ skucd });
+        }
+      });
+    }
   };
 
   round = (value, step) => {
@@ -69,20 +83,9 @@ class Detail extends Component {
     return Math.round(value * inv) / inv;
   };
 
-  getRateValue = () => {
-    const { detail } = this.props;
-    let average = 0;
-    if (detail && detail.rate && detail.rate.length) {
-      let total = detail.rate.reduce((acc, curr) => acc + curr.rate, 0);
-      if (total > 0) {
-        average = this.round(total / detail.rate.length, 0.5);
-      }
-    }
-    return average;
-  };
 
   renderCartInfo = () => {
-    const { detail } = this.props;
+    const { detail, isLoggedIn } = this.props;
     const { productQty } = this.state;
 
     let priceInfo = null;
@@ -171,7 +174,6 @@ class Detail extends Component {
         </div>
       );
     }
-
     return (
       <form>
         <div className="row row10">
@@ -227,7 +229,7 @@ class Detail extends Component {
             className="btn btn-gray text-uppercase"
             style={{ marginRight: "10px" }}
             onClick={this.handleSaveClick}
-            disabled={!(this.props.isLoggedIn && this.props.user)}
+            disabled={isLoggedIn === null}
           >
             <span>Хадгалах</span>
           </button>
@@ -236,13 +238,13 @@ class Detail extends Component {
             type="button"
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
-            /* onClick={() => this.props.onUpdateCart(detail)} */
+          /* onClick={() => this.props.onUpdateCart(detail)} */
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
             <span>Сагсанд нэмэх</span>
           </button>
 
-          {detail.sprice === 100 && (
+          {detail.sdate !== null && detail.edate !== null && (
             <p className="text text-right">
               Хямдрал {this.generateDate(detail)} хоногийн дараа дуусна
             </p>
@@ -251,6 +253,28 @@ class Detail extends Component {
       </form>
     );
   };
+
+  generateDate = (detail) => {
+    if (detail.sdate !== null && detail.edate !== null) {
+      let edate = moment(detail.edate);
+      let now = moment();
+      return moment.duration(edate.diff(now)).days() + 1;
+    }
+    return 0;
+  }
+
+  handleSaveClick = () => {
+    const { isLoggedIn, addWishList, detail } = this.props;
+    if (isLoggedIn !== null) {
+      let custid = isLoggedIn.customerInfo.id;
+      let skucd = detail.cd;
+      addWishList({ custid, skucd }).then((res) => {
+        if (res.payload.success) {
+          message.success(res.payload.message);
+        }
+      });
+    }
+  }
 
   getPrice = () => {
     const { detail } = this.props;

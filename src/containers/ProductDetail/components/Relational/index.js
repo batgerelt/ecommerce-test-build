@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
+import { height } from "@material-ui/system";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Relational extends Component {
@@ -18,32 +19,31 @@ class Relational extends Component {
         this.props.onUpdateCart(relatedProduct); */
   };
 
+  getSlicedData = (limit) => {
+    let { relatedProducts } = this.props;
+    const { isShowMoreClicked } = this.state;
+    if (!isShowMoreClicked) {
+      if (relatedProducts.length > limit) {
+        return relatedProducts.slice(0, limit);
+      }
+    }
+    return relatedProducts;
+  }
+
   renderRelatedProducts = (limit = 4) => {
     try {
       let { relatedProducts } = this.props;
-      const { isShowMoreClicked } = this.state;
-
-      const shouldExpand = isShowMoreClicked && relatedProducts.length > limit;
-      const shouldButtonHide = relatedProducts.length <= limit;
-
-      relatedProducts =
-        !isShowMoreClicked && relatedProducts.length > limit
-          ? relatedProducts.slice(0, limit)
-          : relatedProducts;
+      let data = this.getSlicedData(limit);
       return (
-        !!relatedProducts.length && (
+        !!data.length && (
           <div
             className="product-suggest"
-            style={{
-              height: shouldExpand && "500px",
-              overflowY: shouldExpand && "scroll",
-            }}
           >
             <p className="title">
               <strong>Хослох бараа</strong>
             </p>
-            <ul className="list-unstyled">
-              {relatedProducts.map((prod, index) => (
+            <ul className="list-unstyled" style={{ height: "261px", overflowY: "auto" }}>
+              {data.map((prod, index) => (
                 <li key={index}>
                   <div className="single flex-this">
                     <div className="image-container">
@@ -53,7 +53,7 @@ class Relational extends Component {
                           style={{
                             backgroundImage: `url(${process.env.IMAGE}${
                               prod.img
-                            })`,
+                              })`,
                           }}
                         />
                       </Link>
@@ -82,21 +82,18 @@ class Relational extends Component {
                 </li>
               ))}
             </ul>
-            {relatedProducts.length > limit && (
+            {relatedProducts.length > limit ?
               <div className="more-link text-center">
                 <Button
                   className="btn btn-border"
                   onClick={this.handleShowMoreClick}
-                  style={{
-                    display: (shouldExpand || shouldButtonHide) && "none",
-                  }}
                 >
                   <span className="text text-uppercase">
                     Бүх хослох барааг үзэх
                   </span>
                 </Button>
               </div>
-            )}
+              : null}
           </div>
         )
       );

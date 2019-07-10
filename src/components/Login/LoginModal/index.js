@@ -38,7 +38,9 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          await this.props.login({ body: { ...values } });
+          await this.props.login({ body: { ...values } }).then((res) => {
+            localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+          });
 
           let products = this.props.cart.products.map(prod => ({
             skucd: prod.cd,
