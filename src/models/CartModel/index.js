@@ -30,234 +30,195 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'products'),
           error: this.buildActionName('error', data.model, 'products'),
         },
-        modifyAndSaveToDb: {
-          request: this.buildActionName('request', data.model, 'modifyAndSaveToDb'),
-          response: this.buildActionName('response', data.model, 'modifyAndSaveToDb'),
-          error: this.buildActionName('error', data.model, 'modifyAndSaveToDb'),
+        incrementProductRemotely: {
+          request: this.buildActionName('request', data.model, 'incrementProductRemotely'),
+          response: this.buildActionName('response', data.model, 'incrementProductRemotely'),
+          error: this.buildActionName('error', data.model, 'incrementProductRemotely'),
         },
-        addAndSaveToDb: {
-          request: this.buildActionName('request', data.model, 'addAndSaveToDb'),
-          response: this.buildActionName('response', data.model, 'addAndSaveToDb'),
-          error: this.buildActionName('error', data.model, 'addAndSaveToDb'),
+        decrementProductRemotely: {
+          request: this.buildActionName('request', data.model, 'decrementProductRemotely'),
+          response: this.buildActionName('response', data.model, 'decrementProductRemotely'),
+          error: this.buildActionName('error', data.model, 'decrementProductRemotely'),
         },
-        reduceAndSaveToDb: {
-          request: this.buildActionName('request', data.model, 'reduceAndSaveToDb'),
-          response: this.buildActionName('response', data.model, 'reduceAndSaveToDb'),
-          error: this.buildActionName('error', data.model, 'reduceAndSaveToDb'),
+        increaseProductByQtyRemotely: {
+          request: this.buildActionName('request', data.model, 'increaseProductByQtyRemotely'),
+          response: this.buildActionName('response', data.model, 'increaseProductByQtyRemotely'),
+          error: this.buildActionName('error', data.model, 'increaseProductByQtyRemotely'),
         },
-        saveAllToDb: {
-          request: this.buildActionName('request', data.model, 'saveAllToDb'),
-          response: this.buildActionName('response', data.model, 'saveAllToDb'),
-          error: this.buildActionName('error', data.model, 'saveAllToDb'),
+        updateProductByQtyRemotely: {
+          request: this.buildActionName('request', data.model, 'updateProductByQtyRemotely'),
+          response: this.buildActionName('response', data.model, 'updateProductByQtyRemotely'),
+          error: this.buildActionName('error', data.model, 'updateProductByQtyRemotely'),
         },
-        deleteFromDb: {
-          request: this.buildActionName('request', data.model, 'deleteFromDb'),
-          response: this.buildActionName('response', data.model, 'deleteFromDb'),
-          error: this.buildActionName('error', data.model, 'deleteFromDb'),
+        removeProductRemotely: {
+          request: this.buildActionName('request', data.model, 'removeProductRemotely'),
+          response: this.buildActionName('response', data.model, 'removeProductRemotely'),
+          error: this.buildActionName('error', data.model, 'removeProductRemotely'),
+        },
+        increaseProductsByQtyRemotely: {
+          request: this.buildActionName('request', data.model, 'increaseProductsByQtyRemotely'),
+          response: this.buildActionName('response', data.model, 'increaseProductsByQtyRemotely'),
+          error: this.buildActionName('error', data.model, 'increaseProductsByQtyRemotely'),
+        },
+        recipeProducts: {
+          request: this.buildActionName('request', data.model, 'recipeProducts'),
+          response: this.buildActionName('response', data.model, 'recipeProducts'),
+          error: this.buildActionName('error', data.model, 'recipeProducts'),
         },
       };
     }
   }
 
-  increment = item => ({
-    type: 'PRODUCT_INCREMENT',
-    payload: item,
+  getProducts = ({ custid }) => asyncFn({
+    url: `/basket/${custid}`,
+    method: 'GET',
+    model: this.model.products,
   });
 
-  decrement = item => ({
-    type: 'PRODUCT_DECREMENT',
-    payload: item,
+  incrementProductLocally = product => ({
+    type: 'CART_INCREMENT_PRODUCT_LOCALLY',
+    payload: product,
   });
 
-  replaceReduxStoreBy = item => ({
-    type: 'PRODUCT_REPLACE_REDUX_STORE_BY',
-    payload: item,
+  incrementProductRemotely = ({
+    custid, skucd, qty, iscart,
+  }) => asyncFn({
+    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+    method: 'GET',
+    model: this.model.incrementProductRemotely,
   });
 
-  getProducts = custid => asyncFn({ url: `/basket/${custid}`, method: 'GET', model: this.model.products });
-
-  modifyAndSaveToDb = (custid, skucd, qty, iscart) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.modifyAndSaveToDb,
+  decrementProductLocally = product => ({
+    type: 'CART_DECREMENT_PRODUCT_LOCALLY',
+    payload: product,
   });
 
-  addAndSaveToDb = (custid, skucd, qty, iscart) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.addAndSaveToDb,
+  decrementProductRemotely = ({
+    custid, skucd, qty, iscart,
+  }) => asyncFn({
+    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+    method: 'GET',
+    model: this.model.decrementProductRemotely,
   });
 
-  reduceAndSaveToDb = (custid, skucd, qty, iscart) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.reduceAndSaveToDb,
+  increaseProductByQtyLocally = product => ({
+    type: 'CART_INCREASE_PRODUCT_BY_QTY_LOCALLY',
+    payload: product,
   });
 
-  saveAllToDb = ({ custid, iscart, body }) => asyncFn({
-    body, url: `/basket/${custid}/${iscart}`, method: 'POST', model: this.model.saveAllToDb,
+  increaseProductByQtyRemotely = ({
+    custid, skucd, qty, iscart,
+  }) => asyncFn({
+    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+    method: 'GET',
+    model: this.model.increaseProductByQtyRemotely,
   });
 
-  deleteFromDb = (custid, skucd) => asyncFn({
-    url: `/basket/${custid}/${skucd}`, method: 'DELETE', model: this.model.deleteFromDb,
+  updateProductByQtyLocally = product => ({
+    type: 'CART_UPDATE_PRODUCT_BY_QTY_LOCALLY',
+    payload: product,
   });
 
-  deleteFromLocal = item => ({
-    type: 'PRODUCT_DELETE_FROM_LOCAL',
-    payload: item,
+  updateProductByQtyRemotely = ({
+    custid, skucd, qty, iscart,
+  }) => asyncFn({
+    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+    method: 'GET',
+    model: this.model.updateProductByQtyRemotely,
   });
 
-  deleteFromLocalStorage = (skucd) => {
-    let serializedRoot = localStorage.getItem('persist:root');
+  removeProductLocally = product => ({
+    type: 'CART_REMOVE_PRODUCT_LOCALLY',
+    payload: product,
+  });
 
-    let root = serializedRoot;
-    if (typeof serializedRoot === 'string') {
-      root = JSON.parse(serializedRoot);
-    }
+  removeProductRemotely = ({ custid, skucd }) => asyncFn({
+    url: `/basket/${custid}/${skucd}`,
+    method: 'DELETE',
+    model: this.model.removeProductRemotely,
+  });
 
-    let serializedCart = root.cart;
+  increaseProductsByQtyRemotely = ({ custid, iscart, body }) => asyncFn({
+    body,
+    url: `/basket/${custid}/${iscart}`,
+    method: 'POST',
+    model: this.model.increaseProductsByQtyRemotely,
+  });
 
-    let { cart } = root;
-    if (typeof cart === 'string') {
-      cart = JSON.parse(serializedCart);
-    }
+  getRecipeProducts = ({ id }) => asyncFn({
+    url: `/cookrecipe/${id}/products`,
+    method: 'GET',
+    model: this.model.recipeProducts,
+  });
 
-    let { products } = cart;
-    if (typeof products === 'string') {
-      products = JSON.parse(products);
-    }
+  incrementRecipeProductsLocally = products => ({
+    type: 'CART_INCREMENT_RECIPE_PRODUCTS_LOCALLY',
+    payload: products,
+  });
 
-    products = products.filter(prod => prod.cd !== skucd);
-
-    cart.products = products;
-    root.cart = cart;
-    serializedRoot = JSON.stringify(root);
-    localStorage.setItem('persist:root', serializedRoot);
-  };
-
-  deleteFromReduxStore = (skucd, state) => {
+  updateReduxStore = (
+    state, product, shouldOverride = false, shouldDecrement = false, shouldUpdateByQty = false,
+  ) => {
     let { products } = state;
 
     if (typeof products === 'string') {
       products = JSON.parse(products);
     }
 
-    products = products.filter(prod => prod.cd !== skucd);
-
-    return { ...state, products };
-  };
-
-  modifyLocalStorage = (item, shouldDecrement = false, shouldOverride = false) => {
-    let serializedRoot = localStorage.getItem('persist:root');
-
-    let root = serializedRoot;
-    if (typeof serializedRoot === 'string') {
-      root = JSON.parse(serializedRoot);
+    if (!product.qty) {
+      product.qty = product.saleminqty || 1;
     }
 
-    let serializedCart = root.cart;
+    let found = products.find(prod => prod.cd === product.cd);
 
-    let { cart } = root;
-    if (typeof cart === 'string') {
-      cart = JSON.parse(serializedCart);
-    }
-
-    let { products } = cart;
-    if (typeof products === 'string') {
-      products = JSON.parse(products);
-    }
-
-    let found = products.find(prod => prod.cd === item.cd);
     if (found) {
       const index = products.map(prod => prod.cd).indexOf(found.cd);
+
       if (index !== -1) {
         if (shouldOverride) {
-          found.qty = item.qty;
-        } else if (shouldDecrement) {
-          found.qty -= (item.addminqty || 1);
+          found.qty = found.availableqty !== 0 && product.qty > product.availableqty
+            ? product.availableqty
+            : (product.qty < product.saleminqty
+              ? product.saleminqty
+              : product.qty);
         } else {
-          found.qty += (item.addminqty || 1);
+          // eslint-disable-next-line no-lonely-if
+          if (shouldDecrement) {
+            const productQty = shouldUpdateByQty
+              ? (found.qty - product.qty < found.saleminqty
+                ? found.saleminqty
+                : found.qty - product.qty)
+              : (found.qty - found.addminqty < found.saleminqty
+                ? found.saleminqty
+                : found.qty - found.addminqty);
+            found.qty = productQty;
+          } else {
+            const productQty = shouldUpdateByQty
+              ? (found.availableqty !== 0 && found.qty + product.qty > found.availableqty
+                ? found.availableqty
+                : found.qty + product.qty)
+              : (found.availableqty !== 0 && found.qty + found.addminqty > found.availableqty
+                ? found.availableqty
+                : found.qty + found.addminqty);
+            found.qty = productQty;
+          }
         }
         products.splice(index, 1, found);
       }
     } else {
-      if (!shouldOverride) {
-        item.qty = item.saleminqty || 1;
-      }
-      products.push(item);
+      product.qty = product.availableqty !== 0 && product.qty > product.availableqty
+        ? product.availableqty
+        : (product.qty < product.saleminqty
+          ? product.saleminqty
+          : product.qty);
+      products.push(product);
     }
 
-    cart.products = products;
-    root.cart = cart;
-    serializedRoot = JSON.stringify(root);
-    localStorage.setItem('persist:root', serializedRoot);
-  };
-
-  modifyReduxStore = (item, state, shouldDec = false, shouldOverride = false) => {
-    let { products } = state;
-
-    if (typeof products === 'string') {
-      products = JSON.parse(products);
-    }
-
-    let found = products.find(prod => prod.cd === item.cd);
-    if (found) {
-      const index = products.map(prod => prod.cd).indexOf(found.cd);
-      if (index !== -1) {
-        if (shouldOverride) {
-          found.qty = item.qty;
-        } else if (shouldDec) {
-          found.qty -= (item.addminqty || 1);
-        } else {
-          found.qty += (item.addminqty || 1);
-        }
-        products.splice(index, 1, found);
-      }
-    } else {
-      if (!shouldOverride) {
-        item.qty = item.qty || (item.saleminqty || 1);
-      }
-      products.push(item);
-    }
-
-    return { ...state, products };
+    return products;
   };
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
-      case 'PRODUCT_INCREMENT':
-        try {
-          const item = action.payload;
-          this.modifyLocalStorage(item);
-          return this.modifyReduxStore(item, state);
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
-
-      case 'PRODUCT_DECREMENT':
-        try {
-          const item = action.payload;
-          this.modifyLocalStorage(item, true);
-          return this.modifyReduxStore(item, state, true);
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
-
-      case 'PRODUCT_REPLACE_REDUX_STORE_BY':
-        try {
-          const item = action.payload;
-          return this.modifyReduxStore(item, state, false, true);
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
-
-      // SAVE ALL TO DB
-      case this.model.saveAllToDb.response:
-        try {
-          console.log(action.payload);
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
-
-      // GET CART PRODUCTS
       case this.model.products.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.products.error:
@@ -265,67 +226,151 @@ class Model extends BaseModel {
       case this.model.products.response:
         return { ...state, products: action.payload.data };
 
-      // MODIFY AND SAVE TO REDUX
-      case this.model.modifyAndSaveToDb.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.modifyAndSaveToDb.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.modifyAndSaveToDb.response:
+      case 'CART_INCREMENT_PRODUCT_LOCALLY':
         try {
-          this.modifyLocalStorage(action.payload.data[0], false, true);
-          return this.modifyReduxStore(action.payload.data[0], state, false, true);
+          const products = this.updateReduxStore(state, action.payload);
+
+          return { ...state, products };
         } catch (e) {
           console.log(e);
         }
         return state;
 
-      // ADD AND SAVE TO REDUX
-      case this.model.addAndSaveToDb.request:
+      case this.model.incrementProductRemotely.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.addAndSaveToDb.error:
+      case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.addAndSaveToDb.response:
+      case this.model.incrementProductRemotely.response:
+        return { ...state, products: action.payload.data };
+
+      case 'CART_DECREMENT_PRODUCT_LOCALLY':
         try {
-          this.modifyLocalStorage(action.payload.data[0]);
-          return this.modifyReduxStore(action.payload.data[0], state);
+          const products = this.updateReduxStore(state, action.payload, false, true);
+
+          return { ...state, products };
         } catch (e) {
           console.log(e);
         }
         return state;
 
-      // REDUCE AND SAVE TO REDUX
-      case this.model.reduceAndSaveToDb.request:
+      case this.model.decrementProductRemotely.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.reduceAndSaveToDb.error:
+      case this.model.decrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.reduceAndSaveToDb.response:
+      case this.model.decrementProductRemotely.response:
+        return { ...state, products: action.payload.data };
+
+      case 'CART_INCREASE_PRODUCT_BY_QTY_LOCALLY':
         try {
-          this.modifyLocalStorage(action.payload.data[0], true);
-          return this.modifyReduxStore(action.payload.data[0], state, true);
+          let { products } = state;
+          let product = action.payload;
+
+          const found = products.find(prod => prod.cd === product.cd);
+
+          if (!found) {
+            product.qty = product.saleminqty || 1;
+          }
+
+          products = this.updateReduxStore(state, product, false, false, true);
+
+          return { ...state, products };
         } catch (e) {
           console.log(e);
         }
         return state;
 
-      case this.model.deleteFromDb.request:
+      case this.model.increaseProductByQtyRemotely.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.deleteFromDb.error:
+      case this.model.increaseProductByQtyRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.deleteFromDb.response:
+      case this.model.increaseProductByQtyRemotely.response:
+        return { ...state, products: action.payload.data };
+
+      case 'CART_UPDATE_PRODUCT_BY_QTY_LOCALLY':
         try {
-          console.log(action.payload);
+          let { products } = state;
+          let product = action.payload;
+
+          const found = products.find(prod => prod.cd === product.cd);
+
+          if (!found) {
+            product.qty = product.saleminqty || 1;
+          }
+
+          products = this.updateReduxStore(state, product, true);
+
+          return { ...state, products };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
+
+      case this.model.updateProductByQtyRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.updateProductByQtyRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.updateProductByQtyRemotely.response:
+        return { ...state, products: action.payload.data };
+
+      case 'CART_REMOVE_PRODUCT_LOCALLY':
+        try {
+          let { products } = state;
+          let product = action.payload;
+
+          const found = products.find(prod => prod.cd === product.cd);
+
+          if (!found) {
+            throw new Error('Бараа олдсонгүй!');
+          }
+
+          products = products.filter(prod => prod.cd !== found.cd);
+
+          return { ...state, products };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
+
+      case this.model.removeProductRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.removeProductRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.removeProductRemotely.response:
+        try {
+          let { products } = state;
+          let product = action.payload.data[0];
+
+          const found = products.find(prod => prod.cd === product.cd);
+
+          if (!found) {
+            throw new Error('Бараа олдсонгүй!');
+          }
+
+          products = products.filter(prod => prod.cd !== found.cd);
+
+          return { ...state, products };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
+
+      case this.model.recipeProducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.recipeProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.recipeProducts.response:
+        return { ...state, products: action.payload.data };
+
+      case 'CART_INCREMENT_RECIPE_PRODUCTS_LOCALLY':
+        try {
+          let products = [];
+          action.payload.forEach((prod) => {
+            console.log('prod: ', prod);
+            // products = this.updateReduxStore(state.products[0], prod);
+          });
+
+          // return { ...state, products };
           return state;
-          // return this.deleteFromReduxStore();
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
-
-      case 'PRODUCT_DELETE_FROM_LOCAL':
-        try {
-          const item = action.payload;
-          this.deleteFromLocalStorage(item.cd);
-          return this.deleteFromReduxStore(item.cd, state);
         } catch (e) {
           console.log(e);
         }

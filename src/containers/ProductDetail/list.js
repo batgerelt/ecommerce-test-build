@@ -16,11 +16,11 @@ import {
   Breadcrumb,
 } from "./components";
 
-class Discount extends React.Component {
+class ProductDetail extends React.Component {
   renderRealational = () => {
     try {
       const { relational } = this.props;
-      return <Relational relatedProducts={relational} />;
+      return <Relational relatedProducts={relational} {...this.props} />;
     } catch (error) {
       return console.log(error);
     }
@@ -46,6 +46,7 @@ class Discount extends React.Component {
         <Detail
           detail={detail.length === 0 ? [] : detail.products[0]}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
+          {...this.props}
         />
       );
     } catch (error) {
@@ -151,7 +152,7 @@ class Discount extends React.Component {
     return (
       <div className="section">
         <div className="container">
-          { this.renderBreadCrumb() }
+          {this.renderBreadCrumb()}
           <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
             <div className="row row10">
               <div className="col-sm-9 col-md-9 col-lg-9 row">
@@ -177,4 +178,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default ProductDetail;

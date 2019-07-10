@@ -18,17 +18,17 @@ class New extends React.Component {
 
   componentDidMount() { this.setState({ isload: true }); }
 
-  handleNext = () => {
-    const { products } = this.state;
-    this.setState({ isload: false });
-    this.props.getNewProduct({ start }).then((res) => {
-      this.setState(
-        { products: products.concat(res.payload.data) },
-        () => this.setState({ isload: true }),
-      );
-      start += 20;
-    });
-  }
+  // handleNext = () => {
+  //   const { products } = this.state;
+  //   this.setState({ isload: false });
+  //   this.props.getNewProduct({ start }).then((res) => {
+  //     this.setState(
+  //       { products: products.concat(res.payload.data) },
+  //       () => this.setState({ isload: true }),
+  //     );
+  //     start += 20;
+  //   });
+  // }
 
   renderMainBanner = () => {
     try {
@@ -103,7 +103,8 @@ class New extends React.Component {
             >
               <CardList
                 type={CARD_LIST_TYPES.horizontal}
-                items={newproduct.slice(cardsLength)}
+                // items={newproduct.slice(cardsLength)}
+                items={products}
                 showAll
                 cardType={CARD_TYPES.slim}
                 {...this.props}
