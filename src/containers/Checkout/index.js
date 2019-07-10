@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-danger */
 import React from 'react';
@@ -25,13 +26,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Page extends React.Component {
+  state = {
+    loading: false,
+  }
   componentWillMount() {
     let auth = JSON.parse(localStorage.getItem("auth"));
     this.props.getPaymentTypes();
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (auth !== null) {
-      this.props.getUserInfo({ id: auth.customerInfo.id });
+      this.props.getUserInfo({ custid: auth.customerInfo.id });
+      this.props.getSystemLocation();
     }
   }
 

@@ -2,18 +2,26 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Spin } from "antd";
-import { Product as ProductModel } from "../../models";
+import {
+  Auth as AuthModel,
+  Product as ProductModel,
+  Cart as CartModel,
+} from "../../models";
 import List from "./list";
 import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
+  ...state.auth,
   ...state.product,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators(
     {
+      ...AuthModel,
       ...ProductModel,
+      ...CartModel,
     },
     dispatch,
   ),

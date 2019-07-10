@@ -2,6 +2,8 @@
 import React from "react";
 import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 
 
 import { FacebookLogin, GoogleLogin } from "../";
@@ -12,12 +14,15 @@ class LoginModal extends React.Component {
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
 
-  asyncForEach = async (array, callback) => {
-    for (let index = 0; index < array.length; index++) {
-      // eslint-disable-next-line no-await-in-loop
-      await callback(array[index], index, array);
-    }
-  }
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: 'top-center',
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
+  };
 
   handleLoginModal = () => {
     this.setState({ visible: !this.state.visible });
@@ -35,29 +40,35 @@ class LoginModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    // eslint-disable-next-line consistent-return
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          await this.props.login({ body: { ...values } });
+          let result = await this.props.login({ body: { ...values } });
 
-          let products = this.props.cart.products.map(prod => ({
+          if (!result.payload.success) {
+            return this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+          }
+
+          let { products } = this.props.cart;
+
+          products = products.map(prod => ({
             skucd: prod.cd,
             qty: prod.qty,
           }));
 
-          const custId = this.props.auth.data[0].info.customerInfo.id;
-
-          await this.props.saveAllToDb({
-            custid: custId,
+          result = await this.props.increaseProductsByQtyRemotely({
+            custid: this.props.auth.data[0].info.customerInfo.id,
             iscart: 0,
             body: products,
           });
 
-          products = await this.props.getProducts(custId);
+          if (!result.payload.success) {
+            return console.log(result.payload.message);
+          }
 
-          products.payload.data.forEach((savedProd) => {
-            this.props.replaceReduxStoreBy(savedProd);
-          });
+          this.props.getProducts({ custid: this.props.auth.data[0].info.customerInfo.id });
         } catch (e) {
           console.log(e);
         }

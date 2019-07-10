@@ -27,6 +27,15 @@ class DeliveryInfo extends React.Component {
     checkedAgreement: false,
     modal2Visible: false,
     agreementData: [],
+    chosenInfo: {},
+    chosenType: {},
+  };
+
+  checkError = (value) => {
+    if (value === undefined || value === null) {
+      return "";
+    }
+    return value;
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -36,7 +45,13 @@ class DeliveryInfo extends React.Component {
     this.setState({ modal2Visible });
   }
 
-  handleGetValue = () => { return console.log('Deliveryinfo'); }
+  handleGetValue = (value) => {
+    this.setState({ chosenInfo: value });
+  }
+
+  setDeliveryType = (value) => {
+    this.setState({ chosenType: value });
+  }
 
   handleScroll = () => {
     let calcBottom =
@@ -70,19 +85,24 @@ class DeliveryInfo extends React.Component {
 
   handleChange = () => {
     this.props.DeliveryPanel.handleGetValue();
-    console.log(this.props);
   }
 
   render() {
-    const { checkedAgreement } = this.state;
+    const { checkedAgreement, chosenInfo, chosenType } = this.state;
     const { staticpage } = this.props;
-    let addrs;
+    // console.log(this.props.userinfo.info, "infoprops");
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
           {" "}
           <p className="title">
-            <strong />
+            <strong>
+              {
+                this.props.userinfo !== undefined && this.props.userinfo !== null ?
+                  `${this.props.userinfo.info.lastname} ${this.props.userinfo.info.firstname}`
+                  : ""
+              }
+            </strong>
           </p>
           <hr />
           <div className="content">
@@ -91,7 +111,9 @@ class DeliveryInfo extends React.Component {
             </p>
             <p className="text flex-space">
               <span>Хүргэлтийн төрөл</span>
-              <strong />
+              <strong>
+                {`${this.checkError(chosenType.typenm)}`}
+              </strong>
             </p>
             <p className="text flex-this">
               <i
@@ -99,7 +121,9 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
                 style={{ color: "#feb415" }}
               />
-              <span />
+              <span>
+                {this.checkError(chosenInfo.name)}
+              </span>
             </p>
             <p className="text flex-this">
               <i
@@ -107,7 +131,9 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
                 style={{ color: "#feb415" }}
               />
-              <span />
+              <span>
+                {`${this.checkError(chosenInfo.phonE1)} ${this.checkError(chosenInfo.phonE2)}`}
+              </span>
             </p>
             <p className="text flex-this">
               <i
@@ -115,7 +141,9 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
                 style={{ color: "#feb415" }}
               />
-              <span />
+              <span>
+                {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
+              </span>
             </p>
           </div>
           <hr />
@@ -129,7 +157,7 @@ class DeliveryInfo extends React.Component {
             </p>
             <p className="text flex-space">
               <span>Хүргэлтийн үнэ:</span>
-              <strong>₮</strong>
+              <strong>{`${formatter.format(this.checkError(chosenType.price))}₮`}</strong>
             </p>
             <p className="text flex-space">
               <span>Имарт карт оноо:</span>

@@ -6,32 +6,6 @@ import { Link } from "react-router-dom";
 const { Option } = Select.Option;
 const { Column, ColumnGroup } = Table;
 const formatter = new Intl.NumberFormat("en-US");
-const data = [
-  {
-    key: '1',
-    firstName: 'John',
-    lastName: 'Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    firstName: 'Jim',
-    lastName: 'Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    firstName: 'Joe',
-    lastName: 'Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 
 class Component extends React.Component {
   state = {
@@ -55,7 +29,7 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ id: this.state.id });
+            this.props.getUserInfo({ custid: this.state.id });
           }
         });
       }
@@ -306,27 +280,7 @@ class Component extends React.Component {
                 {this.props.useraddress.addrs === undefined ? null : this.renderDeliveryAddress()}
               </div>
             </table>
-            {/* <Table dataSource={this.props.useraddress.addrs} footer={null} size="small">
-              <Table.Column dataIndex="name" />
-              <Table.Column dataIndex="phone1" />
-              <Table.Column dataIndex="provincenm" />
-              <Table.Column dataIndex="districtnm" />
-              <Table.Column dataIndex="address" />
-              <Table.Column
-                key="action"
-                render={(text, record) => (
-                  <Link to="#" onClick={e => this.onDelete(e)}>
-                    <i
-                      className="fa fa-times"
-                      aria-hidden="true"
-                      style={{ color: "black" }}
-                    />
-                  </Link>
-                )}
-              />
-            </Table> */}
           </div>
-
         </Form>
       );
     } catch (error) {
@@ -334,7 +288,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    console.log("id", this.state.id);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

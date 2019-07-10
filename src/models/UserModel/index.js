@@ -16,20 +16,21 @@ class Model extends BaseModel {
       isLoading: false,
       data: {},
     },
-    useraddress: [],
+    userinfo: [],
     committelocation: [],
     systemlocation: [],
     districtlocation: [],
+    districtandcommiteloc: [],
   }
 
   constructor(data = {}) {
     super(data);
     if (data.model) {
       this.model = {
-        useraddress: {
-          request: this.buildActionName('request', data.model, 'useraddress'),
-          response: this.buildActionName('response', data.model, 'useraddress'),
-          error: this.buildActionName('error', data.model, 'useraddress'),
+        userinfo: {
+          request: this.buildActionName('request', data.model, 'userinfo'),
+          response: this.buildActionName('response', data.model, 'userinfo'),
+          error: this.buildActionName('error', data.model, 'userinfo'),
         },
         committelocation: {
           request: this.buildActionName('request', data.model, 'committelocation'),
@@ -46,24 +47,37 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'districtlocation'),
           error: this.buildActionName('error', data.model, 'districtlocation'),
         },
+        districtandcommiteloc: {
+          request: this.buildActionName('request', data.model, 'districtandcommiteloc'),
+          response: this.buildActionName('response', data.model, 'districtandcommiteloc'),
+          error: this.buildActionName('error', data.model, 'districtandcommiteloc'),
+        },
       };
     }
+    this.addAddressModel = {
+      request: this.buildActionName('request', 'addaddress'),
+      response: this.buildActionName('response', 'addaddress'),
+      error: this.buildActionName('error', 'addaddress'),
+    };
   }
 
-  getUserInfo = ({ id } = {}) => asyncFn({ url: `/customer/address/${id}`, method: 'GET', model: this.model.useraddress });
+  getUserInfo = ({ custid } = {}) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.userinfo });
   getSystemLocation = () => asyncFn({ url: `/systemlocation`, method: 'GET', model: this.model.systemlocation });
   getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
-  getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.districtlocation });
-
+  getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
+  getDistrictAndCommitte = ({ id } = {}) => asyncFn({ url: `/customer/address/info/${id}`, method: 'GET', model: this.model.districtandcommiteloc })
+  addAddress = ({ body }) => asyncFn({
+    body, url: `/customer/address`, method: 'POST', model: this.addAddressModel,
+  });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET USER ADDRESS
-      case this.model.useraddress.request:
+      case this.model.userinfo.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.useraddress.error:
+      case this.model.userinfo.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.useraddress.response:
-        return { ...state, useraddress: action.payload.data };
+      case this.model.userinfo.response:
+        return { ...state, userinfo: action.payload.data };
 
       // GET COMMITTE LOCATION
       case this.model.committelocation.request:
@@ -88,6 +102,22 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.districtlocation.response:
         return { ...state, districtlocation: action.payload.data };
+
+      // GET DISTRICT AND COMMITE LOCATION
+      case this.model.districtandcommiteloc.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.districtandcommiteloc.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.districtandcommiteloc.response:
+        return { ...state, districtandcommiteloc: action.payload.data };
+
+      // ADD ADDRESS MODEL
+      case this.addAddressModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
 
       default:
         return state;

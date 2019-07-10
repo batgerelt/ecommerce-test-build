@@ -4,7 +4,7 @@
 import React, { PureComponent } from "react";
 import { InfiniteLoader, WindowScroller, List, AutoSizer, Grid } from "react-virtualized";
 import { Card, Loader } from "../../components";
-import 'react-virtualized/styles.css';
+// import 'react-virtualized/styles.css';
 
 let start = 20;
 class Bookmarks extends PureComponent {
@@ -19,6 +19,17 @@ class Bookmarks extends PureComponent {
   // tuhain mor load hiigdsen eseh
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
+  // handleNext = () => {
+  //   const { products } = this.state;
+  //   this.setState({ isload: false });
+  //   this.props.getNewProduct({ start }).then((res) => {
+  //     this.setState(
+  //       { products: products.concat(res.payload.data) },
+  //       () => this.setState({ isload: true }),
+  //     );
+  //     start += 20;
+  //   });
+  // }
   // data nemeh heseg
   loadMoreRows = () => {
     this.props.getNewProduct({ start }).then((res) => {
@@ -43,6 +54,14 @@ class Bookmarks extends PureComponent {
               loadMoreRows={this.loadMoreRows}
               rowCount={this.state.products.length + 1}
             >
+              <CardList
+                type={CARD_LIST_TYPES.horizontal}
+                // items={newproduct.slice(cardsLength)}
+                items={products}
+                showAll
+                cardType={CARD_TYPES.slim}
+                {...this.props}
+              />
               {({ onRowsRendered, registerChild }) => (
                 <WindowScroller>
                   {({ height, isScrolling, scrollTop }) => (

@@ -6,5 +6,7 @@ import DeliveryPanel from "./DeliveryPanel";
 import SwalModals from "./SwalModals";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import IndividualTab from "./IndividualTab";
+import OrganizationTab from "./OrganizationTab";
 
-export { LoginRegisterPanel, PaymentTypePanel, PaymentPanel, DeliveryInfo, SwalModals, Signin, Signup, DeliveryPanel };
+export { LoginRegisterPanel, PaymentTypePanel, PaymentPanel, DeliveryInfo, SwalModals, Signin, Signup, DeliveryPanel, IndividualTab, OrganizationTab };

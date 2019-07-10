@@ -284,8 +284,8 @@ class Component extends React.Component {
               <p>Имарт карт</p>
             </div>
           </div>
-          {this.props.userInfo.card === null ? null : this.renderCard()}
-          {this.props.userInfo.card === null ? <Card /> : null}
+          {this.props.userInfo.card === undefined ? null : this.renderCard()}
+          {this.props.userInfo.card === undefined ? <Card {...this.props} /> : null}
         </Form>
       );
     } catch (error) {
