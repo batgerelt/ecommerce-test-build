@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-undef */
@@ -7,7 +6,7 @@
 import React, { PureComponent } from "react";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import { Card, Loader } from "../../components";
-import 'react-virtualized/styles.css';
+// import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 340;
 const RowItem = React.memo(function RowItem({ item }) {
@@ -27,6 +26,17 @@ class Bookmarks extends PureComponent {
   // tuhain mor load hiigdsen eseh
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
+  // handleNext = () => {
+  //   const { products } = this.state;
+  //   this.setState({ isload: false });
+  //   this.props.getNewProduct({ start }).then((res) => {
+  //     this.setState(
+  //       { products: products.concat(res.payload.data) },
+  //       () => this.setState({ isload: true }),
+  //     );
+  //     start += 20;
+  //   });
+  // }
   // data nemeh heseg
   loadMoreRows = (key) => {
     this.props.getNewProduct({ start: this.props.count });
@@ -122,3 +132,4 @@ class Bookmarks extends PureComponent {
 }
 
 export default Bookmarks;
+

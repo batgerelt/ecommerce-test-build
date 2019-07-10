@@ -3,20 +3,48 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { height } from "@material-ui/system";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 
 const formatter = new Intl.NumberFormat("en-US");
+
 class Relational extends Component {
   state = {
     isShowMoreClicked: false,
+  };
+
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: 'top-center',
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
   };
 
   handleShowMoreClick = () => {
     this.setState({ isShowMoreClicked: true });
   };
 
-  handleRPIncrementClick = (relatedProduct) => {
-    /* this.props.onIncrement(relatedProduct);
-        this.props.onUpdateCart(relatedProduct); */
+  handleIncrementClick = async (product) => {
+    try {
+      if (this.props.isLogged) {
+        const result = await this.props.incrementProductRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: product.cd,
+          qty: product.addminqty || 1,
+          iscart: 0,
+        });
+        if (!result.payload.success) {
+          this.handleNotify(result.payload.message);
+        }
+      } else {
+        this.props.incrementProductLocally(product);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   getSlicedData = (limit) => {
@@ -68,7 +96,7 @@ class Relational extends Component {
                         <button
                           type="button"
                           className="btn btn-link"
-                          onClick={() => this.handleRPIncrementClick(prod)}
+                          onClick={() => this.handleIncrementClick(prod)}
                         >
                           <i
                             className="fa fa-cart-plus"

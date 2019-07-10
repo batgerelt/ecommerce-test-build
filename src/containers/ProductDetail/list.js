@@ -19,11 +19,11 @@ import { NotFound } from "../../components";
 // eslint-disable-next-line import/first
 import { height } from "@material-ui/system";
 
-class Discount extends React.Component {
+class ProductDetail extends React.Component {
   renderRealational = () => {
     try {
       const { relational } = this.props;
-      return <Relational relatedProducts={relational} />;
+      return <Relational relatedProducts={relational} {...this.props} />;
     } catch (error) {
       return console.log(error);
     }
@@ -56,6 +56,7 @@ class Discount extends React.Component {
           addWishList={addWishList}
           addRate={addRate}
           getProductDetail={getProductDetail}
+          {...this.props}
         />
       );
     } catch (error) {
@@ -190,4 +191,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default ProductDetail;

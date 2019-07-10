@@ -2,86 +2,120 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
-  handleDelClick = product => (e) => {
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: 'top-center',
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleRemoveClick = product => async (e) => {
     e.preventDefault();
 
     let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
+
     if (found) {
       if (this.props.isLogged) {
-        this.props.deleteFromDb(
-          this.props.data[0].info.customerInfo.id,
-          found.cd,
-        );
+        const result = await this.props.removeProductRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: found.cd,
+        });
+        if (!result.payload.success) {
+          return this.handleNotify(result.payload.message);
+        }
       } else {
-        this.props.deleteFromLocal(product);
+        this.props.removeProductLocally(product);
       }
     } else {
       throw new Error('Бараа олдсонгүй!');
     }
   };
 
-  handleInputChange = product => (e) => {
+  // eslint-disable-next-line consistent-return
+  handleInputChange = product => async (e) => {
     let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
+
     if (found) {
       found.qty = parseInt(e.target.value);
 
       if (this.props.isLogged) {
-        this.props.modifyAndSaveToDb(
-          this.props.data[0].info.customerInfo.id,
-          found.cd,
-          found.qty,
-          1,
-        );
+        const result = await this.props.updateProductByQtyRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: found.cd,
+          qty: found.qty,
+          iscart: 1,
+        });
+        if (!result.payload.success) {
+          return this.handleNotify(result.payload.message);
+        }
       } else {
-        this.props.replaceReduxStoreBy(found);
+        this.props.updateProductByQtyLocally(found);
       }
     } else {
       throw new Error('Бараа олдсонгүй!');
     }
   };
 
-  handleIncClick = (product) => {
+  // eslint-disable-next-line consistent-return
+  handleIncrementClick = async (product) => {
     let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
+
     if (found) {
       if (this.props.isLogged) {
-        this.props.addAndSaveToDb(
-          this.props.data[0].info.customerInfo.id,
-          found.cd,
-          found.qty + (found.addminqty || 1),
-          1,
-        );
+        const result = await this.props.incrementProductRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: found.cd,
+          qty: found.addminqty || 1,
+          iscart: 0,
+        });
+        if (!result.payload.success) {
+          return this.handleNotify(result.payload.message);
+        }
       } else {
-        this.props.increment(found);
+        this.props.incrementProductLocally(found);
       }
     } else {
       throw new Error('Бараа олдсонгүй!');
     }
   };
 
-  handleDecClick = (product) => {
+  // eslint-disable-next-line consistent-return
+  handleDecrementClick = async (product) => {
     let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
       if (this.props.isLogged) {
-        this.props.reduceAndSaveToDb(
-          this.props.data[0].info.customerInfo.id,
-          found.cd,
-          found.qty - (found.addminqty || 1),
-          1,
-        );
+        const productQty = found.qty - found.addminqty < found.saleminqty
+          ? found.saleminqty
+          : found.qty - found.addminqty;
+        const result = await this.props.decrementProductRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: found.cd,
+          qty: productQty,
+          iscart: 1,
+        });
+        if (!result.payload.success) {
+          return this.handleNotify(result.payload.message);
+        }
       } else {
-        this.props.decrement(found);
+        this.props.decrementProductLocally(found);
       }
     } else {
       throw new Error('Бараа олдсонгүй!');
@@ -272,7 +306,7 @@ class Cart extends React.Component {
                       <div className="input-group e-input-group">
                         <div className="input-group-prepend" id="button-addon4">
                           <button
-                            onClick={() => this.handleDecClick(prod)}
+                            onClick={() => this.handleDecrementClick(prod)}
                             className="btn"
                             type="button"
                           >
@@ -291,7 +325,7 @@ class Cart extends React.Component {
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
-                            onClick={() => this.handleIncClick(prod)}
+                            onClick={() => this.handleIncrementClick(prod)}
                             className="btn"
                             type="button"
                           >
@@ -314,7 +348,7 @@ class Cart extends React.Component {
                           </Link>
                         </li>
                         <li>
-                          <Link to="" onClick={this.handleDelClick(prod)}>
+                          <Link to="" onClick={this.handleRemoveClick(prod)}>
                             <i className="fa fa-times" aria-hidden="true" />{" "}
                             <span>Устгах</span>
                           </Link>
