@@ -1,30 +1,31 @@
+/* eslint-disable radix */
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 import React from "react";
 import { Form } from "antd";
 
 class PaymentTypePanel extends React.Component {
-  state = {};
+  state = {
+    chosenPaymentType: {},
+  };
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
+  componentWillMount() {
+    const { paymentTypes } = this.props;
+    this.setState({ chosenPaymentType: paymentTypes[0] });
+  }
 
   handleGetValue = () => { return console.log('PaymentPanel'); }
 
   changeRadio = (e) => {
-    const { paymentTypes, changeRadio } = this.props;
-    if (paymentTypes !== 0) {
-      paymentTypes.map((item, i) => {
-        if (item.id === e.target.id) {
-          changeRadio(item);
-          // this.setState({ chosenPayment: item });
-        }
-      });
-    }
+    const { paymentTypes } = this.props;
+    let found = paymentTypes.find(item => item.id === parseInt(e.target.id));
+    this.setState({ chosenPaymentType: found });
   };
 
   renderPaymentTypes = () => {
-    const { paymentTypes, chosenPayment } = this.props;
+    const { paymentTypes } = this.props;
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
@@ -61,10 +62,14 @@ class PaymentTypePanel extends React.Component {
     return tmp;
   };
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.callback("4");
+  }
+
   render() {
-    const { onSubmit } = this.props;
     return (
-      <Form onSubmit={e => onSubmit(e)} name="payment">
+      <Form onSubmit={this.onSubmit}>
         <div className="content-container">
           {this.renderPaymentTypes()}
         </div>

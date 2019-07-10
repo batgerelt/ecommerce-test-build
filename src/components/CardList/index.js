@@ -129,7 +129,7 @@ class CardList extends React.Component {
             type={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            {...this.props}
+            // {...this.props}
           />,
         );
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router-dom';
 import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
-} from "../../../../models";
+} from "../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -21,7 +22,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getHistory({ custid: this.props.data[0].info.customerInfo.id });
+    this.props.changePassword({ id: this.props.match.params.key, password: '1234' }).then((res) => {
+      if (!res.payload.success) {
+        return <Redirect to="/new" />;
+      }
+      return null;
+    });
   }
   render() {
     return <List {...this.props} />;

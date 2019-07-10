@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Avatar } from "antd";
+import { Avatar, Progress } from "antd";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
 import history from "../../../src/scss/assets/images/demo/history.png";
@@ -33,11 +33,11 @@ class UserButton extends React.Component {
     /* console.log(localStorage.getItem('auth'));
     localStorage.clear();
  */
-    if (this.props.auth.isLogged) {
+    /* if (this.props.auth.isLogged) {
       const user = this.props.auth.data[0].info.customerInfo;
       content = (
         <li className="list-inline-item user" onClick={this.showpro}>
-          <Link to="/profile" className="flex-this">
+          <Link to="#" className="flex-this">
             <div className="image-container default">
               <span className="image" style={{ backgroundImage: `url(${avatar})` }} />
             </div>
@@ -46,6 +46,38 @@ class UserButton extends React.Component {
           <div className={`dropdown ${profilemenu}`}>
             <div className="drop-content">
               <div className="profile-menu">
+                <div className="menu-header">
+                  <div className="flex-this">
+                    <div className="image-container default">
+                      <span
+                        className="image"
+                        style={{
+                          backgroundImage: `url(${
+                            user.picture
+                              ? user.picture.data
+                                ? user.picture.data.url
+                                : user.picture
+                              : avatar
+                            })`,
+                        }}
+                      />
+                    </div>
+                    <p className="name">
+                      {user.firstname
+                        ? user.lastname
+                          ? `${user.firstname} ${user.lastname}`
+                          : user.firstname
+                        : user.email
+                          ? user.email
+                          : ""}
+                    </p>
+                  </div>
+                  <Progress percent={50} strokeColor="#feb415" status="active" />
+                  <p className="text text-center">
+                    <strong>Таны мэдээлэл</strong>
+                    <span>50%</span>
+                  </p>
+                </div>
                 <ul className="list-unstyled">
                   <li>
                     <Link to="/profile" className="flex-this">
@@ -89,7 +121,7 @@ class UserButton extends React.Component {
           </div>
         </li>
       );
-    }
+    } */
 
     return content;
   }

@@ -52,18 +52,83 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'deleteaddress'),
           error: this.buildActionName('error', data.model, 'deleteaddress'),
         },
+        addWish: {
+          request: this.buildActionName('request', data.model, 'addwish'),
+          response: this.buildActionName('response', data.model, 'addwish'),
+          error: this.buildActionName('error', data.model, 'addwish'),
+        },
+        customer: {
+          request: this.buildActionName('request', data.model, 'customer'),
+          response: this.buildActionName('response', data.model, 'customer'),
+          error: this.buildActionName('error', data.model, 'customer'),
+        },
+        committelocation: {
+          request: this.buildActionName('request', data.model, 'committelocation'),
+          response: this.buildActionName('response', data.model, 'committelocation'),
+          error: this.buildActionName('error', data.model, 'committelocation'),
+        },
+        systemlocation: {
+          request: this.buildActionName('request', data.model, 'systemlocation'),
+          response: this.buildActionName('response', data.model, 'systemlocation'),
+          error: this.buildActionName('error', data.model, 'systemlocation'),
+        },
+        districtlocation: {
+          request: this.buildActionName('request', data.model, 'districtlocation'),
+          response: this.buildActionName('response', data.model, 'districtlocation'),
+          error: this.buildActionName('error', data.model, 'districtlocation'),
+        },
+        useraddress: {
+          request: this.buildActionName('request', data.model, 'useraddress'),
+          response: this.buildActionName('response', data.model, 'useraddress'),
+          error: this.buildActionName('error', data.model, 'useraddress'),
+        },
+        addAddress: {
+          request: this.buildActionName('request', data.model, 'addaddress'),
+          response: this.buildActionName('response', data.model, 'addaddress'),
+          error: this.buildActionName('error', data.model, 'addaddress'),
+        },
+        updateMain: {
+          request: this.buildActionName('request', data.model, 'updatemain'),
+          response: this.buildActionName('response', data.model, 'updatemain'),
+          error: this.buildActionName('error', data.model, 'updatemain'),
+        },
+        changePassword: {
+          request: this.buildActionName('request', data.model, 'changepassword'),
+          response: this.buildActionName('response', data.model, 'changepassword'),
+          error: this.buildActionName('error', data.model, 'changepassword'),
+        },
+        emartCard: {
+          request: this.buildActionName('request', data.model, 'emartcard'),
+          response: this.buildActionName('response', data.model, 'emartcard'),
+          error: this.buildActionName('error', data.model, 'emartcard'),
+        },
       };
     }
   }
+  // Location
+  getSystemLocation = () => asyncFn({ url: `/systemlocation`, method: 'GET', model: this.model.systemlocation });
+  getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
+  getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
   // GET
+  getUserInfo = ({ custid } = {}) => asyncFn({ url: `/customer/address/${custid}`, method: 'GET', model: this.model.useraddress });
+  getCustomer = ({ custid }) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.customer });
   getHistory = ({ custid }) => asyncFn({ url: `/customer/viewlist/${custid}`, method: 'GET', model: this.model.history });
   getWish = ({ custid }) => asyncFn({ url: `/customer/wishlist/${custid}`, method: 'GET', model: this.model.wish });
   getDelivery = ({ custid }) => asyncFn({ url: `/order/all/${custid}`, method: 'GET', model: this.model.delivery });
   getDeliveryAddress = ({ custid }) => asyncFn({ url: `/cutomer/address/${custid}`, method: 'GET', model: this.model.deliveryAddress });
   // POST
+  addWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `POST`, model: this.model.addWish });
+  addAddress = ({ body }) => asyncFn({
+    body, url: `/customer/address`, method: `POST`, model: this.model.addAddress,
+  });
   // PUT
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
+  });
+  emartCard = ({ custid, cardno, pincode }) => asyncFn({ url: `/customer/card/${custid}/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
+  changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword });
+  updateMain = ({ body }) => asyncFn({
+    body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
   // DELETE
   deleteWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteWish });
@@ -72,6 +137,20 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // GET USER ADDRESS
+      case this.model.useraddress.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.useraddress.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.useraddress.response:
+        return { ...state, useraddress: action.payload.data };
+      // GET Customer info
+      case this.model.customer.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.customer.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.customer.response:
+        return { ...state, userInfo: action.payload.data };
       // GET Histrory products
       case this.model.history.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -100,6 +179,63 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.deliveryAddress.response:
         return { ...state, deliveryAddress: action.payload.data };
+      // POST Add view list
+      case this.model.addWish.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.addWish.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.addWish.response:
+        return { ...state, response: action.payload.data };
+      // POST Add address
+      case this.model.addAddress.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.addAddress.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.addAddress.response:
+        return { ...state, response: action.payload.data };
+      // PUT Update main
+      case this.model.updateMain.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.updateMain.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.updateMain.response:
+        return { ...state, response: action.payload.data };
+      // PUT Change password
+      case this.model.changePassword.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.changePassword.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.changePassword.response:
+        return { ...state, changePass: action.payload };
+      // PUT Emart card
+      case this.model.emartCard.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.emartCard.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.emartCard.response:
+        return { ...state, emartCard: action.payload };
+      // LOCATION
+      // GET COMMITTE LOCATION
+      case this.model.committelocation.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.committelocation.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.committelocation.response:
+        return { ...state, committelocation: action.payload.data };
+      // GET SYSTEM LOCATION
+      case this.model.systemlocation.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.systemlocation.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.systemlocation.response:
+        return { ...state, systemlocation: action.payload.data };
+      // GET DISTRICT LOCATION
+      case this.model.districtlocation.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.districtlocation.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.districtlocation.response:
+        return { ...state, districtlocation: action.payload.data };
       default:
         return state;
     }

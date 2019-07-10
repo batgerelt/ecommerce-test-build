@@ -11,23 +11,24 @@ import {
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
-  ...state.user,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
     ...ProfileModel,
-    ...UserModel,
   }, dispatch),
 });
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getUserInfo({ id: this.props.data[0].info.customerInfo.id });
+    this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
+    this.props.getSystemLocation();
+    this.props.getDistrictLocation({ id: 11 });
+    this.props.getCommmitteLocation({ provid: 11, distid: 1 });
   }
+
   render() {
-    console.log("hello", this.props);
     return <List {...this.props} />;
   }
 }

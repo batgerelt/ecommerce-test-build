@@ -20,7 +20,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class UserProfile extends React.Component {
-  componentWillMount() { }
+  componentWillMount() {
+    this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+      if (res.payload.success) {
+        this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
+        this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
+      }
+      this.props.getSystemLocation();
+    });
+    this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+  }
   render() {
     return <List {...this.props} />;
   }
