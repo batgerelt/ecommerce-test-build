@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin, Divider } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Divider, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 import Card from "./card";
 
@@ -75,24 +75,15 @@ class Component extends React.Component {
     try {
       const { userInfo } = this.props;
       return (
-        <div className="row row10">
-          <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
-            <Input
-              value={userInfo.card.cardno}
-              disabled
-              style={{ backgroundColor: "rgb(235, 235, 228)" }}
-            />
-          </div>
+        <Col span={24}>
+          <Form.item>
+            <Input value={userInfo.card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
+          </Form.item>
 
-          <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
-            <Input
-              type="password"
-              placeholder="*****"
-              disabled
-              style={{ backgroundColor: "rgb(235, 235, 228)" }}
-            />
-          </div>
-        </div>
+          <Form.item>
+            <Input type="password" placeholder="*****" disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
+          </Form.item>
+        </Col>
       );
     } catch (error) {
       return console.log(error);
@@ -105,185 +96,122 @@ class Component extends React.Component {
       const { useraddress } = this.props;
       const { userInfo } = this.props;
       return (
-        <Form>
-          <div className="row row10">
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("lastname", {
-                    initialValue: userInfo.info.lastname,
-                    rules: [{ required: true, message: "Овгоо заавал оруулна уу! " }],
-                  })(<Input placeholder="Овог" />)}
-                </Form.Item>
-              </div>
-            </div>
+        <Form className="row row10">
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("lastname", {
+                initialValue: userInfo.info.lastname,
+                rules: [{ required: true, message: "Овгоо заавал оруулна уу!" }],
+              })(<Input placeholder="Овог" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("firstname", {
-                    initialValue: userInfo.info.firstname,
-                    rules: [{ required: true, message: "Нэрээ заавал оруулна уу! " }],
-                  })(<Input placeholder="Нэр" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("firstname", {
+                initialValue: userInfo.info.firstname,
+                rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
+              })(<Input placeholder="Нэр" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("email", {
-                    initialValue: userInfo.info.email,
-                    rules: [
-                      {
-                        required: true,
-                        type: "email",
-                        message: "Зөв имэйл оруулна уу! ",
-                      },
-                    ],
-                  })(<Input placeholder="Имэйл" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("email", {
+                initialValue: userInfo.info.email,
+                rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу!" }],
+              })(<Input placeholder="Имэйл" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("phone1", {
-                    initialValue: userInfo.info.phone1,
-                    rules: [
-                      {
-                        required: true,
-                        pattern: new RegExp("^[0-9]*$"),
-                        len: 8,
-                        message: "Утсаа заавал оруулна уу! ",
-                      },
-                    ],
-                  })(<Input placeholder="Утас 1" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("phone1", {
+                initialValue: userInfo.info.phone1,
+                rules: [{
+                  required: true, pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!",
+                }],
+              })(<Input placeholder="Утас 1" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("phone2", {
-                    initialValue: userInfo.info.phone2,
-                    rules: [
-                      {
-                        pattern: new RegExp("^[0-9]*$"),
-                        len: 8,
-                        message: "Утасны дугаар 8 оронтой байх ёстой! ",
-                      },
-                    ],
-                  })(<Input placeholder="Утас 2" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("phone2", {
+                initialValue: userInfo.info.phone2,
+                rules: [{ pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!" }],
+              })(<Input placeholder="Утас 2" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }} />
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("mainLocation", {
-                    initialValue: useraddress.main.provinceid,
-                    rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
-                  })(
-                    <Select
-                      placeholder="Хот/аймаг *"
-                      showSearch
-                      optionFilterProp="children"
-                      className="col-md-12"
-                      onChange={this.onchangesysloc}
-                    >
-                      {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>{" "}
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("mainLocation", {
+                initialValue: useraddress.main.provinceid,
+                rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+              })(
+                <Select showSearch placeholder="Хот/аймаг *" optionFilterProp="children" onChange={this.onchangesysloc}>
+                  {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("subLocation", {
-                    initialValue: useraddress.main.districtid,
-                    rules: [
-                      {
-                        required: true,
-                        message: "Дүүрэг/Сум сонгоно уу!",
-                      },
-                    ],
-                  })(
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      placeholder="Дүүрэг/Сум *"
-                      onChange={this.onchangesub}
-                    >
-                      {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("subLocation", {
+                initialValue: useraddress.main.districtid,
+                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
+              })(
+                <Select showSearch placeholder="Дүүрэг/Сум *" optionFilterProp="children" onChange={this.onchangesub}>
+                  {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("commiteLocation", {
-                    initialValue: useraddress.main.locid,
-                    rules: [
-                      { required: true, message: "Хороо сонгоно уу!" },
-                    ],
-                  })(
-                    <Select
-                      placeholder="Хороо *"
-                      showSearch
-                      optionFilterProp="children"
-                      onChange={this.onchangesyscom}
-                    >
-                      {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>{" "}
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("commiteLocation", {
+                initialValue: useraddress.main.locid,
+                rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+              })(
+                <Select showSearch placeholder="Хороо *" optionFilterProp="children" onChange={this.onchangesyscom}>
+                  {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-12" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("address", {
-                    initialValue: useraddress.main.address,
-                    rules: [
-                      {
-                        required: true,
-                        message: "Гэрийн хаягаа заавал оруулна уу!",
-                      },
-                    ],
-                  })(<Input placeholder="Гэрийн хаяг" />)}
-                </Form.Item>
-              </div>
-            </div>
-          </div>
+          <Col span={24}>
+            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+              {getFieldDecorator("address", {
+                initialValue: useraddress.main.address,
+                rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+              })(<Input placeholder="Гэрийн хаяг" />)}
+            </Form.Item>
+          </Col>
 
-          <div className="col-xl-12">
-            <div className="form-group text text-right" style={{ marginRight: "-10px" }}>
-              <button
-                className="btn btn-dark"
-                onClick={this.handleSubmit}
-              >
+          <Col span={24}>
+            <Form.Item className="text text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
+              <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
                 <span className="text-uppercase">Хадгалах</span>
-              </button>
-            </div>
-          </div>
-          <Divider />
-          <div className="row row10">
-            <div className="col-md-12">
-              <p>Имарт карт</p>
-            </div>
-          </div>
+              </Button>
+            </Form.Item>
+          </Col>
+
+          <Col span={24}>
+            <Divider />
+          </Col>
+
+          <Col span={24}>
+            <p>Имарт карт</p>
+          </Col>
+
           {this.props.userInfo.card === undefined ? null : this.renderCard()}
           {this.props.userInfo.card === undefined ? <Card {...this.props} /> : null}
         </Form>

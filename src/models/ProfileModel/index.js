@@ -102,6 +102,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'emartcard'),
           error: this.buildActionName('error', data.model, 'emartcard'),
         },
+        checkConfirm: {
+          request: this.buildActionName('request', data.model, 'checkconfirm'),
+          response: this.buildActionName('response', data.model, 'checkconfirm'),
+          error: this.buildActionName('error', data.model, 'checkconfirm'),
+        },
       };
     }
   }
@@ -130,6 +135,7 @@ class Model extends BaseModel {
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
+  confirm = ({ key }) => asyncFn({ url: `/customer/checkkey/${key}`, method: `PUT`, model: this.model.checkConfirm });
   // DELETE
   deleteWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteWish });
   deleteHistory = ({ custid, skucd }) => asyncFn({ url: `/customer/seenlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteHistory });
@@ -199,6 +205,13 @@ class Model extends BaseModel {
       case this.model.updateMain.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.updateMain.response:
+        return { ...state, response: action.payload.data };
+      // Confirm
+      case this.model.checkConfirm.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.checkConfirm.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.checkConfirm.response:
         return { ...state, response: action.payload.data };
       // PUT Change password
       case this.model.changePassword.request:

@@ -38,6 +38,7 @@ import {
   PackageDetail,
   Profile,
   PassReset,
+  Confirm,
 } from "../";
 
 import "../../scss/app.scss";
@@ -104,6 +105,7 @@ class App extends Component {
             <Route path="/profile" component={Profile} />
             <Route path="/search/:id/:key" component={Search} />
             <Route path="/ResetPassword/:key" component={PassReset} />
+            <Route path="/confirm/:key" component={Confirm} />
           </Switch>
 
           {/** fixed footer */}

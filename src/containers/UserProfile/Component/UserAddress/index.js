@@ -5,7 +5,6 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
-  User as UserModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
@@ -22,10 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
-    this.props.getSystemLocation();
+    /* this.props.getSystemLocation();
     this.props.getDistrictLocation({ id: 11 });
-    this.props.getCommmitteLocation({ provid: 11, distid: 1 });
+    this.props.getCommmitteLocation({ provid: 11, distid: 1 }); */
   }
 
   render() {
