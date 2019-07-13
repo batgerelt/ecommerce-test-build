@@ -239,11 +239,13 @@ class CategoryInfo extends React.Component {
     }
   };
 
+  // eslint-disable-next-line consistent-return
   renderFilteredList = () => {
     try {
+      console.log(this.props);
+      /* console.log(this.props.categoryinfo.parents, "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"); */
       const { categoryfilter, id } = this.props;
       const { parents } = this.props.categoryinfo;
-
       let result = null;
       if (this.state.isListViewOn) {
         result = (
@@ -340,69 +342,71 @@ class CategoryInfo extends React.Component {
   };
 
   render() {
-    const { parents, subcategorys } = this.props.categoryinfo;
-    const { id } = this.props;
-
-    let selectedCat = null;
-    let cats = <div className="block">Ангилал байхгүй байна</div>;
-    cats = parents && parents.map((parent, index) => {
-      if (parent.id === parseInt(id)) {
-        selectedCat = parent.catnm;
-        return (
-          <div key={index} className="block">
-            <div className="accordion">
-              <h6
-                style={{
-                  marginLeft: "10px",
-                  marginTop: "10px",
-                  marginBotton: "0",
-                }}
-              >
-                {parent.catnm}
-              </h6>
-              <div
-                id="collapseOne"
-                className="collapse show"
-                aria-labelledby="headingOne"
-                data-parent="#accordionExample"
-              >
-                <div className="collapse-content">
-                  <ul className="list-unstyled">
-                    {subcategorys && subcategorys.map((sub, index) => {
-                      if (sub.parentid === parent.id) {
-                        return (
-                          <li key={index}>
-                            <Link to={sub.route ? sub.route : ""}>
-                              {sub.catnm}
-                            </Link>
-                          </li>
-                        );
-                      }
-                      return null;
-                    })}
-                  </ul>
+    if (this.props.categoryinfo.length !== 0) {
+      const { parents, subcategorys } = this.props.categoryinfo;
+      const { id } = this.props;
+      let selectedCat = null;
+      let cats = <div className="block">Ангилал байхгүй байна</div>;
+      cats = parents && parents.map((parent, index) => {
+        if (parent.id === parseInt(id)) {
+          selectedCat = parent.catnm;
+          return (
+            <div key={index} className="block">
+              <div className="accordion">
+                <h6
+                  style={{
+                    marginLeft: "10px",
+                    marginTop: "10px",
+                    marginBotton: "0",
+                  }}
+                >
+                  {parent.catnm}
+                </h6>
+                <div
+                  id="collapseOne"
+                  className="collapse show"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div className="collapse-content">
+                    <ul className="list-unstyled">
+                      {subcategorys && subcategorys.map((sub, index) => {
+                        if (sub.parentid === parent.id) {
+                          return (
+                            <li key={index}>
+                              <Link to={sub.route ? sub.route : ""}>
+                                {sub.catnm}
+                              </Link>
+                            </li>
+                          );
+                        }
+                        return null;
+                      })}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      }
-      return null;
-    });
+          );
+        }
+        return null;
+      });
 
-    return (
-      <div className="top-container">
-        <div className="section">
-          <div className="container pad10">
-            {this.renderBreadCrumb()}
-            <div className="row row10">
-              {this.renderLeftPanel()}
-              {this.renderFilteredList()}
+      return (
+        <div className="top-container">
+          <div className="section">
+            <div className="container pad10">
+              {this.renderBreadCrumb()}
+              <div className="row row10">
+                {this.renderLeftPanel()}
+                {this.renderFilteredList()}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
