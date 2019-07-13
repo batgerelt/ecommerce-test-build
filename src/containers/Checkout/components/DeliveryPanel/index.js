@@ -34,7 +34,6 @@ class DeliveryPanel extends React.Component {
     const { deliveryTypes } = this.props;
     let found = deliveryTypes.find(item => item.id === 1);
     this.props.DeliveryInfo.setDeliveryType(found);
-    console.log(main);
     if (main !== null) {
       this.setState({ chosenAddress: main });
       this.getDistrict(main.provinceid, false);

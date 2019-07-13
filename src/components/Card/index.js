@@ -75,7 +75,7 @@ class Card extends React.Component {
 
   render() {
     const {
-      type, item, isLastInRow, className,
+      shape, item, isLastInRow, className,
     } = this.props;
     let prices;
     if (!item) {
@@ -153,8 +153,7 @@ class Card extends React.Component {
         </button>
       </div>
     );
-
-    switch (type) {
+    switch (shape) {
       case CARD_TYPES.slim:
         return (
           <div
@@ -404,7 +403,7 @@ class Card extends React.Component {
                 <Link
                   to=""
                   className="wishlist"
-                  // onClick={this.handleSave(item)}
+                // onClick={this.handleSave(item)}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </Link>
@@ -432,7 +431,7 @@ const mapStateToProps = state => ({
 });
 
 Card.propTypes = {
-  type: PropTypes.number.isRequired,
+  shape: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   isLastInRow: PropTypes.bool,
   className: PropTypes.string,

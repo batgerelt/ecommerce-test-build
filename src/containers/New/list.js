@@ -56,7 +56,7 @@ class Bookmarks extends PureComponent {
   }
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
-    const maxItemsPerRow = getMaxItemsAmountPerRow(width);
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
     return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
   }
 
@@ -77,15 +77,15 @@ class Bookmarks extends PureComponent {
             <AutoSizer disableHeight>
               {({ width }) => {
                 const { newproduct } = this.props;
-                const rowCount = getRowsAmount(width, newproduct.length, true);
+                const rowCount = this.getRowsAmount(width, newproduct.length, true);
                 return (
                   <InfiniteLoader
                     ref={this.infiniteLoaderRef}
                     rowCount={rowCount}
                     isRowLoaded={({ index }) => {
                       const { newproduct } = this.props;
-                      const maxItemsPerRow = getMaxItemsAmountPerRow(width);
-                      const allItemsLoaded = generateIndexesForRow(index, maxItemsPerRow, newproduct.length).length > 0;
+                      const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                      const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, newproduct.length).length > 0;
 
                       return !true || allItemsLoaded;
                     }}
@@ -105,8 +105,8 @@ class Bookmarks extends PureComponent {
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
                               const { newproduct } = this.props;
-                              const maxItemsPerRow = getMaxItemsAmountPerRow(width);
-                              const rowItems = generateIndexesForRow(index, maxItemsPerRow, newproduct.length).map(itemIndex => newproduct[itemIndex]);
+                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                              const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, newproduct.length).map(itemIndex => newproduct[itemIndex]);
                               return (
                                 <div style={style} key={key} className="row marginLeft">
                                   {rowItems.map(itemId => (
