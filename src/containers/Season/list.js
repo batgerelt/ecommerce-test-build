@@ -297,7 +297,7 @@ class Season extends React.Component {
     if (isListViewOn) {
       result = (
         <CardList
-          type={CARD_LIST_TYPES.list}
+          shape={CARD_LIST_TYPES.list}
           items={products || []}
           cardType={CARD_TYPES.list}
           {...this.props}
@@ -306,10 +306,10 @@ class Season extends React.Component {
     } else {
       result = (
         <CardList
-          type={CARD_LIST_TYPES.horizontal}
+          cardType={CARD_TYPES.wide}
           items={products || []}
           showAll
-          cardType={CARD_TYPES.wide}
+          shape={CARD_LIST_TYPES.horizontal}
           {...this.props}
         />
       );

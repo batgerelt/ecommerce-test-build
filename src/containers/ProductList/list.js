@@ -120,7 +120,7 @@ class CategoryInfo extends React.Component {
       if (this.state.isListViewOn) {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.list}
+            shape={CARD_LIST_TYPES.list}
             items={products}
             cardType={CARD_TYPES.list}
           />
@@ -128,7 +128,7 @@ class CategoryInfo extends React.Component {
       } else {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.horizontal}
+            shape={CARD_LIST_TYPES.horizontal}
             items={products}
             showAll
             cardType={CARD_TYPES.wide}
@@ -145,7 +145,7 @@ class CategoryInfo extends React.Component {
                   <p className="text">
                     {/* <strong>"{selectedCat}"</strong> */}
                     {products.length}{" "}
-                          бараа олдлоо
+                    бараа олдлоо
                   </p>
                 </div>
               </div>
@@ -164,11 +164,11 @@ class CategoryInfo extends React.Component {
                     <label
                       htmlFor="inputState"
                       style={{
-                              marginTop: "7px",
-                              marginRight: "5px",
-                            }}
+                        marginTop: "7px",
+                        marginRight: "5px",
+                      }}
                     >
-                            Эрэмбэлэх:
+                      Эрэмбэлэх:
                     </label>
                     <Select
                       defaultValue={this.state.sort}
@@ -184,8 +184,8 @@ class CategoryInfo extends React.Component {
                     <Link
                       to=""
                       className={
-                              this.state.isListViewOn ? "btn active" : "btn"
-                            }
+                        this.state.isListViewOn ? "btn active" : "btn"
+                      }
                       onClick={this.handleListViewClick}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
@@ -193,8 +193,8 @@ class CategoryInfo extends React.Component {
                     <Link
                       to=""
                       className={
-                              this.state.isListViewOn ? "btn" : "btn active"
-                            }
+                        this.state.isListViewOn ? "btn" : "btn active"
+                      }
                       onClick={this.handleGridViewClick}
                     >
                       <i className="fa fa-th" aria-hidden="true" />

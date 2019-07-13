@@ -21,6 +21,7 @@ class CardList extends React.Component {
           ? CARD_NUMS_IN_ROW.wide
           : CARD_NUMS_IN_ROW.slim;
 
+      // eslint-disable-next-line comma-spacing
       for (let j = 0; j < cardsInRow; j++, p++) {
         if (!items[p]) {
           break;
@@ -29,7 +30,7 @@ class CardList extends React.Component {
         cards.push(
           <Card
             key={p}
-            type={cardType}
+            shape={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
             {...this.props}
@@ -43,7 +44,7 @@ class CardList extends React.Component {
 
   renderCardList = () => {
     const {
-      type, items, seq, cardsInCol, showAll, cardType,
+      shape, items, seq, cardsInCol, showAll, cardType,
     } = this.props;
     if (!items.length) {
       return null;
@@ -51,7 +52,7 @@ class CardList extends React.Component {
 
     let cardList = [];
 
-    if (type === CARD_LIST_TYPES.horizontal) {
+    if (shape === CARD_LIST_TYPES.horizontal) {
       if (seq) {
         const cardTypes = seq.split(",");
 
@@ -90,7 +91,7 @@ class CardList extends React.Component {
           cardList.push(
             <Card
               key={index}
-              type={cardType}
+              shape={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
               {...this.props}
@@ -100,7 +101,7 @@ class CardList extends React.Component {
       }
 
       cardList = <div className="row row10">{cardList}</div>;
-    } else if (type === CARD_LIST_TYPES.vertical) {
+    } else if (shape === CARD_LIST_TYPES.vertical) {
       let cardsInColCalculated = Math.ceil(items.length / 3);
 
       if (cardsInCol) {
@@ -126,10 +127,10 @@ class CardList extends React.Component {
         cardsTemp.push(
           <Card
             key={key}
-            type={CARD_TYPES.tile}
+            shape={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            // {...this.props}
+          // {...this.props}
           />,
         );
 
@@ -146,7 +147,7 @@ class CardList extends React.Component {
       cardList = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
-        cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} {...this.props} />);
+        cardList.push(<Card key={index} shape={CARD_TYPES.list} item={item} {...this.props} />);
       });
     }
 
@@ -159,7 +160,7 @@ class CardList extends React.Component {
 }
 
 CardList.propTypes = {
-  type: PropTypes.number.isRequired,
+  shape: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   seq: PropTypes.string,
   cardsInCol: PropTypes.number,

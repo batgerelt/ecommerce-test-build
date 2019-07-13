@@ -179,7 +179,7 @@ class CategoryInfo extends React.Component {
       if (this.state.isListViewOn) {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.list}
+            shape={CARD_LIST_TYPES.list}
             items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             cardType={CARD_TYPES.list}
           />
@@ -187,7 +187,7 @@ class CategoryInfo extends React.Component {
       } else {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.horizontal}
+            shape={CARD_LIST_TYPES.horizontal}
             items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             showAll
             cardType={CARD_TYPES.wide}

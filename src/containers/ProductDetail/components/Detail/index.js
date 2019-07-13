@@ -7,12 +7,13 @@ import moment from "moment";
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
-    productQty: this.props.detail.saleminqty || 1,
+    productQty: this.props.detail.products[0].saleminqty || 1,
     rate: 0,
   };
 
   renderDetails = () => {
-    const { detail, categorymenu } = this.props;
+    const { categorymenu } = this.props;
+    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
     const selectedCat =
       detail.catid && categorymenu.find(cat => cat.id === detail.catid);
     return (
@@ -87,7 +88,6 @@ class Detail extends Component {
   renderCartInfo = () => {
     const { isLoggedIn } = this.props;
     const detail = this.props.detail.products ? this.props.detail.products[0] : null;
-
     if (!detail) {
       return null;
     }
@@ -244,7 +244,7 @@ class Detail extends Component {
             type="button"
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
-          /* onClick={() => this.props.onUpdateCart(detail)} */
+            /* onClick={() => this.props.onUpdateCart(detail)} */
             onClick={() => this.handleAddToCart(detail)}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
@@ -285,7 +285,6 @@ class Detail extends Component {
 
   getPrice = () => {
     const detail = this.props.detail.products ? this.props.detail.products[0] : null;
-
     if (!detail) {
       return null;
     }
