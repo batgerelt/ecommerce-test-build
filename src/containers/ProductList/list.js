@@ -181,24 +181,18 @@ class CategoryInfo extends React.Component {
                     </Select>
                   </div>
                   <div className="form-group flex-this">
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn active" : "btn"
-                            }
+                    <div
+                      className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleListViewClick}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
-                    </Link>
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn" : "btn active"
-                            }
+                    </div>
+                    <div
+                      className={this.state.isListViewOn ? "btn" : "btn active"}
                       onClick={this.handleGridViewClick}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
-                    </Link>
+                    </div>
                   </div>
                 </form>
               </div>

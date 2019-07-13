@@ -209,21 +209,29 @@ class AppHeader extends Component {
                               >
                                 <span>Бүх бараа</span>
                               </a>
-                              {root.map((entry, index) => (
+                              {/* <select>
+                                {root.map((item, index) => {
+                                  <option key={index}>
+                                    <a className="dropdown-tem" onClick={e => this.onItem(e, item)}>
+                                      {item.icon ? <img src={process.env.IMAGE + item.icon} alt={item.name} /> : null}
+                                      <span>{item.name}</span>
+                                    </a>;
+                                  </option>;
+                                })}
+                              </select> */}
+                              {root.map((item, index) => (
                                 <a
                                   className="dropdown-item"
                                   key={index}
-                                  onClick={e => this.onItem(e, entry)}
+                                  onClick={e => this.onItem(e, item)}
                                 >
-                                  {entry.icon ? (
+                                  {item.icon ? (
                                     <img
-                                      src={process.env.IMAGE + entry.icon}
-                                      alt="category"
+                                      src={process.env.IMAGE + item.icon}
+                                      alt={item}
                                     />
-                                  ) : (
-                                      " "
-                                    )}
-                                  <span>{entry.name}</span>
+                                  ) : null }
+                                  <span>{item.name}</span>
                                 </a>
                               ))}
                             </div>
