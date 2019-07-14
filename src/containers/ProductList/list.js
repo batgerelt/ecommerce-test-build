@@ -29,6 +29,10 @@ class CategoryInfo extends React.Component {
     isLeftPanel: false,
   };
 
+  handleViewChange = () => {
+    this.setState({ isListViewOn: !this.state.isListViewOn });
+  };
+
   renderBreadCrumb = () => {
     try {
       const { parents } = this.props.categoryinfo;
@@ -123,6 +127,7 @@ class CategoryInfo extends React.Component {
             shape={CARD_LIST_TYPES.list}
             items={products}
             cardType={CARD_TYPES.list}
+            {...this.props}
           />
         );
       } else {
@@ -132,6 +137,7 @@ class CategoryInfo extends React.Component {
             items={products}
             showAll
             cardType={CARD_TYPES.wide}
+            {...this.props}
           />
         );
       }
@@ -183,13 +189,13 @@ class CategoryInfo extends React.Component {
                   <div className="form-group flex-this">
                     <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
-                      onClick={this.handleListViewClick}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
                     </div>
                     <div
                       className={this.state.isListViewOn ? "btn" : "btn active"}
-                      onClick={this.handleGridViewClick}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
                     </div>

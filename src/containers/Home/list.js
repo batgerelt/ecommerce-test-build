@@ -206,9 +206,8 @@ class Homepage extends React.Component {
       <div className="top-container">
         {this.renderMainBanner()}
         {this.renderBlocks()}
-        {this.renderBrandSlider()}
 
-        {/* <div className="main-slide brands-list">
+        <div className="main-slide brands-list">
           <div className="container pad10">
             {this.renderBrandSlider()}
 
@@ -218,7 +217,7 @@ class Homepage extends React.Component {
               htmlRef={window.location.pathname}
             />
           </div>
-        </div> */}
+        </div>
       </div>
     );
   }

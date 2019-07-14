@@ -95,11 +95,11 @@ class Card extends React.Component {
         prices = (
           <div className="row">
             {!!priceTitle && (
-              <div className="col-md-6" style={{ textAlign: "left" }}>
+              <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
                 {priceTitle}
               </div>
             )}
-            <div className={`col-md-${priceTitle ? "6" : "12"}`}>
+            <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
               <small className="sale">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </small>
@@ -113,11 +113,11 @@ class Card extends React.Component {
         prices = (
           <div className="row">
             {!!priceTitle && (
-              <div className="col-md-6" style={{ textAlign: "left" }}>
+              <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
                 {priceTitle}
               </div>
             )}
-            <div className={`col-md-${priceTitle ? "6" : "12"}`}>
+            <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
               <span className="current">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </span>
@@ -284,16 +284,37 @@ class Card extends React.Component {
                   </span>
                 </Link>
 
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={0}
-                  value={item.rate / 2}
-                />
-                <br />
-                <Link to={item.route ? item.route : ""} className="price">
-                  {prices}
-                </Link>
+                {/* Bagtsiin une bolon uliraliin une haruulah */}
+                {item.id ? (
+                  <div>
+                    <Rate
+                      allowHalf
+                      disabled
+                      defaultValue={0}
+                      value={item.rate / 2}
+                    />
+                    <br />
+                    <Link to={item.route ? item.route : ""} className="price">
+                      {prices}
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="d-flex">
+                    <div className="col-md-8 no-padding">
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={0}
+                        value={item.rate / 2}
+                      />
+                    </div>
+                    <div className="col-md-4 no-padding">
+                      <Link to={item.route ? item.route : ""} className="price wide-price">
+                        {prices}
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -399,23 +420,24 @@ class Card extends React.Component {
                     seq={index}
                   />
                 ))}
-              <div className="cart-container">
-                <Link
-                  to=""
+              <div className="cart-container d-flex">
+                <div
                   className="wishlist"
-                // onClick={this.handleSave(item)}
+                  style={{ lineHeight: '28px' }}
+                  // onClick={this.handleSave(item)}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
-                </Link>
-                <button
-                  onClick={this.handleIncrement(item)}
+                </div>
+                <a
+                  onClick={() => this.handleIncrement(item)}
                   style={{
                     fontSize: "1.1rem",
+                    paddingLeft: '5px',
                   }}
-                  disabled={heartDisabled}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                </button>
+                  <span />
+                </a>
               </div>
             </div>
           </div>

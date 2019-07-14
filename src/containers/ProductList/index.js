@@ -6,18 +6,22 @@ import { bindActionCreators } from 'redux';
 import {
   Search as SearchModel,
   Product as ProductModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 
 const mapStateToProps = state => ({
   ...state.search,
   ...state.product,
+  ...state.auth,
+  ...state.cart,
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     ...SearchModel,
     ...ProductModel,
+    ...CartModel,
   }, dispatch),
 });
 

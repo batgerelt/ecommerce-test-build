@@ -33,7 +33,11 @@ class CardList extends React.Component {
             shape={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
-            {...this.props}
+            auth={this.props.auth}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+            incrementProductLocally={this.props.incrementProductLocally}
+            getRecipeProducts={this.props.getRecipeProducts}
+            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
           />,
         );
       }
@@ -94,7 +98,11 @@ class CardList extends React.Component {
               shape={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
-              {...this.props}
+              auth={this.props.auth}
+              incrementProductRemotely={this.props.incrementProductRemotely}
+              incrementProductLocally={this.props.incrementProductLocally}
+              getRecipeProducts={this.props.getRecipeProducts}
+              incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
             />,
           );
         });
@@ -130,7 +138,11 @@ class CardList extends React.Component {
             shape={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-          // {...this.props}
+            auth={this.props.auth}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+            incrementProductLocally={this.props.incrementProductLocally}
+            getRecipeProducts={this.props.getRecipeProducts}
+            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
           />,
         );
 
@@ -147,7 +159,17 @@ class CardList extends React.Component {
       cardList = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
-        cardList.push(<Card key={index} shape={CARD_TYPES.list} item={item} {...this.props} />);
+        cardList.push(
+          <Card
+            key={index}
+            shape={CARD_TYPES.list}
+            item={item}
+            auth={this.props.auth}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+            incrementProductLocally={this.props.incrementProductLocally}
+            getRecipeProducts={this.props.getRecipeProducts}
+            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+          />);
       });
     }
 

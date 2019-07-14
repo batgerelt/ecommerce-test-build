@@ -16,16 +16,23 @@ import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
 
 class CategoryInfo extends React.Component {
-  state = {
-    loading: false,
-    catid: 0,
-    isListViewOn: false,
-    minprice: 0,
-    maxprice: 0,
-    ordercol: "price_asc",
-    parameters: [],
-    isLeftPanel: false,
-  };
+  constructor(props) {
+    super(props);
+    // const { attributes } = props.searchkeyword;
+    // console.log('attributes: ', attributes);
+    // console.log(attributes === undefined ? null : attributes.find(i => i.type === 'PRICE').attributes.find(i => i.name === 'Үнэ'));
+
+    this.state = {
+      loading: false,
+      catid: 0,
+      isListViewOn: false,
+      minprice: 0,
+      maxprice: 0,
+      ordercol: "price_asc",
+      parameters: [],
+      isLeftPanel: false,
+    };
+  }
 
   handleordercolChange = (value) => {
     const {
@@ -182,6 +189,7 @@ class CategoryInfo extends React.Component {
             shape={CARD_LIST_TYPES.list}
             items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             cardType={CARD_TYPES.list}
+            {...this.props}
           />
         );
       } else {
@@ -191,6 +199,7 @@ class CategoryInfo extends React.Component {
             items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
             showAll
             cardType={CARD_TYPES.wide}
+            {...this.props}
           />
         );
       }

@@ -30,6 +30,9 @@ class AppHeader extends Component {
     };
   }
 
+  componentWillUnmount() { this.props.onRef(null); }
+  componentDidMount() { this.props.onRef(this); }
+
   handleSearch = () => {
     const { word, keywordid } = this.state;
     keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
@@ -83,6 +86,12 @@ class AppHeader extends Component {
     this.setState({ isDropdownOpen: !this.state.isDropdownOpen });
   };
 
+  handleDropDownClose = () => {
+    if (this.state.isDropdownOpen) {
+      this.setState({ isDropdownOpen: false });
+    }
+  }
+
   searchDropdown = () => {
     this.setState({ isSearchDropdownOpen: !this.state.isSearchDropdownOpen });
   };
@@ -90,6 +99,13 @@ class AppHeader extends Component {
   toggleSearch = () => {
     this.setState({ isSearch: !this.state.isSearch });
   };
+
+  handleKeyPress = (event, url) => {
+    if (event.key === 'Enter') {
+      this.handleSearch();
+      this.props.history.push(url);
+    }
+  }
 
   renderTopNavigation = () => {
     try {
@@ -207,21 +223,23 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={e => this.onItem1(e)}
                               >
-                                <span>Бүх бараа</span>
+                                <span className="no-padding">Бүх бараа</span>
                               </a>
                               {/* <select>
                                 {root.map((item, index) => {
-                                  <option key={index}>
-                                    <a className="dropdown-tem" onClick={e => this.onItem(e, item)}>
-                                      {item.icon ? <img src={process.env.IMAGE + item.icon} alt={item.name} /> : null}
-                                      <span>{item.name}</span>
-                                    </a>;
+                                  <option
+                                    key={index}
+                                    className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
+                                    onClick={e => this.onItem(e, item)}
+                                  >
+                                    {item.icon ? <img src={process.env.IMAGE + item.icon} alt={item.name} /> : null}
+                                    <span>{item.name}</span>
                                   </option>;
                                 })}
                               </select> */}
                               {root.map((item, index) => (
                                 <a
-                                  className="dropdown-item"
+                                  className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
                                   key={index}
                                   onClick={e => this.onItem(e, item)}
                                 >
@@ -250,6 +268,7 @@ class AppHeader extends Component {
                                 placeholder="Бүгдээс хайх"
                                 style={{ boxShadow: 'none' }}
                                 onChange={e => this.handleChangeKeyWord(e)}
+                                onKeyPress={e => this.handleKeyPress(e, keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`)}
                               />
                               <datalist id="cat" className="list-unstyled">
                                 {this.state.suggestion.map(item => (
@@ -424,7 +443,7 @@ class AppHeader extends Component {
     const { categorymenu } = this.props.category;
 
     return (
-      <div className="wrap" id="main-header">
+      <div className="wrap" id="main-header" onClick={this.handleDropDownClose}>
         {
           mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
             <div className="top-container">

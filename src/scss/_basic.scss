@@ -80,6 +80,37 @@ body {
     }
   }
 }
+
+.no-padding{
+  padding: 0px;
+}
+
+.no-padding-l{
+  padding-left: 0px;
+}
+
+.no-padding-r{
+  padding-right: 0px;
+}
+
+input{
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+a{
+  text-decoration: none;
+}
+
+button{
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.no-icon-category{
+  padding-left: 45px !important;
+}
+
 .top-main {
   padding: 10px 0;
 
