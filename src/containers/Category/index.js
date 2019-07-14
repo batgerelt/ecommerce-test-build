@@ -63,14 +63,17 @@ class Page extends React.Component {
 
   render() {
     const { isloading, isloadingCat } = this.state;
-    return (
-      <Spin
-        spinning={isloading && isloadingCat}
-        indicator={<Loader />}
-      >
-        <List {...this.props} id={this.props.match.params.id} />
-      </Spin>
-    );
+    if (isloading || isloadingCat) {
+      return (
+        <Spin
+          spinning={isloading || isloadingCat}
+          indicator={<Loader />}
+        >
+          <List {...this.props} id={this.props.match.params.id} />
+        </Spin>
+      );
+    }
+    return <List {...this.props} id={this.props.match.params.id} />;
   }
 }
 export default connect(
