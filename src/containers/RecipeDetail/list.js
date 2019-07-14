@@ -78,7 +78,7 @@ class List extends React.Component {
             <Slider
               data={recipe.images}
               params={sliderParams}
-              elContainer={"banner"}
+              elContainer={"images"}
             />
           </div>
         </div>
