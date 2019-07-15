@@ -9,7 +9,6 @@ class Moreinfo extends Component {
   renderMoreInfo = () => {
     try {
       let { product, attributes, similarProducts } = this.props;
-
       const similarProductsLimit = isMobile ? 1 : 4;
       const shouldLoop = similarProducts.length > similarProductsLimit;
 

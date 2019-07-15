@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-destructuring */
@@ -9,7 +10,6 @@ import { connect } from 'react-redux';
 import { Rate } from "antd";
 import { toast } from "react-toastify";
 import { css } from "glamor";
-
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -403,7 +403,7 @@ class Card extends React.Component {
                 <div
                   className="wishlist"
                   style={{ lineHeight: '28px' }}
-                  // onClick={this.handleSave(item)}
+                // onClick={this.handleSave(item)}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </div>

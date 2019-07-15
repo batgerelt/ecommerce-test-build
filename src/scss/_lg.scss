@@ -446,6 +446,14 @@ h5 {
   position: relative;
 }
 
+.e-breadcrumb li:first-child{
+  float: left;
+  display: block;
+  padding: 0 0px;
+  padding-right: 20px;
+  position: relative;
+}
+
 .e-breadcrumb li + li:before {
   position: absolute;
   content: "\f054";

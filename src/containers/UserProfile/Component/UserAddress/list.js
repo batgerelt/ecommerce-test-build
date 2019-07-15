@@ -42,6 +42,7 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.address);
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const param = {
@@ -61,6 +62,13 @@ class Component extends React.Component {
       }
     });
   }
+
+  checkError = (value) => {
+    if (value === undefined || value === null) {
+      return "";
+    }
+    return value;
+  };
 
   renderLocation = (location) => {
     try {
@@ -90,6 +98,7 @@ class Component extends React.Component {
       distid: "01",
       commid: "01",
     };
+    console.log("onchangesub", param);
     this.setState({ selectLoading: true });
     this.props.getDistrictLocation({ id: e }).then((res) => {
       if (res.payload.success) {
@@ -102,12 +111,13 @@ class Component extends React.Component {
             this.setState({
               committelocation: res.payload.data,
               loc: res.payload.data[0].locid,
-              selectLoading: false,
               address: param,
             });
           }
         });
       }
+      console.log(param);
+      this.setState({ selectLoading: false });
     });
   }
 
@@ -117,22 +127,26 @@ class Component extends React.Component {
       distid: e,
       commid: "01",
     };
+    /* console.log("onchangesub", param); */
     this.setState({ selectLoading: true });
     this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
       if (res.payload.success) {
-        console.log(res.payload);
         this.setState({
           committelocation: res.payload.data,
           loc: res.payload.data[0].locid,
-          selectLoading: false,
           address: param,
         });
       }
+      this.setState({ selectLoading: false });
     });
   }
 
   onchangesyscom = (e) => {
-    this.setState({ loc: e });
+    this.setState({ selectLoading: true });
+    const param = this.state.address;
+    param.commid = e;
+    this.setState({ loc: e, address: param });
+    this.setState({ selectLoading: false });
   }
 
   onDelete = (e, item) => {
@@ -145,10 +159,10 @@ class Component extends React.Component {
     });
   }
 
-  renderDeliveryAddress = () => {
+  renderDeliveryAddress = (addrs) => {
     try {
-      const { useraddress } = this.props;
-      return useraddress.addrs.map((item, index) => (
+      const address = addrs;
+      return address.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
           <td style={{ width: "5%" }}>{item.name}</td>
           <td style={{ width: "5%" }}>{item.phone1}</td>
@@ -231,7 +245,7 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
-                initialValue: address.length === 0 ? null : address.distid,
+                initialValue: address.length === 0 ? null : this.checkError(address.distid),
                 rules: [{ required: true, message: "Сум/дүүрэг сонгоно уу!" }],
               })(
                 <Select
@@ -295,7 +309,7 @@ class Component extends React.Component {
                   minHeight: "auto",
                 }}
               >
-                {/* {this.props.useraddress.addrs === undefined ? null : this.renderDeliveryAddress()} */}
+                {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
               </div>
             </table>
           </Col>
@@ -306,7 +320,7 @@ class Component extends React.Component {
     }
   };
   render() {
-    console.log(this.state.address);
+    console.log(this.props);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

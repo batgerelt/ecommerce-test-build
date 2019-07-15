@@ -36,10 +36,6 @@ class Season extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.props.seasonfilter, "did");
-  }
-
   showLeftPanel = (e) => {
     this.setState({ isLeftPanel: !this.state.isLeftPanel });
   };
@@ -86,33 +82,6 @@ class Season extends React.Component {
     }).then((res) => {
       this.setState({ loading: false });
     });
-
-    // api.season.findAllFilteredInfo(data).then((res) => {
-    //   if (res.success) {
-    //     if (shouldChangeFilterSet) {
-    //       const attributes = res.data[0].attributes;
-    //       const prices = this.getPrices(attributes);
-
-    //       this.setState({
-    //         minPrice: prices.min,
-    //         maxPrice: prices.max,
-    //       });
-    //     }
-
-    //     this.setState({
-    //       products: res.data[0].products,
-    //     });
-
-    //     if (shouldChangeFilterSet) {
-    //       this.setState({
-    //         attributes: res.data[0].attributes,
-    //       });
-    //     }
-    //   } else {
-    //     this.notify(res.message);
-    //   }
-    //   this.setState({ loading: false });
-    // });
   };
 
   handlePriceAfterChange = (value) => {

@@ -32,10 +32,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   state = {
-    loading: true,
+    loading: false,
   }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
+    if (this.props.seasonfilter.length === 0) {
+      this.setState({ loading: true });
+    }
     this.props.getSeasonBanner();
     this.props.getSeasonMenu({});
     this.props.seasonFilter({

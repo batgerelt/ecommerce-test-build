@@ -10,7 +10,7 @@ import { Card, Loader } from "../../components";
 
 const ITEM_HEIGHT = 340;
 const RowItem = React.memo(function RowItem({ item }) {
-  return <Card type={1} item={item} />;
+  return <Card shape={1} item={item} />;
 });
 
 class Bookmarks extends PureComponent {
@@ -26,20 +26,12 @@ class Bookmarks extends PureComponent {
   // tuhain mor load hiigdsen eseh
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  // handleNext = () => {
-  //   const { products } = this.state;
-  //   this.setState({ isload: false });
-  //   this.props.getNewProduct({ start }).then((res) => {
-  //     this.setState(
-  //       { products: products.concat(res.payload.data) },
-  //       () => this.setState({ isload: true }),
-  //     );
-  //     start += 20;
-  //   });
-  // }
   // data nemeh heseg
   loadMoreRows = (key) => {
-    this.props.getNewProduct({ start: this.props.count });
+    console.log(this.props.isFetching);
+    if (!this.props.isFetching) {
+      this.props.getNewProduct({ start: this.props.count });
+    }
   }
 
   noRowsRenderer = () => (
@@ -108,7 +100,7 @@ class Bookmarks extends PureComponent {
                               const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                               const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, newproduct.length).map(itemIndex => newproduct[itemIndex]);
                               return (
-                                <div style={style} key={key} className="row marginLeft">
+                                <div style={style} key={key} className="row marginLeft m-top-1">
                                   {rowItems.map(itemId => (
                                     <RowItem key={itemId.cd} item={itemId} />
                                   ))}

@@ -58,7 +58,6 @@ class Gallery extends Component {
     try {
       const { images } = this.props;
       const { current } = this.state;
-
       return (
         <Magnifier
           smallImage={images[current].mdmimg}
