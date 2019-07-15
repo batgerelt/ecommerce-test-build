@@ -149,7 +149,7 @@ class Model extends BaseModel {
       case this.model.useraddress.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.useraddress.response:
-        return { ...state, useraddress: action.payload.data };
+        return { ...state, useraddress: action.payload.data, addrs: action.payload.data.addrs };
       // GET Customer info
       case this.model.customer.request:
         return { ...state, current: this.requestCase(state.current, action) };
