@@ -28,7 +28,10 @@ class Bookmarks extends PureComponent {
 
   // data nemeh heseg
   loadMoreRows = (key) => {
-    this.props.getNewProduct({ start: this.props.count });
+    console.log(this.props.isFetching);
+    if (!this.props.isFetching) {
+      this.props.getNewProduct({ start: this.props.count });
+    }
   }
 
   noRowsRenderer = () => (

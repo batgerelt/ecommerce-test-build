@@ -22,6 +22,8 @@ class Model extends BaseModel {
     recipeproduct: [],
     categorymenu: [],
     count: 0,
+    isFetching: false,
+    allFetched: false,
   }
 
   constructor(data = {}) {
@@ -156,11 +158,13 @@ class Model extends BaseModel {
 
       // GET NEW PRODUCT
       case this.model.newproduct.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, isFetching: true, current: this.requestCase(state.current, action) };
       case this.model.newproduct.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, isFetching: false, current: this.errorCase(state.current, action) };
       case this.model.newproduct.response:
-        return { ...state, newproduct: state.newproduct.concat(action.payload.data), count: state.count + 20 };
+        return {
+          ...state, isFetching: false, newproduct: state.newproduct.concat(action.payload.data), count: state.count + 20,
+        };
 
       // GET DETAIL
       case this.model.detail.request:

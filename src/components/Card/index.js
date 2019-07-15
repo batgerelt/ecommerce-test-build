@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { Rate } from "antd";
 import { toast } from "react-toastify";
 import { css } from "glamor";
-import ReactImageAppear from 'react-image-appear';
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -165,17 +164,12 @@ class Card extends React.Component {
             <div className="single-product small-product sale-product timed-product">
               <div className="image-container">
                 <Link to={item.route ? item.route : ""}>
-                  <span className="image">
-                    <ReactImageAppear
-                      src={`${process.env.IMAGE + item.img}`}
-                    />
-                  </span>
-                  {/* <span
+                  <span
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + item.img})`,
                     }}
-                  /> */}
+                  />
                 </Link>
                 {item.tags &&
                   item.tags.map((label, index) => (
