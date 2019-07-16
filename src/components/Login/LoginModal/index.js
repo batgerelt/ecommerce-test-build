@@ -45,12 +45,18 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          let result = [];
           this.props.login({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
-              this.handleLoginModal();
               localStorage.setItem('auth', JSON.stringify(res.payload));
-              result = res;
+              this.handleLoginModal();
+
+              this.props.increaseProductsByQtyRemotely({
+                custid: res.payload.data[0].info.customerInfo.id,
+                iscart: 0,
+                body: products,
+              });
+
+              this.props.getProducts({ custid: res.payload.data[0].info.customerInfo.id });
             } else {
               this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
             }
@@ -62,14 +68,6 @@ class LoginModal extends React.Component {
             skucd: prod.cd,
             qty: prod.qty,
           }));
-
-          result = await this.props.increaseProductsByQtyRemotely({
-            custid: this.props.auth.data[0].info.customerInfo.id,
-            iscart: 0,
-            body: products,
-          });
-
-          this.props.getProducts({ custid: this.props.auth.data[0].info.customerInfo.id });
         } catch (e) {
           console.log(e);
         }

@@ -103,7 +103,8 @@ class AppHeader extends Component {
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
       this.handleSearch();
-      this.props.history.push(url);
+      // this.props.history.push(url);
+      window.history.pushState('', '', url);
     }
   }
 

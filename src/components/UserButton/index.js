@@ -33,8 +33,13 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
+
+    console.log('1 ');
+
     if (localStorage.getItem('auth') !== null) {
+      console.log('2 ');
       if (JSON.parse(localStorage.getItem('auth')).success) {
+        console.log('3 ');
         const user = JSON.parse(localStorage.getItem('auth')).data[0].info.customerInfo;
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
