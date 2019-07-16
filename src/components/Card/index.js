@@ -284,37 +284,16 @@ class Card extends React.Component {
                   </span>
                 </Link>
 
-                {/* Bagtsiin une bolon uliraliin une haruulah */}
-                {item.id ? (
-                  <div>
-                    <Rate
-                      allowHalf
-                      disabled
-                      defaultValue={0}
-                      value={item.rate / 2}
-                    />
-                    <br />
-                    <Link to={item.route ? item.route : ""} className="price">
-                      {prices}
-                    </Link>
-                  </div>
-                ) : (
-                    <div className="d-flex">
-                      <div className="col-md-8 no-padding">
-                        <Rate
-                          allowHalf
-                          disabled
-                          defaultValue={0}
-                          value={item.rate / 2}
-                        />
-                      </div>
-                      <div className="col-md-4 no-padding">
-                        <Link to={item.route ? item.route : ""} className="price wide-price">
-                          {prices}
-                        </Link>
-                      </div>
-                    </div>
-                  )}
+                <Rate
+                  allowHalf
+                  disabled
+                  defaultValue={0}
+                  value={item.rate / 2}
+                />
+                <br />
+                <Link to={item.route ? item.route : ""} className="price">
+                  {prices}
+                </Link>
               </div>
             </div>
           </div>
@@ -421,18 +400,18 @@ class Card extends React.Component {
                   />
                 ))}
               <div className="cart-container d-flex">
-                <div
+                <a
                   className="wishlist"
-                  style={{ lineHeight: '28px' }}
-                // onClick={this.handleSave(item)}
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
-                </div>
+                </a>
                 <a
                   onClick={() => this.handleIncrement(item)}
                   style={{
                     fontSize: "1.1rem",
-                    paddingLeft: '5px',
                   }}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />

@@ -30,6 +30,7 @@ class Season extends React.Component {
       attributes: this.props.seasonfilter.attributes || [],
       products: this.props.seasonfilter.products || [],
       promoCats: this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions,
+      promoCatClicked: false,
       selectedPromoCatId: null,
       searchProdItem: [],
       isLeftPanel: false,
@@ -158,20 +159,25 @@ class Season extends React.Component {
     e.preventDefault();
 
     const {
-      checkedList, minPrice, maxPrice, sort,
+      checkedList, minPrice, maxPrice, sort, selectedPromoCatId,
     } = this.state;
-
-    this.setState({ selectedPromoCatId: cat.promotid }, () => {
-      this.fetchProductData(
-        {
-          promoCatId: cat.promotid,
-          checkedList,
-          minPrice,
-          maxPrice,
-          sort,
-        },
-        true,
-      );
+    let promoCatClicked = this.state.promoCatClicked;
+    let body = {
+      promoCatId: cat.promotid,
+      checkedList,
+      minPrice,
+      maxPrice,
+      sort,
+    };
+    if (selectedPromoCatId === cat.promotid) {
+      if (promoCatClicked) {
+        body.promoCatId = null;
+      }
+    } else {
+      promoCatClicked = false;
+    }
+    this.setState({ selectedPromoCatId: cat.promotid, promoCatClicked: !promoCatClicked }, () => {
+      this.fetchProductData(body, true);
     });
   };
 
@@ -195,7 +201,7 @@ class Season extends React.Component {
   };
 
   renderPromoCats = () => {
-    const { selectedPromoCatId } = this.state;
+    const { selectedPromoCatId, promoCatClicked } = this.state;
     // console.log(this.state.promoCats);
     let promoCats = this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions;
     if (promoCats.length) {
@@ -203,12 +209,13 @@ class Season extends React.Component {
         <ul className="list-unstyled category-list">
           {promoCats.map((cat, index) => {
             let className = "";
-
             if (selectedPromoCatId) {
               if (selectedPromoCatId !== cat.promotid) {
                 className = "disabled";
-              } else {
+              } else if (promoCatClicked) {
                 className = "selected";
+              } else {
+                className = "disabled";
               }
             }
 

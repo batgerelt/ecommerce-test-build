@@ -19,19 +19,10 @@ import {
 } from "./Component";
 
 class List extends React.Component {
-  handleChange = ({ fileList }) => {
-    console.log("handleChage", fileList);
-    /* var data = new FormData();
-    data.append("uploadimage", fileList[0].originFileObj);
-    data.append("custid", this.props.user.id);
-    */
-  };
-  renderName(info) {
-    return <span>{info.firstname} {info.lastname}</span>;
+  handleLogout = () => {
+    this.props.clearProducts().then(res => console.log(res));
   }
-  logout() {
-    console.log("logout");
-  }
+
   render() {
     const { match } = this.props;
     match.path = "/profile";
@@ -87,7 +78,7 @@ class List extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    <Link to="/" className="btn btn-gray" onClick={this.logout}>
+                    <Link to="" className="btn btn-gray" onClick={this.handleLogout}>
                       <i className="fa fa-chevron-left" /><span>Гарах</span>
                     </Link>
                   </div>

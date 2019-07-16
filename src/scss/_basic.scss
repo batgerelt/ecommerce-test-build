@@ -2790,6 +2790,13 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
     line-height: 200%;
   }
 
+  li:hover{
+    a {
+      color: #ffb200;
+      transition: 0.1s;
+    }
+  }
+
   li.disabled {
     // pointer-events: none;
     // cursor: not-allowed;
@@ -2802,6 +2809,10 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
     -moz-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
+    a {
+      color: #ffb200;
+      transition: 0.1s;
+    }
   }
 
   a.cancel {
@@ -3032,4 +3043,37 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 
 .m-top-1{
   margin-top: 1px;
+}
+
+.ant-btn:hover, .ant-btn:focus {
+  color:#ffc629;
+  background-color: #fff;
+  border-color: #ffc629;
+}
+
+.jss145 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  justify-content: center;
+}
+
+.jss148 {
+  display: flex;
+  margin-top: 1px;
+  justify-content: center;
+}
+
+.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+  border-color: #ffc629;
+}
+
+.checkoutFormContainer .ant-form-item{
+  margin-bottom: 5px !important;
+}
+
+.background-cover{
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
 }

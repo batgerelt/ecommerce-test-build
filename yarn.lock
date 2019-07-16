@@ -3522,7 +3522,6 @@ getpass@^0.1.1:
 glamor@^2.20.40:
   version "2.20.40"
   resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.40.tgz#f606660357b7cf18dface731ad1a2cfa93817f05"
-  integrity sha512-DNXCd+c14N9QF8aAKrfl4xakPk5FdcFwmH7sD0qnC0Pr7xoZ5W9yovhUrY/dJc3psfGGXC58vqQyRtuskyUJxA==
   dependencies:
     fbjs "^0.8.12"
     inline-style-prefixer "^3.0.6"
@@ -4998,7 +4997,6 @@ levn@^0.3.0, levn@~0.3.0:
 linear-layout-vector@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/linear-layout-vector/-/linear-layout-vector-0.0.1.tgz#398114d7303b6ecc7fd6b273af7b8401d8ba9c70"
-  integrity sha1-OYEU1zA7bsx/1rJzr3uEAdi6nHA=
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -5224,7 +5222,6 @@ mem@^1.1.0:
 "memoize-one@>=3.1.1 <6":
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.0.5.tgz#8cd3809555723a07684afafcd6f756072ac75d7e"
-  integrity sha512-ey6EpYv0tEaIbM/nTDOpHciXUvd+ackQrJgEzBwemhZZIWZjcyodqEcrmqDy2BKRTM3a65kKBV4WtLXJDt26SQ==
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
@@ -7039,7 +7036,7 @@ react-google-login@^5.0.4:
     "@types/react" "*"
     prop-types "^15.6.0"
 
-react-id-swiper@^2.1.2:
+react-id-swiper@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/react-id-swiper/-/react-id-swiper-2.1.2.tgz#57dfb0e8b8703dfe544ea5af94b74663822a2b63"
   dependencies:
@@ -7048,7 +7045,6 @@ react-id-swiper@^2.1.2:
 react-image-appear@^1.1.21:
   version "1.1.21"
   resolved "https://registry.yarnpkg.com/react-image-appear/-/react-image-appear-1.1.21.tgz#d8d81d2e2a4f32a11d204fe5110f4366ee6fac97"
-  integrity sha512-javs2uWeWWAZsymTZXo6Aw4zoTWA+MamLGK7JXh4dv9PrefdRVL55apVoVfUvp/dn5laqZySMX9blGmZCv1WxQ==
   dependencies:
     prop-types "^15.6.1"
 
@@ -7231,7 +7227,6 @@ react-transition-group@^4.0.0:
 react-virtualized@^9.21.1:
   version "9.21.1"
   resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.21.1.tgz#4dbbf8f0a1420e2de3abf28fbb77120815277b3a"
-  integrity sha512-E53vFjRRMCyUTEKuDLuGH1ld/9TFzjf/fFW816PE4HFXWZorESbSTYtiZz1oAjra0MminaUU1EnvUxoGuEFFPA==
   dependencies:
     babel-runtime "^6.26.0"
     clsx "^1.0.1"
@@ -7248,7 +7243,6 @@ react-window-infinite-loader@^1.0.3:
 react-window@^1.8.5:
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.5.tgz#a56b39307e79979721021f5d06a67742ecca52d1"
-  integrity sha512-HeTwlNa37AFa8MDZFZOKcNEkuF2YflA0hpGPiTT9vR7OawEt+GZbfM6wqkBahD3D3pUjIabQYzsnY/BSJbgq6Q==
   dependencies:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"

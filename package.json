@@ -29,7 +29,7 @@
     "react-fa": "^5.0.0",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
-    "react-id-swiper": "^2.1.2",
+    "react-id-swiper": "2.1.2",
     "react-image-appear": "^1.1.21",
     "react-image-magnify": "^2.7.4",
     "react-images": "^0.5.19",

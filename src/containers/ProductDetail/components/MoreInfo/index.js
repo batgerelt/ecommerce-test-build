@@ -17,7 +17,7 @@ class Moreinfo extends Component {
         spaceBetween: 0,
         loop: shouldLoop,
         autoplay: {
-          delay: 3000,
+          delay: 10000,
           disableOnInteraction: false,
         },
         navigation: {

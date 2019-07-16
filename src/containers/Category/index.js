@@ -53,7 +53,7 @@ class Page extends React.Component {
         minprice: 0,
         maxprice: 0,
         ordercol: "price_asc",
-        rowcount: 0,
+        rowcount: 20,
         startswith: 0,
       },
     }).then((res) => {

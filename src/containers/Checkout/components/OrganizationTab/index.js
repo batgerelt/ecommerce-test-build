@@ -11,7 +11,15 @@ class OrganizationTab extends React.Component {
   };
 
   componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
+  componentDidMount() {
+    const { state } = this.props;
+    const { setFieldsValue } = this.props.form;
+    this.props.onRef(this);
+    if (state.companyInfo !== null) {
+      setFieldsValue({ regno: state.companyInfo.name });
+      this.setState({ companyInfo: state.companyInfo, connected: true });
+    }
+  }
 
   edit = (e) => {
     const { setFieldsValue } = this.props.form;
@@ -30,6 +38,7 @@ class OrganizationTab extends React.Component {
           if (res.payload.success) {
             let value = { regno: values.regno, name: res.payload.data.name };
             setFieldsValue({ regno: res.payload.data.name });
+            this.props.setCompanyInfo(value);
             this.setState({ companyInfo: value, connected: true });
           }
         });
@@ -43,7 +52,7 @@ class OrganizationTab extends React.Component {
       const { getFieldDecorator } = this.props.form;
       return (
         <Form onSubmit={this.onSubmit}>
-          <div className="row row10">
+          <div className="row row10 checkoutFormContainer">
             <div className="col-xl-6 pad10">
               <div className="form-group">
                 <Form.Item>

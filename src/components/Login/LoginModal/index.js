@@ -45,14 +45,16 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          await this.props.login({ body: { ...values } }).then((res) => {
-            localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+          let result = [];
+          this.props.login({ body: { ...values } }).then((res) => {
+            if (res.payload.success) {
+              this.handleLoginModal();
+              localStorage.setItem('auth', JSON.stringify(res.payload));
+              result = res;
+            } else {
+              this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+            }
           });
-          let result = await this.props.login({ body: { ...values } });
-
-          if (!result.payload.success) {
-            return this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
-          }
 
           let { products } = this.props.cart;
 
@@ -66,10 +68,6 @@ class LoginModal extends React.Component {
             iscart: 0,
             body: products,
           });
-
-          if (!result.payload.success) {
-            return console.log(result.payload.message);
-          }
 
           this.props.getProducts({ custid: this.props.auth.data[0].info.customerInfo.id });
         } catch (e) {

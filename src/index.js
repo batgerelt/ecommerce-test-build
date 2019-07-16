@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/first */
 import React from 'react';
@@ -11,14 +12,14 @@ import 'antd/dist/antd.less';
 
 import './index.css';
 import './utils/momentLocale';
-import mnMN from './utils/locale';
-import App from './containers/App';
-import registerServiceWorker from './registerServiceWorker';
-import configureStore from './store/configureStore';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import mnMN from './utils/locale';
+import App from './containers/App';
+import registerServiceWorker from './registerServiceWorker';
+import configureStore from './store/configureStore';
 
 moment.locale('mn-MN');
 library.add(fas, far, fab);
