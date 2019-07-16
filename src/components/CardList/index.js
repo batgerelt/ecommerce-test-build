@@ -30,10 +30,14 @@ class CardList extends React.Component {
         cards.push(
           <Card
             key={p}
-            type={cardType}
+            shape={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
-            {...this.props}
+            auth={this.props.auth}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+            incrementProductLocally={this.props.incrementProductLocally}
+            getRecipeProducts={this.props.getRecipeProducts}
+            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
           />,
         );
       }
@@ -91,10 +95,14 @@ class CardList extends React.Component {
           cardList.push(
             <Card
               key={index}
-              type={cardType}
+              shape={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
-              {...this.props}
+              auth={this.props.auth}
+              incrementProductRemotely={this.props.incrementProductRemotely}
+              incrementProductLocally={this.props.incrementProductLocally}
+              getRecipeProducts={this.props.getRecipeProducts}
+              incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
             />,
           );
         });
@@ -127,27 +135,41 @@ class CardList extends React.Component {
         cardsTemp.push(
           <Card
             key={key}
-            type={CARD_TYPES.tile}
+            shape={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            {...this.props}
-          />,
-        );
+        auth = { this.props.auth }
+        incrementProductRemotely = { this.props.incrementProductRemotely }
+        incrementProductLocally = { this.props.incrementProductLocally }
+        getRecipeProducts = { this.props.getRecipeProducts }
+        incrementRecipeProductsLocally = { this.props.incrementRecipeProductsLocally }
+          /> ,               
+        ); 
+          
+if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
+          (
+                  <div className="col-md-4 pad10" key={i}>
+                  {cardsTemp}
+            div>,
+            );
+              cardsTemp = [];
+              }
+            
 
-        if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
-          cardList.push(
-            <div className="col-md-4 pad10" key={i}>
-              {cardsTemp}
-            </div>,
-          );
-          cardsTemp = [];
-        }
-      }
-
-      cardList = <div className="row row10">{cardList}</div>;
+            List = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
-        cardList.push(<Card key={index} type={CARD_TYPES.list} item={item} {...this.props} />);
+        cardList.push(
+          <Card
+            key={index}
+            shape={CARD_TYPES.list}
+            item={item}
+            auth={this.props.auth}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+            incrementProductLocally={this.props.incrementProductLocally}
+            getRecipeProducts={this.props.getRecipeProducts}
+            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+          />);
       });
     }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin, Divider } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Divider, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -23,51 +23,33 @@ class Component extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form>
-        <div className="row row10">
-          <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
-            <div className="form-group">
-              <Form.Item>
-                {getFieldDecorator("cardno", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Картын дугаар оруулна уу! ",
-                    },
-                  ],
-                })(<Input placeholder="Картын дугаар" />)}
-              </Form.Item>
-            </div>{" "}
-          </div>
+      <Col span={24}>
+        <Form>
+          <Col span={12}>
+            <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
+              {getFieldDecorator("cardno", {
+              })(<Input placeholder="Картын дугаар" />)}
+            </Form.Item>
+          </Col>
 
-          <div className="col-xl-6" style={{ marginBottom: "-9px" }}>
-            <div className="form-group">
-              <Form.Item>
-                {getFieldDecorator("password", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Нууц үгээ оруулна уу! ",
-                    },
-                  ],
-                })(<Input.Password placeholder="Нууц үг" />)}
-              </Form.Item>
-            </div>{" "}
-          </div>
+          <Col span={12}>
+            <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
+              {getFieldDecorator("password", {
+              })(<Input.Password placeholder="Нууц үг" />)}
+            </Form.Item>
+          </Col>
 
-          <div className="col-xl-12">
-            <div className="text-right">
-              <button
-                className="btn btn-dark marginBottom"
-                style={{ width: "108.28px" }}
-                onClick={this.handleSubmit}
-              >
-                <span className="text-uppercase">Холбох</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Form>
+          <Col span={24}>
+            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+              <div className="text-right">
+                <Button className="btn btn-dark" style={{ width: "108.28px", background: '#343a40' }} onClick={this.handleSubmit}>
+                  <span className="text-uppercase">Холбох</span>
+                </Button>
+              </div>
+            </Form.Item>
+          </Col>
+        </Form>
+      </Col>
     );
   }
 }

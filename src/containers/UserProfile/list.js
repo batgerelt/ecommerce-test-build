@@ -26,6 +26,16 @@ class List extends React.Component {
     data.append("custid", this.props.user.id);
     */
   };
+  renderName(info) {
+    return <span>{info.firstname} {info.lastname}</span>;
+  }
+  logout() {
+    console.log("logout");
+  }
+  handleLogout = () => {
+    this.props.clearProducts().then(res => console.log(res));
+  }
+
   render() {
     const { match } = this.props;
     match.path = "/profile";
@@ -42,7 +52,7 @@ class List extends React.Component {
                         <Upload className="avatar-upload" showUploadList={false} onChange={this.handleChange}>
                           <div className="flex-this">
                             <Avatar size="large" src={avatar} />
-                            <p className="name">Тулгаа Отгонсүрэн</p>
+                            <p className="name">{this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}</p>
                           </div>
                         </Upload>
                         <p className="text text-right" style={{ marginBottom: "-3px" }} >Таны мэдээлэл</p>
@@ -81,7 +91,7 @@ class List extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    <Link to="" className="btn btn-gray">
+                    <Link to="" className="btn btn-gray" onClick={this.handleLogout}>
                       <i className="fa fa-chevron-left" /><span>Гарах</span>
                     </Link>
                   </div>

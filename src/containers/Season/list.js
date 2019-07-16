@@ -29,7 +29,8 @@ class Season extends React.Component {
       checkedList: [],
       attributes: this.props.seasonfilter.attributes || [],
       products: this.props.seasonfilter.products || [],
-      promoCats: this.props.seasonfilter.promoCats || [],
+      promoCats: this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions,
+      promoCatClicked: false,
       selectedPromoCatId: null,
       searchProdItem: [],
       isLeftPanel: false,
@@ -82,33 +83,6 @@ class Season extends React.Component {
     }).then((res) => {
       this.setState({ loading: false });
     });
-
-    // api.season.findAllFilteredInfo(data).then((res) => {
-    //   if (res.success) {
-    //     if (shouldChangeFilterSet) {
-    //       const attributes = res.data[0].attributes;
-    //       const prices = this.getPrices(attributes);
-
-    //       this.setState({
-    //         minPrice: prices.min,
-    //         maxPrice: prices.max,
-    //       });
-    //     }
-
-    //     this.setState({
-    //       products: res.data[0].products,
-    //     });
-
-    //     if (shouldChangeFilterSet) {
-    //       this.setState({
-    //         attributes: res.data[0].attributes,
-    //       });
-    //     }
-    //   } else {
-    //     this.notify(res.message);
-    //   }
-    //   this.setState({ loading: false });
-    // });
   };
 
   handlePriceAfterChange = (value) => {
@@ -185,20 +159,25 @@ class Season extends React.Component {
     e.preventDefault();
 
     const {
-      checkedList, minPrice, maxPrice, sort,
+      checkedList, minPrice, maxPrice, sort, selectedPromoCatId,
     } = this.state;
-
-    this.setState({ selectedPromoCatId: cat.promotid }, () => {
-      this.fetchProductData(
-        {
-          promoCatId: cat.promotid,
-          checkedList,
-          minPrice,
-          maxPrice,
-          sort,
-        },
-        true,
-      );
+    let promoCatClicked = this.state.promoCatClicked;
+    let body = {
+      promoCatId: cat.promotid,
+      checkedList,
+      minPrice,
+      maxPrice,
+      sort,
+    };
+    if (selectedPromoCatId === cat.promotid) {
+      if (promoCatClicked) {
+        body.promoCatId = null;
+      }
+    } else {
+      promoCatClicked = false;
+    }
+    this.setState({ selectedPromoCatId: cat.promotid, promoCatClicked: !promoCatClicked }, () => {
+      this.fetchProductData(body, true);
     });
   };
 
@@ -222,19 +201,21 @@ class Season extends React.Component {
   };
 
   renderPromoCats = () => {
-    const { promoCats, selectedPromoCatId } = this.state;
-
+    const { selectedPromoCatId, promoCatClicked } = this.state;
+    // console.log(this.state.promoCats);
+    let promoCats = this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions;
     if (promoCats.length) {
       return (
         <ul className="list-unstyled category-list">
           {promoCats.map((cat, index) => {
             let className = "";
-
             if (selectedPromoCatId) {
               if (selectedPromoCatId !== cat.promotid) {
                 className = "disabled";
-              } else {
+              } else if (promoCatClicked) {
                 className = "selected";
+              } else {
+                className = "disabled";
               }
             }
 
@@ -247,11 +228,11 @@ class Season extends React.Component {
             );
           })}
 
-          {selectedPromoCatId && (
+          {/* selectedPromoCatId && (
             <Link to="" className="cancel" onClick={this.handlePromoCatCancel}>
               <span className="badge badge-pill badge-danger">Цуцлах</span>
             </Link>
-          )}
+          ) */}
         </ul>
       );
     }
@@ -292,7 +273,7 @@ class Season extends React.Component {
     if (isListViewOn) {
       result = (
         <CardList
-          type={CARD_LIST_TYPES.list}
+          shape={CARD_LIST_TYPES.list}
           items={products || []}
           cardType={CARD_TYPES.list}
           {...this.props}
@@ -301,10 +282,10 @@ class Season extends React.Component {
     } else {
       result = (
         <CardList
-          type={CARD_LIST_TYPES.horizontal}
+          cardType={CARD_TYPES.wide}
           items={products || []}
           showAll
-          cardType={CARD_TYPES.wide}
+          shape={CARD_LIST_TYPES.horizontal}
           {...this.props}
         />
       );

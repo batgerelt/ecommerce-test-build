@@ -15,6 +15,9 @@ import {
   Comment,
   Breadcrumb,
 } from "./components";
+import { NotFound } from "../../components";
+// eslint-disable-next-line import/first
+import { height } from "@material-ui/system";
 
 class ProductDetail extends React.Component {
   renderRealational = () => {
@@ -41,11 +44,17 @@ class ProductDetail extends React.Component {
   };
   renderDetails = () => {
     try {
-      const { detail, categorymenu } = this.props;
+      const {
+        detail, categorymenu, addWishList, addRate, getProductDetail,
+      } = this.props;
       return (
         <Detail
-          detail={detail.length === 0 ? [] : detail.products[0]}
+          detail={detail.length === 0 ? {} : detail.products[0]}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
+          isLoggedIn={JSON.parse(localStorage.getItem("auth"))}
+          addWishList={addWishList}
+          addRate={addRate}
+          getProductDetail={getProductDetail}
           {...this.props}
         />
       );
@@ -150,6 +159,9 @@ class ProductDetail extends React.Component {
 
   render() {
     const { detail, categorymenu } = this.props;
+    if (detail.length === 0 || detail.products.length === 0) {
+      return <NotFound />;
+    }
     return (
       <div className="section">
         <div className="container">

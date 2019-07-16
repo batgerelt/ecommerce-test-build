@@ -159,7 +159,7 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { packageDetail } = this.props;
-      console.log("products", packageDetail.sproducts);
+      console.log(packageDetail);
       if (packageDetail.products !== undefined) {
         return packageDetail.products.map((prod, index) => (
           <li className="flex-this" key={index}>
@@ -213,7 +213,7 @@ class List extends React.Component {
                     <input
                       type="text"
                       className="form-control"
-                      value={prod.qty}
+                      value={prod.unit}
                       name="productQty"
                       maxLength={5}
                     /* onKeyDown={this.handleQtyKeyDown(prod)} */
@@ -271,7 +271,6 @@ class List extends React.Component {
   renderCartInfo = () => {
     try {
       const { packageDetail } = this.props;
-      console.log("products", packageDetail.products);
       if (packageDetail.products !== undefined) {
         return (
           <div className="pack-product-container" style={{ marginTop: "30px" }}>
@@ -288,7 +287,7 @@ class List extends React.Component {
                     <div className="pack-price">
                       <p className="text flex-this end">
                         <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
-                        {this.props.packageDetail.total}
+                        <strong>{formatter.format(this.props.packageDetail.total)}₮</strong>
                       </p>
                       <button
                         type="button"
@@ -320,7 +319,6 @@ class List extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     return (
       <div className="section">
         <div className="container pad10">

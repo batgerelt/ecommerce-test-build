@@ -18,17 +18,17 @@ class Signin extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.login({ body: { ...values } }).then((res) => {
-          if (res.payload.success) {
-            localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
-            this.props.getUserInfo({ id: res.payload.data[0].info.customerInfo.id }).then((res) => {
-              if (res.payload.success) {
+          localStorage.setItem('auth', JSON.stringify(res.payload));
+          this.props.getUserInfo({ id: res.payload.data[0].info.customerInfo.id }).then((res) => {
+            if (res.payload.success) {
+              if (res.payload.data.main !== null) {
                 this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
                 this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
-                this.props.callback("2");
               }
-            });
-            this.props.getSystemLocation({});
-          }
+              this.props.callback("2");
+            }
+          });
+          this.props.getSystemLocation({});
           this.setState({ loading: false });
         });
       }

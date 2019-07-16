@@ -1,21 +1,48 @@
 import React from "react";
-import { Form, message, Input, Select, Table, Divider, Tag } from "antd";
-
+import { Form, message, Input, Select, Table, Divider, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 
-const { Option } = Select.Option;
-const { Column, ColumnGroup } = Table;
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {
     dis: "",
     loc: null,
-    id: this.props.data[0].info.customerInfo.id,
+    selectLoading: false,
+    distid: "",
+    provid: "",
+    chosenAddress: {},
+    systemlocation: [],
+    districtlocation: [],
+    address: [],
   };
+
+  componentWillMount() {
+    const param = {
+      provid: "11",
+      distid: "01",
+      commid: "01",
+    };
+    this.props.getSystemLocation().then((res) => {
+      if (res.payload.success) {
+        this.setState({ systemlocation: res.payload.data });
+        this.props.getDistrictLocation({ id: param.provid }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ districtlocation: res.payload.data });
+            this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
+              if (res.payload.success) {
+                this.setState({ committelocation: res.payload.data, loc: res.payload.data[0].locid, address: param });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.address);
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const param = {
@@ -29,12 +56,20 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ custid: this.state.id });
+            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
+            this.props.form.resetFields();
           }
         });
       }
     });
   }
+
+  checkError = (value) => {
+    if (value === undefined || value === null) {
+      return "";
+    }
+    return value;
+  };
 
   renderLocation = (location) => {
     try {
@@ -59,36 +94,76 @@ class Component extends React.Component {
   }
 
   onchangesysloc = (e) => {
-    this.props.getDistrictLocation({ id: e });
-    this.props.getCommmitteLocation({ provid: e, distid: this.props.districtlocation[0].id });
-    this.setState({ dis: e });
-    this.setState({ loc: this.props.committelocation[0].id });
+    const param = {
+      provid: e,
+      distid: "01",
+      commid: "01",
+    };
+    console.log("onchangesub", param);
+    this.setState({ selectLoading: true });
+    this.props.getDistrictLocation({ id: e }).then((res) => {
+      if (res.payload.success) {
+        console.log(res.payload.data);
+        param.distid = res.payload.data[0].id;
+        this.setState({ districtlocation: res.payload.data });
+        this.props.getCommmitteLocation({ provid: e, distid: res.payload.data[0].id }).then((res) => {
+          if (res.payload.success) {
+            param.distid = res.payload.data[0].id;
+            this.setState({
+              committelocation: res.payload.data,
+              loc: res.payload.data[0].locid,
+              address: param,
+            });
+          }
+        });
+      }
+      console.log(param);
+      this.setState({ selectLoading: false });
+    });
   }
 
   onchangesub = (e) => {
-    this.props.getCommmitteLocation({ provid: this.state.dis === "" ? "11" : this.state.dis, distid: e });
-    this.setState({ loc: this.props.committelocation[0].locid });
+    const param = {
+      provid: this.state.address.provid,
+      distid: e,
+      commid: "01",
+    };
+    /* console.log("onchangesub", param); */
+    this.setState({ selectLoading: true });
+    this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
+      if (res.payload.success) {
+        this.setState({
+          committelocation: res.payload.data,
+          loc: res.payload.data[0].locid,
+          address: param,
+        });
+      }
+      this.setState({ selectLoading: false });
+    });
   }
 
   onchangesyscom = (e) => {
-    this.setState({ loc: e });
+    this.setState({ selectLoading: true });
+    const param = this.state.address;
+    param.commid = e;
+    this.setState({ loc: e, address: param });
+    this.setState({ selectLoading: false });
   }
 
   onDelete = (e, item) => {
     this.props.deleteAddress({ id: item.id, custid: this.props.data[0].info.customerInfo.id }).then((res) => {
       if (res.payload.success) {
-        console.log(res.payload.success);
         this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((response) => {
-          console.log(response);
+          console.log(response.payload.success);
         });
       }
     });
   }
 
-  renderDeliveryAddress = () => {
+  renderDeliveryAddress = (addrs) => {
     try {
-      const { useraddress } = this.props;
-      return useraddress.addrs.map((item, index) => (
+      const address = addrs;
+      return address.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
           <td style={{ width: "5%" }}>{item.name}</td>
           <td style={{ width: "5%" }}>{item.phone1}</td>
@@ -113,158 +188,116 @@ class Component extends React.Component {
   renderAddress = () => {
     try {
       const { getFieldDecorator } = this.props.form;
-      const { address } = this.props;
+      const {
+        systemlocation,
+        districtlocation,
+        committelocation,
+        selectLoading,
+        address,
+      } = this.state;
       return (
-        <Form>
-          <div className="row row10">
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Нэрээ заавал оруулна уу",
-                      },
-                    ],
-                  })(<Input placeholder="Нэр" />)}
-                </Form.Item>
-              </div>
-            </div>
+        <Form className="row row10" onSubmit={this.handleSubmit}>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("name", {
+                rules: [{ required: true, message: "Нэрээ заавал оруулна уу" }],
+              })(<Input placeholder="Нэр" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("phone1", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Утсаа заавал оруулна уу! ",
-                      },
-                      {
-                        pattern: new RegExp("^[0-9]*$"),
-                        message: "Утсаа зөв оруулна уу! ",
-                      },
-                      {
-                        len: 8,
-                        message: "Утасны дугаар 8 оронтой байх ёстой! ",
-                      },
-                    ],
-                  })(<Input placeholder="Утас 1" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("phone1", {
+                rules: [{ required: true, message: "Утсаа заавал оруулна уу! " },
+                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу! " },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+              })(<Input placeholder="Утас 1" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("phone2", {
-                    rules: [
-                      {
-                        pattern: new RegExp("^[0-9]*$"),
-                        message: "Утас зөв оруулна уу! ",
-                      },
-                      {
-                        len: 8,
-                        message: "Утасны дугаар 8 оронтой байх ёстой! ",
-                      },
-                    ],
-                  })(<Input placeholder="Утас 2" />)}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("phone2", {
+                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу! " },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+              })(<Input placeholder="Утас 2" />)}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("mainLocation", {
-                    initialValue: this.props.systemlocation === undefined ? null : this.props.systemlocation[16].id,
-                    rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
-                  })(
-                    <Select
-                      placeholder="Хот/аймаг *"
-                      showSearch
-                      optionFilterProp="children"
-                      className="col-md-12"
-                      onChange={this.onchangesysloc}
-                    >
-                      {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>{" "}
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("mainLocation", {
+                initialValue: address.length === 0 ? null : address.provid,
+                rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+              })(
+                <Select
+                  showSearch
+                  placeholder="Хот/аймаг *"
+                  onChange={this.onchangesysloc}
+                  disabled={selectLoading}
+                  loading={selectLoading}
+                >
+                  {systemlocation.length === 0 ? null : this.renderLocation(systemlocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("subLocation", {
-                    initialValue: this.props.districtlocation === undefined ? null : this.props.districtlocation[0].id,
-                    rules: [
-                      {
-                        required: true,
-                        message: "Дүүрэг/Сум сонгоно уу!",
-                      },
-                    ],
-                  })(
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      placeholder="Дүүрэг/Сум *"
-                      onChange={this.onchangesub}
-                    >
-                      {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("subLocation", {
+                initialValue: address.length === 0 ? null : this.checkError(address.distid),
+                rules: [{ required: true, message: "Сум/дүүрэг сонгоно уу!" }],
+              })(
+                <Select
+                  showSearch
+                  placeholder="Дүүрэг/Сум *"
+                  onChange={this.onchangesub}
+                  disabled={selectLoading}
+                  loading={selectLoading}
+                >
+                  {districtlocation.length === 0 ? null : this.renderLocation(districtlocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-4" style={{ marginBottom: "-9px" }}>
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("commiteLocation", {
-                    initialValue: this.props.committelocation === undefined ? null : this.props.committelocation[0].locid,
-                    rules: [
-                      { required: true, message: "Хороо сонгоно уу!" },
-                    ],
-                  })(
-                    <Select
-                      placeholder="Хороо *"
-                      showSearch
-                      optionFilterProp="children"
-                      onChange={this.onchangesyscom}
-                    >
-                      {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
-                    </Select>,
-                  )}
-                </Form.Item>
-              </div>{" "}
-            </div>
+          <Col span={8}>
+            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              {getFieldDecorator("commiteLocation", {
+                initialValue: address.length === 0 ? null : address.commid,
+                rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+              })(
+                <Select
+                  placeholder="Хороо *"
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={this.onchangesyscom}
+                  disabled={selectLoading}
+                  loading={selectLoading}
+                >
+                  {committelocation === undefined ? null : this.renderLocation(committelocation)}
+                </Select>,
+              )}
+            </Form.Item>
+          </Col>
 
-            <div className="col-xl-12">
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("homeaddress", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Гэрийн хаягаа заавал оруулна уу!",
-                      },
-                    ],
-                  })(<Input placeholder="Гэрийн хаяг" />)}
-                </Form.Item>
-              </div>
-            </div>
-          </div>
+          <Col span={24}>
+            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+              {getFieldDecorator("homeaddress", {
+                rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+              })(<Input placeholder="Гэрийн хаяг" />)}
+            </Form.Item>
+          </Col>
 
-          <div className="text-right">
-            <button className="btn btn-dark" onClick={this.handleSubmit}>
-              <span className="text-uppercase">Хадгалах</span>
-            </button>
-          </div>
-
-          <div className="delivery-address">
+          <Col span={24}>
+            <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
+              <Button className="btn btn-dark" htmlType="submit" style={{ background: '#343a40' }}>
+                <span className="text-uppercase">Хадгалах</span>
+              </Button>
+            </Form.Item>
+          </Col>
+          <Col span={24} className="delivery-address" style={{ width: '98.5%', marginBottom: '5px' }}>
             <p className="title">
               <span>Бүртгэлтэй хаягууд</span>
             </p>
@@ -277,10 +310,10 @@ class Component extends React.Component {
                   minHeight: "auto",
                 }}
               >
-                {this.props.useraddress.addrs === undefined ? null : this.renderDeliveryAddress()}
+                {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
               </div>
             </table>
-          </div>
+          </Col>
         </Form>
       );
     } catch (error) {
@@ -295,7 +328,7 @@ class Component extends React.Component {
             <span>Хүргэлтийн хаяг</span>
           </p>
           <div className="user-profile-contain">
-            {this.props.useraddress === undefined ? null : this.renderAddress()}
+            {/* this.props.useraddress === undefined ? null :  */this.renderAddress()}
           </div>
         </div>
       </div>
