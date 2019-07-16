@@ -5,25 +5,25 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
-  Recipe as RecipeModel,
 } from "../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
-  ...state.recipe,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
-    ProfileModel,
-    RecipeModel,
+    ...ProfileModel,
   }, dispatch),
 });
 
 class UserProfile extends React.Component {
-  componentWillMount() { }
+  componentWillMount() {
+    this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+  }
+
   render() {
     return <List {...this.props} />;
   }

@@ -56,7 +56,8 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ custid: this.state.id });
+            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
+            this.props.form.resetFields();
           }
         });
       }
@@ -320,7 +321,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    console.log(this.props);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

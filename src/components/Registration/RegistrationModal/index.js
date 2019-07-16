@@ -65,34 +65,45 @@ class RegistrationModal extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator("firstname", {
-              rules: [{ required: true, max: 50, message: "Овогоо оруулна уу!" }],
+              rules: [{
+                required: true, message: "Овогоо оруулна уу!",
+              }],
             })(
-              <Input placeholder="Овог" className="form-control" autoComplete="off" />,
+              <Input placeholder="Овог" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("lastname", {
               rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
             })(
-              <Input placeholder="Нэр" className="form-control" />,
+              <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("email", {
               rules: [{
-                required: true, type: "email", pattern: new RegExp("[A-Za-z]"), message: "Имэйлээ хаягаа оруулна уу!",
+                required: true,
+                type: "email",
+                pattern: new RegExp("[A-Za-z]"),
+                message: "Имэйлээ хаягаа оруулна уу!",
               }],
             })(
               <Input placeholder="И мэйл хаяг" className="form-control" />,
             )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item hasFeedback>
             {getFieldDecorator("phonE1", {
-              rules: [{
-                required: true, min: 8, max: 8, pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаараа оруулна уу!",
-              }],
+              rules: [
+                { required: true, min: 8, message: " " },
+                { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
+              ],
             })(
-              <Input placeholder="Утасны дугаар" className="form-control" autoComplete="off" />,
+              <Input
+                placeholder="Утасны дугаар"
+                maxLength={8}
+                className="form-control"
+                autoComplete="off"
+              />,
             )}
           </Form.Item>
           <Form.Item hasFeedback>
