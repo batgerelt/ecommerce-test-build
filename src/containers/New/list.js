@@ -28,7 +28,6 @@ class Bookmarks extends PureComponent {
 
   // data nemeh heseg
   loadMoreRows = (key) => {
-    console.log(this.props.isFetching);
     if (!this.props.isFetching) {
       this.props.getNewProduct({ start: this.props.count });
     }
@@ -89,7 +88,7 @@ class Bookmarks extends PureComponent {
                           <List
                             autoHeight
                             ref={registerChild}
-                            height={height}
+                            height={340}
                             scrollTop={scrollTop}
                             width={width}
                             rowCount={rowCount}
@@ -100,7 +99,7 @@ class Bookmarks extends PureComponent {
                               const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                               const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, newproduct.length).map(itemIndex => newproduct[itemIndex]);
                               return (
-                                <div style={style} key={key} className="row marginLeft m-top-1">
+                                <div style={style} key={key} className="jss148">
                                   {rowItems.map(itemId => (
                                     <RowItem key={itemId.cd} item={itemId} />
                                   ))}

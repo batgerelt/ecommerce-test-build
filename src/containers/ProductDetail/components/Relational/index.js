@@ -61,6 +61,7 @@ class Relational extends Component {
   renderRelatedProducts = (limit = 4) => {
     try {
       let { relatedProducts } = this.props;
+      const { isShowMoreClicked } = this.state;
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
@@ -115,6 +116,7 @@ class Relational extends Component {
                 <Button
                   className="btn btn-border"
                   onClick={this.handleShowMoreClick}
+                  disabled={isShowMoreClicked}
                 >
                   <span className="text text-uppercase">
                     Бүх хослох барааг үзэх

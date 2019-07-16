@@ -421,18 +421,18 @@ class Card extends React.Component {
                   />
                 ))}
               <div className="cart-container d-flex">
-                <div
+                <a
                   className="wishlist"
-                  style={{ lineHeight: '28px' }}
-                // onClick={this.handleSave(item)}
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
-                </div>
+                </a>
                 <a
                   onClick={() => this.handleIncrement(item)}
                   style={{
                     fontSize: "1.1rem",
-                    paddingLeft: '5px',
                   }}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
