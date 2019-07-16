@@ -9,6 +9,7 @@ import ScrollToTop from "react-router-scroll-top";
 import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
+import Notfound from "../Exception/404";
 import {
   Category as CategoryModel,
   Static as StaticModel,
@@ -71,14 +72,13 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getMenu();
     this.props.getStaticPages();
-    // this.props.getNewProduct({});
   }
 
   render() {
     return (
       <Router>
         <ScrollToTop >
-          <div onClick={() => this.Header.handleDropDownClose()}>
+          <div>
             {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
             <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
             <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
@@ -107,6 +107,7 @@ class App extends Component {
               <Route path="/search/:id/:key" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
               <Route path="/confirm/:key" component={Confirm} />
+              <Route path="*" component={Notfound} />
             </Switch>
 
             {/** fixed footer */}

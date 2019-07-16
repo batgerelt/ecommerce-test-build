@@ -53,7 +53,7 @@ class Slider extends React.Component {
             </div>
           </div>
         );
-
+        // style={{ background: `url(${process.env.IMAGE + item.imgnm})` }}
         return (
           <div key={index}>
             <div className="background-cover" style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}>

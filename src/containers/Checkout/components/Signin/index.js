@@ -18,7 +18,7 @@ class Signin extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.login({ body: { ...values } }).then((res) => {
-          localStorage.setItem('auth', JSON.stringify(res.payload.data[0].info));
+          localStorage.setItem('auth', JSON.stringify(res.payload));
           this.props.getUserInfo({ id: res.payload.data[0].info.customerInfo.id }).then((res) => {
             if (res.payload.success) {
               if (res.payload.data.main !== null) {

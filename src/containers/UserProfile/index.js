@@ -6,12 +6,14 @@ import {
   Auth as AuthModel,
   Profile as ProfileModel,
   Recipe as RecipeModel,
+  Cart as CartModel,
 } from "../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
   ...state.recipe,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     AuthModel,
     ProfileModel,
     RecipeModel,
+    CartModel,
   }, dispatch),
 });
 

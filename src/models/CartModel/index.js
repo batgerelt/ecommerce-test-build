@@ -65,6 +65,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'recipeProducts'),
           error: this.buildActionName('error', data.model, 'recipeProducts'),
         },
+        clearProducts: {
+          request: this.buildActionName('request', data.model, 'clearProducts'),
+          response: this.buildActionName('response', data.model, 'clearProducts'),
+          error: this.buildActionName('error', data.model, 'clearProducts'),
+        },
       };
     }
   }
@@ -130,6 +135,12 @@ class Model extends BaseModel {
   removeProductLocally = product => ({
     type: 'CART_REMOVE_PRODUCT_LOCALLY',
     payload: product,
+  });
+
+  clearProducts = () => asyncFn({
+    url: `/basket/empty`,
+    method: 'GET',
+    model: this.model.clearProducts,
   });
 
   removeProductRemotely = ({ custid, skucd }) => asyncFn({
@@ -375,6 +386,13 @@ class Model extends BaseModel {
           console.log(e);
         }
         return state;
+
+      case this.model.clearProducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.clearProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.clearProducts.response:
+        return { ...state, products: action.payload.data };
 
       default:
         return state;
