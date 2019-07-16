@@ -1,5 +1,6 @@
 /* eslint-disable import/first */
 import React, { Component } from "react";
+import { IntlProvider } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -10,6 +11,7 @@ import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
 import {
+  Locale as LocaleModel,
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
@@ -21,6 +23,7 @@ import {
   Recipe as RecipeModel,
 } from "../../models";
 import {
+  Locale,
   Home,
   Discount,
   New,
@@ -39,6 +42,7 @@ import {
   Profile,
   PassReset,
 } from "../";
+import translation from '../../translation';
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +52,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators(
     {
+      ...LocaleModel,
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
@@ -74,42 +79,49 @@ class App extends Component {
   }
 
   render() {
+    const { lang } = this.props.locale;
+
     return (
-      <Router>
-        <ScrollToTop>
-          {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
-          <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
-          <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
+      <IntlProvider
+        locale={lang}
+        messages={translation[lang]}
+      >
+        <Router>
+          <ScrollToTop>
+            {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
+            <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
+            <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
+            <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
 
-          {/** fixed header */}
-          <Header {...this.props} {...this} />
-          {/** Үндсэн root болон nested root-үүд доор байрлана */}
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/discount" component={Discount} />
-            <Route path="/new" component={New} />
-            <Route path="/recipe" component={Recipe} />
-            <Route path="/package" component={Package} />
-            <Route path="/season" component={Season} />
-            <Route path="/productdetail/:id" component={ProductDetail} />
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/info/:id" component={Static} />
-            <Route path="/category/:id" component={Category} />
-            <Route path="/brand/:id" component={ProductList} />
-            <Route path="/recipedetail/:id" component={RecipeDetail} />
-            <Route path="/cart" component={Cart} />
-            <Route path="/packagedetail/:id" component={PackageDetail} />
-            <Route path="/emart" component={ProductList} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/search/:id/:key" component={Search} />
-            <Route path="/ResetPassword/:key" component={PassReset} />
-          </Switch>
+            {/** fixed header */}
+            <Header {...this.props} {...this} />
+            {/** Үндсэн root болон nested root-үүд доор байрлана */}
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/discount" component={Discount} />
+              <Route path="/new" component={New} />
+              <Route path="/recipe" component={Recipe} />
+              <Route path="/package" component={Package} />
+              <Route path="/season" component={Season} />
+              <Route path="/productdetail/:id" component={ProductDetail} />
+              <Route path="/checkout" component={Checkout} />
+              <Route path="/info/:id" component={Static} />
+              <Route path="/category/:id" component={Category} />
+              <Route path="/brand/:id" component={ProductList} />
+              <Route path="/recipedetail/:id" component={RecipeDetail} />
+              <Route path="/cart" component={Cart} />
+              <Route path="/packagedetail/:id" component={PackageDetail} />
+              <Route path="/emart" component={ProductList} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/search/:id/:key" component={Search} />
+              <Route path="/ResetPassword/:key" component={PassReset} />
+            </Switch>
 
-          {/** fixed footer */}
-          <Footer {...this.props} />
-        </ScrollToTop>
-      </Router>
+            {/** fixed footer */}
+            <Footer {...this.props} />
+          </ScrollToTop>
+        </Router>
+      </IntlProvider>
     );
   }
 }

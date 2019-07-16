@@ -31,7 +31,7 @@ class Discount extends React.Component {
         <div className="section">
           <div className="container pad10">
             <CardList
-              type={CARD_LIST_TYPES.vertical}
+              shape={CARD_LIST_TYPES.vertical}
               cardsInCol={2}
               items={recipeproduct.slice(0, cardsInCol * 3)}
               {...this.props}
@@ -63,7 +63,7 @@ class Discount extends React.Component {
         <div className="section">
           <div className="container pad10">
             <CardList
-              type={CARD_LIST_TYPES.vertical}
+              shape={CARD_LIST_TYPES.vertical}
               items={recipeproduct.slice(cardsInCol * 3)}
               {...this.props}
             />
@@ -74,6 +74,7 @@ class Discount extends React.Component {
       return console.log(error);
     }
   }
+
   render() {
     return (
       <div className="top-container">

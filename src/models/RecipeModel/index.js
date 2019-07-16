@@ -66,7 +66,7 @@ class Model extends BaseModel {
       case this.model.recipeproducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeproducts.response:
-        return { ...state, recipeProducts: action.payload.data[0] };
+        return { ...state, recipeProducts: action.payload.data };
 
       default:
         return state;

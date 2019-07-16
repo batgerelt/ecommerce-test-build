@@ -44,7 +44,7 @@ class Page extends React.Component {
   }
 
   render() {
-    return <List {...this.props} {...this.state} />;
+    return <List {...this.props} />;
   }
 }
 

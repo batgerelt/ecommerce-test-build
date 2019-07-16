@@ -30,7 +30,7 @@ class Discount extends React.Component {
           <div className="container pad10">
             {
               <CardList
-                type={CARD_LIST_TYPES.horizontal}
+                shape={CARD_LIST_TYPES.horizontal}
                 seq={widgetAll.find(i => i.slug === 'package').type}
                 items={packageAll.slice(0, 8)}
                 {...this.props}
@@ -64,7 +64,7 @@ class Discount extends React.Component {
           <div className="container pad10">
             {
               <CardList
-                type={CARD_LIST_TYPES.horizontal}
+                shape={CARD_LIST_TYPES.horizontal}
                 seq={widgetAll.find(i => i.slug === 'package').type}
                 items={packageAll.slice(8)}
                 second

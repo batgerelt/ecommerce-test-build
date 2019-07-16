@@ -33,18 +33,38 @@ class Card extends React.Component {
         // eslint-disable-next-line no-lonely-if
         if (item.cd) {
           const result = await this.props.incrementProductRemotely({
-            custid: this.props.auth.data[0].info.customerInfo.id,
             skucd: item.cd,
             qty: item.addminqty || 1,
             iscart: 0,
           });
+
           if (!result.payload.success) {
             return this.handleNotify(result.payload.message);
           }
         } else if (item.recipeid) {
-          //
+          const result = await this.props.incrementRecipeProductsRemotely({
+            recipeid: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          if (result.payload.data.fail.length > 0) {
+            result.payload.data.fail.forEach(message => this.handleNotify(message));
+          }
         } else if (item.id) {
-          //
+          const result = await this.props.incrementPackageProductsRemotely({
+            packageid: item.id,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          if (result.payload.data.fail.length > 0) {
+            result.payload.data.fail.forEach(message => this.handleNotify(message));
+          }
         } else {
           //
         }
@@ -61,9 +81,17 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
-          this.props.incrementRecipeProductsLocally(result.payload.data[0].products);
+          this.props.incrementRecipeProductsLocally(result.payload.data);
         } else if (item.id) {
-          //
+          const result = await this.props.getPackageProducts({
+            id: item.id,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.incrementPackageProductsLocally(result.payload.data);
         } else {
           //
         }
@@ -404,7 +432,7 @@ class Card extends React.Component {
                 <Link
                   to=""
                   className="wishlist"
-                  // onClick={this.handleSave(item)}
+                // onClick={this.handleSave(item)}
                 >
                   <i className="fa fa-heart-o" aria-hidden="true" />
                 </Link>

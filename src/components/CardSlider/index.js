@@ -7,14 +7,16 @@ import { CARD_TYPES } from "../../utils/Consts";
 
 class CardSlider extends React.Component {
   render() {
-    const { params, data } = this.props;
+    const { params, similarProducts } = this.props;
 
-    let items = data.map((item, index) => (
+    console.log('this.props: ', this.props);
+
+    let items = similarProducts.map((item, index) => (
       <div
         key={index}
         className={`related-product col-four pad10 col-md-3 col-12`}
       >
-        <Card key={index} item={item} type={CARD_TYPES.slim} />
+        <Card key={index} item={item} type={CARD_TYPES.slim} {...this.props} />
       </div>
     ));
 
@@ -31,7 +33,7 @@ class CardSlider extends React.Component {
 CardSlider.propTypes = {
   // eslint-disable-next-line react/require-default-props
   params: PropTypes.object,
-  data: PropTypes.array.isRequired,
+  similarProducts: PropTypes.array.isRequired,
 };
 
 export default CardSlider;

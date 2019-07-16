@@ -1,11 +1,4 @@
-/**
- * @author B.Batgerelt
- * @email batgereltb@gmail.com
- * @create date 2019-06-29 12:21:39
- * @modify date 2019-06-29 12:21:39
- * @desc [description]
- */
-
+import _ from 'lodash';
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
@@ -65,12 +58,32 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'recipeProducts'),
           error: this.buildActionName('error', data.model, 'recipeProducts'),
         },
+        incrementRecipeProductsRemotely: {
+          request: this.buildActionName('request', data.model, 'incrementRecipeProductsRemotely'),
+          response: this.buildActionName('response', data.model, 'incrementRecipeProductsRemotely'),
+          error: this.buildActionName('error', data.model, 'incrementRecipeProductsRemotely'),
+        },
+        packageProducts: {
+          request: this.buildActionName('request', data.model, 'packageProducts'),
+          response: this.buildActionName('response', data.model, 'packageProducts'),
+          error: this.buildActionName('error', data.model, 'packageProducts'),
+        },
+        incrementPackageProductsRemotely: {
+          request: this.buildActionName('request', data.model, 'incrementPackageProductsRemotely'),
+          response: this.buildActionName('response', data.model, 'incrementPackageProductsRemotely'),
+          error: this.buildActionName('error', data.model, 'incrementPackageProductsRemotely'),
+        },
+        clearRemotely: {
+          request: this.buildActionName('request', data.model, 'clearRemotely'),
+          response: this.buildActionName('response', data.model, 'clearRemotely'),
+          error: this.buildActionName('error', data.model, 'clearRemotely'),
+        },
       };
     }
   }
 
-  getProducts = ({ custid }) => asyncFn({
-    url: `/basket/${custid}`,
+  getProducts = () => asyncFn({
+    url: `/basket/list`,
     method: 'GET',
     model: this.model.products,
   });
@@ -80,10 +93,8 @@ class Model extends BaseModel {
     payload: product,
   });
 
-  incrementProductRemotely = ({
-    custid, skucd, qty, iscart,
-  }) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+  incrementProductRemotely = ({ skucd, qty, iscart }) => asyncFn({
+    url: `/product/prodavailablesku/${skucd}/${qty}/${iscart}`,
     method: 'GET',
     model: this.model.incrementProductRemotely,
   });
@@ -93,10 +104,8 @@ class Model extends BaseModel {
     payload: product,
   });
 
-  decrementProductRemotely = ({
-    custid, skucd, qty, iscart,
-  }) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+  decrementProductRemotely = ({ skucd, qty, iscart }) => asyncFn({
+    url: `/product/prodavailablesku/${skucd}/${qty}/${iscart}`,
     method: 'GET',
     model: this.model.decrementProductRemotely,
   });
@@ -106,10 +115,8 @@ class Model extends BaseModel {
     payload: product,
   });
 
-  increaseProductByQtyRemotely = ({
-    custid, skucd, qty, iscart,
-  }) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+  increaseProductByQtyRemotely = ({ skucd, qty, iscart }) => asyncFn({
+    url: `/product/prodavailablesku/${skucd}/${qty}/${iscart}`,
     method: 'GET',
     model: this.model.increaseProductByQtyRemotely,
   });
@@ -119,10 +126,8 @@ class Model extends BaseModel {
     payload: product,
   });
 
-  updateProductByQtyRemotely = ({
-    custid, skucd, qty, iscart,
-  }) => asyncFn({
-    url: `/product/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`,
+  updateProductByQtyRemotely = ({ skucd, qty, iscart }) => asyncFn({
+    url: `/product/prodavailablesku/${skucd}/${qty}/${iscart}`,
     method: 'GET',
     model: this.model.updateProductByQtyRemotely,
   });
@@ -132,15 +137,15 @@ class Model extends BaseModel {
     payload: product,
   });
 
-  removeProductRemotely = ({ custid, skucd }) => asyncFn({
-    url: `/basket/${custid}/${skucd}`,
+  removeProductRemotely = ({ skucd }) => asyncFn({
+    url: `/basket/delete/${skucd}`,
     method: 'DELETE',
     model: this.model.removeProductRemotely,
   });
 
-  increaseProductsByQtyRemotely = ({ custid, iscart, body }) => asyncFn({
+  increaseProductsByQtyRemotely = ({ iscart, body }) => asyncFn({
     body,
-    url: `/basket/${custid}/${iscart}`,
+    url: `/basket/${iscart}`,
     method: 'POST',
     model: this.model.increaseProductsByQtyRemotely,
   });
@@ -156,11 +161,42 @@ class Model extends BaseModel {
     payload: products,
   });
 
-  updateReduxStore = (
-    state, product, shouldOverride = false, shouldDecrement = false, shouldUpdateByQty = false,
-  ) => {
-    let { products } = state;
+  incrementRecipeProductsRemotely = ({ recipeid }) => asyncFn({
+    url: `/basket/cookrecipe/${recipeid}`,
+    method: 'POST',
+    model: this.model.incrementRecipeProductsRemotely,
+  });
 
+  getPackageProducts = ({ id }) => asyncFn({
+    url: `/package/${id}`,
+    method: 'GET',
+    model: this.model.packageProducts,
+  });
+
+  incrementPackageProductsLocally = products => ({
+    type: 'CART_INCREMENT_PACKAGE_PRODUCTS_LOCALLY',
+    payload: products,
+  });
+
+  incrementPackageProductsRemotely = ({ packageid }) => asyncFn({
+    url: `/basket/package/${packageid}`,
+    method: 'POST',
+    model: this.model.incrementPackageProductsRemotely,
+  });
+
+  clearLocally = () => ({
+    type: 'CART_CLEAR_LOCALLY',
+  });
+
+  clearRemotely = () => asyncFn({
+    url: `/basket/clear`,
+    method: 'DELETE',
+    model: this.model.clearRemotely,
+  });
+
+  updateReduxStore = (
+    products, product, shouldOverride = false, shouldDecrement = false, shouldUpdateByQty = false,
+  ) => {
     if (typeof products === 'string') {
       products = JSON.parse(products);
     }
@@ -228,9 +264,10 @@ class Model extends BaseModel {
 
       case 'CART_INCREMENT_PRODUCT_LOCALLY':
         try {
-          const products = this.updateReduxStore(state, action.payload);
-
-          return { ...state, products };
+          return {
+            ...state,
+            products: this.updateReduxStore(state.products, action.payload),
+          };
         } catch (e) {
           console.log(e);
         }
@@ -245,9 +282,10 @@ class Model extends BaseModel {
 
       case 'CART_DECREMENT_PRODUCT_LOCALLY':
         try {
-          const products = this.updateReduxStore(state, action.payload, false, true);
-
-          return { ...state, products };
+          return {
+            ...state,
+            products: this.updateReduxStore(state.products, action.payload, false, true),
+          };
         } catch (e) {
           console.log(e);
         }
@@ -271,9 +309,10 @@ class Model extends BaseModel {
             product.qty = product.saleminqty || 1;
           }
 
-          products = this.updateReduxStore(state, product, false, false, true);
-
-          return { ...state, products };
+          return {
+            ...state,
+            products: this.updateReduxStore(products, product, false, false, true),
+          };
         } catch (e) {
           console.log(e);
         }
@@ -297,9 +336,10 @@ class Model extends BaseModel {
             product.qty = product.saleminqty || 1;
           }
 
-          products = this.updateReduxStore(state, product, true);
-
-          return { ...state, products };
+          return {
+            ...state,
+            products: this.updateReduxStore(products, product, true),
+          };
         } catch (e) {
           console.log(e);
         }
@@ -359,22 +399,66 @@ class Model extends BaseModel {
       case this.model.recipeProducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeProducts.response:
-        return { ...state, products: action.payload.data };
+        return state;
 
       case 'CART_INCREMENT_RECIPE_PRODUCTS_LOCALLY':
         try {
-          let products = [];
+          let { products } = state;
+
           action.payload.forEach((prod) => {
-            console.log('prod: ', prod);
-            // products = this.updateReduxStore(state.products[0], prod);
+            products = this.updateReduxStore(products, prod);
           });
 
-          // return { ...state, products };
-          return state;
+          return { ...state, products };
         } catch (e) {
           console.log(e);
         }
         return state;
+
+      case this.model.incrementRecipeProductsRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.incrementRecipeProductsRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.incrementRecipeProductsRemotely.response:
+        return { ...state, products: action.payload.data.success };
+
+      case this.model.packageProducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.packageProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.packageProducts.response:
+        return state;
+
+      case 'CART_INCREMENT_PACKAGE_PRODUCTS_LOCALLY':
+        try {
+          let { products } = state;
+
+          action.payload.forEach((prod) => {
+            products = this.updateReduxStore(products, prod);
+          });
+
+          return { ...state, products };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
+
+      case this.model.incrementPackageProductsRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.incrementPackageProductsRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.incrementPackageProductsRemotely.response:
+        return { ...state, products: action.payload.data.success };
+
+      case 'CART_CLEAR_LOCALLY':
+        return { ...state, products: [] };
+
+      case this.model.clearRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.clearRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.clearRemotely.response:
+        return { ...state, products: action.payload.data === null ? [] : action.payload.data };
 
       default:
         return state;

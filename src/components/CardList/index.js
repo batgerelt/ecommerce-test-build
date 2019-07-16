@@ -21,7 +21,8 @@ class CardList extends React.Component {
           ? CARD_NUMS_IN_ROW.wide
           : CARD_NUMS_IN_ROW.slim;
 
-      for (let j = 0; j < cardsInRow; j++, p++) {
+      // eslint-disable-next-line comma-spacing
+      for (let j = 0; j < cardsInRow; j++ , p++) {
         if (!items[p]) {
           break;
         }
@@ -43,7 +44,7 @@ class CardList extends React.Component {
 
   renderCardList = () => {
     const {
-      type, items, seq, cardsInCol, showAll, cardType,
+      shape, items, seq, cardsInCol, showAll, cardType,
     } = this.props;
     if (!items.length) {
       return null;
@@ -51,7 +52,7 @@ class CardList extends React.Component {
 
     let cardList = [];
 
-    if (type === CARD_LIST_TYPES.horizontal) {
+    if (shape === CARD_LIST_TYPES.horizontal) {
       if (seq) {
         const cardTypes = seq.split(",");
 
@@ -100,7 +101,7 @@ class CardList extends React.Component {
       }
 
       cardList = <div className="row row10">{cardList}</div>;
-    } else if (type === CARD_LIST_TYPES.vertical) {
+    } else if (shape === CARD_LIST_TYPES.vertical) {
       let cardsInColCalculated = Math.ceil(items.length / 3);
 
       if (cardsInCol) {
@@ -129,7 +130,7 @@ class CardList extends React.Component {
             type={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            // {...this.props}
+            {...this.props}
           />,
         );
 
@@ -159,7 +160,7 @@ class CardList extends React.Component {
 }
 
 CardList.propTypes = {
-  type: PropTypes.number.isRequired,
+  shape: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   seq: PropTypes.string,
   cardsInCol: PropTypes.number,

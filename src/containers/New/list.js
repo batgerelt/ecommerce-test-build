@@ -70,14 +70,6 @@ class Bookmarks extends PureComponent {
               loadMoreRows={this.loadMoreRows}
               rowCount={this.state.products.length + 1}
             >
-              <CardList
-                type={CARD_LIST_TYPES.horizontal}
-                // items={newproduct.slice(cardsLength)}
-                items={products}
-                showAll
-                cardType={CARD_TYPES.slim}
-                {...this.props}
-              />
               {({ onRowsRendered, registerChild }) => (
                 <WindowScroller>
                   {({ height, isScrolling, scrollTop }) => (

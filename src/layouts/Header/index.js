@@ -117,9 +117,9 @@ class AppHeader extends Component {
                 <div className="text-right">
                   <ul className="list-inline right-panel" style={{ boxShadow: 'none' }}>
                     <li className="list-inline-item" style={{ boxShadow: 'none' }}>
-                      <select className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
-                        <option value="0" defaultValue style={{ boxShadow: 'none' }}> МОН </option>
-                        <option value="1" style={{ boxShadow: 'none' }}>ENG</option>
+                      <select onChange={this.props.setLang} className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
+                        <option value="mn" defaultValue style={{ boxShadow: 'none' }}>МОН</option>
+                        <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
                       </select>
                     </li>
                     <UserButton {...this.props} />
@@ -327,11 +327,7 @@ class AppHeader extends Component {
                         </a>
                       ) : (
                         <a className="row10">
-                          <img
-                            src={heartImage}
-                            alt="wishlist"
-                            height="25px"
-                          />
+                          <img src={heartImage} alt="wishlist" height="25px" />
                           <p>
                             <small>Хадгалсан</small>
                             <span className="text-uppercase">бараа</span>

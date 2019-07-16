@@ -1,4 +1,5 @@
 import AuthModel from './AuthModel/';
+import LocaleModel from './LocaleModel/';
 import CategoryModel from './CategoryModel/';
 import StaticModel from "./StaticModel/";
 import MenuModel from "./MenuModel/";
@@ -18,6 +19,7 @@ import UserModel from "./UserModel";
 
 /** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
+const Locale = new LocaleModel({ model: 'locale' });
 const Category = new CategoryModel({ model: 'category' });
 const Static = new StaticModel({ model: 'staticcontent' });
 const Menu = new MenuModel({ model: 'menu' });
@@ -37,6 +39,7 @@ const User = new UserModel({ model: 'user' });
 
 export {
   Auth,
+  Locale,
   Category,
   Static,
   Menu,

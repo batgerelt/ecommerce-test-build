@@ -96,7 +96,6 @@ class List extends React.Component {
   renderSimilarProdcts = () => {
     try {
       const { packageDetail } = this.props;
-      console.log("products", packageDetail.sameproducts);
       if (packageDetail.sameproducts !== undefined) {
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>

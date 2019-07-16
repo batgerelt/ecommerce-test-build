@@ -106,9 +106,46 @@ class List extends React.Component {
     }
   }
 
+  handleIncrementClick = async (product) => {
+    try {
+      if (this.props.isLogged) {
+        const result = await this.props.incrementProductRemotely({
+          custid: this.props.data[0].info.customerInfo.id,
+          skucd: product.cd,
+          qty: product.addminqty || 1,
+          iscart: 0,
+        });
+        if (!result.payload.success) {
+          this.handleNotify(result.payload.message);
+        }
+      } else {
+        this.props.incrementProductLocally(product);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  handleIncrementAllClick = async (products) => {
+    try {
+      if (this.props.isLogged) {
+        const result = await this.props.incrementRecipeProductsRemotely({
+          recipeid: this.props.match.params.recipeid,
+        });
+        if (!result.payload.success) {
+          this.handleNotify(result.payload.message);
+        }
+      } else {
+        this.props.incrementRecipeProductsLocally(products);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   renderProd = () => {
     try {
-      const { products } = this.props.recipeProducts;
+      const products = this.props.recipeProducts;
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -133,7 +170,7 @@ class List extends React.Component {
                 <button
                   type="button"
                   className="btn btn-link"
-                /* onClick={() => this.handleIncrementClick(item)} */
+                  onClick={() => this.handleIncrementClick(item)}
                 >
                   <i
                     className="fa fa-cart-plus"
@@ -152,7 +189,10 @@ class List extends React.Component {
   }
 
   renderProducts = () => {
-    const { total } = this.props.recipeProducts;
+    const products = this.props.recipeProducts;
+
+    const total = products && products.length > 0 && products.reduce((acc, cur) => acc + cur.price, 0);
+
     try {
       return (
         <div className="block product-suggest">
@@ -171,6 +211,7 @@ class List extends React.Component {
               <button
                 type="button"
                 className="btn btn-main"
+                onClick={() => this.handleIncrementAllClick(products)}
               >
                 <i
                   className="fa fa-cart-plus"
