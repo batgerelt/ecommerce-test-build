@@ -120,8 +120,10 @@ class Gallery extends Component {
             images={this.renderImages()}
             currentImage={current}
             showThumbnails
+            closeButtonTitle="Хаах"
             backdropClosesModal
             enableKeyboardInput
+            imageCountSeparator=" -ээс "
             isOpen={isLightBoxOpen}
             onClickPrev={this.handleLightBoxClickPrev}
             onClickNext={this.handleLightBoxClickNext}

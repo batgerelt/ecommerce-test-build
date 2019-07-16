@@ -9,6 +9,7 @@ import {
   Auth as AuthModel,
   Checkout as CheckoutModel,
   User as UserModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 import { Loader } from "../../components";
@@ -17,6 +18,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.checkout,
   ...state.user,
+  ...state.cart,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -24,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
     ...AuthModel,
     ...CheckoutModel,
     ...UserModel,
+    ...CartModel,
   }, dispatch),
 });
 

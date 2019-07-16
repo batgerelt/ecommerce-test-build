@@ -39,11 +39,11 @@ class IndividualTab extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue } = this.props.form;
-    const { customerInfo } = this.props;
+    const { info } = this.props.userinfo;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        let custid = customerInfo.id;
+        let custid = info.id;
         let cardno = values.cardno;
         let pincode = values.pincode;
         this.props.connectEpointCard({ custid, cardno, pincode }).then((res) => {
@@ -51,7 +51,7 @@ class IndividualTab extends React.Component {
             this.setState({ cardInfo: res.payload.data });
             setFieldsValue({ cardPoint: res.payload.data.point });
           } else {
-            this.errorMsg(res.payload.data);
+            this.errorMsg(res.payload.message);
           }
           this.setState({ loading: false });
         });
@@ -119,7 +119,7 @@ class IndividualTab extends React.Component {
                 <p className="title">
                   <strong>Имарт картаа холбох</strong>
                 </p>
-                <div className="row row10">
+                <div className="row row10 checkoutFormContainer">
                   <div className="col-xl-6 pad10">
                     <div className="form-group">
                       <Form.Item>
@@ -145,7 +145,7 @@ class IndividualTab extends React.Component {
                 <p className="title">
                   <strong>Оноо</strong>
                 </p>
-                <div className="row row10">
+                <div className="row row10 checkoutFormContainer">
                   <div className="col-xl-6 pad10">
                     <div className="form-group">
                       <Form.Item style={{ marginBottom: 0 }}>

@@ -88,7 +88,22 @@ class DeliveryPanel extends React.Component {
       }
       this.setState({ selectLoading: false });
     });
+    this.setFieldsValue(found);
     this.setState({ chosenAddress: found });
+  }
+
+  setFieldsValue = (value) => {
+    const { setFieldsValue } = this.props.form;
+    setFieldsValue({
+      id: value.id,
+      committeeid: value.committeeid,
+      districtid: value.districtid,
+      provinceid: value.provinceid,
+      phone1: value.phone1,
+      phone2: value.phone2,
+      address: value.address,
+      name: value.name,
+    });
   }
 
   onChangeMainLoc = (e) => {
@@ -264,13 +279,12 @@ class DeliveryPanel extends React.Component {
                   </p>
                 </div>
               }
-              disabled
               key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <p className="text">{item.featuretxt}</p>
                 <Form onSubmit={this.onSubmit}>
-                  <div className="row row10">
+                  <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (
                       <div className="col-xl-12 col-md-12" style={{ display: "flex" }}>
                         <div className="col-xl-8 col-md-8" style={{ paddingLeft: "0px", paddingRight: "11px" }} >
