@@ -39,7 +39,7 @@ class DeliveryPanel extends React.Component {
       this.getDistrict(main.provinceid, false);
       this.getCommitte(main.provinceid, main.districtid, false);
     } else {
-      this.setState({ noAddress: true });
+      this.setState({ noAddress: true, addresstype: "new" });
       this.getDistrictAndCommitte(0);
     }
   }
@@ -206,9 +206,9 @@ class DeliveryPanel extends React.Component {
         if (res.payload.success) {
           chosenAddress.provinceid = res.payload.data.provinceid;
           chosenAddress.provincenm = "Улаанбаатар хот";
-          chosenAddress.districtid = res.payload.data.districts[0].id;
+          chosenAddress.districtid = res.payload.data.districtid;
           chosenAddress.districtnm = res.payload.data.districts[0].name;
-          chosenAddress.committeeid = res.payload.data.committees[0].id;
+          chosenAddress.committeeid = res.payload.data.committeeid;
           chosenAddress.committeenm = res.payload.data.committees[0].name;
           chosenAddress.locid = res.payload.data.committees[0].locid;
           chosenAddress.address = "";
@@ -234,13 +234,13 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation,
     } = this.state;
     const {
       deliveryTypes,
-      committelocation,
       systemlocation,
     } = this.props;
+    const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
         {deliveryTypes.map((item, i) => {
@@ -264,6 +264,7 @@ class DeliveryPanel extends React.Component {
                   </p>
                 </div>
               }
+              disabled
               key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -284,9 +285,12 @@ class DeliveryPanel extends React.Component {
                             )}
                           </Form.Item>
                         </div>
-                        <div className="col-xl-4 col-md-4">
-                          <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Хаяг нэмэх</button>
-                        </div>
+                        {
+                          main !== null ?
+                            <div className="col-xl-4 col-md-4">
+                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Хаяг нэмэх</button>
+                            </div> : null
+                        }
                       </div>
                     ) : (
                         ""
@@ -331,7 +335,7 @@ class DeliveryPanel extends React.Component {
                             rules: [{ required: true, message: "Хороо сонгоно уу?" }],
                           })(
                             <Select placeholder="Хороо*" showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
-                              {this.renderLocation(committelocation)}
+                              {this.renderLocation(committeLocation)}
                             </Select>,
                           )}
                         </Form.Item>
