@@ -19,6 +19,19 @@ import {
 } from "./Component";
 
 class List extends React.Component {
+  handleChange = ({ fileList }) => {
+    console.log("handleChage", fileList);
+    /* var data = new FormData();
+    data.append("uploadimage", fileList[0].originFileObj);
+    data.append("custid", this.props.user.id);
+    */
+  };
+  renderName(info) {
+    return <span>{info.firstname} {info.lastname}</span>;
+  }
+  logout() {
+    console.log("logout");
+  }
   handleLogout = () => {
     this.props.clearProducts().then(res => console.log(res));
   }

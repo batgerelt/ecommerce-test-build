@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
-    ProfileModel,
+    ...ProfileModel,
     RecipeModel,
     CartModel,
   }, dispatch),
