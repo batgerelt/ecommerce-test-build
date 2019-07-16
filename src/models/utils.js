@@ -8,10 +8,10 @@ const request = ({
 }) => {
   let bearerHeader = 'Bearer ';
   // bitgii hamaagvi uurchluud baildaa uur zunduu gazar ashiglchihsn bgaa ymiig !!!!!!!!!!!!!!!!!!!!
-  const root = JSON.parse(localStorage.getItem('auth'));
+  const root = localStorage.getItem('auth') === null ? null : JSON.parse(localStorage.getItem('auth'));
 
   if (root !== null) {
-    bearerHeader += root.access_token;
+    bearerHeader += root.data[0].info.access_token;
   }
   if (method === 'GET') {
     return fetch(withQuery(process.env.API + url, body), {

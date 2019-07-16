@@ -186,16 +186,18 @@ class Homepage extends React.Component {
   renderMainBanner = () => {
     try {
       const { homepagebanner } = this.props;
-      return (
-        <div className="main-slide">
-          <Slider
-            data={homepagebanner.header === undefined ? [] : homepagebanner.header}
-            params={sliderParams}
-            elContainer={"banner"}
-          />
-        </div>
-
-      );
+      if (homepagebanner.length !== 0) {
+        return (
+          <div className="main-slide">
+            <Slider
+              data={homepagebanner.header === undefined ? [] : homepagebanner.header}
+              params={sliderParams}
+              elContainer={"banner"}
+            />
+          </div>
+        );
+      }
+      return null;
     } catch (error) {
       return console.log(error);
     }

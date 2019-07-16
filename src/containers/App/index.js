@@ -78,7 +78,7 @@ class App extends Component {
     return (
       <Router>
         <ScrollToTop >
-          <div onClick={() => this.Header.handleDropDownClose()}>
+          <div>
             {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
             <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
             <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />

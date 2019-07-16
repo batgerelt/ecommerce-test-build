@@ -53,14 +53,14 @@ class Slider extends React.Component {
             </div>
           </div>
         );
-
+        // style={{ background: `url(${process.env.IMAGE + item.imgnm})` }}
         return (
-          <div key={index} style={{ background: `url(${process.env.IMAGE + item.imgnm})` }}>
-            {/* <img
+          <div key={index}>
+            <img
               alt={item.imgnm}
               src={process.env.IMAGE + item.imgnm}
               className={styles.brandImg}
-            /> */}
+            />
             {item.brandid ? (
               <Link
                 to={`/brand/${item.brandid}`}
