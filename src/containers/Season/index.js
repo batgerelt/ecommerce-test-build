@@ -8,9 +8,11 @@ import {
   Menu as MenuModel,
   Filter as FilterModel,
   Cart as CartModel,
+  Auth as AuthModel,
 } from "../../models";
 import { Loader } from "../../components";
 import List from "./list";
+import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
   ...state.banner,
@@ -18,6 +20,7 @@ const mapStateToProps = state => ({
   ...state.menu,
   ...state.filter,
   ...state.cart,
+  ...state.auth,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -27,6 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...MenuModel,
     ...FilterModel,
     ...CartModel,
+    ...AuthModel,
   }, dispatch),
 });
 
@@ -63,7 +67,8 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} />
+        <List {...this.props} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );
   }

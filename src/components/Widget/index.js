@@ -9,27 +9,26 @@ import "./Widget.css";
 
 class Widget extends React.Component {
   render() {
-    const { data } = this.props;
-
-    if (!data) {
+    const { widgetData } = this.props;
+    if (!widgetData) {
       return null;
     }
 
     let subtitle = null;
-    if (data.subtitle) {
+    if (widgetData.subtitle) {
       subtitle = (
         <p className="text">
-          {data.icon ? data.icon : null} {data.subtitle}
+          {widgetData.icon ? widgetData.icon : null} {widgetData.subtitle}
         </p>
       );
     }
 
     let cardList = null;
-    if (data.slug === WIDGET_SLUGS.recipe) {
+    if (widgetData.slug === WIDGET_SLUGS.recipe) {
       cardList = (
         <CardList
           cartListType={CARD_LIST_TYPES.vertical}
-          items={data.items}
+          items={widgetData.items}
           cardsInCol={2}
           {...this.props}
         />
@@ -38,8 +37,8 @@ class Widget extends React.Component {
       cardList = (
         <CardList
           cartListType={CARD_LIST_TYPES.horizontal}
-          items={data.items}
-          seq={data.type}
+          items={widgetData.items}
+          seq={widgetData.type}
           {...this.props}
         />
       );
@@ -49,16 +48,16 @@ class Widget extends React.Component {
       <div className="section">
         <div className="container pad10">
           <h1 className="title">
-            <span className="text-uppercase">{data.name}</span>
+            <span className="text-uppercase">{widgetData.name}</span>
             {subtitle}
-            {data.interval ? data.interval : ""}
+            {widgetData.interval ? widgetData.interval : ""}
           </h1>
 
           {cardList}
 
           <div className="more-link text-center">
-            <Link to={data.link ? data.link : ""} className="btn btn-border">
-              <span className="text text-uppercase">{data.readMore}</span>
+            <Link to={widgetData.link ? widgetData.link : ""} className="btn btn-border">
+              <span className="text text-uppercase">{widgetData.readMore}</span>
             </Link>
           </div>
         </div>
@@ -68,7 +67,7 @@ class Widget extends React.Component {
 }
 
 Widget.propTypes = {
-  data: PropTypes.object.isRequired,
+  widgetData: PropTypes.object.isRequired,
 };
 
 export default Widget;

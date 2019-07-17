@@ -1,7 +1,5 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { Link } from "react-router-dom";
-import { Slider } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -145,7 +143,6 @@ class List extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     const { orderdetail } = this.props;
     return (
       <div className="section">

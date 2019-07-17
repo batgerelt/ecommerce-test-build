@@ -107,10 +107,20 @@ class Model extends BaseModel {
       response: this.buildActionName('response', 'addwishlist'),
       error: this.buildActionName('error', 'addwishlist'),
     };
+    this.addCommentModel = {
+      request: this.buildActionName('request', 'addcomment'),
+      response: this.buildActionName('response', 'addcomment'),
+      error: this.buildActionName('error', 'addcomment'),
+    };
     this.addRateModel = {
       request: this.buildActionName('request', 'addrate'),
       response: this.buildActionName('response', 'addrate'),
       error: this.buildActionName('error', 'addrate'),
+    };
+    this.AddViewModel = {
+      request: this.buildActionName('request', 'addview'),
+      response: this.buildActionName('response', 'addview'),
+      error: this.buildActionName('error', 'addview'),
     };
   }
 
@@ -138,6 +148,8 @@ class Model extends BaseModel {
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
   addWishList = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: 'POST', model: this.addWishListModel });
   addRate = ({ custid, skucd, rate }) => asyncFn({ url: `/product/rate/${custid}/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
+  addComment = ({ custId, skucd, comm }) => asyncFn({ url: `/product/comment/${custId}/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
+  addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET EMART PRODUCT
@@ -262,6 +274,22 @@ class Model extends BaseModel {
 
       // ADD RATE MODEL
       case this.addRateModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
+
+      // ADD COMMENT MODEL
+      case this.addCommentModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
+
+      // ADD VIEWLIST MODEL
+      case this.AddViewModel.request:
         return {
           ...state,
           isLoading: true,

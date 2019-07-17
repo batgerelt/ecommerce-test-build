@@ -4,51 +4,66 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Rate } from "antd";
+import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
 class Comment extends Component {
   state = {
     comment: "",
-    comments: this.props.comments,
+    comments: [],
+    user: null,
   };
+
+  componentWillMount() {
+    let auth = localStorage.getItem("auth");
+    this.setState({ comments: this.props.comments });
+    if (auth !== null) {
+      auth = JSON.parse(auth);
+      this.setState({ user: auth.data[0].info.customerInfo });
+    }
+  }
+
+  handleCommitChange = (e) => {
+    this.setState({ comment: e.target.value });
+  };
+
+  handleCommentSend = (e) => {
+    const { comment, user } = this.state;
+    const { addComment, product } = this.props;
+    if (user !== null) {
+      let custId = user.id;
+      let skucd = product.cd;
+      addComment({ custId, skucd, comment }).then((res) => {
+        console.log(res);
+      });
+    }
+  }
 
 
   renderCommentList = () => {
     try {
-      const { isLoggedIn, user, product } = this.props;
-      const { comments } = this.props;
+      const { user, comments } = this.state;
+      const { product } = this.props;
       const { rate, rate_user_cnt } = product;
       return (
         <div
           className="comments-container"
           style={{ marginTop: "80px", width: "100%" }}
         >
-          {isLoggedIn && user && (
+          {user && (
             <div className="write-comment">
               <div className="author">
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{
-                      backgroundImage: `url(${
-                        user.picture
-                          ? user.picture.data
-                            ? user.picture.data.url
-                            : user.picture
-                          : // eslint-disable-next-line no-undef
-                          p1
-                        })`,
-                    }}
+                    style={{ backgroundImage: `url(${defaultAvatar})` }}
                   />
                 </div>
                 <p className="name text-uppercase">
                   <strong>
-                    {user.firstname
-                      ? user.lastname
-                        ? `${user.firstname} ${user.lastname}`
-                        : user.firstname
-                      : user.email
-                        ? user.email
-                        : ""}
+                    {
+                      user !== null ? `${user.firstname} ${user.lastname} ${user.email}`
+                        : ""
+                    }
                   </strong>
                 </p>
               </div>
@@ -81,7 +96,7 @@ class Comment extends Component {
             </div>
           )}
 
-          {!!comments.length && (
+          {comments.length !== 0 && (
             <div style={{ marginTop: "80px" }}>
               <h1 className="title">
                 <span className="text-uppercase">Сэтгэгдэл</span>
@@ -97,23 +112,6 @@ class Comment extends Component {
 
                 {comments.map((comment, index) => (
                   <div className="single" key={index}>
-                    {/* {!!rates.length &&
-                          rates.map((rate, index) => {
-                            if (rate.custid === comment.custid) {
-                              return (
-                                <Rate
-                                  key={index}
-                                  allowHalf
-                                  disabled
-                                  defaultValue={rate.rate}
-                                  style={{
-                                    fontSize: "0.8rem",
-                                    marginBottom: "5px"
-                                  }}
-                                />
-                              );
-                            }
-                          })} */}
                     <p className="text">{comment.commnt}</p>
                     <ul className="list-unstyled bottom-info">
                       {comment.idate && (

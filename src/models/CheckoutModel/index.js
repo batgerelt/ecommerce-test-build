@@ -22,6 +22,7 @@ class Model extends BaseModel {
     companyInfo: {},
     epointCardInfo: {},
     connectEpoint: {},
+    zoneSettingDate: [],
   }
 
   constructor(data = {}) {
@@ -58,6 +59,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'epointCardInfo'),
           error: this.buildActionName('error', data.model, 'epointCardInfo'),
         },
+        zoneSettingDate: {
+          request: this.buildActionName('request', data.model, 'zoneSettingDate'),
+          response: this.buildActionName('response', data.model, 'zoneSettingDate'),
+          error: this.buildActionName('error', data.model, 'zoneSettingDate'),
+        },
       };
     }
     this.checkEpointPinModel = {
@@ -71,10 +77,10 @@ class Model extends BaseModel {
   getPaymentTypes = () => asyncFn({ url: `/checkout/Paymenttypes`, method: 'GET', model: this.model.paymentTypes });
   getDeliveryTypes = () => asyncFn({ url: `/checkout/deliveryTypes`, method: 'GET', model: this.model.deliveryTypes });
   getCompanyInfo = ({ regno } = {}) => asyncFn({ url: `/order/company/${regno}`, method: 'GET', model: this.model.companyInfo });
-  connectEpointCard = ({ custid, cardno, pincode } = {}) => asyncFn({ url: `/customer/card/${custid}/${cardno}/${pincode}`, method: 'POST', model: this.model.connectEpoint });
-  getEpointCardInfo = ({ custid } = {}) => asyncFn({ url: `/customer/card/${custid}`, method: 'GET', model: this.model.epointCardInfo });
+  connectEpointCard = ({ cardno, pincode } = {}) => asyncFn({ url: `/customer/card/${cardno}/${pincode}`, method: 'POST', model: this.model.connectEpoint });
+  getEpointCardInfo = () => asyncFn({ url: `/customer/card`, method: 'GET', model: this.model.epointCardInfo });
   checkEpointPin = ({ cardno, pincode } = {}) => asyncFn({ url: `/customer/card/pin/${cardno}/${pincode}`, method: 'POST', model: this.checkEpointPinModel });
-
+  getZoneSettings = ({ locid, deliverytype } = {}) => asyncFn({ url: `/checkout/deliverydate/${locid}/${deliverytype}`, method: 'GET', model: this.model.zoneSettingDate });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET CART BANK INFO
@@ -124,6 +130,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.epointCardInfo.response:
         return { ...state, epointCardInfo: action.payload.data };
+
+      // ZONE SETTINGS DATE
+      case this.model.zoneSettingDate.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.zoneSettingDate.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.zoneSettingDate.response:
+        return { ...state, zoneSettingDate: action.payload.data };
 
       // CHECK EPOINT PIN MODEL
       case this.checkEpointPinModel.request:

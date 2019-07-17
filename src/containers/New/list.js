@@ -8,6 +8,7 @@
 import React, { PureComponent } from "react";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import { Card, PageBanner, CardList, Banner } from "../../components";
+import { CARD_LIST_TYPES, CARD_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 340;
@@ -89,13 +90,13 @@ class Bookmarks extends PureComponent {
 
       let cardsLength = 0;
       cardTypes.map(i => cardsLength += parseInt(i) === CARD_TYPES.slim ? CARD_NUMS_IN_ROW.slim : CARD_NUMS_IN_ROW.wide);
-
       return (
         <div className="section">
           <div className="container pad10">
             <CardList
               cartListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
+              {...this.props}
               items={newproduct.slice(0, cardsLength)}
             />
           </div>
