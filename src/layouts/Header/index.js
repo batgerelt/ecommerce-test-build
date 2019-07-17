@@ -119,7 +119,7 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <div className="e-phone" style={{ padding: 9 }}>
+                    <div className="e-phone">
                       <Icon
                         type="phone"
                         theme="filled"
@@ -403,8 +403,8 @@ class AppHeader extends Component {
         <div className="main-nav">
           <div className="container container-laptop pad10">
             <ul className="list-inline">
-              <li className="list-inline-item active">
-                <Link to="/">
+              <li className="list-inline-item active" style={{ paddingLeft: '0px' }}>
+                <Link to="/" style={{ paddingLeft: '0px' }}>
                   <Icon
                     type="home"
                     theme="filled"
