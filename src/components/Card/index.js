@@ -91,7 +91,7 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
-          this.props.incrementPackageProductsLocally(result.payload.data);
+          this.props.incrementPackageProductsLocally(result.payload.data.products);
         } else {
           //
         }
