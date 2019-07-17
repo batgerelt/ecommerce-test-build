@@ -117,8 +117,15 @@ class Card extends React.Component {
             });
           }
         });
+      } else {
+        this.props.getDetailPackage({ id: item.id }).then((res) => {
+          if (res.payload.success) {
+            res.payload.data.products.map((item, i) => {
+              this.addWishList(item.cd);
+            });
+          }
+        });
       }
-      console.log(item);
     }
   }
 
@@ -126,7 +133,7 @@ class Card extends React.Component {
     const { addWishList } = this.props;
     addWishList({ skucd }).then((res) => {
       if (res.payload.success) {
-        message.success(res.payload.message);
+        // message.success(res.payload.message);
       }
     });
   }
