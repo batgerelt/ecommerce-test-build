@@ -74,6 +74,7 @@ class Discount extends React.Component {
       return console.log(error);
     }
   }
+
   render() {
     return (
       <div className="top-container">

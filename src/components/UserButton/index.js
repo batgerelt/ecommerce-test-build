@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress } from "antd";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
@@ -29,7 +30,7 @@ class UserButton extends React.Component {
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
         <div className="text-uppercase" style={{ cursor: 'default' }}>
-          Нэвтрэх
+          <FormattedMessage id="auth.login" defaultMessage="Нэвтрэх" />
         </div>
       </li>
     );

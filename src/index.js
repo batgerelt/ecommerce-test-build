@@ -5,11 +5,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import mn from 'react-intl/locale-data/mn';
 import { LocaleProvider } from 'antd';
 import moment from 'moment';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import 'antd/dist/antd.less';
-
 import './index.css';
 import './utils/momentLocale';
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -20,6 +22,9 @@ import mnMN from './utils/locale';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store/configureStore';
+
+addLocaleData(en);
+addLocaleData(mn);
 
 moment.locale('mn-MN');
 library.add(fas, far, fab);
