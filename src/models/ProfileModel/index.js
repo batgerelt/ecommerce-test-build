@@ -102,6 +102,16 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'emartcard'),
           error: this.buildActionName('error', data.model, 'emartcard'),
         },
+        checkConfirm: {
+          request: this.buildActionName('request', data.model, 'checkconfirm'),
+          response: this.buildActionName('response', data.model, 'checkconfirm'),
+          error: this.buildActionName('error', data.model, 'checkconfirm'),
+        },
+        userPic: {
+          request: this.buildActionName('request', data.model, 'userpic'),
+          response: this.buildActionName('response', data.model, 'userpic'),
+          error: this.buildActionName('error', data.model, 'userpic'),
+        },
       };
     }
   }
@@ -121,6 +131,9 @@ class Model extends BaseModel {
   addAddress = ({ body }) => asyncFn({
     body, url: `/customer/address`, method: `POST`, model: this.model.addAddress,
   });
+  userPic = ({ body, isfiles }) => asyncFn({
+    body, url: `/customer/userprofile`, method: `POST`, model: this.model.userPic, isfiles,
+  })
   // PUT
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
@@ -130,6 +143,7 @@ class Model extends BaseModel {
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
+  confirm = ({ key }) => asyncFn({ url: `/customer/checkkey/${key}`, method: `PUT`, model: this.model.checkConfirm });
   // DELETE
   deleteWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteWish });
   deleteHistory = ({ custid, skucd }) => asyncFn({ url: `/customer/seenlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteHistory });
@@ -137,13 +151,20 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // USER PIC
+      case this.model.userPic.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.userPic.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.userPic.response:
+        return { ...state, response: action.payload.data };
       // GET USER ADDRESS
       case this.model.useraddress.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.useraddress.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.useraddress.response:
-        return { ...state, useraddress: action.payload.data };
+        return { ...state, useraddress: action.payload.data, addrs: action.payload.data.addrs };
       // GET Customer info
       case this.model.customer.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -199,6 +220,13 @@ class Model extends BaseModel {
       case this.model.updateMain.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.updateMain.response:
+        return { ...state, response: action.payload.data };
+      // Confirm
+      case this.model.checkConfirm.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.checkConfirm.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.checkConfirm.response:
         return { ...state, response: action.payload.data };
       // PUT Change password
       case this.model.changePassword.request:

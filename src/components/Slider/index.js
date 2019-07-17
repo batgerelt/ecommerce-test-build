@@ -53,25 +53,22 @@ class Slider extends React.Component {
             </div>
           </div>
         );
-
+        // style={{ background: `url(${process.env.IMAGE + item.imgnm})` }}
         return (
           <div key={index}>
-            <img
-              alt={item.imgnm}
-              src={process.env.IMAGE + item.imgnm}
-              className={styles.brandImg}
-            />
-            {item.brandid ? (
-              <Link
-                to={`/brand/${item.brandid}`}
-                onClick={() => this.handleDetail(item.brandid)}
-                style={{ padding: '100%' }}
-              >
-                {container}
-              </Link>
-            ) : (
-                container
-              )}
+            <div className="background-cover" style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}>
+              {item.brandid ? (
+                <Link
+                  to={`/brand/${item.brandid}`}
+                  onClick={() => this.handleDetail(item.brandid)}
+                  style={{ padding: '100%' }}
+                >
+                  {container}
+                </Link>
+              ) : (
+                  container
+                )}
+            </div>
           </div>
         );
       });

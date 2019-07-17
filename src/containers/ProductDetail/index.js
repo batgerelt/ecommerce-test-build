@@ -35,18 +35,23 @@ class Page extends React.Component {
     commentLoad: true,
     collectionLoad: true,
     categoryLoad: true,
+    detail: false,
   };
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.getData();
   }
 
-  /* componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
-      this.getData();
+      this.setState({
+        detailLoad: true, relationalLoad: true, attributeLoad: true, commentLoad: true, collectionLoad: true, categoryLoad: true,
+      }, () => {
+        this.getData();
+      });
     }
-  } */
+  }
 
   getData = () => {
     const { id } = this.props.match.params;

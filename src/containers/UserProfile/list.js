@@ -20,15 +20,28 @@ import {
 
 class List extends React.Component {
   handleChange = ({ fileList }) => {
-    console.log("handleChage", fileList);
-    /* var data = new FormData();
+    const data = new FormData();
+    const isfiles = true;
     data.append("uploadimage", fileList[0].originFileObj);
-    data.append("custid", this.props.user.id);
-    */
+    console.log(fileList[0].originFileObj);
+    this.props.userPic({
+      body: { ...data },
+      isfiles,
+    }).then((res) => {
+      console.log(res);
+    });
   };
+  renderName(info) {
+    return <span>{info.firstname} {info.lastname}</span>;
+  }
+
+  handleLogout = () => {
+    this.props.clearProducts().then(res => console.log(res));
+  }
+
   render() {
+    console.log(this.props);
     const { match } = this.props;
-    match.path = "/profile";
     return (
       <div className="section section-gray">
         <Router>
@@ -42,7 +55,7 @@ class List extends React.Component {
                         <Upload className="avatar-upload" showUploadList={false} onChange={this.handleChange}>
                           <div className="flex-this">
                             <Avatar size="large" src={avatar} />
-                            <p className="name">Тулгаа Отгонсүрэн</p>
+                            <p className="name">{this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}</p>
                           </div>
                         </Upload>
                         <p className="text text-right" style={{ marginBottom: "-3px" }} >Таны мэдээлэл</p>
@@ -81,18 +94,18 @@ class List extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    <Link to="" className="btn btn-gray">
+                    <Link to="" className="btn btn-gray" onClick={this.handleLogout}>
                       <i className="fa fa-chevron-left" /><span>Гарах</span>
                     </Link>
                   </div>
 
                   <Switch>
-                    <Route exact path="/profile" component={UserProfile} {...this} />
-                    <Route path="/profile/history" component={UserHistory} {...this} />
-                    <Route path="/profile/wish" component={UserWish} {...this} />
-                    <Route path="/profile/delivery" component={UserDelivery} {...this} />
-                    <Route path="/profile/address" component={UserAddress} {...this} />
-                    <Route path="/profile/password" component={UserPassword} {...this} />
+                    <Route exact path={match.path} component={UserProfile} {...this} />
+                    <Route path={`${match.path}/history`} component={UserHistory} {...this} />
+                    <Route path={`${match.path}/wish`} component={UserWish} {...this} />
+                    <Route path={`${match.path}/delivery`} component={UserDelivery} {...this} />
+                    <Route path={`${match.path}/address`} component={UserAddress} {...this} />
+                    <Route path={`${match.path}/password`} component={UserPassword} {...this} />
                   </Switch>
 
                 </div>

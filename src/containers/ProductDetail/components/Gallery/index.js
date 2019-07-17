@@ -1,3 +1,6 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable radix */
+/* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -15,10 +18,7 @@ class Gallery extends Component {
 
   handleThumbnailClick = (e) => {
     e.preventDefault();
-    this.setState({
-      // eslint-disable-next-line radix
-      current: parseInt(e.target.parentElement.getAttribute("name")),
-    });
+    this.setState({ current: parseInt(e.target.parentElement.getAttribute("name")) });
   };
 
   handleImageClick = () => {
@@ -48,16 +48,16 @@ class Gallery extends Component {
     });
   };
 
-  renderImages = () =>
-    this.props.images.map(image => ({
+  renderImages = () => {
+    return this.props.images.map(image => ({
       src: `${process.env.IMAGE}${image.lrgimg}`,
     }));
+  }
 
   renderMagnify = () => {
     try {
       const { images } = this.props;
       const { current } = this.state;
-
       return (
         <Magnifier
           smallImage={images[current].mdmimg}
@@ -89,44 +89,47 @@ class Gallery extends Component {
                   ))}
                 </div>
               )}
-              { this.renderMagnify() }
+              {this.renderMagnify()}
             </div>
           </div>
 
           {images && (
             <div className="thumbs">
               <ul className="list-inline">
-                {images.map((image, index) => (
-                  <li key={index} className="list-inline-item">
-                    <a
-                      className="image-container"
-                      onClick={this.handleThumbnailClick}
-                      name={index}
-                    >
-                      <img
-                        alt={`image${index}`}
-                        className={`image${index}`}
-                        src={`${process.env.IMAGE}${image.mniimg}`}
-                      />
-                    </a>
-                  </li>
-                ))}
+                {images.map((image, index) => {
+                  return (
+                    <li key={index} className="list-inline-item">
+                      <a
+                        className="image-container"
+                        onClick={this.handleThumbnailClick}
+                        name={index}
+                      >
+                        <img
+                          alt={`image${index}`}
+                          className={`image${index}`}
+                          src={`${process.env.IMAGE}${image.mniimg}`}
+                        />
+                      </a>
+                    </li>
+                  );
+                })};
               </ul>
             </div>
           )}
-
-          {/* <Lightbox
+          <Lightbox
             images={this.renderImages()}
             currentImage={current}
             showThumbnails
+            closeButtonTitle="Хаах"
             backdropClosesModal
             enableKeyboardInput
+            imageCountSeparator=" -ээс "
             isOpen={isLightBoxOpen}
             onClickPrev={this.handleLightBoxClickPrev}
             onClickNext={this.handleLightBoxClickNext}
             onClose={this.handleLightBoxClose}
             onClickThumbnail={this.handleLightBoxThumbnailClick}
-          /> */}
+          />
         </div>
       );
     } catch (error) {
@@ -143,7 +146,6 @@ class Gallery extends Component {
 
 Gallery.propTypes = {
   images: PropTypes.array.isRequired,
-  // eslint-disable-next-line react/require-default-props
   tags: PropTypes.array,
 };
 

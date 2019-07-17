@@ -15,6 +15,7 @@ class Checkout extends React.Component {
   state = {
     activeKey: ["1"],
     customerInfo: null,
+    companyInfo: null,
   };
 
   componentDidMount() {
@@ -47,6 +48,10 @@ class Checkout extends React.Component {
       activeKey: key,
     });
   };
+
+  setCompanyInfo = (value) => {
+    this.setState({ companyInfo: value });
+  }
 
   paymentType = () => (
     <div className="title-container flex-space">

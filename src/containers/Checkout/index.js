@@ -4,17 +4,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Spin } from "antd";
 import {
   Auth as AuthModel,
   Checkout as CheckoutModel,
   User as UserModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
+import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.checkout,
   ...state.user,
+  ...state.cart,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,26 +26,39 @@ const mapDispatchToProps = dispatch => ({
     ...AuthModel,
     ...CheckoutModel,
     ...UserModel,
+    ...CartModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
   state = {
-    loading: false,
+    loading: true,
   }
   componentWillMount() {
     let auth = JSON.parse(localStorage.getItem("auth"));
     this.props.getPaymentTypes();
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
-    if (auth !== null) {
-      this.props.getUserInfo({ custid: auth.customerInfo.id });
+    if (auth !== null && auth !== undefined) {
+      this.props.getUserInfo({ custid: auth.customerInfo.id }).then((res) => {
+        this.setState({ loading: false });
+      });
       this.props.getSystemLocation();
+    } else {
+      this.setState({ loading: false });
     }
   }
 
   render() {
-    return <List {...this.props} />;
+    const { loading } = this.state;
+    return (
+      <Spin
+        spinning={loading}
+        indicator={<Loader />}
+      >
+        <List {...this.props} />
+      </Spin>
+    );
   }
 }
 

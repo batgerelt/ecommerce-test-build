@@ -4,16 +4,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Search as SearchModel } from "../../models";
+import {
+  Search as SearchModel,
+  Cart as CartModel,
+} from "../../models";
 import List from "./list";
 
 const mapStateToProps = state => ({
   ...state.search,
+  ...state.cart,
+  ...state.auth,
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     ...SearchModel,
+    ...CartModel,
   }, dispatch),
 });
 

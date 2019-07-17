@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-destructuring */
@@ -9,7 +10,6 @@ import { connect } from 'react-redux';
 import { Rate } from "antd";
 import { toast } from "react-toastify";
 import { css } from "glamor";
-
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -103,7 +103,7 @@ class Card extends React.Component {
 
   render() {
     const {
-      type, item, isLastInRow, className,
+      shape, item, isLastInRow, className,
     } = this.props;
     let prices;
     if (!item) {
@@ -123,11 +123,11 @@ class Card extends React.Component {
         prices = (
           <div className="row">
             {!!priceTitle && (
-              <div className="col-md-6" style={{ textAlign: "left" }}>
+              <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
                 {priceTitle}
               </div>
             )}
-            <div className={`col-md-${priceTitle ? "6" : "12"}`}>
+            <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
               <small className="sale">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </small>
@@ -141,11 +141,11 @@ class Card extends React.Component {
         prices = (
           <div className="row">
             {!!priceTitle && (
-              <div className="col-md-6" style={{ textAlign: "left" }}>
+              <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
                 {priceTitle}
               </div>
             )}
-            <div className={`col-md-${priceTitle ? "6" : "12"}`}>
+            <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
               <span className="current">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </span>
@@ -181,8 +181,7 @@ class Card extends React.Component {
         </button>
       </div>
     );
-
-    switch (type) {
+    switch (shape) {
       case CARD_TYPES.slim:
         return (
           <div
@@ -428,23 +427,24 @@ class Card extends React.Component {
                     seq={index}
                   />
                 ))}
-              <div className="cart-container">
-                <Link
-                  to=""
+              <div className="cart-container d-flex">
+                <a
                   className="wishlist"
-                // onClick={this.handleSave(item)}
-                >
-                  <i className="fa fa-heart-o" aria-hidden="true" />
-                </Link>
-                <button
-                  onClick={this.handleIncrement(item)}
                   style={{
                     fontSize: "1.1rem",
                   }}
-                  disabled={heartDisabled}
+                >
+                  <i className="fa fa-heart-o" aria-hidden="true" />
+                </a>
+                <a
+                  onClick={() => this.handleIncrement(item)}
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                </button>
+                  <span />
+                </a>
               </div>
             </div>
           </div>
@@ -460,7 +460,7 @@ const mapStateToProps = state => ({
 });
 
 Card.propTypes = {
-  type: PropTypes.number.isRequired,
+  shape: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   isLastInRow: PropTypes.bool,
   className: PropTypes.string,

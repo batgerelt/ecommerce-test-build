@@ -29,6 +29,10 @@ class CategoryInfo extends React.Component {
     isLeftPanel: false,
   };
 
+  handleViewChange = () => {
+    this.setState({ isListViewOn: !this.state.isListViewOn });
+  };
+
   renderBreadCrumb = () => {
     try {
       const { parents } = this.props.categoryinfo;
@@ -120,18 +124,20 @@ class CategoryInfo extends React.Component {
       if (this.state.isListViewOn) {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.list}
+            shape={CARD_LIST_TYPES.list}
             items={products}
             cardType={CARD_TYPES.list}
+            {...this.props}
           />
         );
       } else {
         result = (
           <CardList
-            type={CARD_LIST_TYPES.horizontal}
+            shape={CARD_LIST_TYPES.horizontal}
             items={products}
             showAll
             cardType={CARD_TYPES.wide}
+            {...this.props}
           />
         );
       }
@@ -145,7 +151,7 @@ class CategoryInfo extends React.Component {
                   <p className="text">
                     {/* <strong>"{selectedCat}"</strong> */}
                     {products.length}{" "}
-                          бараа олдлоо
+                    бараа олдлоо
                   </p>
                 </div>
               </div>
@@ -164,11 +170,11 @@ class CategoryInfo extends React.Component {
                     <label
                       htmlFor="inputState"
                       style={{
-                              marginTop: "7px",
-                              marginRight: "5px",
-                            }}
+                        marginTop: "7px",
+                        marginRight: "5px",
+                      }}
                     >
-                            Эрэмбэлэх:
+                      Эрэмбэлэх:
                     </label>
                     <Select
                       defaultValue={this.state.sort}
@@ -181,24 +187,18 @@ class CategoryInfo extends React.Component {
                     </Select>
                   </div>
                   <div className="form-group flex-this">
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn active" : "btn"
-                            }
-                      onClick={this.handleListViewClick}
+                    <div
+                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
-                    </Link>
-                    <Link
-                      to=""
-                      className={
-                              this.state.isListViewOn ? "btn" : "btn active"
-                            }
-                      onClick={this.handleGridViewClick}
+                    </div>
+                    <div
+                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
-                    </Link>
+                    </div>
                   </div>
                 </form>
               </div>

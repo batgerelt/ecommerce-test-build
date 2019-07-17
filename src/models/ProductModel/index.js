@@ -21,6 +21,9 @@ class Model extends BaseModel {
     detailimg: [],
     recipeproduct: [],
     categorymenu: [],
+    count: 0,
+    isFetching: false,
+    allFetched: false,
   }
 
   constructor(data = {}) {
@@ -99,6 +102,16 @@ class Model extends BaseModel {
         },
       };
     }
+    this.addWishListModel = {
+      request: this.buildActionName('request', 'addwishlist'),
+      response: this.buildActionName('response', 'addwishlist'),
+      error: this.buildActionName('error', 'addwishlist'),
+    };
+    this.addRateModel = {
+      request: this.buildActionName('request', 'addrate'),
+      response: this.buildActionName('response', 'addrate'),
+      error: this.buildActionName('error', 'addrate'),
+    };
   }
 
   getProductDetail = ({ skucd }) => asyncFn({ url: `/product/detail/${skucd}`, method: 'GET', model: this.model.detail });
@@ -106,10 +119,10 @@ class Model extends BaseModel {
   getProductRelational = ({ skucd }) => asyncFn({ url: `/product/relational/${skucd}`, method: 'GET', model: this.model.relational });
   getProductCollection = ({ skucd }) => asyncFn({ url: `/product/collection/${skucd}`, method: 'GET', model: this.model.collection });
   getProductRate = ({ skucd }) => asyncFn({ url: `/product/rate/${skucd}`, method: 'GET', model: this.model.rate });
-  getProductComment= ({ skucd }) => asyncFn({ url: `/product/comment/${skucd}`, method: 'GET', model: this.model.comment });
-  getProductDetailimg= ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
+  getProductComment = ({ skucd }) => asyncFn({ url: `/product/comment/${skucd}`, method: 'GET', model: this.model.comment });
+  getProductDetailimg = ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
   getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
-  getCategorys= () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
+  getCategorys = () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
   getEmartProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `price_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.emartproduct });
@@ -119,12 +132,12 @@ class Model extends BaseModel {
   getNewProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `price_asc`,
   }) => asyncFn({ url: `/product/newproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.newproduct });
-  getProductAvailable= ({
+  getProductAvailable = ({
     custid, skucd, qty, iscart,
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
-
-
+  addWishList = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: 'POST', model: this.addWishListModel });
+  addRate = ({ custid, skucd, rate }) => asyncFn({ url: `/product/rate/${custid}/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET EMART PRODUCT
@@ -145,11 +158,13 @@ class Model extends BaseModel {
 
       // GET NEW PRODUCT
       case this.model.newproduct.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, isFetching: true, current: this.requestCase(state.current, action) };
       case this.model.newproduct.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, isFetching: false, current: this.errorCase(state.current, action) };
       case this.model.newproduct.response:
-        return { ...state, newproduct: action.payload.data };
+        return {
+          ...state, isFetching: false, newproduct: state.newproduct.concat(action.payload.data), count: state.count + 20,
+        };
 
       // GET DETAIL
       case this.model.detail.request:
@@ -214,7 +229,7 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.prodavailablesku.response:
         return { ...state, prodavailablesku: action.payload.data };
-        // GET PRODUCT DETAIL CATEGORYS
+      // GET PRODUCT DETAIL CATEGORYS
       case this.model.productdetailcategorys.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.productdetailcategorys.error:
@@ -236,6 +251,22 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipe.response:
         return { ...state, recipeproduct: action.payload.data };
+
+      // ADD WISH LIST MODEL
+      case this.addWishListModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
+
+      // ADD RATE MODEL
+      case this.addRateModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+        };
 
       default:
         return state;

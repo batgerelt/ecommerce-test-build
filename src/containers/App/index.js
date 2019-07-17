@@ -10,6 +10,7 @@ import ScrollToTop from "react-router-scroll-top";
 import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
+import Notfound from "../Exception/404";
 import {
   Locale as LocaleModel,
   Category as CategoryModel,
@@ -41,6 +42,7 @@ import {
   PackageDetail,
   Profile,
   PassReset,
+  Confirm,
 } from "../";
 import translation from '../../translation';
 
@@ -75,7 +77,6 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getMenu();
     this.props.getStaticPages();
-    this.props.getNewProduct({});
   }
 
   render() {
@@ -94,7 +95,7 @@ class App extends Component {
             <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
 
             {/** fixed header */}
-            <Header {...this.props} {...this} />
+            <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
             {/** Үндсэн root болон nested root-үүд доор байрлана */}
             <Switch>
               <Route exact path="/" component={Home} />
@@ -115,6 +116,8 @@ class App extends Component {
               <Route path="/profile" component={Profile} />
               <Route path="/search/:id/:key" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
+              <Route path="/confirm/:key" component={Confirm} />
+              <Route path="*" component={Notfound} />
             </Switch>
 
             {/** fixed footer */}

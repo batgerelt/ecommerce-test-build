@@ -18,6 +18,7 @@ import Search from "./Search";
 import PackageDetail from "./PackageDetail";
 import Profile from "./UserProfile";
 import PassReset from "./PasswordReset";
+import Confirm from "./Confirm";
 
 export {
   App,
@@ -40,4 +41,5 @@ export {
   PackageDetail,
   Profile,
   PassReset,
+  Confirm,
 };
