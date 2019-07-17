@@ -33,13 +33,7 @@ class CardList extends React.Component {
             shape={cardType}
             item={items[p]}
             isLastInRow={j === cardsInRow - 1}
-            auth={this.props.auth}
-            incrementProductRemotely={this.props.incrementProductRemotely}
-            incrementProductLocally={this.props.incrementProductLocally}
-            getRecipeProducts={this.props.getRecipeProducts}
-            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
-            LoginModal={this.props.LoginModal}
-            addWishList={this.props.addWishList}
+            {...this.props}
           />,
         );
       }
@@ -100,13 +94,7 @@ class CardList extends React.Component {
               shape={cardType}
               item={item}
               isLastInRow={(index + 1) % cardsInRow === 0}
-              auth={this.props.auth}
-              incrementProductRemotely={this.props.incrementProductRemotely}
-              incrementProductLocally={this.props.incrementProductLocally}
-              getRecipeProducts={this.props.getRecipeProducts}
-              incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
-              LoginModal={this.props.LoginModal}
-              addWishList={this.props.addWishList}
+              {...this.props}
             />,
           );
         });
@@ -142,13 +130,7 @@ class CardList extends React.Component {
             shape={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            auth={this.props.auth}
-            incrementProductRemotely={this.props.incrementProductRemotely}
-            incrementProductLocally={this.props.incrementProductLocally}
-            getRecipeProducts={this.props.getRecipeProducts}
-            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
-            LoginModal={this.props.LoginModal}
-            addWishList={this.props.addWishList}
+            {...this.props}
           />,
         );
 
@@ -170,13 +152,7 @@ class CardList extends React.Component {
             key={index}
             shape={CARD_TYPES.list}
             item={item}
-            auth={this.props.auth}
-            incrementProductRemotely={this.props.incrementProductRemotely}
-            incrementProductLocally={this.props.incrementProductLocally}
-            getRecipeProducts={this.props.getRecipeProducts}
-            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
-            LoginModal={this.props.LoginModal}
-            addWishList={this.props.addWishList}
+            {...this.props}
           />);
       });
     }

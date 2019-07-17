@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress } from "antd";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
@@ -29,17 +30,13 @@ class UserButton extends React.Component {
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
         <div className="text-uppercase" style={{ cursor: 'default' }}>
-          Нэвтрэх
+          <FormattedMessage id="auth.login" defaultMessage="Нэвтрэх" />
         </div>
       </li>
     );
 
-    console.log('1 ');
-
     if (localStorage.getItem('auth') !== null) {
-      console.log('2 ');
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        console.log('3 ');
         const user = JSON.parse(localStorage.getItem('auth')).data[0].info.customerInfo;
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
