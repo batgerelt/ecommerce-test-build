@@ -1,11 +1,13 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-undef */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable import/first */
+/* eslint-disable radix */
 import React, { PureComponent } from "react";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
-import { Card, Loader } from "../../components";
+import { Card, PageBanner, CardList, Banner } from "../../components";
 // import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 340;
@@ -60,9 +62,60 @@ class Bookmarks extends PureComponent {
     return result;
   }
 
-  render() {
-    return (
-      <div className="top-container">
+  renderMainBanner = () => {
+    try {
+      const { pagebanner } = this.props;
+
+      return (
+        <PageBanner
+          title={'Шинэ'}
+          subtitle={'Манай дэлгүүрээр зарагдаж байгаа шинэ бараанууд'}
+          banners={pagebanner}
+          bgColor="#bbdefb"
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderHeaderProduct = () => {
+    try {
+      const seq = "1,1";
+      const cardTypes = seq.split(",");
+      const { newproduct } = this.props;
+
+      let cardsLength = 0;
+      cardTypes.map(i => cardsLength += parseInt(i) === CARD_TYPES.slim ? CARD_NUMS_IN_ROW.slim : CARD_NUMS_IN_ROW.wide);
+
+      return (
+        <div className="section">
+          <div className="container pad10">
+            <CardList
+              type={CARD_LIST_TYPES.horizontal}
+              seq={seq}
+              items={newproduct.slice(0, cardsLength)}
+            />
+          </div>
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderSubBanner = () => {
+    try {
+      const { pagebanner } = this.props;
+      return <Banner data={pagebanner} />;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  renderFooterProduct = () => {
+    try {
+      return (
         <div className="section">
           <div className="container pad10">
             <AutoSizer disableHeight>
@@ -117,6 +170,19 @@ class Bookmarks extends PureComponent {
             </AutoSizer>
           </div>
         </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
+  render() {
+    return (
+      <div className="top-container">
+        {this.renderMainBanner()}
+        {this.renderHeaderProduct()}
+        {this.renderSubBanner()}
+        {this.renderFooterProduct()}
       </div>
     );
   }
