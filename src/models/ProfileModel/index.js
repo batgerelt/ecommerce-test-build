@@ -6,6 +6,7 @@ class Model extends BaseModel {
     history: [],
     wish: [],
     delivery: [],
+    orderdetail: [],
   }
 
   constructor(data = {}) {
@@ -112,6 +113,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'userpic'),
           error: this.buildActionName('error', data.model, 'userpic'),
         },
+        orderDetail: {
+          request: this.buildActionName('request', data.model, 'orderdetail'),
+          response: this.buildActionName('response', data.model, 'orderdetail'),
+          error: this.buildActionName('error', data.model, 'orderdetail'),
+        },
       };
     }
   }
@@ -126,6 +132,7 @@ class Model extends BaseModel {
   getWish = () => asyncFn({ url: `/customer/wishlist`, method: 'GET', model: this.model.wish });
   getDelivery = ({ custid }) => asyncFn({ url: `/order/all/${custid}`, method: 'GET', model: this.model.delivery });
   getDeliveryAddress = ({ custid }) => asyncFn({ url: `/cutomer/address/${custid}`, method: 'GET', model: this.model.deliveryAddress });
+  getOrderDetail = ({ ordid }) => asyncFn({ url: `/order/detail/${ordid}`, method: 'GET', model: this.model.orderDetail });
   // POST
   addWish = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: `POST`, model: this.model.addWish });
   addAddress = ({ body }) => asyncFn({
@@ -151,6 +158,13 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // GET Order Detail
+      case this.model.orderDetail.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.orderDetail.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.orderDetail.response:
+        return { ...state, orderdetail: action.payload.data };
       // USER PIC
       case this.model.userPic.request:
         return { ...state, current: this.requestCase(state.current, action) };

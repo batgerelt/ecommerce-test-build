@@ -53,27 +53,18 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        <span
-                          className="image"
-                          style={{
-                          backgroundImage: `url(${
-                            user.picture
-                              ? user.picture.data
-                                ? user.picture.data.url
-                                : user.picture
-                              : avatar
-                            })`,
-                        }}
-                        />
+                        {/* <Avatar size="large" src={this.props.userInfo === undefined ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} /> */}
+                        {/* <span className="image" style={{ backgroundImage: `url(${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar})`, }}
+                        /> */}
                       </div>
                       <p className="name">
                         {user.firstname
-                        ? user.lastname
-                          ? `${user.firstname} ${user.lastname}`
-                          : user.firstname
-                        : user.email
-                          ? user.email
-                          : ""}
+                          ? user.lastname
+                            ? `${user.firstname} ${user.lastname}`
+                            : user.firstname
+                          : user.email
+                            ? user.email
+                            : ""}
                       </p>
                     </div>
                     <Progress percent={50} strokeColor="#feb415" status="active" />
@@ -89,27 +80,27 @@ class UserButton extends React.Component {
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "30px" }} /><span>Таны үзсэн барааны түүх</span>
+                      <Link to="/profile/history" className="flex-this">
+                        <Avatar size="small" shape="square" src={history} style={{ width: "30px" }} /><span>Үзсэн барааны түүх</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="flex-this">
+                      <Link to="/profile/wish" className="flex-this">
                         <Avatar size="small" shape="square" src={wishlist} style={{ width: "30px" }} /><span>Хадгалсан бараа</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="flex-this">
+                      <Link to="/profile/delivery" className="flex-this">
                         <Avatar size="small" shape="square" src={store} style={{ width: "30px" }} /><span>Захиалгын түүх</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="flex-this">
+                      <Link to="/profile/address" className="flex-this">
                         <Avatar size="small" shape="square" src={location} style={{ width: "30px" }} /><span>Хүргэлтийн хаяг</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="flex-this">
+                      <Link to="/profile/password" className="flex-this">
                         <Avatar size="small" shape="square" src={password} style={{ width: "30px" }} /><span>Нууц үгээ солих</span>
                       </Link>
                     </li>

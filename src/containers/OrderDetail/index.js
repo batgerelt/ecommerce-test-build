@@ -1,23 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Package as PackageModel } from "../../models";
+import {
+  Auth as AuthModel,
+  Profile as ProfileModel,
+} from "../../models";
 import List from "./list";
 
 const mapStateToProps = state => ({
-  ...state.package,
+  ...state.auth,
+  ...state.profile,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
-    ...PackageModel,
+    AuthModel,
+    ...ProfileModel,
   }, dispatch),
 });
 
 class OrderDetail extends React.Component {
   componentWillMount() {
-    this.props.getDetailPackage({ id: this.props.match.params.id });
-    this.props.getInfoPackage({ id: this.props.match.params.id });
+    this.props.getOrderDetail({ ordid: this.props.match.params.id });
   }
 
   render() {
