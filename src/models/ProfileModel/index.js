@@ -107,6 +107,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'checkconfirm'),
           error: this.buildActionName('error', data.model, 'checkconfirm'),
         },
+        userPic: {
+          request: this.buildActionName('request', data.model, 'userpic'),
+          response: this.buildActionName('response', data.model, 'userpic'),
+          error: this.buildActionName('error', data.model, 'userpic'),
+        },
       };
     }
   }
@@ -126,6 +131,9 @@ class Model extends BaseModel {
   addAddress = ({ body }) => asyncFn({
     body, url: `/customer/address`, method: `POST`, model: this.model.addAddress,
   });
+  userPic = ({ body, isfiles }) => asyncFn({
+    body, url: `/customer/userprofile`, method: `POST`, model: this.model.userPic, isfiles,
+  })
   // PUT
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
@@ -143,6 +151,13 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // USER PIC
+      case this.model.userPic.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.userPic.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.userPic.response:
+        return { ...state, response: action.payload.data };
       // GET USER ADDRESS
       case this.model.useraddress.request:
         return { ...state, current: this.requestCase(state.current, action) };

@@ -139,6 +139,13 @@ class List extends React.Component {
     }
   }
 
+  handleQtyKeyDown = (product, e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      this.changeQty(product, parseInt(e.target.value, 10));
+    }
+  };
+
   handleQtyBlur = (product, e) => { this.changeQty(product, parseInt(e.target.value, 10)); }
 
   changeQty = (product, targetQty) => {
@@ -158,162 +165,159 @@ class List extends React.Component {
 
   renderProducts = () => {
     try {
+      console.log("gaga");
       const { packageDetail } = this.props;
-      console.log(packageDetail);
-      if (packageDetail.products !== undefined) {
-        return packageDetail.products.map((prod, index) => (
-          <li className="flex-this" key={index}>
-            <div className="image-container default">
-              <Link to={prod.route || ""}>
-                <span
-                  className="image"
-                  style={{
-                    backgroundImage: `url(${process.env.IMAGE}${prod.img})`,
-                  }}
-                />
-              </Link>
-            </div>
-
-            <div className="info-container">
-              <div className="flex-space">
-                <p className="text col-md-5 col-sm-5">
-                  <Link
-                    to={prod.route || ""}
-                    style={{ color: "#666" }}
+      return packageDetail.products.map((prod, index) => (
+        <li className="flex-this" key={index}>
+          <div className="image-container default">
+            <Link to={prod.route || ""}>
+              <span
+                className="image"
+                style={{
+                  backgroundImage: `url(${process.env.IMAGE}${prod.img})`,
+                }}
+              />
+            </Link>
+          </div>
+          <div className="info-container">
+            <div className="flex-space">
+              <p className="text col-md-5 col-sm-5">
+                <Link
+                  to={prod.route || ""}
+                  style={{ color: "#666" }}
+                >
+                  <span>{prod.name}</span>
+                  <strong>{formatter.format(prod.price)}₮</strong>
+                </Link>
+              </p>
+              <form style={{ width: "130px" }}>
+                <div className="input-group e-input-group">
+                  <div
+                    className="input-group-prepend"
+                    id="button-addon4"
                   >
-                    <span>{prod.name}</span>
-                    <strong>{formatter.format(prod.price)}₮</strong>
-                  </Link>
-                </p>
-
-                <form style={{ width: "130px" }}>
-                  <div className="input-group e-input-group">
-                    <div
-                      className="input-group-prepend"
-                      id="button-addon4"
+                    <button
+                      className="btn"
+                      type="button"
+                      style={{
+                        color: "rgba(0,0,0,.5)",
+                        textAlign: "center",
+                        backgroundColor: "rgb(204, 204, 204)",
+                        borderTopLeftRadius: "20px",
+                        borderBottomLeftRadius: "20px",
+                        marginRight: "5px",
+                      }}
                     >
-                      <button
-                        className="btn"
-                        type="button"
-                        style={{
-                          color: "rgba(0,0,0,.5)",
-                          textAlign: "center",
-                          backgroundColor: "rgb(204, 204, 204)",
-                          borderTopLeftRadius: "20px",
-                          borderBottomLeftRadius: "20px",
-                          marginRight: "5px",
-                        }}
-                      >
-                        <i
-                          className="fa fa-minus"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={prod.unit}
-                      name="productQty"
-                      maxLength={5}
-                    /* onKeyDown={this.handleQtyKeyDown(prod)} */
-                    /* onBlur={this.handleQtyBlur(prod)} */
-                    /* onChange={this.handleQtyChange(prod)} */
-
-                    />
-                    <div
-                      className="input-group-append"
-                      id="button-addon4"
-                    >
-                      <button
-                        className="btn"
-                        type="button"
-                        style={{
-                          color: "rgba(0,0,0,.5)",
-                          textAlign: "center",
-                          backgroundColor: "rgb(204, 204, 204)",
-                          borderTopRightRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                          marginLeft: "5px",
-                        }}
-                      >
-                        <i
-                          className="fa fa-plus"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </div>
+                      <i
+                        className="fa fa-minus"
+                        aria-hidden="true"
+                      />
+                    </button>
                   </div>
-                </form>
-
-                <div className="action">
-                  <button
-                    className="btn btn-link"
-                    type="button"
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={prod.unit}
+                    name="productQty"
+                    maxLength={5}
+                  /* onKeyDown={this.handleQtyKeyDown(prod)} */
+                  /* onBlur={this.handleQtyBlur(prod)} */
+                  /* onChange={this.handleQtyChange(prod)} */
+                  />
+                  <div
+                    className="input-group-append"
+                    id="button-addon4"
                   >
-                    <i
-                      className="fa fa-cart-plus"
-                      aria-hidden="true"
-                      style={{ fontSize: "1.6rem" }}
-                    />
-                  </button>
+                    <button
+                      className="btn"
+                      type="button"
+                      style={{
+                        color: "rgba(0,0,0,.5)",
+                        textAlign: "center",
+                        backgroundColor: "rgb(204, 204, 204)",
+                        borderTopRightRadius: "20px",
+                        borderBottomRightRadius: "20px",
+                        marginLeft: "5px",
+                      }}
+                    >
+                      <i
+                        className="fa fa-plus"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
                 </div>
+              </form>
+              <div className="action">
+                <button
+                  className="btn btn-link"
+                  type="button"
+                >
+                  <i
+                    className="fa fa-cart-plus"
+                    aria-hidden="true"
+                    style={{ fontSize: "1.6rem" }}
+                  />
+                </button>
               </div>
             </div>
-          </li>
-        ));
-      }
-      return null;
+          </div>
+        </li>
+      ));
     } catch (error) {
       return console.log(error);
     }
   }
+
+  renderTotal() {
+    const { packageDetail } = this.props;
+    let Total = 0;
+    packageDetail.products.map((prod, index) => (
+      Total += Number(prod.price)
+    ));
+    return Total;
+  }
+
   renderCartInfo = () => {
     try {
       const { packageDetail } = this.props;
-      if (packageDetail.products !== undefined) {
-        return (
-          <div className="pack-product-container" style={{ marginTop: "30px" }}>
-            {!!packageDetail.products && !!packageDetail.products.length && (
-              <div className="pack-list">
-                <div className="row row10">
-                  <div className="col-xl-8 pad10">
-                    <ul className="list-unstyled">
-                      {this.props.packageDetail === undefined ? null : this.renderProducts()}
-                    </ul>
-                  </div>
-
-                  <div className="col-xl-4 pad10">
-                    <div className="pack-price">
-                      <p className="text flex-this end">
-                        <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
-                        <strong>{formatter.format(this.props.packageDetail.total)}₮</strong>
-                      </p>
-                      <button
-                        type="button"
-                        className="btn btn-main"
-                      >
-                        <i
-                          className="fa fa-cart-plus"
-                          aria-hidden="true"
-                          style={{ fontSize: "1.2rem" }}
-                        />{" "}
-                        <span className="text-uppercase">Сагсанд нэмэх</span>
-                      </button>
-                    </div>
-                  </div>
+      return (
+        <div className="pack-product-container" style={{ marginTop: "30px" }}>
+          <div className="pack-list">
+            <div className="row row10">
+              <div className="col-xl-8 pad10">
+                <ul className="list-unstyled">
+                  {packageDetail === undefined ? null : this.renderProducts()}
+                </ul>
+              </div>
+              <div className="col-xl-4 pad10">
+                <div className="pack-price">
+                  <p className="text flex-this end">
+                    <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
+                    <strong>{this.renderTotal()}₮</strong>
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-main"
+                  >
+                    <i
+                      className="fa fa-cart-plus"
+                      aria-hidden="true"
+                      style={{ fontSize: "1.2rem" }}
+                    />{" "}
+                    <span className="text-uppercase">Сагсанд нэмэх</span>
+                  </button>
                 </div>
               </div>
-            )}
-            <div className="info-container" style={{ float: "right" }}>
-              <span>
-                <i>Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор багцаас хасаад сагсанд нэмэх боломжтой.</i>
-              </span>
             </div>
           </div>
-        );
-      }
-      return null;
+          <div className="info-container" style={{ float: "right" }}>
+            <span>
+              <i>Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор багцаас хасаад сагсанд нэмэх боломжтой.</i>
+            </span>
+          </div>
+        </div>
+      );
     } catch (error) {
       return console.log(error);
     }
