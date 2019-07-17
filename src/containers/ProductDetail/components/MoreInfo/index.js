@@ -57,7 +57,7 @@ class Moreinfo extends Component {
               </h1>
               <div style={{ marginTop: "40px" }}>
                 <div className="row row10">
-                  <CardSlider params={params} data={similarProducts} />
+                  <CardSlider params={params} similarProducts={similarProducts} {...this.props} />
                 </div>
               </div>
             </div>

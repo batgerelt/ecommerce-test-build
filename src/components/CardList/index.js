@@ -22,7 +22,7 @@ class CardList extends React.Component {
           : CARD_NUMS_IN_ROW.slim;
 
       // eslint-disable-next-line comma-spacing
-      for (let j = 0; j < cardsInRow; j++, p++) {
+      for (let j = 0; j < cardsInRow; j++ , p++) {
         if (!items[p]) {
           break;
         }
@@ -138,25 +138,25 @@ class CardList extends React.Component {
             shape={CARD_TYPES.tile}
             item={items[i]}
             className={className}
-            auth={this.props.auth}
-            incrementProductRemotely={this.props.incrementProductRemotely}
-            incrementProductLocally={this.props.incrementProductLocally}
-            getRecipeProducts={this.props.getRecipeProducts}
-            incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
-          />,
-        );
+        auth = { this.props.auth }
+        incrementProductRemotely = { this.props.incrementProductRemotely }
+        incrementProductLocally = { this.props.incrementProductLocally }
+        getRecipeProducts = { this.props.getRecipeProducts }
+        incrementRecipeProductsLocally = { this.props.incrementRecipeProductsLocally }
+          /> ,               
+        ); 
+          
+if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
+          (
+                  <div className="col-md-4 pad10" key={i}>
+                  {cardsTemp}
+            div>,
+            );
+              cardsTemp = [];
+              }
+            
 
-        if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
-          cardList.push(
-            <div className="col-md-4 pad10" key={i}>
-              {cardsTemp}
-            </div>,
-          );
-          cardsTemp = [];
-        }
-      }
-
-      cardList = <div className="row row10">{cardList}</div>;
+            List = <div className="row row10">{cardList}</div>;
     } else {
       items.forEach((item, index) => {
         cardList.push(

@@ -84,6 +84,7 @@ class ProductDetail extends React.Component {
           product={detail.length === 0 ? [] : detail.products[0]}
           attributes={attribute.length === 0 ? [] : attribute}
           similarProducts={collection.length === 0 ? [] : collection}
+          {...this.props}
         />
       );
     } catch (error) {

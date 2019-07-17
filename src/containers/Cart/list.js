@@ -19,6 +19,18 @@ class Cart extends React.Component {
   };
 
   // eslint-disable-next-line consistent-return
+  handleClearClick = async () => {
+    if (this.props.isLogged) {
+      const result = await this.props.clearRemotely();
+      if (!result.payload.success) {
+        return this.handleNotify(result.payload.message);
+      }
+    } else {
+      this.props.clearLocally();
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
   handleRemoveClick = product => async (e) => {
     e.preventDefault();
 
@@ -393,13 +405,13 @@ class Cart extends React.Component {
                     </h5>
                   </div>
                   <div className="col">
-                    <Link
-                      to=""
+                    <button
                       className="btn btn-border pull-right"
+                      onClick={this.handleClearClick}
                     >
                       <i className="fa fa-trash fa-2x" aria-hidden="true" />{" "}
                       <span className="text-uppercase">Сагс хоослох</span>
-                    </Link>
+                    </button>
                   </div>
                 </div>
                 <div className="cart-table table-responsive">{this.renderContent()}</div>

@@ -1,5 +1,6 @@
 /* eslint-disable import/first */
 import React, { Component } from "react";
+import { IntlProvider } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -11,6 +12,7 @@ import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
 import Notfound from "../Exception/404";
 import {
+  Locale as LocaleModel,
   Category as CategoryModel,
   Static as StaticModel,
   Menu as MenuModel,
@@ -22,6 +24,7 @@ import {
   Recipe as RecipeModel,
 } from "../../models";
 import {
+  Locale,
   Home,
   Discount,
   New,
@@ -41,6 +44,7 @@ import {
   PassReset,
   Confirm,
 } from "../";
+import translation from '../../translation';
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,6 +54,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators(
     {
+      ...LocaleModel,
       ...CategoryModel,
       ...StaticModel,
       ...MenuModel,
@@ -75,10 +80,15 @@ class App extends Component {
   }
 
   render() {
+    const { lang } = this.props.locale;
+
     return (
-      <Router>
-        <ScrollToTop >
-          <div onClick={() => this.Header.handleDropDownClose()}>
+      <IntlProvider
+        locale={lang}
+        messages={translation[lang]}
+      >
+        <Router>
+          <ScrollToTop>
             {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
             <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
             <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
@@ -112,9 +122,9 @@ class App extends Component {
 
             {/** fixed footer */}
             <Footer {...this.props} />
-          </div>
-        </ScrollToTop>
-      </Router>
+          </ScrollToTop>
+        </Router>
+      </IntlProvider>
     );
   }
 }
