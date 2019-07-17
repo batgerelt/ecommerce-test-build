@@ -7,8 +7,8 @@ const formatter = new Intl.NumberFormat("en-US");
 class Component extends React.Component {
   state = {};
   onDelete = (item) => {
-    this.props.deleteWish({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
-      this.props.getWish({ custid: this.props.data[0].info.customerInfo.id });
+    this.props.deleteWish({ skucd: item.cd }).then((res) => {
+      this.props.getWish();
     });
   }
   renderProducts = () => {

@@ -120,14 +120,14 @@ class Model extends BaseModel {
   getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
   getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
   // GET
-  getUserInfo = ({ custid } = {}) => asyncFn({ url: `/customer/address/${custid}`, method: 'GET', model: this.model.useraddress });
+  getUserInfo = () => asyncFn({ url: `/customer/address`, method: 'GET', model: this.model.useraddress });
   getCustomer = ({ custid }) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.customer });
-  getHistory = ({ custid }) => asyncFn({ url: `/customer/viewlist/${custid}`, method: 'GET', model: this.model.history });
-  getWish = ({ custid }) => asyncFn({ url: `/customer/wishlist/${custid}`, method: 'GET', model: this.model.wish });
+  getHistory = () => asyncFn({ url: `/customer/viewlist`, method: 'GET', model: this.model.history });
+  getWish = () => asyncFn({ url: `/customer/wishlist`, method: 'GET', model: this.model.wish });
   getDelivery = ({ custid }) => asyncFn({ url: `/order/all/${custid}`, method: 'GET', model: this.model.delivery });
   getDeliveryAddress = ({ custid }) => asyncFn({ url: `/cutomer/address/${custid}`, method: 'GET', model: this.model.deliveryAddress });
   // POST
-  addWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `POST`, model: this.model.addWish });
+  addWish = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: `POST`, model: this.model.addWish });
   addAddress = ({ body }) => asyncFn({
     body, url: `/customer/address`, method: `POST`, model: this.model.addAddress,
   });
@@ -138,16 +138,16 @@ class Model extends BaseModel {
   resetPassword = ({ body }) => asyncFn({
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
   });
-  emartCard = ({ custid, cardno, pincode }) => asyncFn({ url: `/customer/card/${custid}/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
+  emartCard = ({ cardno, pincode }) => asyncFn({ url: `/customer/card/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
   changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword });
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
   confirm = ({ key }) => asyncFn({ url: `/customer/checkkey/${key}`, method: `PUT`, model: this.model.checkConfirm });
   // DELETE
-  deleteWish = ({ custid, skucd }) => asyncFn({ url: `/customer/wishlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteWish });
-  deleteHistory = ({ custid, skucd }) => asyncFn({ url: `/customer/seenlist/${custid}/${skucd}`, method: `DELETE`, model: this.model.deleteHistory });
-  deleteAddress = ({ id, custid }) => asyncFn({ url: `/customer/address/${id}/${custid}`, method: `DELETE`, model: this.model.deleteAddress });
+  deleteWish = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: `DELETE`, model: this.model.deleteWish });
+  deleteHistory = ({ skucd }) => asyncFn({ url: `/customer/seenlist/${skucd}`, method: `DELETE`, model: this.model.deleteHistory });
+  deleteAddress = ({ id }) => asyncFn({ url: `/customer/address/${id}`, method: `DELETE`, model: this.model.deleteAddress });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

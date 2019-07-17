@@ -151,9 +151,9 @@ class Component extends React.Component {
   }
 
   onDelete = (e, item) => {
-    this.props.deleteAddress({ id: item.id, custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+    this.props.deleteAddress({ id: item.id }).then((res) => {
       if (res.payload.success) {
-        this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((response) => {
+        this.props.getUserInfo().then((response) => {
           console.log(response.payload.success);
         });
       }
