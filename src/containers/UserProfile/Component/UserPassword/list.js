@@ -24,6 +24,27 @@ class Component extends React.Component {
       }
     });
   }
+
+  handleConfirmBlur = (e) => {
+    const { value } = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    if (value && value !== this.props.form.getFieldValue("password")) {
+      callback("Шинэ нууц үгээ зөв давтана уу");
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    if (value && this.state.confirmDirty) {
+      this.props.form.validateFields(["confirm"], { force: true });
+    }
+    callback();
+  };
+
   renderPassword = () => {
     try {
       const { getFieldDecorator } = this.props.form;

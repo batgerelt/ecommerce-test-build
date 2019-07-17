@@ -6,6 +6,36 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {};
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      this.props.changePassword({ id: this.props.match.params.key, password: values.password }).then((res) => {
+        console.log(res.payload);
+      });
+    });
+  };
+
+  handleConfirmBlur = (e) => {
+    const { value } = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    if (value && value !== this.props.form.getFieldValue("password")) {
+      callback("Шинэ нууц үгээ зөв давтана уу");
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    if (value && this.state.confirmDirty) {
+      this.props.form.validateFields(["confirm"], { force: true });
+    }
+    callback();
+  };
+
   renderPass = () => {
     try {
       const { getFieldDecorator } = this.props.form;
