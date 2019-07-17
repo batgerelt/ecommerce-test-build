@@ -7,14 +7,17 @@ import {
   Product as ProductModel,
   Menu as MenuModel,
   Cart as CartModel,
+  Auth as AuthModel,
 } from "../../models";
 import List from "./list";
+import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
   ...state.banner,
   ...state.product,
   ...state.menu,
   ...state.cart,
+  ...state.auth,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -23,6 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProductModel,
     ...MenuModel,
     ...CartModel,
+    ...AuthModel,
   }, dispatch),
 });
 
@@ -35,7 +39,12 @@ class Page extends React.Component {
   }
 
   render() {
-    return <List {...this.props} />;
+    return (
+      <div>
+        <List {...this.props} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+      </div>
+    );
   }
 }
 
