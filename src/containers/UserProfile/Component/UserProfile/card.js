@@ -13,7 +13,7 @@ class Component extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(this.props);
-        this.props.emartCard({ custid: this.props.data[0].info.customerInfo.id, cardno: values.cardno, pincode: values.password }).then((res) => {
+        this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           console.log(res);
         });
       }

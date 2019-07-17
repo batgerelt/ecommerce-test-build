@@ -7,12 +7,12 @@ const formatter = new Intl.NumberFormat("en-US");
 class Component extends React.Component {
   state = {};
   onDelete = (item) => {
-    this.props.deleteHistory({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
-      this.props.getHistory({ custid: this.props.data[0].info.customerInfo.id });
+    this.props.deleteHistory({ skucd: item.cd }).then((res) => {
+      this.props.getHistory();
     });
   }
   addHistory = (item) => {
-    this.props.addWish({ custid: this.props.data[0].info.customerInfo.id, skucd: item.cd }).then((res) => {
+    this.props.addWish({ skucd: item.cd }).then((res) => {
       message.success(res.payload.message);
     });
   }

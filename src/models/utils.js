@@ -35,7 +35,7 @@ const request = ({
   }
 
   if (isfiles) {
-    const request = new Request(process.env.HOST_SERVER + url, {
+    const request = new Request(process.env.API + url, {
       method,
       headers: new Headers({ Authorization: bearerHeader }),
       body,

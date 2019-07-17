@@ -43,6 +43,7 @@ import {
   Profile,
   PassReset,
   Confirm,
+  Order,
 } from "../";
 import translation from '../../translation';
 
@@ -117,6 +118,7 @@ class App extends Component {
               <Route path="/search/:id/:key" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
               <Route path="/confirm/:key" component={Confirm} />
+              <Route path="/order/:id" component={Order} />
               <Route path="*" component={Notfound} />
             </Switch>
 
