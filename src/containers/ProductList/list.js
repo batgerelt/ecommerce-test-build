@@ -124,7 +124,7 @@ class CategoryInfo extends React.Component {
       if (this.state.isListViewOn) {
         result = (
           <CardList
-            shape={CARD_LIST_TYPES.list}
+            cartListType={CARD_LIST_TYPES.list}
             items={products}
             cardType={CARD_TYPES.list}
             {...this.props}
@@ -133,7 +133,7 @@ class CategoryInfo extends React.Component {
       } else {
         result = (
           <CardList
-            shape={CARD_LIST_TYPES.horizontal}
+            cartListType={CARD_LIST_TYPES.horizontal}
             items={products}
             showAll
             cardType={CARD_TYPES.wide}

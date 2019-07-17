@@ -92,7 +92,7 @@ class Bookmarks extends PureComponent {
         <div className="section">
           <div className="container pad10">
             <CardList
-              type={CARD_LIST_TYPES.horizontal}
+              cartListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={newproduct.slice(0, cardsLength)}
             />

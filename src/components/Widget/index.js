@@ -28,7 +28,7 @@ class Widget extends React.Component {
     if (data.slug === WIDGET_SLUGS.recipe) {
       cardList = (
         <CardList
-          shape={CARD_LIST_TYPES.vertical}
+          cartListType={CARD_LIST_TYPES.vertical}
           items={data.items}
           cardsInCol={2}
           {...this.props}
@@ -37,7 +37,7 @@ class Widget extends React.Component {
     } else {
       cardList = (
         <CardList
-          shape={CARD_LIST_TYPES.horizontal}
+          cartListType={CARD_LIST_TYPES.horizontal}
           items={data.items}
           seq={data.type}
           {...this.props}

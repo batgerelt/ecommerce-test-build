@@ -460,7 +460,7 @@ const mapStateToProps = state => ({
 });
 
 Card.propTypes = {
-  shape: PropTypes.number.isRequired,
+  cartListType: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   isLastInRow: PropTypes.bool,
   className: PropTypes.string,
