@@ -57,6 +57,8 @@ class LoginModal extends React.Component {
               });
 
               this.props.getProducts({ custid: res.payload.data[0].info.customerInfo.id });
+
+              this.props.form.resetFields();
             } else {
               this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
             }

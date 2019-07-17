@@ -22,7 +22,8 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     localStorage.clear(); // localstorage-iig clear hiij bga
     this.setState({ logout: !this.state.logout });
-    this.props.clearProducts(); // cart-iig hoosolj bgaa heseg
+    console.log(this.props);
+    this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
   }
 
   render() {

@@ -44,7 +44,7 @@ class CardList extends React.Component {
 
   renderCardList = () => {
     const {
-      shape, items, seq, cardsInCol, showAll, cardType,
+      cartListType, items, seq, cardsInCol, showAll, cardType,
     } = this.props;
     if (!items.length) {
       return null;
@@ -52,7 +52,7 @@ class CardList extends React.Component {
 
     let cardList = [];
 
-    if (shape === CARD_LIST_TYPES.horizontal) {
+    if (cartListType === CARD_LIST_TYPES.horizontal) {
       if (seq) {
         const cardTypes = seq.split(",");
 
@@ -101,7 +101,7 @@ class CardList extends React.Component {
       }
 
       cardList = <div className="row row10">{cardList}</div>;
-    } else if (shape === CARD_LIST_TYPES.vertical) {
+    } else if (cartListType === CARD_LIST_TYPES.vertical) {
       let cardsInColCalculated = Math.ceil(items.length / 3);
 
       if (cardsInCol) {
@@ -166,7 +166,7 @@ class CardList extends React.Component {
 }
 
 CardList.propTypes = {
-  shape: PropTypes.number.isRequired,
+  cartListType: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   seq: PropTypes.string,
   cardsInCol: PropTypes.number,
