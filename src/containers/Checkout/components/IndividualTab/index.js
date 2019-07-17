@@ -43,10 +43,9 @@ class IndividualTab extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        let custid = info.id;
         let cardno = values.cardno;
         let pincode = values.pincode;
-        this.props.connectEpointCard({ custid, cardno, pincode }).then((res) => {
+        this.props.connectEpointCard({ cardno, pincode }).then((res) => {
           if (res.payload.success) {
             this.setState({ cardInfo: res.payload.data });
             setFieldsValue({ cardPoint: res.payload.data.point });

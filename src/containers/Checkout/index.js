@@ -44,6 +44,9 @@ class Page extends React.Component {
         this.setState({ loading: false });
       });
       this.props.getSystemLocation();
+      this.props.getEpointCardInfo().then((res) => {
+        console.log(res);
+      });
     } else {
       this.setState({ loading: false });
     }

@@ -9,7 +9,7 @@ import styles from "./styles.less";
 class Slider extends React.Component {
   renderRepice = () => {
     try {
-      return this.props.data.map((item, index) => (
+      return this.props.sliderData.map((item, index) => (
         <div
           style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}
           key={index}
@@ -25,10 +25,10 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
-    const { data } = this.props;
+    const { sliderData } = this.props;
 
     try {
-      return data.map((item, index) => {
+      return sliderData.map((item, index) => {
         const container = (
           <div key={index} className="container pad10">
             <div className="slide-container">
@@ -79,7 +79,7 @@ class Slider extends React.Component {
 
   render() {
     return (
-      this.props.data.length !== 0 && (
+      this.props.sliderData.length !== 0 && (
         <Swiper
           {...this.props.params}
           shouldSwiperUpdate
@@ -95,7 +95,7 @@ class Slider extends React.Component {
 
 Slider.propTypes = {
   params: PropTypes.object,
-  data: PropTypes.array.isRequired,
+  sliderData: PropTypes.array.isRequired,
   elContainer: PropTypes.string.isRequired,
 };
 

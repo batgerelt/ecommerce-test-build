@@ -66,7 +66,7 @@ class Homepage extends React.Component {
       }
 
       if (widget.items.length > 0) {
-        blocks.push(<Widget key={widget.slug} data={widget} {...this.props} />);
+        blocks.push(<Widget key={widget.slug} widgetData={widget} {...this.props} />);
       }
     });
     return blocks;
@@ -170,7 +170,7 @@ class Homepage extends React.Component {
         <div className="main-slide brands-list">
           <div className="container pad10">
             <Slider
-              data={brand}
+              sliderData={brand}
               params={brand.length <= 5 ? brandParams1 : brandParams}
               elContainer={"brands"}
               {...this.props}
@@ -190,7 +190,7 @@ class Homepage extends React.Component {
         return (
           <div className="main-slide">
             <Slider
-              data={homepagebanner.header === undefined ? [] : homepagebanner.header}
+              sliderData={homepagebanner.header === undefined ? [] : homepagebanner.header}
               params={sliderParams}
               elContainer={"banner"}
             />

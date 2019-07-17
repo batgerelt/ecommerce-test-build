@@ -13,11 +13,6 @@ import { toast } from "react-toastify";
 import { css } from "glamor";
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
-import { LoginModal } from "../Login";
-import {
-  Auth as AuthModel,
-  Cart as CartModel,
-} from "../../models";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -111,14 +106,29 @@ class Card extends React.Component {
     if (localStorage.getItem('auth') === null) {
       this.props.LoginModal.handleLoginModal();
     } else {
-      const { item, addWishList } = this.props;
-      let skucd = item.cd;
-      addWishList({ skucd }).then((res) => {
-        if (res.payload.success) {
-          message.success(res.payload.message);
-        }
-      });
+      const { item } = this.props;
+      if (item.cd !== undefined) {
+        this.addWishList(item.cd);
+      } else if (item.recipeid !== undefined) {
+        this.props.getRecipeProducts({ id: item.recipeid }).then((res) => {
+          if (res.payload.success) {
+            res.payload.data.map((item, i) => {
+              this.addWishList(item.cd);
+            });
+          }
+        });
+      }
+      console.log(item);
     }
+  }
+
+  addWishList = (skucd) => {
+    const { addWishList } = this.props;
+    addWishList({ skucd }).then((res) => {
+      if (res.payload.success) {
+        message.success(res.payload.message);
+      }
+    });
   }
 
   renderCards = () => {
@@ -489,7 +499,7 @@ const mapStateToProps = state => ({
 });
 
 Card.propTypes = {
-  cartListType: PropTypes.number.isRequired,
+  shape: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   isLastInRow: PropTypes.bool,
   className: PropTypes.string,
