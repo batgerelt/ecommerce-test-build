@@ -9,6 +9,7 @@ import {
 } from "../../models";
 import List from "./list";
 import { Loader } from "../../components";
+import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -96,7 +97,8 @@ class Page extends React.Component {
         }
         indicator={<Loader />}
       >
-        <List {...this.props} />
+        <List {...this.props} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );
   }

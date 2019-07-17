@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import { LoginModal } from "../../components/Login";
 import {
   Banner as BannerModel,
   Product as ProductModel,
@@ -34,7 +34,12 @@ class Page extends React.Component {
   }
 
   render() {
-    return <List {...this.props} />;
+    return (
+      <div>
+        <List {...this.props} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+      </div>
+    );
   }
 }
 

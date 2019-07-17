@@ -51,7 +51,7 @@ class ProductDetail extends React.Component {
         <Detail
           detail={detail.length === 0 ? {} : detail.products[0]}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
-          isLoggedIn={JSON.parse(localStorage.getItem("auth"))}
+          isLoggedIn={localStorage.getItem("auth") === null ? null : JSON.parse(localStorage.getItem("auth"))}
           addWishList={addWishList}
           addRate={addRate}
           getProductDetail={getProductDetail}

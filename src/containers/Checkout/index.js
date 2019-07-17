@@ -40,7 +40,7 @@ class Page extends React.Component {
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (auth !== null && auth !== undefined) {
-      this.props.getUserInfo({ custid: auth.customerInfo.id }).then((res) => {
+      this.props.getUserInfo({ custid: auth.data[0].info.id }).then((res) => {
         this.setState({ loading: false });
       });
       this.props.getSystemLocation();

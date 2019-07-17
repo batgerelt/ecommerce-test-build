@@ -65,7 +65,7 @@ class Detail extends Component {
       isLoggedIn, detail, addRate, getProductDetail,
     } = this.props;
     if (isLoggedIn !== null) {
-      let custid = isLoggedIn.customerInfo.id;
+      let custid = isLoggedIn.data[0].info.id;
       let skucd = detail.cd;
       let rate = e / 2;
       addRate({ custid, skucd, rate }).then((res) => {
@@ -235,7 +235,6 @@ class Detail extends Component {
             className="btn btn-gray text-uppercase"
             style={{ marginRight: "10px" }}
             onClick={this.handleSaveClick}
-            disabled={isLoggedIn === null}
           >
             <span>Хадгалах</span>
           </button>
@@ -273,13 +272,14 @@ class Detail extends Component {
   handleSaveClick = () => {
     const { isLoggedIn, addWishList, detail } = this.props;
     if (isLoggedIn !== null) {
-      let custid = isLoggedIn.customerInfo.id;
       let skucd = detail.cd;
-      addWishList({ custid, skucd }).then((res) => {
+      addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
           message.success(res.payload.message);
         }
       });
+    } else {
+      this.props.LoginModal.handleLoginModal();
     }
   }
 
@@ -360,6 +360,7 @@ class Detail extends Component {
   };
 
   render() {
+    console.log(this.props);
     return this.renderDetails();
   }
 }
