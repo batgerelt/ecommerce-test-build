@@ -166,7 +166,7 @@ class CardList extends React.Component {
 }
 
 CardList.propTypes = {
-  cartType: PropTypes.number.isRequired,
+  cartListType: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   seq: PropTypes.string,
   cardsInCol: PropTypes.number,
