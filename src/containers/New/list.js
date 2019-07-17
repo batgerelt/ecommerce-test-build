@@ -9,8 +9,9 @@ import { Card, Loader } from "../../components";
 // import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 340;
-const RowItem = React.memo(function RowItem({ item }) {
-  return <Card shape={1} item={item} />;
+
+const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
+  return <Card shape={1} item={item} LoginModal={LoginModal} addWishList={addWishList} />;
 });
 
 class Bookmarks extends PureComponent {
@@ -22,6 +23,7 @@ class Bookmarks extends PureComponent {
       fetch: false,
     };
   }
+
 
   // tuhain mor load hiigdsen eseh
   isRowLoaded = ({ index }) => index < this.state.products.length;
@@ -101,7 +103,7 @@ class Bookmarks extends PureComponent {
                               return (
                                 <div style={style} key={key} className="jss148">
                                   {rowItems.map(itemId => (
-                                    <RowItem key={itemId.cd} item={itemId} />
+                                    <RowItem key={itemId.cd} item={itemId} LoginModal={this.props.LoginModal} addWishList={this.props.addWishList} />
                                   ))}
                                 </div>
                               );

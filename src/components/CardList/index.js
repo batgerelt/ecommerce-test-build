@@ -22,7 +22,7 @@ class CardList extends React.Component {
           : CARD_NUMS_IN_ROW.slim;
 
       // eslint-disable-next-line comma-spacing
-      for (let j = 0; j < cardsInRow; j++, p++) {
+      for (let j = 0; j < cardsInRow; j++ , p++) {
         if (!items[p]) {
           break;
         }
@@ -38,6 +38,8 @@ class CardList extends React.Component {
             incrementProductLocally={this.props.incrementProductLocally}
             getRecipeProducts={this.props.getRecipeProducts}
             incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+            LoginModal={this.props.LoginModal}
+            addWishList={this.props.addWishList}
           />,
         );
       }
@@ -103,6 +105,8 @@ class CardList extends React.Component {
               incrementProductLocally={this.props.incrementProductLocally}
               getRecipeProducts={this.props.getRecipeProducts}
               incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+              LoginModal={this.props.LoginModal}
+              addWishList={this.props.addWishList}
             />,
           );
         });
@@ -143,6 +147,8 @@ class CardList extends React.Component {
             incrementProductLocally={this.props.incrementProductLocally}
             getRecipeProducts={this.props.getRecipeProducts}
             incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+            LoginModal={this.props.LoginModal}
+            addWishList={this.props.addWishList}
           />,
         );
 
@@ -169,6 +175,8 @@ class CardList extends React.Component {
             incrementProductLocally={this.props.incrementProductLocally}
             getRecipeProducts={this.props.getRecipeProducts}
             incrementRecipeProductsLocally={this.props.incrementRecipeProductsLocally}
+            LoginModal={this.props.LoginModal}
+            addWishList={this.props.addWishList}
           />);
       });
     }
