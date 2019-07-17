@@ -9,6 +9,7 @@ class Model extends BaseModel {
       isLoading: false,
       data: {},
     },
+    package: [],
     packageAll: [],
     packageDetail: [],
     packageInfo: [],
@@ -56,7 +57,7 @@ class Model extends BaseModel {
       case this.model.detail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.detail.response:
-        return { ...state, packageDetail: action.payload.data[0] };
+        return { ...state, packageDetail: action.payload.data };
 
       // GET PACKAGE INFORMATION
       case this.model.info.request:
