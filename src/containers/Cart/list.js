@@ -8,6 +8,16 @@ import { css } from "glamor";
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
+  state = { deliveryInfo: null };
+
+  async componentDidMount() {
+    const result = await this.props.getStaticInfo();
+
+    if (result.payload.success) {
+      this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
+    }
+  }
+
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
@@ -385,14 +395,16 @@ class Cart extends React.Component {
 
   };
 
+  renderDeliveryInfo = () => {
+
+  };
+
   render() {
+    const { products } = this.props;
     return (
       <div className="section">
         <div className="container pad10">
           <div className="cart-container">
-            <Link to="/" className="btn btn-gray">
-              <span className="text-uppercase">Нүүр хуудас руу буцах</span>
-            </Link>
             <h1 className="title">
               <span className="text-uppercase">Миний сагс</span>
             </h1>
@@ -406,10 +418,11 @@ class Cart extends React.Component {
                   </div>
                   <div className="col">
                     <button
-                      className="btn btn-border pull-right"
+                      className="btn btn-link pull-right"
+                      style={{ marginTop: "15px" }}
                       onClick={this.handleClearClick}
                     >
-                      <i className="fa fa-trash fa-2x" aria-hidden="true" />{" "}
+                      <i className="fa fa-trash" aria-hidden="true" />{" "}
                       <span className="text-uppercase">Сагс хоослох</span>
                     </button>
                   </div>
@@ -427,26 +440,26 @@ class Cart extends React.Component {
                       <span>Нийт бараа: </span>
                       <span>{this.renderTotalQty()}ш</span>
                     </p>
-                    {/* {deliveryInfo && (
+                    {this.state.deliveryInfo && (
                       <p className="delivery">
                         <span>Хүргэлт:</span>
-                        <span>{deliveryInfo}</span>
+                        <span>{this.state.deliveryInfo}</span>
                       </p>
-                    )} */}
+                    )}
                     <p className="total flex-space">
                       <span>Нийт дүн:</span>
                       <strong>
                         {formatter.format(this.renderTotalPrice())}₮
                       </strong>
                     </p>
-                    {/* <Link
+                    <Link
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                         }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
-                    </Link> */}
+                    </Link>
                   </div>
                   {/* {this.renderWishlistProducts()} */}
                 </div>

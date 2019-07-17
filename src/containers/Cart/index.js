@@ -5,18 +5,21 @@ import { bindActionCreators } from 'redux';
 import {
   Cart as CartModel,
   Auth as AuthModel,
+  Static as StaticModel,
 } from "../../models";
 import List from "./list";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.cart,
+  ...state.static,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     ...AuthModel,
     ...CartModel,
+    ...StaticModel,
   }, dispatch),
 });
 
