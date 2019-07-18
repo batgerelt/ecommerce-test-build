@@ -9,7 +9,7 @@ import { css } from "glamor";
 import { FacebookLogin, GoogleLogin } from "../";
 
 class LoginModal extends React.Component {
-  state = { visible: false, isVisibleReset: false };
+  state = { visible: false, isVisibleReset: false, isRemember: false };
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
@@ -40,14 +40,20 @@ class LoginModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     // eslint-disable-next-line consistent-return
+    /* if (this.state.isRemember) {
+      localStorage.setItem('username', this.state.isRemember ? values.email : null);
+    } else {
+      localStorage.removeItem('username');
+    } */
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
           this.props.login({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
               localStorage.setItem('auth', JSON.stringify(res.payload));
+              localStorage.setItem('username', this.state.isRemember ? values.email : null);
+              localStorage.removeItem(this.state.isRemember ? null : 'username');
               this.handleLoginModal();
 
               this.props.increaseProductsByQtyRemotely({
@@ -94,6 +100,10 @@ class LoginModal extends React.Component {
     this.setState({ mail: e.target.value });
   }
 
+  floorNewspaperRemember = (e) => {
+    this.setState({ isRemember: e.target.checked });
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -108,6 +118,7 @@ class LoginModal extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('email', {
+                initialValue: localStorage.getItem('username'),
                 rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
               })(
                 <Input
@@ -138,12 +149,7 @@ class LoginModal extends React.Component {
               <div className="row row10">
                 <div className="col-xl-6 pad10">
                   <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="rememberMe"
-                    />
-                    <label className="custom-control-label" htmlFor="rememberMe">Сануулах</label>
+                    <Checkbox onChange={this.floorNewspaperRemember}>Сануулах</Checkbox>
                   </div>
                 </div>
                 <div className="col-xl-6 pad10">

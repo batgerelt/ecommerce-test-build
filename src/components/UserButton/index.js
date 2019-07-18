@@ -20,9 +20,8 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
-    localStorage.clear(); // localstorage-iig clear hiij bga
+    localStorage.removeItem('auth'); // localstorage-iig clear hiij bga
     this.setState({ logout: !this.state.logout });
-    console.log(this.props);
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
   }
 
@@ -43,7 +42,7 @@ class UserButton extends React.Component {
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url( ${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar} )` }} />
+                <span className="image" style={{ backgroundImage: `url( ${user.imgnm === undefined || user.imgnm === null ? avatar : process.env.IMAGES + user.imgnm} )` }} />
               </div>
               <span className="">{user.firstname ? `${user.firstname}` : user.email ? user.email : ""}</span>
             </Link>
@@ -53,8 +52,7 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        {/* <Avatar size="large" src={this.props.userInfo === undefined ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} /> */}
-                        <span className="image" style={{ backgroundImage: `url( ${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar} )` }} />
+                        <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : process.env.IMAGES + user.imgnm})` }} />
                       </div>
                       <p className="name">
                         {user.firstname
@@ -66,7 +64,7 @@ class UserButton extends React.Component {
                             : ""}
                       </p>
                     </div>
-                    <Progress percent={50} strokeColor="#feb415" status="active" />
+                    <Progress percent={50} strokeColor="#feb415" />
                     <p className="text text-center">
                       <strong>Таны мэдээлэл</strong>
                       <span>50%</span>

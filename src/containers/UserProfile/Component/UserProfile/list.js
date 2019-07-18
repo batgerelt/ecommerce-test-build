@@ -309,88 +309,91 @@ class Component extends React.Component {
       const { getFieldDecorator } = this.props.form;
       const { userInfo } = this.props;
       return (
-        <Form className="row row10">
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("lastname", {
-                initialValue: userInfo.info.lastname,
-                rules: [{ required: true, message: "Овгоо заавал оруулна уу!" }],
-              })(<Input placeholder="Овог" />)}
-            </Form.Item>
-          </Col>
+        <div className="row row10">
+          <Form>
 
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("firstname", {
-                initialValue: userInfo.info.firstname,
-                rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
-              })(<Input placeholder="Нэр" />)}
-            </Form.Item>
-          </Col>
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+                {getFieldDecorator("lastname", {
+                  initialValue: userInfo.info.lastname,
+                  rules: [{ required: true, message: "Овгоо заавал оруулна уу!" }],
+                })(<Input placeholder="Овог" />)}
+              </Form.Item>
+            </Col>
 
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("email", {
-                initialValue: userInfo.info.email,
-                rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу!" }],
-              })(<Input placeholder="Имэйл" />)}
-            </Form.Item>
-          </Col>
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+                {getFieldDecorator("firstname", {
+                  initialValue: userInfo.info.firstname,
+                  rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
+                })(<Input placeholder="Нэр" />)}
+              </Form.Item>
+            </Col>
 
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("phone1", {
-                initialValue: userInfo.info.phone1,
-                rules: [{
-                  required: true, pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!",
-                }],
-              })(<Input placeholder="Утас 1" />)}
-            </Form.Item>
-          </Col>
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+                {getFieldDecorator("email", {
+                  initialValue: userInfo.info.email,
+                  rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу!" }],
+                })(<Input placeholder="Имэйл" />)}
+              </Form.Item>
+            </Col>
 
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("phone2", {
-                initialValue: userInfo.info.phone2,
-                rules: [{ pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!" }],
-              })(<Input placeholder="Утас 2" />)}
-            </Form.Item>
-          </Col>
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+                {getFieldDecorator("phone1", {
+                  initialValue: userInfo.info.phone1,
+                  rules: [{
+                    required: true, pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!",
+                  }],
+                })(<Input placeholder="Утас 1" />)}
+              </Form.Item>
+            </Col>
 
-          <Col span={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
-          </Col>
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+                {getFieldDecorator("phone2", {
+                  initialValue: userInfo.info.phone2,
+                  rules: [{ pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!" }],
+                })(<Input placeholder="Утас 2" />)}
+              </Form.Item>
+            </Col>
 
-          {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
+            <Col span={8}>
+              <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
+            </Col>
 
-          <Col span={24}>
-            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
-              {getFieldDecorator("address", {
-                initialValue: userInfo.main === null ? null : userInfo.main.address,
-                rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
-              })(<Input placeholder="Гэрийн хаяг" />)}
-            </Form.Item>
-          </Col>
+            {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
-          <Col span={24}>
-            <Form.Item className="text text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
-              <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
-                <span className="text-uppercase">Хадгалах</span>
-              </Button>
-            </Form.Item>
-          </Col>
+            <Col span={24}>
+              <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+                {getFieldDecorator("address", {
+                  initialValue: userInfo.main === null ? null : userInfo.main.address,
+                  rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+                })(<Input placeholder="Гэрийн хаяг" />)}
+              </Form.Item>
+            </Col>
 
-          <Col span={24}>
-            <Divider />
-          </Col>
+            <Col span={24}>
+              <Form.Item className="text text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
+                <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
+                  <span className="text-uppercase">Хадгалах</span>
+                </Button>
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Divider />
+            </Col>
+
+          </Form>
 
           <Col span={24}>
             <p>Имарт карт</p>
           </Col>
-
           {userInfo.card === undefined ? null : this.renderCard()}
           {userInfo.card === undefined ? <Card {...this.props} /> : null}
-        </Form>
+        </div>
       );
     } catch (error) {
       return console.log(error);
