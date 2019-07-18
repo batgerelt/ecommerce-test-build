@@ -15,11 +15,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName('response', 'logged'),
       error: this.buildActionName('error', 'logged'),
     };
-    this.logoutModel = {
-      request: this.buildActionName('request', 'logout'),
-      response: this.buildActionName('response', 'logout'),
-      error: this.buildActionName('error', 'logout'),
-    };
+    // this.logoutModel = {
+    //   request: this.buildActionName('request', 'logout'),
+    //   response: this.buildActionName('response', 'logout'),
+    //   error: this.buildActionName('error', 'logout'),
+    // };
     this.signupModel = {
       request: this.buildActionName('request', 'signup'),
       response: this.buildActionName('response', 'signup'),
@@ -48,9 +48,13 @@ class AuthModel extends BaseModel {
     body, url: '/login/userlogin', method: 'POST', model: this.loginModel,
   })
 
-  logout = () => asyncFn({
-    url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
-  })
+  // logout = () => asyncFn({
+  //   url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
+  // })
+
+  logout = () => ({
+    type: 'AUTH_LOGOUT',
+  });
 
   signup = ({ body } = {}) => asyncFn({
     body, url: '/customer', method: 'POST', model: this.signupModel,
@@ -122,22 +126,34 @@ class AuthModel extends BaseModel {
             username: action.payload.username,
           },
         };
-      case this.logoutModel.request:
-        return {
-          ...state,
-          isLoading: true,
-          error: false,
-          errorMessage: '',
-        };
-      case this.logoutModel.error:
-        return {
-          ...state,
-          isLoading: false,
-          error: true,
-          errorMessage: action.message,
-        };
-      case this.logoutModel.response:
+      // case this.logoutModel.request:
+      //   return {
+      //     ...state,
+      //     isLoading: true,
+      //     error: false,
+      //     errorMessage: '',
+      //   };
+      // case this.logoutModel.error:
+      //   return {
+      //     ...state,
+      //     isLoading: false,
+      //     error: true,
+      //     errorMessage: action.message,
+      //   };
+      // case this.logoutModel.response:
+      //   localStorage.clear();
+      //   return {
+      //     ...state,
+      //     isLoading: false,
+      //     isLogged: false,
+      //     user: {
+      //       name: '',
+      //       username: '',
+      //     },
+      //   };
+      case 'AUTH_LOGOUT':
         localStorage.clear();
+        console.log('state: ', state);
         return {
           ...state,
           isLoading: false,
@@ -146,6 +162,8 @@ class AuthModel extends BaseModel {
             name: '',
             username: '',
           },
+          auth: null,
+          data: [],
         };
       default:
         return state;

@@ -334,7 +334,7 @@ class Detail extends Component {
     this.setState({ productQty });
   };
 
-  handleDecrementClick = async (product) => {
+  handleDecrementClick = (product) => {
     const productQty = this.state.productQty - product.addminqty < product.saleminqty
       ? product.saleminqty
       : this.state.productQty - product.addminqty;
@@ -345,7 +345,6 @@ class Detail extends Component {
   handleAddToCart = async (product) => {
     if (this.props.isLogged) {
       const result = await this.props.increaseProductByQtyRemotely({
-        custid: this.props.data[0].info.customerInfo.id,
         skucd: product.cd,
         qty: this.state.productQty,
         iscart: 0,

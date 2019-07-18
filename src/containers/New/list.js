@@ -8,6 +8,7 @@
 import React, { PureComponent } from "react";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import { Card, PageBanner, CardList, Banner } from "../../components";
+import { CARD_TYPES, CARD_NUMS_IN_ROW, CARD_LIST_TYPES } from '../../utils/Consts';
 // import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 340;
@@ -97,6 +98,7 @@ class Bookmarks extends PureComponent {
               cartListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={newproduct.slice(0, cardsLength)}
+              {...this.props}
             />
           </div>
         </div>

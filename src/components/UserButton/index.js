@@ -20,9 +20,8 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
-    localStorage.clear(); // localstorage-iig clear hiij bga
+    this.props.logout();
     this.setState({ logout: !this.state.logout });
-    console.log(this.props);
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
   }
 
@@ -56,24 +55,24 @@ class UserButton extends React.Component {
                         <span
                           className="image"
                           style={{
-                          backgroundImage: `url(${
-                            user.picture
-                              ? user.picture.data
-                                ? user.picture.data.url
-                                : user.picture
-                              : avatar
-                            })`,
-                        }}
+                            backgroundImage: `url(${
+                              user.picture
+                                ? user.picture.data
+                                  ? user.picture.data.url
+                                  : user.picture
+                                : avatar
+                              })`,
+                          }}
                         />
                       </div>
                       <p className="name">
                         {user.firstname
-                        ? user.lastname
-                          ? `${user.firstname} ${user.lastname}`
-                          : user.firstname
-                        : user.email
-                          ? user.email
-                          : ""}
+                          ? user.lastname
+                            ? `${user.firstname} ${user.lastname}`
+                            : user.firstname
+                          : user.email
+                            ? user.email
+                            : ""}
                       </p>
                     </div>
                     <Progress percent={50} strokeColor="#feb415" status="active" />

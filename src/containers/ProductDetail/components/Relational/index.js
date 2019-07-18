@@ -31,7 +31,6 @@ class Relational extends Component {
     try {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
-          custid: this.props.data[0].info.customerInfo.id,
           skucd: product.cd,
           qty: product.addminqty || 1,
           iscart: 0,

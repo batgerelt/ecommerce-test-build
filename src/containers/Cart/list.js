@@ -72,11 +72,10 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.cd === product.cd);
 
     if (found) {
-      found.qty = parseInt(e.target.value);
+      found.qty = parseInt(e.target.value, 10);
 
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
-          custid: this.props.data[0].info.customerInfo.id,
           skucd: found.cd,
           qty: found.qty,
           iscart: 1,
@@ -101,7 +100,6 @@ class Cart extends React.Component {
     if (found) {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
-          custid: this.props.data[0].info.customerInfo.id,
           skucd: found.cd,
           qty: found.addminqty || 1,
           iscart: 0,
@@ -128,7 +126,6 @@ class Cart extends React.Component {
           ? found.saleminqty
           : found.qty - found.addminqty;
         const result = await this.props.decrementProductRemotely({
-          custid: this.props.data[0].info.customerInfo.id,
           skucd: found.cd,
           qty: productQty,
           iscart: 1,
@@ -390,14 +387,6 @@ class Cart extends React.Component {
       return console.log(error);
     }
   }
-
-  renderWishlistProducts = () => {
-
-  };
-
-  renderDeliveryInfo = () => {
-
-  };
 
   render() {
     const { products } = this.props;
