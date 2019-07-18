@@ -184,6 +184,11 @@ class Model extends BaseModel {
     model: this.model.incrementPackageProductsRemotely,
   });
 
+  increasePackageProductsByQtyLocally = products => ({
+    type: 'CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY',
+    payload: products,
+  });
+
   clearLocally = () => ({
     type: 'CART_CLEAR_LOCALLY',
   });
@@ -305,9 +310,11 @@ class Model extends BaseModel {
 
           const found = products.find(prod => prod.cd === product.cd);
 
-          if (!found) {
+          if (!found && product.qty < product.saleminqty) {
             product.qty = product.saleminqty || 1;
           }
+
+          console.log(state);
 
           return {
             ...state,
@@ -332,7 +339,7 @@ class Model extends BaseModel {
 
           const found = products.find(prod => prod.cd === product.cd);
 
-          if (!found) {
+          if (!found && product.qty < product.saleminqty) {
             product.qty = product.saleminqty || 1;
           }
 
@@ -394,6 +401,13 @@ class Model extends BaseModel {
         }
         return state;
 
+      case this.model.increaseProductsByQtyRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.increaseProductsByQtyRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.increaseProductsByQtyRemotely.response:
+        return { ...state, products: action.payload.data.success };
+
       case this.model.recipeProducts.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.recipeProducts.error:
@@ -450,6 +464,23 @@ class Model extends BaseModel {
       case this.model.incrementPackageProductsRemotely.response:
         return { ...state, products: action.payload.data.success };
 
+      case 'CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY':
+        try {
+          console.log(state);
+          console.log(action.payload);
+
+          let { products } = state;
+
+          action.payload.forEach((prod) => {
+            products = this.updateReduxStore(products, prod, false, false, true);
+          });
+
+          return { ...state, products };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
+
       case 'CART_CLEAR_LOCALLY':
         return { ...state, products: [] };
 
@@ -458,7 +489,10 @@ class Model extends BaseModel {
       case this.model.clearRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.clearRemotely.response:
-        return { ...state, products: action.payload.data === null ? [] : action.payload.data };
+        return {
+          ...state,
+          products: action.payload.data === null ? [] : action.payload.data,
+        };
 
       default:
         return state;

@@ -98,6 +98,7 @@ class Bookmarks extends PureComponent {
               seq={seq}
               {...this.props}
               items={newproduct.slice(0, cardsLength)}
+              {...this.props}
             />
           </div>
         </div>

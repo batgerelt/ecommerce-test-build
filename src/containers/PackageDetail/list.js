@@ -1,10 +1,168 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 import { Slider } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class List extends React.Component {
+  setProducts = (products) => {
+    this.setState({
+      products: products.map(prod => ({
+        cd: prod.cd,
+        qty: prod.qty,
+      })),
+    });
+  };
+
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: 'top-center',
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleSimilarProductIncrement = async (item) => {
+    try {
+      if (this.props.isLogged) {
+        // eslint-disable-next-line no-lonely-if
+        if (item.cd) {
+          const result = await this.props.incrementProductRemotely({
+            skucd: item.cd,
+            qty: item.addminqty || 1,
+            iscart: 0,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+        } else if (item.recipeid) {
+          const result = await this.props.incrementRecipeProductsRemotely({
+            recipeid: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          if (result.payload.data.fail.length > 0) {
+            result.payload.data.fail.forEach(message => this.handleNotify(message));
+          }
+        } else if (item.id) {
+          const result = await this.props.incrementPackageProductsRemotely({
+            packageid: item.id,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          if (result.payload.data.fail.length > 0) {
+            result.payload.data.fail.forEach(message => this.handleNotify(message));
+          }
+        } else {
+          //
+        }
+      } else {
+        // eslint-disable-next-line no-lonely-if
+        if (item.cd) {
+          this.props.incrementProductLocally(item);
+        } else if (item.recipeid) {
+          const result = await this.props.getRecipeProducts({
+            id: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.incrementRecipeProductsLocally(result.payload.data);
+        } else if (item.id) {
+          const result = await this.props.getPackageProducts({
+            id: item.id,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.incrementPackageProductsLocally(result.payload.data.products);
+        } else {
+          //
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  handleProductAddToCart = async (product) => {
+    try {
+      if (this.props.isLogged) {
+        const result = await this.props.increaseProductByQtyRemotely({
+          skucd: product.cd,
+          qty: product.qty ? product.qty : (product.saleminqty || 1),
+          iscart: 0,
+        });
+        if (!result.payload.success) {
+          return this.handleNotify(result.payload.message);
+        }
+      } else {
+        console.log('product: ', product);
+        this.props.increaseProductByQtyLocally(product);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  handleIncreaseProductClick = (product) => {
+    this.props.incrementPackageProductLocally(product);
+  };
+
+  handleDecreaseProductClick = (product) => {
+    this.props.decrementPackageProductLocally(product);
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleInputChange = product => (e) => {
+    let { products } = this.props.packageDetail;
+
+    let found = products.find(prod => prod.cd === product.cd);
+
+    if (found) {
+      found.qty = parseInt(e.target.value, 10);
+      this.props.updatePackageProductByQtyLocally(found);
+    } else {
+      throw new Error('Бараа олдсонгүй!');
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleAddToCart = async (products) => {
+    if (this.props.isLogged) {
+      products = products.map(prod => ({
+        skucd: prod.cd,
+        qty: prod.qty ? prod.qty : (prod.saleminqty || 1),
+      }));
+      const result = await this.props.increaseProductsByQtyRemotely({
+        iscart: 0,
+        body: products,
+      });
+      if (!result.payload.success) {
+        return this.handleNotify(result.payload.message);
+      }
+    } else {
+      this.props.increasePackageProductsByQtyLocally(products);
+    }
+  };
+
   renderTitleDate = () => {
     try {
       const { info } = this.props;
@@ -93,7 +251,7 @@ class List extends React.Component {
     }
   }
 
-  renderSimilarProdcts = () => {
+  renderSimilarProducts = () => {
     try {
       const { packageDetail } = this.props;
       if (packageDetail.sameproducts !== undefined) {
@@ -119,7 +277,7 @@ class List extends React.Component {
                   <button
                     type="button"
                     className="btn btn-link"
-                  /* onClick={() => this.handleSingleAddToCartClick(prod)} */
+                    onClick={() => this.handleSimilarProductIncrement(prod)}
                   >
                     <i
                       className="fa fa-cart-plus"
@@ -165,9 +323,9 @@ class List extends React.Component {
 
   renderProducts = () => {
     try {
-      console.log("gaga");
-      const { packageDetail } = this.props;
-      return packageDetail.products.map((prod, index) => (
+      const { products } = this.props.packageDetail;
+      console.log('products: ', products);
+      return products && products.map((prod, index) => (
         <li className="flex-this" key={index}>
           <div className="image-container default">
             <Link to={prod.route || ""}>
@@ -187,7 +345,7 @@ class List extends React.Component {
                   style={{ color: "#666" }}
                 >
                   <span>{prod.name}</span>
-                  <strong>{formatter.format(prod.price)}₮</strong>
+                  <strong>{formatter.format(this.getPrice(prod))}₮</strong>
                 </Link>
               </p>
               <form style={{ width: "130px" }}>
@@ -207,6 +365,7 @@ class List extends React.Component {
                         borderBottomLeftRadius: "20px",
                         marginRight: "5px",
                       }}
+                      onClick={() => this.handleDecreaseProductClick(prod)}
                     >
                       <i
                         className="fa fa-minus"
@@ -217,12 +376,12 @@ class List extends React.Component {
                   <input
                     type="text"
                     className="form-control"
-                    value={prod.unit}
+                    value={prod.qty ? prod.qty : (prod.saleminqty || 1)}
                     name="productQty"
                     maxLength={5}
+                    onChange={this.handleInputChange(prod)}
                   /* onKeyDown={this.handleQtyKeyDown(prod)} */
                   /* onBlur={this.handleQtyBlur(prod)} */
-                  /* onChange={this.handleQtyChange(prod)} */
                   />
                   <div
                     className="input-group-append"
@@ -239,6 +398,7 @@ class List extends React.Component {
                         borderBottomRightRadius: "20px",
                         marginLeft: "5px",
                       }}
+                      onClick={() => this.handleIncreaseProductClick(prod)}
                     >
                       <i
                         className="fa fa-plus"
@@ -252,6 +412,7 @@ class List extends React.Component {
                 <button
                   className="btn btn-link"
                   type="button"
+                  onClick={() => this.handleProductAddToCart(prod)}
                 >
                   <i
                     className="fa fa-cart-plus"
@@ -269,14 +430,30 @@ class List extends React.Component {
     }
   }
 
-  renderTotal() {
-    const { packageDetail } = this.props;
-    let Total = 0;
-    packageDetail.products.map((prod, index) => (
-      Total += Number(prod.price)
-    ));
-    return Total;
+  getTotal = () => {
+    const { products } = this.props.packageDetail;
+
+    if (!products) {
+      return 0;
+    }
+
+    return products.reduce((acc, cur) => (acc + (this.getPrice(cur) * (cur.qty ? cur.qty : (cur.saleminqty || 1)))), 0);
   }
+
+  getPrice = (product) => {
+    // eslint-disable-next-line prefer-destructuring
+    let price = product.price;
+
+    if (product.issalekg && product.kgproduct[0]) {
+      price = product.kgproduct[0].salegramprice;
+    }
+
+    if (product.spercent && product.spercent !== 100 && !product.issalekg) {
+      price = product.sprice;
+    }
+
+    return price;
+  };
 
   renderCartInfo = () => {
     try {
@@ -294,11 +471,12 @@ class List extends React.Component {
                 <div className="pack-price">
                   <p className="text flex-this end">
                     <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
-                    <strong>{this.renderTotal()}₮</strong>
+                    <strong>{formatter.format(this.getTotal())}₮</strong>
                   </p>
                   <button
                     type="button"
                     className="btn btn-main"
+                    onClick={() => this.handleAddToCart(packageDetail.products)}
                   >
                     <i
                       className="fa fa-cart-plus"
@@ -359,7 +537,7 @@ class List extends React.Component {
                       <strong>Ижил бараа</strong>
                     </p>
                     <ul className="list-unstyled">
-                      {this.props.packageDetail === undefined ? null : this.renderSimilarProdcts()}
+                      {this.props.packageDetail === undefined ? null : this.renderSimilarProducts()}
                     </ul>
                   </div>
                 </div>

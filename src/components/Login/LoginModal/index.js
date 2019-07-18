@@ -45,24 +45,16 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          this.props.login({ body: { ...values } }).then((res) => {
-            if (res.payload.success) {
-              localStorage.setItem('auth', JSON.stringify(res.payload));
-              this.handleLoginModal();
+          let result = await this.props.login({ body: { ...values } });
 
-              this.props.increaseProductsByQtyRemotely({
-                custid: res.payload.data[0].info.customerInfo.id,
-                iscart: 0,
-                body: products,
-              });
+          if (!result.payload.success) {
+            return this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+          }
 
-              this.props.getProducts({ custid: res.payload.data[0].info.customerInfo.id });
+          localStorage.setItem('auth', JSON.stringify(result.payload));
 
-              this.props.form.resetFields();
-            } else {
-              this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
-            }
-          });
+          this.handleLoginModal();
+          this.props.form.resetFields();
 
           let { products } = this.props.cart;
 
@@ -70,6 +62,17 @@ class LoginModal extends React.Component {
             skucd: prod.cd,
             qty: prod.qty,
           }));
+
+          result = await this.props.increaseProductsByQtyRemotely({
+            iscart: 0,
+            body: products,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.getProducts();
         } catch (e) {
           console.log(e);
         }

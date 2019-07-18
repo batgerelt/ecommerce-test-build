@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoginModal } from "../../components/Login";
 import {
+  Auth as AuthModel,
   Banner as BannerModel,
   Product as ProductModel,
   Menu as MenuModel,
@@ -12,6 +13,7 @@ import {
 import List from "./list";
 
 const mapStateToProps = state => ({
+  ...state.auth,
   ...state.banner,
   ...state.product,
   ...state.menu,
@@ -21,6 +23,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
+    ...AuthModel,
     ...BannerModel,
     ...ProductModel,
     ...MenuModel,

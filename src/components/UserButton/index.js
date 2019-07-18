@@ -20,9 +20,8 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
-    localStorage.clear(); // localstorage-iig clear hiij bga
+    this.props.logout();
     this.setState({ logout: !this.state.logout });
-    console.log(this.props);
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
   }
 
@@ -53,8 +52,18 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        {/* <Avatar size="large" src={this.props.userInfo === undefined ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} /> */}
-                        <span className="image" style={{ backgroundImage: `url( ${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar} )` }} />
+                        <span
+                          className="image"
+                          style={{
+                            backgroundImage: `url(${
+                              user.picture
+                                ? user.picture.data
+                                  ? user.picture.data.url
+                                  : user.picture
+                                : avatar
+                              })`,
+                          }}
+                        />
                       </div>
                       <p className="name">
                         {user.firstname
