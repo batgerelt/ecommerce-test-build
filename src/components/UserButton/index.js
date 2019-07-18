@@ -43,9 +43,9 @@ class UserButton extends React.Component {
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url(${avatar})` }} />
+                <span className="image" style={{ backgroundImage: `url( ${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar} )` }} />
               </div>
-              <span className="">{user.firstname ? user.lastname ? `${user.firstname} ${user.lastname}` : user.firstname : user.email ? user.email : ""}</span>
+              <span className="">{user.firstname ? `${user.firstname}` : user.email ? user.email : ""}</span>
             </Link>
             <div className={`dropdown ${profilemenu}`}>
               <div className="drop-content">
@@ -54,8 +54,7 @@ class UserButton extends React.Component {
                     <div className="flex-this">
                       <div className="image-container default">
                         {/* <Avatar size="large" src={this.props.userInfo === undefined ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} /> */}
-                        {/* <span className="image" style={{ backgroundImage: `url(${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar})`, }}
-                        /> */}
+                        <span className="image" style={{ backgroundImage: `url( ${user.picture ? user.picture.data ? user.picture.data.url : user.picture : avatar} )` }} />
                       </div>
                       <p className="name">
                         {user.firstname

@@ -53,7 +53,7 @@ class Component extends React.Component {
         if (this.props.userInfo.main === null) {
           const param = {
             custid: this.props.data[0].info.customerInfo.id,
-            locid: this.state.loc,
+            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
             name: values.lastname,
             phonE1: values.phone1,
@@ -79,7 +79,9 @@ class Component extends React.Component {
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
           this.props.updateMain({ body: param }).then((res) => {
-            message.success(res.payload.message);
+            if (res.payload.success) {
+              message.success(res.payload.message);
+            }
           });
         }
       }

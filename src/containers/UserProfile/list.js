@@ -53,6 +53,17 @@ class List extends React.Component {
     this.props.clearProducts().then(res => console.log(res));
   }
 
+  renderImage = () => {
+    try {
+      const { userInfo } = this.props;
+      return (
+        <Avatar size="large" src={userInfo.info.imgnm === null ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   render() {
     const { match } = this.props;
     match.path = "/profile";
@@ -67,7 +78,7 @@ class List extends React.Component {
                     <div className="menu-header">
                       <Upload className="avatar-upload" accept={".jpg,.png,.jpeg,.gif"} action="//jsonplaceholder.typicode.com/posts/" showUploadList={false} onChange={this.handleChange}>
                         <div className="flex-this">
-                          <Avatar size="large" src={this.props.userInfo === undefined ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} />
+                          {this.props.userInfo === undefined ? null : this.renderImage()}
                           <p className="name">{this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}</p>
                         </div>
                       </Upload>

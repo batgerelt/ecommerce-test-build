@@ -7,7 +7,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Component extends React.Component {
   state = {
     dis: "",
-    loc: null,
+    loc: 3335,
     selectLoading: false,
     distid: "",
     provid: "",
@@ -15,13 +15,24 @@ class Component extends React.Component {
     systemlocation: [],
     districtlocation: [],
     address: [],
+    loader: false,
+    params: {
+      provid: "11",
+      distid: "01",
+      commid: 3335,
+    },
   };
 
   componentWillMount() {
+    this.getLocation();
+  }
+
+  getLocation() {
+    this.setState({ loader: true });
     const param = {
       provid: "11",
       distid: "01",
-      commid: "01",
+      commid: 3335,
     };
     this.props.getSystemLocation().then((res) => {
       if (res.payload.success) {
@@ -38,6 +49,7 @@ class Component extends React.Component {
         });
       }
     });
+    this.setState({ loader: false });
   }
 
   handleSubmit = (e) => {
@@ -47,7 +59,7 @@ class Component extends React.Component {
       if (!err) {
         const param = {
           custid: this.props.data[0].info.customerInfo.id,
-          locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
+          locid: this.state.params.commid,
           address: values.homeaddress,
           name: values.name,
           phonE1: values.phone1,
@@ -93,74 +105,60 @@ class Component extends React.Component {
     }
   }
 
-  onchangesysloc = (e) => {
+  onMainLocation = (e) => {
     const param = {
       provid: e,
-      distid: "01",
-      commid: "01",
+      distid: this.state.params.distid,
+      commid: this.state.params.commid,
     };
-    console.log("onchangesub", param);
-    this.setState({ selectLoading: true });
-    this.props.getDistrictLocation({ id: e }).then((res) => {
+    this.setState({ loader: true });
+    this.props.getDistrictLocation({ id: param.provid }).then((res) => {
       if (res.payload.success) {
-        console.log(res.payload.data);
         param.distid = res.payload.data[0].id;
-        this.setState({ districtlocation: res.payload.data });
-        this.props.getCommmitteLocation({ provid: e, distid: res.payload.data[0].id }).then((res) => {
+        this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
           if (res.payload.success) {
-            param.distid = res.payload.data[0].id;
-            this.setState({
-              committelocation: res.payload.data,
-              loc: res.payload.data[0].locid,
-              address: param,
-            });
+            param.commid = res.payload.data[0].locid;
+            this.setState({ params: param });
+            this.setState({ loader: false });
           }
         });
       }
-      console.log(param);
-      this.setState({ selectLoading: false });
     });
   }
 
-  onchangesub = (e) => {
+  onSubLocation = (e) => {
     const param = {
-      provid: this.state.address.provid,
+      provid: this.state.params.provid,
       distid: e,
-      commid: "01",
+      commid: this.state.params.commid,
     };
-    /* console.log("onchangesub", param); */
-    this.setState({ selectLoading: true });
+    this.setState({ loader: true });
     this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
       if (res.payload.success) {
-        this.setState({
-          committelocation: res.payload.data,
-          loc: res.payload.data[0].locid,
-          address: param,
-        });
+        param.commid = res.payload.data[0].locid;
+        this.setState({ params: param });
+        this.setState({ loader: false });
       }
-      this.setState({ selectLoading: false });
     });
   }
 
   onchangesyscom = (e) => {
-    this.setState({ selectLoading: true });
-    const param = this.state.address;
-    param.commid = e;
-    this.setState({ loc: e, address: param });
-    this.setState({ selectLoading: false });
+    const param = {
+      provid: this.state.params.provid,
+      distid: this.state.params.distid,
+      commid: e,
+    };
+    this.setState({ params: param });
   }
 
   onDelete = (e, item) => {
     this.props.deleteAddress({ id: item.id }).then((res) => {
-      if (res.payload.success) {
-        this.props.getUserInfo().then((response) => {
-          console.log(response.payload.success);
-        });
-      }
+      this.props.getUserInfo();
     });
   }
 
   renderDeliveryAddress = (addrs) => {
+    const { loader } = this.state;
     try {
       const address = addrs;
       return address.map((item, index) => (
@@ -171,7 +169,7 @@ class Component extends React.Component {
           <td style={{ width: "10%" }}>{item.districtnm}</td>
           <td style={{ width: "10%" }}>{item.address}</td>
           <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
-            <Link to="#">
+            <Link to="#" disabled={loader}>
               <i
                 className="fa fa-times"
                 aria-hidden="true"
@@ -189,11 +187,8 @@ class Component extends React.Component {
     try {
       const { getFieldDecorator } = this.props.form;
       const {
-        systemlocation,
-        districtlocation,
-        committelocation,
-        selectLoading,
-        address,
+        loader,
+        params,
       } = this.state;
       return (
         <Form className="row row10" onSubmit={this.handleSubmit}>
@@ -227,17 +222,17 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("mainLocation", {
-                initialValue: address.length === 0 ? null : address.provid,
+                initialValue: this.checkError(this.state.params.provid),
                 rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
               })(
                 <Select
                   showSearch
                   placeholder="Хот/аймаг *"
-                  onChange={this.onchangesysloc}
-                  disabled={selectLoading}
-                  loading={selectLoading}
+                  onChange={this.onMainLocation}
+                  disabled={loader}
+                  loading={loader}
                 >
-                  {systemlocation.length === 0 ? null : this.renderLocation(systemlocation)}
+                  {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
                 </Select>,
               )}
             </Form.Item>
@@ -246,17 +241,18 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
-                initialValue: address.length === 0 ? null : this.checkError(address.distid),
-                rules: [{ required: true, message: "Сум/дүүрэг сонгоно уу!" }],
+                initialValue: this.checkError(this.state.params.distid),
+                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
               })(
                 <Select
                   showSearch
                   placeholder="Дүүрэг/Сум *"
-                  onChange={this.onchangesub}
-                  disabled={selectLoading}
-                  loading={selectLoading}
+                  optionFilterProp="children"
+                  onChange={this.onSubLocation}
+                  disabled={loader}
+                  loading={loader}
                 >
-                  {districtlocation.length === 0 ? null : this.renderLocation(districtlocation)}
+                  {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
                 </Select>,
               )}
             </Form.Item>
@@ -265,18 +261,18 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
-                initialValue: address.length === 0 ? null : address.commid,
+                initialValue: this.checkError(this.state.params.commid),
                 rules: [{ required: true, message: "Хороо сонгоно уу!" }],
               })(
                 <Select
-                  placeholder="Хороо *"
                   showSearch
+                  placeholder="Хороо *"
                   optionFilterProp="children"
                   onChange={this.onchangesyscom}
-                  disabled={selectLoading}
-                  loading={selectLoading}
+                  disabled={loader}
+                  loading={loader}
                 >
-                  {committelocation === undefined ? null : this.renderLocation(committelocation)}
+                  {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
                 </Select>,
               )}
             </Form.Item>
@@ -301,17 +297,20 @@ class Component extends React.Component {
             <p className="title">
               <span>Бүртгэлтэй хаягууд</span>
             </p>
-            <table style={{ width: "100%" }} className="table bordered">
-              <div
-                className="frame frameMargin"
-                style={{
-                  maxHeight: "300px",
-                  overflow: "auto",
-                  minHeight: "auto",
-                }}
-              >
+            <table className="table table-borderless">
+              <thead className="thead-light" hidden>
+                <tr>
+                  <th className="column-1">Нэр</th>
+                  <th className="column-2">Утас</th>
+                  <th className="column-3">Аймаг/Хот</th>
+                  <th className="column-3">Сум/Дүүрэг</th>
+                  <th className="column-3">Хаяг</th>
+                  <th className="column-3"> </th>
+                </tr>
+              </thead>
+              <tbody>
                 {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
-              </div>
+              </tbody>
             </table>
           </Col>
         </Form>
@@ -321,6 +320,7 @@ class Component extends React.Component {
     }
   };
   render() {
+    console.log(this.props);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
@@ -328,7 +328,7 @@ class Component extends React.Component {
             <span>Хүргэлтийн хаяг</span>
           </p>
           <div className="user-profile-contain">
-            {/* this.props.useraddress === undefined ? null :  */this.renderAddress()}
+            {this.props.useraddress === undefined ? null : this.renderAddress()}
           </div>
         </div>
       </div>
