@@ -92,7 +92,7 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
-          this.props.incrementPackageProductsLocally(result.payload.data);
+          this.props.incrementPackageProductsLocally(result.payload.data.products);
         } else {
           //
         }
@@ -204,11 +204,10 @@ class Card extends React.Component {
       ) {
         cartDisabled = false;
       }
-
       const hover = (
         <div className="search-hover">
           <button className="btn btn-link" onClick={this.handleSaveClick}>
-            <i className="fa fa-heart-o" aria-hidden="true" />
+            <i className="fa fa-heart-o" aria-hidden="true" style={{ color: "#feb415" }} />
           </button>
           <button
             onClick={() => this.handleIncrement(item)}

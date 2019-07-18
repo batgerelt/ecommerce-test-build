@@ -11,6 +11,9 @@ class Model extends BaseModel {
     },
     seasonfilter: [],
     categoryfilter: [],
+    count: 0,
+    isFetching: false,
+    allFetched: false,
   }
 
   constructor(data = {}) {
@@ -38,6 +41,14 @@ class Model extends BaseModel {
     body, url: `/categoryfilter`, method: 'POST', model: this.model.categoryfilter,
   });
 
+  resetCategory = () => ({
+    type: 'resetcategory',
+  });
+
+  resetFullCategory = () => ({
+    type: 'resetfullcategory',
+  });
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET SEASON FILTER
@@ -50,11 +61,19 @@ class Model extends BaseModel {
 
       // GET CATEGORY FILTER
       case this.model.categoryfilter.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, isFetching: true, current: this.requestCase(state.current, action) };
       case this.model.categoryfilter.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, isFetching: false, current: this.errorCase(state.current, action) };
       case this.model.categoryfilter.response:
-        return { ...state, categoryfilter: action.payload.data };
+        return {
+          ...state, isFetching: false, categoryfilter: state.categoryfilter.concat(action.payload.data), count: this.initialState.count + 20,
+        };
+      case 'resetcategory':
+        return { ...state, categoryfilter: state.categoryfilter.splice(0, 20), count: 20 };
+
+      case 'resetfullcategory':
+        return { ...state, categoryfilter: [], count: 20 };
+
       default:
         return state;
     }

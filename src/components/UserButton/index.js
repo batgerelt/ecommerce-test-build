@@ -20,7 +20,7 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
-    localStorage.removeItem('auth'); // localstorage-iig clear hiij bga
+    this.props.logout();
     this.setState({ logout: !this.state.logout });
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
   }

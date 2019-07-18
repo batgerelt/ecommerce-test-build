@@ -1,3 +1,5 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-unreachable */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable radix */
@@ -12,11 +14,15 @@ import {
   CARD_LIST_TYPES,
   CARD_TYPES,
 } from "../../utils/Consts";
-import { CardList, FilterSet, Loader } from "../../components";
+import { CardList, Card, FilterSet, Loader } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
+// eslint-disable-next-line import/first
+import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 
 const Option = Select.Option;
 
+let count = 20;
+let screenWidth = 0;
 class CategoryInfo extends React.Component {
   state = {
     loading: false,
@@ -25,13 +31,70 @@ class CategoryInfo extends React.Component {
     maxPrice: 0,
     ordercol: "price_asc",
     parameters: [],
-    products: this.props.categoryfilter.length === 0 ? [] : this.props.categoryfilter,
-    subcategorys: this.props.categoryinfo.length === 0 ? [] : this.props.categoryinfo.subcategorys,
-    parents: this.props.categoryinfo.length === 0 ? [] : this.props.categoryinfo.parents,
-    attributes: this.props.categoryinfo.length === 0 ? [] : this.props.categoryinfo.attributes,
+    products: [],
+    subcategorys: [],
+    parents: [],
+    attributes: [],
     selectedPromoCatId: null,
     isLeftPanel: false,
+    ITEM_HEIGHT: 284.98,
+    shapeType: 2,
   };
+
+  isRowLoaded = ({ index }) => index < this.state.products.length;
+
+  // data nemeh heseg
+  loadMoreRows = (key) => {
+    const { minPrice, maxPrice, ordercol } = this.state;
+    let parameters = this.state.parameters;
+    if (!this.props.isFetching) {
+      const params = {
+        catId: this.props.id,
+        parameters,
+        minPrice,
+        maxPrice,
+        ordercol,
+        rowcount: 20,
+        startswith: count,
+      };
+      count += 20;
+      this.props.categoryFilter({
+        body: { ...params },
+      }).then((res) => {
+        if (res.payload.success) {
+          console.log(params, res.payload);
+        }
+      });
+    }
+  }
+
+  noRowsRenderer = () => (
+    <div>
+      No data
+    </div>
+  );
+
+  getMaxItemsAmountPerRow = (width) => {
+    screenWidth = width;
+    if (this.state.shapeType === 2) {
+      return Math.max(Math.floor(width / 264.98), 1);
+    }
+    return Math.max(Math.floor(width / 835), 1);
+  }
+
+  getRowsAmount = (width, itemsAmount, hasMore) => {
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+  }
+
+  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
+    const result = [];
+    const startIndex = rowIndex * maxItemsPerRow;
+    for (let i = startIndex; i < Math.min(startIndex + maxItemsPerRow, itemsAmount); i++) {
+      result.push(i);
+    }
+    return result;
+  }
 
   handleSortChange = (value) => {
     const { parameters, minPrice, maxPrice } = this.state;
@@ -49,6 +112,15 @@ class CategoryInfo extends React.Component {
     });
     this.fetchProductData(params);
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      products: nextProps.categoryfilter.length === 0 ? [] : nextProps.categoryfilter,
+      subcategorys: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.subcategorys,
+      parents: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.parents,
+      attributes: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.attributes,
+    });
+  }
 
   handlePriceAfterChange = (value) => {
     const { parameters, ordercol } = this.state;
@@ -92,6 +164,8 @@ class CategoryInfo extends React.Component {
   };
 
   fetchProductData = (params) => {
+    this.props.resetFullCategory();
+    count = 20;
     this.setState({ loading: true });
     this.props.categoryFilter({
       body: { ...params },
@@ -126,8 +200,33 @@ class CategoryInfo extends React.Component {
 
   handleViewChange = (e) => {
     e.preventDefault();
+    this.props.resetCategory();
+    count = 20;
+    if (this.state.isListViewOn) {
+      this.setState({ shapeType: 2 });
+    } else {
+      this.setState({ shapeType: 4 });
+    }
     this.setState({ isListViewOn: !this.state.isListViewOn });
   };
+
+  generateItemHeight = (width) => {
+    let tmp;
+    if (!this.state.isListViewOn) {
+      if (width < 400) {
+        tmp = 350;
+      } else {
+        tmp = 284.98;
+      }
+    } else {
+      if (width < 400) {
+        tmp = 197;
+      } else {
+        tmp = 120;
+      }
+    }
+    return tmp;
+  }
 
   renderLeftPanel = () => {
     try {
@@ -205,22 +304,56 @@ class CategoryInfo extends React.Component {
     try {
       const { isListViewOn, products } = this.state;
       let result = null;
-      if (this.state.isListViewOn) {
+      if (products.length !== 0) {
         result = (
-          <CardList
-            cartListType={CARD_LIST_TYPES.list}
-            items={products}
-            cardType={CARD_TYPES.list}
-          />
-        );
-      } else {
-        result = (
-          <CardList
-            cartListType={CARD_LIST_TYPES.horizontal}
-            items={products}
-            showAll
-            cardType={CARD_TYPES.wide}
-          />
+          <AutoSizer disableHeight>
+            {({ width }) => {
+              const rowCount = this.getRowsAmount(width, products.length, true);
+              return (
+                <InfiniteLoader
+                  ref={this.infiniteLoaderRef}
+                  rowCount={rowCount}
+                  isRowLoaded={({ index }) => {
+                    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                    const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, products.length).length > 0;
+
+                    return !true || allItemsLoaded;
+                  }}
+                  loadMoreRows={this.loadMoreRows}
+                >
+                  {({ onRowsRendered, registerChild }) => (
+                    <WindowScroller>
+                      {({ height, scrollTop }) => (
+                        <List
+                          autoHeight
+                          ref={registerChild}
+                          height={340}
+                          scrollTop={scrollTop}
+                          width={width}
+                          rowCount={rowCount}
+                          rowHeight={this.generateItemHeight(width)}
+                          onRowsRendered={onRowsRendered}
+                          rowRenderer={({ index, style, key }) => {
+                            const { product } = this.state;
+                            const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                            const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, products.length).map(itemIndex => products[itemIndex]);
+                            return (
+                              <div style={style} key={key} className="jss148">
+                                {rowItems.map(itemId => (
+                                  <Card shape={this.state.shapeType} item={itemId} LoginModal={this.props.LoginModal} addWishList={this.props.addWishList} />
+                                ))}
+                              </div>
+                            );
+                          }}
+                          noRowsRenderer={this.noRowsRenderer}
+                        />
+                      )}
+                    </WindowScroller>
+                  )}
+                </InfiniteLoader>
+              );
+            }}
+          </AutoSizer>
         );
       }
       return result;
@@ -308,7 +441,7 @@ class CategoryInfo extends React.Component {
                               <span className="text-uppercase">Шүүлтүүр</span>
                             </a>
                           </div>
-                          <div className="form-group my-select flex-this">
+                          <div className="form-group my-select flex-this" style={{ marginRight: "10px" }}>
                             <label
                               htmlFor="inputState"
                               style={{
@@ -329,18 +462,20 @@ class CategoryInfo extends React.Component {
                             </Select>
                           </div>
                           <div className="form-group flex-this">
-                            <button
+                            <Link
+                              to=""
                               className={isListViewOn ? "btn active" : "btn"}
                               onClick={this.handleViewChange}
                             >
                               <i className="fa fa-th-list" aria-hidden="true" />
-                            </button>
-                            <button
+                            </Link>
+                            <Link
+                              to=""
                               className={isListViewOn ? "btn" : "btn active"}
                               onClick={this.handleViewChange}
                             >
                               <i className="fa fa-th" aria-hidden="true" />
-                            </button>
+                            </Link>
                           </div>
                         </form>
                       </div>

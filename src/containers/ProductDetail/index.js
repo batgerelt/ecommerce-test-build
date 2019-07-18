@@ -42,7 +42,7 @@ class Page extends React.Component {
   componentWillMount() {
     const { id } = this.props.match.params;
     if (localStorage.getItem('auth') !== null) {
-      this.props.addViewList({ id });
+      this.props.addViewList({ skucd: id });
     }
     this.getData();
   }
@@ -51,7 +51,7 @@ class Page extends React.Component {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
       if (localStorage.getItem('auth') !== null) {
-        this.props.addViewList({ id });
+        this.props.addViewList({ skucd: id });
       }
       this.setState({
         detailLoad: true, relationalLoad: true, attributeLoad: true, commentLoad: true, collectionLoad: true, categoryLoad: true,
@@ -91,7 +91,6 @@ class Page extends React.Component {
       categoryLoad,
       attributeLoad,
     } = this.state;
-    // eslint-disable-next-line no-redeclare
     return (
       <Spin
         spinning={

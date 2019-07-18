@@ -69,6 +69,16 @@ class LoginModal extends React.Component {
               this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
             }
           });
+          let result = await this.props.login({ body: { ...values } });
+
+          if (!result.payload.success) {
+            return this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+          }
+
+          localStorage.setItem('auth', JSON.stringify(result.payload));
+
+          this.handleLoginModal();
+          this.props.form.resetFields();
 
           let { products } = this.props.cart;
 
@@ -76,6 +86,17 @@ class LoginModal extends React.Component {
             skucd: prod.cd,
             qty: prod.qty,
           }));
+
+          result = await this.props.increaseProductsByQtyRemotely({
+            iscart: 0,
+            body: products,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+
+          this.props.getProducts();
         } catch (e) {
           console.log(e);
         }
