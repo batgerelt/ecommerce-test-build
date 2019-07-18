@@ -196,7 +196,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
                 rules: [{ required: true, message: "Нэрээ заавал оруулна уу" }],
-              })(<Input placeholder="Нэр" />)}
+              })(<Input placeholder="Нэр" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -206,7 +206,7 @@ class Component extends React.Component {
                 rules: [{ required: true, message: "Утсаа заавал оруулна уу! " },
                 { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу! " },
                 { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
-              })(<Input placeholder="Утас 1" />)}
+              })(<Input placeholder="Утас 1" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -215,7 +215,7 @@ class Component extends React.Component {
               {getFieldDecorator("phone2", {
                 rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу! " },
                 { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
-              })(<Input placeholder="Утас 2" />)}
+              })(<Input placeholder="Утас 2" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -282,7 +282,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
               {getFieldDecorator("homeaddress", {
                 rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
-              })(<Input placeholder="Гэрийн хаяг" />)}
+              })(<Input placeholder="Гэрийн хаяг" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -320,7 +320,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    console.log(this.props);
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">

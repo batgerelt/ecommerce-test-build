@@ -76,7 +76,7 @@ class RegistrationModal extends React.Component {
             {getFieldDecorator("lastname", {
               rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
             })(
-              <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" />,
+              <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item>
@@ -88,7 +88,7 @@ class RegistrationModal extends React.Component {
                 message: "Имэйлээ хаягаа оруулна уу!",
               }],
             })(
-              <Input placeholder="И мэйл хаяг" className="form-control" />,
+              <Input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item hasFeedback>
@@ -114,7 +114,7 @@ class RegistrationModal extends React.Component {
                 { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
               ],
             })(
-              <Input.Password placeholder="Нууц үг" className="form-control" />,
+              <Input.Password placeholder="Нууц үг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item hasFeedback>
@@ -124,7 +124,7 @@ class RegistrationModal extends React.Component {
                 { validator: this.compareToFirstPassword },
               ],
             })(
-              <Input.Password onBlur={this.handleConfirmBlur} placeholder="Нууц үгээ дахин давтах!" className="form-control" />,
+              <Input.Password onBlur={this.handleConfirmBlur} placeholder="Нууц үгээ дахин давтах!" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
 

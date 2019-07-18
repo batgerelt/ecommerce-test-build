@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin, Divider, Col, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Form, message, Input, Select, Divider, Col, Button } from "antd";
 import Card from "./card";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -9,7 +8,6 @@ class Component extends React.Component {
   state = {
     dis: "",
     loc: null,
-    userImf: null,
     loader: false,
     params: [],
   };
@@ -21,7 +19,6 @@ class Component extends React.Component {
       distid: "",
       commid: "",
     };
-    /* this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }); */
     this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
       if (res.payload.success) {
         if (res.payload.data.main) {
@@ -34,9 +31,7 @@ class Component extends React.Component {
           if (res.payload.success) {
             this.props.getDistrictLocation({ id: param.provid }).then((res) => {
               if (res.payload.success) {
-                this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
-                  console.log(true);
-                });
+                this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid });
               }
             });
           }
@@ -61,7 +56,7 @@ class Component extends React.Component {
           };
           this.props.addAddress({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
-              console.log(true);
+              message.success(res.payload.message);
             }
           });
         } else {
@@ -394,8 +389,8 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {userInfo.card === undefined ? null : this.renderCard()}
-          {userInfo.card === undefined ? <Card {...this.props} /> : null}
+          {/* {userInfo.card === undefined ? null : this.renderCard()}
+          {userInfo.card === undefined ? <Card {...this.props} /> : null} */}
         </Form>
       );
     } catch (error) {
