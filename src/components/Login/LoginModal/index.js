@@ -41,11 +41,6 @@ class LoginModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // eslint-disable-next-line consistent-return
-    /* if (this.state.isRemember) {
-      localStorage.setItem('username', this.state.isRemember ? values.email : null);
-    } else {
-      localStorage.removeItem('username');
-    } */
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
