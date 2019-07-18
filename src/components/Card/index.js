@@ -104,6 +104,7 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem('auth') === null) {
+      console.log(this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;

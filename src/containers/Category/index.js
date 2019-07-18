@@ -5,13 +5,20 @@ import { Spin } from "antd";
 import {
   Category as CategoryModel,
   Filter as FilterModel,
+  Cart as CartModel,
+  Auth as AuthModel,
+  Product as ProductModel,
 } from "../../models";
 import List from "./list";
 import { Loader } from "../../components";
+import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
   ...state.category,
   ...state.filter,
+  ...state.cart,
+  ...state.auth,
+  ...state.product,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,6 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     {
       ...CategoryModel,
       ...FilterModel,
+      ...CartModel,
+      ...AuthModel,
+      ...ProductModel,
     },
     dispatch,
   ),
@@ -63,17 +73,15 @@ class Page extends React.Component {
 
   render() {
     const { isloading, isloadingCat } = this.state;
-    if (isloading || isloadingCat) {
-      return (
-        <Spin
-          spinning={isloading || isloadingCat}
-          indicator={<Loader />}
-        >
-          <List {...this.props} id={this.props.match.params.id} />
-        </Spin>
-      );
-    }
-    return <List {...this.props} id={this.props.match.params.id} />;
+    return (
+      <Spin
+        spinning={isloadingCat}
+        indicator={<Loader />}
+      >
+        <List {...this.props} {...this} id={this.props.match.params.id} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+      </Spin>
+    );
   }
 }
 export default connect(
