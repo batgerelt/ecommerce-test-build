@@ -124,7 +124,6 @@ class Component extends React.Component {
         });
       }
     });
-    console.log(this.state.params);
   }
 
   onSubLocation = (e) => {
@@ -238,7 +237,7 @@ class Component extends React.Component {
     );
   }
 
-  renderMain(userInfo) {
+  renderMain() {
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (
@@ -362,7 +361,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
           </Col>
 
-          {userInfo.main === null ? this.renderNoMain() : this.renderMain(userInfo)}
+          {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
           <Col span={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
@@ -389,8 +388,8 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {/* {userInfo.card === undefined ? null : this.renderCard()}
-          {userInfo.card === undefined ? <Card {...this.props} /> : null} */}
+          {userInfo.card === undefined ? null : this.renderCard()}
+          {userInfo.card === undefined ? <Card {...this.props} /> : null}
         </Form>
       );
     } catch (error) {
