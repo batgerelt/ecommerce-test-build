@@ -359,7 +359,6 @@ class Detail extends Component {
   };
 
   render() {
-    console.log(this.props);
     return this.renderDetails();
   }
 }

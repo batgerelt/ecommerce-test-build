@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin, Divider, Col, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Form, message, Input, Select, Divider, Col, Button } from "antd";
 import Card from "./card";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -9,7 +8,6 @@ class Component extends React.Component {
   state = {
     dis: "",
     loc: null,
-    userImf: null,
     loader: false,
     params: [],
   };
@@ -21,7 +19,6 @@ class Component extends React.Component {
       distid: "",
       commid: "",
     };
-    /* this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }); */
     this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
       if (res.payload.success) {
         if (res.payload.data.main) {
@@ -34,9 +31,7 @@ class Component extends React.Component {
           if (res.payload.success) {
             this.props.getDistrictLocation({ id: param.provid }).then((res) => {
               if (res.payload.success) {
-                this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
-                  console.log(true);
-                });
+                this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid });
               }
             });
           }
@@ -53,7 +48,7 @@ class Component extends React.Component {
         if (this.props.userInfo.main === null) {
           const param = {
             custid: this.props.data[0].info.customerInfo.id,
-            locid: this.state.loc,
+            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
             name: values.lastname,
             phonE1: values.phone1,
@@ -61,7 +56,7 @@ class Component extends React.Component {
           };
           this.props.addAddress({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
-              console.log(true);
+              message.success(res.payload.message);
             }
           });
         } else {
@@ -79,7 +74,9 @@ class Component extends React.Component {
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
           this.props.updateMain({ body: param }).then((res) => {
-            message.success(res.payload.message);
+            if (res.payload.success) {
+              message.success(res.payload.message);
+            }
           });
         }
       }
@@ -127,7 +124,6 @@ class Component extends React.Component {
         });
       }
     });
-    console.log(this.state.params);
   }
 
   onSubLocation = (e) => {
@@ -241,7 +237,7 @@ class Component extends React.Component {
     );
   }
 
-  renderMain(userInfo) {
+  renderMain() {
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (
@@ -365,7 +361,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
           </Col>
 
-          {userInfo.main === null ? this.renderNoMain() : this.renderMain(userInfo)}
+          {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
           <Col span={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>

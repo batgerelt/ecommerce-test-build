@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Redirect } from "react-router-dom";
 import List from "./list";
 import {
   Auth as AuthModel,
@@ -27,11 +28,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+    if (localStorage.getItem('auth') !== null) {
+      this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+    }
   }
 
   render() {
-    return <List {...this.props} />;
+    if (localStorage.getItem('auth') !== null) {
+      return <List {...this.props} />;
+    }
+    return <Redirect to="/" />;
   }
 }
 

@@ -119,7 +119,7 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <div className="e-phone" style={{ padding: 9 }}>
+                    <div className="e-phone">
                       <Icon
                         type="phone"
                         theme="filled"
@@ -249,7 +249,7 @@ class AppHeader extends Component {
                                       src={process.env.IMAGE + item.icon}
                                       alt={item}
                                     />
-                                  ) : null }
+                                  ) : null}
                                   <span>{item.name}</span>
                                 </a>
                               ))}
@@ -340,28 +340,30 @@ class AppHeader extends Component {
                       </Link>
                     </li>
                     <li className="list-inline-item">
-                      {this.props.isLoggedIn ? (
-                        <a href="/userprofile/wishlist" className="row10">
-                          {/* <Icon type="heart" theme="filled" /> */}
-                          <img
-                            src={heartImage}
-                            alt="wishlist"
-                            height="25px"
-                          />
-                          <p>
-                            <small>Хадгалсан</small>
-                            <span className="text-uppercase">бараа</span>
-                          </p>
-                        </a>
-                      ) : (
-                        <a className="row10">
-                          <img src={heartImage} alt="wishlist" height="25px" />
-                          <p>
-                            <small>Хадгалсан</small>
-                            <span className="text-uppercase">бараа</span>
-                          </p>
-                        </a>
-                      )}
+                      {
+                        localStorage.getItem('auth') !== null ?
+                          (
+                            <Link to="/profile/wish" className="row10">
+                              <img
+                                src={heartImage}
+                                alt="wishlist"
+                                height="25px"
+                              />
+                              <p>
+                                <small>Хадгалсан</small>
+                                <span className="text-uppercase">бараа</span>
+                              </p>
+                            </Link>
+                          ) : (
+                            <Link to="#" className="row10">
+                              <img src={heartImage} alt="wishlist" height="25px" />
+                              <p>
+                                <small>Хадгалсан</small>
+                                <span className="text-uppercase">бараа</span>
+                              </p>
+                            </Link>
+                          )
+                      }
                     </li>
                     <li className="list-inline-item">
                       <CartButton {...this.props} />
@@ -403,8 +405,8 @@ class AppHeader extends Component {
         <div className="main-nav">
           <div className="container container-laptop pad10">
             <ul className="list-inline">
-              <li className="list-inline-item active">
-                <Link to="/">
+              <li className="list-inline-item active" style={{ paddingLeft: '0px' }}>
+                <Link to="/" style={{ paddingLeft: '0px' }}>
                   <Icon
                     type="home"
                     theme="filled"
@@ -455,5 +457,4 @@ class AppHeader extends Component {
     );
   }
 }
-
 export default AppHeader;

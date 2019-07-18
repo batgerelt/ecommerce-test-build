@@ -205,7 +205,7 @@ class List extends React.Component {
         <div className="content">
           <div className="main-slide">
             <Slider
-              data={images}
+              sliderData={images}
               params={sliderParams}
               elContainer={"images"}
             />

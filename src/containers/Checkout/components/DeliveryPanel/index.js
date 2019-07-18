@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable radix */
 /* eslint-disable consistent-return */
 /* eslint-disable no-extra-semi */
@@ -25,6 +26,8 @@ class DeliveryPanel extends React.Component {
     selectLoading: false,
     chosenDeliveryType: {},
     noAddress: false,
+    inzone: 0,
+    zoneSetting: null,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -32,10 +35,12 @@ class DeliveryPanel extends React.Component {
   componentWillMount() {
     const { main } = this.props.userinfo;
     const { deliveryTypes } = this.props;
-    let found = deliveryTypes.find(item => item.id === 1);
+    let found = deliveryTypes.find(item => item.isenable === 1);
+    this.setState({ defaultActiveKey: found.id });
     this.props.DeliveryInfo.setDeliveryType(found);
     if (main !== null) {
-      this.setState({ chosenAddress: main });
+      this.setState({ chosenAddress: main, inzone: main.inzone });
+      this.getZoneSetting(main);
       this.getDistrict(main.provinceid, false);
       this.getCommitte(main.provinceid, main.districtid, false);
     } else {
@@ -80,6 +85,7 @@ class DeliveryPanel extends React.Component {
 
   onChangeLoc = (e) => {
     const { addrs } = this.props.userinfo;
+    const { inzone } = this.state;
     let found = addrs.find(item => item.id === e);
     this.setState({ selectLoading: true });
     this.props.getDistrictAndCommitte({ id: found.id }).then((res) => {
@@ -88,8 +94,23 @@ class DeliveryPanel extends React.Component {
       }
       this.setState({ selectLoading: false });
     });
+    if (found.inzone === 1 && inzone === 0) {
+      this.getZoneSetting(found);
+    }
     this.setFieldsValue(found);
-    this.setState({ chosenAddress: found });
+    this.setState({ chosenAddress: found, inzone: found.inzone });
+  }
+
+  getZoneSetting = (found) => {
+    const { defaultActiveKey } = this.state;
+    let locid = found.locid;
+    let deliverytype = defaultActiveKey;
+    this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
+      if (res.payload.success) {
+        console.log(res);
+        this.setState({ zoneSetting: res.payload.data });
+      }
+    });
   }
 
   setFieldsValue = (value) => {
@@ -126,12 +147,15 @@ class DeliveryPanel extends React.Component {
   }
 
   onChangeCommitteLoc = (e) => {
-    const { chosenAddress, committeLocation } = this.state;
+    const { chosenAddress, committeLocation, inzone } = this.state;
     let found = committeLocation.find(item => item.id === e);
     chosenAddress.committeeid = found.id;
     chosenAddress.committeenm = found.name;
     chosenAddress.locid = found.locid;
-    this.setState({ chosenAddress });
+    if (found.inzone === 1 && inzone === 0) {
+      this.getZoneSetting(found);
+    }
+    this.setState({ chosenAddress, inzone: found.inzone });
   }
 
   changeTab = (e) => {
@@ -200,8 +224,27 @@ class DeliveryPanel extends React.Component {
   };
 
   disabledDate = (current) => {
-    return current && current < moment().endOf("day");
+    const { zoneSetting } = this.state;
+    let currentDate = moment(current, "YYYY-MM-DD").format("YYYY-MM-DD");
+    let tmp = current < moment().endOf("day");
+    if (zoneSetting !== null) {
+      zoneSetting.restDays.find((item) => {
+        if (moment(item.restdate, "YYYY-MM-DD").format("YYYY-MM-DD") === currentDate) {
+          tmp = true;
+        }
+      });
+      if ((moment(zoneSetting.date, "YYYY-MM-DD").add(30, 'days').format("YYYY-MM-DD") <= currentDate)) {
+        tmp = true;
+      }
+    }
+    return tmp;
   };
+
+  dateStringChange = (date, datestring) => {
+    let tmp = this.state.zoneSetting;
+    tmp.date = datestring;
+    this.setState({ zoneSetting: tmp });
+  }
 
   handleGetValue = () => { return console.log('DeliveryPanel'); }
 
@@ -249,7 +292,7 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, zoneSetting,
     } = this.state;
     const {
       deliveryTypes,
@@ -279,6 +322,7 @@ class DeliveryPanel extends React.Component {
                   </p>
                 </div>
               }
+              disabled={item.isenable === 1 ? false : true}
               key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -418,13 +462,12 @@ class DeliveryPanel extends React.Component {
                       format="YYYY-MM-DD"
                       showTime={false}
                       placeholder="Огноо сонгох"
-                      defaultValue={moment("2019-07-04", "YYYY-MM-DD")}
+                      value={zoneSetting === null ? moment("2019-07-16", "YYYY-MM-DD") : moment(zoneSetting.date, "YYYY-MM-DD")}
                       allowClear={false}
-                      /* onChange={(date, dateString) =>
-                        dateStringChange(date, dateString)
-                      } */
+                      onChange={(date, dateString) =>
+                        this.dateStringChange(date, dateString)
+                      }
                       disabledDate={this.disabledDate}
-                    /* disabledTime={disabledDateTime} */
                     />
                   </div>
                   <hr />

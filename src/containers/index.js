@@ -19,6 +19,7 @@ import PackageDetail from "./PackageDetail";
 import Profile from "./UserProfile";
 import PassReset from "./PasswordReset";
 import Confirm from "./Confirm";
+import Order from "./OrderDetail";
 
 export {
   App,
@@ -42,4 +43,5 @@ export {
   Profile,
   PassReset,
   Confirm,
+  Order,
 };
