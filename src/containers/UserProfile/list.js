@@ -28,9 +28,12 @@ class List extends React.Component {
       body: data,
       isfiles,
     }).then((res) => {
-      console.log(res.payload.success);
       if (res.payload.success) {
-        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+          if (res.payload.success) {
+            localStorage.setItem('img', res.payload.data.info.imgnm);
+          }
+        });
       }
     });
   };

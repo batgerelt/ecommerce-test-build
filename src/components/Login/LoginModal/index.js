@@ -40,6 +40,7 @@ class LoginModal extends React.Component {
           if (!result.payload.success) {
             return message.error('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
           }
+          localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.removeItem(this.state.isRemember ? null : 'username');
