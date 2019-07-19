@@ -8,7 +8,6 @@ import {
   Product as ProductModel,
   Menu as MenuModel,
   Cart as CartModel,
-  Auth as AuthModel,
 } from "../../models";
 import List from "./list";
 

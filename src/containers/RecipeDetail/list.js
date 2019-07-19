@@ -49,9 +49,9 @@ class List extends React.Component {
         </div>
       );
     } catch (error) {
-      return null/* console.log(error) */;
+      return null;
     }
-  }
+  };
 
   renderSlider = () => {
     try {
@@ -84,9 +84,9 @@ class List extends React.Component {
         </div>
       );
     } catch (error) {
-      return null/* console.log(error) */;
+      return null;
     }
-  }
+  };
 
   renderDelivery = () => {
     try {
@@ -104,7 +104,7 @@ class List extends React.Component {
     } catch (error) {
       return null;
     }
-  }
+  };
 
   handleIncrementClick = async (product) => {
     try {
@@ -119,6 +119,7 @@ class List extends React.Component {
           this.handleNotify(result.payload.message);
         }
       } else {
+        product.insymd = Date.now();
         this.props.incrementProductLocally(product);
       }
     } catch (e) {
@@ -136,6 +137,10 @@ class List extends React.Component {
           this.handleNotify(result.payload.message);
         }
       } else {
+        products = products.map(prod => ({
+          ...prod,
+          insymd: Date.now(),
+        }));
         this.props.incrementRecipeProductsLocally(products);
       }
     } catch (e) {
@@ -181,17 +186,20 @@ class List extends React.Component {
               </div>
             </div>
           </div>
-        </li >
+        </li>
       ));
     } catch (error) {
       return null;
     }
-  }
+  };
 
   renderProducts = () => {
     const products = this.props.recipeProducts;
 
-    const total = products && products.length > 0 && products.reduce((acc, cur) => acc + cur.price, 0);
+    const total =
+      products &&
+      products.length > 0 &&
+      products.reduce((acc, cur) => acc + cur.price, 0);
 
     try {
       return (
@@ -199,9 +207,7 @@ class List extends React.Component {
           <p className="title">
             <strong>Жоронд орсон бараа</strong>
           </p>
-          <ul className="list-unstyled">
-            {this.renderProd()}
-          </ul>
+          <ul className="list-unstyled">{this.renderProd()}</ul>
           <div className="more-link text-center">
             <div className="pack-price">
               <p className="text flex-this end">
@@ -237,8 +243,7 @@ class List extends React.Component {
           <div className="row row10">
             <div className="col-md-4 col-xs-4">
               <p>
-                <Avatar size="small" src={chef} />{" "}
-                {recipe.madeoflvlText}
+                <Avatar size="small" src={chef} /> {recipe.madeoflvlText}
               </p>
             </div>
             <div className="col-md-4 col-xs-4">
@@ -247,15 +252,16 @@ class List extends React.Component {
               </p>
             </div>
             <div className="col-md-4 col-xs-4">
-              <p><Avatar size="small" src={smile} />{recipe.humancnt}{" "}хүний порц</p>
+              <p>
+                <Avatar size="small" src={smile} />
+                {recipe.humancnt} хүний порц
+              </p>
             </div>
           </div>
           <div className="row row10">
             <div className="col-md-6">
               <p className="title">ОРЦ</p>
-              <div className="row row10">
-                {this.renderIngredients()}
-              </div>
+              <div className="row row10">{this.renderIngredients()}</div>
             </div>
             <div className="col-md-6">
               <p className="title">АМТЛАГЧ</p>
@@ -267,7 +273,7 @@ class List extends React.Component {
     } catch (error) {
       return null;
     }
-  }
+  };
 
   renderSpices = () => {
     try {
@@ -275,14 +281,15 @@ class List extends React.Component {
       return recipe.spices.map((item, index) => (
         <div className="col-md-6" key={index}>
           <p>
-            <span>#</span>{item}
+            <span>#</span>
+            {item}
           </p>
         </div>
       ));
     } catch (error) {
       return null;
     }
-  }
+  };
 
   renderIngredients = () => {
     try {
@@ -290,14 +297,15 @@ class List extends React.Component {
       return recipe.ingredients.map((item, index) => (
         <div className="col-md-6" key={index}>
           <p>
-            <span>#</span>{item}
+            <span>#</span>
+            {item}
           </p>
         </div>
       ));
     } catch (error) {
       return null;
     }
-  }
+  };
 
   renderCk = () => {
     try {
@@ -313,14 +321,14 @@ class List extends React.Component {
     } catch (error) {
       return null;
     }
-  }
+  };
 
   renderSteps = () => {
     try {
       const { steps } = this.props;
       return steps.map((step, index) => (
         <div key={index}>
-          <div className="row row10" >
+          <div className="row row10">
             <div className="col-md-4">
               <div
                 style={{
@@ -336,9 +344,7 @@ class List extends React.Component {
               />
             </div>
             <div className="col-md-8">
-              <h4>
-                АЛХАМ {++index}
-              </h4>
+              <h4>АЛХАМ {++index}</h4>
               {step.description}
               <p />
             </div>
@@ -348,15 +354,13 @@ class List extends React.Component {
     } catch (error) {
       return null;
     }
-  }
+  };
 
   render() {
     return (
       <div className="section">
         <div className="container pad10">
-          <div className="e-breadcrumb">
-            {this.renderRoot()}
-          </div>
+          <div className="e-breadcrumb">{this.renderRoot()}</div>
           <div className="product-detail-page">
             <div className="row row10">
               <div className="col-md-8 pad10">
@@ -370,26 +374,27 @@ class List extends React.Component {
                   <div>
                     <h4
                       className="title"
-                      style={{ textTransform: "uppercase", marginBottom: "20px" }}
+                      style={{
+                        textTransform: "uppercase",
+                        marginBottom: "20px",
+                      }}
                     >
                       <span>Хоол хийх заавар</span>
                     </h4>
                     {this.renderSteps()}
                   </div>
                 </div>
-
               </div>
               <div className="col-md-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
                   {this.renderProducts()}
-
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 }

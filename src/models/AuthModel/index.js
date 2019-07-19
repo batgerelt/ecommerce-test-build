@@ -153,7 +153,6 @@ class AuthModel extends BaseModel {
       //   };
       case 'AUTH_LOGOUT':
         localStorage.clear();
-        console.log('state: ', state);
         return {
           ...state,
           isLoading: false,
