@@ -39,6 +39,7 @@ class IndividualTab extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue } = this.props.form;
+    const { DeliveryInfo } = this.props;
     const { info } = this.props.userinfo;
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -48,9 +49,8 @@ class IndividualTab extends React.Component {
         this.props.connectEpointCard({ cardno, pincode }).then((res) => {
           if (res.payload.success) {
             this.setState({ cardInfo: res.payload.data });
+            DeliveryInfo.setIndividualData(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
-          } else {
-            this.errorMsg(res.payload.message);
           }
           this.setState({ loading: false });
         });
@@ -125,14 +125,14 @@ class IndividualTab extends React.Component {
                         {getFieldDecorator("cardno", {
                           rules: [{ required: true, message: "Картын дугаар оруулна уу ?" }],
                         })(
-                          <Input allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
                         {getFieldDecorator("pincode", {
                           rules: [{ required: true, message: "Нууц үг оруулна уу ?" }],
                         })(
-                          <Input allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -152,7 +152,7 @@ class IndividualTab extends React.Component {
                           initialValue: cardInfo.point,
                           rules: [{ required: false, message: "Картын оноо оруулна уу ?" }],
                         })(
-                          <Input size="large" disabled type="text" placeholder="Картын оноо*" style={{ marginBottom: 0 }} className="col-md-12" />,
+                          <Input size="large" autoComplete="off" disabled type="text" placeholder="Картын оноо*" style={{ marginBottom: 0 }} className="col-md-12" />,
                         )}
                       </Form.Item>
                       {/*  <label>

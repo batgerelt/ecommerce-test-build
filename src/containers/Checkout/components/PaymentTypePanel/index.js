@@ -64,6 +64,7 @@ class PaymentTypePanel extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    this.props.changePaymentType();
     this.props.callback("4");
   }
 
