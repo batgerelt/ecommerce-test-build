@@ -196,6 +196,11 @@ class Model extends BaseModel {
           ),
           error: this.buildActionName("error", data.model, "clearRemotely"),
         },
+        replaceProductsRemotely: {
+          request: this.buildActionName('request', data.model, 'replaceProductsRemotely'),
+          response: this.buildActionName('response', data.model, 'replaceProductsRemotely'),
+          error: this.buildActionName('error', data.model, 'replaceProductsRemotely'),
+        },
       };
     }
   }
@@ -338,6 +343,13 @@ class Model extends BaseModel {
       method: "DELETE",
       model: this.model.clearRemotely,
     });
+
+  replaceProductsRemotely = ({ body }) => asyncFn({
+    body,
+    url: `/basket/delete/list`,
+    method: 'DELETE',
+    model: this.model.replaceProductsRemotely,
+  });
 
   updateReduxStore = (
     products,
@@ -759,6 +771,13 @@ class Model extends BaseModel {
           ...state,
           products: action.payload.data === null ? [] : action.payload.data,
         };
+
+      case this.model.replaceProductsRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.replaceProductsRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.replaceProductsRemotely.response:
+        return { ...state, products: action.payload.data };
 
       default:
         return state;

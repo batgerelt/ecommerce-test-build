@@ -12,10 +12,7 @@ class Component extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(this.props);
-        this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
-          console.log(res);
-        });
+        this.props.emartCard({ cardno: values.cardno, pincode: values.password });
       }
     });
   }
@@ -28,14 +25,14 @@ class Component extends React.Component {
           <Col span={12}>
             <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
               {getFieldDecorator("cardno", {
-              })(<Input placeholder="Картын дугаар" />)}
+              })(<Input placeholder="Картын дугаар" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
           <Col span={12}>
             <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
               {getFieldDecorator("password", {
-              })(<Input.Password placeholder="Нууц үг" />)}
+              })(<Input.Password placeholder="Нууц үг" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -54,4 +51,4 @@ class Component extends React.Component {
   }
 }
 
-export default Form.create({ name: "component" })(Component);
+export default Form.create({ name: "UserProfile" })(Component);

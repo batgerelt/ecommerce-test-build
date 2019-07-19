@@ -1,14 +1,20 @@
 import React from "react";
-import { Divider, Rate } from "antd";
+import { Divider, Rate, Spin } from "antd";
 import { Link } from "react-router-dom";
+import { Loader } from "../../../../components/Loader";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
-  state = {};
+  state = { loader: false };
   onDelete = (item) => {
+    this.setState({ loader: true });
     this.props.deleteWish({ skucd: item.cd }).then((res) => {
-      this.props.getWish();
+      this.props.getWish().then((res) => {
+        if (res.payload.success) {
+          this.setState({ loader: false });
+        }
+      });
     });
   }
   renderProducts = () => {
@@ -71,12 +77,16 @@ class Component extends React.Component {
           <p className="title">
             <span>Хадгалсан бараа</span>
           </p>
-          <div
-            className="product-list-history frame frameMargin"
-            style={{ maxHeight: "500px", overflow: "auto" }}
+          <Spin
+            spinning={this.state.loader}
           >
-            {this.renderProducts()}
-          </div>
+            <div
+              className="product-list-history frame frameMargin"
+              style={{ maxHeight: "500px", overflow: "auto" }}
+            >
+              {this.renderProducts()}
+            </div>
+          </Spin>
         </div>
       </div>
     );

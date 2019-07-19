@@ -3,6 +3,7 @@ import React from "react";
 import { Avatar, Progress, Upload, message } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
+import upload from "../../../src/scss/assets/images/demo/upload.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
 import history from "../../../src/scss/assets/images/demo/history.png";
 import wishlist from "../../../src/scss/assets/images/demo/wishlist.png";
@@ -18,18 +19,6 @@ import {
   UserPassword,
 } from "./Component";
 
-/* function beforeUpload(file) {
-  const isJPG = file.type === "image/jpeg";
-  if (!isJPG) {
-    message.error("You can only upload JPG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJPG && isLt2M;
-} */
-
 class List extends React.Component {
   handleChange = ({ fileList }) => {
     const data = new FormData();
@@ -39,9 +28,12 @@ class List extends React.Component {
       body: data,
       isfiles,
     }).then((res) => {
-      console.log(res.payload.success);
       if (res.payload.success) {
-        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+          if (res.payload.success) {
+            localStorage.setItem('img', res.payload.data.info.imgnm);
+          }
+        });
       }
     });
   };
@@ -57,7 +49,7 @@ class List extends React.Component {
     try {
       const { userInfo } = this.props;
       return (
-        <Avatar size="large" src={userInfo.info.imgnm === null ? avatar : `http://10.0.0.22:8876/${this.props.userInfo.info.imgnm}`} />
+        <Avatar size="large" src={userInfo.info.imgnm === null ? upload : `${process.env.IMAGES}${this.props.userInfo.info.imgnm}`} />
       );
     } catch (error) {
       return console.log(error);
@@ -83,7 +75,7 @@ class List extends React.Component {
                         </div>
                       </Upload>
                       <p className="text text-right" style={{ marginBottom: "-3px" }} >Таны мэдээлэл</p>
-                      <Progress percent={50} strokeColor="#feb415" status="active" />
+                      <Progress percent={50} strokeColor="#feb415" />
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                       <li>
@@ -118,7 +110,7 @@ class List extends React.Component {
                       </li>
                     </ul>
                   </div>
-                  <Link to="" className="btn btn-gray" onClick={this.handleLogout}>
+                  <Link to="#" className="btn btn-gray" onClick={this.handleLogout}>
                     <i className="fa fa-chevron-left" /><span>Гарах</span>
                   </Link>
                 </div>

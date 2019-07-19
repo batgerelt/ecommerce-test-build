@@ -16,9 +16,30 @@ class Checkout extends React.Component {
     activeKey: ["1"],
     customerInfo: null,
     companyInfo: null,
+    deliveryType: false,
+    paymentType: false,
+    payType: false,
   };
 
-  componentDidMount() {
+
+  componentDidUpdate(nextProps) {
+    if (this.checkLoggedIn()) {
+      if (this.props.userinfo.length !== nextProps.userinfo.length) {
+        this.setState({ activeKey: ["2"] });
+      }
+    }
+  }
+
+  changeDeliveryType = () => {
+    this.setState({ deliveryType: true });
+  }
+
+  changePaymentType = () => {
+    this.setState({ paymentType: true });
+  }
+
+  changePayType = () => {
+    this.setState({ payType: true });
   }
 
   deliveryInfo = () => (
@@ -49,10 +70,6 @@ class Checkout extends React.Component {
     });
   };
 
-  setCompanyInfo = (value) => {
-    this.setState({ companyInfo: value });
-  }
-
   paymentType = () => (
     <div className="title-container flex-space">
       <h5 className="title">
@@ -75,7 +92,15 @@ class Checkout extends React.Component {
     </div>
   );
 
+  checkLoggedIn = () => {
+    if (localStorage.getItem('auth') !== null) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
+    const { deliveryType, paymentType, payType } = this.state;
     return (
       <div className="section section-gray">
         <div className="container pad10">
@@ -104,7 +129,7 @@ class Checkout extends React.Component {
                         <Panel
                           header={this.deliveryInfo()}
                           showArrow={false}
-                          // disabled={!isLoggedIn}
+                          disabled={!this.checkLoggedIn()}
                           key={"2"}
                         >
                           <DeliveryPanel onRef={ref => (this.DeliveryPanel = ref)} {...this} {...this.props} />
@@ -112,6 +137,7 @@ class Checkout extends React.Component {
                         <Panel
                           header={this.paymentType()}
                           showArrow={false}
+                          disabled={!(deliveryType && this.checkLoggedIn())}
                           key={"3"}
                         >
                           <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
@@ -119,10 +145,8 @@ class Checkout extends React.Component {
                         <Panel
                           header={this.optionType()}
                           showArrow={false}
+                          disabled={!(paymentType && this.checkLoggedIn())}
                           key="4"
-                        /*  disabled={
-                          this.state.collapseType === "payment" ? false : true
-                        } */
                         >
                           <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />
                         </Panel>
@@ -131,7 +155,7 @@ class Checkout extends React.Component {
                   </div>
                 </div>
               </div>
-              <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} />
+              <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} {...this.props} />
             </div>
           </div>
         </div>

@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
   ...state.product,
   ...state.menu,
   ...state.cart,
-  ...state.auth,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -27,7 +26,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProductModel,
     ...MenuModel,
     ...CartModel,
-    ...AuthModel,
   }, dispatch),
 });
 

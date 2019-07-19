@@ -23,13 +23,16 @@ class OrganizationTab extends React.Component {
 
   edit = (e) => {
     const { setFieldsValue } = this.props.form;
+    const { DeliveryInfo } = this.props;
     setFieldsValue({ regno: "" });
+    DeliveryInfo.setOrganizationData([]);
     this.setState({ companyInfo: null, connected: false, loading: false });
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue, validateFields } = this.props.form;
+    const { DeliveryInfo } = this.props;
     validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
@@ -37,8 +40,8 @@ class OrganizationTab extends React.Component {
           this.setState({ loading: false });
           if (res.payload.success) {
             let value = { regno: values.regno, name: res.payload.data.name };
+            DeliveryInfo.setOrganizationData(value);
             setFieldsValue({ regno: res.payload.data.name });
-            this.props.setCompanyInfo(value);
             this.setState({ companyInfo: value, connected: true });
           }
         });
@@ -59,7 +62,7 @@ class OrganizationTab extends React.Component {
                   {getFieldDecorator("regno", {
                     rules: [{ required: true, message: "Байгууллагын регистэр оруулна уу ?" }],
                   })(
-                    <Input size="large" type="text" placeholder="Байгууллагын регистэр*" disabled={connected} className="col-md-12" />,
+                    <Input size="large" autoComplete="off" type="text" placeholder="Байгууллагын регистэр*" disabled={connected} className="col-md-12" />,
                   )}
                 </Form.Item>
               </div>

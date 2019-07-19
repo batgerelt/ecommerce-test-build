@@ -45,6 +45,10 @@ class Model extends BaseModel {
     type: 'resetcategory',
   });
 
+  resetFullCategory = () => ({
+    type: 'resetfullcategory',
+  });
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET SEASON FILTER
@@ -66,6 +70,9 @@ class Model extends BaseModel {
         };
       case 'resetcategory':
         return { ...state, categoryfilter: state.categoryfilter.splice(0, 20), count: 20 };
+
+      case 'resetfullcategory':
+        return { ...state, categoryfilter: [], count: 20 };
 
       default:
         return state;

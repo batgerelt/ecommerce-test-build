@@ -13,9 +13,14 @@
 import React from "react";
 import { Tabs, Input, Form, Select, DatePicker, message } from "antd";
 import moment from "moment";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { SwalModals } from "../";
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 const formatter = new Intl.NumberFormat("en-US");
+const MySwal = withReactContent(Swal);
+
 class DeliveryPanel extends React.Component {
   state = {
     chosenAddress: {},
@@ -33,19 +38,23 @@ class DeliveryPanel extends React.Component {
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
-    const { main } = this.props.userinfo;
-    const { deliveryTypes } = this.props;
-    let found = deliveryTypes.find(item => item.isenable === 1);
-    this.setState({ defaultActiveKey: found.id });
-    this.props.DeliveryInfo.setDeliveryType(found);
-    if (main !== null) {
-      this.setState({ chosenAddress: main, inzone: main.inzone });
-      this.getZoneSetting(main);
-      this.getDistrict(main.provinceid, false);
-      this.getCommitte(main.provinceid, main.districtid, false);
-    } else {
-      this.setState({ noAddress: true, addresstype: "new" });
-      this.getDistrictAndCommitte(0);
+    try {
+      const { main } = this.props.userinfo;
+      const { deliveryTypes } = this.props;
+      let found = deliveryTypes.find(item => item.isenable === 1);
+      this.setState({ defaultActiveKey: found.id });
+      this.props.DeliveryInfo.setDeliveryType(found);
+      if (main !== null) {
+        this.setState({ chosenAddress: main, inzone: main.inzone });
+        this.getZoneSetting(main);
+        this.getDistrict(main.provinceid, false);
+        this.getCommitte(main.provinceid, main.districtid, false);
+      } else {
+        this.setState({ noAddress: true, addresstype: "new" });
+        this.getDistrictAndCommitte(0);
+      }
+    } catch (error) {
+      return console.log(error);
     }
   }
 
@@ -167,6 +176,7 @@ class DeliveryPanel extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    const { products } = this.props;
     const { chosenAddress, addresstype } = this.state;
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -195,7 +205,48 @@ class DeliveryPanel extends React.Component {
         body.districtnm = chosenAddress.districtnm;
         body.committeenm = chosenAddress.committeenm;
         this.props.DeliveryInfo.handleGetValue(body);
-        this.props.callback("3");
+        if (products.length !== 0) {
+          MySwal.showLoading();
+          // eslint-disable-next-line prefer-destructuring
+          let locid = this.state.chosenAddress.locid;
+          let tmp = [];
+          products.map((item) => {
+            let it = {
+              skucd: item.cd,
+              qty: item.qty,
+            };
+            tmp.push(it);
+          });
+          this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
+            MySwal.close();
+            if (res.payload.success) {
+              this.props.changeDeliveryType();
+              this.props.callback("3");
+            } else {
+              MySwal.fire({
+                html: (
+                  <SwalModals
+                    type={"delete"}
+                    data={[]}
+                    ordData={[]}
+                    onRef={ref => (this.SwalModals = ref)}
+                    {...this}
+                    {...this.props}
+                  />
+                ),
+                type: "warning",
+                animation: true,
+                button: false,
+                showCloseButton: false,
+                showCancelButton: false,
+                showConfirmButton: false,
+                focusConfirm: false,
+                allowOutsideClick: false,
+                closeOnEsc: false,
+              });
+            }
+          });
+        }
       }
     });
   }
@@ -346,7 +397,7 @@ class DeliveryPanel extends React.Component {
                         {
                           main !== null ?
                             <div className="col-xl-4 col-md-4">
-                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Хаяг нэмэх</button>
+                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Шинэ хаяг</button>
                             </div> : null
                         }
                       </div>
@@ -409,7 +460,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.address),
                             rules: [{ required: true, message: "Гэрийн хаяг оруулна уу ?" }],
                           })(
-                            <Input allowClear type="text" placeholder="Гэрийн хаяг ?*" />,
+                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг ?*" />,
                           )}
                         </Form.Item>
                       </div>
@@ -422,7 +473,7 @@ class DeliveryPanel extends React.Component {
                           initialValue: this.checkError(chosenAddress.name),
                           rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу ?" }],
                         })(
-                          <Input allowClear type="text" placeholder="Захиалагчийн нэр*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder="Захиалагчийн нэр*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -434,7 +485,7 @@ class DeliveryPanel extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
                           { len: 8, message: "8 оронтой байх ёстой !." }],
                         })(
-                          <Input allowClear type="text" placeholder="Утас 1*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder="Утас 1*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -446,7 +497,7 @@ class DeliveryPanel extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
                           { len: 8, message: "8 оронтой байх ёстой !." }],
                         })(
-                          <Input allowClear type="text" placeholder="Утас 2*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder="Утас 2*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>

@@ -9,7 +9,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Spin, Select } from "antd";
+import { Spin, Select, BackTop } from "antd";
 import {
   CARD_LIST_TYPES,
   CARD_TYPES,
@@ -21,11 +21,6 @@ import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualiz
 
 const Option = Select.Option;
 
-const RowItem = React.memo(function RowItem({
-  item, LoginModal, addWishList, shapeType,
-}) {
-  return <Card shape={shapeType} item={item} LoginModal={LoginModal} addWishList={addWishList} />;
-});
 let count = 20;
 let screenWidth = 0;
 class CategoryInfo extends React.Component {
@@ -169,7 +164,7 @@ class CategoryInfo extends React.Component {
   };
 
   fetchProductData = (params) => {
-    this.props.resetCategory();
+    this.props.resetFullCategory();
     count = 20;
     this.setState({ loading: true });
     this.props.categoryFilter({
@@ -345,7 +340,7 @@ class CategoryInfo extends React.Component {
                             return (
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map(itemId => (
-                                  <RowItem key={itemId.cd} item={itemId} shapeType={this.state.shapeType} LoginModal={this.props.LoginModal} addWishList={this.props.addWishList} />
+                                  <Card shape={this.state.shapeType} item={itemId} LoginModal={this.props.LoginModal} addWishList={this.props.addWishList} />
                                 ))}
                               </div>
                             );
@@ -491,6 +486,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
+          <BackTop />
         </div>
       );
     }

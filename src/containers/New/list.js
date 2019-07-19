@@ -6,6 +6,7 @@
 /* eslint-disable import/first */
 /* eslint-disable radix */
 import React, { PureComponent } from "react";
+import { BackTop } from "antd";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import { Card, PageBanner, CardList, Banner } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
@@ -187,6 +188,7 @@ class Bookmarks extends PureComponent {
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

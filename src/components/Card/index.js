@@ -120,7 +120,6 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem("auth") === null) {
-      console.log(this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -158,8 +157,8 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
-      } = this.props;
+ shape, item, isLastInRow, className 
+} = this.props;
 
       let prices;
 
@@ -231,11 +230,14 @@ class Card extends React.Component {
       ) {
         cartDisabled = false;
       }
-
       const hover = (
         <div className="search-hover">
           <button className="btn btn-link" onClick={this.handleSaveClick}>
-            <i className="fa fa-heart-o" aria-hidden="true" />
+            <i
+              className="fa fa-heart-o"
+              aria-hidden="true"
+              style={{ color: "#feb415" }}
+            />
           </button>
           <button
             onClick={() => this.handleIncrement(item)}
