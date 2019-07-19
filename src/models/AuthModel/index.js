@@ -152,8 +152,9 @@ class AuthModel extends BaseModel {
       //     },
       //   };
       case 'AUTH_LOGOUT':
+        const username = localStorage.getItem('username');
         localStorage.clear();
-        console.log('state: ', state);
+        localStorage.setItem('username', username);
         return {
           ...state,
           isLoading: false,

@@ -1,14 +1,17 @@
 import React from "react";
-import { Divider, Rate, message } from "antd";
+import { Divider, Rate, message, Spin } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
-  state = {};
+  state = { loader: false };
   onDelete = (item) => {
+    this.setState({ loader: true });
     this.props.deleteHistory({ skucd: item.cd }).then((res) => {
-      this.props.getHistory();
+      this.props.getHistory().then((res) => {
+        this.setState({ loader: false });
+      });
     });
   }
   addHistory = (item) => {
@@ -79,18 +82,23 @@ class Component extends React.Component {
     }
   }
   render() {
+    const { loader } = this.state;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
             <span>Үзсэн барааны түүх</span>
           </p>
-          <div
-            className="product-list-history frame frameMargin"
-            style={{ maxHeight: "500px", overflow: "auto" }}
+          <Spin
+            spinning={loader}
           >
-            {this.renderProducts()}
-          </div>
+            <div
+              className="product-list-history frame frameMargin"
+              style={{ maxHeight: "500px", overflow: "auto" }}
+            >
+              {this.renderProducts()}
+            </div>
+          </Spin>
         </div>
       </div>
     );

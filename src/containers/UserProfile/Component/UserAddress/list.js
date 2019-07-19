@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Table, Divider, Col, Button } from "antd";
+import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -15,7 +15,8 @@ class Component extends React.Component {
     systemlocation: [],
     districtlocation: [],
     address: [],
-    loader: false,
+    loader: true,
+    load: false,
     params: {
       provid: "11",
       distid: "01",
@@ -42,19 +43,23 @@ class Component extends React.Component {
             this.setState({ districtlocation: res.payload.data });
             this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
               if (res.payload.success) {
-                this.setState({ committelocation: res.payload.data, loc: res.payload.data[0].locid, address: param });
+                this.setState({
+                  committelocation: res.payload.data,
+                  loc: res.payload.data[0].locid,
+                  address: param,
+                  loader: false,
+                });
               }
             });
           }
         });
       }
     });
-    this.setState({ loader: false });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.address);
+    this.setState({ load: true });
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const param = {
@@ -70,6 +75,7 @@ class Component extends React.Component {
             message.success(res.payload.message);
             this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
             this.props.form.resetFields();
+            this.setState({ load: false });
           }
         });
       }
@@ -152,8 +158,13 @@ class Component extends React.Component {
   }
 
   onDelete = (e, item) => {
+    this.setState({ loader: true });
     this.props.deleteAddress({ id: item.id }).then((res) => {
-      this.props.getUserInfo();
+      this.props.getUserInfo().then((res) => {
+        if (res.payload.success) {
+          this.setState({ loader: false });
+        }
+      });
     });
   }
 
@@ -189,6 +200,7 @@ class Component extends React.Component {
       const {
         loader,
         params,
+        load,
       } = this.state;
       return (
         <Form className="row row10" onSubmit={this.handleSubmit}>
@@ -288,7 +300,7 @@ class Component extends React.Component {
 
           <Col span={24}>
             <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
-              <Button className="btn btn-dark" htmlType="submit" style={{ background: '#343a40' }}>
+              <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
                 <span className="text-uppercase">Хадгалах</span>
               </Button>
             </Form.Item>
@@ -297,21 +309,26 @@ class Component extends React.Component {
             <p className="title">
               <span>Бүртгэлтэй хаягууд</span>
             </p>
-            <table className="table table-borderless">
-              <thead className="thead-light" hidden>
-                <tr>
-                  <th className="column-1">Нэр</th>
-                  <th className="column-2">Утас</th>
-                  <th className="column-3">Аймаг/Хот</th>
-                  <th className="column-3">Сум/Дүүрэг</th>
-                  <th className="column-3">Хаяг</th>
-                  <th className="column-3"> </th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
-              </tbody>
-            </table>
+            <Spin
+              spinning={loader}
+              tip="Түр хүлээнэ үү"
+            >
+              <table className="table table-borderless">
+                <thead className="thead-light" hidden>
+                  <tr>
+                    <th className="column-1">Нэр</th>
+                    <th className="column-2">Утас</th>
+                    <th className="column-3">Аймаг/Хот</th>
+                    <th className="column-3">Сум/Дүүрэг</th>
+                    <th className="column-3">Хаяг</th>
+                    <th className="column-3"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
+                </tbody>
+              </table>
+            </Spin>
           </Col>
         </Form>
       );
@@ -320,6 +337,7 @@ class Component extends React.Component {
     }
   };
   render() {
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
