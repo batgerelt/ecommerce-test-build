@@ -111,7 +111,6 @@ class AppHeader extends Component {
   renderTopNavigation = () => {
     try {
       const { staticinfo } = this.props.staticcontent;
-
       return (
         <div className="top-nav">
           <div className="container container-laptop pad10">
@@ -440,7 +439,6 @@ class AppHeader extends Component {
     const { mainmenu } = this.props.menu;
     const { staticinfo } = this.props.staticcontent;
     const { categorymenu } = this.props.category;
-
     return (
       <div className="wrap" id="main-header" onClick={this.handleDropDownClose}>
         {
@@ -452,7 +450,6 @@ class AppHeader extends Component {
             </div>
           )
         }
-        {/* <RegisterModal /> */}
       </div>
     );
   }
