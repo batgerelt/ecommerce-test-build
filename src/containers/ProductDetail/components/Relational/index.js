@@ -16,7 +16,7 @@ class Relational extends Component {
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
-      position: 'top-center',
+      position: "top-center",
       progressClassName: css({
         background: "#feb415",
       }),
@@ -39,6 +39,7 @@ class Relational extends Component {
           this.handleNotify(result.payload.message);
         }
       } else {
+        product.insymd = Date.now();
         this.props.incrementProductLocally(product);
       }
     } catch (e) {
@@ -55,7 +56,7 @@ class Relational extends Component {
       }
     }
     return relatedProducts;
-  }
+  };
 
   renderRelatedProducts = (limit = 4) => {
     try {
@@ -64,13 +65,14 @@ class Relational extends Component {
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
-          <div
-            className="product-suggest"
-          >
+          <div className="product-suggest">
             <p className="title">
               <strong>Хослох бараа</strong>
             </p>
-            <ul className="list-unstyled" style={{ height: "261px", overflowY: "auto" }}>
+            <ul
+              className="list-unstyled"
+              style={{ height: "261px", overflowY: "auto" }}
+            >
               {data.map((prod, index) => (
                 <li key={index}>
                   <div className="single flex-this">
@@ -81,7 +83,7 @@ class Relational extends Component {
                           style={{
                             backgroundImage: `url(${process.env.IMAGE}${
                               prod.img
-                              })`,
+                            })`,
                           }}
                         />
                       </Link>
@@ -110,7 +112,7 @@ class Relational extends Component {
                 </li>
               ))}
             </ul>
-            {relatedProducts.length > limit ?
+            {relatedProducts.length > limit ? (
               <div className="more-link text-center">
                 <Button
                   className="btn btn-border"
@@ -122,7 +124,7 @@ class Relational extends Component {
                   </span>
                 </Button>
               </div>
-              : null}
+            ) : null}
           </div>
         )
       );

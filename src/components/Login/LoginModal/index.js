@@ -2,29 +2,21 @@
 import React from "react";
 import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { css } from "glamor";
-
 
 import { FacebookLogin, GoogleLogin } from "../";
 
 class LoginModal extends React.Component {
-  state = { visible: false, isVisibleReset: false, isRemember: false };
+  state = {
+    visible: false,
+    isVisibleReset: false,
+    isRemember: localStorage.getItem('auth') === null ? 1 : 0,
+  };
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
 
-  handleNotify = (message) => {
-    toast(message, {
-      autoClose: 5000,
-      position: 'top-center',
-      progressClassName: css({
-        background: "#feb415",
-      }),
-    });
-  };
-
   handleLoginModal = () => {
+    this.props.form.resetFields();
     this.setState({ visible: !this.state.visible });
   }
 
@@ -44,39 +36,18 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
-          this.props.login({ body: { ...values } }).then((res) => {
-            if (res.payload.success) {
-              localStorage.setItem('auth', JSON.stringify(res.payload));
-              localStorage.setItem('username', this.state.isRemember ? values.email : null);
-              localStorage.removeItem(this.state.isRemember ? null : 'username');
-              this.handleLoginModal();
-
-              this.props.increaseProductsByQtyRemotely({
-                custid: res.payload.data[0].info.customerInfo.id,
-                iscart: 0,
-                body: products,
-              });
-
-              this.props.getProducts({ custid: res.payload.data[0].info.customerInfo.id });
-
-              this.props.form.resetFields();
-            } else {
-              this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
-            }
-          });
           let result = await this.props.login({ body: { ...values } });
-
           if (!result.payload.success) {
-            return this.handleNotify('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+            return message.error('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
           }
-
+          localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
-
+          localStorage.setItem('username', this.state.isRemember ? values.email : null);
+          localStorage.removeItem(this.state.isRemember ? null : 'username');
           this.handleLoginModal();
           this.props.form.resetFields();
 
           let { products } = this.props.cart;
-
           products = products.map(prod => ({
             skucd: prod.cd,
             qty: prod.qty,
@@ -86,9 +57,8 @@ class LoginModal extends React.Component {
             iscart: 0,
             body: products,
           });
-
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.error(result.payload.message);
           }
 
           this.props.getProducts();
@@ -123,6 +93,7 @@ class LoginModal extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { isRemember } = this.state;
     return (
       <div>
         <Modal
@@ -165,7 +136,7 @@ class LoginModal extends React.Component {
               <div className="row row10">
                 <div className="col-xl-6 pad10">
                   <div className="custom-control custom-checkbox">
-                    <Checkbox onChange={this.floorNewspaperRemember}>Сануулах</Checkbox>
+                    <Checkbox className="custom-control-inpu" onChange={this.floorNewspaperRemember} checked={isRemember} >Сануулах</Checkbox>
                   </div>
                 </div>
                 <div className="col-xl-6 pad10">

@@ -354,6 +354,7 @@ class Detail extends Component {
       }
     } else {
       product.qty = this.state.productQty;
+      product.insymd = Date.now();
       this.props.increaseProductByQtyLocally(product);
     }
   };

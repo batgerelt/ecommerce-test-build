@@ -9,7 +9,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Spin, Select } from "antd";
+import { Spin, Select, BackTop } from "antd";
 import {
   CARD_LIST_TYPES,
   CARD_TYPES,
@@ -486,6 +486,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
+          <BackTop />
         </div>
       );
     }

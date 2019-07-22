@@ -3,6 +3,7 @@ import React from "react";
 import { Avatar, Progress, Upload, message } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
+import upload from "../../../src/scss/assets/images/demo/upload.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
 import history from "../../../src/scss/assets/images/demo/history.png";
 import wishlist from "../../../src/scss/assets/images/demo/wishlist.png";
@@ -27,9 +28,12 @@ class List extends React.Component {
       body: data,
       isfiles,
     }).then((res) => {
-      console.log(res.payload.success);
       if (res.payload.success) {
-        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+          if (res.payload.success) {
+            localStorage.setItem('img', res.payload.data.info.imgnm);
+          }
+        });
       }
     });
   };
@@ -45,7 +49,7 @@ class List extends React.Component {
     try {
       const { userInfo } = this.props;
       return (
-        <Avatar size="large" src={userInfo.info.imgnm === null ? avatar : `${process.env.IMAGES}${this.props.userInfo.info.imgnm}`} />
+        <Avatar size="large" src={userInfo.info.imgnm === null ? upload : `${process.env.IMAGES}${this.props.userInfo.info.imgnm}`} />
       );
     } catch (error) {
       return console.log(error);

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-restricted-globals */
@@ -7,7 +8,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { Rate, message } from "antd";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -20,7 +21,7 @@ class Card extends React.Component {
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
-      position: 'top-center',
+      position: "top-center",
       progressClassName: css({
         background: "#feb415",
       }),
@@ -52,7 +53,9 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message => this.handleNotify(message));
+            result.payload.data.fail.forEach(message =>
+              this.handleNotify(message),
+            );
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -64,7 +67,9 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message => this.handleNotify(message));
+            result.payload.data.fail.forEach(message =>
+              this.handleNotify(message),
+            );
           }
         } else {
           //
@@ -72,6 +77,7 @@ class Card extends React.Component {
       } else {
         // eslint-disable-next-line no-lonely-if
         if (item.cd) {
+          item.insymd = Date.now();
           this.props.incrementProductLocally(item);
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
@@ -82,7 +88,12 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
-          this.props.incrementRecipeProductsLocally(result.payload.data);
+          const products = result.payload.data.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementRecipeProductsLocally(products);
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
             id: item.id,
@@ -92,7 +103,12 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
-          this.props.incrementPackageProductsLocally(result.payload.data.products);
+          const products = result.payload.data.products.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementPackageProductsLocally(products);
         } else {
           //
         }
@@ -100,10 +116,10 @@ class Card extends React.Component {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   handleSaveClick = () => {
-    if (localStorage.getItem('auth') === null) {
+    if (localStorage.getItem("auth") === null) {
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -127,7 +143,7 @@ class Card extends React.Component {
         });
       }
     }
-  }
+  };
 
   addWishList = (skucd) => {
     const { addWishList } = this.props;
@@ -136,14 +152,16 @@ class Card extends React.Component {
         // message.success(res.payload.message);
       }
     });
-  }
+  };
 
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
-      } = this.props;
+ shape, item, isLastInRow, className 
+} = this.props;
+
       let prices;
+
       if (!item) {
         return null;
       }
@@ -152,7 +170,9 @@ class Card extends React.Component {
         let priceTitle = "";
 
         if (item.id) {
-          priceTitle = <span style={{ fontWeight: "normal" }}>Багцын үнэ:</span>;
+          priceTitle = (
+            <span style={{ fontWeight: "normal" }}>Багцын үнэ:</span>
+          );
         } else if (item.recipeid) {
           priceTitle = <span style={{ fontWeight: "normal" }}>Орцын үнэ:</span>;
         }
@@ -161,7 +181,10 @@ class Card extends React.Component {
           prices = (
             <div className="row">
               {!!priceTitle && (
-                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
+                <div
+                  className="col-md-6 no-padding-r"
+                  style={{ textAlign: "left" }}
+                >
                   {priceTitle}
                 </div>
               )}
@@ -179,7 +202,10 @@ class Card extends React.Component {
           prices = (
             <div className="row">
               {!!priceTitle && (
-                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }}>
+                <div
+                  className="col-md-6 no-padding-r"
+                  style={{ textAlign: "left" }}
+                >
                   {priceTitle}
                 </div>
               )}
@@ -207,7 +233,11 @@ class Card extends React.Component {
       const hover = (
         <div className="search-hover">
           <button className="btn btn-link" onClick={this.handleSaveClick}>
-            <i className="fa fa-heart-o" aria-hidden="true" style={{ color: "#feb415" }} />
+            <i
+              className="fa fa-heart-o"
+              aria-hidden="true"
+              style={{ color: "#feb415" }}
+            />
           </button>
           <button
             onClick={() => this.handleIncrement(item)}
@@ -224,7 +254,7 @@ class Card extends React.Component {
             <div
               className={`col-five pad10${
                 isLastInRow ? " d-none d-xl-block lol" : " col-md-3 col-6"
-                }`}
+              }`}
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
@@ -259,8 +289,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                        ? item.packagenm
+                        : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -274,8 +304,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                          ? item.featuretxt
-                          : ""}
+                        ? item.featuretxt
+                        : ""}
                     </span>
                   </Link>
 
@@ -329,8 +359,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                        ? item.packagenm
+                        : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -344,8 +374,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                          ? item.featuretxt
-                          : ""}
+                        ? item.featuretxt
+                        : ""}
                     </span>
                   </Link>
 
@@ -366,9 +396,8 @@ class Card extends React.Component {
         case CARD_TYPES.tile:
           return (
             <div
-              className={`single-product big-product food-post food-${
-                className || "short"
-                }`}
+              className={`single-product big-product food-post food-${className ||
+                "short"}`}
             >
               <div className="image-container">
                 <Link to={item.route ? item.route : ""}>
@@ -440,7 +469,12 @@ class Card extends React.Component {
                 <Link to={item.route ? item.route : ""} className="cat">
                   <span>{item.featuretxt}</span>
                 </Link>
-                <Rate allowHalf disabled defaultValue={0} value={item.rate / 2} />
+                <Rate
+                  allowHalf
+                  disabled
+                  defaultValue={0}
+                  value={item.rate / 2}
+                />
                 <Link
                   to={item.route ? item.route : ""}
                   className="price"
@@ -493,7 +527,7 @@ class Card extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   render() {
     return this.renderCards();

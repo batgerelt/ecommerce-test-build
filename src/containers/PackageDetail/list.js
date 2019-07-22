@@ -19,7 +19,7 @@ class List extends React.Component {
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
-      position: 'top-center',
+      position: "top-center",
       progressClassName: css({
         background: "#feb415",
       }),
@@ -27,79 +27,21 @@ class List extends React.Component {
   };
 
   // eslint-disable-next-line consistent-return
-  handleSimilarProductIncrement = async (item) => {
-    try {
-      if (this.props.isLogged) {
-        // eslint-disable-next-line no-lonely-if
-        if (item.cd) {
-          const result = await this.props.incrementProductRemotely({
-            skucd: item.cd,
-            qty: item.addminqty || 1,
-            iscart: 0,
-          });
-
-          if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
-          }
-        } else if (item.recipeid) {
-          const result = await this.props.incrementRecipeProductsRemotely({
-            recipeid: item.recipeid,
-          });
-
-          if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
-          }
-
-          if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message => this.handleNotify(message));
-          }
-        } else if (item.id) {
-          const result = await this.props.incrementPackageProductsRemotely({
-            packageid: item.id,
-          });
-
-          if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
-          }
-
-          if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message => this.handleNotify(message));
-          }
-        } else {
-          //
-        }
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (item.cd) {
-          this.props.incrementProductLocally(item);
-        } else if (item.recipeid) {
-          const result = await this.props.getRecipeProducts({
-            id: item.recipeid,
-          });
-
-          if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
-          }
-
-          this.props.incrementRecipeProductsLocally(result.payload.data);
-        } else if (item.id) {
-          const result = await this.props.getPackageProducts({
-            id: item.id,
-          });
-
-          if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
-          }
-
-          this.props.incrementPackageProductsLocally(result.payload.data.products);
-        } else {
-          //
-        }
+  handleSimilarProductIncrement = async (product) => {
+    if (this.props.isLogged) {
+      const result = await this.props.incrementProductRemotely({
+        skucd: product.cd,
+        qty: product.addminqty || 1,
+        iscart: 0,
+      });
+      if (!result.payload.success) {
+        return this.handleNotify(result.payload.message);
       }
-    } catch (e) {
-      console.log(e);
+    } else {
+      product.insymd = Date.now();
+      this.props.incrementProductLocally(product);
     }
-  }
+  };
 
   // eslint-disable-next-line consistent-return
   handleProductAddToCart = async (product) => {
@@ -107,14 +49,14 @@ class List extends React.Component {
       if (this.props.isLogged) {
         const result = await this.props.increaseProductByQtyRemotely({
           skucd: product.cd,
-          qty: product.qty ? product.qty : (product.saleminqty || 1),
+          qty: product.qty ? product.qty : product.saleminqty || 1,
           iscart: 0,
         });
         if (!result.payload.success) {
           return this.handleNotify(result.payload.message);
         }
       } else {
-        console.log('product: ', product);
+        product.insymd = Date.now();
         this.props.increaseProductByQtyLocally(product);
       }
     } catch (e) {
@@ -140,7 +82,7 @@ class List extends React.Component {
       found.qty = parseInt(e.target.value, 10);
       this.props.updatePackageProductByQtyLocally(found);
     } else {
-      throw new Error('Бараа олдсонгүй!');
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -149,7 +91,7 @@ class List extends React.Component {
     if (this.props.isLogged) {
       products = products.map(prod => ({
         skucd: prod.cd,
-        qty: prod.qty ? prod.qty : (prod.saleminqty || 1),
+        qty: prod.qty ? prod.qty : prod.saleminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
         iscart: 0,
@@ -159,6 +101,10 @@ class List extends React.Component {
         return this.handleNotify(result.payload.message);
       }
     } else {
+      products = products.map(prod => ({
+        ...prod,
+        insymd: Date.now(),
+      }));
       this.props.increasePackageProductsByQtyLocally(products);
     }
   };
@@ -180,7 +126,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderSlider = () => {
     try {
@@ -215,7 +161,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderCk = () => {
     try {
@@ -232,7 +178,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
   renderDelivery = () => {
     try {
       const { info } = this.props;
@@ -249,7 +195,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderSimilarProducts = () => {
     try {
@@ -271,7 +217,9 @@ class List extends React.Component {
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
                   <span>{prod.skunm}</span>
-                  <strong>{formatter.format(prod.sprice || prod.price)}₮</strong>
+                  <strong>
+                    {formatter.format(prod.sprice || prod.price)}₮
+                  </strong>
                 </Link>
                 <div className="action">
                   <button
@@ -295,7 +243,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   handleQtyKeyDown = (product, e) => {
     if (e.key === "Enter") {
@@ -304,12 +252,14 @@ class List extends React.Component {
     }
   };
 
-  handleQtyBlur = (product, e) => { this.changeQty(product, parseInt(e.target.value, 10)); }
+  handleQtyBlur = (product, e) => {
+    this.changeQty(product, parseInt(e.target.value, 10));
+  };
 
   changeQty = (product, targetQty) => {
     product = this.props.onQtyChange(product, targetQty);
     this.findAndReplace(product);
-  }
+  };
 
   findAndReplace = (product) => {
     const { products } = this.state;
@@ -319,116 +269,104 @@ class List extends React.Component {
       tempProducts.splice(i, 1, product);
     }
     this.setState({ products: tempProducts });
-  }
+  };
 
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log('products: ', products);
-      return products && products.map((prod, index) => (
-        <li className="flex-this" key={index}>
-          <div className="image-container default">
-            <Link to={prod.route || ""}>
-              <span
-                className="image"
-                style={{
-                  backgroundImage: `url(${process.env.IMAGE}${prod.img})`,
-                }}
-              />
-            </Link>
-          </div>
-          <div className="info-container">
-            <div className="flex-space">
-              <p className="text col-md-5 col-sm-5">
-                <Link
-                  to={prod.route || ""}
-                  style={{ color: "#666" }}
-                >
-                  <span>{prod.name}</span>
-                  <strong>{formatter.format(this.getPrice(prod))}₮</strong>
-                </Link>
-              </p>
-              <form style={{ width: "130px" }}>
-                <div className="input-group e-input-group">
-                  <div
-                    className="input-group-prepend"
-                    id="button-addon4"
-                  >
-                    <button
-                      className="btn"
-                      type="button"
-                      style={{
-                        color: "rgba(0,0,0,.5)",
-                        textAlign: "center",
-                        backgroundColor: "rgb(204, 204, 204)",
-                        borderTopLeftRadius: "20px",
-                        borderBottomLeftRadius: "20px",
-                        marginRight: "5px",
-                      }}
-                      onClick={() => this.handleDecreaseProductClick(prod)}
-                    >
-                      <i
-                        className="fa fa-minus"
-                        aria-hidden="true"
-                      />
-                    </button>
+      console.log("products: ", products);
+      return (
+        products &&
+        products.map((prod, index) => (
+          <li className="flex-this" key={index}>
+            <div className="image-container default">
+              <Link to={prod.route || ""}>
+                <span
+                  className="image"
+                  style={{
+                    backgroundImage: `url(${process.env.IMAGE}${prod.img})`,
+                  }}
+                />
+              </Link>
+            </div>
+            <div className="info-container">
+              <div className="flex-space">
+                <p className="text col-md-5 col-sm-5">
+                  <Link to={prod.route || ""} style={{ color: "#666" }}>
+                    <span>{prod.name}</span>
+                    <strong>{formatter.format(this.getPrice(prod))}₮</strong>
+                  </Link>
+                </p>
+                <form style={{ width: "130px" }}>
+                  <div className="input-group e-input-group">
+                    <div className="input-group-prepend" id="button-addon4">
+                      <button
+                        className="btn"
+                        type="button"
+                        style={{
+                          color: "rgba(0,0,0,.5)",
+                          textAlign: "center",
+                          backgroundColor: "rgb(204, 204, 204)",
+                          borderTopLeftRadius: "20px",
+                          borderBottomLeftRadius: "20px",
+                          marginRight: "5px",
+                        }}
+                        onClick={() => this.handleDecreaseProductClick(prod)}
+                      >
+                        <i className="fa fa-minus" aria-hidden="true" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={prod.qty ? prod.qty : prod.saleminqty || 1}
+                      name="productQty"
+                      maxLength={5}
+                      onChange={this.handleInputChange(prod)}
+                      /* onKeyDown={this.handleQtyKeyDown(prod)} */
+                      /* onBlur={this.handleQtyBlur(prod)} */
+                    />
+                    <div className="input-group-append" id="button-addon4">
+                      <button
+                        className="btn"
+                        type="button"
+                        style={{
+                          color: "rgba(0,0,0,.5)",
+                          textAlign: "center",
+                          backgroundColor: "rgb(204, 204, 204)",
+                          borderTopRightRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                          marginLeft: "5px",
+                        }}
+                        onClick={() => this.handleIncreaseProductClick(prod)}
+                      >
+                        <i className="fa fa-plus" aria-hidden="true" />
+                      </button>
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={prod.qty ? prod.qty : (prod.saleminqty || 1)}
-                    name="productQty"
-                    maxLength={5}
-                    onChange={this.handleInputChange(prod)}
-                  /* onKeyDown={this.handleQtyKeyDown(prod)} */
-                  /* onBlur={this.handleQtyBlur(prod)} */
-                  />
-                  <div
-                    className="input-group-append"
-                    id="button-addon4"
+                </form>
+                <div className="action">
+                  <button
+                    className="btn btn-link"
+                    type="button"
+                    onClick={() => this.handleProductAddToCart(prod)}
                   >
-                    <button
-                      className="btn"
-                      type="button"
-                      style={{
-                        color: "rgba(0,0,0,.5)",
-                        textAlign: "center",
-                        backgroundColor: "rgb(204, 204, 204)",
-                        borderTopRightRadius: "20px",
-                        borderBottomRightRadius: "20px",
-                        marginLeft: "5px",
-                      }}
-                      onClick={() => this.handleIncreaseProductClick(prod)}
-                    >
-                      <i
-                        className="fa fa-plus"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </div>
+                    <i
+                      className="fa fa-cart-plus"
+                      aria-hidden="true"
+                      style={{ fontSize: "1.6rem" }}
+                    />
+                  </button>
                 </div>
-              </form>
-              <div className="action">
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  onClick={() => this.handleProductAddToCart(prod)}
-                >
-                  <i
-                    className="fa fa-cart-plus"
-                    aria-hidden="true"
-                    style={{ fontSize: "1.6rem" }}
-                  />
-                </button>
               </div>
             </div>
-          </div>
-        </li>
-      ));
+          </li>
+        ))
+      );
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
@@ -437,8 +375,13 @@ class List extends React.Component {
       return 0;
     }
 
-    return products.reduce((acc, cur) => (acc + (this.getPrice(cur) * (cur.qty ? cur.qty : (cur.saleminqty || 1)))), 0);
-  }
+    return products.reduce(
+      (acc, cur) =>
+        // eslint-disable-next-line no-mixed-operators
+        acc + this.getPrice(cur) * (cur.qty ? cur.qty : cur.saleminqty || 1),
+      0,
+    );
+  };
 
   getPrice = (product) => {
     // eslint-disable-next-line prefer-destructuring
@@ -491,7 +434,10 @@ class List extends React.Component {
           </div>
           <div className="info-container" style={{ float: "right" }}>
             <span>
-              <i>Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор багцаас хасаад сагсанд нэмэх боломжтой.</i>
+              <i>
+                Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор
+                багцаас хасаад сагсанд нэмэх боломжтой.
+              </i>
             </span>
           </div>
         </div>
@@ -499,7 +445,7 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
   render() {
     return (
       <div className="section">
@@ -525,8 +471,13 @@ class List extends React.Component {
                 {this.props.images === undefined ? null : this.renderSlider()}
                 <div style={{ height: "30px" }} />
                 {this.props.info === undefined ? null : this.renderCk()}
-                <div className="pack-product-container" style={{ marginTop: "30px" }}>
-                  {this.props.packageDetail === undefined ? null : this.renderCartInfo()}
+                <div
+                  className="pack-product-container"
+                  style={{ marginTop: "30px" }}
+                >
+                  {this.props.packageDetail === undefined
+                    ? null
+                    : this.renderCartInfo()}
                 </div>
               </div>
               <div className="col-md-3 pad10">
@@ -537,7 +488,9 @@ class List extends React.Component {
                       <strong>Ижил бараа</strong>
                     </p>
                     <ul className="list-unstyled">
-                      {this.props.packageDetail === undefined ? null : this.renderSimilarProducts()}
+                      {this.props.packageDetail === undefined
+                        ? null
+                        : this.renderSimilarProducts()}
                     </ul>
                   </div>
                 </div>

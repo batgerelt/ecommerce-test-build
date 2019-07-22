@@ -6,6 +6,7 @@ import {
   Cart as CartModel,
   Auth as AuthModel,
   Static as StaticModel,
+  Profile as ProfileModel,
 } from "../../models";
 import List from "./list";
 
@@ -13,6 +14,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.cart,
   ...state.static,
+  ...state.profile,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -20,6 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...AuthModel,
     ...CartModel,
     ...StaticModel,
+    ...ProfileModel,
   }, dispatch),
 });
 

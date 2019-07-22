@@ -23,6 +23,9 @@ class Model extends BaseModel {
     epointCardInfo: {},
     connectEpoint: {},
     zoneSettingDate: [],
+    checkProductZone: [],
+    basketNewProducts: [],
+    sendOrder: [],
   }
 
   constructor(data = {}) {
@@ -64,6 +67,21 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'zoneSettingDate'),
           error: this.buildActionName('error', data.model, 'zoneSettingDate'),
         },
+        checkProductZone: {
+          request: this.buildActionName('request', data.model, 'checkProductZone'),
+          response: this.buildActionName('response', data.model, 'checkProductZone'),
+          error: this.buildActionName('error', data.model, 'checkProductZone'),
+        },
+        deleteBasketNewProducts: {
+          request: this.buildActionName('request', data.model, 'deleteBasketNewProducts'),
+          response: this.buildActionName('response', data.model, 'deleteBasketNewProducts'),
+          error: this.buildActionName('error', data.model, 'deleteBasketNewProducts'),
+        },
+        sendOrder: {
+          request: this.buildActionName('request', data.model, 'sendOrder'),
+          response: this.buildActionName('response', data.model, 'sendOrder'),
+          error: this.buildActionName('error', data.model, 'sendOrder'),
+        },
       };
     }
     this.checkEpointPinModel = {
@@ -81,6 +99,15 @@ class Model extends BaseModel {
   getEpointCardInfo = () => asyncFn({ url: `/customer/card`, method: 'GET', model: this.model.epointCardInfo });
   checkEpointPin = ({ cardno, pincode } = {}) => asyncFn({ url: `/customer/card/pin/${cardno}/${pincode}`, method: 'POST', model: this.checkEpointPinModel });
   getZoneSettings = ({ locid, deliverytype } = {}) => asyncFn({ url: `/checkout/deliverydate/${locid}/${deliverytype}`, method: 'GET', model: this.model.zoneSettingDate });
+  getCheckProductZone = ({ body, locid } = {}) => asyncFn({
+    body, url: `/checkout/checkproductszone/${locid}`, method: 'POST', model: this.model.checkProductZone,
+  });
+  deleteBasket = ({ body }) => asyncFn({
+    body, url: `/basket/delete/list`, method: 'DELETE', model: this.model.deleteBasketNewProducts,
+  });
+  sendCheckoutOrder = ({ body } = {}) => asyncFn({
+    body, url: `/order`, method: 'POST', model: this.model.sendOrder,
+  });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET CART BANK INFO
@@ -138,6 +165,30 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.zoneSettingDate.response:
         return { ...state, zoneSettingDate: action.payload.data };
+
+      // CHECK PRODUCT ZONE
+      case this.model.checkProductZone.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.checkProductZone.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.checkProductZone.response:
+        return { ...state, checkProductZone: action.payload };
+
+      // DELETE BASKET GET NEW PRODUCT
+      case this.model.deleteBasketNewProducts.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.deleteBasketNewProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.deleteBasketNewProducts.response:
+        return { ...state, deleteBasketNewProducts: action.payload };
+
+      // SEND ORDER
+      case this.model.sendOrder.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.sendOrder.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.sendOrder.response:
+        return { ...state, sendOrder: action.payload };
 
       // CHECK EPOINT PIN MODEL
       case this.checkEpointPinModel.request:

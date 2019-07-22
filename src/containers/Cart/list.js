@@ -21,7 +21,7 @@ class Cart extends React.Component {
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
-      position: 'top-center',
+      position: "top-center",
       progressClassName: css({
         background: "#feb415",
       }),
@@ -61,7 +61,7 @@ class Cart extends React.Component {
         this.props.removeProductLocally(product);
       }
     } else {
-      throw new Error('Бараа олдсонгүй!');
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -87,7 +87,7 @@ class Cart extends React.Component {
         this.props.updateProductByQtyLocally(found);
       }
     } else {
-      throw new Error('Бараа олдсонгүй!');
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -111,7 +111,7 @@ class Cart extends React.Component {
         this.props.incrementProductLocally(found);
       }
     } else {
-      throw new Error('Бараа олдсонгүй!');
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -122,9 +122,10 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
       if (this.props.isLogged) {
-        const productQty = found.qty - found.addminqty < found.saleminqty
-          ? found.saleminqty
-          : found.qty - found.addminqty;
+        const productQty =
+          found.qty - found.addminqty < found.saleminqty
+            ? found.saleminqty
+            : found.qty - found.addminqty;
         const result = await this.props.decrementProductRemotely({
           skucd: found.cd,
           qty: productQty,
@@ -137,7 +138,7 @@ class Cart extends React.Component {
         this.props.decrementProductLocally(found);
       }
     } else {
-      throw new Error('Бараа олдсонгүй!');
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -175,11 +176,15 @@ class Cart extends React.Component {
   };
 
   renderUnitPrice = (product) => {
+    console.log("product: ", product);
     if (product.sprice) {
       if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
         return (
           <p className="price">
-            <strong>{formatter.format(this.getUnitPrice(product).sprice)}₮</strong>
+            <strong>
+              {formatter.format(this.getUnitPrice(product).sprice)}₮
+            </strong>
+            <br />
             {product.kgproduct[0].salegram && (
               <span
                 style={{
@@ -196,7 +201,9 @@ class Cart extends React.Component {
 
       return (
         <p className="price">
-          <strong>{formatter.format(this.getUnitPrice(product).sprice)}₮</strong>
+          <strong>
+            {formatter.format(this.getUnitPrice(product).sprice)}₮
+          </strong>
           <br />
           <span
             style={{
@@ -244,7 +251,8 @@ class Cart extends React.Component {
 
   renderTotalPrice = (product = null) => {
     if (product) {
-      const price = this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
+      const price =
+        this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
 
       return (
         <p className="price total">
@@ -255,10 +263,77 @@ class Cart extends React.Component {
 
     const { products } = this.props;
 
-    return products && products.reduce((acc, cur) => {
-      const unitPrice = this.getUnitPrice(cur).sprice || this.getUnitPrice(cur).price;
-      return acc + (unitPrice * cur.qty);
-    }, 0);
+    return (
+      products &&
+      products.reduce((acc, cur) => {
+        const unitPrice =
+          this.getUnitPrice(cur).sprice || this.getUnitPrice(cur).price;
+        // eslint-disable-next-line no-mixed-operators
+        return acc + unitPrice * cur.qty;
+      }, 0)
+    );
+  };
+
+  renderWishlistProducts = () => {
+    if (!this.props.isLogged) {
+      return null;
+    }
+
+    const wishlistProducts = this.props.wish;
+
+    return (
+      wishlistProducts &&
+      wishlistProducts.length > 0 && (
+        <div className="block fav-products">
+          <p className="title">
+            <strong>Хадгалсан бараа</strong>
+          </p>
+          <ul className="list-unstyled">
+            {wishlistProducts.map((wishlistProd, index) => (
+              <li className="flex-this" key={index}>
+                <div className="image-container default">
+                  <a href="#">
+                    <span
+                      className="image"
+                      style={{
+                        backgroundImage: `url(${process.env.IMAGE}${
+                          wishlistProd.img
+                        })`,
+                      }}
+                    />
+                  </a>
+                </div>
+                <div className="info-container">
+                  <div className="flex-space">
+                    <a href="#">
+                      <div className="text">
+                        <span>{wishlistProd.skunm}</span>
+                        <strong>
+                          {wishlistProd.sprice
+                            ? wishlistProd.sprice
+                            : wishlistProd.price
+                            ? wishlistProd.price
+                            : 0}
+                          ₮
+                        </strong>
+                      </div>
+                    </a>
+                    <a href="#">
+                      <div className="action">
+                        <i className="fa fa-cart-plus" aria-hidden="true" />
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <a href="#" className="btn btn-gray btn-block">
+            <span className="text-uppercase">Бүх барааг үзэх</span>
+          </a>
+        </div>
+      )
+    );
   };
 
   renderContent = () => {
@@ -273,6 +348,7 @@ class Cart extends React.Component {
       );
 
       if (products && products.length > 0) {
+        products.sort((a, b) => b.insymd - a.insymd);
         content = (
           <table className="table table-borderless">
             <thead className="thead-light">
@@ -303,7 +379,9 @@ class Cart extends React.Component {
                           <span
                             className="image"
                             style={{
-                              backgroundImage: `url(${process.env.IMAGE}${prod.img || ""})`,
+                              backgroundImage: `url(${
+                                process.env.IMAGE
+                              }${prod.img || ""})`,
                             }}
                           />
                         </Link>
@@ -339,8 +417,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                        // onKeyDown={this.handleQtyKeyDown(prod)}
-                        // onBlur={this.handleQtyBlur(prod)}
+                          // onKeyDown={this.handleQtyKeyDown(prod)}
+                          // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -386,7 +464,7 @@ class Cart extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   render() {
     const { products } = this.props;
@@ -416,7 +494,9 @@ class Cart extends React.Component {
                     </button>
                   </div>
                 </div>
-                <div className="cart-table table-responsive">{this.renderContent()}</div>
+                <div className="cart-table table-responsive">
+                  {this.renderContent()}
+                </div>
               </div>
               <div className="col-xl-4 col-lg-4 pad10">
                 <div className="cart-info">
@@ -445,12 +525,13 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                        }`}
+                      }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>
                   </div>
-                  {/* {this.renderWishlistProducts()} */}
+
+                  {this.renderWishlistProducts()}
                 </div>
               </div>
             </div>

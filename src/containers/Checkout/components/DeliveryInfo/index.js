@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable array-callback-return */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-danger */
@@ -5,10 +7,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Checkbox, Modal, Button } from "antd";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { Static as StaticModel } from "../../../../models";
+import { SwalModals } from "../";
 
 const formatter = new Intl.NumberFormat("en-US");
-
+const MySwal = withReactContent(Swal);
 const mapStateToProps = state => ({
   ...state.staticcontent,
 });
@@ -29,6 +34,10 @@ class DeliveryInfo extends React.Component {
     agreementData: [],
     chosenInfo: {},
     chosenType: {},
+    totalPrice: 0,
+    totalQty: 0,
+    ePointData: [],
+    organizationData: [],
   };
 
   checkError = (value) => {
@@ -40,7 +49,10 @@ class DeliveryInfo extends React.Component {
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
-
+  componentWillMount() {
+    const { products } = this.props.props;
+    this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
+  }
   setModal2Visible = (modal2Visible) => {
     this.setState({ modal2Visible });
   }
@@ -52,6 +64,42 @@ class DeliveryInfo extends React.Component {
   setDeliveryType = (value) => {
     this.setState({ chosenType: value });
   }
+
+  setIndividualData = (value) => {
+    this.setState({ ePointData: value });
+  }
+
+  setOrganizationData = (value) => {
+    this.setState({ organizationData: value });
+  }
+
+  getPrice = (product) => {
+    let price = product.price;
+    if (product.issalekg && product.kgproduct !== undefined) {
+      price = product.kgproduct[0].salegramprice;
+    }
+
+    if (product.spercent && product.spercent !== 100 && !product.issalekg) {
+      price = product.sprice;
+    }
+
+    return price;
+  };
+
+  getTotalQty = (products) => {
+    let qty = 0;
+    if (products.length !== 0) {
+      products.map((item, i) => {
+        qty += item.qty;
+      });
+    }
+    return qty;
+  }
+
+  getTotalPrice = products => products.reduce(
+    (acc, cur) => (acc + (this.getPrice(cur) * (cur.qty ? cur.qty : (cur.saleminqty || 1)))),
+    0,
+  );
 
   handleScroll = () => {
     let calcBottom =
@@ -83,14 +131,177 @@ class DeliveryInfo extends React.Component {
     });
   }
 
-  handleChange = () => {
-    this.props.DeliveryPanel.handleGetValue();
+  generateNoat = (total, deliver, usedpoint) => {
+    let value = 0;
+    if (deliver !== undefined) {
+      // eslint-disable-next-line no-mixed-operators
+      value = ((total + deliver - usedpoint) / 110) * 10;
+    } else {
+      value = ((total - usedpoint) / 110) * 10;
+    }
+    return value.toFixed(2);
+  };
+
+  handleSubmit = (e) => {
+    const {
+      userinfo, DeliveryInfo, PaymentTypePanel, DeliveryPanel, products,
+    } = this.props;
+    const { organizationData, ePointData } = this.state;
+    if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
+      MySwal.showLoading();
+      let tmp = {};
+      tmp.custId = userinfo.info.id;
+      tmp.deliveryTypeId = DeliveryInfo.state.chosenType.id;
+      tmp.custName = DeliveryPanel.state.chosenAddress.name;
+      tmp.custAddressId = DeliveryPanel.state.chosenAddress.id;
+      tmp.phone1 = DeliveryPanel.state.chosenAddress.phone1;
+      tmp.phone2 = DeliveryPanel.state.chosenAddress.phone2;
+      tmp.paymentType = PaymentTypePanel.state.chosenPaymentType.id;
+      tmp.addPoint = 0;
+      tmp.deliveryDate = DeliveryPanel.state.zoneSetting.date;
+      tmp.usedPoint = 0;
+      tmp.items = products;
+      tmp.locId = DeliveryPanel.state.chosenAddress.locid;
+      tmp.custAddress =
+        `${DeliveryPanel.state.chosenAddress.provincenm},
+        ${DeliveryPanel.state.chosenAddress.districtnm}, 
+        ${DeliveryPanel.state.chosenAddress.committeenm}, 
+        ${DeliveryPanel.state.chosenAddress.address}`;
+      if (organizationData.length === 0) {
+        tmp.taxRegno = "";
+        tmp.taxName = "";
+      } else {
+        tmp.taxRegno = organizationData.regno;
+        tmp.taxName = organizationData.name;
+      }
+      this.sendPayment(tmp);
+    }
   }
 
+  sendPayment = (tmp) => {
+    const { PaymentTypePanel } = this.props;
+    let data; let type;
+    this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
+      MySwal.close();
+      if (res.payload.success) {
+        if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
+          type = "msgBank";
+          data = this.props.bankInfo;
+          this.openLastModal(type, data, res.payload.data);
+        }
+
+        if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
+          type = "qpay";
+          this.openLastModal(type, [], res.payload.data);
+        }
+
+        if (PaymentTypePanel.state.chosenPaymentType.id === 1) {
+          let mapForm = document.createElement("form");
+          mapForm.target = "_self";
+          mapForm.method = "POST";
+          mapForm.action = res.payload.data.url.url;
+
+          let keyNumber = document.createElement("input");
+          keyNumber.type = "hidden";
+          keyNumber.name = "key_number";
+          keyNumber.value = res.payload.data.url.key_number;
+
+          let transNumber = document.createElement("input");
+          transNumber.type = "hidden";
+          transNumber.name = "trans_number";
+          transNumber.value = res.payload.data.url.trans_number;
+
+          let trans_amount = document.createElement("input");
+          trans_amount.type = "hidden";
+          trans_amount.name = "trans_amount";
+          trans_amount.value = res.payload.data.url.trans_amount;
+
+          let time = document.createElement("input");
+          time.type = "hidden";
+          time.name = "time";
+          time.value = res.payload.data.url.time;
+
+          let lang_ind = document.createElement("input");
+          lang_ind.type = "hidden";
+          lang_ind.name = "lang_ind";
+          lang_ind.value = res.payload.data.url.lang_ind;
+
+          mapForm.appendChild(keyNumber);
+          mapForm.appendChild(transNumber);
+          mapForm.appendChild(trans_amount);
+          mapForm.appendChild(time);
+          mapForm.appendChild(lang_ind);
+
+          document.body.appendChild(mapForm);
+
+          let map = window.open(res.payload.data.url.url, "_self", "");
+
+          if (map) {
+            mapForm.submit();
+          } else {
+            console.log('error');
+          }
+        }
+      }
+    });
+  }
+
+  openLastModal = (type, data, ordData) => {
+    MySwal.fire({
+      html: (
+        <SwalModals
+          type={type}
+          dataValue={data}
+          ordData={ordData}
+          readyBtn={this.handlePayment}
+          onRef={ref => (this.SwalModals = ref)}
+          {...this}
+          {...this.props}
+        />
+      ),
+      width: type === "qpay" ? "30em" : "40em",
+      animation: true,
+      button: false,
+      showCloseButton: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      closeOnEsc: false,
+    });
+  };
+
+  handlePayment = (e, item, ordData, type) => {
+    e.preventDefault();
+    MySwal.fire({
+      html: (
+        <SwalModals
+          type={"paymentSuccess"}
+          paymentType={type}
+          chosenBankInfo={item}
+          ordData={ordData}
+          onRef={ref => (this.SwalModals = ref)}
+          {...this}
+          {...this.props}
+        />
+      ),
+      width: "40em",
+      button: false,
+      animation: true,
+      showCloseButton: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      closeOnEsc: false,
+    });
+  };
+
   render() {
-    const { checkedAgreement, chosenInfo, chosenType } = this.state;
-    const { staticpage } = this.props;
-    // console.log(this.props.userinfo.info, "infoprops");
+    const {
+      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty,
+    } = this.state;
+    const { staticpage, state } = this.props;
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
@@ -98,7 +309,7 @@ class DeliveryInfo extends React.Component {
           <p className="title">
             <strong>
               {
-                this.props.userinfo !== undefined && this.props.userinfo !== null ?
+                this.props.userinfo !== undefined && this.props.userinfo !== null && this.props.userinfo.length !== 0 ?
                   `${this.props.userinfo.info.lastname} ${this.props.userinfo.info.firstname}`
                   : ""
               }
@@ -152,8 +363,8 @@ class DeliveryInfo extends React.Component {
               <strong>Төлөх дүн</strong>
             </p>
             <p className="text flex-space">
-              <span>Бараа ():</span>
-              <strong>₮</strong>
+              <span>Бараа ({totalQty}):</span>
+              <strong>{formatter.format(totalPrice)}₮</strong>
             </p>
             <p className="text flex-space">
               <span>Хүргэлтийн үнэ:</span>
@@ -166,11 +377,11 @@ class DeliveryInfo extends React.Component {
             <hr />
             <p className="text flex-space">
               <span>Нийт дүн:</span>
-              <strong>₮</strong>
+              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0))}₮</strong>
             </p>
             <p className="text flex-space">
               <span>НӨАТ:</span>
-              <strong>₮</strong>
+              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price, 0))}₮</strong>
             </p>
             <Checkbox onChange={this.handleAgreement}>
               {" "}
@@ -178,7 +389,7 @@ class DeliveryInfo extends React.Component {
                 <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл</span>
               </a>
             </Checkbox>
-            <button className="btn btn-main btn-block" onClick={this.handleChange}>
+            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={(checkedAgreement && state.paymentType && state.deliveryType)}>
               <span className="text-uppercase">Тооцоо хийх</span>
             </button>
           </div>
@@ -191,18 +402,6 @@ class DeliveryInfo extends React.Component {
           wrapClassName="vertical-center-modal"
           footer={false}
           onCancel={e => this.setModal2Visible(false)}
-        /*  footer={
-          [
-              <button
-          style={}
-            key="submit"
-            className="btn btn-main btn-block"
-            onClick={() => this.setModal2Visible(false)}
-          >
-            Зөвшөөрөх
-          </button>
-          ]
-        } */
         >
           <div className="frame" id="scroll-tst">
             <div className="scroll">

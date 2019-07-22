@@ -33,6 +33,7 @@ const mapDispatchToProps = dispatch => ({
 class Page extends React.Component {
   state = {
     loading: true,
+    loadingType: true,
   }
   componentWillMount() {
     let auth = JSON.parse(localStorage.getItem("auth"));
@@ -53,7 +54,7 @@ class Page extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, loadingType } = this.state;
     return (
       <Spin
         spinning={loading}

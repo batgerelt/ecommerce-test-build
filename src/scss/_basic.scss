@@ -1996,6 +1996,7 @@ form {
   .card {
     border: none;
     border-radius: 0;
+    cursor: pointer;
   }
   .card-header {
     border: none;
@@ -2890,11 +2891,15 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .radio-button-container:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: #eee;
 }
 
 .radio-button-container input:checked ~ .checkmark {
   background-color: #feb415;
+}
+
+.radio-card:hover{
+  box-shadow: inset 0 0 0 1px #feb415 !important;
 }
 
 .checkmark:after {
@@ -2916,6 +2921,17 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   background: white;
 }
 
+.swal2-icon.swal2-warning {
+  border-color: #ffb200;
+  color: #ffb200;
+}
+
+.button-container{
+  padding-top: 2em;
+  padding-right: 3em;
+  padding-left: 3em;
+}
+
 .swal2-icon.swal2-error {
   width: 35px !important;
   height: 35px !important;
@@ -2927,6 +2943,17 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   left: 0.2rem !important;
   width: 1.7375em !important;
   height: 0.2125em !important;
+}
+
+.swal2-icon{
+  box-sizing: inherit;
+  width: 3em;
+  height: 3em;
+  margin: 0;
+}
+
+.swal2-icon::before{
+  font-size: 1.75em;
 }
 
 .swal2-title {
@@ -3098,7 +3125,11 @@ textarea:focus {
   border:1px solid #ffb200 !important;
 }
 
-input:focus {
+.ant-input:focus {
   outline: none !important;
   border:1px solid #ffb200 !important;
+}
+
+.ant-back-top-content{
+  background-color: #ffb200 !important;
 }
