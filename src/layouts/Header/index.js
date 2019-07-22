@@ -129,18 +129,16 @@ class AppHeader extends Component {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-6 col-md-6 d-none d-md-block  pad10">
-                <div className="text-right">
-                  <ul className="list-inline right-panel" style={{ boxShadow: 'none' }}>
-                    <li className="list-inline-item" style={{ boxShadow: 'none' }}>
-                      <select onChange={this.props.setLang} className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
-                        <option value="mn" defaultValue style={{ boxShadow: 'none' }}>МОН</option>
-                        <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
-                      </select>
-                    </li>
-                    <UserButton {...this.props} />
-                  </ul>
-                </div>
+              <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
+                <ul className="list-inline right-panel text-right" style={{ boxShadow: 'none' }}>
+                  <li className="list-inline-item">
+                    <select onChange={this.props.setLang} className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
+                      <option value="mn" defaultValue style={{ boxShadow: 'none' }}>МОН</option>
+                      <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
+                    </select>
+                  </li>
+                  <UserButton {...this.props} />
+                </ul>
               </div>
             </div>
           </div>

@@ -18,6 +18,7 @@ import {
   UserAddress,
   UserPassword,
 } from "./Component";
+import style from "./style.less";
 
 class List extends React.Component {
   handleChange = ({ fileList }) => {
@@ -38,7 +39,7 @@ class List extends React.Component {
     });
   };
   renderName(info) {
-    return <span>{info.firstname} {info.lastname}</span>;
+    return <strong><span style={{ padding: '21px', position: 'absolute' }}>{info.firstname} {info.lastname}</span></strong>;
   }
 
   handleLogout = () => {
@@ -48,8 +49,9 @@ class List extends React.Component {
   renderImage = () => {
     try {
       const { userInfo } = this.props;
+      const realImage = JSON.stringify(process.env.IMAGES + userInfo.info.imgnm);
       return (
-        <Avatar size="large" src={userInfo.info.imgnm === null ? upload : `${process.env.IMAGES}${this.props.userInfo.info.imgnm}`} />
+        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
       );
     } catch (error) {
       return console.log(error);
@@ -61,21 +63,24 @@ class List extends React.Component {
     match.path = "/profile";
     return (
       <div className="section section-gray">
-        <div className="container pad10">
+        <div className="container">
           <div className="user-section">
             <div className="user-section-container">
-              <div className="row row10">
-                <div className="col-md-4 pad10">
+              <div className="row">
+                <div className="col-md-4 d-none d-md-block">
                   <div className="profile-menu">
                     <div className="menu-header">
-                      <Upload className="avatar-upload" accept={".jpg,.png,.jpeg,.gif"} action="//jsonplaceholder.typicode.com/posts/" showUploadList={false} onChange={this.handleChange}>
-                        <div className="flex-this">
+                      <Upload className={style.avatarupload} accept={".jpg,.png,.jpeg,.gif"} action="//jsonplaceholder.typicode.com/posts/" showUploadList={false} onChange={this.handleChange}>
+                        <div className={style.avatarpreview}>
                           {this.props.userInfo === undefined ? null : this.renderImage()}
-                          <p className="name">{this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}</p>
                         </div>
                       </Upload>
-                      <p className="text text-right" style={{ marginBottom: "-3px" }} >Таны мэдээлэл</p>
-                      <Progress percent={50} strokeColor="#feb415" />
+                      {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
+                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-12px" }} >Таны мэдээлэл</p>
+                      <div>
+                        <Progress percent={50} strokeColor="#feb415" showInfo={false} style={{ width: "78%", fontSize: "16px" }} />
+                        <span>50% / 100%</span>
+                      </div>
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                       <li>

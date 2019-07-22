@@ -87,19 +87,6 @@ class Component extends React.Component {
               </Button>
             </Form.Item>
           </Col>
-
-          {/* <div className="col-xl-12" style={{ marginBottom: "-9px" }}>
-            <div className="form-group">
-              <div className="text-right">
-                <button
-                  className="btn btn-dark"
-                  onClick={this.handleSubmit}
-                >
-                  <span className="text-uppercase">Хадгалах</span>
-                </button>
-              </div>
-            </div>
-          </div> */}
         </Form>
       );
     } catch (error) {

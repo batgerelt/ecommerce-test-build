@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -12,12 +13,12 @@ class List extends React.Component {
           <td>
             <div className="flex-this">
               <div className="image-container default">
-                <a href={item.route}>
+                <Link to={item.route}>
                   <span
                     className="image"
                     style={{ backgroundImage: `url(${process.env.IMAGE}${item.img})` }}
                   />
-                </a>
+                </Link>
               </div>
               <div className="info-container">
                 <strong>{item.name}</strong>
