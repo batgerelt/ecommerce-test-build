@@ -33,6 +33,8 @@ class DeliveryPanel extends React.Component {
     noAddress: false,
     inzone: 0,
     zoneSetting: null,
+    chosenDate: null,
+    dateLoading: false,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -94,7 +96,6 @@ class DeliveryPanel extends React.Component {
 
   onChangeLoc = (e) => {
     const { addrs } = this.props.userinfo;
-    const { inzone } = this.state;
     let found = addrs.find(item => item.id === e);
     this.setState({ selectLoading: true });
     this.props.getDistrictAndCommitte({ id: found.id }).then((res) => {
@@ -103,23 +104,24 @@ class DeliveryPanel extends React.Component {
       }
       this.setState({ selectLoading: false });
     });
-    if (found.inzone === 1 && inzone === 0) {
-      this.getZoneSetting(found);
-    }
+    this.getZoneSetting(found);
     this.setFieldsValue(found);
     this.setState({ chosenAddress: found, inzone: found.inzone });
   }
 
   getZoneSetting = (found) => {
-    const { defaultActiveKey } = this.state;
+    this.setState({ dateLoading: true });
+    const { defaultActiveKey, inzone } = this.state;
+    // if (found.inzone === 1 && inzone === 0) {
     let locid = found.locid;
     let deliverytype = defaultActiveKey;
     this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
+      this.setState({ dateLoading: false });
       if (res.payload.success) {
-        console.log(res);
-        this.setState({ zoneSetting: res.payload.data });
+        this.setState({ zoneSetting: res.payload.data, chosenDate: res.payload.data.date });
       }
     });
+    // }
   }
 
   setFieldsValue = (value) => {
@@ -176,11 +178,12 @@ class DeliveryPanel extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { products } = this.props;
+    const { products, userinfo } = this.props;
     const { chosenAddress, addresstype } = this.state;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let body = {};
+        body.id = chosenAddress.id;
         body.custid = 1;
         body.locid = chosenAddress.locid;
         body.address = values.address;
@@ -190,12 +193,10 @@ class DeliveryPanel extends React.Component {
         if (addresstype === "new") {
           this.props.addAddress({ body }).then((res) => {
             if (res.payload.success) {
-              chosenAddress.newLocId = res.payload.data;
+              chosenAddress.id = res.payload.data;
+              body.id = res.payload.data;
               this.setState({ chosenAddress });
-              /* this.setState({ chosenAddress: main });
-              this.getDistrict(main.provinceid, false);
-              this.getCommitte(main.provinceid, main.districtid, false); */
-              message.success(res.payload.message);
+              this.props.getUserInfo({ custid: userinfo.info.id });
             } else {
               message.error(res.payload.message);
             }
@@ -204,9 +205,10 @@ class DeliveryPanel extends React.Component {
         body.provincenm = chosenAddress.provincenm;
         body.districtnm = chosenAddress.districtnm;
         body.committeenm = chosenAddress.committeenm;
-        this.props.DeliveryInfo.handleGetValue(body);
+        this.props.DeliveryInfo.handleGetValue(body, this.state.chosenDate);
         if (products.length !== 0) {
-          MySwal.showLoading();
+          this.props.changeLoading(true);
+          // MySwal.showLoading();
           // eslint-disable-next-line prefer-destructuring
           let locid = this.state.chosenAddress.locid;
           let tmp = [];
@@ -218,7 +220,8 @@ class DeliveryPanel extends React.Component {
             tmp.push(it);
           });
           this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
-            MySwal.close();
+            // MySwal.close();
+            this.props.changeLoading(false);
             if (res.payload.success) {
               this.props.changeDeliveryType();
               this.props.callback("3");
@@ -276,15 +279,16 @@ class DeliveryPanel extends React.Component {
 
   disabledDate = (current) => {
     const { zoneSetting } = this.state;
-    let currentDate = moment(current, "YYYY-MM-DD").format("YYYY-MM-DD");
-    let tmp = current < moment().endOf("day");
+    let currentDateMill = moment(current, "YYYY-MM-DD").valueOf();
+    let tmp = false;
     if (zoneSetting !== null) {
+      tmp = moment(zoneSetting.date, "YYYY-MM-DD").valueOf() > currentDateMill;
       zoneSetting.restDays.find((item) => {
-        if (moment(item.restdate, "YYYY-MM-DD").format("YYYY-MM-DD") === currentDate) {
+        if (moment(item.restdate, "YYYY-MM-DD").valueOf() === currentDateMill) {
           tmp = true;
         }
       });
-      if ((moment(zoneSetting.date, "YYYY-MM-DD").add(30, 'days').format("YYYY-MM-DD") <= currentDate)) {
+      if (moment(zoneSetting.date, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
         tmp = true;
       }
     }
@@ -292,9 +296,7 @@ class DeliveryPanel extends React.Component {
   };
 
   dateStringChange = (date, datestring) => {
-    let tmp = this.state.zoneSetting;
-    tmp.date = datestring;
-    this.setState({ zoneSetting: tmp });
+    this.setState({ chosenDate: datestring });
   }
 
   handleGetValue = () => { return console.log('DeliveryPanel'); }
@@ -325,6 +327,7 @@ class DeliveryPanel extends React.Component {
           chosenAddress.phone1 = "";
           chosenAddress.phone2 = "";
           this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts }, () => {
+            this.getZoneSetting(chosenAddress);
             this.setState({ chosenAddress });
           });
         }
@@ -343,7 +346,7 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, zoneSetting,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading,
     } = this.state;
     const {
       deliveryTypes,
@@ -513,11 +516,12 @@ class DeliveryPanel extends React.Component {
                       format="YYYY-MM-DD"
                       showTime={false}
                       placeholder="Огноо сонгох"
-                      value={zoneSetting === null ? moment("2019-07-16", "YYYY-MM-DD") : moment(zoneSetting.date, "YYYY-MM-DD")}
+                      value={chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : moment(chosenDate, "YYYY-MM-DD")}
                       allowClear={false}
                       onChange={(date, dateString) =>
                         this.dateStringChange(date, dateString)
                       }
+                      disabled={dateLoading}
                       disabledDate={this.disabledDate}
                     />
                   </div>

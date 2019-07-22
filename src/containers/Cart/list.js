@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -292,45 +293,45 @@ class Cart extends React.Component {
             {wishlistProducts.map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
-                  <a href="#">
+                  <Link to="">
                     <span
                       className="image"
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div className="info-container">
                   <div className="flex-space">
-                    <a href="#">
+                    <Link to="">
                       <div className="text">
                         <span>{wishlistProd.skunm}</span>
                         <strong>
                           {wishlistProd.sprice
                             ? wishlistProd.sprice
                             : wishlistProd.price
-                            ? wishlistProd.price
-                            : 0}
+                              ? wishlistProd.price
+                              : 0}
                           ₮
                         </strong>
                       </div>
-                    </a>
-                    <a href="#">
+                    </Link>
+                    <Link to="">
                       <div className="action">
                         <i className="fa fa-cart-plus" aria-hidden="true" />
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-          <a href="#" className="btn btn-gray btn-block">
+          <Link to="" className="btn btn-gray btn-block">
             <span className="text-uppercase">Бүх барааг үзэх</span>
-          </a>
+          </Link>
         </div>
       )
     );
@@ -381,7 +382,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || ""})`,
+                                }${prod.img || ""})`,
                             }}
                           />
                         </Link>
@@ -417,8 +418,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -525,7 +526,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>

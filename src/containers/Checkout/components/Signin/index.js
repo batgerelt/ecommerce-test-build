@@ -57,6 +57,7 @@ class Signin extends React.Component {
                   <Input
                     type="text"
                     placeholder="Имэйл*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -72,6 +73,7 @@ class Signin extends React.Component {
                 })(
                   <Input.Password
                     placeholder="Нууц үг*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
