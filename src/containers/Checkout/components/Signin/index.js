@@ -20,7 +20,7 @@ class Signin extends React.Component {
         this.props.login({ body: { ...values } }).then((r) => {
           if (r.payload.success) {
             localStorage.setItem('auth', JSON.stringify(r.payload));
-            this.props.getUserInfo({ id: r.payload.data[0].info.customerInfo.id }).then((res) => {
+            this.props.getUserInfo().then((res) => {
               if (res.payload.success) {
                 if (res.payload.data.main !== null) {
                   this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
@@ -57,6 +57,7 @@ class Signin extends React.Component {
                   <Input
                     type="text"
                     placeholder="Имэйл*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -72,6 +73,7 @@ class Signin extends React.Component {
                 })(
                   <Input.Password
                     placeholder="Нууц үг*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}

@@ -19,6 +19,17 @@ class Component extends React.Component {
       message.success(res.payload.message);
     });
   }
+  handleIncrement = (item) => {
+    if (item.cd) {
+      this.props.incrementProductRemotely({
+        skucd: item.cd,
+        qty: item.addminqty || 1,
+        iscart: 0,
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+  }
   renderProducts = () => {
     try {
       const { history } = this.props;
@@ -64,7 +75,7 @@ class Component extends React.Component {
                   <i
                     className="fa fa-cart-plus"
                     aria-hidden="true"
-                  /* onClick={() => this.handleSingleAddToCartClick(item)} */
+                    onClick={() => this.handleIncrement(item)}
                   />
                 </Link>
               </li>

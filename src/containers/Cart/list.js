@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -81,7 +82,6 @@ class Cart extends React.Component {
       }
 
       if (this.props.isLogged) {
-        console.log("found.qty: ", found.qty);
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.cd,
           qty: found.qty,
@@ -299,7 +299,7 @@ class Cart extends React.Component {
             {wishlistProducts.map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
-                  <a href="#">
+                  <Link to="">
                     <span
                       className="image"
                       style={{
@@ -308,11 +308,11 @@ class Cart extends React.Component {
                         })`,
                       }}
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div className="info-container">
                   <div className="flex-space">
-                    <a href="#">
+                    <Link to="">
                       <div className="text">
                         <span>{wishlistProd.skunm}</span>
                         <strong>
@@ -324,20 +324,20 @@ class Cart extends React.Component {
                           ₮
                         </strong>
                       </div>
-                    </a>
-                    <a href="#">
+                    </Link>
+                    <Link to="">
                       <div className="action">
                         <i className="fa fa-cart-plus" aria-hidden="true" />
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-          <a href="#" className="btn btn-gray btn-block">
+          <Link to="" className="btn btn-gray btn-block">
             <span className="text-uppercase">Бүх барааг үзэх</span>
-          </a>
+          </Link>
         </div>
       )
     );

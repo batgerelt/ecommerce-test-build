@@ -2829,6 +2829,7 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 .swal2-content {
   font-size: 0.9rem !important;
   margin-bottom: 10px !important;
+  text-align: initial;
 }
 
 .agreement-modal-text {
@@ -2945,15 +2946,15 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   height: 0.2125em !important;
 }
 
-.swal2-icon{
+.swal2-icon.swal2-warning{
   box-sizing: inherit;
-  width: 3em;
-  height: 3em;
+  width: 2em;
+  height: 2em;
   margin: 0;
 }
 
 .swal2-icon::before{
-  font-size: 1.75em;
+  font-size: 1.3em;
 }
 
 .swal2-title {

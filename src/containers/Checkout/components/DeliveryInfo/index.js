@@ -38,6 +38,7 @@ class DeliveryInfo extends React.Component {
     totalQty: 0,
     ePointData: [],
     organizationData: [],
+    chosenDate: null,
   };
 
   checkError = (value) => {
@@ -57,8 +58,8 @@ class DeliveryInfo extends React.Component {
     this.setState({ modal2Visible });
   }
 
-  handleGetValue = (value) => {
-    this.setState({ chosenInfo: value });
+  handleGetValue = (value, zone) => {
+    this.setState({ chosenInfo: value, chosenDate: zone });
   }
 
   setDeliveryType = (value) => {
@@ -144,29 +145,32 @@ class DeliveryInfo extends React.Component {
 
   handleSubmit = (e) => {
     const {
-      userinfo, DeliveryInfo, PaymentTypePanel, DeliveryPanel, products,
+      userinfo, DeliveryInfo, PaymentTypePanel, products,
     } = this.props;
-    const { organizationData, ePointData } = this.state;
+    const {
+      organizationData, ePointData, chosenInfo, chosenDate,
+    } = this.state;
     if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
-      MySwal.showLoading();
+      this.props.changeLoading(true);
+      // MySwal.showLoading();
       let tmp = {};
       tmp.custId = userinfo.info.id;
       tmp.deliveryTypeId = DeliveryInfo.state.chosenType.id;
-      tmp.custName = DeliveryPanel.state.chosenAddress.name;
-      tmp.custAddressId = DeliveryPanel.state.chosenAddress.id;
-      tmp.phone1 = DeliveryPanel.state.chosenAddress.phone1;
-      tmp.phone2 = DeliveryPanel.state.chosenAddress.phone2;
+      tmp.custName = chosenInfo.name;
+      tmp.custAddressId = chosenInfo.id;
+      tmp.phone1 = chosenInfo.phonE1;
+      tmp.phone2 = chosenInfo.phonE2;
       tmp.paymentType = PaymentTypePanel.state.chosenPaymentType.id;
       tmp.addPoint = 0;
-      tmp.deliveryDate = DeliveryPanel.state.zoneSetting.date;
+      tmp.deliveryDate = chosenDate;
       tmp.usedPoint = 0;
       tmp.items = products;
-      tmp.locId = DeliveryPanel.state.chosenAddress.locid;
+      tmp.locId = chosenInfo.locid;
       tmp.custAddress =
-        `${DeliveryPanel.state.chosenAddress.provincenm},
-        ${DeliveryPanel.state.chosenAddress.districtnm}, 
-        ${DeliveryPanel.state.chosenAddress.committeenm}, 
-        ${DeliveryPanel.state.chosenAddress.address}`;
+        `${chosenInfo.provincenm},
+        ${chosenInfo.districtnm}, 
+        ${chosenInfo.committeenm}, 
+        ${chosenInfo.address}`;
       if (organizationData.length === 0) {
         tmp.taxRegno = "";
         tmp.taxName = "";
@@ -182,15 +186,18 @@ class DeliveryInfo extends React.Component {
     const { PaymentTypePanel } = this.props;
     let data; let type;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
-      MySwal.close();
+      this.props.changeLoading(false);
+      // MySwal.close();
       if (res.payload.success) {
         if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
+          this.props.clearRemotely();
           type = "msgBank";
           data = this.props.bankInfo;
           this.openLastModal(type, data, res.payload.data);
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
+          this.props.clearRemotely();
           type = "qpay";
           this.openLastModal(type, [], res.payload.data);
         }
@@ -246,6 +253,12 @@ class DeliveryInfo extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.products.length !== this.props.products.length) {
+      this.setState({ totalPrice: this.getTotalPrice(this.props.products), totalQty: this.getTotalQty(this.props.products) });
+    }
+  }
+
   openLastModal = (type, data, ordData) => {
     MySwal.fire({
       html: (
@@ -279,6 +292,7 @@ class DeliveryInfo extends React.Component {
           type={"paymentSuccess"}
           paymentType={type}
           chosenBankInfo={item}
+          chosenInfo={this.state.chosenInfo}
           ordData={ordData}
           onRef={ref => (this.SwalModals = ref)}
           {...this}
@@ -389,7 +403,7 @@ class DeliveryInfo extends React.Component {
                 <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл</span>
               </a>
             </Checkbox>
-            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={(checkedAgreement && state.paymentType && state.deliveryType)}>
+            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentType && state.deliveryType)}>
               <span className="text-uppercase">Тооцоо хийх</span>
             </button>
           </div>

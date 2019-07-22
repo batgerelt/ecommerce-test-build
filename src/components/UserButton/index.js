@@ -17,6 +17,10 @@ class UserButton extends React.Component {
     logout: false,
   };
 
+  showpro = () => {
+    this.setState({ pro: !this.state.pro });
+  };
+
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
@@ -65,7 +69,7 @@ class UserButton extends React.Component {
                             : ""}
                       </p>
                     </div>
-                    <Progress percent={50} strokeColor="#feb415" />
+                    <Progress percent={50} strokeColor="#feb415" showInfo={false} />
                     <p className="text text-center">
                       <strong>Таны мэдээлэл</strong>
                       <span>50%</span>

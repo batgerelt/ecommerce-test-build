@@ -5,17 +5,20 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
+  Cart as CartModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
     ...ProfileModel,
+    ...CartModel,
   }, dispatch),
 });
 
