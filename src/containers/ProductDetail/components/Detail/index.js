@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Rate, message } from "antd";
 import moment from "moment";
+import { toast } from "react-toastify";
+import { css } from "glamor";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
@@ -11,9 +13,21 @@ class Detail extends Component {
     rate: 0,
   };
 
+  handleNotify = (message) => {
+    toast(message, {
+      autoClose: 5000,
+      position: "top-center",
+      progressClassName: css({
+        background: "#feb415",
+      }),
+    });
+  };
+
   renderDetails = () => {
     const { categorymenu } = this.props;
-    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
+    const detail = this.props.detail.products
+      ? this.props.detail.products[0]
+      : null;
     const selectedCat =
       detail.catid && categorymenu.find(cat => cat.id === detail.catid);
     return (
@@ -84,10 +98,11 @@ class Detail extends Component {
     return Math.round(value * inv) / inv;
   };
 
-
   renderCartInfo = () => {
     const { isLoggedIn } = this.props;
-    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
+    const detail = this.props.detail.products
+      ? this.props.detail.products[0]
+      : null;
     if (!detail) {
       return null;
     }
@@ -267,7 +282,7 @@ class Detail extends Component {
       return moment.duration(edate.diff(now)).days() + 1;
     }
     return 0;
-  }
+  };
 
   handleSaveClick = () => {
     const { isLoggedIn, addWishList, detail } = this.props;
@@ -281,10 +296,12 @@ class Detail extends Component {
     } else {
       this.props.LoginModal.handleLoginModal();
     }
-  }
+  };
 
   getPrice = () => {
-    const detail = this.props.detail.products ? this.props.detail.products[0] : null;
+    const detail = this.props.detail.products
+      ? this.props.detail.products[0]
+      : null;
     if (!detail) {
       return null;
     }
@@ -328,16 +345,18 @@ class Detail extends Component {
   // };
 
   handleIncrementClick = (product) => {
-    const productQty = this.state.productQty + product.addminqty > product.availableqty
-      ? product.availableqty
-      : this.state.productQty + product.addminqty;
+    const productQty =
+      this.state.productQty + product.addminqty > product.availableqty
+        ? product.availableqty
+        : this.state.productQty + product.addminqty;
     this.setState({ productQty });
   };
 
   handleDecrementClick = (product) => {
-    const productQty = this.state.productQty - product.addminqty < product.saleminqty
-      ? product.saleminqty
-      : this.state.productQty - product.addminqty;
+    const productQty =
+      this.state.productQty - product.addminqty < product.saleminqty
+        ? product.saleminqty
+        : this.state.productQty - product.addminqty;
     this.setState({ productQty });
   };
 
@@ -350,7 +369,7 @@ class Detail extends Component {
         iscart: 0,
       });
       if (!result.payload.success) {
-        return this.handleNotify(result.payload.message);
+        this.handleNotify(result.payload.message);
       }
     } else {
       product.qty = this.state.productQty;

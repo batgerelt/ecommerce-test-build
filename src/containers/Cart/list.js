@@ -12,6 +12,7 @@ class Cart extends React.Component {
 
   async componentDidMount() {
     const result = await this.props.getStaticInfo();
+    console.log("result: ", result);
 
     if (result.payload.success) {
       this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
@@ -74,14 +75,20 @@ class Cart extends React.Component {
     if (found) {
       found.qty = parseInt(e.target.value, 10);
 
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(found.qty)) {
+        found.qty = found.saleminqty || 1;
+      }
+
       if (this.props.isLogged) {
+        console.log("found.qty: ", found.qty);
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.cd,
           qty: found.qty,
           iscart: 1,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -176,7 +183,6 @@ class Cart extends React.Component {
   };
 
   renderUnitPrice = (product) => {
-    console.log("product: ", product);
     if (product.sprice) {
       if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
         return (
@@ -184,10 +190,10 @@ class Cart extends React.Component {
             <strong>
               {formatter.format(this.getUnitPrice(product).sprice)}₮
             </strong>
-            <br />
             {product.kgproduct[0].salegram && (
               <span
                 style={{
+                  display: "block",
                   fontSize: "0.8em",
                   color: "#999",
                 }}
@@ -204,9 +210,9 @@ class Cart extends React.Component {
           <strong>
             {formatter.format(this.getUnitPrice(product).sprice)}₮
           </strong>
-          <br />
           <span
             style={{
+              display: "block",
               fontSize: "0.8em",
               textDecoration: "line-through",
               color: "#999",
@@ -225,6 +231,7 @@ class Cart extends React.Component {
           {product.kgproduct[0].salegram && (
             <span
               style={{
+                display: "block",
                 fontSize: "0.8em",
                 color: "#999",
               }}
@@ -353,10 +360,10 @@ class Cart extends React.Component {
           <table className="table table-borderless">
             <thead className="thead-light">
               <tr>
-                <th className="column-1" style={{ width: "36%" }}>
+                <th className="column-1" style={{ width: "30%" }}>
                   <span>Бүтээгдэхүүний нэр</span>
                 </th>
-                <th className="column-2" style={{ width: "18%" }}>
+                <th className="column-2" style={{ width: "24%" }}>
                   Нэгжийн үнэ
                 </th>
                 <th className="column-3" style={{ width: "24%" }}>
@@ -381,7 +388,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || ""})`,
+                              }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>

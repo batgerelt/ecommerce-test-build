@@ -52,6 +52,8 @@ class Card extends React.Component {
             return this.handleNotify(result.payload.message);
           }
 
+          console.log("result: ", result);
+
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
               this.handleNotify(message),
@@ -157,8 +159,8 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
- shape, item, isLastInRow, className 
-} = this.props;
+        shape, item, isLastInRow, className,
+      } = this.props;
 
       let prices;
 

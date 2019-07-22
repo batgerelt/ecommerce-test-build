@@ -197,9 +197,21 @@ class Model extends BaseModel {
           error: this.buildActionName("error", data.model, "clearRemotely"),
         },
         replaceProductsRemotely: {
-          request: this.buildActionName('request', data.model, 'replaceProductsRemotely'),
-          response: this.buildActionName('response', data.model, 'replaceProductsRemotely'),
-          error: this.buildActionName('error', data.model, 'replaceProductsRemotely'),
+          request: this.buildActionName(
+            "request",
+            data.model,
+            "replaceProductsRemotely",
+          ),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "replaceProductsRemotely",
+          ),
+          error: this.buildActionName(
+            "error",
+            data.model,
+            "replaceProductsRemotely",
+          ),
         },
       };
     }
@@ -344,12 +356,13 @@ class Model extends BaseModel {
       model: this.model.clearRemotely,
     });
 
-  replaceProductsRemotely = ({ body }) => asyncFn({
-    body,
-    url: `/basket/delete/list`,
-    method: 'DELETE',
-    model: this.model.replaceProductsRemotely,
-  });
+  replaceProductsRemotely = ({ body }) =>
+    asyncFn({
+      body,
+      url: `/basket/delete/list`,
+      method: "DELETE",
+      model: this.model.replaceProductsRemotely,
+    });
 
   updateReduxStore = (
     products,
@@ -574,7 +587,6 @@ class Model extends BaseModel {
         try {
           let { products } = state;
           let product = action.payload;
-          console.log("product: ", product);
 
           const found = products.find(prod => prod.cd === product.cd);
 
@@ -629,6 +641,7 @@ class Model extends BaseModel {
       case this.model.updateProductByQtyRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.updateProductByQtyRemotely.response:
+        console.log("action.payload.data: ", action.payload.data);
         return { ...state, products: action.payload.data };
 
       case "CART_REMOVE_PRODUCT_LOCALLY":
@@ -738,9 +751,6 @@ class Model extends BaseModel {
 
       case "CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY":
         try {
-          console.log(state);
-          console.log(action.payload);
-
           let { products } = state;
 
           action.payload.forEach((prod) => {
