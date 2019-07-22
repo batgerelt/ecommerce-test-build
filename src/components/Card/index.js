@@ -157,8 +157,8 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
-      } = this.props;
+ shape, item, isLastInRow, className,
+} = this.props;
 
       let prices;
 
