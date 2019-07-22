@@ -68,7 +68,7 @@ class SwalModals extends React.Component {
   renderBankLogo = () => {
     const { ordData } = this.props;
     let tmp;
-    if (ordData.qpay.qPay_deeplink.lenght !== 0) {
+    if (ordData.qpay.qPay_deeplink.length !== 0) {
       tmp = ordData.qpay.qPay_deeplink.map((item, i) => {
         return (
           <div className="checkout-qpay" key={i}>
@@ -123,14 +123,14 @@ class SwalModals extends React.Component {
       if (type === "delete") {
         return (
           <div className="checkout-container msg-bank">
-            <div className="card-content">
-              <p className="text agreement-modal-text" style={{ color: "#ffb200" }}>
+            <div className="card-content" style={{ textAlign: "center" }}>
+              <p className="text agreement-modal-text" style={{ color: "black" }}>
                 {`"${checkProductZone.message}"`}
               </p>
               <p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p>
               <div className="button-container">
                 <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
-                  <span className="text-uppercase">Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх</span>
+                  <span className="text-uppercase" style={{ fontWeight: "normal" }}>Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх</span>
                 </button>
                 <button className="btn btn-dark" onClick={this.handleChangeAddress} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
                   <span className="text-uppercase">Хаяг солих</span>
@@ -275,7 +275,7 @@ class SwalModals extends React.Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, DeliveryPanel, paymentType, chosenBankInfo, userinfo,
+          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo,
         } = this.props;
         return (
           <div className="wrap">
@@ -368,8 +368,8 @@ class SwalModals extends React.Component {
                           />
                           <span>
                             {" "}
-                            {DeliveryPanel.state.chosenAddress.length !== 0
-                              ? `${DeliveryPanel.state.chosenAddress.phone1}, ${DeliveryPanel.state.chosenAddress.phone2}`
+                            {chosenInfo.length !== 0
+                              ? `${chosenInfo.phonE1}, ${chosenInfo.phonE2}`
                               : ""}
                           </span>
                         </p>
@@ -380,11 +380,11 @@ class SwalModals extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {DeliveryPanel.state.chosenAddress.length !== 0
-                              ? `${DeliveryPanel.state.chosenAddress.provincenm},
-                              ${DeliveryPanel.state.chosenAddress.districtnm},
-                              ${DeliveryPanel.state.chosenAddress.committeenm},
-                              ${DeliveryPanel.state.chosenAddress.address}`
+                            {chosenInfo.length !== 0
+                              ? `${chosenInfo.provincenm},
+                              ${chosenInfo.districtnm},
+                              ${chosenInfo.committeenm},
+                              ${chosenInfo.address}`
                               : ""}
                           </span>
                         </p>
@@ -426,7 +426,10 @@ class SwalModals extends React.Component {
                       <div className="btn-container text-center">
                         <a
                           className="btn btn-main"
-                          onClick={this.props.history.push("/")}
+                          onClick={(e) => {
+                            MySwal.close();
+                            this.props.history.push("/");
+                          }}
                         >
                           <span className="text-uppercase">
                             Нүүр хуудасруу буцах
@@ -434,7 +437,10 @@ class SwalModals extends React.Component {
                         </a>
                         <a
                           className="btn btn-dark"
-                          onClick={this.props.history.push(`/order/ + ${ordData.order.id}`)}
+                          onClick={(e) => {
+                            MySwal.close();
+                            this.props.history.push(`/order/${ordData.order.id}`);
+                          }}
                         >
                           <span className="text-uppercase">Захиалга харах</span>
                         </a>

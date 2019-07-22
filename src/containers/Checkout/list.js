@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable radix */
 import React from "react";
-import { Collapse } from "antd";
+import { Collapse, Spin } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
@@ -11,6 +11,7 @@ import {
   DeliveryInfo,
   DeliveryPanel,
 } from "./components";
+import { Loader } from "../../components";
 
 const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
@@ -22,13 +23,16 @@ class Checkout extends React.Component {
     deliveryType: false,
     paymentType: false,
     payType: false,
+    loading: false,
   };
 
 
   componentDidUpdate(nextProps) {
     if (this.checkLoggedIn()) {
-      if (this.props.userinfo.length !== nextProps.userinfo.length) {
-        this.setState({ activeKey: ["2"] });
+      if (this.props.userinfo.length !== undefined) {
+        if (this.props.userinfo.length !== nextProps.userinfo.length) {
+          this.setState({ activeKey: ["2"] });
+        }
       }
     }
   }
@@ -91,6 +95,10 @@ class Checkout extends React.Component {
     });
   };
 
+  changeLoading = (val) => {
+    this.setState({ loading: val });
+  }
+
   paymentType = () => (
     <div className="title-container flex-space">
       <h5 className="title">
@@ -121,66 +129,73 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { deliveryType, paymentType, payType } = this.state;
+    const {
+      deliveryType, paymentType, payType, loading,
+    } = this.state;
     return (
-      <div className="section section-gray">
-        <div className="container pad10">
-          <div className="checkout-container">
-            <div className="row row10">
-              <div className="col-lg-8 pad10">
-                <div className="accordion" id="accordionExample">
-                  <div className="card">
-                    <div className="card-header" id="headingOne">
-                      <Collapse
-                        accordion
-                        activeKey={this.state.activeKey}
-                        onChange={this.callback}
-                      >
-                        {
-                          localStorage.getItem("auth") === null ?
-                            <Panel
-                              showArrow={false}
-                              header={this.customerTab()}
-                              key="1"
-                            >
-                              <LoginRegisterPanel onRef={ref => (this.LoginRegisterPanel = ref)} {...this} {...this.props} />
-                            </Panel>
-                            : ''
-                        }
-                        <Panel
-                          header={this.deliveryInfo()}
-                          showArrow={false}
-                          disabled={!this.checkLoggedIn()}
-                          key={"2"}
+      <Spin
+        spinning={loading}
+        indicator={<Loader />}
+      >
+        <div className="section section-gray">
+          <div className="container pad10">
+            <div className="checkout-container">
+              <div className="row row10">
+                <div className="col-lg-8 pad10">
+                  <div className="accordion" id="accordionExample">
+                    <div className="card">
+                      <div className="card-header" id="headingOne">
+                        <Collapse
+                          accordion
+                          activeKey={this.checkLoggedIn() ? this.state.activeKey : ["1"]}
+                          onChange={this.callback}
                         >
-                          <DeliveryPanel onRef={ref => (this.DeliveryPanel = ref)} {...this} {...this.props} />
-                        </Panel>
-                        <Panel
-                          header={this.paymentType()}
-                          showArrow={false}
-                          disabled={!(deliveryType && this.checkLoggedIn())}
-                          key={"3"}
-                        >
-                          <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
-                        </Panel>
-                        <Panel
-                          header={this.optionType()}
-                          showArrow={false}
-                          disabled={!(paymentType && this.checkLoggedIn())}
-                          key="4"
-                        >
-                          <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />
-                        </Panel>
-                      </Collapse>
+                          {
+                            localStorage.getItem("auth") === null ?
+                              <Panel
+                                showArrow={false}
+                                header={this.customerTab()}
+                                key="1"
+                              >
+                                <LoginRegisterPanel onRef={ref => (this.LoginRegisterPanel = ref)} {...this} {...this.props} />
+                              </Panel>
+                              : ''
+                          }
+                          <Panel
+                            header={this.deliveryInfo()}
+                            showArrow={false}
+                            disabled={!this.checkLoggedIn()}
+                            key={"2"}
+                          >
+                            <DeliveryPanel onRef={ref => (this.DeliveryPanel = ref)} {...this} {...this.props} />
+                          </Panel>
+                          <Panel
+                            header={this.paymentType()}
+                            showArrow={false}
+                            disabled={!(deliveryType && this.checkLoggedIn())}
+                            key={"3"}
+                          >
+                            <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
+                          </Panel>
+                          <Panel
+                            header={this.optionType()}
+                            showArrow={false}
+                            disabled={!(paymentType && this.checkLoggedIn())}
+                            key="4"
+                          >
+                            <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />
+                          </Panel>
+                        </Collapse>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} {...this.props} />
               </div>
-              <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} {...this.props} />
             </div>
           </div>
         </div>
-      </div>
+      </Spin>
     );
   }
 }

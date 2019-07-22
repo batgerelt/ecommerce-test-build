@@ -45,6 +45,7 @@ class Signup extends React.Component {
                     type="text"
                     placeholder="Овог*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>
@@ -59,6 +60,7 @@ class Signup extends React.Component {
                     type="text"
                     placeholder="Нэр*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>
@@ -72,6 +74,7 @@ class Signup extends React.Component {
                     allowClear
                     type="text"
                     placeholder="И мэйл*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -86,6 +89,7 @@ class Signup extends React.Component {
                     allowClear
                     type="text"
                     placeholder="Утас*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -99,6 +103,7 @@ class Signup extends React.Component {
                   <Input.Password
                     allowClear
                     placeholder="Нууц үг*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -113,6 +118,7 @@ class Signup extends React.Component {
                     allowClear
                     placeholder="Нууц үг давт*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>
