@@ -19,7 +19,7 @@ class Component extends React.Component {
       distid: "",
       commid: "",
     };
-    this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+    this.props.getCustomer().then((res) => {
       if (res.payload.success) {
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;

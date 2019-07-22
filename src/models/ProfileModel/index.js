@@ -127,7 +127,7 @@ class Model extends BaseModel {
   getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });
   // GET
   getUserInfo = () => asyncFn({ url: `/customer/address`, method: 'GET', model: this.model.useraddress });
-  getCustomer = ({ custid }) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.customer });
+  getCustomer = () => asyncFn({ url: `/customer`, method: 'GET', model: this.model.customer });
   getHistory = () => asyncFn({ url: `/customer/viewlist`, method: 'GET', model: this.model.history });
   getWish = () => asyncFn({ url: `/customer/wishlist`, method: 'GET', model: this.model.wish });
   getDelivery = ({ custid }) => asyncFn({ url: `/order/all/${custid}`, method: 'GET', model: this.model.delivery });
