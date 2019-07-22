@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -298,7 +299,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
                   </a>
@@ -312,8 +313,8 @@ class Cart extends React.Component {
                           {wishlistProd.sprice
                             ? wishlistProd.sprice
                             : wishlistProd.price
-                            ? wishlistProd.price
-                            : 0}
+                              ? wishlistProd.price
+                              : 0}
                           ₮
                         </strong>
                       </div>
@@ -381,7 +382,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || ""})`,
+                                }${prod.img || ""})`,
                             }}
                           />
                         </Link>
@@ -417,8 +418,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -525,7 +526,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>

@@ -26,21 +26,8 @@ class SwalModals extends React.Component {
   componentDidMount() { this.props.onRef(this); }
 
   errorMsg = (txt) => {
-    // MySwal.hideLoading();
-    MySwal.insertQueueStep({
+    MySwal.fire({
       type: "error",
-      text: txt,
-      animation: false,
-      width: "25rem",
-      confirmButtonColor: "#feb415",
-    });
-  };
-
-  successMsg = (txt) => {
-    // MySwal.hideLoading();
-    MySwal.insertQueueStep({
-      type: "success",
-      title: "Амжилттай",
       text: txt,
       animation: false,
       width: "25rem",
@@ -114,8 +101,13 @@ class SwalModals extends React.Component {
     const { checkProductZone } = this.props;
     this.props.replaceProductsRemotely({ body: checkProductZone.data }).then((res) => {
       if (res.payload.success) {
-        MySwal.close();
-        this.props.callback("3");
+        if (res.payload.data.length === 0) {
+          this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
+          this.props.history.push("/cart");
+        } else {
+          MySwal.close();
+          this.props.callback("3");
+        }
       }
     });
   }
@@ -434,7 +426,7 @@ class SwalModals extends React.Component {
                       <div className="btn-container text-center">
                         <a
                           className="btn btn-main"
-                        /*  onClick={e => changePage(e, "/")} */
+                          onClick={this.props.history.push("/")}
                         >
                           <span className="text-uppercase">
                             Нүүр хуудасруу буцах
@@ -442,16 +434,14 @@ class SwalModals extends React.Component {
                         </a>
                         <a
                           className="btn btn-dark"
-                        /*  onClick={e =>
-                           changePage(e, "/order/" + ordData.order.id)
-                         } */
+                          onClick={this.props.history.push(`/order/ + ${ordData.order.id}`)}
                         >
                           <span className="text-uppercase">Захиалга харах</span>
                         </a>
                       </div>
                       {/*  <div className="bottom-text text-center">
                       <p>И-баримтыг таны имэйлрүү явуулсан.</p>
-                    </div> */}
+                      </div> */}
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,8 @@
 /* eslint-disable radix */
 import React from "react";
 import { Collapse } from "antd";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import {
   LoginRegisterPanel,
   PaymentTypePanel,
@@ -10,6 +12,7 @@ import {
   DeliveryPanel,
 } from "./components";
 
+const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
 class Checkout extends React.Component {
   state = {
@@ -27,6 +30,24 @@ class Checkout extends React.Component {
       if (this.props.userinfo.length !== nextProps.userinfo.length) {
         this.setState({ activeKey: ["2"] });
       }
+    }
+  }
+
+  errorMsg = (txt) => {
+    MySwal.fire({
+      type: "error",
+      text: txt,
+      animation: false,
+      width: "25rem",
+      confirmButtonColor: "#feb415",
+    });
+  };
+
+  componentWillMount = () => {
+    const { products } = this.props;
+    if (products.length === 0) {
+      this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
+      this.props.history.push("/cart");
     }
   }
 
