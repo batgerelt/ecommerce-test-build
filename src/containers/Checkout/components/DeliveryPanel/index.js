@@ -44,7 +44,7 @@ class DeliveryPanel extends React.Component {
       const { main } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
-      this.setState({ defaultActiveKey: found.id });
+      this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
       this.props.DeliveryInfo.setDeliveryType(found);
       if (main !== null) {
         this.setState({ chosenAddress: main, inzone: main.inzone });
@@ -173,13 +173,13 @@ class DeliveryPanel extends React.Component {
     const { deliveryTypes } = this.props;
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     this.props.DeliveryInfo.setDeliveryType(found);
-    this.setState({ defaultActiveKey: e });
+    this.setState({ defaultActiveKey: e, chosenDeliveryType: found });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
     const { products, userinfo } = this.props;
-    const { chosenAddress, addresstype } = this.state;
+    const { chosenAddress, addresstype, chosenDeliveryType } = this.state;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let body = {};
@@ -206,49 +206,55 @@ class DeliveryPanel extends React.Component {
         body.districtnm = chosenAddress.districtnm;
         body.committeenm = chosenAddress.committeenm;
         this.props.DeliveryInfo.handleGetValue(body, this.state.chosenDate);
+        console.log(chosenDeliveryType);
         if (products.length !== 0) {
-          this.props.changeLoading(true);
-          // MySwal.showLoading();
-          // eslint-disable-next-line prefer-destructuring
-          let locid = this.state.chosenAddress.locid;
-          let tmp = [];
-          products.map((item) => {
-            let it = {
-              skucd: item.cd,
-              qty: item.qty,
-            };
-            tmp.push(it);
-          });
-          this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
-            // MySwal.close();
-            this.props.changeLoading(false);
-            if (res.payload.success) {
-              this.props.changeDeliveryType();
-              this.props.callback("3");
-            } else {
-              MySwal.fire({
-                html: (
-                  <SwalModals
-                    type={"delete"}
-                    data={[]}
-                    ordData={[]}
-                    onRef={ref => (this.SwalModals = ref)}
-                    {...this}
-                    {...this.props}
-                  />
-                ),
-                type: "warning",
-                animation: true,
-                button: false,
-                showCloseButton: false,
-                showCancelButton: false,
-                showConfirmButton: false,
-                focusConfirm: false,
-                allowOutsideClick: false,
-                closeOnEsc: false,
-              });
-            }
-          });
+          if (chosenDeliveryType.id === 3) {
+            this.props.changeDeliveryType();
+            this.props.callback("3");
+          } else {
+            this.props.changeLoading(true);
+            // MySwal.showLoading();
+            // eslint-disable-next-line prefer-destructuring
+            let locid = this.state.chosenAddress.locid;
+            let tmp = [];
+            products.map((item) => {
+              let it = {
+                skucd: item.cd,
+                qty: item.qty,
+              };
+              tmp.push(it);
+            });
+            this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
+              // MySwal.close();
+              this.props.changeLoading(false);
+              if (res.payload.success) {
+                this.props.changeDeliveryType();
+                this.props.callback("3");
+              } else {
+                MySwal.fire({
+                  html: (
+                    <SwalModals
+                      type={"delete"}
+                      data={[]}
+                      ordData={[]}
+                      onRef={ref => (this.SwalModals = ref)}
+                      {...this}
+                      {...this.props}
+                    />
+                  ),
+                  type: "warning",
+                  animation: true,
+                  button: false,
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  focusConfirm: false,
+                  allowOutsideClick: false,
+                  closeOnEsc: false,
+                });
+              }
+            });
+          }
         }
       }
     });
@@ -329,6 +335,7 @@ class DeliveryPanel extends React.Component {
           this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts }, () => {
             this.getZoneSetting(chosenAddress);
             this.setState({ chosenAddress });
+            this.setFieldsValue(chosenAddress);
           });
         }
       });
@@ -339,8 +346,8 @@ class DeliveryPanel extends React.Component {
 
   handleAddAddress = (e) => {
     e.preventDefault();
-    this.getDistrictAndCommitte(0);
     this.setState({ addresstype: "new" });
+    this.getDistrictAndCommitte(0);
   }
 
   render() {
