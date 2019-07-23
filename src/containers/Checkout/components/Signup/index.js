@@ -38,7 +38,7 @@ class Signup extends React.Component {
           <div className="row row10">
             <div className="col-xl-6 pad10">
               <Form.Item>
-                {getFieldDecorator("firstname", {
+                {getFieldDecorator("lastname", {
                   rules: [{ required: true, message: "Овог оруулна уу ?" }],
                 })(
                   <Input
@@ -53,7 +53,7 @@ class Signup extends React.Component {
             </div>
             <div className="col-xl-6 pad10">
               <Form.Item>
-                {getFieldDecorator("lastname", {
+                {getFieldDecorator("firstname", {
                   rules: [{ required: true, message: "Нэр оруулна уу ?" }],
                 })(
                   <Input

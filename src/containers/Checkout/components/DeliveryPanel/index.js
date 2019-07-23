@@ -206,7 +206,6 @@ class DeliveryPanel extends React.Component {
         body.districtnm = chosenAddress.districtnm;
         body.committeenm = chosenAddress.committeenm;
         this.props.DeliveryInfo.handleGetValue(body, this.state.chosenDate);
-        console.log(chosenDeliveryType);
         if (products.length !== 0) {
           if (chosenDeliveryType.id === 3) {
             this.props.changeDeliveryType();

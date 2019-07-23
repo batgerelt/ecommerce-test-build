@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable radix */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -12,6 +14,7 @@ class IndividualTab extends React.Component {
     loading: false,
     cardInfo: null,
     useEpoint: false,
+    epointUsedPoint: 0,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -77,27 +80,28 @@ class IndividualTab extends React.Component {
     });
     if (password) {
       let cardno = cardInfo.cardno;
-      this.props.checkEpointPin({ cardno, password }).then((res) => {
+      this.props.checkEpointPin({ cardno, pincode: password }).then((res) => {
         if (res.payload.success) {
-          /* let tmp = epointcard;
-              if (
-                (delivery.price + products.totalPrice) / 2 >=
-                epointcard.point
-              ) {
-                tmp.point = parseFloat(point - parseInt(point));
-                this.setState({
-                  epointUsedPoint: parseInt(point),
-                  epointcard: tmp
-                });
-              } else {
-                tmp.point =
-                  tmp.point - (delivery.price + products.totalPrice) / 2;
-                this.setState({
-                  epointUsedPoint: (delivery.price + products.totalPrice) / 2,
-                  epointcard: tmp
-                });
-              }
-              this.setState({ useEpoint: true }); */
+          const { DeliveryInfo } = this.props;
+          let chosenType = DeliveryInfo.state.chosenType;
+          let totalPrice = DeliveryInfo.state.totalPrice;
+          let point = cardInfo.point;
+          let usedPoint = 0;
+          if (point > 0) {
+            let deliveryPrice = chosenType.price;
+            let tmp = cardInfo;
+            if ((deliveryPrice + totalPrice) / 2 > tmp.point) {
+              tmp.point = (parseFloat(tmp.point) - parseInt(point)).toFixed(2);
+              usedPoint = parseInt(point);
+              this.setState({ epointUsedPoint: usedPoint, cardInfo: tmp });
+            } else {
+              tmp.point = (parseFloat(point) - parseFloat((deliveryPrice + totalPrice) / 2)).toFixed(2);
+              usedPoint = parseInt((deliveryPrice + totalPrice) / 2);
+              this.setState({ epointUsedPoint: usedPoint, cardInfo: tmp });
+            }
+            this.setState({ useEpoint: true });
+            DeliveryInfo.setUseEpoint(true, cardInfo, usedPoint);
+          }
         } else {
           this.errorMsg(res.payload.message);
         }
@@ -109,7 +113,7 @@ class IndividualTab extends React.Component {
   renderForm = () => {
     try {
       const { getFieldDecorator } = this.props.form;
-      const { loading, cardInfo } = this.state;
+      const { loading, cardInfo, useEpoint } = this.state;
       return (
         <Form onSubmit={this.onSubmit}>
           {
@@ -123,14 +127,18 @@ class IndividualTab extends React.Component {
                     <div className="form-group">
                       <Form.Item>
                         {getFieldDecorator("cardno", {
-                          rules: [{ required: true, message: "Картын дугаар оруулна уу ?" }],
+                          rules: [{ required: true, message: "Картын дугаар оруулна уу ?" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Картын дугаар зөв оруулна уу ?" },
+                          { len: 8, message: "14 оронтой байх ёстой !." }],
                         })(
                           <Input autoComplete="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
                         {getFieldDecorator("pincode", {
-                          rules: [{ required: true, message: "Нууц үг оруулна уу ?" }],
+                          rules: [{ required: true, message: "Нууц үг оруулна уу ?" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Нууц үг зөв оруулна уу ?" },
+                          { len: 8, message: "4 оронтой байх ёстой !." }],
                         })(
                           <Input autoComplete="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
                         )}
@@ -162,7 +170,7 @@ class IndividualTab extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Button className="btn btn-main solid" onClick={this.handleUsePoint}>
+                <Button className="btn btn-main solid" disabled={useEpoint} onClick={this.handleUsePoint}>
                   <span className="text-uppercase">Ашиглах</span>
                 </Button>
               </div>
