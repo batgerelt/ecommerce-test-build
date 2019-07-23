@@ -169,22 +169,6 @@ class Component extends React.Component {
         </Col>
       </Col>
     );
-    /* try {
-      console.log(card);
-      return (
-        <Col span={24}>
-          <Form.item>
-            <Input value={card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
-          </Form.item>
-
-          <Form.item>
-            <Input type="password" placeholder="*****" disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
-          </Form.item>
-        </Col>
-      );
-    } catch (error) {
-      return console.log(error);
-    } */
   }
 
   renderNoMain() {
@@ -418,8 +402,8 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {this.renderCard(userInfo.card)}
-          {/* {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard()} */}
+          {/* {this.renderCard(userInfo.card)} */}
+          {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {
