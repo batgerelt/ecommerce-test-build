@@ -1,21 +1,17 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { message } from "antd";
 
 class List extends React.Component {
   state = { message: [] };
-  componentWillMount() {
-    this.props.confirm({ key: this.props.match.params.key }).then((res) => {
-      this.setState({ message: res.payload });
-    });
-  }
+
   renderSuccessTrue() {
     return (
       <div>
         <h3>Баталгаажуулалт амжилттай</h3>
         <p>
-          Та өөрийн бүртгүүлсэн хаягаараа нэвтрэн орж худалдан авалт хийх
+          Та өөрийн бүртгүүлсэн хаягаараа нэвтрэн орж худалдан авалтаа хийх
           боломжтой
         </p>
         <p>Манай системийн хэрэглэгч болсон танд баярлалаа!</p>
@@ -24,14 +20,23 @@ class List extends React.Component {
   }
 
   renderSuccessFalse() {
-    return (
-      <div>
-        <h3>Баталгаажуулалт амжилтгүй</h3>
-        <p>{this.state.message.data}</p>
-      </div>
-    );
+    return <Redirect to="/" />;
+  }
+
+  renderConfirm = () => {
+    try {
+      const { confirms } = this.props;
+      if (confirms.success) {
+        return this.renderSuccessTrue();
+      }
+      return this.renderSuccessFalse();
+    } catch (error) {
+      return console.log(error);
+    }
   }
   render() {
+    const { confirms } = this.props;
+    console.log(this.props);
     return (
       <div className="top-container">
         <div className="section">
@@ -50,9 +55,7 @@ class List extends React.Component {
                       src={IMAGE + staticInfo.logopath}
                     /> */}
                   </div>
-                  {this.state.message.success
-                    ? this.renderSuccessTrue()
-                    : this.renderSuccessFalse()}
+                  {confirms.length === 0 ? null : this.renderConfirm()}
                 </center>
               </div>
             </div>
