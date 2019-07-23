@@ -20,7 +20,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Card extends React.Component {
   state = {
     changeHeart: false,
-  }
+  };
   handleNotify = (message) => {
     toast(message, {
       autoClose: 5000,
@@ -54,8 +54,6 @@ class Card extends React.Component {
           if (!result.payload.success) {
             return this.handleNotify(result.payload.message);
           }
-
-          console.log("result: ", result);
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
@@ -240,7 +238,9 @@ class Card extends React.Component {
         <div className="search-hover">
           <button className="btn btn-link" onClick={this.handleSaveClick}>
             <i
-              className={this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"}
+              className={
+                this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
+              }
               aria-hidden="true"
               style={{ color: "#feb415" }}
             />
@@ -260,7 +260,7 @@ class Card extends React.Component {
             <div
               className={`col-five pad10${
                 isLastInRow ? " d-none d-xl-block lol" : " col-md-3 col-6"
-                }`}
+              }`}
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
@@ -295,8 +295,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                        ? item.packagenm
+                        : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -310,8 +310,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                          ? item.featuretxt
-                          : ""}
+                        ? item.featuretxt
+                        : ""}
                     </span>
                   </Link>
 
@@ -365,8 +365,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                        ? item.packagenm
+                        : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -380,8 +380,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                          ? item.featuretxt
-                          : ""}
+                        ? item.featuretxt
+                        : ""}
                     </span>
                   </Link>
 
@@ -512,7 +512,12 @@ class Card extends React.Component {
                     }}
                     onClick={this.handleSaveClick}
                   >
-                    <i className={this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"} aria-hidden="true" />
+                    <i
+                      className={
+                        this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
+                      }
+                      aria-hidden="true"
+                    />
                   </a>
                   <a
                     onClick={() => this.handleIncrement(item)}

@@ -90,10 +90,11 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (products) => {
+    console.log("products: ", products);
     if (this.props.isLogged) {
       products = products.map(prod => ({
         skucd: prod.cd,
-        qty: prod.qty ? prod.qty : prod.saleminqty || 1,
+        qty: prod.qty !== undefined ? prod.qty : prod.saleminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
         iscart: 0,
