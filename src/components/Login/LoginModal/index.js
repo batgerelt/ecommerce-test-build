@@ -106,7 +106,7 @@ class LoginModal extends React.Component {
             <Form.Item>
               {getFieldDecorator('email', {
                 initialValue: localStorage.getItem('username'),
-                rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
+                rules: [{ required: true, message: 'Имэйл хаяг оруулна уу', type: "email" }],
               })(
                 <Input
                   allowClear
@@ -119,7 +119,7 @@ class LoginModal extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
+                rules: [{ required: true, message: 'Нууц үг оруулна уу' }],
               })(
                 <Input.Password
                   allowClear
@@ -135,10 +135,10 @@ class LoginModal extends React.Component {
             </Form.Item>
             <Form.Item>
               <Col span={12}>
-                <Checkbox onChange={this.onRemember} checked={isRemember}>Сануулах</Checkbox>
+                <Checkbox className="btn" onChange={this.onRemember} checked={isRemember}>Сануулах</Checkbox>
               </Col>
               <Col span={12} style={{ textAlign: "right" }}>
-                <Link to="" className="btn btn-link" onClick={this.handleResetVisible}>Нууц үгээ мартсан </Link>
+                <Link to="" className="btn btn-link" style={{ fontSize: '14px' }} onClick={this.handleResetVisible}>Нууц үгээ мартсан </Link>
               </Col>
             </Form.Item>
           </Form>

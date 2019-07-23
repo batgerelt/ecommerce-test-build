@@ -44,7 +44,7 @@ class Model extends BaseModel {
     asyncFn({ url: `/package/${id}`, method: "GET", model: this.model.detail });
   getInfoPackage = ({ id }) =>
     asyncFn({
-      url: `/packageimf/${id}`,
+      url: `/package/inf/${id}`,
       method: "GET",
       model: this.model.info,
     });

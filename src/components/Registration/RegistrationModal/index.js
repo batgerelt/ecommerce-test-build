@@ -22,14 +22,12 @@ class RegistrationModal extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
-        /* this.props.signup({ body: values }).then((res) => {
+        this.props.signup({ body: values }).then((res) => {
           if (res.payload.success) {
             this.handleSignup();
-            message.success(res.payload.message);
             message.success("Та мэйл хаягаараа баталгаажуулна уу!");
           }
-        }); */
+        });
       }
     });
   };
@@ -54,6 +52,15 @@ class RegistrationModal extends React.Component {
     callback();
   };
 
+  validateToNextPassword = (rule, value, callback) => {
+    if (value === "1") {
+      console.log(value);
+
+      callback("Нэрнүүд");
+    }
+    callback();
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -64,18 +71,23 @@ class RegistrationModal extends React.Component {
         footer={null}
       >
         <Form onSubmit={this.handleSubmit}>
-          <Form.Item>
+          <Form.Item hasFeedback>
             {getFieldDecorator("firstname", {
-              rules: [{
-                required: true, message: "Овогоо оруулна уу",
-              }],
+              rules: [
+                { pattern: new RegExp("[A-Za-z]"), message: "no no no" },
+                { validator: this.validateToNextPassword },
+              ],
             })(
               <Input placeholder="Овог" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("lastname", {
-              rules: [{ required: true, message: "Нэрээ оруулна уу" }],
+              rules: [{
+                required: true,
+                pattern: new RegExp("^[A-Za-z]*$"),
+                message: "Нэрээ оруулна уу",
+              }],
             })(
               <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
@@ -85,11 +97,10 @@ class RegistrationModal extends React.Component {
               rules: [{
                 required: true,
                 type: "email",
-                pattern: new RegExp("[A-Za-z]"),
                 message: "Имэйлээ хаягаа оруулна уу",
               }],
             })(
-              <input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
+              <Input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item hasFeedback>
@@ -154,12 +165,6 @@ class RegistrationModal extends React.Component {
             </button>
           </Form.Item>
 
-          {/*  <button
-              type="submit"
-              className="btn btn-block btn-social btn-emart"
-            >
-              Имарт картаар бүртгүүлэх
-            </button> */}
         </Form>
       </Modal>
     );

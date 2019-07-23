@@ -67,13 +67,13 @@ class Model extends BaseModel {
     }
   }
 
-  getHomePageBanner = () => asyncFn({ url: `/homepagebanners`, method: 'GET', model: this.model.homepagebanner });
-  getPagesBanner = ({ id }) => asyncFn({ url: `/pagesbanner/${id}`, method: 'GET', model: this.model.pagesbanner });
-  getDiscountBanner = () => asyncFn({ url: `/discountbanners`, method: 'GET', model: this.model.discountbanner });
-  getNewBanner = () => asyncFn({ url: `/newbanners`, method: 'GET', model: this.model.newbanner });
-  getPackageBanner = () => asyncFn({ url: `/packagebanners`, method: 'GET', model: this.model.packagebanner });
-  getRecipeBanner = () => asyncFn({ url: `/recipebanners`, method: 'GET', model: this.model.recipebanner });
-  getSeasonBanner = () => asyncFn({ url: `/seasonbanners`, method: 'GET', model: this.model.seasonbanner });
+  getHomePageBanner = () => asyncFn({ url: `/banner/homepage`, method: 'GET', model: this.model.homepagebanner });
+  getPagesBanner = ({ id }) => asyncFn({ url: `/banner/pages/${id}`, method: 'GET', model: this.model.pagesbanner });
+  getDiscountBanner = () => asyncFn({ url: `/banner/discount`, method: 'GET', model: this.model.discountbanner });
+  getNewBanner = () => asyncFn({ url: `/banner/new`, method: 'GET', model: this.model.newbanner });
+  getPackageBanner = () => asyncFn({ url: `/banner/package`, method: 'GET', model: this.model.packagebanner });
+  getRecipeBanner = () => asyncFn({ url: `/banner/recipe`, method: 'GET', model: this.model.recipebanner });
+  getSeasonBanner = () => asyncFn({ url: `/banner/season`, method: 'GET', model: this.model.seasonbanner });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
