@@ -75,7 +75,7 @@ class Model extends BaseModel {
       products = JSON.parse(products);
     }
 
-    if (!product.qty) {
+    if (product.qty === undefined) {
       product.qty = product.saleminqty || 1;
     }
 
@@ -88,7 +88,11 @@ class Model extends BaseModel {
         if (shouldOverride) {
           // eslint-disable-next-line no-lonely-if
           if (found.isgift === 1) {
-            found.qty = product.qty;
+            if (found.qty < found.saleminqty) {
+              found.qty = 0;
+            } else {
+              found.qty = product.qty;
+            }
           } else {
             // eslint-disable-next-line no-lonely-if
             if (found.salemaxqty > 0) {
@@ -100,6 +104,8 @@ class Model extends BaseModel {
                     found.salemaxqty
                   }"-г худалдан авах боломжтой.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = 0;
               } else {
                 found.qty = product.qty;
               }
@@ -110,6 +116,8 @@ class Model extends BaseModel {
                 this.handleNotify(
                   `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = 0;
               } else {
                 found.qty = product.qty;
               }
