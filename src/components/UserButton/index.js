@@ -27,6 +27,9 @@ class UserButton extends React.Component {
     this.props.logout();
     this.setState({ logout: !this.state.logout });
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
+    /* if (this.props.history.location.pathname === "/checkout") {
+      this.props.history.push("/");
+    } */
   }
 
   render() {

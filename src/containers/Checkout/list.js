@@ -28,6 +28,9 @@ class Checkout extends React.Component {
 
 
   componentDidUpdate(nextProps) {
+    if (this.props.isLogged !== nextProps.isLogged) {
+      this.props.history.push("/");
+    }
     if (this.checkLoggedIn()) {
       if (this.props.userinfo.length !== undefined) {
         if (this.props.userinfo.length !== nextProps.userinfo.length) {
