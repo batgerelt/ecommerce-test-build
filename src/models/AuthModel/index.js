@@ -166,6 +166,9 @@ class AuthModel extends BaseModel {
         const username = localStorage.getItem("username");
         localStorage.clear();
         localStorage.setItem("username", username);
+        if (localStorage.getItem("username") === 'null') {
+          localStorage.removeItem("username");
+        }
         return {
           ...state,
           isLoading: false,
