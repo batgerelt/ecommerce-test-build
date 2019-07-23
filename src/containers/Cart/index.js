@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import {
   Cart as CartModel,
@@ -18,12 +18,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...bindActionCreators({
-    ...AuthModel,
-    ...CartModel,
-    ...StaticModel,
-    ...ProfileModel,
-  }, dispatch),
+  ...bindActionCreators(
+    {
+      ...AuthModel,
+      ...CartModel,
+      ...StaticModel,
+      ...ProfileModel,
+    },
+    dispatch,
+  ),
 });
 
 class Page extends React.Component {
@@ -45,6 +48,7 @@ class Page extends React.Component {
       //   console.log(this.props);
       //   // this.props.products = products;
       // }
+      this.props.getWish();
     } catch (e) {
       console.log(e);
     }
@@ -55,4 +59,7 @@ class Page extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Page);

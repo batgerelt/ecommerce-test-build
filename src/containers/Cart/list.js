@@ -13,20 +13,22 @@ class Cart extends React.Component {
 
   async componentDidMount() {
     const result = await this.props.getStaticInfo();
-    console.log("result: ", result);
 
     if (result.payload.success) {
       this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
     }
   }
 
-  handleNotify = (message) => {
+  // eslint-disable-next-line arrow-parens
+  handleNotify = message => {
     toast(message, {
       autoClose: 5000,
       position: "top-center",
       progressClassName: css({
-        background: "#feb415",
-      }),
+        // eslint-disable-next-line comma-dangle
+        background: "#feb415"
+        // eslint-disable-next-line comma-dangle
+      })
     });
   };
 
@@ -149,7 +151,8 @@ class Cart extends React.Component {
     }
   };
 
-  getUnitPrice = (product) => {
+  // eslint-disable-next-line arrow-parens
+  getUnitPrice = product => {
     if (product.sprice) {
       if (
         product.issalekg &&
@@ -182,7 +185,8 @@ class Cart extends React.Component {
     return { price: product.price, sprice: null };
   };
 
-  renderUnitPrice = (product) => {
+  // eslint-disable-next-line arrow-parens
+  renderUnitPrice = product => {
     if (product.sprice) {
       if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
         return (
@@ -305,7 +309,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
                   </Link>
@@ -316,20 +320,24 @@ class Cart extends React.Component {
                       <div className="text">
                         <span>{wishlistProd.skunm}</span>
                         <strong>
-                          {wishlistProd.sprice
-                            ? wishlistProd.sprice
-                            : wishlistProd.price
-                            ? wishlistProd.price
-                            : 0}
+                          {formatter.format(
+                            wishlistProd.sprice
+                              ? wishlistProd.sprice
+                              : wishlistProd.price
+                                ? wishlistProd.price
+                                : 0,
+                          )}
                           ₮
                         </strong>
                       </div>
                     </Link>
-                    <Link to="">
-                      <div className="action">
-                        <i className="fa fa-cart-plus" aria-hidden="true" />
-                      </div>
-                    </Link>
+                    {console.log(wishlistProd)}
+                    <button
+                      className="action btn btn-link"
+                      onClick={() => this.handleIncrementClick(wishlistProd)}
+                    >
+                      <i className="fa fa-cart-plus" aria-hidden="true" />
+                    </button>
                   </div>
                 </div>
               </li>
@@ -388,7 +396,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || prod.url || ""})`,
+                                }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -424,8 +432,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -532,7 +540,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>
