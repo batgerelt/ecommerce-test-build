@@ -489,17 +489,6 @@ class Model extends BaseModel {
                 }
               }
             }
-
-            // const productQty = shouldUpdateByQty
-            //   ? found.availableqty !== 0 &&
-            //     found.qty + product.qty > found.availableqty
-            //     ? found.availableqty
-            //     : found.qty + product.qty
-            //   : found.availableqty !== 0 &&
-            //     found.qty + found.addminqty > found.availableqty
-            //     ? found.availableqty
-            //     : found.qty + found.addminqty;
-            // found.qty = productQty;
           }
         }
         products.splice(index, 1, found);

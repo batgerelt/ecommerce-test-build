@@ -81,6 +81,7 @@ class List extends React.Component {
 
     if (found) {
       found.qty = parseInt(e.target.value, 10);
+
       this.props.updatePackageProductByQtyLocally(found);
     } else {
       throw new Error("Бараа олдсонгүй!");
@@ -202,8 +203,6 @@ class List extends React.Component {
     try {
       const { packageDetail } = this.props;
       if (packageDetail.sameproducts !== undefined) {
-        console.log(process.env.IMAGE);
-        console.log("packageDetail.sameproducts: ", packageDetail.sameproducts);
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>
             <div className="single flex-this">
