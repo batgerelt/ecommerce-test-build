@@ -11,13 +11,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Spin, Select, BackTop } from "antd";
 import {
-  CARD_LIST_TYPES,
-  CARD_TYPES,
-} from "../../utils/Consts";
+  InfiniteLoader,
+  WindowScroller,
+  List,
+  AutoSizer,
+} from "react-virtualized";
+import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 import { CardList, Card, FilterSet, Loader } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 // eslint-disable-next-line import/first
-import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 
 const Option = Select.Option;
 
@@ -58,21 +60,19 @@ class CategoryInfo extends React.Component {
         startswith: count,
       };
       count += 20;
-      this.props.categoryFilter({
-        body: { ...params },
-      }).then((res) => {
-        if (res.payload.success) {
-          console.log(params, res.payload);
-        }
-      });
+      this.props
+        .categoryFilter({
+          body: { ...params },
+        })
+        .then((res) => {
+          if (res.payload.success) {
+            console.log(params, res.payload);
+          }
+        });
     }
-  }
+  };
 
-  noRowsRenderer = () => (
-    <div>
-      No data
-    </div>
-  );
+  noRowsRenderer = () => <div>No data</div>;
 
   getMaxItemsAmountPerRow = (width) => {
     screenWidth = width;
@@ -80,21 +80,25 @@ class CategoryInfo extends React.Component {
       return Math.max(Math.floor(width / 264.98), 1);
     }
     return Math.max(Math.floor(width / 835), 1);
-  }
+  };
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
     return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
-  }
+  };
 
   generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
     const result = [];
     const startIndex = rowIndex * maxItemsPerRow;
-    for (let i = startIndex; i < Math.min(startIndex + maxItemsPerRow, itemsAmount); i++) {
+    for (
+      let i = startIndex;
+      i < Math.min(startIndex + maxItemsPerRow, itemsAmount);
+      i++
+    ) {
       result.push(i);
     }
     return result;
-  }
+  };
 
   handleSortChange = (value) => {
     const { parameters, minPrice, maxPrice } = this.state;
@@ -115,10 +119,20 @@ class CategoryInfo extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      products: nextProps.categoryfilter.length === 0 ? [] : nextProps.categoryfilter,
-      subcategorys: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.subcategorys,
-      parents: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.parents,
-      attributes: nextProps.categoryinfo.length === 0 ? [] : nextProps.categoryinfo.attributes,
+      products:
+        nextProps.categoryfilter.length === 0 ? [] : nextProps.categoryfilter,
+      subcategorys:
+        nextProps.categoryinfo.length === 0
+          ? []
+          : nextProps.categoryinfo.subcategorys,
+      parents:
+        nextProps.categoryinfo.length === 0
+          ? []
+          : nextProps.categoryinfo.parents,
+      attributes:
+        nextProps.categoryinfo.length === 0
+          ? []
+          : nextProps.categoryinfo.attributes,
     });
   }
 
@@ -167,15 +181,17 @@ class CategoryInfo extends React.Component {
     this.props.resetFullCategory();
     count = 20;
     this.setState({ loading: true });
-    this.props.categoryFilter({
-      body: { ...params },
-    }).then((res) => {
-      if (res.payload.success) {
-        this.setState({ products: res.payload.data });
-      }
-      this.setState({ loading: false });
-    });
-  }
+    this.props
+      .categoryFilter({
+        body: { ...params },
+      })
+      .then((res) => {
+        if (res.payload.success) {
+          this.setState({ products: res.payload.data });
+        }
+        this.setState({ loading: false });
+      });
+  };
 
   renderBreadCrumb = () => {
     try {
@@ -226,7 +242,7 @@ class CategoryInfo extends React.Component {
       }
     }
     return tmp;
-  }
+  };
 
   renderLeftPanel = () => {
     try {
@@ -239,7 +255,13 @@ class CategoryInfo extends React.Component {
             return (
               <div key={i} className="block">
                 <div className="accordion">
-                  <h6 style={{ marginLeft: "10px", marginTop: "10px", marginBittom: 0 }}>
+                  <h6
+                    style={{
+                      marginLeft: "10px",
+                      marginTop: "10px",
+                      marginBittom: 0,
+                    }}
+                  >
                     {item.catnm}
                   </h6>
                   <div
@@ -276,7 +298,7 @@ class CategoryInfo extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderFilteredList = () => {
     try {
@@ -298,7 +320,7 @@ class CategoryInfo extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderProducts = () => {
     try {
@@ -315,7 +337,12 @@ class CategoryInfo extends React.Component {
                   rowCount={rowCount}
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                    const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, products.length).length > 0;
+                    const allItemsLoaded =
+                      this.generateIndexesForRow(
+                        index,
+                        maxItemsPerRow,
+                        products.length,
+                      ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}
@@ -335,12 +362,24 @@ class CategoryInfo extends React.Component {
                           onRowsRendered={onRowsRendered}
                           rowRenderer={({ index, style, key }) => {
                             const { product } = this.state;
-                            const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                            const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, products.length).map(itemIndex => products[itemIndex]);
+                            const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                              width,
+                            );
+                            const rowItems = this.generateIndexesForRow(
+                              index,
+                              maxItemsPerRow,
+                              products.length,
+                            ).map(itemIndex => products[itemIndex]);
                             return (
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map(itemId => (
-                                  <Card shape={this.state.shapeType} item={itemId} LoginModal={this.props.LoginModal} addWishList={this.props.addWishList} />
+                                  <Card
+                                    shape={this.state.shapeType}
+                                    item={itemId}
+                                    LoginModal={this.props.LoginModal}
+                                    addWishList={this.props.addWishList}
+                                    {...this.props}
+                                  />
                                 ))}
                               </div>
                             );
@@ -360,12 +399,12 @@ class CategoryInfo extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   getSelectedCat = () => {
     const { parents } = this.state;
     const { id } = this.props;
-    let tmp = '';
+    let tmp = "";
     parents.map((item, i) => {
       if (item.id === parseInt(id)) {
         tmp = item.catnm;
@@ -373,8 +412,7 @@ class CategoryInfo extends React.Component {
       return tmp;
     });
     return tmp;
-  }
-
+  };
 
   render() {
     if (this.props.categoryinfo.length !== 0) {
@@ -388,7 +426,10 @@ class CategoryInfo extends React.Component {
               {this.renderBreadCrumb()}
               <div className="row row10">
                 <div className="col-xl-3 col-md-3 pad10">
-                  <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+                  <div
+                    className={`left-panel-container ${leftPanel1}`}
+                    onClick={this.showLeftPanel}
+                  >
                     <div className={leftPanel}>
                       <button
                         className="button buttonBlack filter-cross"
@@ -425,8 +466,8 @@ class CategoryInfo extends React.Component {
                       <div className="col-lg-6 pad10">
                         <div className="total-result">
                           <p className="text">
-                            <strong>"{this.getSelectedCat()}"</strong> {products.length}{" "}
-                            бараа олдлоо
+                            <strong>"{this.getSelectedCat()}"</strong>{" "}
+                            {products.length} бараа олдлоо
                           </p>
                         </div>
                       </div>
@@ -441,7 +482,10 @@ class CategoryInfo extends React.Component {
                               <span className="text-uppercase">Шүүлтүүр</span>
                             </a>
                           </div>
-                          <div className="form-group my-select flex-this" style={{ marginRight: "10px" }}>
+                          <div
+                            className="form-group my-select flex-this"
+                            style={{ marginRight: "10px" }}
+                          >
                             <label
                               htmlFor="inputState"
                               style={{
@@ -481,7 +525,9 @@ class CategoryInfo extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <Spin spinning={this.state.loading}>{this.renderProducts()}</Spin>
+                  <Spin spinning={this.state.loading}>
+                    {this.renderProducts()}
+                  </Spin>
                 </div>
               </div>
             </div>
