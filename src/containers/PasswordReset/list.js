@@ -9,11 +9,10 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      this.props.changePassword({ id: this.props.match.params.key, password: values.password }).then((res) => {
-        console.log(res.payload);
-      });
-    });
+    console.log(this.props.match.params.key);
+    /* this.props.form.validateFields((err, values) => {
+      this.props.changePassword({ id: this.props.match.params.key, password: values.password });
+    }); */
   };
 
   handleConfirmBlur = (e) => {
