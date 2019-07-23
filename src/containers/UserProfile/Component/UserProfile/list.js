@@ -153,13 +153,28 @@ class Component extends React.Component {
     return value;
   };
 
-  renderCard = () => {
-    try {
-      const { userInfo } = this.props;
+  renderCard(card) {
+    console.log(card);
+    return (
+      <Col span={24}>
+        <Col span={12}>
+          <Form.Item>
+            <Input value={card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item>
+            <Input value="0000" type="password" disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
+          </Form.Item>
+        </Col>
+      </Col>
+    );
+    /* try {
+      console.log(card);
       return (
         <Col span={24}>
           <Form.item>
-            <Input value={userInfo.card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
+            <Input value={card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
           </Form.item>
 
           <Form.item>
@@ -169,7 +184,7 @@ class Component extends React.Component {
       );
     } catch (error) {
       return console.log(error);
-    }
+    } */
   }
 
   renderNoMain() {
@@ -402,8 +417,9 @@ class Component extends React.Component {
           <Col span={24}>
             <p>Имарт карт</p>
           </Col>
-          {userInfo.card === undefined ? null : this.renderCard()}
-          {userInfo.card === undefined ? <Card {...this.props} /> : null}
+
+          {this.renderCard(userInfo.card)}
+          {/* {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard()} */}
         </div>
       );
     } catch (error) {
