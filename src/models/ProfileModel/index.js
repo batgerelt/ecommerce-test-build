@@ -312,6 +312,47 @@ class Model extends BaseModel {
       method: `PUT`,
       model: this.model.checkConfirm,
     });
+  resetPassword = ({ body }) =>
+    asyncFn({
+      body,
+      url: `/customer/passreset`,
+      method: `PUT`,
+      model: this.model.resetPassword,
+    });
+  emartCard = ({ cardno, pincode }) =>
+    asyncFn({
+      url: `/customer/card/${cardno}/${pincode}`,
+      method: `POST`,
+      model: this.model.emartCard,
+    });
+  changePassword = ({ key, password }) =>
+    asyncFn(
+      {
+        url: `/customer/putchangepass/${key}/${password}`,
+        method: `PUT`,
+        model: this.model.changePassword,
+      },
+      console.log(key),
+    );
+  checkKey = ({ key }) =>
+    asyncFn({
+      url: `/customer/checkpasswordkey/${key}`,
+      method: `GET`,
+      model: this.model.checkKey,
+    });
+  updateMain = ({ body }) =>
+    asyncFn({
+      body,
+      url: `/customer`,
+      method: `PUT`,
+      model: this.model.updateMain,
+    });
+  confirm = ({ key }) =>
+    asyncFn({
+      url: `/customer/checkkey/${key}`,
+      method: `PUT`,
+      model: this.model.checkConfirm,
+    });
   // DELETE
   deleteWish = ({ skucd }) =>
     asyncFn({
