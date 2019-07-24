@@ -35,7 +35,7 @@ class List extends React.Component {
         iscart: 0,
       });
       if (!result.payload.success) {
-        return this.handleNotify(result.payload.message);
+        this.handleNotify(result.payload.message);
       }
     } else {
       product.insymd = Date.now();
@@ -49,11 +49,12 @@ class List extends React.Component {
       if (this.props.isLogged) {
         const result = await this.props.increaseProductByQtyRemotely({
           skucd: product.cd,
-          qty: product.qty ? product.qty : product.saleminqty || 1,
+          qty:
+            product.qty === undefined ? product.saleminqty || 1 : product.qty,
           iscart: 0,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         product.insymd = Date.now();
@@ -80,6 +81,7 @@ class List extends React.Component {
 
     if (found) {
       found.qty = parseInt(e.target.value, 10);
+
       this.props.updatePackageProductByQtyLocally(found);
     } else {
       throw new Error("Бараа олдсонгүй!");
@@ -88,17 +90,18 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (products) => {
+    console.log("products: ", products);
     if (this.props.isLogged) {
       products = products.map(prod => ({
         skucd: prod.cd,
-        qty: prod.qty ? prod.qty : prod.saleminqty || 1,
+        qty: prod.qty !== undefined ? prod.qty : prod.saleminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
         iscart: 0,
         body: products,
       });
       if (!result.payload.success) {
-        return this.handleNotify(result.payload.message);
+        this.handleNotify(result.payload.message);
       }
     } else {
       products = products.map(prod => ({
@@ -274,7 +277,6 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log("products: ", products);
       return (
         products &&
         products.map((prod, index) => (
@@ -319,7 +321,9 @@ class List extends React.Component {
                     <input
                       type="text"
                       className="form-control"
-                      value={prod.qty ? prod.qty : prod.saleminqty || 1}
+                      value={
+                        prod.qty === undefined ? prod.saleminqty || 1 : prod.qty
+                      }
                       name="productQty"
                       maxLength={5}
                       onChange={this.handleInputChange(prod)}

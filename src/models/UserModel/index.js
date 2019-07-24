@@ -61,7 +61,7 @@ class Model extends BaseModel {
     };
   }
 
-  getUserInfo = ({ custid } = {}) => asyncFn({ url: `/customer/${custid}`, method: 'GET', model: this.model.userinfo });
+  getUserInfo = () => asyncFn({ url: `/customer`, method: 'GET', model: this.model.userinfo });
   getSystemLocation = () => asyncFn({ url: `/systemlocation`, method: 'GET', model: this.model.systemlocation });
   getDistrictLocation = ({ id } = {}) => asyncFn({ url: `/systemlocation/${id}`, method: 'GET', model: this.model.districtlocation });
   getCommmitteLocation = ({ provid, distid } = {}) => asyncFn({ url: `/systemlocation/committe/${provid}/${distid}`, method: 'GET', model: this.model.committelocation });

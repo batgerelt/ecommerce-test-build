@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
-import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link } from "react-router-dom";
 
 import { FacebookLogin, GoogleLogin } from "../";
@@ -38,7 +38,7 @@ class LoginModal extends React.Component {
         try {
           let result = await this.props.login({ body: { ...values } });
           if (!result.payload.success) {
-            return message.error('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!');
+            return null;
           }
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
@@ -86,7 +86,7 @@ class LoginModal extends React.Component {
     this.setState({ mail: e.target.value });
   }
 
-  floorNewspaperRemember = (e) => {
+  onRemember = (e) => {
     this.setState({ isRemember: e.target.checked });
   }
 
@@ -106,63 +106,48 @@ class LoginModal extends React.Component {
             <Form.Item>
               {getFieldDecorator('email', {
                 initialValue: localStorage.getItem('username'),
-                rules: [{ required: true, message: 'Имэйл хаяг оруулна уу!' }],
+                rules: [{ required: true, message: 'Имэйл хаяг оруулна уу', type: "email" }],
               })(
                 <Input
                   allowClear
                   className="form-control"
                   placeholder="Имэйл"
                   size="large"
+                  autoComplete="off"
                 />,
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Нууц үг оруулна уу!' }],
+                rules: [{ required: true, message: 'Нууц үг оруулна уу' }],
               })(
                 <Input.Password
                   allowClear
                   className="form-control"
                   placeholder="Нууц үг"
-                  size="large"
                   type="password"
+                  autoComplete="off"
                 />,
               )}
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="btn btn-block btn-login text-uppercase">Нэвтрэх</Button>
             </Form.Item>
-            <div className="form-group">
-              <div className="row row10">
-                <div className="col-xl-6 pad10">
-                  <div className="custom-control custom-checkbox">
-                    <Checkbox className="custom-control-inpu" onChange={this.floorNewspaperRemember} checked={isRemember} >Сануулах</Checkbox>
-                  </div>
-                </div>
-                <div className="col-xl-6 pad10">
-                  <div className="text-right">
-                    <Link
-                      to=""
-                      className="btn btn-link"
-                      onClick={this.handleResetVisible}
-                    >Нууц үгээ мартсан
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Form.Item>
+              <Col span={12}>
+                <Checkbox className="btn" onChange={this.onRemember} checked={isRemember}>Сануулах</Checkbox>
+              </Col>
+              <Col span={12} style={{ textAlign: "right" }}>
+                <Link to="" className="btn btn-link" style={{ fontSize: '14px' }} onClick={this.handleResetVisible}>Нууц үгээ мартсан </Link>
+              </Col>
+            </Form.Item>
           </Form>
 
           <FacebookLogin />
           <GoogleLogin />
 
           <div className="text-center">
-            <Link
-              to="#"
-              className="btn btn-link"
-              onClick={this.handleRegistrationModal}
-            >Та шинээр бүртгүүлэх бол ЭНД ДАРЖ бүртгүүлнэ үү
-            </Link>
+            <p>Та шинээр бүртгүүлэх бол <Link to="#" className="btn btn-link" onClick={this.handleRegistrationModal}><strong>ЭНД ДАРЖ</strong></Link> бүртгүүлнэ үү</p>
           </div>
         </Modal>
 
@@ -189,9 +174,26 @@ class LoginModal extends React.Component {
             </a>
           </form>
         </Modal>
-      </div>
+      </div >
     );
   }
 }
 
 export default Form.create({ name: 'normal_login' })(LoginModal);
+
+/* <div className="form-group">
+              <div className="row row10">
+                <div className="col-xl-6 pad10">
+                  <Checkbox style={{ marginLeft: "-24px" }} onChange={this.onRemember} checked={isRemember} >Сануулах</Checkbox>
+                </div>
+                <div className="col-xl-6 pad10">
+                  <Link
+                    to=""
+                    className="btn btn-link"
+                    onClick={this.handleResetVisible}
+                  >
+                    Нууц үгээ мартсан
+                  </Link>
+                </div>
+              </div>
+            </div> */

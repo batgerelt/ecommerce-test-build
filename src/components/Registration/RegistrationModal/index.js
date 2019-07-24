@@ -22,11 +22,11 @@ class RegistrationModal extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         this.props.signup({ body: values }).then((res) => {
           if (res.payload.success) {
             this.handleSignup();
             message.success(res.payload.message);
-            message.success("Та мэйл хаягаараа баталгаажуулна уу!");
           }
         });
       }
@@ -65,16 +65,20 @@ class RegistrationModal extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator("firstname", {
-              rules: [{
-                required: true, message: "Овогоо оруулна уу!",
-              }],
+              rules: [
+                { required: true, pattern: new RegExp("[A-Za-zА-Яа-я]"), message: "Овогоо оруулна уу" },
+              ],
             })(
               <Input placeholder="Овог" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("lastname", {
-              rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
+              rules: [{
+                required: true,
+                pattern: new RegExp("[A-Za-zА-Яа-я]"),
+                message: "Нэрээ оруулна уу",
+              }],
             })(
               <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" autoComplete="off" />,
             )}
@@ -85,17 +89,18 @@ class RegistrationModal extends React.Component {
                 required: true,
                 type: "email",
                 pattern: new RegExp("[A-Za-z]"),
-                message: "Имэйлээ хаягаа оруулна уу!",
+                message: "Имэйл хаягаа оруулна уу",
               }],
             })(
               <Input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
-          <Form.Item hasFeedback>
+          <Form.Item>
             {getFieldDecorator("phonE1", {
               rules: [
-                { required: true, min: 8, message: " " },
+                { required: true, message: "Утасны дугаар оруулна уу" },
                 { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
+                { min: 8, message: "Утасны дугаар 8 оронтой байна" },
               ],
             })(
               <Input
@@ -109,7 +114,7 @@ class RegistrationModal extends React.Component {
           <Form.Item hasFeedback>
             {getFieldDecorator("password", {
               rules: [
-                { required: true, message: "Нууц үгээ заавал оруулна уу!" },
+                { required: true, message: "Нууц үгээ заавал оруулна уу" },
                 { validator: this.validateToNextPassword },
                 { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
               ],
@@ -120,7 +125,7 @@ class RegistrationModal extends React.Component {
           <Form.Item hasFeedback>
             {getFieldDecorator("confirm", {
               rules: [
-                { required: true, message: "Нууц үгээ дахин давтах!" },
+                { required: true, message: "Нууц үгээ дахин оруулна уу" },
                 { validator: this.compareToFirstPassword },
               ],
             })(
@@ -153,12 +158,6 @@ class RegistrationModal extends React.Component {
             </button>
           </Form.Item>
 
-          {/*  <button
-              type="submit"
-              className="btn btn-block btn-social btn-emart"
-            >
-              Имарт картаар бүртгүүлэх
-            </button> */}
         </Form>
       </Modal>
     );

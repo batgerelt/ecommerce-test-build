@@ -131,7 +131,7 @@ class List extends React.Component {
     try {
       if (this.props.isLogged) {
         const result = await this.props.incrementRecipeProductsRemotely({
-          recipeid: this.props.match.params.recipeid,
+          recipeid: this.props.match.params.id,
         });
         if (!result.payload.success) {
           this.handleNotify(result.payload.message);

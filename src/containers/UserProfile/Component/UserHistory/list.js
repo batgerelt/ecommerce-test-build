@@ -19,6 +19,24 @@ class Component extends React.Component {
       message.success(res.payload.message);
     });
   }
+  handleIncrement = (item) => {
+    if (item.cd) {
+      this.props.incrementProductRemotely({
+        skucd: item.cd,
+        qty: item.addminqty || 1,
+        iscart: 0,
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+  }
+  handleRateChange = (e, item) => {
+    this.props.addRate({
+      custid: this.props.data[0].info.customerInfo.id,
+      skucd: item.skucd,
+      rate: Number(e) * 2,
+    });
+  };
   renderProducts = () => {
     try {
       const { history } = this.props;
@@ -41,7 +59,13 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                {item.rate ? (<Rate rate={item.rate} numOfVotes={item.rateusercnt} />) : (<Rate rate={0} numOfVotes={0} />)}
+                {
+                  item.rate !== null
+                    ?
+                    (<Rate rate={Number(item.rate)} numOfVotes={Number(item.rateusercnt)} onChange={e => this.handleRateChange(e, item)} />)
+                    :
+                    (<Rate rate={0} numOfVotes={0} onChange={e => this.handleRateChange(e, item)} />)
+                }
               </div>
             </div>
           </div>
@@ -64,7 +88,7 @@ class Component extends React.Component {
                   <i
                     className="fa fa-cart-plus"
                     aria-hidden="true"
-                  /* onClick={() => this.handleSingleAddToCartClick(item)} */
+                    onClick={() => this.handleIncrement(item)}
                   />
                 </Link>
               </li>
@@ -82,6 +106,7 @@ class Component extends React.Component {
     }
   }
   render() {
+    console.log(this.props);
     const { loader } = this.state;
     return (
       <div className="col-md-8 pad10">

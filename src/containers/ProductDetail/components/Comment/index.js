@@ -32,7 +32,7 @@ class Comment extends Component {
     if (user !== null) {
       let custId = user.id;
       let skucd = product.cd;
-      addComment({ custId, skucd, comment }).then((res) => {
+      addComment({ custId, skucd, comm: comment }).then((res) => {
         console.log(res);
       });
     }
@@ -61,7 +61,7 @@ class Comment extends Component {
                 <p className="name text-uppercase">
                   <strong>
                     {
-                      user !== null ? `${user.firstname} ${user.lastname} ${user.email}`
+                      user !== null ? `${user.firstname} ${user.lastname}`
                         : ""
                     }
                   </strong>
@@ -71,7 +71,7 @@ class Comment extends Component {
               <form>
                 <div className="form-group">
                   <textarea
-                    className="form-control"
+                    className="form-control textarea"
                     placeholder="Сэтгэгдэл үлдээх хэсэг"
                     name="comment"
                     style={{ minHeight: "150px" }}

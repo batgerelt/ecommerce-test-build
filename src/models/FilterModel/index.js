@@ -35,10 +35,10 @@ class Model extends BaseModel {
   }
 
   seasonFilter = ({ body } = {}) => asyncFn({
-    body, url: `/seasonfilter`, method: 'POST', model: this.model.seasonfilter,
+    body, url: `/filter/season`, method: 'POST', model: this.model.seasonfilter,
   });
   categoryFilter = ({ body } = {}) => asyncFn({
-    body, url: `/categoryfilter`, method: 'POST', model: this.model.categoryfilter,
+    body, url: `/filter/category`, method: 'POST', model: this.model.categoryfilter,
   });
 
   resetCategory = () => ({

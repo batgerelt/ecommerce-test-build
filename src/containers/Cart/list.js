@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -18,13 +19,16 @@ class Cart extends React.Component {
     }
   }
 
-  handleNotify = (message) => {
+  // eslint-disable-next-line arrow-parens
+  handleNotify = message => {
     toast(message, {
       autoClose: 5000,
       position: "top-center",
       progressClassName: css({
-        background: "#feb415",
-      }),
+        // eslint-disable-next-line comma-dangle
+        background: "#feb415"
+        // eslint-disable-next-line comma-dangle
+      })
     });
   };
 
@@ -74,6 +78,11 @@ class Cart extends React.Component {
     if (found) {
       found.qty = parseInt(e.target.value, 10);
 
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(found.qty)) {
+        found.qty = found.saleminqty || 1;
+      }
+
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.cd,
@@ -81,7 +90,7 @@ class Cart extends React.Component {
           iscart: 1,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -142,7 +151,8 @@ class Cart extends React.Component {
     }
   };
 
-  getUnitPrice = (product) => {
+  // eslint-disable-next-line arrow-parens
+  getUnitPrice = product => {
     if (product.sprice) {
       if (
         product.issalekg &&
@@ -175,8 +185,8 @@ class Cart extends React.Component {
     return { price: product.price, sprice: null };
   };
 
-  renderUnitPrice = (product) => {
-    console.log("product: ", product);
+  // eslint-disable-next-line arrow-parens
+  renderUnitPrice = product => {
     if (product.sprice) {
       if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
         return (
@@ -184,10 +194,10 @@ class Cart extends React.Component {
             <strong>
               {formatter.format(this.getUnitPrice(product).sprice)}₮
             </strong>
-            <br />
             {product.kgproduct[0].salegram && (
               <span
                 style={{
+                  display: "block",
                   fontSize: "0.8em",
                   color: "#999",
                 }}
@@ -204,9 +214,9 @@ class Cart extends React.Component {
           <strong>
             {formatter.format(this.getUnitPrice(product).sprice)}₮
           </strong>
-          <br />
           <span
             style={{
+              display: "block",
               fontSize: "0.8em",
               textDecoration: "line-through",
               color: "#999",
@@ -225,6 +235,7 @@ class Cart extends React.Component {
           {product.kgproduct[0].salegram && (
             <span
               style={{
+                display: "block",
                 fontSize: "0.8em",
                 color: "#999",
               }}
@@ -298,7 +309,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
                   </Link>
@@ -309,20 +320,24 @@ class Cart extends React.Component {
                       <div className="text">
                         <span>{wishlistProd.skunm}</span>
                         <strong>
-                          {wishlistProd.sprice
-                            ? wishlistProd.sprice
-                            : wishlistProd.price
-                            ? wishlistProd.price
-                            : 0}
+                          {formatter.format(
+                            wishlistProd.sprice
+                              ? wishlistProd.sprice
+                              : wishlistProd.price
+                                ? wishlistProd.price
+                                : 0,
+                          )}
                           ₮
                         </strong>
                       </div>
                     </Link>
-                    <Link to="">
-                      <div className="action">
-                        <i className="fa fa-cart-plus" aria-hidden="true" />
-                      </div>
-                    </Link>
+                    {console.log(wishlistProd)}
+                    <button
+                      className="action btn btn-link"
+                      onClick={() => this.handleIncrementClick(wishlistProd)}
+                    >
+                      <i className="fa fa-cart-plus" aria-hidden="true" />
+                    </button>
                   </div>
                 </div>
               </li>
@@ -353,10 +368,10 @@ class Cart extends React.Component {
           <table className="table table-borderless">
             <thead className="thead-light">
               <tr>
-                <th className="column-1" style={{ width: "36%" }}>
+                <th className="column-1" style={{ width: "30%" }}>
                   <span>Бүтээгдэхүүний нэр</span>
                 </th>
-                <th className="column-2" style={{ width: "18%" }}>
+                <th className="column-2" style={{ width: "24%" }}>
                   Нэгжийн үнэ
                 </th>
                 <th className="column-3" style={{ width: "24%" }}>
@@ -381,7 +396,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || ""})`,
+                                }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -417,8 +432,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -525,7 +540,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>

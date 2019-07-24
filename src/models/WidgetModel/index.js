@@ -31,7 +31,7 @@ class Model extends BaseModel {
     }
   }
   getWidget = () => asyncFn({ url: `/widget`, method: 'GET', model: this.model.all });
-  getPageWidget = ({ id }) => asyncFn({ url: `/pagewidget/${id}`, method: 'GET', model: this.model.pagewidget });
+  getPageWidget = ({ id }) => asyncFn({ url: `/widget/page/${id}`, method: 'GET', model: this.model.pagewidget });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

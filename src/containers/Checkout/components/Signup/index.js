@@ -17,6 +17,7 @@ class Signup extends React.Component {
         if (values.password === values.confirmpassword) {
           this.props.signup({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
+              this.props.LoginRegisterPanel.changeTab(1);
               message.success("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
             } else {
               message.error(res.payload.message);
@@ -37,7 +38,7 @@ class Signup extends React.Component {
           <div className="row row10">
             <div className="col-xl-6 pad10">
               <Form.Item>
-                {getFieldDecorator("firstname", {
+                {getFieldDecorator("lastname", {
                   rules: [{ required: true, message: "Овог оруулна уу ?" }],
                 })(
                   <Input
@@ -45,13 +46,14 @@ class Signup extends React.Component {
                     type="text"
                     placeholder="Овог*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>
             </div>
             <div className="col-xl-6 pad10">
               <Form.Item>
-                {getFieldDecorator("lastname", {
+                {getFieldDecorator("firstname", {
                   rules: [{ required: true, message: "Нэр оруулна уу ?" }],
                 })(
                   <Input
@@ -59,6 +61,7 @@ class Signup extends React.Component {
                     type="text"
                     placeholder="Нэр*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>
@@ -72,6 +75,7 @@ class Signup extends React.Component {
                     allowClear
                     type="text"
                     placeholder="И мэйл*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -86,6 +90,7 @@ class Signup extends React.Component {
                     allowClear
                     type="text"
                     placeholder="Утас*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -99,6 +104,7 @@ class Signup extends React.Component {
                   <Input.Password
                     allowClear
                     placeholder="Нууц үг*"
+                    autoComplete="off"
                     className="form-control"
                   />,
                 )}
@@ -113,6 +119,7 @@ class Signup extends React.Component {
                     allowClear
                     placeholder="Нууц үг давт*"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>

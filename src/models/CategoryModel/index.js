@@ -42,14 +42,14 @@ class Model extends BaseModel {
       };
     }
   }
-  getCategoryMenu = () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
   getCategoryAll = () => asyncFn({ url: `/search/category`, method: 'GET', model: this.model.categoryall });
+  getCategoryMenu = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
   getCategoryInfo = ({
     id, rowcount = 20, ordercol = 'price_asc',
-  }) => asyncFn({ url: `/categoryinfo/${id}/${rowcount}/${ordercol}`, method: 'GET', model: this.model.categoryinfo });
+  }) => asyncFn({ url: `/category/info/${id}/${rowcount}/${ordercol}`, method: 'GET', model: this.model.categoryinfo });
   getCategoryProducts = ({
     id, startswith, rowcount, ordercol,
-  }) => asyncFn({ url: `/categoryproducts/${id}/${startswith}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryproducts });
+  }) => asyncFn({ url: `/category/products/${id}/${startswith}/${rowcount}/${ordercol}}`, method: 'GET', model: this.model.categoryproducts });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

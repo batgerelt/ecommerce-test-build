@@ -19,7 +19,7 @@ class Component extends React.Component {
       distid: "",
       commid: "",
     };
-    this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+    this.props.getCustomer().then((res) => {
       if (res.payload.success) {
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
@@ -153,23 +153,22 @@ class Component extends React.Component {
     return value;
   };
 
-  renderCard = () => {
-    try {
-      const { userInfo } = this.props;
-      return (
-        <Col span={24}>
-          <Form.item>
-            <Input value={userInfo.card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
-          </Form.item>
-
-          <Form.item>
-            <Input type="password" placeholder="*****" disabled style={{ backgroundColor: "rgb(235, 235, 228)" }} />
-          </Form.item>
+  renderCard(card) {
+    console.log(card);
+    return (
+      <Col span={24}>
+        <Col span={12}>
+          <Form.Item>
+            <Input value={card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
+          </Form.Item>
         </Col>
-      );
-    } catch (error) {
-      return console.log(error);
-    }
+        <Col span={12}>
+          <Form.Item>
+            <Input value="0000" type="password" disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
+          </Form.Item>
+        </Col>
+      </Col>
+    );
   }
 
   renderNoMain() {
@@ -178,9 +177,9 @@ class Component extends React.Component {
     return (
       <Col span={24}>
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
-              rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+              rules: [{ required: true, message: "Хот/аймаг сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -197,9 +196,9 @@ class Component extends React.Component {
         </Col>
 
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
-              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
+              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -216,9 +215,9 @@ class Component extends React.Component {
         </Col>
 
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
-              rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+              rules: [{ required: true, message: "Хороо сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -243,10 +242,10 @@ class Component extends React.Component {
     return (
       <Col span={24}>
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
               initialValue: this.checkError(this.state.params.provid),
-              rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+              rules: [{ required: true, message: "Хот/аймаг сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -262,10 +261,10 @@ class Component extends React.Component {
         </Col>
 
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
               initialValue: this.checkError(this.state.params.distid),
-              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
+              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -282,10 +281,10 @@ class Component extends React.Component {
         </Col>
 
         <Col span={8}>
-          <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
               initialValue: this.checkError(this.state.params.commid),
-              rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+              rules: [{ required: true, message: "Хороо сонгоно уу" }],
             })(
               <Select
                 showSearch
@@ -313,69 +312,80 @@ class Component extends React.Component {
           <Form>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
-                  rules: [{ required: true, message: "Овгоо заавал оруулна уу!" }],
+                  rules: [{ required: true, message: "Овогоо оруулна уу" }],
                 })(<Input placeholder="Овог" />)}
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
-                  rules: [{ required: true, message: "Нэрээ заавал оруулна уу!" }],
+                  rules: [{ required: true, message: "Нэрээ оруулна уу" }],
                 })(<Input placeholder="Нэр" />)}
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
-                  rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу!" }],
+                  rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу" }],
                 })(<Input placeholder="Имэйл" />)}
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("phone1", {
                   initialValue: userInfo.info.phone1,
-                  rules: [{
-                    required: true, pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!",
-                  }],
-                })(<Input placeholder="Утас 1" />)}
+                  rules: [
+                    {
+                      required: true,
+                      pattern: new RegExp("^[0-9]*$"),
+                      message: "Утасны дугаар 8 оронтой байх ёстой",
+                    },
+                    {
+                      min: 8,
+                      message: "Утасны дугаар 8 оронтой байна",
+                    },
+                  ],
+                })(<Input placeholder="Утас 1" maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("phone2", {
                   initialValue: userInfo.info.phone2,
-                  rules: [{ pattern: new RegExp("^[0-9]*$"), len: 8, message: "Утасны дугаар 8 оронтой байх ёстой!" }],
-                })(<Input placeholder="Утас 2" />)}
+                  rules: [
+                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: "Утасны дугаар 8 оронтой байх ёстой" },
+                    { min: 8, message: "Утасны дугаар 8 оронтой байна" },
+                  ],
+                })(<Input placeholder="Утас 2" maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item style={{ width: '96%', marginBottom: '5px' }} />
+              <Form.Item style={{ width: '96%' }} />
             </Col>
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
             <Col span={24}>
-              <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+              <Form.Item style={{ width: '98.5%' }}>
                 {getFieldDecorator("address", {
                   initialValue: userInfo.main === null ? null : userInfo.main.address,
-                  rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+                  rules: [{ required: true, message: "Гэрийн хаягаа оруулна уу" }],
                 })(<Input placeholder="Гэрийн хаяг" />)}
               </Form.Item>
             </Col>
 
             <Col span={24}>
-              <Form.Item className="text text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
+              <Form.Item className="text text-right" style={{ width: '98.5%' }}>
                 <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
                   <span className="text-uppercase">Хадгалах</span>
                 </Button>
@@ -391,8 +401,9 @@ class Component extends React.Component {
           <Col span={24}>
             <p>Имарт карт</p>
           </Col>
-          {userInfo.card === undefined ? null : this.renderCard()}
-          {userInfo.card === undefined ? <Card {...this.props} /> : null}
+
+          {/* {this.renderCard(userInfo.card)} */}
+          {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {

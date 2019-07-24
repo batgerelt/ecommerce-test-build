@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable radix */
 /* eslint-disable camelcase */
 /* eslint-disable array-callback-return */
 /* eslint-disable arrow-body-style */
@@ -38,6 +40,9 @@ class DeliveryInfo extends React.Component {
     totalQty: 0,
     ePointData: [],
     organizationData: [],
+    chosenDate: null,
+    useEpoint: false,
+    epointUsedPoint: 0,
   };
 
   checkError = (value) => {
@@ -51,14 +56,15 @@ class DeliveryInfo extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     const { products } = this.props.props;
+    const { userinfo } = this.props;
     this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
   }
   setModal2Visible = (modal2Visible) => {
     this.setState({ modal2Visible });
   }
 
-  handleGetValue = (value) => {
-    this.setState({ chosenInfo: value });
+  handleGetValue = (value, zone) => {
+    this.setState({ chosenInfo: value, chosenDate: zone });
   }
 
   setDeliveryType = (value) => {
@@ -67,6 +73,10 @@ class DeliveryInfo extends React.Component {
 
   setIndividualData = (value) => {
     this.setState({ ePointData: value });
+  }
+
+  setUseEpoint = (value, cardInfo, usedPoint) => {
+    this.setState({ useEpoint: value, ePointData: cardInfo, epointUsedPoint: usedPoint });
   }
 
   setOrganizationData = (value) => {
@@ -131,42 +141,46 @@ class DeliveryInfo extends React.Component {
     });
   }
 
-  generateNoat = (total, deliver, usedpoint) => {
+  generateNoat = (total, deliver) => {
+    const { useEpoint, epointUsedPoint } = this.state;
     let value = 0;
     if (deliver !== undefined) {
       // eslint-disable-next-line no-mixed-operators
-      value = ((total + deliver - usedpoint) / 110) * 10;
+      value = ((total + deliver - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
     } else {
-      value = ((total - usedpoint) / 110) * 10;
+      value = ((total - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
     }
     return value.toFixed(2);
   };
 
   handleSubmit = (e) => {
     const {
-      userinfo, DeliveryInfo, PaymentTypePanel, DeliveryPanel, products,
+      userinfo, DeliveryInfo, PaymentTypePanel, products,
     } = this.props;
-    const { organizationData, ePointData } = this.state;
+    const {
+      organizationData, ePointData, chosenInfo, chosenDate, epointUsedPoint,
+    } = this.state;
     if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
-      MySwal.showLoading();
+      this.props.changeLoading(true);
+      // MySwal.showLoading();
       let tmp = {};
       tmp.custId = userinfo.info.id;
       tmp.deliveryTypeId = DeliveryInfo.state.chosenType.id;
-      tmp.custName = DeliveryPanel.state.chosenAddress.name;
-      tmp.custAddressId = DeliveryPanel.state.chosenAddress.id;
-      tmp.phone1 = DeliveryPanel.state.chosenAddress.phone1;
-      tmp.phone2 = DeliveryPanel.state.chosenAddress.phone2;
+      tmp.custName = chosenInfo.name;
+      tmp.custAddressId = chosenInfo.id;
+      tmp.phone1 = chosenInfo.phonE1;
+      tmp.phone2 = chosenInfo.phonE2;
       tmp.paymentType = PaymentTypePanel.state.chosenPaymentType.id;
       tmp.addPoint = 0;
-      tmp.deliveryDate = DeliveryPanel.state.zoneSetting.date;
-      tmp.usedPoint = 0;
+      tmp.deliveryDate = chosenDate;
+      tmp.usedPoint = epointUsedPoint;
       tmp.items = products;
-      tmp.locId = DeliveryPanel.state.chosenAddress.locid;
+      tmp.locId = chosenInfo.locid;
       tmp.custAddress =
-        `${DeliveryPanel.state.chosenAddress.provincenm},
-        ${DeliveryPanel.state.chosenAddress.districtnm}, 
-        ${DeliveryPanel.state.chosenAddress.committeenm}, 
-        ${DeliveryPanel.state.chosenAddress.address}`;
+        `${chosenInfo.provincenm},
+        ${chosenInfo.districtnm}, 
+        ${chosenInfo.committeenm}, 
+        ${chosenInfo.address}`;
       if (organizationData.length === 0) {
         tmp.taxRegno = "";
         tmp.taxName = "";
@@ -182,15 +196,18 @@ class DeliveryInfo extends React.Component {
     const { PaymentTypePanel } = this.props;
     let data; let type;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
-      MySwal.close();
+      this.props.changeLoading(false);
+      // MySwal.close();
       if (res.payload.success) {
         if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
+          this.props.clearRemotely();
           type = "msgBank";
           data = this.props.bankInfo;
           this.openLastModal(type, data, res.payload.data);
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
+          this.props.clearRemotely();
           type = "qpay";
           this.openLastModal(type, [], res.payload.data);
         }
@@ -246,6 +263,12 @@ class DeliveryInfo extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.products.length !== this.props.products.length) {
+      this.setState({ totalPrice: this.getTotalPrice(this.props.products), totalQty: this.getTotalQty(this.props.products) });
+    }
+  }
+
   openLastModal = (type, data, ordData) => {
     MySwal.fire({
       html: (
@@ -279,6 +302,7 @@ class DeliveryInfo extends React.Component {
           type={"paymentSuccess"}
           paymentType={type}
           chosenBankInfo={item}
+          chosenInfo={this.state.chosenInfo}
           ordData={ordData}
           onRef={ref => (this.SwalModals = ref)}
           {...this}
@@ -299,7 +323,7 @@ class DeliveryInfo extends React.Component {
 
   render() {
     const {
-      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty,
+      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty, epointUsedPoint, useEpoint,
     } = this.state;
     const { staticpage, state } = this.props;
     return (
@@ -370,18 +394,21 @@ class DeliveryInfo extends React.Component {
               <span>Хүргэлтийн үнэ:</span>
               <strong>{`${formatter.format(this.checkError(chosenType.price))}₮`}</strong>
             </p>
-            <p className="text flex-space">
-              <span>Имарт карт оноо:</span>
-              <strong style={{ color: "red" }}>{"-"}₮</strong>
-            </p>
+            {
+              useEpoint ?
+                <p className="text flex-space">
+                  <span>Имарт карт оноо:</span>
+                  <strong style={{ color: "red" }}>{`-${formatter.format(epointUsedPoint)}`}₮</strong>
+                </p> : ""
+            }
             <hr />
             <p className="text flex-space">
               <span>Нийт дүн:</span>
-              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0))}₮</strong>
+              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
             <p className="text flex-space">
               <span>НӨАТ:</span>
-              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price, 0))}₮</strong>
+              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p>
             <Checkbox onChange={this.handleAgreement}>
               {" "}
@@ -389,7 +416,7 @@ class DeliveryInfo extends React.Component {
                 <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл</span>
               </a>
             </Checkbox>
-            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={(checkedAgreement && state.paymentType && state.deliveryType)}>
+            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentType && state.deliveryType)}>
               <span className="text-uppercase">Тооцоо хийх</span>
             </button>
           </div>

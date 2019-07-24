@@ -41,7 +41,7 @@ class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     const { id } = this.props.match.params;
-    if (localStorage.getItem('auth') !== null) {
+    if (localStorage.getItem("auth") !== null) {
       this.props.addViewList({ skucd: id });
     }
     this.getData();
@@ -50,14 +50,22 @@ class Page extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
-      if (localStorage.getItem('auth') !== null) {
+      if (localStorage.getItem("auth") !== null) {
         this.props.addViewList({ skucd: id });
       }
-      this.setState({
-        detailLoad: true, relationalLoad: true, attributeLoad: true, commentLoad: true, collectionLoad: true, categoryLoad: true,
-      }, () => {
-        this.getData();
-      });
+      this.setState(
+        {
+          detailLoad: true,
+          relationalLoad: true,
+          attributeLoad: true,
+          commentLoad: true,
+          collectionLoad: true,
+          categoryLoad: true,
+        },
+        () => {
+          this.getData();
+        },
+      );
     }
   }
 
@@ -72,7 +80,6 @@ class Page extends React.Component {
     this.props
       .getProductComment({ skucd: id })
       .then(r => this.setState({ commentLoad: false }));
-
     this.props
       .getProductCollection({ skucd: id })
       .then(r => this.setState({ collectionLoad: false }));
