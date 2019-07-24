@@ -96,7 +96,6 @@ class List extends React.Component {
         qty: prod.qty !== undefined ? prod.qty : prod.saleminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
-        iscart: 0,
         body: products,
       });
       if (!result.payload.success) {

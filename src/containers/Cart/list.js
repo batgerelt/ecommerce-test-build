@@ -115,21 +115,23 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.cd === product.cd);
 
+    let productQty = product.saleminqty;
     if (found) {
-      if (this.props.isLogged) {
-        const result = await this.props.incrementProductRemotely({
-          skucd: found.cd,
-          qty: found.addminqty || 1,
-          iscart: 0,
-        });
-        if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
-        }
-      } else {
-        this.props.incrementProductLocally(found);
+      productQty = found.qty + (found.addminqty || 1);
+    }
+    product.qty = productQty;
+
+    if (this.props.isLogged) {
+      const result = await this.props.incrementProductRemotely({
+        skucd: product.cd,
+        qty: productQty,
+        iscart: 1,
+      });
+      if (!result.payload.success) {
+        this.handleNotify(result.payload.message);
       }
     } else {
-      throw new Error("Бараа олдсонгүй!");
+      this.props.incrementProductLocally(product);
     }
   };
 
@@ -274,7 +276,11 @@ class Cart extends React.Component {
       const price =
         this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
 
-      return <strong>{formatter.format(price * product.qty)}₮</strong>;
+      return (
+        <span className="price total">
+          <strong>{formatter.format(price * product.qty)}₮</strong>
+        </span>
+      );
     }
 
     const { products } = this.props;
@@ -308,7 +314,7 @@ class Cart extends React.Component {
             {wishlistProducts.map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
-                  <Link to="">
+                  <Link to={wishlistProd.route || ""}>
                     <span
                       className="image"
                       style={{
@@ -321,7 +327,7 @@ class Cart extends React.Component {
                 </div>
                 <div className="info-container">
                   <div className="flex-space">
-                    <Link to="">
+                    <Link to={wishlistProd.route || ""}>
                       <div className="text">
                         <span>{wishlistProd.skunm}</span>
                         <strong>
@@ -347,7 +353,7 @@ class Cart extends React.Component {
               </li>
             ))}
           </ul>
-          <Link to="" className="btn btn-gray btn-block">
+          <Link to="/profile/wish" className="btn btn-gray btn-block">
             <span className="text-uppercase">Бүх барааг үзэх</span>
           </Link>
         </div>
@@ -461,7 +467,12 @@ class Cart extends React.Component {
                       </div>
                     </form>
                   </td>
-                  <td style={{ paddingRight: "30px", textAlign: "right" }}>
+                  <td
+                    style={{
+                      paddingRight: "20px",
+                      textAlign: "right",
+                    }}
+                  >
                     {this.renderTotalPrice(prod)}
                   </td>
                 </tr>

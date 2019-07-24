@@ -5,14 +5,19 @@ import { Redirect, Link } from 'react-router-dom';
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
-  state = {};
+  state = { home: false };
 
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.props.match.params.key);
-    /* this.props.form.validateFields((err, values) => {
-      this.props.changePassword({ id: this.props.match.params.key, password: values.password });
-    }); */
+    this.props.form.validateFields((err, values) => {
+      this.props.changePassword({ key: this.props.match.params.key, password: values.password }).then((res) => {
+        if (res.payload.success) {
+          message.success(res.payload.message);
+        }
+        this.setState({ home: true });
+      });
+    });
   };
 
   handleConfirmBlur = (e) => {
@@ -56,26 +61,17 @@ class Component extends React.Component {
                 <Form.Item hasFeedback>
                   {getFieldDecorator("password", {
                     rules: [
-                      {
-                        required: true,
-                        message: "Шинэ нууц үг!",
-                      },
-                      {
-                        validator: this.validateToNextPassword,
-                      },
+                      { required: true, message: "Шинэ нууц үг!" },
+                      { validator: this.validateToNextPassword },
+                      { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
                     ],
                   })(<Input.Password placeholder="Шинэ нууц үг" />)}
                 </Form.Item>
                 <Form.Item hasFeedback>
                   {getFieldDecorator("confirm", {
                     rules: [
-                      {
-                        required: true,
-                        message: "Шинэ нууц үгээ дахин давтах!",
-                      },
-                      {
-                        validator: this.compareToFirstPassword,
-                      },
+                      { required: true, message: "Шинэ нууц үгээ дахин давтах!" },
+                      { validator: this.compareToFirstPassword },
                     ],
                   })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Шинэ нууц үгээ дахин давтах" />)}
                 </Form.Item>
@@ -100,7 +96,6 @@ class Component extends React.Component {
   unsuccessPass() {
     return (
       <div>
-        {message.error(this.props.changePass.data)}
         {<Redirect to="/" />}
       </div>
 
@@ -108,11 +103,10 @@ class Component extends React.Component {
   }
   checkResponse = () => {
     try {
-      const { changePass } = this.props;
-      console.log(changePass.success);
+      const { checkKeys } = this.props;
       return (
         <div>
-          {changePass.success ? this.renderPass() : this.unsuccessPass()}
+          {checkKeys.success ? this.renderPass() : this.unsuccessPass()}
         </div>
       );
     } catch (error) {
@@ -124,7 +118,8 @@ class Component extends React.Component {
     return (
       <div className="top-container">
         <div className="section">
-          {this.props.changePass === undefined ? null : this.checkResponse()}
+          {this.props.checkKeys.length === 0 ? null : this.checkResponse()}
+          {this.state.home ? <Redirect to="/" /> : null}
         </div>
       </div>
     );

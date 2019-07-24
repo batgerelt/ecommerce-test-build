@@ -1,7 +1,11 @@
 import React from "react";
 import { Form, message, Input, Select, Divider, Col, Button } from "antd";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
+import SwalModals from "./SwalModals";
 
+const MySwal = withReactContent(Swal);
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
@@ -41,6 +45,10 @@ class Component extends React.Component {
     this.setState({ loader: false });
   }
 
+  addAddress(param) {
+
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -73,16 +81,43 @@ class Component extends React.Component {
             address: values.address,
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
-          this.props.updateMain({ body: param }).then((res) => {
-            if (res.payload.success) {
-              message.success(res.payload.message);
-            }
-          });
+          if (this.props.userInfo.info.email !== param.email) {
+            MySwal.fire({
+              html: (
+                <SwalModals
+                  type={"email"}
+                  onRef={ref => (this.SwalModals = ref)}
+                  param={param}
+                  {...this}
+                  {...this.props}
+                />
+              ),
+              type: "warning",
+              animation: true,
+              button: false,
+              showCloseButton: false,
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              closeOnEsc: false,
+            });
+          } else {
+            console.log("else");
+            this.props.updateMain({ body: param }).then((res) => {
+              if (res.payload.success) {
+                message.success(res.payload.message);
+              }
+            });
+          }
         }
       }
     });
   }
 
+  addressChange(param) {
+
+  }
   renderLocation = (location) => {
     try {
       const loc = location;
@@ -402,7 +437,6 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {/* {this.renderCard(userInfo.card)} */}
           {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
         </div>
       );

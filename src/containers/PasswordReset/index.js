@@ -22,12 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.changePassword({ id: this.props.match.params.key, password: '1234' }).then((res) => {
-      if (!res.payload.success) {
-        return <Redirect to="/" />;
-      }
-      return null;
-    });
+    this.props.checkKey({ key: this.props.match.params.key });
   }
   render() {
     return <List {...this.props} />;
