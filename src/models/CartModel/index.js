@@ -375,7 +375,7 @@ class Model extends BaseModel {
       products = JSON.parse(products);
     }
 
-    if (!product.qty) {
+    if (product.qty === undefined) {
       product.qty = product.saleminqty || 1;
     }
 
@@ -388,8 +388,12 @@ class Model extends BaseModel {
         if (shouldOverride) {
           // eslint-disable-next-line no-lonely-if
           if (found.isgift === 1) {
-            found.qty = product.qty;
-          } else {
+            if (found.qty < found.saleminqty) {
+              found.qty = found.saleminqty;
+            } else {
+              found.qty = product.qty;
+            }
+          } else if (found.availableqty > 0) {
             // eslint-disable-next-line no-lonely-if
             if (found.salemaxqty > 0) {
               // eslint-disable-next-line no-lonely-if
@@ -400,6 +404,8 @@ class Model extends BaseModel {
                     found.salemaxqty
                   }"-г худалдан авах боломжтой.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = found.saleminqty;
               } else {
                 found.qty = product.qty;
               }
@@ -410,6 +416,8 @@ class Model extends BaseModel {
                 this.handleNotify(
                   `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = found.saleminqty;
               } else {
                 found.qty = product.qty;
               }
@@ -432,7 +440,7 @@ class Model extends BaseModel {
               // eslint-disable-next-line no-lonely-if
               if (found.isgift === 1) {
                 found.qty += product.qty;
-              } else {
+              } else if (found.availableqty > 0) {
                 // eslint-disable-next-line no-lonely-if
                 if (found.salemaxqty > 0) {
                   // eslint-disable-next-line no-lonely-if
@@ -462,7 +470,7 @@ class Model extends BaseModel {
               // eslint-disable-next-line no-lonely-if
               if (found.isgift === 1) {
                 found.qty += found.addminqty;
-              } else {
+              } else if (found.availableqty > 0) {
                 // eslint-disable-next-line no-lonely-if
                 if (found.salemaxqty > 0) {
                   // eslint-disable-next-line no-lonely-if
@@ -494,7 +502,13 @@ class Model extends BaseModel {
         products.splice(index, 1, found);
       }
     } else {
-      if (product.isgift === 0) {
+      // eslint-disable-next-line no-lonely-if
+      if (product.isgift === 1) {
+        if (product.qty < product.saleminqty) {
+          product.qty = product.saleminqty;
+        }
+        products.push(product);
+      } else if (product.availableqty > 0) {
         // eslint-disable-next-line no-lonely-if
         if (product.salemaxqty > 0) {
           // eslint-disable-next-line no-lonely-if
@@ -515,8 +529,8 @@ class Model extends BaseModel {
             );
           }
         }
+        products.push(product);
       }
-      products.push(product);
     }
 
     return products;
@@ -659,9 +673,8 @@ class Model extends BaseModel {
       case this.model.removeProductRemotely.response:
         try {
           let { products } = state;
-          let product = action.payload.data[0];
 
-          const found = products.find(prod => prod.cd === product.cd);
+          const found = products.find(prod => prod.cd === action.payload.data);
 
           if (!found) {
             throw new Error("Бараа олдсонгүй!");

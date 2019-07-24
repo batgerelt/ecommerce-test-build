@@ -48,7 +48,10 @@ class Page extends React.Component {
       //   console.log(this.props);
       //   // this.props.products = products;
       // }
-      this.props.getWish();
+      console.log(this.props.products);
+      if (this.props.isLogged) {
+        this.props.getWish();
+      }
     } catch (e) {
       console.log(e);
     }

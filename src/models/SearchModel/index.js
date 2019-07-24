@@ -13,7 +13,7 @@ class Model extends BaseModel {
     searchattribute: [],
     searchword: [],
     searchkeyword: [],
-    searchkeywordfilter: [],
+    searchKeyWordResponse: [],
   }
 
   constructor(data = {}) {
@@ -49,7 +49,7 @@ class Model extends BaseModel {
     }
   }
 
-  searchWord = ({ keyword, rownum = 10 } = {}) => asyncFn({ url: `/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
+  searchWord = ({ keyword, rownum = 20 } = {}) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
 
   searchProductBrand = ({
     id, start = 0, rowcnt = 20, order = `price_asc`,
@@ -61,10 +61,10 @@ class Model extends BaseModel {
 
   searchKeyWord = ({
     catid = 0, keywordid, startsWith = 10, rowCount = 0, orderCol = 'price_asc',
-  } = {}) => asyncFn({ url: `/search/keyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
+  } = {}) => asyncFn({ url: `/search/search/searchkeyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
 
   searchKeyWordFilter = ({ body } = {}) => asyncFn({
-    body, url: `/keywordfilter`, method: 'POST', model: this.model.searchkeywordfilter,
+    body, url: `/search/elastic`, method: 'POST', model: this.model.searchkeywordfilter,
   })
 
   reducer = (state = this.initialState, action) => {
@@ -107,7 +107,7 @@ class Model extends BaseModel {
       case this.model.searchkeywordfilter.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.searchkeywordfilter.response:
-        return { ...state, searchkeywordfilter: action.payload.data };
+        return { ...state, searchKeyWordResponse: action.payload.data };
 
       default:
         return state;

@@ -37,7 +37,7 @@ class Cart extends React.Component {
     if (this.props.isLogged) {
       const result = await this.props.clearRemotely();
       if (!result.payload.success) {
-        return this.handleNotify(result.payload.message);
+        this.handleNotify(result.payload.message);
       }
     } else {
       this.props.clearLocally();
@@ -59,7 +59,7 @@ class Cart extends React.Component {
           skucd: found.cd,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         this.props.removeProductLocally(product);
@@ -114,7 +114,7 @@ class Cart extends React.Component {
           iscart: 0,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         this.props.incrementProductLocally(found);
@@ -141,7 +141,7 @@ class Cart extends React.Component {
           iscart: 1,
         });
         if (!result.payload.success) {
-          return this.handleNotify(result.payload.message);
+          this.handleNotify(result.payload.message);
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -265,11 +265,7 @@ class Cart extends React.Component {
       const price =
         this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
 
-      return (
-        <p className="price total">
-          <strong>{formatter.format(price * product.qty)}₮</strong>
-        </p>
-      );
+      return <strong>{formatter.format(price * product.qty)}₮</strong>;
     }
 
     const { products } = this.props;
@@ -309,7 +305,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                          })`,
+                        })`,
                       }}
                     />
                   </Link>
@@ -324,8 +320,8 @@ class Cart extends React.Component {
                             wishlistProd.sprice
                               ? wishlistProd.sprice
                               : wishlistProd.price
-                                ? wishlistProd.price
-                                : 0,
+                              ? wishlistProd.price
+                              : 0,
                           )}
                           ₮
                         </strong>
@@ -363,7 +359,17 @@ class Cart extends React.Component {
       );
 
       if (products && products.length > 0) {
-        products.sort((a, b) => b.insymd - a.insymd);
+        products.sort((a, b) => {
+          if (typeof a.insymd === "string") {
+            a.insymd = new Date(a.insymd).getTime();
+          }
+
+          if (typeof b.insymd === "string") {
+            b.insymd = new Date(b.insymd).getTime();
+          }
+
+          return b.insymd - a.insymd;
+        });
         content = (
           <table className="table table-borderless">
             <thead className="thead-light">
@@ -396,7 +402,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                                }${prod.img || prod.url || ""})`,
+                              }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -432,8 +438,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                        // onKeyDown={this.handleQtyKeyDown(prod)}
-                        // onBlur={this.handleQtyBlur(prod)}
+                          // onKeyDown={this.handleQtyKeyDown(prod)}
+                          // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -447,10 +453,12 @@ class Cart extends React.Component {
                       </div>
                     </form>
                   </td>
-                  <td>{this.renderTotalPrice(prod)}</td>
+                  <td style={{ paddingRight: "30px", textAlign: "right" }}>
+                    {this.renderTotalPrice(prod)}
+                  </td>
                 </tr>
                 <tr className="table-action">
-                  <td colSpan="5">
+                  <td colSpan="5" style={{ paddinRight: "30px" }}>
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>
@@ -540,7 +548,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                        }`}
+                      }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>

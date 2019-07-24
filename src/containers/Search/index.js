@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import {
   Search as SearchModel,
   Cart as CartModel,
+  Attribute as AttributeModel,
 } from "../../models";
 import List from "./list";
 
@@ -14,29 +15,37 @@ const mapStateToProps = state => ({
   ...state.search,
   ...state.cart,
   ...state.auth,
+  ...state.attribute,
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     ...SearchModel,
     ...CartModel,
+    ...AttributeModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
   componentWillMount() {
     const { id, key } = this.props.match.params;
-    parseInt(key) === 1 ? this.props.searchKeyWord({ keywordid: id }) : this.props.searchWord({ keyword: id });
+    // parseInt(key) === 1 ? this.props.searchKeyWord({ keywordid: id }) : this.props.searchWord({ keyword: id });
 
     const params = {
-      catid: 0,
-      keywordid: id,
+      catId: 0,
+      value: id,
+      attribute: "",
+      color: "",
+      brand: "",
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      level: 0,
       parameters: [],
-      minprice: 0,
-      maxprice: 0,
-      ordercol: 'price_asc',
-      rowcount: 20,
-      startswith: 0,
+      language: "",
+      startsWith: 0,
+      rowCount: 10,
+      orderColumn: "",
     };
 
     this.props.searchKeyWordFilter({ body: { ...params } });

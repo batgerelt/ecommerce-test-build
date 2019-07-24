@@ -182,7 +182,9 @@ class Model extends BaseModel {
                       }"-г худалдан авах боломжтой.`,
                     );
                   } else {
-                    found.qty += found.addminqty;
+                    console.log("found.qty: ", found.qty);
+                    found.qty +=
+                      found.qty === 0 ? found.saleminqty : found.addminqty;
                   }
                 } else {
                   // eslint-disable-next-line no-lonely-if
@@ -192,7 +194,9 @@ class Model extends BaseModel {
                       `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
                     );
                   } else {
-                    found.qty += found.addminqty;
+                    console.log("found.qty: ", found.qty);
+                    found.qty +=
+                      found.qty === 0 ? found.saleminqty : found.addminqty;
                   }
                 }
               }
@@ -202,7 +206,11 @@ class Model extends BaseModel {
         products.splice(index, 1, found);
       }
     } else {
-      if (product.isgift === 0) {
+      if (product.isgift === 1) {
+        if (product.qty < product.saleminqty) {
+          product.qty = 0;
+        }
+      } else {
         // eslint-disable-next-line no-lonely-if
         if (product.salemaxqty > 0) {
           // eslint-disable-next-line no-lonely-if
@@ -224,6 +232,7 @@ class Model extends BaseModel {
           }
         }
       }
+
       products.push(product);
     }
 
@@ -264,6 +273,7 @@ class Model extends BaseModel {
         try {
           let { products } = state.packageDetail;
           let product = action.payload;
+          console.log("action.payload: ", action.payload);
 
           const found = products.find(prod => prod.cd === product.cd);
 

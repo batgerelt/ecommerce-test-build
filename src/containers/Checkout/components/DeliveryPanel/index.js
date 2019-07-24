@@ -100,13 +100,20 @@ class DeliveryPanel extends React.Component {
     this.setState({ selectLoading: true });
     this.props.getDistrictAndCommitte({ id: found.id }).then((res) => {
       if (res.payload.success) {
+        found.locid = res.payload.data.locid;
+        found.districtnm = res.payload.data.districtnm;
+        found.committeenm = res.payload.data.committeenm;
+        found.provincenm = res.payload.data.provincenm;
+        found.districtid = res.payload.data.districtid;
+        found.committeeid = res.payload.data.committeeid;
+        found.provinceid = res.payload.data.provinceid;
         this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts });
+        this.getZoneSetting(found);
+        this.setFieldsValue(found);
+        this.setState({ chosenAddress: found, inzone: found.inzone });
       }
       this.setState({ selectLoading: false });
     });
-    this.getZoneSetting(found);
-    this.setFieldsValue(found);
-    this.setState({ chosenAddress: found, inzone: found.inzone });
   }
 
   getZoneSetting = (found) => {
@@ -534,7 +541,7 @@ class DeliveryPanel extends React.Component {
                   <hr />
 
                   <div className="text-right">
-                    <button className="btn btn-main" type="submit" >
+                    <button className="btn btn-main" type="submit" disabled={!(!dateLoading || !selectLoading)}>
                       Дараах
                     </button>
                   </div>

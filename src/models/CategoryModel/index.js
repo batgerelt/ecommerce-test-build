@@ -12,6 +12,7 @@ class Model extends BaseModel {
     categorymenu: [],
     categoryinfo: [],
     categoryproducts: [],
+    categoryall: [],
   }
 
   constructor(data = {}) {
@@ -22,6 +23,11 @@ class Model extends BaseModel {
           request: this.buildActionName('request', data.model, 'categorymenu'),
           response: this.buildActionName('response', data.model, 'categorymenu'),
           error: this.buildActionName('error', data.model, 'categorymenu'),
+        },
+        categoryall: {
+          request: this.buildActionName('request', data.model, 'categoryall'),
+          response: this.buildActionName('response', data.model, 'categoryall'),
+          error: this.buildActionName('error', data.model, 'categoryall'),
         },
         categoryinfo: {
           request: this.buildActionName('request', data.model, 'categoryinfo'),
@@ -36,6 +42,7 @@ class Model extends BaseModel {
       };
     }
   }
+  getCategoryAll = () => asyncFn({ url: `/search/category`, method: 'GET', model: this.model.categoryall });
   getCategoryMenu = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
   getCategoryInfo = ({
     id, rowcount = 20, ordercol = 'price_asc',
@@ -46,6 +53,14 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // GET CATEGORY ALL
+      case this.model.categoryall.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categoryall.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categoryall.response:
+        return { ...state, categoryall: action.payload.data };
+
       // GET CATEGORY INFO
       case this.model.categoryinfo.request:
         return { ...state, current: this.requestCase(state.current, action) };
