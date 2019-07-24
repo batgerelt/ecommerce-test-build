@@ -24,7 +24,7 @@ class UserProfile extends React.Component {
   componentWillMount() {
     this.props.changePassword({ id: this.props.match.params.key, password: '1234' }).then((res) => {
       if (!res.payload.success) {
-        return <Redirect to="/new" />;
+        return <Redirect to="/" />;
       }
       return null;
     });

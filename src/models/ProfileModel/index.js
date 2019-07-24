@@ -7,6 +7,7 @@ class Model extends BaseModel {
     wish: [],
     delivery: [],
     orderdetail: [],
+    confirms: [],
   }
 
   constructor(data = {}) {
@@ -146,7 +147,7 @@ class Model extends BaseModel {
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
   });
   emartCard = ({ cardno, pincode }) => asyncFn({ url: `/customer/card/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
-  changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword });
+  changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword }, console.log(id));
   updateMain = ({ body }) => asyncFn({
     body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
   });
@@ -241,7 +242,7 @@ class Model extends BaseModel {
       case this.model.checkConfirm.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.checkConfirm.response:
-        return { ...state, response: action.payload.data };
+        return { ...state, confirms: action.payload };
       // PUT Change password
       case this.model.changePassword.request:
         return { ...state, current: this.requestCase(state.current, action) };

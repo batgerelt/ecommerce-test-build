@@ -22,6 +22,7 @@ import {
   Search as SearchModel,
   Filter as FilterModel,
   Recipe as RecipeModel,
+  Attribute as AttributeModel,
 } from "../../models";
 import {
   Locale,
@@ -65,6 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...SearchModel,
       ...FilterModel,
       ...RecipeModel,
+      ...AttributeModel,
     },
     dispatch,
   ),
@@ -78,6 +80,9 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getMenu();
     this.props.getStaticPages();
+    this.props.getCategoryAll();
+    this.props.getAttributeAll();
+    this.props.getAttributeValue();
   }
 
   render() {

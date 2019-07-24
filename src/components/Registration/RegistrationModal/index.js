@@ -22,10 +22,11 @@ class RegistrationModal extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         this.props.signup({ body: values }).then((res) => {
           if (res.payload.success) {
             this.handleSignup();
-            message.success("Та мэйл хаягаараа баталгаажуулна уу!");
+            message.success(res.payload.message);
           }
         });
       }
@@ -52,15 +53,6 @@ class RegistrationModal extends React.Component {
     callback();
   };
 
-  validateToNextPassword = (rule, value, callback) => {
-    if (value === "1") {
-      console.log(value);
-
-      callback("Нэрнүүд");
-    }
-    callback();
-  }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -71,11 +63,10 @@ class RegistrationModal extends React.Component {
         footer={null}
       >
         <Form onSubmit={this.handleSubmit}>
-          <Form.Item hasFeedback>
+          <Form.Item>
             {getFieldDecorator("firstname", {
               rules: [
-                { pattern: new RegExp("[A-Za-z]"), message: "no no no" },
-                { validator: this.validateToNextPassword },
+                { required: true, pattern: new RegExp("[A-Za-zА-Яа-я]"), message: "Овогоо оруулна уу" },
               ],
             })(
               <Input placeholder="Овог" maxLength={50} type="text" className="form-control" autoComplete="off" />,
@@ -85,7 +76,7 @@ class RegistrationModal extends React.Component {
             {getFieldDecorator("lastname", {
               rules: [{
                 required: true,
-                pattern: new RegExp("^[A-Za-z]*$"),
+                pattern: new RegExp("[A-Za-zА-Яа-я]"),
                 message: "Нэрээ оруулна уу",
               }],
             })(
@@ -97,17 +88,19 @@ class RegistrationModal extends React.Component {
               rules: [{
                 required: true,
                 type: "email",
-                message: "Имэйлээ хаягаа оруулна уу",
+                pattern: new RegExp("[A-Za-z]"),
+                message: "Имэйл хаягаа оруулна уу",
               }],
             })(
               <Input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
-          <Form.Item hasFeedback>
+          <Form.Item>
             {getFieldDecorator("phonE1", {
               rules: [
-                { required: true, min: 8, message: " " },
+                { required: true, message: "Утасны дугаар оруулна уу" },
                 { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
+                { min: 8, message: "Утасны дугаар 8 оронтой байна" },
               ],
             })(
               <Input

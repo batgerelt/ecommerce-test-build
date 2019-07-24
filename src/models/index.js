@@ -16,6 +16,7 @@ import SearchModel from "./SearchModel/";
 import ProfileModel from "./ProfileModel";
 import CheckoutModel from "./CheckoutModel";
 import UserModel from "./UserModel";
+import AttributeModel from "./AttributeModel";
 
 /** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -36,6 +37,7 @@ const Search = new SearchModel({ model: 'search' });
 const Profile = new ProfileModel({ model: 'profile' });
 const Checkout = new CheckoutModel({ model: 'checkout' });
 const User = new UserModel({ model: 'user' });
+const Attribute = new AttributeModel({ model: 'attribute' });
 
 export {
   Auth,
@@ -56,4 +58,5 @@ export {
   Profile,
   Checkout,
   User,
+  Attribute,
 };

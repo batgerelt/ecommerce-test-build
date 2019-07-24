@@ -106,6 +106,7 @@ class SwalModals extends React.Component {
           this.props.history.push("/cart");
         } else {
           MySwal.close();
+          this.props.changeDeliveryType();
           this.props.callback("3");
         }
       }

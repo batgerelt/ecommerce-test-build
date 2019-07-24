@@ -17,6 +17,7 @@ import PageBanner from "./PageBanner";
 import FilterSet from "./FilterSet";
 import CardSlider from "./CardSlider";
 import NotFound from "./NotFound";
+import SearchFilterSet from "./SearchFilterSet";
 
 export {
   Exception,
@@ -38,4 +39,5 @@ export {
   FilterSet,
   CardSlider,
   NotFound,
+  SearchFilterSet,
 };

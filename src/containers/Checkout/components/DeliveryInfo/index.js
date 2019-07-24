@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable radix */
 /* eslint-disable camelcase */
 /* eslint-disable array-callback-return */
 /* eslint-disable arrow-body-style */
@@ -39,6 +41,8 @@ class DeliveryInfo extends React.Component {
     ePointData: [],
     organizationData: [],
     chosenDate: null,
+    useEpoint: false,
+    epointUsedPoint: 0,
   };
 
   checkError = (value) => {
@@ -52,6 +56,7 @@ class DeliveryInfo extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     const { products } = this.props.props;
+    const { userinfo } = this.props;
     this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
   }
   setModal2Visible = (modal2Visible) => {
@@ -68,6 +73,10 @@ class DeliveryInfo extends React.Component {
 
   setIndividualData = (value) => {
     this.setState({ ePointData: value });
+  }
+
+  setUseEpoint = (value, cardInfo, usedPoint) => {
+    this.setState({ useEpoint: value, ePointData: cardInfo, epointUsedPoint: usedPoint });
   }
 
   setOrganizationData = (value) => {
@@ -132,13 +141,14 @@ class DeliveryInfo extends React.Component {
     });
   }
 
-  generateNoat = (total, deliver, usedpoint) => {
+  generateNoat = (total, deliver) => {
+    const { useEpoint, epointUsedPoint } = this.state;
     let value = 0;
     if (deliver !== undefined) {
       // eslint-disable-next-line no-mixed-operators
-      value = ((total + deliver - usedpoint) / 110) * 10;
+      value = ((total + deliver - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
     } else {
-      value = ((total - usedpoint) / 110) * 10;
+      value = ((total - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
     }
     return value.toFixed(2);
   };
@@ -148,7 +158,7 @@ class DeliveryInfo extends React.Component {
       userinfo, DeliveryInfo, PaymentTypePanel, products,
     } = this.props;
     const {
-      organizationData, ePointData, chosenInfo, chosenDate,
+      organizationData, ePointData, chosenInfo, chosenDate, epointUsedPoint,
     } = this.state;
     if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
       this.props.changeLoading(true);
@@ -163,7 +173,7 @@ class DeliveryInfo extends React.Component {
       tmp.paymentType = PaymentTypePanel.state.chosenPaymentType.id;
       tmp.addPoint = 0;
       tmp.deliveryDate = chosenDate;
-      tmp.usedPoint = 0;
+      tmp.usedPoint = epointUsedPoint;
       tmp.items = products;
       tmp.locId = chosenInfo.locid;
       tmp.custAddress =
@@ -313,7 +323,7 @@ class DeliveryInfo extends React.Component {
 
   render() {
     const {
-      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty,
+      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty, epointUsedPoint, useEpoint,
     } = this.state;
     const { staticpage, state } = this.props;
     return (
@@ -384,18 +394,21 @@ class DeliveryInfo extends React.Component {
               <span>Хүргэлтийн үнэ:</span>
               <strong>{`${formatter.format(this.checkError(chosenType.price))}₮`}</strong>
             </p>
-            <p className="text flex-space">
-              <span>Имарт карт оноо:</span>
-              <strong style={{ color: "red" }}>{"-"}₮</strong>
-            </p>
+            {
+              useEpoint ?
+                <p className="text flex-space">
+                  <span>Имарт карт оноо:</span>
+                  <strong style={{ color: "red" }}>{`-${formatter.format(epointUsedPoint)}`}₮</strong>
+                </p> : ""
+            }
             <hr />
             <p className="text flex-space">
               <span>Нийт дүн:</span>
-              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0))}₮</strong>
+              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
             <p className="text flex-space">
               <span>НӨАТ:</span>
-              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price, 0))}₮</strong>
+              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p>
             <Checkbox onChange={this.handleAgreement}>
               {" "}
