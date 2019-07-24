@@ -113,7 +113,10 @@ class LoginModal extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator("email", {
-                initialValue: localStorage.getItem("username"),
+                initialValue:
+                  localStorage.getItem("username") === null
+                    ? ""
+                    : localStorage.getItem("username"),
                 rules: [
                   {
                     required: true,

@@ -38,12 +38,18 @@ class List extends React.Component {
       }
     });
   };
+
   renderName(info) {
     return <strong><span style={{ padding: '21px', position: 'absolute' }}>{info.firstname} {info.lastname}</span></strong>;
   }
 
   handleLogout = () => {
-    this.props.clearProducts().then(res => console.log(res));
+    this.props.logout();
+    this.props.clearLocally();
+    /* message.warning(res.payload.message);
+    localStorage.removeItem("username");
+    this.props.logout();
+    this.props.clearLocally(); */
   }
 
   renderImage = () => {
@@ -56,6 +62,17 @@ class List extends React.Component {
     } catch (error) {
       return console.log(error);
     }
+  }
+
+  renderProgress = (data) => {
+    const info = data;
+    let percents = (Number(info.cstatus) + 1) * 25;
+    return (
+      <div>
+        <Progress percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
+        <span>{percents}% / 100%</span>
+      </div>
+    );
   }
 
   render() {
@@ -78,8 +95,7 @@ class List extends React.Component {
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
                       <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-12px" }} >Таны мэдээлэл</p>
                       <div>
-                        <Progress percent={50} strokeColor="#feb415" showInfo={false} style={{ width: "78%", fontSize: "16px" }} />
-                        <span>50% / 100%</span>
+                        {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
                       </div>
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>

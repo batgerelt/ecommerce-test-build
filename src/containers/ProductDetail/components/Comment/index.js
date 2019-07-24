@@ -30,9 +30,8 @@ class Comment extends Component {
     const { comment, user } = this.state;
     const { addComment, product } = this.props;
     if (user !== null) {
-      let custId = user.id;
       let skucd = product.cd;
-      addComment({ custId, skucd, comm: comment }).then((res) => {
+      addComment({ skucd, comm: comment }).then((res) => {
         console.log(res);
       });
     }

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, message } from "antd";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -15,18 +15,34 @@ class Signin extends React.Component {
   onSubmitLogin = (e) => {
     e.preventDefault();
     this.setState({ loading: true });
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.props.login({ body: { ...values } }).then((r) => {
+        this.props.login({ body: { ...values } }).then(async (r) => {
           if (r.payload.success) {
+            localStorage.setItem('img', r.payload.data[0].info.customerInfo.imgnm);
             localStorage.setItem('auth', JSON.stringify(r.payload));
-            this.props.getUserInfo().then((res) => {
+            // eslint-disable-next-line consistent-return
+            this.props.getUserInfo().then(async (res) => {
               if (res.payload.success) {
                 if (res.payload.data.main !== null) {
                   this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
                   this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
                 }
-                this.props.callback("2");
+                let { products } = this.props;
+                products = products.map(prod => ({
+                  skucd: prod.cd,
+                  qty: prod.qty,
+                }));
+                let result = await this.props.increaseProductsByQtyRemotely({
+                  iscart: 0,
+                  body: products,
+                });
+                if (!result.payload.success) {
+                  return message.error(result.payload.message);
+                }
+                this.props.getProducts();
+                this.props.history.push("/cart");
+                // this.props.callback("2");
               }
             });
             this.props.getSystemLocation({});
