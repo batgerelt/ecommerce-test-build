@@ -65,11 +65,11 @@ class List extends React.Component {
     }
   };
 
-  handleIncreaseProductClick = (product) => {
+  handleIncrementProductClick = (product) => {
     this.props.incrementPackageProductLocally(product);
   };
 
-  handleDecreaseProductClick = (product) => {
+  handleDecrementProductClick = (product) => {
     this.props.decrementPackageProductLocally(product);
   };
 
@@ -90,7 +90,6 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (products) => {
-    console.log("products: ", products);
     if (this.props.isLogged) {
       products = products.map(prod => ({
         skucd: prod.cd,
@@ -313,7 +312,7 @@ class List extends React.Component {
                           borderBottomLeftRadius: "20px",
                           marginRight: "5px",
                         }}
-                        onClick={() => this.handleDecreaseProductClick(prod)}
+                        onClick={() => this.handleDecrementProductClick(prod)}
                       >
                         <i className="fa fa-minus" aria-hidden="true" />
                       </button>
@@ -342,7 +341,7 @@ class List extends React.Component {
                           borderBottomRightRadius: "20px",
                           marginLeft: "5px",
                         }}
-                        onClick={() => this.handleIncreaseProductClick(prod)}
+                        onClick={() => this.handleIncrementProductClick(prod)}
                       >
                         <i className="fa fa-plus" aria-hidden="true" />
                       </button>
