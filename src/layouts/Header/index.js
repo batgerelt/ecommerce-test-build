@@ -10,7 +10,7 @@ import { Category, MainMenu, UserButton, CartButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
-
+import heartImageColor from "../../scss/assets/svg/003-chat-Copy.svg";
 import "./style.css";
 
 class AppHeader extends Component {
@@ -154,7 +154,7 @@ class AppHeader extends Component {
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
       const { keywordid, word } = this.state;
-
+      const { addedWishList } = this.props.product;
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
 
@@ -342,9 +342,10 @@ class AppHeader extends Component {
                           (
                             <Link to="/profile/wish" className="row10">
                               <img
-                                src={heartImage}
+                                src={addedWishList ? heartImageColor : heartImage}
                                 alt="wishlist"
-                                height="25px"
+                                height={"25px"}
+                                style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
                               <p>
                                 <small>Хадгалсан</small>
@@ -353,7 +354,7 @@ class AppHeader extends Component {
                             </Link>
                           ) : (
                             <Link to="#" className="row10">
-                              <img src={heartImage} alt="wishlist" height="25px" />
+                              <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p>
                                 <small>Хадгалсан</small>
                                 <span className="text-uppercase">бараа</span>

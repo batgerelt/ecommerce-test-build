@@ -150,9 +150,12 @@ class Card extends React.Component {
   };
 
   addWishList = (skucd) => {
-    const { addWishList } = this.props;
+    const { addWishList, removeAddedWishColor } = this.props;
     addWishList({ skucd }).then((res) => {
       if (res.payload.success) {
+        setTimeout(() => {
+          removeAddedWishColor();
+        }, 500);
         // message.success(res.payload.message);
       }
     });
