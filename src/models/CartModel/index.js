@@ -294,10 +294,10 @@ class Model extends BaseModel {
       model: this.model.removeProductRemotely,
     });
 
-  increaseProductsByQtyRemotely = ({ iscart, body }) =>
+  increaseProductsByQtyRemotely = ({ body }) =>
     asyncFn({
       body,
-      url: `/basket/${iscart}`,
+      url: `/basket`,
       method: "POST",
       model: this.model.increaseProductsByQtyRemotely,
     });
@@ -561,6 +561,8 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
+        console.log(state);
+        console.log(action.payload);
         return { ...state, products: action.payload.data };
 
       case "CART_DECREMENT_PRODUCT_LOCALLY":

@@ -339,6 +339,7 @@ class Card extends React.Component {
                       className="image"
                       style={{
                         backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                        backgroundSize: "cover",
                       }}
                     />
                   </Link>
