@@ -79,10 +79,9 @@ class Detail extends Component {
       isLoggedIn, detail, addRate, getProductDetail,
     } = this.props;
     if (isLoggedIn !== null) {
-      let custid = isLoggedIn.data[0].info.id;
-      let skucd = detail.cd;
+      let skucd = detail.products[0].cd;
       let rate = e / 2;
-      addRate({ custid, skucd, rate }).then((res) => {
+      addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
           message.success(res.payload.message);
           getProductDetail({ skucd });

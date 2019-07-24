@@ -45,9 +45,9 @@ class Page extends React.Component {
         this.setState({ loading: false });
       });
       this.props.getSystemLocation();
-      this.props.getEpointCardInfo().then((res) => {
+      /* this.props.getEpointCardInfo().then((res) => {
         console.log(res);
-      });
+      }); */
     } else {
       this.setState({ loading: false });
     }
@@ -60,7 +60,7 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} />
+        <List {...this.props} loading={loading} />
       </Spin>
     );
   }
