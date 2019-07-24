@@ -106,21 +106,23 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.cd === product.cd);
 
+    let productQty = product.saleminqty;
     if (found) {
-      if (this.props.isLogged) {
-        const result = await this.props.incrementProductRemotely({
-          skucd: found.cd,
-          qty: found.qty + (found.addminqty || 1),
-          iscart: 1,
-        });
-        if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
-        }
-      } else {
-        this.props.incrementProductLocally(found);
+      productQty = found.qty + (found.addminqty || 1);
+    }
+    product.qty = productQty;
+
+    if (this.props.isLogged) {
+      const result = await this.props.incrementProductRemotely({
+        skucd: product.cd,
+        qty: productQty,
+        iscart: 1,
+      });
+      if (!result.payload.success) {
+        this.handleNotify(result.payload.message);
       }
     } else {
-      throw new Error("Бараа олдсонгүй!");
+      this.props.incrementProductLocally(product);
     }
   };
 
