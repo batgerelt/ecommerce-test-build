@@ -2867,6 +2867,10 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   color: #feb415;
 }
 
+.text-left{
+  text-align: left;
+}
+
 .ant-tabs-ink-bar {
   background-color: #feb415 !important;
 }
@@ -3143,3 +3147,18 @@ textarea:focus {
 .ant-back-top-content{
   background-color: #ffb200 !important;
 }
+
+.product-gallery{
+  .list-inline-item {
+    &:not(:last-child) {
+      margin-right: 0 !important;
+    }
+  }
+}
+
+.product-info{
+  .form-control:disabled{
+    background-color: #fff;
+  }
+}
+

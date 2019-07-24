@@ -31,10 +31,12 @@ class Component extends React.Component {
     }
   }
   handleRateChange = (e, item) => {
+    console.log(e, item);
     this.props.addRate({
-      custid: this.props.data[0].info.customerInfo.id,
       skucd: item.skucd,
       rate: Number(e) * 2,
+    }).then((res) => {
+      console.log(res);
     });
   };
   renderProducts = () => {
@@ -59,13 +61,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                {
-                  item.rate !== null
-                    ?
-                    (<Rate rate={Number(item.rate)} numOfVotes={Number(item.rateusercnt)} onChange={e => this.handleRateChange(e, item)} />)
-                    :
-                    (<Rate rate={0} numOfVotes={0} onChange={e => this.handleRateChange(e, item)} />)
-                }
+                <Rate value={item.rate} onChange={e => this.handleRateChange(e, item)} />
               </div>
             </div>
           </div>

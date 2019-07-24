@@ -33,10 +33,8 @@ class Checkout extends React.Component {
       this.props.history.push("/");
     }
     if (this.checkLoggedIn()) {
-      if (this.props.userinfo.length !== nextProps.userinfo.length) {
-        if (!this.state.chnged) {
-          this.setState({ activeKey: ["2"], chnged: true });
-        }
+      if (this.props.loading !== nextProps.loading) {
+        this.setState({ activeKey: ["2"], chnged: true });
       }
     }
   }

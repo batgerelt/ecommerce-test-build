@@ -177,7 +177,7 @@ class SwalModals extends React.Component {
                         <p className="title">
                           <strong>Гүйлгээний мэдээлэл</strong>
                         </p>
-                        <div className="menu-content">
+                        <div className="menu-content text-left">
                           <ul className="list-unstyled">
                             <li>
                               <span>Данс</span>
@@ -342,7 +342,7 @@ class SwalModals extends React.Component {
                             )}
                         </ul>
                       </div>
-                      <div className="user-detail">
+                      <div className="user-detail text-left">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
                             Хүргэлтийн мэдээлэл:
