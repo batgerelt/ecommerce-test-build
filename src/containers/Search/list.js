@@ -7,11 +7,12 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { Spin, Select } from "antd";
+import { Link } from "react-router-dom";
 import {
   CARD_LIST_TYPES,
   CARD_TYPES,
 } from "../../utils/Consts";
-import { CardList, FilterSet, Loader } from "../../components";
+import { CardList, FilterSet, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
 
@@ -117,34 +118,50 @@ class CategoryInfo extends React.Component {
     });
   }
 
+  renderCategoryList = () => {
+    try {
+      const { selectedPromoCatId, promoCatClicked } = this.state;
+      const { searchKeyWordResponse } = this.props;
+
+      if (searchKeyWordResponse.length !== 0) {
+        return (
+          <ul className="list-unstyled category-list">
+            {searchKeyWordResponse.categories.buckets.map((cat, index) => {
+                  let className = "";
+                  if (selectedPromoCatId) {
+                    if (selectedPromoCatId !== cat.promotid) {
+                      className = "disabled";
+                    } else if (promoCatClicked) {
+                      className = "selected";
+                    } else {
+                      className = "disabled";
+                    }
+                  }
+
+                  return (
+                    <li key={index} className={className}>
+                      <Link to="" onClick={this.handlePromoCatClick(cat)}>
+                        {cat.promotnm}
+                      </Link>
+                    </li>
+                  );
+                })}
+          </ul>
+        );
+      }
+
+      return <div className="block">Ангилал байхгүй байна</div>;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   renderLeftPanel = () => {
     try {
-      const { key } = this.props.match.params;
-      const { attributes } = parseInt(key) === 1 ? this.props.searchkeyword : [];
+      const { searchKeyWordResponse } = this.props;
 
       const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
       const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
-
-      let filters = attributes.map((attr, index) => (
-        <FilterSet
-          key={index}
-          onAttributeChange={this.handleAttributeChange}
-          onPriceAfterChange={this.handlePriceAfterChange}
-          minPrice={this.state.minprice}
-          maxPrice={this.state.maxprice}
-          data={attr}
-        />
-      ));
-
-      filters = (
-        <div>
-          <h5 className="title">
-            <strong>Шүүлтүүр</strong>
-          </h5>
-          <div className="left-filter">{filters}</div>
-        </div>
-      );
-
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
@@ -167,7 +184,30 @@ class CategoryInfo extends React.Component {
               <p className="title">
                 <span>Ангилал</span>
               </p>
-              {filters}
+              <div className="accordion" id="accordionExample">
+                <div
+                  id="collapseOne"
+                  className="collapse show"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div className="collapse-content">
+                    <ul className="list-unstyled">
+                      {this.renderCategoryList()}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h5 className="title">
+                  <strong>Шүүлтүүр</strong>
+                </h5>
+                <div className="left-filter">
+                  <SearchFilterSet {...searchKeyWordResponse} />
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -180,14 +220,14 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { searchkeywordfilter } = this.props;
+      const { searchKeyWordResponse } = this.props;
 
       let result = null;
       if (this.state.isListViewOn) {
         result = (
           <CardList
             cartListType={CARD_LIST_TYPES.list}
-            items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
+            items={searchKeyWordResponse.length === 0 ? [] : searchKeyWordResponse.hits.hits}
             cardType={CARD_TYPES.list}
             {...this.props}
           />
@@ -196,7 +236,7 @@ class CategoryInfo extends React.Component {
         result = (
           <CardList
             cartListType={CARD_LIST_TYPES.horizontal}
-            items={searchkeywordfilter === undefined ? [] : searchkeywordfilter}
+            items={searchKeyWordResponse.length === 0 ? [] : searchKeyWordResponse.hits.hits}
             showAll
             cardType={CARD_TYPES.wide}
             {...this.props}
@@ -212,7 +252,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     {/* <strong>"{selectedCat}"</strong> */}
-                    {searchkeywordfilter.length}{" "}
+                    {searchKeyWordResponse.hits.total.value}{" "}
                           бараа олдлоо
                   </p>
                 </div>
@@ -231,12 +271,9 @@ class CategoryInfo extends React.Component {
                   <div className="form-group my-select flex-this">
                     <label
                       htmlFor="inputState"
-                      style={{
-                              marginTop: "7px",
-                              marginRight: "5px",
-                            }}
+                      style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                            Эрэмбэлэх:
+                      Эрэмбэлэх:
                     </label>
                     <Select
                       defaultValue={this.state.sort}

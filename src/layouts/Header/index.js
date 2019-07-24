@@ -34,21 +34,21 @@ class AppHeader extends Component {
   componentDidMount() { this.props.onRef(this); }
 
   handleSearch = () => {
-    const { word, keywordid } = this.state;
-    keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
+    // const { word, keywordid } = this.state;
+    // keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
 
-    const params = {
-      catid: 0,
-      keywordid,
-      parameters: [],
-      minprice: 0,
-      maxprice: 0,
-      ordercol: 'price_asc',
-      rowcount: 20,
-      startswith: 0,
-    };
+    // const params = {
+    //   catid: 0,
+    //   keywordid,
+    //   parameters: [],
+    //   minprice: 0,
+    //   maxprice: 0,
+    //   ordercol: 'price_asc',
+    //   rowcount: 20,
+    //   startswith: 0,
+    // };
 
-    this.props.searchKeyWordFilter({ body: { ...params } });
+    // this.props.searchKeyWordFilter({ body: { ...params } });
   }
 
   handleChangeKeyWord = (e) => {
@@ -284,7 +284,7 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`}
+                            to={keywordid === null ? `/search/${word}/0` : `/search/${word}/1`}
                             style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i
