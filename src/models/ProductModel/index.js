@@ -147,7 +147,7 @@ class Model extends BaseModel {
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
   addWishList = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: 'POST', model: this.addWishListModel });
-  addRate = ({ custid, skucd, rate }) => asyncFn({ url: `/product/rate/${custid}/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
+  addRate = ({ skucd, rate }) => asyncFn({ url: `/product/rate/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
   addComment = ({ custId, skucd, comm }) => asyncFn({ url: `/product/comment/${custId}/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
   reducer = (state = this.initialState, action) => {

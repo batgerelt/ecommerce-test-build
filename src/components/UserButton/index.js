@@ -25,13 +25,24 @@ class UserButton extends React.Component {
 
   handleLogoutClick = () => {
     this.props.logout();
-    this.setState({ logout: !this.state.logout });
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
     /* if (this.props.history.location.pathname === "/checkout") {
       this.props.history.push("/");
     } */
   }
 
+  renderProgress() {
+    let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
+    return (
+      <div>
+        <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
+        <p className="text text-center">
+          <strong>Таны мэдээлэл</strong>
+          <span>{percents}%</span>
+        </p>
+      </div>
+    );
+  }
   render() {
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
@@ -72,11 +83,7 @@ class UserButton extends React.Component {
                             : ""}
                       </p>
                     </div>
-                    <Progress percent={50} strokeColor="#feb415" showInfo={false} />
-                    <p className="text text-center">
-                      <strong>Таны мэдээлэл</strong>
-                      <span>50%</span>
-                    </p>
+                    {this.renderProgress()}
                   </div>
                   <ul className="list-unstyled">
                     <li>

@@ -28,6 +28,15 @@ class Component extends React.Component {
       });
     }
   }
+  handleRateChange = (e, item) => {
+    console.log(e, item);
+    this.props.addRate({
+      skucd: item.skucd,
+      rate: Number(e) * 2,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
   renderProducts = () => {
     try {
       const { wish } = this.props;
@@ -50,7 +59,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                {item.rate ? (<Rate rate={item.rate} numOfVotes={item.rateusercnt} />) : (<Rate rate={0} numOfVotes={0} />)}
+                <Rate value={item.rate} onChange={e => this.handleRateChange(e, item)} />
               </div>
             </div>
           </div>

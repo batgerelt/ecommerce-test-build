@@ -5,32 +5,25 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
+  Cart as CartModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
-    AuthModel,
+    ...AuthModel,
     ...ProfileModel,
+    ...CartModel,
   }, dispatch),
 });
 
 class UserProfile extends React.Component {
-  componentWillMount() {
-    /* this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
-      if (res.payload.success) {
-        if (res.payload.data.main !== null) {
-          this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
-          this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
-        }
-      }
-      this.props.getSystemLocation();
-    }); */
-  }
+  componentWillMount() { }
   render() {
     return <List {...this.props} />;
   }

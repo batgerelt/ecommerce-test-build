@@ -22,6 +22,7 @@ import {
   Search as SearchModel,
   Filter as FilterModel,
   Recipe as RecipeModel,
+  Profile as ProfileModel,
 } from "../../models";
 import {
   Locale,
@@ -65,6 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...SearchModel,
       ...FilterModel,
       ...RecipeModel,
+      ...ProfileModel,
     },
     dispatch,
   ),

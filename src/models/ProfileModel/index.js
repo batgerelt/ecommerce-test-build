@@ -8,6 +8,7 @@ class Model extends BaseModel {
     delivery: [],
     orderdetail: [],
     confirms: [],
+    checkKeys: [],
   }
 
   constructor(data = {}) {
@@ -119,6 +120,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'orderdetail'),
           error: this.buildActionName('error', data.model, 'orderdetail'),
         },
+        checkKey: {
+          request: this.buildActionName('request', data.model, 'checkkey'),
+          response: this.buildActionName('response', data.model, 'checkkey'),
+          error: this.buildActionName('error', data.model, 'checkkey'),
+        },
       };
     }
   }
@@ -147,9 +153,10 @@ class Model extends BaseModel {
     body, url: `/customer/passreset`, method: `PUT`, model: this.model.resetPassword,
   });
   emartCard = ({ cardno, pincode }) => asyncFn({ url: `/customer/card/${cardno}/${pincode}`, method: `POST`, model: this.model.emartCard });
-  changePassword = ({ id, password }) => asyncFn({ url: `/customer/putchangepass/${id}/${password}`, method: `PUT`, model: this.model.changePassword }, console.log(id));
+  changePassword = ({ key, password }) => asyncFn({ url: `/customer/putchangepass/${key}/${password}`, method: `PUT`, model: this.model.changePassword }, console.log(key));
+  checkKey = ({ key }) => asyncFn({ url: `/customer/checkpasswordkey/${key}`, method: `GET`, model: this.model.checkKey });
   updateMain = ({ body }) => asyncFn({
-    body, url: `/customer/changeuserimf`, method: `PUT`, model: this.model.updateMain,
+    body, url: `/customer`, method: `PUT`, model: this.model.updateMain,
   });
   confirm = ({ key }) => asyncFn({ url: `/customer/checkkey/${key}`, method: `PUT`, model: this.model.checkConfirm });
   // DELETE
@@ -257,6 +264,12 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.emartCard.response:
         return { ...state, emartCard: action.payload };
+      case this.model.checkKey.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.checkKey.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.checkKey.response:
+        return { ...state, checkKeys: action.payload };
       // LOCATION
       // GET COMMITTE LOCATION
       case this.model.committelocation.request:
