@@ -29,16 +29,11 @@ class SwalModals extends React.Component {
 
   onSubmit = () => {
     this.props.updateMain({ body: this.props.param }).then((res) => {
-      console.log(res.payload);
       if (res.payload.success) {
         message.success(res.payload.message);
-        /* if (!res.payload.data) {
-                  message.warning(res.payload.message);
-                  console.log("clear");
-                  localStorage.removeItem("username");
-                  this.props.logout();
-                  this.props.clearLocally();
-                } */
+        localStorage.removeItem("username");
+        this.props.logout();
+        this.props.clearLocally();
       }
       MySwal.close();
     });
