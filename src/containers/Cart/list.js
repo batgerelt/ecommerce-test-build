@@ -427,6 +427,7 @@ class Cart extends React.Component {
                           style={{ color: "#6c757d" }}
                         >
                           <strong>{prod.name}</strong>
+                          {console.log(prod)}
                           <span>{prod.featuretxt || ""}</span>
                         </Link>
                       </div>

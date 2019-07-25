@@ -372,6 +372,7 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
+    console.log("products: ", products);
 
     if (!products) {
       return 0;
@@ -380,7 +381,10 @@ class List extends React.Component {
     return products.reduce(
       (acc, cur) =>
         // eslint-disable-next-line no-mixed-operators
-        acc + this.getPrice(cur) * (cur.qty ? cur.qty : cur.saleminqty || 1),
+        acc +
+        // eslint-disable-next-line no-mixed-operators
+        this.getPrice(cur) *
+          (cur.qty || cur.qty === 0 ? cur.qty : cur.saleminqty || 1),
       0,
     );
   };

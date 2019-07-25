@@ -30,7 +30,7 @@ class LoginModal extends React.Component {
   };
 
   handleResetVisible = () => {
-    this.handleLoginModal();
+    this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
   };
 

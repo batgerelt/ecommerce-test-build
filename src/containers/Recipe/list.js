@@ -71,7 +71,7 @@ class Recipe extends React.Component {
         return null;
       }
 
-      recipeproduct = recipeproduct.slice(5);
+      recipeproduct = recipeproduct.slice(6);
 
       const iteration = Math.floor(recipeproduct.length / 6);
       const remainder = recipeproduct.length % 6;
@@ -89,10 +89,7 @@ class Recipe extends React.Component {
                 <CardList
                   cardListType={CARD_LIST_TYPES.horizontal}
                   // eslint-disable-next-line no-mixed-operators
-                  items={recipeproduct.slice(
-                    // eslint-disable-next-line no-mixed-operators
-                    iteration > 0 ? iteration * 6 - 1 : 0,
-                  )}
+                  items={recipeproduct.slice(iteration * 6)}
                   cardType={CARD_TYPES.wide}
                   showAll
                   {...this.props}
