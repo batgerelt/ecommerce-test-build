@@ -24,7 +24,7 @@ class Detail extends Component {
   };
 
   renderDetails = () => {
-    const { categorymenu } = this.props;
+    const { categorymenu, rate } = this.props;
     const detail = this.props.detail.products
       ? this.props.detail.products[0]
       : null;
@@ -50,16 +50,12 @@ class Detail extends Component {
           <div className="main-rating">
             <Rate
               allowHalf
-              value={detail.rate ? detail.rate / 2 : 0}
+              value={rate / 2}
               onChange={this.handleRateChange}
             />
 
             <p className="text">
-              (
-              {detail.rate_user_cnt
-                ? `${detail.rate_user_cnt} хүн үнэлгээ өгсөн байна`
-                : "Одоогоор үнэлгээ өгөөгүй байна"}
-              )
+              ({rate !== 0 ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"})
             </p>
           </div>
 
@@ -80,7 +76,7 @@ class Detail extends Component {
     } = this.props;
     if (isLoggedIn !== null) {
       let skucd = detail.products[0].cd;
-      let rate = e / 2;
+      let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
           message.success(res.payload.message);

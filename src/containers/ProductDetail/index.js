@@ -87,6 +87,9 @@ class Page extends React.Component {
       .getProductAttribute({ skucd: id })
       .then(r => this.setState({ attributeLoad: false }));
     this.props.getCategorys().then(r => this.setState({ categoryLoad: false }));
+    if (localStorage.getItem("auth") !== null) {
+      this.props.getProductRate({ skucd: id });
+    }
   };
 
   render() {

@@ -94,12 +94,15 @@ class ProductDetail extends React.Component {
 
   renderCommentList = () => {
     try {
-      const { detail, comment, addComment } = this.props;
+      const {
+        detail, comment, addComment, getProductComment,
+      } = this.props;
       return (
         <Comment
           product={detail.length === 0 ? {} : detail.products[0]}
           comments={comment}
           addComment={addComment}
+          getProductComment={getProductComment}
         />
       );
     } catch (error) {

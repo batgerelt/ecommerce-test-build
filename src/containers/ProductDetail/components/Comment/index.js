@@ -15,7 +15,6 @@ class Comment extends Component {
 
   componentWillMount() {
     let auth = localStorage.getItem("auth");
-    this.setState({ comments: this.props.comments });
     if (auth !== null) {
       auth = JSON.parse(auth);
       this.setState({ user: auth.data[0].info.customerInfo });
@@ -32,7 +31,10 @@ class Comment extends Component {
     if (user !== null) {
       let skucd = product.cd;
       addComment({ skucd, comm: comment }).then((res) => {
-        console.log(res);
+        if (res.payload.success) {
+          this.setState({ comment: "" });
+          this.props.getProductComment({ skucd: product.cd });
+        }
       });
     }
   }
@@ -40,8 +42,8 @@ class Comment extends Component {
 
   renderCommentList = () => {
     try {
-      const { user, comments } = this.state;
-      const { product } = this.props;
+      const { user } = this.state;
+      const { product, comments } = this.props;
       const { rate, rate_user_cnt } = product;
       return (
         <div

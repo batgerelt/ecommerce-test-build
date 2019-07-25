@@ -44,6 +44,15 @@ class Cart extends React.Component {
     }
   };
 
+  handleSaveClick = (e, product) => {
+    e.preventDefault();
+    this.props.addWish({ skucd: product.cd }).then((res) => {
+      if (res.payload.success) {
+        this.props.getWish();
+      }
+    });
+  }
+
   // eslint-disable-next-line consistent-return
   handleRemoveClick = product => async (e) => {
     e.preventDefault();
@@ -311,7 +320,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
                   </Link>
@@ -326,8 +335,8 @@ class Cart extends React.Component {
                             wishlistProd.sprice
                               ? wishlistProd.sprice
                               : wishlistProd.price
-                              ? wishlistProd.price
-                              : 0,
+                                ? wishlistProd.price
+                                : 0,
                           )}
                           ₮
                         </strong>
@@ -407,7 +416,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || prod.url || ""})`,
+                                }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -443,8 +452,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -472,7 +481,7 @@ class Cart extends React.Component {
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>
-                          <Link to="">
+                          <Link to="" onClick={e => this.handleSaveClick(e, prod)}>
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
                             <span>Хадгалах</span>
                           </Link>
@@ -558,7 +567,7 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>
