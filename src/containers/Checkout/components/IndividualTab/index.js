@@ -127,20 +127,20 @@ class IndividualTab extends React.Component {
                     <div className="form-group">
                       <Form.Item>
                         {getFieldDecorator("cardno", {
-                          rules: [{ required: true, message: "Картын дугаар оруулна уу ?" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Картын дугаар зөв оруулна уу ?" },
-                          { len: 14, message: "14 оронтой байх ёстой !." }],
+                          rules: [{ required: true, message: "Картын дугаар оруулна уу" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Картын дугаар зөв оруулна уу" },
+                          { len: 14, message: "14 оронтой байх ёстой" }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
+                          <Input autoComplete="off" autoFill="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
                         {getFieldDecorator("pincode", {
-                          rules: [{ required: true, message: "Нууц үг оруулна уу ?" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Нууц үг зөв оруулна уу ?" },
-                          { len: 4, message: "4 оронтой байх ёстой !." }],
+                          rules: [{ required: true, message: "Нууц үг оруулна уу" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Нууц үг зөв оруулна уу" },
+                          { len: 4, message: "4 оронтой байх ёстой" }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
+                          <Input autoComplete="off" autoFill="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>

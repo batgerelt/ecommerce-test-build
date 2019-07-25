@@ -16,7 +16,7 @@ class Model extends BaseModel {
     attribute: [],
     relational: [],
     collection: [],
-    rate: [],
+    rate: 0,
     comment: [],
     detailimg: [],
     recipeproduct: [],
@@ -24,6 +24,7 @@ class Model extends BaseModel {
     count: 0,
     isFetching: false,
     allFetched: false,
+    addedWishList: false,
   }
 
   constructor(data = {}) {
@@ -132,7 +133,7 @@ class Model extends BaseModel {
   getProductComment = ({ skucd }) => asyncFn({ url: `/product/comment/${skucd}`, method: 'GET', model: this.model.comment });
   getProductDetailimg = ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
   getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
-  getCategorys = () => asyncFn({ url: `/categorymenu`, method: 'GET', model: this.model.categorymenu });
+  getCategorys = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
   getEmartProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `price_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.emartproduct });
@@ -147,6 +148,7 @@ class Model extends BaseModel {
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
   addWishList = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: 'POST', model: this.addWishListModel });
+  removeAddedWishColor = () => ({ type: "REMOVE_ADDED_WISH_LIST_COLOR" });
   addRate = ({ skucd, rate }) => asyncFn({ url: `/product/rate/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
@@ -270,6 +272,7 @@ class Model extends BaseModel {
           ...state,
           isLoading: true,
           error: false,
+          addedWishList: true,
         };
 
       // ADD RATE MODEL
@@ -295,6 +298,9 @@ class Model extends BaseModel {
           isLoading: true,
           error: false,
         };
+
+      case "REMOVE_ADDED_WISH_LIST_COLOR":
+        return { ...state, addedWishList: false };
 
       default:
         return state;

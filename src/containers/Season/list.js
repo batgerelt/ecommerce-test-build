@@ -29,7 +29,10 @@ class Season extends React.Component {
       checkedList: [],
       attributes: this.props.seasonfilter.attributes || [],
       products: this.props.seasonfilter.products || [],
-      promoCats: this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions,
+      promoCats:
+        this.props.seasonfilter.length === 0
+          ? []
+          : this.props.seasonfilter.promotions,
       promoCatClicked: false,
       selectedPromoCatId: null,
       searchProdItem: [],
@@ -67,7 +70,11 @@ class Season extends React.Component {
   notify = message => toast(message, { autoClose: 5000 });
 
   fetchProductData = ({
-    promoCatId, checkedList, minPrice, maxPrice, sort,
+    promoCatId,
+    checkedList,
+    minPrice,
+    maxPrice,
+    sort,
   }) => {
     this.setState({ loading: true });
     const data = {
@@ -78,11 +85,13 @@ class Season extends React.Component {
       ordercol: sort,
     };
 
-    this.props.seasonFilter({
-      body: data,
-    }).then((res) => {
-      this.setState({ loading: false });
-    });
+    this.props
+      .seasonFilter({
+        body: data,
+      })
+      .then((res) => {
+        this.setState({ loading: false });
+      });
   };
 
   handlePriceAfterChange = (value) => {
@@ -159,7 +168,11 @@ class Season extends React.Component {
     e.preventDefault();
 
     const {
-      checkedList, minPrice, maxPrice, sort, selectedPromoCatId,
+      checkedList,
+      minPrice,
+      maxPrice,
+      sort,
+      selectedPromoCatId,
     } = this.state;
     let promoCatClicked = this.state.promoCatClicked;
     let body = {
@@ -176,9 +189,12 @@ class Season extends React.Component {
     } else {
       promoCatClicked = false;
     }
-    this.setState({ selectedPromoCatId: cat.promotid, promoCatClicked: !promoCatClicked }, () => {
-      this.fetchProductData(body, true);
-    });
+    this.setState(
+      { selectedPromoCatId: cat.promotid, promoCatClicked: !promoCatClicked },
+      () => {
+        this.fetchProductData(body, true);
+      },
+    );
   };
 
   handlePromoCatCancel = (e) => {
@@ -203,7 +219,10 @@ class Season extends React.Component {
   renderPromoCats = () => {
     const { selectedPromoCatId, promoCatClicked } = this.state;
     // console.log(this.state.promoCats);
-    let promoCats = this.props.seasonfilter.length === 0 ? [] : this.props.seasonfilter.promotions;
+    let promoCats =
+      this.props.seasonfilter.length === 0
+        ? []
+        : this.props.seasonfilter.promotions;
     if (promoCats.length) {
       return (
         <ul className="list-unstyled category-list">
@@ -273,7 +292,7 @@ class Season extends React.Component {
     if (isListViewOn) {
       result = (
         <CardList
-          cartListType={CARD_LIST_TYPES.list}
+          cardListType={CARD_LIST_TYPES.list}
           items={products || []}
           cardType={CARD_TYPES.list}
           {...this.props}
@@ -285,7 +304,7 @@ class Season extends React.Component {
           cardType={CARD_TYPES.wide}
           items={products || []}
           showAll
-          cartListType={CARD_LIST_TYPES.horizontal}
+          cardListType={CARD_LIST_TYPES.horizontal}
           {...this.props}
         />
       );
@@ -398,18 +417,14 @@ class Season extends React.Component {
                         <div className="form-group flex-this">
                           <Link
                             to=""
-                            className={
-                              isListViewOn ? "btn active" : "btn"
-                            }
+                            className={isListViewOn ? "btn active" : "btn"}
                             onClick={this.handleViewChange}
                           >
                             <i className="fa fa-th-list" aria-hidden="true" />
                           </Link>
                           <Link
                             to=""
-                            className={
-                              isListViewOn ? "btn" : "btn active"
-                            }
+                            className={isListViewOn ? "btn" : "btn active"}
                             onClick={this.handleViewChange}
                           >
                             <i className="fa fa-th" aria-hidden="true" />

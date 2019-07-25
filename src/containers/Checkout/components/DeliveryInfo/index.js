@@ -413,7 +413,7 @@ class DeliveryInfo extends React.Component {
             <Checkbox onChange={this.handleAgreement}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл</span>
+                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentType && state.deliveryType)}>

@@ -20,7 +20,7 @@ class Discount extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderHeaderProduct = () => {
     try {
@@ -30,8 +30,8 @@ class Discount extends React.Component {
           <div className="container pad10">
             {
               <CardList
-                cartListType={CARD_LIST_TYPES.horizontal}
-                seq={widgetAll.find(i => i.slug === 'package').type}
+                cardListType={CARD_LIST_TYPES.horizontal}
+                seq={widgetAll.find(i => i.slug === "package").type}
                 items={packageAll.slice(0, 8)}
                 {...this.props}
               />
@@ -43,17 +43,19 @@ class Discount extends React.Component {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   renderSubBanner = () => {
     try {
       const { packagebanner } = this.props;
 
-      return <Banner data={packagebanner.length === 0 ? [] : packagebanner.footer} />;
+      return (
+        <Banner data={packagebanner.length === 0 ? [] : packagebanner.footer} />
+      );
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderFooterProduct = () => {
     try {
@@ -64,8 +66,8 @@ class Discount extends React.Component {
           <div className="container pad10">
             {
               <CardList
-                cartListType={CARD_LIST_TYPES.horizontal}
-                seq={widgetAll.find(i => i.slug === 'package').type}
+                cardListType={CARD_LIST_TYPES.horizontal}
+                seq={widgetAll.find(i => i.slug === "package").type}
                 items={packageAll.slice(8)}
                 second
                 {...this.props}
@@ -78,7 +80,7 @@ class Discount extends React.Component {
       // return console.log(error);
       return null;
     }
-  }
+  };
   render() {
     return (
       <div className="top-container">
