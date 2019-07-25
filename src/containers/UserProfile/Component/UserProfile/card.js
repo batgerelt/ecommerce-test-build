@@ -14,6 +14,7 @@ class Component extends React.Component {
       if (!err) {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
+          console.log(res.payload);
           if (res.payload.success) {
             message.success(res.payload.message);
             this.props.getCustomer();
@@ -25,6 +26,7 @@ class Component extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (

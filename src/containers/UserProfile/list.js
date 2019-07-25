@@ -172,7 +172,6 @@ class List extends React.Component {
                 </div>
 
                 <Switch>
-                  {console.log(match.path)}
                   <Route exact path={match.path} component={UserProfile} {...this} />
                   <Route path={`${match.path}/history`} component={UserHistory} {...this} />
                   <Route path={`${match.path}/wish`} component={UserWish} {...this} />

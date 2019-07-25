@@ -434,7 +434,7 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
+          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {
