@@ -462,7 +462,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("committeeid", {
                             initialValue: this.checkError(chosenAddress.committeeid),
-                            rules: [{ required: true, message: "Хороо сонгоно уу?" }],
+                            rules: [{ required: true, message: "Хороо сонгоно уу" }],
                           })(
                             <Select placeholder="Хороо*" showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(committeLocation)}
@@ -479,7 +479,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
-                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу ?" }],
+                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу" }],
                           })(
                             <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг*" />,
                           )}

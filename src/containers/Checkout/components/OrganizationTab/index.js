@@ -15,7 +15,9 @@ class OrganizationTab extends React.Component {
     const { state } = this.props;
     const { setFieldsValue } = this.props.form;
     this.props.onRef(this);
+    console.log(this.props);
     if (state.companyInfo !== null) {
+      console.log(state);
       setFieldsValue({ regno: state.companyInfo.name });
       this.setState({ companyInfo: state.companyInfo, connected: true });
     }

@@ -347,7 +347,7 @@ class AppHeader extends Component {
                                 height={"25px"}
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
-                              <p>
+                              <p className="header-text">
                                 <small>Хадгалсан</small>
                                 <span className="text-uppercase">бараа</span>
                               </p>
@@ -355,7 +355,7 @@ class AppHeader extends Component {
                           ) : (
                             <Link to="#" className="row10">
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
-                              <p>
+                              <p className="header-text">
                                 <small>Хадгалсан</small>
                                 <span className="text-uppercase">бараа</span>
                               </p>
