@@ -46,8 +46,11 @@ class Cart extends React.Component {
 
   handleSaveClick = (e, product) => {
     e.preventDefault();
-    this.props.addWish({ skucd: product.cd }).then((res) => {
+    this.props.addWishList({ skucd: product.cd }).then((res) => {
       if (res.payload.success) {
+        setTimeout(() => {
+          this.props.removeAddedWishColor();
+        }, 500);
         this.props.getWish();
       }
     });
@@ -300,7 +303,6 @@ class Cart extends React.Component {
     if (!this.props.isLogged) {
       return null;
     }
-
     const wishlistProducts = this.props.wish;
 
     return (
