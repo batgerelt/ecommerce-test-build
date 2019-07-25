@@ -34,10 +34,6 @@ class List extends React.Component {
     imageUrl: {},
   };
 
-  renderName(info) {
-    return <strong><span style={{ padding: '21px', position: 'absolute' }}>{info.lastname} {info.firstname}</span></strong>;
-  }
-
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
@@ -82,19 +78,13 @@ class List extends React.Component {
       if (response.payload.success) {
         const realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
         localStorage.setItem('img', realImage);
-        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+        this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             this.setState({ showButton: false });
           }
         });
       }
     });
-  }
-
-  renderButton() {
-    return (
-      <Button style={{ marginTop: "43px", marginLeft: "43px" }} onClick={this.uploadPick}>Хадгалах</Button>
-    );
   }
 
   renderImage = () => {
@@ -109,10 +99,13 @@ class List extends React.Component {
     }
   }
 
+  renderName(info) {
+    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.lastname} {info.firstname} {this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+  }
+
   render() {
     const { match } = this.props;
     const { imageUrl, showButton } = this.state;
-    match.path = "/profile";
     return (
       <div className="section section-gray">
         <div className="container">
@@ -131,18 +124,17 @@ class List extends React.Component {
                       >
                         <div className={style.avatarpreview}>
                           {/* { imageUrl !== null ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo === undefined ? null : this.renderImage() } */}
-                          { showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo !== undefined ? this.renderImage() : null }
+                          {showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo !== undefined ? this.renderImage() : null}
                         </div>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                      { showButton ? this.renderButton() : null}
                       <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} >Таны мэдээлэл</p>
                       <div>
                         {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
                       </div>
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
-                      <li>
+                      <li className={match.path === "/profile" ? "active" : " "} >
                         <Link to={`${match.path}`} className="flex-this">
                           <Avatar size="small" shape="square" src={profile} className="marginRight10" /><span>Профайл хуудас</span>
                         </Link>
@@ -180,6 +172,7 @@ class List extends React.Component {
                 </div>
 
                 <Switch>
+                  {console.log(match.path)}
                   <Route exact path={match.path} component={UserProfile} {...this} />
                   <Route path={`${match.path}/history`} component={UserHistory} {...this} />
                   <Route path={`${match.path}/wish`} component={UserWish} {...this} />
