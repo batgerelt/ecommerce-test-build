@@ -27,7 +27,7 @@ class Widget extends React.Component {
     if (widgetData.slug === WIDGET_SLUGS.recipe) {
       cardList = (
         <CardList
-          cartListType={CARD_LIST_TYPES.vertical}
+          cardListType={CARD_LIST_TYPES.vertical}
           items={widgetData.items}
           cardsInCol={2}
           {...this.props}
@@ -36,7 +36,7 @@ class Widget extends React.Component {
     } else {
       cardList = (
         <CardList
-          cartListType={CARD_LIST_TYPES.horizontal}
+          cardListType={CARD_LIST_TYPES.horizontal}
           items={widgetData.items}
           seq={widgetData.type}
           {...this.props}
@@ -56,7 +56,10 @@ class Widget extends React.Component {
           {cardList}
 
           <div className="more-link text-center">
-            <Link to={widgetData.link ? widgetData.link : ""} className="btn btn-border">
+            <Link
+              to={widgetData.link ? widgetData.link : ""}
+              className="btn btn-border"
+            >
               <span className="text text-uppercase">{widgetData.readMore}</span>
             </Link>
           </div>

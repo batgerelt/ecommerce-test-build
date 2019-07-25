@@ -45,16 +45,16 @@ class ProductDetail extends React.Component {
   renderDetails = () => {
     try {
       const {
-        detail, categorymenu, addWishList, addRate, getProductDetail,
+        detail, categorymenu, addWishList, addRate, getProductRate,
       } = this.props;
       return (
         <Detail
           detail={detail.length === 0 ? {} : detail.products[0]}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
-          isLoggedIn={localStorage.getItem("auth") === null ? null : JSON.parse(localStorage.getItem("auth"))}
+          isLoggedIn={this.props.data.length !== 0}
           addWishList={addWishList}
           addRate={addRate}
-          getProductDetail={getProductDetail}
+          getProductRate={getProductRate}
           {...this.props}
         />
       );
@@ -94,12 +94,17 @@ class ProductDetail extends React.Component {
 
   renderCommentList = () => {
     try {
-      const { detail, comment, addComment } = this.props;
+      const {
+        detail, comment, addComment, getProductComment,
+      } = this.props;
       return (
         <Comment
           product={detail.length === 0 ? {} : detail.products[0]}
           comments={comment}
           addComment={addComment}
+          getProductComment={getProductComment}
+          auth={this.props.data.length !== 0}
+          user={this.props.data}
         />
       );
     } catch (error) {

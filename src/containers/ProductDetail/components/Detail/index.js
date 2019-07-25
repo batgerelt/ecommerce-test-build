@@ -24,7 +24,7 @@ class Detail extends Component {
   };
 
   renderDetails = () => {
-    const { categorymenu } = this.props;
+    const { categorymenu, rate, isLoggedIn } = this.props;
     const detail = this.props.detail.products
       ? this.props.detail.products[0]
       : null;
@@ -50,16 +50,12 @@ class Detail extends Component {
           <div className="main-rating">
             <Rate
               allowHalf
-              value={detail.rate ? detail.rate / 2 : 0}
+              value={isLoggedIn ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
 
             <p className="text">
-              (
-              {detail.rate_user_cnt
-                ? `${detail.rate_user_cnt} хүн үнэлгээ өгсөн байна`
-                : "Одоогоор үнэлгээ өгөөгүй байна"}
-              )
+              ({isLoggedIn ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"})
             </p>
           </div>
 
@@ -76,15 +72,15 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLoggedIn, detail, addRate, getProductDetail,
+      isLoggedIn, detail, addRate, getProductRate,
     } = this.props;
     if (isLoggedIn !== null) {
       let skucd = detail.products[0].cd;
-      let rate = e / 2;
+      let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
           message.success(res.payload.message);
-          getProductDetail({ skucd });
+          getProductRate({ skucd });
         }
       });
     }
@@ -98,7 +94,6 @@ class Detail extends Component {
   };
 
   renderCartInfo = () => {
-    const { isLoggedIn } = this.props;
     const detail = this.props.detail.products
       ? this.props.detail.products[0]
       : null;

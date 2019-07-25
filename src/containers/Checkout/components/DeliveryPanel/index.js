@@ -125,18 +125,19 @@ class DeliveryPanel extends React.Component {
     this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
       this.setState({ dateLoading: false });
       if (res.payload.success) {
-        this.setState({ zoneSetting: res.payload.data, chosenDate: res.payload.data.date });
+        this.setState({ zoneSetting: res.payload.data, chosenDate: res.payload.data.deliveryDate });
       }
     });
     // }
   }
 
   setFieldsValue = (value) => {
+    const { addresstype } = this.state;
     const { setFieldsValue } = this.props.form;
     setFieldsValue({
       id: value.id,
-      committeeid: value.committeeid,
-      districtid: value.districtid,
+      committeeid: addresstype === "new" ? [] : value.committeeid,
+      districtid: addresstype === "new" ? [] : value.districtid,
       provinceid: value.provinceid,
       phone1: value.phone1,
       phone2: value.phone2,
@@ -170,9 +171,9 @@ class DeliveryPanel extends React.Component {
     chosenAddress.committeeid = found.id;
     chosenAddress.committeenm = found.name;
     chosenAddress.locid = found.locid;
-    if (found.inzone === 1 && inzone === 0) {
-      this.getZoneSetting(found);
-    }
+    // if (found.inzone === 1 && inzone === 0) {
+    this.getZoneSetting(found);
+    // }
     this.setState({ chosenAddress, inzone: found.inzone });
   }
 
@@ -203,7 +204,11 @@ class DeliveryPanel extends React.Component {
               chosenAddress.id = res.payload.data;
               body.id = res.payload.data;
               this.setState({ chosenAddress });
-              this.props.getUserInfo();
+              this.props.getUserInfo().then((res) => {
+                if (res.payload.success) {
+                  this.setState({ noAddress: false });
+                }
+              });
             } else {
               message.error(res.payload.message);
             }
@@ -294,13 +299,13 @@ class DeliveryPanel extends React.Component {
     let currentDateMill = moment(current, "YYYY-MM-DD").valueOf();
     let tmp = false;
     if (zoneSetting !== null) {
-      tmp = moment(zoneSetting.date, "YYYY-MM-DD").valueOf() > currentDateMill;
+      tmp = moment(zoneSetting.deliveryDate, "YYYY-MM-DD").valueOf() > currentDateMill;
       zoneSetting.restDays.find((item) => {
         if (moment(item.restdate, "YYYY-MM-DD").valueOf() === currentDateMill) {
           tmp = true;
         }
       });
-      if (moment(zoneSetting.date, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
+      if (moment(zoneSetting.deliveryDate, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
         tmp = true;
       }
     }
@@ -425,7 +430,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
                             initialValue: this.checkError(chosenAddress.provinceid),
-                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу?" }],
+                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу" }],
                           })(
                             <Select placeholder="Хот/аймаг *" showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
@@ -441,7 +446,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("districtid", {
                             initialValue: this.checkError(chosenAddress.districtid),
-                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу?" }],
+                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
                           })(
                             <Select showSearch optionFilterProp="children" placeholder="Дүүрэг/Сум*" onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
@@ -476,7 +481,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.address),
                             rules: [{ required: true, message: "Гэрийн хаяг оруулна уу ?" }],
                           })(
-                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг ?*" />,
+                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг*" />,
                           )}
                         </Form.Item>
                       </div>
@@ -487,7 +492,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("name", {
                           initialValue: this.checkError(chosenAddress.name),
-                          rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу ?" }],
+                          rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Захиалагчийн нэр*" className="col-md-12" />,
                         )}
@@ -497,9 +502,9 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone1", {
                           initialValue: this.checkError(chosenAddress.phone1),
-                          rules: [{ required: true, message: "Утас 1 оруулна уу ?" },
+                          rules: [{ required: true, message: "Утас 1 оруулна уу" },
                           { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
-                          { len: 8, message: "8 оронтой байх ёстой !." }],
+                          { len: 8, message: "8 оронтой байх ёстой" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Утас 1*" className="col-md-12" />,
                         )}
@@ -509,9 +514,9 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone2", {
                           initialValue: this.checkError(chosenAddress.phone2),
-                          rules: [{ required: true, message: "Утас 2 оруулна уу ?" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
-                          { len: 8, message: "8 оронтой байх ёстой !." }],
+                          rules: [{ required: true, message: "Утас 2 оруулна уу" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
+                          { len: 8, message: "8 оронтой байх ёстой" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Утас 2*" className="col-md-12" />,
                         )}

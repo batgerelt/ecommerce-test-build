@@ -273,7 +273,6 @@ class Model extends BaseModel {
         try {
           let { products } = state.packageDetail;
           let product = action.payload;
-          console.log("action.payload: ", action.payload);
 
           const found = products.find(prod => prod.cd === product.cd);
 
