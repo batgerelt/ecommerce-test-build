@@ -9,11 +9,11 @@ class Component extends React.Component {
   componentWillMount() { }
 
   handleSubmit = (e) => {
-    this.setState({ loader: true });
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
+        this.setState({ loader: true });
+        this.props.mart({ cardno: values.cardno, pincode: values.password }).then((res) => {
           this.setState({ loader: false });
         });
       }
@@ -33,6 +33,9 @@ class Component extends React.Component {
             <Col span={12}>
               <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
                 {getFieldDecorator("cardno", {
+                  rules: [
+                    { required: true, message: "Картын дугаараа оруулна уу" },
+                  ],
                 })(<Input placeholder="Картын дугаар" autoComplete="off" />)}
               </Form.Item>
             </Col>
@@ -40,6 +43,9 @@ class Component extends React.Component {
             <Col span={12}>
               <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
                 {getFieldDecorator("password", {
+                  rules: [
+                    { required: true, message: "Нууц үгээ оруулна уу" },
+                  ],
                 })(<Input.Password placeholder="Нууц үг" autoComplete="off" />)}
               </Form.Item>
             </Col>

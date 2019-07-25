@@ -64,7 +64,7 @@ class RegistrationModal extends React.Component {
       >
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
-            {getFieldDecorator("firstname", {
+            {getFieldDecorator("lastname", {
               rules: [
                 { required: true, pattern: new RegExp("[A-Za-zА-Яа-я]"), message: "Овогоо оруулна уу" },
               ],
@@ -73,7 +73,7 @@ class RegistrationModal extends React.Component {
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("lastname", {
+            {getFieldDecorator("firstname", {
               rules: [{
                 required: true,
                 pattern: new RegExp("[A-Za-zА-Яа-я]"),
