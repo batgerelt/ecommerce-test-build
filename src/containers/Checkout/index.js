@@ -12,6 +12,7 @@ import {
   Cart as CartModel,
 } from "../../models";
 import List from "./list";
+import { LoginModal } from "../../components/Login";
 import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
@@ -60,7 +61,8 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} loading={loading} />
+        <List {...this.props} loading={loading} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );
   }

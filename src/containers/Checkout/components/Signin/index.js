@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { Input, Form, Button, message } from "antd";
+import { Link } from "react-router-dom";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -53,6 +54,11 @@ class Signin extends React.Component {
     });
   };
 
+  handleResetPassword = (e) => {
+    e.preventDefault();
+    this.props.LoginModal.handleResetVisible();
+  }
+
 
   renderLoginForm = () => {
     try {
@@ -102,8 +108,15 @@ class Signin extends React.Component {
               >
                 Нэвтрэх
               </Button>
-              <label style={{ float: "right" }}>
-                <a>Нууц үгээ мартсан</a>
+              <label className="checkout-hover" style={{ float: "right" }}>
+                <Link
+                  to=""
+                  className="btn btn-link"
+                  style={{ fontSize: "14px" }}
+                  onClick={this.handleResetPassword}
+                >
+                  Нууц үгээ мартсан
+                </Link>
               </label>
               <button
                 type="submit"

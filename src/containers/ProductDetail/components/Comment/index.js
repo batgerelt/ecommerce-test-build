@@ -10,25 +10,18 @@ class Comment extends Component {
   state = {
     comment: "",
     comments: [],
-    user: null,
   };
-
-  componentWillMount() {
-    let auth = localStorage.getItem("auth");
-    if (auth !== null) {
-      auth = JSON.parse(auth);
-      this.setState({ user: auth.data[0].info.customerInfo });
-    }
-  }
 
   handleCommitChange = (e) => {
     this.setState({ comment: e.target.value });
   };
 
   handleCommentSend = (e) => {
-    const { comment, user } = this.state;
-    const { addComment, product } = this.props;
-    if (user !== null) {
+    const { comment } = this.state;
+    const {
+      addComment, product, auth,
+    } = this.props;
+    if (auth) {
       let skucd = product.cd;
       addComment({ skucd, comm: comment }).then((res) => {
         if (res.payload.success) {
@@ -42,27 +35,29 @@ class Comment extends Component {
 
   renderCommentList = () => {
     try {
-      const { user } = this.state;
-      const { product, comments } = this.props;
+      const {
+        product, comments, user, auth,
+      } = this.props;
       const { rate, rate_user_cnt } = product;
+      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
       return (
         <div
           className="comments-container"
           style={{ marginTop: "80px", width: "100%" }}
         >
-          {user && (
+          {auth && (
             <div className="write-comment">
               <div className="author">
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${user.length !== 0 ? realImage : defaultAvatar})` }}
                   />
                 </div>
                 <p className="name text-uppercase">
                   <strong>
                     {
-                      user !== null ? `${user.firstname} ${user.lastname}`
+                      user.length !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
                         : ""
                     }
                   </strong>
