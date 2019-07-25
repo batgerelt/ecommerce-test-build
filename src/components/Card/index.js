@@ -5,7 +5,6 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 import React from "react";
-import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -36,7 +35,17 @@ class Card extends React.Component {
     try {
       if (this.props.auth.isLogged) {
         // eslint-disable-next-line no-lonely-if
-        if (item.cd) {
+        if (item.skucd) {
+          const result = await this.props.incrementProductRemotely({
+            skucd: item.skucd,
+            qty: item.addminqty || 1,
+            iscart: 0,
+          });
+
+          if (!result.payload.success) {
+            return this.handleNotify(result.payload.message);
+          }
+        } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.cd,
             qty: item.addminqty || 1,
@@ -117,7 +126,7 @@ class Card extends React.Component {
         }
       }
     } catch (e) {
-      console.log(e);
+      return console.log(e);
     }
   };
 
@@ -127,7 +136,10 @@ class Card extends React.Component {
     } else {
       const { item } = this.props;
       this.setState({ changeHeart: true });
-      if (item.cd !== undefined) {
+
+      if (item.skucd !== undefined) {
+        this.addWishList(item.skucd);
+      } else if (item.cd !== undefined) {
         this.addWishList(item.cd);
       } else if (item.recipeid !== undefined) {
         this.props.getRecipeProducts({ id: item.recipeid }).then((res) => {
@@ -151,6 +163,7 @@ class Card extends React.Component {
 
   addWishList = (skucd) => {
     const { addWishList } = this.props;
+
     addWishList({ skucd }).then((res) => {
       if (res.payload.success) {
         message.success(res.payload.message);
@@ -338,7 +351,7 @@ class Card extends React.Component {
                     <span
                       className="image"
                       style={{
-                        backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                        backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
                       }}
                     />
                   </Link>
@@ -362,11 +375,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name
-                        ? item.name
-                        : item.packagenm
-                        ? item.packagenm
-                        : ""}
+                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -377,11 +386,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.shortnm
-                        ? item.shortnm
-                        : item.featuretxt
-                        ? item.featuretxt
-                        : ""}
+                      {item.shortnm ? item.shortnm : item.featuretxt ? item.featuretxt : item.feature}
                     </span>
                   </Link>
 
@@ -401,16 +406,13 @@ class Card extends React.Component {
           );
         case CARD_TYPES.tile:
           return (
-            <div
-              className={`single-product big-product food-post food-${className ||
-                "short"}`}
-            >
+            <div className={`single-product big-product food-post food-${className || "short"}`}>
               <div className="image-container">
                 <Link to={item.route ? item.route : ""}>
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                      backgroundImage: `url(${process.env.IMAGE + this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img})`,
                     }}
                   />
                 </Link>
@@ -463,7 +465,7 @@ class Card extends React.Component {
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                      backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
                     }}
                   />
                 </Link>
