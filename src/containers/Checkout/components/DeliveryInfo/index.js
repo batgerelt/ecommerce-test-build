@@ -68,6 +68,12 @@ class DeliveryInfo extends React.Component {
   }
 
   setDeliveryType = (value) => {
+    const { totalPrice } = this.state;
+    if (value.id === 1) {
+      if (totalPrice > 200000) {
+        value.price = 0;
+      }
+    }
     this.setState({ chosenType: value });
   }
 
