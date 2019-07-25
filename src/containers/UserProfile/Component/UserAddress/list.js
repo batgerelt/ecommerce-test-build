@@ -207,7 +207,7 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
-                rules: [{ required: true, message: "Нэрээ заавал оруулна уу" }],
+                rules: [{ required: true, message: "Нэрээ оруулна уу " }],
               })(<Input placeholder="Нэр" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -215,9 +215,9 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone1", {
-                rules: [{ required: true, message: "Утсаа заавал оруулна уу! " },
-                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу! " },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+                rules: [{ required: true, message: "Утсаа оруулна уу " },
+                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу " },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
               })(<Input placeholder="Утас 1" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -225,8 +225,8 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone2", {
-                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу! " },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
               })(<Input placeholder="Утас 2" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -235,7 +235,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("mainLocation", {
                 initialValue: this.checkError(this.state.params.provid),
-                rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+                rules: [{ required: true, message: "Хот/аймаг сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -254,7 +254,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
                 initialValue: this.checkError(this.state.params.distid),
-                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
+                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -274,7 +274,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
                 initialValue: this.checkError(this.state.params.commid),
-                rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+                rules: [{ required: true, message: "Хороо сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -293,7 +293,7 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
               {getFieldDecorator("homeaddress", {
-                rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+                rules: [{ required: true, message: "Гэрийн хаягаа оруулна уу " }],
               })(<Input placeholder="Гэрийн хаяг" autoComplete="off" />)}
             </Form.Item>
           </Col>

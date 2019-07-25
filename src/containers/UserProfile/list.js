@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { Avatar, Progress, Upload, message } from "antd";
+import { Avatar, Progress, Upload, message, Icon, Button } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -20,48 +20,27 @@ import {
 } from "./Component";
 import style from "./style.less";
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 class List extends React.Component {
-  handleChange = ({ fileList }) => {
-    const data = new FormData();
-    const isfiles = true;
-    data.append('uploadimage', fileList[0].originFileObj, fileList[0].name);
-    this.props.userPic({
-      body: data,
-      isfiles,
-    }).then((res) => {
-      if (res.payload.success) {
-        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
-          if (res.payload.success) {
-            localStorage.setItem('img', res.payload.data.info.imgnm);
-          }
-        });
-      }
-    });
+  state = {
+    loading: false,
+    file: [],
+    showButton: false,
+    imageUrl: {},
   };
 
   renderName(info) {
-    return <strong><span style={{ padding: '21px', position: 'absolute' }}>{info.firstname} {info.lastname}</span></strong>;
+    return <strong><span style={{ padding: '21px', position: 'absolute' }}>{info.lastname} {info.firstname}</span></strong>;
   }
 
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
-    /* message.warning(res.payload.message);
-    localStorage.removeItem("username");
-    this.props.logout();
-    this.props.clearLocally(); */
-  }
-
-  renderImage = () => {
-    try {
-      const { userInfo } = this.props;
-      const realImage = JSON.stringify(process.env.IMAGES + userInfo.info.imgnm);
-      return (
-        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
   }
 
   renderProgress = (data) => {
@@ -75,8 +54,64 @@ class List extends React.Component {
     );
   }
 
+  handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({ file: info.file, showButton: true });
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        }),
+      );
+    }
+  };
+
+  uploadPick = () => {
+    const { file } = this.state;
+    const data = new FormData();
+    const isfiles = true;
+    data.append('uploadimage', file.originFileObj, file.name);
+    this.props.userPic({
+      body: data,
+      isfiles,
+    }).then((response) => {
+      if (response.payload.success) {
+        const realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
+        localStorage.setItem('img', realImage);
+        this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ showButton: false });
+          }
+        });
+      }
+    });
+  }
+
+  renderButton() {
+    return (
+      <Button style={{ marginTop: "43px", marginLeft: "43px" }} onClick={this.uploadPick}>Хадгалах</Button>
+    );
+  }
+
+  renderImage = () => {
+    try {
+      const { userInfo } = this.props;
+      const realImage = localStorage.getItem('img');
+      return (
+        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   render() {
     const { match } = this.props;
+    const { imageUrl, showButton } = this.state;
     match.path = "/profile";
     return (
       <div className="section section-gray">
@@ -87,13 +122,21 @@ class List extends React.Component {
                 <div className="col-md-4 d-none d-md-block">
                   <div className="profile-menu">
                     <div className="menu-header">
-                      <Upload className={style.avatarupload} accept={".jpg,.png,.jpeg,.gif"} action="//jsonplaceholder.typicode.com/posts/" showUploadList={false} onChange={this.handleChange}>
+                      <Upload
+                        className={style.avatarupload}
+                        accept={".jpg,.png,.jpeg,.gif"}
+                        showUploadList={false}
+                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        onChange={this.handleChange}
+                      >
                         <div className={style.avatarpreview}>
-                          {this.props.userInfo === undefined ? null : this.renderImage()}
+                          {/* { imageUrl !== null ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo === undefined ? null : this.renderImage() } */}
+                          { showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo !== undefined ? this.renderImage() : null }
                         </div>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-12px" }} >Таны мэдээлэл</p>
+                      { showButton ? this.renderButton() : null}
+                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} >Таны мэдээлэл</p>
                       <div>
                         {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
                       </div>

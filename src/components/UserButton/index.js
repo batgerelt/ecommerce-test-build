@@ -26,9 +26,6 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
-    /* if (this.props.history.location.pathname === "/checkout") {
-      this.props.history.push("/");
-    } */
   }
 
   renderProgress() {
@@ -56,12 +53,11 @@ class UserButton extends React.Component {
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('auth')).data[0].info.customerInfo;
-        const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : realImage})` }} />
+                <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
               </div>
               <span className="">{user.firstname ? `${user.firstname}` : user.email ? user.email : ""}</span>
             </Link>
@@ -71,7 +67,7 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : realImage})` }} />
+                        <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
                       </div>
                       <p className="name">
                         {user.firstname

@@ -40,9 +40,11 @@ class LoginModal extends React.Component {
           if (!result.payload.success) {
             return null;
           }
-          localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
+          const realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+          localStorage.setItem('img', realImage);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
+          localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
           localStorage.removeItem(this.state.isRemember ? null : 'username');
           this.handleLoginModal();
           this.props.form.resetFields();

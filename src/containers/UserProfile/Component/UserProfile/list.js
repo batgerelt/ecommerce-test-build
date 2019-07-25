@@ -17,6 +17,10 @@ class Component extends React.Component {
   };
 
   componentWillMount() {
+    this.getdata();
+  }
+
+  getdata() {
     this.setState({ loader: true });
     const param = {
       provid: "",
@@ -45,10 +49,6 @@ class Component extends React.Component {
     this.setState({ loader: false });
   }
 
-  addAddress(param) {
-
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -65,6 +65,7 @@ class Component extends React.Component {
           this.props.addAddress({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
               message.success(res.payload.message);
+              this.getdata();
             }
           });
         } else {
@@ -103,10 +104,10 @@ class Component extends React.Component {
               closeOnEsc: false,
             });
           } else {
-            console.log("else");
             this.props.updateMain({ body: param }).then((res) => {
               if (res.payload.success) {
                 message.success(res.payload.message);
+                this.getdata();
               }
             });
           }
@@ -115,9 +116,6 @@ class Component extends React.Component {
     });
   }
 
-  addressChange(param) {
-
-  }
   renderLocation = (location) => {
     try {
       const loc = location;
@@ -189,7 +187,6 @@ class Component extends React.Component {
   };
 
   renderCard(card) {
-    console.log(card);
     return (
       <Col span={24}>
         <Col span={12}>
@@ -348,7 +345,7 @@ class Component extends React.Component {
 
             <Col span={8}>
               <Form.Item style={{ width: '96%' }}>
-                {getFieldDecorator("lastname", {
+                {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.lastname,
                   rules: [{ required: true, message: "Овогоо оруулна уу" }],
                 })(<Input placeholder="Овог" />)}
@@ -357,7 +354,7 @@ class Component extends React.Component {
 
             <Col span={8}>
               <Form.Item style={{ width: '96%' }}>
-                {getFieldDecorator("firstname", {
+                {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.firstname,
                   rules: [{ required: true, message: "Нэрээ оруулна уу" }],
                 })(<Input placeholder="Нэр" />)}
@@ -437,7 +434,7 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
+          {userInfo.card === undefined ? <Card mart={this.props.emartCard} getindata={this.getdata} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {
