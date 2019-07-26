@@ -55,11 +55,6 @@ class UserButton extends React.Component {
         const user = JSON.parse(localStorage.getItem('next'));
         const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
         const goyImage = JSON.stringify(process.env.IMAGES + user.imgnm);
-        if (user.imgnm === null) {
-          console.log("null");
-        } else {
-          console.log("not null");
-        }
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">

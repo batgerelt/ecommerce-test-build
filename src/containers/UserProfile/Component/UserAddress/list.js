@@ -344,7 +344,7 @@ class Component extends React.Component {
   render() {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
-      <div className="col-md-8 pad10">
+      <div className="col-md-7">
         <div className="user-menu-content">
           <p className="title">
             <span>Хүргэлтийн хаяг</span>

@@ -57,6 +57,24 @@ class Component extends React.Component {
       return console.log(error);
     }
   };
+
+  renderTable() {
+    return (
+      <table className="table-hover table-sm">
+        <thead>
+          <tr style={{ height: "70px" }}>
+            <th width="5%" style={{ textAlign: "center" }}>Захиалга №</th>
+            <th width="15%" style={{ textAlign: "center" }}>Он сар өдөр</th>
+            <th width="30%" style={{ textAlign: "center" }}>Төлөв</th>
+            <th width="10%" style={{ textAlign: "center" }}>Үнийн дүн</th>
+            <th width="10%" style={{ textAlign: "center" }}>Дэлгэрэнгүй</th>
+          </tr>
+        </thead>
+        <tbody>{this.renderDelivery()}</tbody>
+      </table>
+    );
+  }
+
   render() {
     return (
       <div className="col-md-8 pad10">
@@ -72,28 +90,7 @@ class Component extends React.Component {
               overflow: "auto",
             }}
           >
-            <table className="table-hover table-sm">
-              <thead>
-                <tr style={{ height: "70px" }}>
-                  <th width="5%" style={{ textAlign: "center" }}>
-                    Захиалга №
-                  </th>
-                  <th width="15%" style={{ textAlign: "center" }}>
-                    Он сар өдөр
-                  </th>
-                  <th width="30%" style={{ textAlign: "center" }}>
-                    Төлөв
-                  </th>
-                  <th width="10%" style={{ textAlign: "center" }}>
-                    Үнийн дүн
-                  </th>
-                  <th width="10%" style={{ textAlign: "center" }}>
-                    Дэлгэрэнгүй
-                  </th>
-                </tr>
-              </thead>
-              <tbody>{this.renderDelivery()}</tbody>
-            </table>
+            {this.props.delivery.length !== 0 ? this.renderTable() : null}
           </div>
         </div>
       </div>
