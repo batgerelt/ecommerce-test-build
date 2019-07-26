@@ -174,20 +174,25 @@ class Component extends React.Component {
       const address = addrs;
       return address.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
+
           <td style={{ width: "5%" }}>{item.name}</td>
           <td style={{ width: "5%" }}>{item.phone1}</td>
           <td style={{ width: "15%" }}>{item.provincenm}</td>
           <td style={{ width: "10%" }}>{item.districtnm}</td>
           <td style={{ width: "10%" }}>{item.address}</td>
-          <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
-            <Link to="#" disabled={loader}>
-              <i
-                className="fa fa-times"
-                aria-hidden="true"
-                style={{ color: "black" }}
-              />
-            </Link>
-          </td>
+          {item.ismain === 1 ?
+            <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
+              <Link to="#" disabled={loader}>
+                <i
+                  className="fa fa-times"
+                  aria-hidden="true"
+                  style={{ color: "black" }}
+                />
+              </Link>
+            </td>
+            :
+            <td style={{ width: "5%" }} />
+          }
         </tr>
       ));
     } catch (error) {
