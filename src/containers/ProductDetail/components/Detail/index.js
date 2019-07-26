@@ -24,7 +24,7 @@ class Detail extends Component {
   };
 
   renderDetails = () => {
-    const { categorymenu, rate, isLoggedIn } = this.props;
+    const { categorymenu, rate, isLogged } = this.props;
     const detail = this.props.detail.products
       ? this.props.detail.products[0]
       : null;
@@ -50,12 +50,12 @@ class Detail extends Component {
           <div className="main-rating">
             <Rate
               allowHalf
-              value={isLoggedIn ? rate / 2 : 0}
+              value={isLogged ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
 
             <p className="text">
-              ({isLoggedIn ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"})
+              ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"})
             </p>
           </div>
 
@@ -72,9 +72,9 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLoggedIn, detail, addRate, getProductRate,
+      isLogged, detail, addRate, getProductRate,
     } = this.props;
-    if (isLoggedIn !== null) {
+    if (isLogged) {
       let skucd = detail.products[0].cd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
@@ -83,6 +83,8 @@ class Detail extends Component {
           getProductRate({ skucd });
         }
       });
+    } else {
+      this.props.LoginModal.handleLoginModal();
     }
   };
 
@@ -279,8 +281,8 @@ class Detail extends Component {
   };
 
   handleSaveClick = () => {
-    const { isLoggedIn, addWishList, detail } = this.props;
-    if (isLoggedIn !== null) {
+    const { isLogged, addWishList, detail } = this.props;
+    if (isLogged !== null) {
       let skucd = detail.products[0].cd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {

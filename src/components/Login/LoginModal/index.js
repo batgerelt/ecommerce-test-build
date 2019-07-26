@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
@@ -56,8 +57,12 @@ class LoginModal extends React.Component {
           localStorage.removeItem(this.state.isRemember ? null : 'username');
           this.handleLoginModal();
           this.props.form.resetFields();
-
-          let { products } = this.props.cart;
+          let products = [];
+          if (this.props.cart === undefined) {
+            products = this.props.products;
+          } else {
+            products = this.props.cart.products;
+          }
           products = products.map(prod => ({
             skucd: prod.cd,
             qty: prod.qty,

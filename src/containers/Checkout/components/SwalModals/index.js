@@ -276,7 +276,7 @@ class SwalModals extends React.Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo,
+          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
         } = this.props;
         return (
           <div className="wrap">
@@ -355,10 +355,7 @@ class SwalModals extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {" "}
-                            {userinfo.length === 0
-                              ? ""
-                              : `${userinfo.info.lastname} ${userinfo.info.firstname}`}
+                            {`${ordData.delivery.custname}`}
                           </span>
                         </p>
                         <p className="text flex-this">

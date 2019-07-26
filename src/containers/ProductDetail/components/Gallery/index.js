@@ -112,7 +112,7 @@ class Gallery extends Component {
                       </a>
                     </li>
                   );
-                })};
+                })}
               </ul>
             </div>
           )}
