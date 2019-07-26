@@ -41,7 +41,6 @@ class UserButton extends React.Component {
     );
   }
   render() {
-    console.log("this.props", this.props.userInfo);
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
@@ -54,6 +53,7 @@ class UserButton extends React.Component {
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
+        console.log(user);
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">

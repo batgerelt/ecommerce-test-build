@@ -24,6 +24,7 @@ class Signin extends React.Component {
             localStorage.setItem('img', realImage);
             localStorage.setItem('auth', JSON.stringify(r.payload));
             localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
+            localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
             // eslint-disable-next-line consistent-return
             this.props.getUserInfo().then(async (res) => {
               if (res.payload.success) {

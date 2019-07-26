@@ -48,8 +48,10 @@ class LoginModal extends React.Component {
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+          localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
           this.props.getCustomer().then((res) => {
             if (res.payload.success) {
+              console.log(res);
               localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             }
           });
