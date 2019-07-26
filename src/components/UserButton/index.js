@@ -53,7 +53,6 @@ class UserButton extends React.Component {
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
-        console.log(user);
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
