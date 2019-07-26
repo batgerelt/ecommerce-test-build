@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -32,6 +32,16 @@ class Cart extends React.Component {
     });
   };
 
+  // handleConfirmClick = async () => {
+  //   const result = await this.props.confirmCartRemotely();
+
+  //   if (!result.payload.success) {
+  //     return <Redirect to="" />;
+  //   }
+
+  //   return <Redirect to={{ pathname: "/checkout" }} push />;
+  // };
+
   // eslint-disable-next-line consistent-return
   handleClearClick = async () => {
     if (this.props.isLogged) {
@@ -51,7 +61,7 @@ class Cart extends React.Component {
         this.props.getWish();
       }
     });
-  }
+  };
 
   // eslint-disable-next-line consistent-return
   handleRemoveClick = product => async (e) => {
@@ -320,7 +330,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                          })`,
+                        })`,
                       }}
                     />
                   </Link>
@@ -335,8 +345,8 @@ class Cart extends React.Component {
                             wishlistProd.sprice
                               ? wishlistProd.sprice
                               : wishlistProd.price
-                                ? wishlistProd.price
-                                : 0,
+                              ? wishlistProd.price
+                              : 0,
                           )}
                           ₮
                         </strong>
@@ -416,7 +426,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                                }${prod.img || prod.url || ""})`,
+                              }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -427,7 +437,6 @@ class Cart extends React.Component {
                           style={{ color: "#6c757d" }}
                         >
                           <strong>{prod.name}</strong>
-                          {console.log(prod)}
                           <span>{prod.featuretxt || ""}</span>
                         </Link>
                       </div>
@@ -453,8 +462,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                        // onKeyDown={this.handleQtyKeyDown(prod)}
-                        // onBlur={this.handleQtyBlur(prod)}
+                          // onKeyDown={this.handleQtyKeyDown(prod)}
+                          // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -482,7 +491,10 @@ class Cart extends React.Component {
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>
-                          <Link to="" onClick={e => this.handleSaveClick(e, prod)}>
+                          <Link
+                            to=""
+                            onClick={e => this.handleSaveClick(e, prod)}
+                          >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
                             <span>Хадгалах</span>
                           </Link>
@@ -564,14 +576,14 @@ class Cart extends React.Component {
                         {formatter.format(this.renderTotalPrice())}₮
                       </strong>
                     </p>
-                    <Link
-                      to="/checkout"
+                    <button
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                        }`}
+                      }`}
+                      // onClick={() => this.handleConfirmClick()}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
-                    </Link>
+                    </button>
                   </div>
 
                   {this.renderWishlistProducts()}

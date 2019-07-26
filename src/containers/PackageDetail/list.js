@@ -80,7 +80,14 @@ class List extends React.Component {
     let found = products.find(prod => prod.cd === product.cd);
 
     if (found) {
-      found.qty = parseInt(e.target.value, 10);
+      let productQty = e.target.value;
+
+      // eslint-disable-next-line no-restricted-globals
+      if (!productQty || isNaN(productQty)) {
+        productQty = 0;
+      }
+
+      found.qty = parseInt(productQty, 10);
 
       this.props.updatePackageProductByQtyLocally(found);
     } else {
