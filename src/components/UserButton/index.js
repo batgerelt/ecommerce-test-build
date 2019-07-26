@@ -53,11 +53,18 @@ class UserButton extends React.Component {
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
+        const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+        const goyImage = JSON.stringify(process.env.IMAGES + user.imgnm);
+        if (user.imgnm === null) {
+          console.log("null");
+        } else {
+          console.log("not null");
+        }
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
+                <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
               <span className="">{user.lastname} {user.firstname}</span>
             </Link>
@@ -67,7 +74,7 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
+                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
                       </div>
                       <p className="name">
                         {user.lastname} {user.firstname}

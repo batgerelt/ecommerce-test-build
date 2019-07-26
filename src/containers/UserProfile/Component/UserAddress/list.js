@@ -180,7 +180,7 @@ class Component extends React.Component {
           <td style={{ width: "15%" }}>{item.provincenm}</td>
           <td style={{ width: "10%" }}>{item.districtnm}</td>
           <td style={{ width: "10%" }}>{item.address}</td>
-          {item.ismain === 1 ?
+          {item.ismain !== 1 ?
             <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
               <Link to="#" disabled={loader}>
                 <i

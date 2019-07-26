@@ -76,8 +76,7 @@ class List extends React.Component {
       isfiles,
     }).then((response) => {
       if (response.payload.success) {
-        const realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
-        localStorage.setItem('img', realImage);
+        localStorage.setItem('img', response.payload.data);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('next', JSON.stringify(res.payload.data.info));
@@ -91,7 +90,7 @@ class List extends React.Component {
   renderImage = () => {
     try {
       const { userInfo } = this.props;
-      const realImage = localStorage.getItem('img');
+      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
       return (
         <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
       );

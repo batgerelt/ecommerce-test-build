@@ -43,15 +43,13 @@ class LoginModal extends React.Component {
           if (!result.payload.success) {
             return null;
           }
-          const realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
-          localStorage.setItem('img', realImage);
+          localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
           localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
           this.props.getCustomer().then((res) => {
             if (res.payload.success) {
-              console.log(res);
               localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             }
           });
@@ -228,20 +226,3 @@ class LoginModal extends React.Component {
 }
 
 export default Form.create({ name: "normal_login" })(LoginModal);
-
-/* <div className="form-group">
-              <div className="row row10">
-                <div className="col-xl-6 pad10">
-                  <Checkbox style={{ marginLeft: "-24px" }} onChange={this.onRemember} checked={isRemember} >Сануулах</Checkbox>
-                </div>
-                <div className="col-xl-6 pad10">
-                  <Link
-                    to=""
-                    className="btn btn-link"
-                    onClick={this.handleResetVisible}
-                  >
-                    Нууц үгээ мартсан
-                  </Link>
-                </div>
-              </div>
-            </div> */
