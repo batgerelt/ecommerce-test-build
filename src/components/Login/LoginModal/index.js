@@ -33,7 +33,6 @@ class LoginModal extends React.Component {
     this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
   };
-
   handleSubmit = (e) => {
     e.preventDefault();
     // eslint-disable-next-line consistent-return
@@ -49,6 +48,11 @@ class LoginModal extends React.Component {
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+          this.props.getCustomer().then((res) => {
+            if (res.payload.success) {
+              localStorage.setItem('next', JSON.stringify(res.payload.data.info));
+            }
+          });
           localStorage.removeItem(this.state.isRemember ? null : 'username');
           this.handleLoginModal();
           this.props.form.resetFields();

@@ -41,6 +41,7 @@ class UserButton extends React.Component {
     );
   }
   render() {
+    console.log("this.props", this.props.userInfo);
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
@@ -52,14 +53,14 @@ class UserButton extends React.Component {
 
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        const user = JSON.parse(localStorage.getItem('auth')).data[0].info.customerInfo;
+        const user = JSON.parse(localStorage.getItem('next'));
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
               </div>
-              <span className="">{user.firstname ? `${user.firstname}` : user.email ? user.email : ""}</span>
+              <span className="">{user.lastname} {user.firstname}</span>
             </Link>
             <div className={`dropdown ${profilemenu}`}>
               <div className="drop-content">
@@ -70,13 +71,7 @@ class UserButton extends React.Component {
                         <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : localStorage.getItem('img')})` }} />
                       </div>
                       <p className="name">
-                        {user.firstname
-                          ? user.lastname
-                            ? `${user.firstname} ${user.lastname}`
-                            : user.firstname
-                          : user.email
-                            ? user.email
-                            : ""}
+                        {user.lastname} {user.firstname}
                       </p>
                     </div>
                     {this.renderProgress()}

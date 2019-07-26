@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class UserProfile extends React.Component {
   componentWillMount() {
     if (localStorage.getItem('auth') !== null) {
-      this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id }).then((res) => {
+      this.props.getCustomer().then((res) => {
         if (res.payload.success) {
           localStorage.setItem('percent', res.payload.data.info.cstatus);
         }

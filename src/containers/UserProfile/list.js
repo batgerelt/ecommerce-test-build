@@ -80,6 +80,7 @@ class List extends React.Component {
         localStorage.setItem('img', realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
+            localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             this.setState({ showButton: false });
           }
         });
@@ -100,7 +101,7 @@ class List extends React.Component {
   }
 
   renderName(info) {
-    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.lastname} {info.firstname} {this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.lastname} {info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
   }
 
   render() {
