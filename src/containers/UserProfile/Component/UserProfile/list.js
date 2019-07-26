@@ -6,7 +6,6 @@ import Card from "./card";
 import SwalModals from "./SwalModals";
 
 const MySwal = withReactContent(Swal);
-const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {
