@@ -80,11 +80,11 @@ class Model extends BaseModel {
           response: this.buildActionName("response", data.model, "addwish"),
           error: this.buildActionName("error", data.model, "addwish"),
         },
-        customer: {
+        /* customer: {
           request: this.buildActionName("request", data.model, "customer"),
           response: this.buildActionName("response", data.model, "customer"),
           error: this.buildActionName("error", data.model, "customer"),
-        },
+        }, */
         committelocation: {
           request: this.buildActionName(
             "request",
@@ -210,8 +210,8 @@ class Model extends BaseModel {
       method: "GET",
       model: this.model.useraddress,
     });
-  getCustomer = () =>
-    asyncFn({ url: `/customer`, method: "GET", model: this.model.customer });
+  /* getCustomer = () =>
+    asyncFn({ url: `/customer`, method: "GET", model: this.model.customer }); */
   getHistory = () =>
     asyncFn({
       url: `/customer/viewlist`,
@@ -401,12 +401,12 @@ class Model extends BaseModel {
           addrs: action.payload.data.addrs,
         };
       // GET Customer info
-      case this.model.customer.request:
+      /* case this.model.customer.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.customer.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.customer.response:
-        return { ...state, userInfo: action.payload.data };
+        return { ...state, userInfo: action.payload.data }; */
       // GET Histrory products
       case this.model.history.request:
         return { ...state, current: this.requestCase(state.current, action) };

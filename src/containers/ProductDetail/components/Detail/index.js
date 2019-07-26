@@ -281,10 +281,12 @@ class Detail extends Component {
   handleSaveClick = () => {
     const { isLoggedIn, addWishList, detail } = this.props;
     if (isLoggedIn !== null) {
-      let skucd = detail.cd;
+      let skucd = detail.products[0].cd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
-          message.success(res.payload.message);
+          setTimeout(() => {
+            this.props.removeAddedWishColor();
+          }, 500);
         }
       });
     } else {

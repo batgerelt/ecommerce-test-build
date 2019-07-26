@@ -126,23 +126,20 @@ class Card extends React.Component {
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
-      this.setState({ changeHeart: true });
       if (item.cd !== undefined) {
         this.addWishList(item.cd);
       } else if (item.recipeid !== undefined) {
-        this.props.getRecipeProducts({ id: item.recipeid }).then((res) => {
+        this.props.addWishListRecipe({ id: item.recipeid }).then((res) => {
           if (res.payload.success) {
-            res.payload.data.map((item, i) => {
-              this.addWishList(item.cd);
-            });
+            this.setState({ changeHeart: !this.state.changeHeart });
+            this.removeAddedWishColorTime();
           }
         });
       } else {
-        this.props.getDetailPackage({ id: item.id }).then((res) => {
+        this.props.addWishListPackage({ id: item.id }).then((res) => {
           if (res.payload.success) {
-            res.payload.data.products.map((item, i) => {
-              this.addWishList(item.cd);
-            });
+            this.setState({ changeHeart: !this.state.changeHeart });
+            this.removeAddedWishColorTime();
           }
         });
       }
@@ -153,13 +150,18 @@ class Card extends React.Component {
     const { addWishList, removeAddedWishColor } = this.props;
     addWishList({ skucd }).then((res) => {
       if (res.payload.success) {
-        setTimeout(() => {
-          removeAddedWishColor();
-        }, 500);
-        // message.success(res.payload.message);
+        this.setState({ changeHeart: !this.state.changeHeart });
+        this.removeAddedWishColorTime();
       }
     });
   };
+
+  removeAddedWishColorTime = () => {
+    const { removeAddedWishColor } = this.props;
+    setTimeout(() => {
+      removeAddedWishColor();
+    }, 500);
+  }
 
   renderCards = () => {
     try {
@@ -263,7 +265,7 @@ class Card extends React.Component {
             <div
               className={`col-five pad10${
                 isLastInRow ? " d-none d-xl-block lol" : " col-md-3 col-6"
-              }`}
+                }`}
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
@@ -299,8 +301,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                        ? item.packagenm
-                        : ""}
+                          ? item.packagenm
+                          : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -314,8 +316,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                        ? item.featuretxt
-                        : ""}
+                          ? item.featuretxt
+                          : ""}
                     </span>
                   </Link>
 
@@ -370,8 +372,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                        ? item.packagenm
-                        : ""}
+                          ? item.packagenm
+                          : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -385,8 +387,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                        ? item.featuretxt
-                        : ""}
+                          ? item.featuretxt
+                          : ""}
                     </span>
                   </Link>
 

@@ -38,6 +38,8 @@ class PaymentPanel extends React.Component {
         cardInfo.point = (parseFloat(cardInfo.point) + parseFloat(DeliveryInfo.state.epointUsedPoint)).toFixed(2);
         DeliveryInfo.setUseEpoint(false, cardInfo, 0);
       }
+    } else {
+      DeliveryInfo.setOrganizationData([]);
     }
     this.setState({ chosenRadio: e.target.value });
   }

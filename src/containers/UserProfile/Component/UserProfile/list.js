@@ -6,7 +6,6 @@ import Card from "./card";
 import SwalModals from "./SwalModals";
 
 const MySwal = withReactContent(Swal);
-const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {
@@ -29,6 +28,7 @@ class Component extends React.Component {
     };
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
+        localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
           param.distid = res.payload.data.main.districtid;
@@ -345,7 +345,7 @@ class Component extends React.Component {
 
             <Col span={8}>
               <Form.Item style={{ width: '96%' }}>
-                {getFieldDecorator("firstname", {
+                {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
                   rules: [{ required: true, message: "Овогоо оруулна уу" }],
                 })(<Input placeholder="Овог" />)}
@@ -354,7 +354,7 @@ class Component extends React.Component {
 
             <Col span={8}>
               <Form.Item style={{ width: '96%' }}>
-                {getFieldDecorator("lastname", {
+                {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
                   rules: [{ required: true, message: "Нэрээ оруулна уу" }],
                 })(<Input placeholder="Нэр" />)}
@@ -434,7 +434,7 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {userInfo.card === undefined ? <Card mart={this.props.emartCard} getindata={this.getdata} /> : this.renderCard(userInfo.card)}
+          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {

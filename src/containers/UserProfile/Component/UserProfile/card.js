@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, message, Input, Select, Icon, Spin, Divider, Col, Button } from "antd";
+import { Form, message, Input, Spin, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -13,7 +13,11 @@ class Component extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loader: true });
-        this.props.mart({ cardno: values.cardno, pincode: values.password }).then((res) => {
+        this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
+          if (res.payload.success) {
+            message.success(res.payload.message);
+            this.props.getCustomer();
+          }
           this.setState({ loader: false });
         });
       }
