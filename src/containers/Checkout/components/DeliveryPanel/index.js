@@ -88,6 +88,7 @@ class DeliveryPanel extends React.Component {
           chosenAddress.committeenm = res.payload.data[0].name;
           chosenAddress.locid = res.payload.data[0].locid;
           this.setState({ chosenAddress });
+          this.getZoneSetting(chosenAddress);
         }
       }
       this.setState({ selectLoading: false });
@@ -97,7 +98,7 @@ class DeliveryPanel extends React.Component {
   onChangeLoc = (e) => {
     const { addrs } = this.props.userinfo;
     let found = addrs.find(item => item.id === e);
-    this.setState({ selectLoading: true });
+    this.setState({ selectLoading: true, addresstype: "edit" });
     this.props.getDistrictAndCommitte({ id: found.id }).then((res) => {
       if (res.payload.success) {
         found.locid = res.payload.data.locid;
@@ -135,14 +136,14 @@ class DeliveryPanel extends React.Component {
     const { addresstype } = this.state;
     const { setFieldsValue } = this.props.form;
     setFieldsValue({
-      id: value.id,
+      id: addresstype === "new" ? [] : value.id,
       committeeid: addresstype === "new" ? [] : value.committeeid,
       districtid: addresstype === "new" ? [] : value.districtid,
       provinceid: value.provinceid,
-      phone1: value.phone1,
-      phone2: value.phone2,
-      address: value.address,
-      name: value.name,
+      phone1: addresstype === "new" ? "" : value.phone1,
+      phone2: addresstype === "new" ? "" : value.phone2,
+      address: addresstype === "new" ? "" : value.address,
+      name: addresstype === "new" ? "" : value.name,
     });
   }
 
@@ -332,6 +333,7 @@ class DeliveryPanel extends React.Component {
       this.props.getDistrictAndCommitte({ id }).then((res) => {
         this.setState({ selectLoading: false });
         if (res.payload.success) {
+          console.log(res.payload.data, chosenAddress);
           chosenAddress.provinceid = res.payload.data.provinceid;
           chosenAddress.provincenm = "Улаанбаатар хот";
           chosenAddress.districtid = res.payload.data.districtid;
@@ -339,10 +341,10 @@ class DeliveryPanel extends React.Component {
           chosenAddress.committeeid = res.payload.data.committeeid;
           chosenAddress.committeenm = res.payload.data.committees[0].name;
           chosenAddress.locid = res.payload.data.committees[0].locid;
-          chosenAddress.address = "";
+          /* chosenAddress.address = "";
           chosenAddress.name = "";
           chosenAddress.phone1 = "";
-          chosenAddress.phone2 = "";
+          chosenAddress.phone2 = ""; */
           this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts }, () => {
             this.getZoneSetting(chosenAddress);
             this.setState({ chosenAddress });
@@ -364,7 +366,7 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading, addresstype,
     } = this.state;
     const {
       deliveryTypes,
@@ -407,7 +409,7 @@ class DeliveryPanel extends React.Component {
                           <Form.Item>
                             {getFieldDecorator("id", {
                               initialValue: this.checkError(chosenAddress.id),
-                              rules: [{ required: !noAddress, message: "Хаяг оруулна уу" }],
+                              rules: [{ required: !noAddress || addresstype === "new" ? false : true, message: "Хаяг оруулна уу" }],
                             })(
                               <Select onChange={this.onChangeLoc} showSearch className="addr" disabled={noAddress} optionFilterProp="children" placeholder="Хаягаа сонгоно уу ?">
                                 {this.renderAddrsOption()}
