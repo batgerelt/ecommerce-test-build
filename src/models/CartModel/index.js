@@ -213,6 +213,23 @@ class Model extends BaseModel {
             "replaceProductsRemotely",
           ),
         },
+        confirmCartRemotely: {
+          request: this.buildActionName(
+            "request",
+            data.model,
+            "confirmCartRemotely",
+          ),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "confirmCartRemotely",
+          ),
+          error: this.buildActionName(
+            "error",
+            data.model,
+            "confirmCartRemotely",
+          ),
+        },
       };
     }
   }
@@ -362,6 +379,13 @@ class Model extends BaseModel {
       url: `/basket/delete/list`,
       method: "DELETE",
       model: this.model.replaceProductsRemotely,
+    });
+
+  confirmCartRemotely = () =>
+    asyncFn({
+      url: `/basket/confirm`,
+      method: "GET",
+      model: this.model.confirmCartRemotely,
     });
 
   updateReduxStore = (
@@ -791,6 +815,14 @@ class Model extends BaseModel {
       case this.model.replaceProductsRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.replaceProductsRemotely.response:
+        return { ...state, products: action.payload.data };
+
+      case this.model.confirmCartRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.confirmCartRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.confirmCartRemotely.response:
+        console.log("action.payload: ", action.payload);
         return { ...state, products: action.payload.data };
 
       default:
