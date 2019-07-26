@@ -7,6 +7,7 @@ import {
   Auth as AuthModel,
   Static as StaticModel,
   Profile as ProfileModel,
+  Product as ProductModel,
 } from "../../models";
 import List from "./list";
 
@@ -24,6 +25,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CartModel,
       ...StaticModel,
       ...ProfileModel,
+      addWishList: ProductModel.addWishList,
+      removeAddedWishColor: ProductModel.removeAddedWishColor,
     },
     dispatch,
   ),

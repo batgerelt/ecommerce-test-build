@@ -45,7 +45,7 @@ class ProductDetail extends React.Component {
   renderDetails = () => {
     try {
       const {
-        detail, categorymenu, addWishList, addRate, getProductRate,
+        detail, categorymenu, addWishList, addRate, getProductRate, removeAddedWishColor,
       } = this.props;
       return (
         <Detail
@@ -54,6 +54,7 @@ class ProductDetail extends React.Component {
           isLoggedIn={this.props.data.length !== 0}
           addWishList={addWishList}
           addRate={addRate}
+          removeAddedWishColor={removeAddedWishColor}
           getProductRate={getProductRate}
           {...this.props}
         />

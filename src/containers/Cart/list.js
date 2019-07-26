@@ -56,8 +56,11 @@ class Cart extends React.Component {
 
   handleSaveClick = (e, product) => {
     e.preventDefault();
-    this.props.addWish({ skucd: product.cd }).then((res) => {
+    this.props.addWishList({ skucd: product.cd }).then((res) => {
       if (res.payload.success) {
+        setTimeout(() => {
+          this.props.removeAddedWishColor();
+        }, 500);
         this.props.getWish();
       }
     });
@@ -310,7 +313,6 @@ class Cart extends React.Component {
     if (!this.props.isLogged) {
       return null;
     }
-
     const wishlistProducts = this.props.wish;
 
     return (
@@ -576,14 +578,15 @@ class Cart extends React.Component {
                         {formatter.format(this.renderTotalPrice())}₮
                       </strong>
                     </p>
-                    <button
+                    <Link
+                      to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                       }`}
                       // onClick={() => this.handleConfirmClick()}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
-                    </button>
+                    </Link>
                   </div>
 
                   {this.renderWishlistProducts()}

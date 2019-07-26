@@ -30,6 +30,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName("response", "reset"),
       error: this.buildActionName("error", "reset"),
     };
+    this.customerModel = {
+      request: this.buildActionName("request", "customer"),
+      response: this.buildActionName("response", "customer"),
+      error: this.buildActionName("error", "customer"),
+    };
     this.initialState = {
       user: {
         name: "",
@@ -41,6 +46,7 @@ class AuthModel extends BaseModel {
       error: false,
       errorMessage: "",
       modules: [],
+      userInfo: [],
     };
   }
 
@@ -75,6 +81,9 @@ class AuthModel extends BaseModel {
       model: this.resetModel,
     });
 
+  getCustomer = () =>
+    asyncFn({ url: `/customer`, method: "GET", model: this.customerModel });
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       case this.resetModel.request:
@@ -104,6 +113,11 @@ class AuthModel extends BaseModel {
           isLoading: false,
           error: true,
           errorMessage: action.message,
+        };
+      case this.customerModel.response:
+        return {
+          ...state,
+          userInfo: action.payload.data,
         };
       case this.loginModel.response:
         return {

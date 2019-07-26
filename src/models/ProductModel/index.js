@@ -108,6 +108,16 @@ class Model extends BaseModel {
       response: this.buildActionName('response', 'addwishlist'),
       error: this.buildActionName('error', 'addwishlist'),
     };
+    this.addWishListPackageModel = {
+      request: this.buildActionName('request', 'addwishlistpackage'),
+      response: this.buildActionName('response', 'addwishlistpackage'),
+      error: this.buildActionName('error', 'addwishlistpackage'),
+    };
+    this.addWishListRecipeModel = {
+      request: this.buildActionName('request', 'addwishlistrecipe'),
+      response: this.buildActionName('response', 'addwishlistrecipe'),
+      error: this.buildActionName('error', 'addwishlistrecipe'),
+    };
     this.addCommentModel = {
       request: this.buildActionName('request', 'addcomment'),
       response: this.buildActionName('response', 'addcomment'),
@@ -148,6 +158,8 @@ class Model extends BaseModel {
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
   addWishList = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: 'POST', model: this.addWishListModel });
+  addWishListPackage = ({ id }) => asyncFn({ url: `/customer/wishlist/package/${id}`, method: 'POST', model: this.addWishListPackageModel });
+  addWishListRecipe = ({ id }) => asyncFn({ url: `/customer/wishlist/recipe/${id}`, method: 'POST', model: this.addWishListRecipeModel });
   removeAddedWishColor = () => ({ type: "REMOVE_ADDED_WISH_LIST_COLOR" });
   addRate = ({ skucd, rate }) => asyncFn({ url: `/product/rate/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
@@ -268,6 +280,24 @@ class Model extends BaseModel {
 
       // ADD WISH LIST MODEL
       case this.addWishListModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+          addedWishList: true,
+        };
+
+      // ADD WISH LIST PACKAGE MODEL
+      case this.addWishListPackageModel.request:
+        return {
+          ...state,
+          isLoading: true,
+          error: false,
+          addedWishList: true,
+        };
+
+      // ADD WISH LIST RECIPE MODEL
+      case this.addWishListRecipeModel.request:
         return {
           ...state,
           isLoading: true,

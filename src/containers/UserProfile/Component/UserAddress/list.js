@@ -73,7 +73,7 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
+            this.props.getUserInfo();
             this.props.form.resetFields();
             this.setState({ load: false });
           }
@@ -174,20 +174,25 @@ class Component extends React.Component {
       const address = addrs;
       return address.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
+
           <td style={{ width: "5%" }}>{item.name}</td>
           <td style={{ width: "5%" }}>{item.phone1}</td>
           <td style={{ width: "15%" }}>{item.provincenm}</td>
           <td style={{ width: "10%" }}>{item.districtnm}</td>
           <td style={{ width: "10%" }}>{item.address}</td>
-          <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
-            <Link to="#" disabled={loader}>
-              <i
-                className="fa fa-times"
-                aria-hidden="true"
-                style={{ color: "black" }}
-              />
-            </Link>
-          </td>
+          {item.ismain !== 1 ?
+            <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
+              <Link to="#" disabled={loader}>
+                <i
+                  className="fa fa-times"
+                  aria-hidden="true"
+                  style={{ color: "black" }}
+                />
+              </Link>
+            </td>
+            :
+            <td style={{ width: "5%" }} />
+          }
         </tr>
       ));
     } catch (error) {
@@ -339,7 +344,7 @@ class Component extends React.Component {
   render() {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
-      <div className="col-md-8 pad10">
+      <div className="col-md-7">
         <div className="user-menu-content">
           <p className="title">
             <span>Хүргэлтийн хаяг</span>
