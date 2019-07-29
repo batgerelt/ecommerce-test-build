@@ -10,6 +10,7 @@ class Model extends BaseModel {
       data: {},
     },
     brand: [],
+    brandall: [],
   }
 
   constructor(data = {}) {
@@ -21,10 +22,16 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'brand'),
           error: this.buildActionName('error', data.model, 'brand'),
         },
+        brandall: {
+          request: this.buildActionName('request', data.model, 'brandall'),
+          response: this.buildActionName('response', data.model, 'brandall'),
+          error: this.buildActionName('error', data.model, 'brandall'),
+        },
       };
     }
   }
   getBrand = () => asyncFn({ url: `/brand`, method: 'GET', model: this.model.brand });
+  getAllBrand = () => asyncFn({ url: `/search/brand`, method: 'GET', model: this.model.brandall });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -35,6 +42,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.brand.response:
         return { ...state, brand: action.payload.data };
+
+        // GET BRAND ALL
+      case this.model.brandall.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.brandall.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.brandall.response:
+        return { ...state, brandall: action.payload.data };
 
       default:
         return state;

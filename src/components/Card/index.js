@@ -162,9 +162,7 @@ class Card extends React.Component {
   };
 
   addWishList = (skucd) => {
-    const { addWishList } = this.props;
-
-    addWishList({ skucd }).then((res) => {
+    this.props.addWishList({ skucd }).then((res) => {
       if (res.payload.success) {
         message.success(res.payload.message);
       }
@@ -347,7 +345,7 @@ class Card extends React.Component {
             <div className="col-md-4 pad10">
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
-                  <Link to={item.route ? item.route : ""}>
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
                     <span
                       className="image"
                       style={{
@@ -472,10 +470,10 @@ class Card extends React.Component {
               </div>
               <div className="info-container">
                 <Link to={item.route ? item.route : ""} className="name">
-                  <span>{item.name}</span>
+                  <span>{item.name ? item.name : item.title}</span>
                 </Link>
                 <Link to={item.route ? item.route : ""} className="cat">
-                  <span>{item.featuretxt}</span>
+                  <span>{item.featuretxt ? item.featuretxt : item.feature}</span>
                 </Link>
                 <Rate
                   allowHalf

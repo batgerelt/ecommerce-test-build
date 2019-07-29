@@ -1,75 +1,240 @@
+/* eslint-disable brace-style */
 /* eslint-disable radix */
 import React from "react";
 import { Collapse } from "react-collapse";
-import { Link } from "react-router-dom";
 import { Slider } from "antd";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
+const initialState = {
+  iscolor: true,
+  isprice: true,
+  isbrand: true,
+  color: "Өнгө",
+  price: "Үнэ",
+  brand: "Бренд",
+  colors: [],
+  brands: [],
+  prices: [],
+};
+
+const formatter = new Intl.NumberFormat("en-US");
+
 class FilterSet extends React.Component {
-  state = { isOpened: true };
+  state = initialState;
 
   toggleCollapse = (e) => {
-    e.preventDefault();
-    this.setState({ isOpened: !this.state.isOpened });
+    if (e === "iscolor") {
+      return this.setState({ iscolor: !this.state.iscolor });
+    }
+    if (e === "isprice") {
+      return this.setState({ isprice: !this.state.isprice });
+    }
+    if (e === "isbrand") {
+      return this.setState({ isbrand: !this.state.isbrand });
+    }
+    return null;
   };
 
-  renderCategory = () => {
+  renderAttribute = () => {
+    try {
+      const { attrvalue, aggregations, attrall } = this.props;
+
+      return aggregations.attributes.groups.buckets.map((attribute, index) => {
+        let attname = attrall.find(i => i.id === attribute.key).name;
+
+        return (
+          <div key={index}>
+            <span
+              // onClick={() => this.toggleCollapse("isbrand")}
+              className="collapse-title"
+            >
+              {attname}
+            </span>
+            <Collapse isOpened>
+              <div className="collapse show" id="collapseThree">
+                <div className="collapse-content">
+                  <ul className="list-unstyled">
+                    {
+                      attribute.values.buckets.map((attributeval, ind) => {
+                        let attrvaluenm = attrvalue.find(value => value.id === attributeval.key).name;
+
+                        return (
+                          <li key={ind} style={{ display: 'flex' }}>
+                            <Checkbox
+                              key={ind}
+                              onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
+                              style={{ color: 'gray', width: 25, height: 25 }}
+                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                            />
+
+                            <label style={{ marginLeft: 5 }}>{attrvaluenm}</label>
+                          </li>
+                        );
+                      })
+                    }
+                  </ul>
+                </div>
+              </div>
+            </Collapse>
+          </div>
+        );
+      });
+    } catch (error) {
+      // return console.log(error);
+      return null;
+    }
+  }
+
+  // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
+  renderFilterBrand = () => {
+    try {
+      const { aggregations, brandall } = this.props;
+
+      if (aggregations.brands.buckets.buckets.length !== 0) {
+        return (
+          <div>
+            <span
+              onClick={() => this.toggleCollapse("isbrand")}
+              className="collapse-title"
+            >
+              {this.state.brand}
+            </span>
+            <Collapse isOpened={this.state.isbrand}>
+              <div className="collapse show" id="collapseThree">
+                <div className="collapse-content">
+                  <ul className="list-unstyled">
+                    {aggregations.brands.buckets.buckets.map((brand, index) => (
+                      <li key={index} style={{ display: 'flex' }}>
+                        <Checkbox
+                          key={index}
+                          onChange={e => this.props.handleChangeBrand(e, brand.key)}
+                          style={{ color: 'gray', width: 25, height: 25 }}
+                          icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                          checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                        />
+
+                        <label style={{ marginLeft: 5 }}>
+                          {brandall.find(i => i.id === brand.key) === undefined ? 'hello' : brandall.find(i => i.id === brand.key).name}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </Collapse>
+          </div>
+        );
+      }
+
+      return null;
+    } catch (error) {
+      // return console.log('error: ', error);
+      return null;
+    }
+  };
+
+  // Шүүлтүүр хэсгийн өнгийн жагсаалт харуулах хэсэг
+  renderFilterColor = () => {
     try {
       const { aggregations } = this.props;
+      if (aggregations.colors.buckets.length !== 0) {
+        return (
+          <div>
+            <span
+              className="collapse-title"
+              onClick={() => this.toggleCollapse("iscolor")}
+            >
+              {this.state.color}
+            </span>
+            <Collapse isOpened={this.state.iscolor}>
+              <div className="collapse show" id="collapseThree">
+                <div className="collapse-content">
+                  <ul className="list-unstyled">
+                    {aggregations.colors.buckets.map((color, index) => (
+                      <Checkbox
+                        key={index}
+                        onChange={this.props.handleChangeColor}
+                        value={color.key}
+                        style={{ color: color.key, width: 25, height: 25 }}
+                        icon={
+                          <CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />
+                        }
+                        checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </Collapse>
+          </div>
+        );
+      }
 
+      return null;
+    } catch (error) {
+      // return console.log(error);
+      return null;
+    }
+  };
+
+  // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
+  renderFilterPrice = () => {
+    try {
+      const { aggregations, minPrice, maxPrice } = this.props;
+      // console.log(this.props);
+      const marks = {
+        [aggregations.min_price.value]: {
+          label: (
+            <strong>{formatter.format(aggregations.min_price.value)}₮</strong>
+          ),
+        },
+        [aggregations.max_price.value]: {
+          label: (
+            <strong>{formatter.format(aggregations.max_price.value)}₮</strong>
+          ),
+        },
+      };
       return (
         <div>
-          <Link
-            to=""
-            onClick={this.toggleCollapse}
+          <span
             className="collapse-title"
-            data-toggle="collapse"
-            role="button"
-            aria-expanded="true"
-            aria-controls="collapseExample"
+            onClick={() => this.toggleCollapse("isprice")}
           >
-            {/* {attribute.name} */}
-          </Link>
-          <Collapse isOpened={this.state.isOpened}>
-            <div className="collapse show" id="collapseThree">
-              <div className="collapse-content">
-                <ul className="list-unstyled">
-                  {/* {attribute.values.map((val, index) => (
-                    <li key={index}>
-                      <div className="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id={`checkbox${val.valueid}${index}`}
-                          onChange={this.props.onAttributeChange}
-                          value={val.valueid}
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor={`checkbox${val.valueid}${index}`}
-                        >
-                          {val.valuename}
-                        </label>
-                      </div>
-                    </li>
-                    ))} */}
-                </ul>
-              </div>
-            </div>
+            {this.state.price}
+          </span>
+
+          <Collapse isOpened={this.state.isprice}>
+            <Slider
+              range
+              defaultValue={[
+                aggregations.min_price.value,
+                aggregations.max_price.value,
+              ]}
+              min={aggregations.min_price.value}
+              max={aggregations.max_price.value}
+              marks={marks}
+              onAfterChange={this.props.handleChangePrice}
+              style={{ width: "90%" }}
+            />
           </Collapse>
         </div>
       );
     } catch (error) {
-      return console.log(error);
+      // return console.log('error: ', error);
+      return null;
     }
-  }
+  };
 
   render() {
     return (
       <div>
-        {this.renderCategory()}
+        {this.renderAttribute()}
+        {this.renderFilterBrand()}
+        {this.renderFilterColor()}
+        {this.renderFilterPrice()}
       </div>
     );
   }

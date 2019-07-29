@@ -5,6 +5,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Icon, Form } from "antd";
+import moment from "moment";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
@@ -17,11 +18,9 @@ class AppHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPopupOpen: false,
       isDropdownOpen: false,
       isSearchDropdownOpen: false,
-      menucategories: [],
-      item: "Бүх бараа",
+      item: { id: 0, name: "Бүх бараа" },
       suggestion: [],
       word: "",
       keywordid: null,
@@ -32,24 +31,6 @@ class AppHeader extends Component {
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
-
-  handleSearch = () => {
-    // const { word, keywordid } = this.state;
-    // keywordid === null ? this.props.searchWord({ keyword: word }) : this.props.searchKeyWord({ keywordid });
-
-    // const params = {
-    //   catid: 0,
-    //   keywordid,
-    //   parameters: [],
-    //   minprice: 0,
-    //   maxprice: 0,
-    //   ordercol: 'price_asc',
-    //   rowcount: 20,
-    //   startswith: 0,
-    // };
-
-    // this.props.searchKeyWordFilter({ body: { ...params } });
-  }
 
   handleChangeKeyWord = (e) => {
     const { suggestion } = this.state;
@@ -71,7 +52,7 @@ class AppHeader extends Component {
   };
 
   onItem = (e, item) => {
-    this.setState({ item: item.name });
+    this.setState({ item });
   };
 
   onItem1 = (e) => {
@@ -102,8 +83,6 @@ class AppHeader extends Component {
 
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
-      this.handleSearch();
-      // this.props.history.push(url);
       window.history.pushState('', '', url);
     }
   }
@@ -211,7 +190,7 @@ class AppHeader extends Component {
                               aria-expanded="false"
                               style={{ boxShadow: 'none' }}
                             >
-                              {this.state.item}
+                              {this.state.item.name}
                             </button>
                             <div
                               className={dropdownClass}
@@ -223,18 +202,6 @@ class AppHeader extends Component {
                               >
                                 <span className="no-padding">Бүх бараа</span>
                               </a>
-                              {/* <select>
-                                {root.map((item, index) => {
-                                  <option
-                                    key={index}
-                                    className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
-                                    onClick={e => this.onItem(e, item)}
-                                  >
-                                    {item.icon ? <img src={process.env.IMAGE + item.icon} alt={item.name} /> : null}
-                                    <span>{item.name}</span>
-                                  </option>;
-                                })}
-                              </select> */}
                               {root.map((item, index) => (
                                 <a
                                   className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
@@ -282,7 +249,7 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={keywordid === null ? `/search/${word}/0` : `/search/${word}/1`}
+                            to={`/search/${word}/${moment()}`}
                             style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i

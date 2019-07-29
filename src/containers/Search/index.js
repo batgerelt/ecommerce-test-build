@@ -8,14 +8,19 @@ import {
   Search as SearchModel,
   Cart as CartModel,
   Attribute as AttributeModel,
+  Auth as AuthModel,
+  Product as ProductModel,
 } from "../../models";
 import List from "./list";
+import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
   ...state.search,
   ...state.cart,
   ...state.auth,
   ...state.attribute,
+  ...state.category,
+  ...state.brand,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -23,36 +28,19 @@ const mapDispatchToProps = dispatch => ({
     ...SearchModel,
     ...CartModel,
     ...AttributeModel,
+    ...AuthModel,
+    ...ProductModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
-  componentWillMount() {
-    const { id, key } = this.props.match.params;
-    // parseInt(key) === 1 ? this.props.searchKeyWord({ keywordid: id }) : this.props.searchWord({ keyword: id });
-
-    const params = {
-      catId: 0,
-      value: id,
-      attribute: "",
-      color: "",
-      brand: "",
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
-      level: 0,
-      parameters: [],
-      language: "",
-      startsWith: 0,
-      rowCount: 10,
-      orderColumn: "",
-    };
-
-    this.props.searchKeyWordFilter({ body: { ...params } });
-  }
-
   render() {
-    return <List {...this.props} />;
+    return (
+      <div>
+        <List {...this.props} {...this} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+      </div>
+    );
   }
 }
 

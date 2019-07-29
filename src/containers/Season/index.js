@@ -9,6 +9,7 @@ import {
   Filter as FilterModel,
   Cart as CartModel,
   Auth as AuthModel,
+  Search as SearchModel,
 } from "../../models";
 import { Loader } from "../../components";
 import List from "./list";
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   ...state.filter,
   ...state.cart,
   ...state.auth,
+  ...state.search,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -31,33 +33,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...FilterModel,
     ...CartModel,
     ...AuthModel,
+    ...SearchModel,
   }, dispatch),
 });
 
 class Page extends React.Component {
-  state = {
-    loading: false,
-  }
+  state = { loading: false }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    if (this.props.seasonfilter.length === 0) {
-      this.setState({ loading: true });
-    }
     this.props.getSeasonBanner();
     this.props.getSeasonMenu({});
-    this.props.seasonFilter({
-      body: {
-        promotid: null,
-        parameters: [],
-        minprice: 0,
-        maxprice: 0,
-        startswith: 60,
-        rowcount: 20,
-        ordercol: "price_asc",
-      },
-    }).then((res) => {
-      this.setState({ loading: false });
-    });
   }
 
   render() {

@@ -14,6 +14,7 @@ class Model extends BaseModel {
     searchword: [],
     searchkeyword: [],
     searchKeyWordResponse: [],
+    isFetchingSearch: false,
   }
 
   constructor(data = {}) {
@@ -40,10 +41,10 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'searchkeyword'),
           error: this.buildActionName('error', data.model, 'searchkeyword'),
         },
-        searchkeywordfilter: {
-          request: this.buildActionName('request', data.model, 'searchkeywordfilter'),
-          response: this.buildActionName('response', data.model, 'searchkeywordfilter'),
-          error: this.buildActionName('error', data.model, 'searchkeywordfilter'),
+        searchProduct: {
+          request: this.buildActionName('request', data.model, 'searchProduct'),
+          response: this.buildActionName('response', data.model, 'searchProduct'),
+          error: this.buildActionName('error', data.model, 'searchProduct'),
         },
       };
     }
@@ -63,9 +64,13 @@ class Model extends BaseModel {
     catid = 0, keywordid, startsWith = 10, rowCount = 0, orderCol = 'price_asc',
   } = {}) => asyncFn({ url: `/search/search/searchkeyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
 
-  searchKeyWordFilter = ({ body } = {}) => asyncFn({
-    body, url: `/search/elastic`, method: 'POST', model: this.model.searchkeywordfilter,
+  searchProduct = ({ body } = {}) => asyncFn({
+    body, url: `/search/elastic`, method: 'POST', model: this.model.searchProduct,
   })
+
+  resetSearch = () => ({
+    type: 'resetsearch',
+  });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -102,12 +107,16 @@ class Model extends BaseModel {
         return { ...state, searchkeyword: action.payload.data[0] };
 
       // GET SEARCH KEY WORD FILTER
-      case this.model.searchkeywordfilter.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.searchkeywordfilter.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.searchkeywordfilter.response:
-        return { ...state, searchKeyWordResponse: action.payload.data };
+      case this.model.searchProduct.request:
+        return { ...state, isFetchingSearch: true, current: this.requestCase(state.current, action) };
+      case this.model.searchProduct.error:
+        return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
+      case this.model.searchProduct.response:
+        return { ...state, isFetchingSearch: false, searchKeyWordResponse: action.payload.data };
+
+      // RESET SEARCH
+      case 'resetsearch':
+        return { ...state, searchKeyWordResponse: state.searchKeyWordResponse.hits.hits.splice(0, 20) };
 
       default:
         return state;

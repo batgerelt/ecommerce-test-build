@@ -23,6 +23,7 @@ import {
   Filter as FilterModel,
   Recipe as RecipeModel,
   Attribute as AttributeModel,
+  Brand as BrandModel,
 } from "../../models";
 import {
   Locale,
@@ -67,6 +68,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...FilterModel,
       ...RecipeModel,
       ...AttributeModel,
+      ...BrandModel,
     },
     dispatch,
   ),
@@ -83,6 +85,7 @@ class App extends Component {
     this.props.getCategoryAll();
     this.props.getAttributeAll();
     this.props.getAttributeValue();
+    this.props.getAllBrand();
   }
 
   render() {
@@ -120,7 +123,7 @@ class App extends Component {
               <Route path="/packagedetail/:id" component={PackageDetail} />
               <Route path="/emart" component={ProductList} />
               <Route path="/profile" component={Profile} />
-              <Route path="/search/:id/:key" component={Search} />
+              <Route path="/search/:word/:time" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
               <Route path="/confirm/:key" component={Confirm} />
               <Route path="/order/:id" component={Order} />
