@@ -104,6 +104,7 @@ class List extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { match } = this.props;
     const { pathname } = this.props.location;
     const { imageUrl, showButton } = this.state;

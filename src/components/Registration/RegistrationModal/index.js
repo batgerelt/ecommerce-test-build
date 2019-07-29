@@ -22,8 +22,8 @@ class RegistrationModal extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         this.props.signup({ body: values }).then((res) => {
+          console.log(res.payload);
           if (res.payload.success) {
             this.handleSignup();
             message.success(res.payload.message);

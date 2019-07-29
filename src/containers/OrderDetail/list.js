@@ -92,7 +92,7 @@ class List extends React.Component {
                     aria-hidden="true"
                     style={{ color: "#feb415" }}
                   />
-                  <span>{this.props.data[0].info.customerInfo.firstname} {this.props.data[0].info.customerInfo.lastname}</span>
+                  <span>{orderdetail.info.custname}</span>
                 </p>
                 <p className="text flex-this">
                   <i
@@ -100,7 +100,7 @@ class List extends React.Component {
                     aria-hidden="true"
                     style={{ color: "#feb415" }}
                   />
-                  <span>{this.props.data[0].info.customerInfo.phonE1}, {this.props.data[0].info.customerInfo.phoneE2}</span>
+                  <span>{orderdetail.info.phone1}, {orderdetail.info.phone2}</span>
                 </p>
                 <p className="text flex-this">
                   <i

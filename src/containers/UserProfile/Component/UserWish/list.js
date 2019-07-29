@@ -26,13 +26,6 @@ class Component extends React.Component {
       });
     }
   }
-  handleRateChange = (e, item) => {
-    console.log(e, item);
-    this.props.addRate({
-      skucd: item.skucd,
-      rate: Number(e) * 2,
-    });
-  };
   renderProducts = () => {
     try {
       const { wish } = this.props;
