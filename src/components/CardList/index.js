@@ -5,7 +5,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { CARD_LIST_TYPES, CARD_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
+import {
+  CARD_LIST_TYPES,
+  CARD_TYPES,
+  CARD_NUMS_IN_ROW,
+} from "../../utils/Consts";
 import { Card } from "../";
 
 class CardList extends React.Component {
@@ -22,7 +26,7 @@ class CardList extends React.Component {
           : CARD_NUMS_IN_ROW.slim;
 
       // eslint-disable-next-line comma-spacing
-      for (let j = 0; j < cardsInRow; j++ , p++) {
+      for (let j = 0; j < cardsInRow; j++, p++) {
         if (!items[p]) {
           break;
         }
@@ -44,7 +48,12 @@ class CardList extends React.Component {
 
   renderCardList = () => {
     const {
-      cartListType, items, seq, cardsInCol, showAll, cardType,
+      cardListType,
+      items,
+      seq,
+      cardsInCol,
+      showAll,
+      cardType,
     } = this.props;
     if (!items.length) {
       return null;
@@ -52,7 +61,7 @@ class CardList extends React.Component {
 
     let cardList = [];
 
-    if (cartListType === CARD_LIST_TYPES.horizontal) {
+    if (cardListType === CARD_LIST_TYPES.horizontal) {
       if (seq) {
         const cardTypes = seq.split(",");
 
@@ -101,14 +110,18 @@ class CardList extends React.Component {
       }
 
       cardList = <div className="row row10">{cardList}</div>;
-    } else if (cartListType === CARD_LIST_TYPES.vertical) {
+    } else if (cardListType === CARD_LIST_TYPES.vertical) {
       let cardsInColCalculated = Math.ceil(items.length / 3);
 
       if (cardsInCol) {
-        cardsInColCalculated = cardsInColCalculated < cardsInCol ? cardsInColCalculated : cardsInCol;
+        cardsInColCalculated =
+          cardsInColCalculated < cardsInCol ? cardsInColCalculated : cardsInCol;
       }
 
-      const cardsCount = items.length > cardsInColCalculated * 3 ? cardsInColCalculated * 3 : items.length;
+      const cardsCount =
+        items.length > cardsInColCalculated * 3
+          ? cardsInColCalculated * 3
+          : items.length;
 
       let cardsTemp = [];
 
@@ -116,13 +129,19 @@ class CardList extends React.Component {
         let className = "short";
 
         if (
-          (cardsInColCalculated % 2 !== 0 && i % 2 === 0) || (cardsInColCalculated % 2 === 0 &&
-            ((Math.floor(i / cardsInColCalculated) % 2 === 0 && i % 2 === 0) || (Math.floor(i / cardsInColCalculated) % 2 !== 0 && i % 2 !== 0)))
+          (cardsInColCalculated % 2 !== 0 && i % 2 === 0) ||
+          (cardsInColCalculated % 2 === 0 &&
+            ((Math.floor(i / cardsInColCalculated) % 2 === 0 && i % 2 === 0) ||
+              (Math.floor(i / cardsInColCalculated) % 2 !== 0 && i % 2 !== 0)))
         ) {
           className = "long";
         }
 
-        const key = items[i].cd ? items[i].cd : items[i].recipeid ? items[i].recipeid : i;
+        const key = items[i].cd
+          ? items[i].cd
+          : items[i].recipeid
+            ? items[i].recipeid
+            : i;
 
         cardsTemp.push(
           <Card
@@ -153,7 +172,8 @@ class CardList extends React.Component {
             shape={CARD_TYPES.list}
             item={item}
             {...this.props}
-          />);
+          />,
+        );
       });
     }
 
@@ -166,7 +186,7 @@ class CardList extends React.Component {
 }
 
 CardList.propTypes = {
-  cartListType: PropTypes.number.isRequired,
+  cardListType: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   seq: PropTypes.string,
   cardsInCol: PropTypes.number,

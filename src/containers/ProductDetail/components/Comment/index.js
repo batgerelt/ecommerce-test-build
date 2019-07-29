@@ -10,30 +10,24 @@ class Comment extends Component {
   state = {
     comment: "",
     comments: [],
-    user: null,
   };
-
-  componentWillMount() {
-    let auth = localStorage.getItem("auth");
-    this.setState({ comments: this.props.comments });
-    if (auth !== null) {
-      auth = JSON.parse(auth);
-      this.setState({ user: auth.data[0].info.customerInfo });
-    }
-  }
 
   handleCommitChange = (e) => {
     this.setState({ comment: e.target.value });
   };
 
   handleCommentSend = (e) => {
-    const { comment, user } = this.state;
-    const { addComment, product } = this.props;
-    if (user !== null) {
-      let custId = user.id;
+    const { comment } = this.state;
+    const {
+      addComment, product, auth,
+    } = this.props;
+    if (auth) {
       let skucd = product.cd;
-      addComment({ custId, skucd, comm: comment }).then((res) => {
-        console.log(res);
+      addComment({ skucd, comm: comment }).then((res) => {
+        if (res.payload.success) {
+          this.setState({ comment: "" });
+          this.props.getProductComment({ skucd: product.cd });
+        }
       });
     }
   }
@@ -41,27 +35,28 @@ class Comment extends Component {
 
   renderCommentList = () => {
     try {
-      const { user, comments } = this.state;
-      const { product } = this.props;
+      const {
+        product, comments, user, auth,
+      } = this.props;
       const { rate, rate_user_cnt } = product;
       return (
         <div
           className="comments-container"
           style={{ marginTop: "80px", width: "100%" }}
         >
-          {user && (
+          {auth && (
             <div className="write-comment">
               <div className="author">
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${user.length !== 0 ? localStorage.getItem('img') : defaultAvatar})` }}
                   />
                 </div>
                 <p className="name text-uppercase">
                   <strong>
                     {
-                      user !== null ? `${user.firstname} ${user.lastname}`
+                      user.length !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
                         : ""
                     }
                   </strong>

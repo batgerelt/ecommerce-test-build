@@ -25,13 +25,21 @@ class UserButton extends React.Component {
 
   handleLogoutClick = () => {
     this.props.logout();
-    this.setState({ logout: !this.state.logout });
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
-    /* if (this.props.history.location.pathname === "/checkout") {
-      this.props.history.push("/");
-    } */
   }
 
+  renderProgress() {
+    let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
+    return (
+      <div>
+        <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
+        <p className="text text-center">
+          <strong>Таны мэдээлэл</strong>
+          <span>{percents}%</span>
+        </p>
+      </div>
+    );
+  }
   render() {
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
@@ -44,15 +52,16 @@ class UserButton extends React.Component {
 
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        const user = JSON.parse(localStorage.getItem('auth')).data[0].info.customerInfo;
+        const user = JSON.parse(localStorage.getItem('next'));
         const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+        const goyImage = JSON.stringify(process.env.IMAGES + user.imgnm);
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : realImage})` }} />
+                <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
-              <span className="">{user.firstname ? `${user.firstname}` : user.email ? user.email : ""}</span>
+              <span className="">{user.lastname} {user.firstname}</span>
             </Link>
             <div className={`dropdown ${profilemenu}`}>
               <div className="drop-content">
@@ -60,53 +69,43 @@ class UserButton extends React.Component {
                   <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${user.imgnm === undefined || user.imgnm === null ? avatar : realImage})` }} />
+                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
                       </div>
                       <p className="name">
-                        {user.firstname
-                          ? user.lastname
-                            ? `${user.firstname} ${user.lastname}`
-                            : user.firstname
-                          : user.email
-                            ? user.email
-                            : ""}
+                        {user.lastname} {user.firstname}
                       </p>
                     </div>
-                    <Progress percent={50} strokeColor="#feb415" showInfo={false} />
-                    <p className="text text-center">
-                      <strong>Таны мэдээлэл</strong>
-                      <span>50%</span>
-                    </p>
+                    {this.renderProgress()}
                   </div>
                   <ul className="list-unstyled">
                     <li>
                       <Link to="/profile" className="flex-this">
-                        <Avatar size="small" src={profile} shape="square" style={{ width: "30px" }} /><span>Профайл хуудас</span>
+                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
                       </Link>
                     </li>
                     <li>
                       <Link to="/profile/history" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "30px" }} /><span>Үзсэн барааны түүх</span>
+                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
                       </Link>
                     </li>
                     <li>
                       <Link to="/profile/wish" className="flex-this">
-                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "30px" }} /><span>Хадгалсан бараа</span>
+                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
                       </Link>
                     </li>
                     <li>
                       <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "30px" }} /><span>Захиалгын түүх</span>
+                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
                       </Link>
                     </li>
                     <li>
                       <Link to="/profile/address" className="flex-this">
-                        <Avatar size="small" shape="square" src={location} style={{ width: "30px" }} /><span>Хүргэлтийн хаяг</span>
+                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
                       </Link>
                     </li>
                     <li>
                       <Link to="/profile/password" className="flex-this">
-                        <Avatar size="small" shape="square" src={password} style={{ width: "30px" }} /><span>Нууц үгээ солих</span>
+                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
                       </Link>
                     </li>
                   </ul>

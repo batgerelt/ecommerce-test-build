@@ -213,6 +213,23 @@ class Model extends BaseModel {
             "replaceProductsRemotely",
           ),
         },
+        confirmCartRemotely: {
+          request: this.buildActionName(
+            "request",
+            data.model,
+            "confirmCartRemotely",
+          ),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "confirmCartRemotely",
+          ),
+          error: this.buildActionName(
+            "error",
+            data.model,
+            "confirmCartRemotely",
+          ),
+        },
       };
     }
   }
@@ -294,10 +311,10 @@ class Model extends BaseModel {
       model: this.model.removeProductRemotely,
     });
 
-  increaseProductsByQtyRemotely = ({ iscart, body }) =>
+  increaseProductsByQtyRemotely = ({ body }) =>
     asyncFn({
       body,
-      url: `/basket/${iscart}`,
+      url: `/basket`,
       method: "POST",
       model: this.model.increaseProductsByQtyRemotely,
     });
@@ -364,6 +381,13 @@ class Model extends BaseModel {
       model: this.model.replaceProductsRemotely,
     });
 
+  confirmCartRemotely = () =>
+    asyncFn({
+      url: `/basket/confirm`,
+      method: "GET",
+      model: this.model.confirmCartRemotely,
+    });
+
   updateReduxStore = (
     products,
     product,
@@ -375,7 +399,7 @@ class Model extends BaseModel {
       products = JSON.parse(products);
     }
 
-    if (!product.qty) {
+    if (product.qty === undefined) {
       product.qty = product.saleminqty || 1;
     }
 
@@ -388,8 +412,12 @@ class Model extends BaseModel {
         if (shouldOverride) {
           // eslint-disable-next-line no-lonely-if
           if (found.isgift === 1) {
-            found.qty = product.qty;
-          } else {
+            if (found.qty < found.saleminqty) {
+              found.qty = found.saleminqty;
+            } else {
+              found.qty = product.qty;
+            }
+          } else if (found.availableqty > 0) {
             // eslint-disable-next-line no-lonely-if
             if (found.salemaxqty > 0) {
               // eslint-disable-next-line no-lonely-if
@@ -400,6 +428,8 @@ class Model extends BaseModel {
                     found.salemaxqty
                   }"-г худалдан авах боломжтой.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = found.saleminqty;
               } else {
                 found.qty = product.qty;
               }
@@ -410,6 +440,8 @@ class Model extends BaseModel {
                 this.handleNotify(
                   `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
                 );
+              } else if (found.qty < found.saleminqty) {
+                found.qty = found.saleminqty;
               } else {
                 found.qty = product.qty;
               }
@@ -432,7 +464,7 @@ class Model extends BaseModel {
               // eslint-disable-next-line no-lonely-if
               if (found.isgift === 1) {
                 found.qty += product.qty;
-              } else {
+              } else if (found.availableqty > 0) {
                 // eslint-disable-next-line no-lonely-if
                 if (found.salemaxqty > 0) {
                   // eslint-disable-next-line no-lonely-if
@@ -462,7 +494,7 @@ class Model extends BaseModel {
               // eslint-disable-next-line no-lonely-if
               if (found.isgift === 1) {
                 found.qty += found.addminqty;
-              } else {
+              } else if (found.availableqty > 0) {
                 // eslint-disable-next-line no-lonely-if
                 if (found.salemaxqty > 0) {
                   // eslint-disable-next-line no-lonely-if
@@ -494,7 +526,13 @@ class Model extends BaseModel {
         products.splice(index, 1, found);
       }
     } else {
-      if (product.isgift === 0) {
+      // eslint-disable-next-line no-lonely-if
+      if (product.isgift === 1) {
+        if (product.qty < product.saleminqty) {
+          product.qty = product.saleminqty;
+        }
+        products.push(product);
+      } else if (product.availableqty > 0) {
         // eslint-disable-next-line no-lonely-if
         if (product.salemaxqty > 0) {
           // eslint-disable-next-line no-lonely-if
@@ -515,8 +553,8 @@ class Model extends BaseModel {
             );
           }
         }
+        products.push(product);
       }
-      products.push(product);
     }
 
     return products;
@@ -547,6 +585,8 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
+        console.log(state);
+        console.log(action.payload);
         return { ...state, products: action.payload.data };
 
       case "CART_DECREMENT_PRODUCT_LOCALLY":
@@ -659,9 +699,8 @@ class Model extends BaseModel {
       case this.model.removeProductRemotely.response:
         try {
           let { products } = state;
-          let product = action.payload.data[0];
 
-          const found = products.find(prod => prod.cd === product.cd);
+          const found = products.find(prod => prod.cd === action.payload.data);
 
           if (!found) {
             throw new Error("Бараа олдсонгүй!");
@@ -777,6 +816,13 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.replaceProductsRemotely.response:
         return { ...state, products: action.payload.data };
+
+      case this.model.confirmCartRemotely.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.confirmCartRemotely.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.confirmCartRemotely.response:
+        return state;
 
       default:
         return state;

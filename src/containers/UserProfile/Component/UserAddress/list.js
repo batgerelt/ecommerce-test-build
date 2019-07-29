@@ -73,7 +73,7 @@ class Component extends React.Component {
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
             message.success(res.payload.message);
-            this.props.getUserInfo({ custid: this.props.data[0].info.customerInfo.id });
+            this.props.getUserInfo();
             this.props.form.resetFields();
             this.setState({ load: false });
           }
@@ -178,16 +178,26 @@ class Component extends React.Component {
           <td style={{ width: "5%" }}>{item.phone1}</td>
           <td style={{ width: "15%" }}>{item.provincenm}</td>
           <td style={{ width: "10%" }}>{item.districtnm}</td>
-          <td style={{ width: "10%" }}>{item.address}</td>
-          <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
-            <Link to="#" disabled={loader}>
-              <i
-                className="fa fa-times"
-                aria-hidden="true"
-                style={{ color: "black" }}
-              />
-            </Link>
+          <td
+            style={{
+              width: "50px", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
+            }}
+          >
+            {item.address}
           </td>
+          {item.ismain !== 1 ?
+            <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
+              <Link to="#" disabled={loader}>
+                <i
+                  className="fa fa-times"
+                  aria-hidden="true"
+                  style={{ color: "black" }}
+                />
+              </Link>
+            </td>
+            :
+            <td style={{ width: "5%" }} />
+          }
         </tr>
       ));
     } catch (error) {
@@ -207,7 +217,7 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
-                rules: [{ required: true, message: "Нэрээ заавал оруулна уу" }],
+                rules: [{ required: true, message: "Нэрээ оруулна уу " }],
               })(<Input placeholder="Нэр" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -215,9 +225,9 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone1", {
-                rules: [{ required: true, message: "Утсаа заавал оруулна уу! " },
-                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу! " },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+                rules: [{ required: true, message: "Утсаа оруулна уу " },
+                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу " },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
               })(<Input placeholder="Утас 1" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -225,8 +235,8 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone2", {
-                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу! " },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой! " }],
+                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
+                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
               })(<Input placeholder="Утас 2" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -235,7 +245,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("mainLocation", {
                 initialValue: this.checkError(this.state.params.provid),
-                rules: [{ required: true, message: "Хот/аймаг сонгоно уу!" }],
+                rules: [{ required: true, message: "Хот/аймаг сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -254,7 +264,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
                 initialValue: this.checkError(this.state.params.distid),
-                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу!" }],
+                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -274,7 +284,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
                 initialValue: this.checkError(this.state.params.commid),
-                rules: [{ required: true, message: "Хороо сонгоно уу!" }],
+                rules: [{ required: true, message: "Хороо сонгоно уу " }],
               })(
                 <Select
                   showSearch
@@ -293,7 +303,7 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
               {getFieldDecorator("homeaddress", {
-                rules: [{ required: true, message: "Гэрийн хаягаа заавал оруулна уу!" }],
+                rules: [{ required: true, message: "Гэрийн хаягаа оруулна уу " }],
               })(<Input placeholder="Гэрийн хаяг" autoComplete="off" />)}
             </Form.Item>
           </Col>
@@ -339,7 +349,7 @@ class Component extends React.Component {
   render() {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
-      <div className="col-md-8 pad10">
+      <div className="col-md-8">
         <div className="user-menu-content">
           <p className="title">
             <span>Хүргэлтийн хаяг</span>

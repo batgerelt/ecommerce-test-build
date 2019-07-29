@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
@@ -9,27 +10,30 @@ class LoginModal extends React.Component {
   state = {
     visible: false,
     isVisibleReset: false,
-    isRemember: localStorage.getItem('auth') === null ? 1 : 0,
+    isRemember: localStorage.getItem("auth") === null ? 1 : 0,
   };
 
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
+  componentWillUnmount() {
+    this.props.onRef(null);
+  }
+  componentDidMount() {
+    this.props.onRef(this);
+  }
 
   handleLoginModal = () => {
     this.props.form.resetFields();
     this.setState({ visible: !this.state.visible });
-  }
+  };
 
   handleRegistrationModal = () => {
     this.handleLoginModal();
     this.props.RegistrationModal.handleSignup();
-  }
+  };
 
   handleResetVisible = () => {
-    this.handleLoginModal();
+    this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
-  }
-
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     // eslint-disable-next-line consistent-return
@@ -43,18 +47,28 @@ class LoginModal extends React.Component {
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
+          localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+          localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
+          this.props.getCustomer().then((res) => {
+            if (res.payload.success) {
+              localStorage.setItem('next', JSON.stringify(res.payload.data.info));
+            }
+          });
           localStorage.removeItem(this.state.isRemember ? null : 'username');
           this.handleLoginModal();
           this.props.form.resetFields();
-
-          let { products } = this.props.cart;
+          let products = [];
+          if (this.props.cart === undefined) {
+            products = this.props.products;
+          } else {
+            products = this.props.cart.products;
+          }
           products = products.map(prod => ({
             skucd: prod.cd,
             qty: prod.qty,
           }));
 
           result = await this.props.increaseProductsByQtyRemotely({
-            iscart: 0,
             body: products,
           });
           if (!result.payload.success) {
@@ -80,16 +94,15 @@ class LoginModal extends React.Component {
         this.handleCancelReset();
       }
     });
-  }
+  };
 
   changemail = (e) => {
     this.setState({ mail: e.target.value });
-  }
+  };
 
   onRemember = (e) => {
     this.setState({ isRemember: e.target.checked });
-  }
-
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -104,9 +117,18 @@ class LoginModal extends React.Component {
         >
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
-              {getFieldDecorator('email', {
-                initialValue: localStorage.getItem('username'),
-                rules: [{ required: true, message: 'Имэйл хаяг оруулна уу', type: "email" }],
+              {getFieldDecorator("email", {
+                initialValue:
+                  localStorage.getItem("username") === null
+                    ? ""
+                    : localStorage.getItem("username"),
+                rules: [
+                  {
+                    required: true,
+                    message: "Имэйл хаяг оруулна уу",
+                    type: "email",
+                  },
+                ],
               })(
                 <Input
                   allowClear
@@ -118,8 +140,8 @@ class LoginModal extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Нууц үг оруулна уу' }],
+              {getFieldDecorator("password", {
+                rules: [{ required: true, message: "Нууц үг оруулна уу" }],
               })(
                 <Input.Password
                   allowClear
@@ -131,14 +153,33 @@ class LoginModal extends React.Component {
               )}
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="btn btn-block btn-login text-uppercase">Нэвтрэх</Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="btn btn-block btn-login text-uppercase"
+              >
+                Нэвтрэх
+              </Button>
             </Form.Item>
             <Form.Item>
               <Col span={12}>
-                <Checkbox className="btn" onChange={this.onRemember} checked={isRemember}>Сануулах</Checkbox>
+                <Checkbox
+                  className="btn"
+                  onChange={this.onRemember}
+                  checked={isRemember}
+                >
+                  Сануулах
+                </Checkbox>
               </Col>
               <Col span={12} style={{ textAlign: "right" }}>
-                <Link to="" className="btn btn-link" style={{ fontSize: '14px' }} onClick={this.handleResetVisible}>Нууц үгээ мартсан </Link>
+                <Link
+                  to=""
+                  className="btn btn-link"
+                  style={{ fontSize: "14px" }}
+                  onClick={this.handleResetVisible}
+                >
+                  Нууц үгээ мартсан{" "}
+                </Link>
               </Col>
             </Form.Item>
           </Form>
@@ -147,7 +188,17 @@ class LoginModal extends React.Component {
           <GoogleLogin />
 
           <div className="text-center">
-            <p>Та шинээр бүртгүүлэх бол <Link to="#" className="btn btn-link" onClick={this.handleRegistrationModal}><strong>ЭНД ДАРЖ</strong></Link> бүртгүүлнэ үү</p>
+            <p>
+              Та шинээр бүртгүүлэх бол{" "}
+              <Link
+                to="#"
+                className="btn btn-link"
+                onClick={this.handleRegistrationModal}
+              >
+                <strong>ЭНД ДАРЖ</strong>
+              </Link>{" "}
+              бүртгүүлнэ үү
+            </p>
           </div>
         </Modal>
 
@@ -174,26 +225,9 @@ class LoginModal extends React.Component {
             </a>
           </form>
         </Modal>
-      </div >
+      </div>
     );
   }
 }
 
-export default Form.create({ name: 'normal_login' })(LoginModal);
-
-/* <div className="form-group">
-              <div className="row row10">
-                <div className="col-xl-6 pad10">
-                  <Checkbox style={{ marginLeft: "-24px" }} onChange={this.onRemember} checked={isRemember} >Сануулах</Checkbox>
-                </div>
-                <div className="col-xl-6 pad10">
-                  <Link
-                    to=""
-                    className="btn btn-link"
-                    onClick={this.handleResetVisible}
-                  >
-                    Нууц үгээ мартсан
-                  </Link>
-                </div>
-              </div>
-            </div> */
+export default Form.create({ name: "normal_login" })(LoginModal);

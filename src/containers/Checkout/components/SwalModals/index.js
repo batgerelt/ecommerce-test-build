@@ -177,7 +177,7 @@ class SwalModals extends React.Component {
                         <p className="title">
                           <strong>Гүйлгээний мэдээлэл</strong>
                         </p>
-                        <div className="menu-content">
+                        <div className="menu-content text-left">
                           <ul className="list-unstyled">
                             <li>
                               <span>Данс</span>
@@ -276,7 +276,7 @@ class SwalModals extends React.Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo,
+          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
         } = this.props;
         return (
           <div className="wrap">
@@ -342,7 +342,7 @@ class SwalModals extends React.Component {
                             )}
                         </ul>
                       </div>
-                      <div className="user-detail">
+                      <div className="user-detail text-left">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
                             Хүргэлтийн мэдээлэл:
@@ -355,10 +355,7 @@ class SwalModals extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {" "}
-                            {userinfo.length === 0
-                              ? ""
-                              : `${userinfo.info.lastname} ${userinfo.info.firstname}`}
+                            {`${ordData.delivery.custname}`}
                           </span>
                         </p>
                         <p className="text flex-this">

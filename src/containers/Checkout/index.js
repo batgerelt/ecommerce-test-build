@@ -12,6 +12,7 @@ import {
   Cart as CartModel,
 } from "../../models";
 import List from "./list";
+import { LoginModal } from "../../components/Login";
 import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
@@ -45,9 +46,9 @@ class Page extends React.Component {
         this.setState({ loading: false });
       });
       this.props.getSystemLocation();
-      this.props.getEpointCardInfo().then((res) => {
+      /* this.props.getEpointCardInfo().then((res) => {
         console.log(res);
-      });
+      }); */
     } else {
       this.setState({ loading: false });
     }
@@ -60,7 +61,8 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} />
+        <List {...this.props} loading={loading} LoginModal={this.LoginModal} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );
   }

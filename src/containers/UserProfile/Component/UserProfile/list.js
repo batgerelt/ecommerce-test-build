@@ -1,8 +1,11 @@
 import React from "react";
 import { Form, message, Input, Select, Divider, Col, Button } from "antd";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
+import SwalModals from "./SwalModals";
 
-const formatter = new Intl.NumberFormat("en-US");
+const MySwal = withReactContent(Swal);
 
 class Component extends React.Component {
   state = {
@@ -13,6 +16,10 @@ class Component extends React.Component {
   };
 
   componentWillMount() {
+    this.getdata();
+  }
+
+  getdata() {
     this.setState({ loader: true });
     const param = {
       provid: "",
@@ -21,6 +28,7 @@ class Component extends React.Component {
     };
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
+        localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
           param.distid = res.payload.data.main.districtid;
@@ -57,6 +65,7 @@ class Component extends React.Component {
           this.props.addAddress({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
               message.success(res.payload.message);
+              this.getdata();
             }
           });
         } else {
@@ -73,11 +82,35 @@ class Component extends React.Component {
             address: values.address,
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
-          this.props.updateMain({ body: param }).then((res) => {
-            if (res.payload.success) {
-              message.success(res.payload.message);
-            }
-          });
+          if (this.props.userInfo.info.email !== param.email) {
+            MySwal.fire({
+              html: (
+                <SwalModals
+                  type={"email"}
+                  onRef={ref => (this.SwalModals = ref)}
+                  param={param}
+                  {...this}
+                  {...this.props}
+                />
+              ),
+              type: "warning",
+              animation: true,
+              button: false,
+              showCloseButton: false,
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              closeOnEsc: false,
+            });
+          } else {
+            this.props.updateMain({ body: param }).then((res) => {
+              if (res.payload.success) {
+                message.success(res.payload.message);
+                this.getdata();
+              }
+            });
+          }
         }
       }
     });
@@ -154,7 +187,6 @@ class Component extends React.Component {
   };
 
   renderCard(card) {
-    console.log(card);
     return (
       <Col span={24}>
         <Col span={12}>
@@ -402,8 +434,7 @@ class Component extends React.Component {
             <p>Имарт карт</p>
           </Col>
 
-          {/* {this.renderCard(userInfo.card)} */}
-          {userInfo.card === undefined ? <Card {...this.props} /> : this.renderCard(userInfo.card)}
+          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
         </div>
       );
     } catch (error) {

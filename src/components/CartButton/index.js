@@ -83,7 +83,7 @@ class CartButton extends Component {
           }}
         />
         <img src={cartImage} alt="cart" height="25px" />
-        <p>
+        <p className="header-text">
           <small>Миний</small>
           <span className="text-uppercase">сагс</span>
         </p>

@@ -65,11 +65,11 @@ class List extends React.Component {
     }
   };
 
-  handleIncreaseProductClick = (product) => {
+  handleIncrementProductClick = (product) => {
     this.props.incrementPackageProductLocally(product);
   };
 
-  handleDecreaseProductClick = (product) => {
+  handleDecrementProductClick = (product) => {
     this.props.decrementPackageProductLocally(product);
   };
 
@@ -80,7 +80,14 @@ class List extends React.Component {
     let found = products.find(prod => prod.cd === product.cd);
 
     if (found) {
-      found.qty = parseInt(e.target.value, 10);
+      let productQty = e.target.value;
+
+      // eslint-disable-next-line no-restricted-globals
+      if (!productQty || isNaN(productQty)) {
+        productQty = 0;
+      }
+
+      found.qty = parseInt(productQty, 10);
 
       this.props.updatePackageProductByQtyLocally(found);
     } else {
@@ -90,14 +97,12 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (products) => {
-    console.log("products: ", products);
     if (this.props.isLogged) {
       products = products.map(prod => ({
         skucd: prod.cd,
         qty: prod.qty !== undefined ? prod.qty : prod.saleminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
-        iscart: 0,
         body: products,
       });
       if (!result.payload.success) {
@@ -313,7 +318,7 @@ class List extends React.Component {
                           borderBottomLeftRadius: "20px",
                           marginRight: "5px",
                         }}
-                        onClick={() => this.handleDecreaseProductClick(prod)}
+                        onClick={() => this.handleDecrementProductClick(prod)}
                       >
                         <i className="fa fa-minus" aria-hidden="true" />
                       </button>
@@ -342,7 +347,7 @@ class List extends React.Component {
                           borderBottomRightRadius: "20px",
                           marginLeft: "5px",
                         }}
-                        onClick={() => this.handleIncreaseProductClick(prod)}
+                        onClick={() => this.handleIncrementProductClick(prod)}
                       >
                         <i className="fa fa-plus" aria-hidden="true" />
                       </button>
@@ -374,6 +379,7 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
+    console.log("products: ", products);
 
     if (!products) {
       return 0;
@@ -382,7 +388,10 @@ class List extends React.Component {
     return products.reduce(
       (acc, cur) =>
         // eslint-disable-next-line no-mixed-operators
-        acc + this.getPrice(cur) * (cur.qty ? cur.qty : cur.saleminqty || 1),
+        acc +
+        // eslint-disable-next-line no-mixed-operators
+        this.getPrice(cur) *
+          (cur.qty || cur.qty === 0 ? cur.qty : cur.saleminqty || 1),
       0,
     );
   };

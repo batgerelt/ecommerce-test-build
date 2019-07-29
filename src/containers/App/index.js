@@ -22,6 +22,7 @@ import {
   Search as SearchModel,
   Filter as FilterModel,
   Recipe as RecipeModel,
+  Profile as ProfileModel,
   Attribute as AttributeModel,
   Brand as BrandModel,
 } from "../../models";
@@ -67,6 +68,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...SearchModel,
       ...FilterModel,
       ...RecipeModel,
+      ...ProfileModel,
       ...AttributeModel,
       ...BrandModel,
     },

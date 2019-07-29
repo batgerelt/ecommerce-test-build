@@ -2,7 +2,11 @@
 import React from "react";
 
 import { CardList, Banner, PageBanner } from "../../components";
-import { CARD_TYPES, CARD_LIST_TYPES, CARD_NUMS_IN_ROW } from "../../utils/Consts";
+import {
+  CARD_TYPES,
+  CARD_LIST_TYPES,
+  CARD_NUMS_IN_ROW,
+} from "../../utils/Consts";
 
 class Discount extends React.Component {
   renderMainBanner = () => {
@@ -20,7 +24,7 @@ class Discount extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderHeaderProduct = () => {
     try {
@@ -29,13 +33,19 @@ class Discount extends React.Component {
       const { discountproduct } = this.props;
 
       let cardsLength = 0;
-      cardTypes.map(i => cardsLength += parseInt(i) === CARD_TYPES.slim ? CARD_NUMS_IN_ROW.slim : CARD_NUMS_IN_ROW.wide);
+      cardTypes.map(
+        i =>
+          (cardsLength +=
+            parseInt(i) === CARD_TYPES.slim
+              ? CARD_NUMS_IN_ROW.slim
+              : CARD_NUMS_IN_ROW.wide),
+      );
 
       return (
         <div className="section">
           <div className="container pad10">
             <CardList
-              cartListType={CARD_LIST_TYPES.horizontal}
+              cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={discountproduct.slice(0, cardsLength)}
               {...this.props}
@@ -46,16 +56,20 @@ class Discount extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderSubBanner = () => {
     try {
       const { discountbanner } = this.props;
-      return <Banner data={discountbanner.length === 0 ? [] : discountbanner.footer} />;
+      return (
+        <Banner
+          data={discountbanner.length === 0 ? [] : discountbanner.footer}
+        />
+      );
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
 
   renderFooterProduct = () => {
     try {
@@ -64,13 +78,19 @@ class Discount extends React.Component {
       const seq = "1,1";
       const cardTypes = seq.split(",");
       let cardsLength = 0;
-      cardTypes.map(i => cardsLength += parseInt(i) === CARD_TYPES.slim ? CARD_NUMS_IN_ROW.slim : CARD_NUMS_IN_ROW.wide);
+      cardTypes.map(
+        i =>
+          (cardsLength +=
+            parseInt(i) === CARD_TYPES.slim
+              ? CARD_NUMS_IN_ROW.slim
+              : CARD_NUMS_IN_ROW.wide),
+      );
 
       return (
         <div className="section">
           <div className="container pad10">
             <CardList
-              cartListType={CARD_LIST_TYPES.horizontal}
+              cardListType={CARD_LIST_TYPES.horizontal}
               items={discountproduct.slice(cardsLength)}
               showAll
               cardType={CARD_TYPES.slim}
@@ -82,7 +102,7 @@ class Discount extends React.Component {
     } catch (error) {
       return console.log(error);
     }
-  }
+  };
   render() {
     return (
       <div className="top-container">

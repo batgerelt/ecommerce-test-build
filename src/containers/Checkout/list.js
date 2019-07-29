@@ -20,8 +20,8 @@ class Checkout extends React.Component {
     activeKey: ["1"],
     customerInfo: null,
     companyInfo: null,
-    deliveryType: false,
-    paymentType: false,
+    deliveryTypeExpanded: false,
+    paymentTypeExpanded: false,
     payType: false,
     loading: false,
     chnged: false,
@@ -33,10 +33,8 @@ class Checkout extends React.Component {
       this.props.history.push("/");
     }
     if (this.checkLoggedIn()) {
-      if (this.props.userinfo.length !== nextProps.userinfo.length) {
-        if (!this.state.chnged) {
-          this.setState({ activeKey: ["2"], chnged: true });
-        }
+      if (this.props.loading !== nextProps.loading) {
+        this.setState({ activeKey: ["2"], chnged: true });
       }
     }
   }
@@ -60,11 +58,11 @@ class Checkout extends React.Component {
   }
 
   changeDeliveryType = () => {
-    this.setState({ deliveryType: true });
+    this.setState({ deliveryTypeExpanded: true });
   }
 
   changePaymentType = () => {
-    this.setState({ paymentType: true });
+    this.setState({ paymentTypeExpanded: true });
   }
 
   changePayType = () => {
@@ -134,7 +132,7 @@ class Checkout extends React.Component {
 
   render() {
     const {
-      deliveryType, paymentType, payType, loading,
+      deliveryTypeExpanded, paymentTypeExpanded, payType, loading,
     } = this.state;
     return (
       <Spin
@@ -176,7 +174,7 @@ class Checkout extends React.Component {
                           <Panel
                             header={this.paymentType()}
                             showArrow={false}
-                            disabled={!(deliveryType && this.checkLoggedIn())}
+                            disabled={!(deliveryTypeExpanded && this.checkLoggedIn())}
                             key={"3"}
                           >
                             <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
@@ -184,7 +182,7 @@ class Checkout extends React.Component {
                           <Panel
                             header={this.optionType()}
                             showArrow={false}
-                            disabled={!(paymentType && this.checkLoggedIn())}
+                            disabled={!(paymentTypeExpanded && this.checkLoggedIn())}
                             key="4"
                           >
                             <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />

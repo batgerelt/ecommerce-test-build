@@ -23,8 +23,6 @@ class Component extends React.Component {
         skucd: item.cd,
         qty: item.addminqty || 1,
         iscart: 0,
-      }).then((res) => {
-        console.log(res);
       });
     }
   }
@@ -50,7 +48,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                {item.rate ? (<Rate rate={item.rate} numOfVotes={item.rateusercnt} />) : (<Rate rate={0} numOfVotes={0} />)}
+                <Rate value={Number(item.rate) / 2} disabled />
               </div>
             </div>
           </div>

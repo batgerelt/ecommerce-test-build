@@ -5,8 +5,7 @@ class Delivery extends Component {
   renderDelivery = () => {
     try {
       const { detail } = this.props;
-
-      if (!detail.deliverytxt) {
+      if (!detail.deliveryinfo) {
         return null;
       }
 
@@ -16,7 +15,7 @@ class Delivery extends Component {
             <strong>Хүргэлтийн мэдээлэл</strong>
           </p>
           <p className="text">
-            <span>{detail.deliverytxt}</span>
+            <span>{detail.deliveryinfo}</span>
           </p>
         </div>
       );

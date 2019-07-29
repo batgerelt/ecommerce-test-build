@@ -25,14 +25,11 @@ class Component extends React.Component {
         skucd: item.cd,
         qty: item.addminqty || 1,
         iscart: 0,
-      }).then((res) => {
-        console.log(res);
       });
     }
   }
   handleRateChange = (e, item) => {
     this.props.addRate({
-      custid: this.props.data[0].info.customerInfo.id,
       skucd: item.skucd,
       rate: Number(e) * 2,
     });
@@ -59,13 +56,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                {
-                  item.rate !== null
-                    ?
-                    (<Rate rate={Number(item.rate)} numOfVotes={Number(item.rateusercnt)} onChange={e => this.handleRateChange(e, item)} />)
-                    :
-                    (<Rate rate={0} numOfVotes={0} onChange={e => this.handleRateChange(e, item)} />)
-                }
+                <Rate value={item.rate / 2} disabled />
               </div>
             </div>
           </div>
@@ -106,7 +97,6 @@ class Component extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     const { loader } = this.state;
     return (
       <div className="col-md-8 pad10">

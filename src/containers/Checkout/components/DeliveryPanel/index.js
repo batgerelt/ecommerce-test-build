@@ -88,6 +88,7 @@ class DeliveryPanel extends React.Component {
           chosenAddress.committeenm = res.payload.data[0].name;
           chosenAddress.locid = res.payload.data[0].locid;
           this.setState({ chosenAddress });
+          this.getZoneSetting(chosenAddress);
         }
       }
       this.setState({ selectLoading: false });
@@ -97,16 +98,23 @@ class DeliveryPanel extends React.Component {
   onChangeLoc = (e) => {
     const { addrs } = this.props.userinfo;
     let found = addrs.find(item => item.id === e);
-    this.setState({ selectLoading: true });
+    this.setState({ selectLoading: true, addresstype: "edit" });
     this.props.getDistrictAndCommitte({ id: found.id }).then((res) => {
       if (res.payload.success) {
+        found.locid = res.payload.data.locid;
+        found.districtnm = res.payload.data.districtnm;
+        found.committeenm = res.payload.data.committeenm;
+        found.provincenm = res.payload.data.provincenm;
+        found.districtid = res.payload.data.districtid;
+        found.committeeid = res.payload.data.committeeid;
+        found.provinceid = res.payload.data.provinceid;
         this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts });
+        this.getZoneSetting(found);
+        this.setFieldsValue(found);
+        this.setState({ chosenAddress: found, inzone: found.inzone });
       }
       this.setState({ selectLoading: false });
     });
-    this.getZoneSetting(found);
-    this.setFieldsValue(found);
-    this.setState({ chosenAddress: found, inzone: found.inzone });
   }
 
   getZoneSetting = (found) => {
@@ -118,23 +126,24 @@ class DeliveryPanel extends React.Component {
     this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
       this.setState({ dateLoading: false });
       if (res.payload.success) {
-        this.setState({ zoneSetting: res.payload.data, chosenDate: res.payload.data.date });
+        this.setState({ zoneSetting: res.payload.data, chosenDate: res.payload.data.deliveryDate });
       }
     });
     // }
   }
 
   setFieldsValue = (value) => {
+    const { addresstype } = this.state;
     const { setFieldsValue } = this.props.form;
     setFieldsValue({
-      id: value.id,
-      committeeid: value.committeeid,
-      districtid: value.districtid,
+      id: addresstype === "new" ? [] : value.id,
+      committeeid: addresstype === "new" ? [] : value.committeeid,
+      districtid: addresstype === "new" ? [] : value.districtid,
       provinceid: value.provinceid,
-      phone1: value.phone1,
-      phone2: value.phone2,
-      address: value.address,
-      name: value.name,
+      phone1: addresstype === "new" ? "" : value.phone1,
+      phone2: addresstype === "new" ? "" : value.phone2,
+      address: addresstype === "new" ? "" : value.address,
+      name: addresstype === "new" ? "" : value.name,
     });
   }
 
@@ -163,9 +172,9 @@ class DeliveryPanel extends React.Component {
     chosenAddress.committeeid = found.id;
     chosenAddress.committeenm = found.name;
     chosenAddress.locid = found.locid;
-    if (found.inzone === 1 && inzone === 0) {
-      this.getZoneSetting(found);
-    }
+    // if (found.inzone === 1 && inzone === 0) {
+    this.getZoneSetting(found);
+    // }
     this.setState({ chosenAddress, inzone: found.inzone });
   }
 
@@ -196,7 +205,11 @@ class DeliveryPanel extends React.Component {
               chosenAddress.id = res.payload.data;
               body.id = res.payload.data;
               this.setState({ chosenAddress });
-              this.props.getUserInfo();
+              this.props.getUserInfo().then((res) => {
+                if (res.payload.success) {
+                  this.setState({ noAddress: false });
+                }
+              });
             } else {
               message.error(res.payload.message);
             }
@@ -287,13 +300,13 @@ class DeliveryPanel extends React.Component {
     let currentDateMill = moment(current, "YYYY-MM-DD").valueOf();
     let tmp = false;
     if (zoneSetting !== null) {
-      tmp = moment(zoneSetting.date, "YYYY-MM-DD").valueOf() > currentDateMill;
+      tmp = moment(zoneSetting.deliveryDate, "YYYY-MM-DD").valueOf() > currentDateMill;
       zoneSetting.restDays.find((item) => {
         if (moment(item.restdate, "YYYY-MM-DD").valueOf() === currentDateMill) {
           tmp = true;
         }
       });
-      if (moment(zoneSetting.date, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
+      if (moment(zoneSetting.deliveryDate, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
         tmp = true;
       }
     }
@@ -320,6 +333,7 @@ class DeliveryPanel extends React.Component {
       this.props.getDistrictAndCommitte({ id }).then((res) => {
         this.setState({ selectLoading: false });
         if (res.payload.success) {
+          console.log(res.payload.data, chosenAddress);
           chosenAddress.provinceid = res.payload.data.provinceid;
           chosenAddress.provincenm = "Улаанбаатар хот";
           chosenAddress.districtid = res.payload.data.districtid;
@@ -327,10 +341,10 @@ class DeliveryPanel extends React.Component {
           chosenAddress.committeeid = res.payload.data.committeeid;
           chosenAddress.committeenm = res.payload.data.committees[0].name;
           chosenAddress.locid = res.payload.data.committees[0].locid;
-          chosenAddress.address = "";
+          /* chosenAddress.address = "";
           chosenAddress.name = "";
           chosenAddress.phone1 = "";
-          chosenAddress.phone2 = "";
+          chosenAddress.phone2 = ""; */
           this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts }, () => {
             this.getZoneSetting(chosenAddress);
             this.setState({ chosenAddress });
@@ -352,7 +366,7 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading, addresstype,
     } = this.state;
     const {
       deliveryTypes,
@@ -395,7 +409,7 @@ class DeliveryPanel extends React.Component {
                           <Form.Item>
                             {getFieldDecorator("id", {
                               initialValue: this.checkError(chosenAddress.id),
-                              rules: [{ required: !noAddress, message: "Хаяг оруулна уу" }],
+                              rules: [{ required: !noAddress || addresstype === "new" ? false : true, message: "Хаяг оруулна уу" }],
                             })(
                               <Select onChange={this.onChangeLoc} showSearch className="addr" disabled={noAddress} optionFilterProp="children" placeholder="Хаягаа сонгоно уу ?">
                                 {this.renderAddrsOption()}
@@ -418,7 +432,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
                             initialValue: this.checkError(chosenAddress.provinceid),
-                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу?" }],
+                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу" }],
                           })(
                             <Select placeholder="Хот/аймаг *" showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
@@ -434,7 +448,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("districtid", {
                             initialValue: this.checkError(chosenAddress.districtid),
-                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу?" }],
+                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
                           })(
                             <Select showSearch optionFilterProp="children" placeholder="Дүүрэг/Сум*" onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
@@ -450,7 +464,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("committeeid", {
                             initialValue: this.checkError(chosenAddress.committeeid),
-                            rules: [{ required: true, message: "Хороо сонгоно уу?" }],
+                            rules: [{ required: true, message: "Хороо сонгоно уу" }],
                           })(
                             <Select placeholder="Хороо*" showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(committeLocation)}
@@ -467,9 +481,9 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
-                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу ?" }],
+                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу" }],
                           })(
-                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг ?*" />,
+                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг*" />,
                           )}
                         </Form.Item>
                       </div>
@@ -480,7 +494,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("name", {
                           initialValue: this.checkError(chosenAddress.name),
-                          rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу ?" }],
+                          rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Захиалагчийн нэр*" className="col-md-12" />,
                         )}
@@ -490,9 +504,9 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone1", {
                           initialValue: this.checkError(chosenAddress.phone1),
-                          rules: [{ required: true, message: "Утас 1 оруулна уу ?" },
+                          rules: [{ required: true, message: "Утас 1 оруулна уу" },
                           { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
-                          { len: 8, message: "8 оронтой байх ёстой !." }],
+                          { len: 8, message: "8 оронтой байх ёстой" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Утас 1*" className="col-md-12" />,
                         )}
@@ -502,9 +516,9 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone2", {
                           initialValue: this.checkError(chosenAddress.phone2),
-                          rules: [{ required: true, message: "Утас 2 оруулна уу ?" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
-                          { len: 8, message: "8 оронтой байх ёстой !." }],
+                          rules: [{ required: true, message: "Утас 2 оруулна уу" },
+                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
+                          { len: 8, message: "8 оронтой байх ёстой" }],
                         })(
                           <Input autoComplete="off" allowClear type="text" placeholder="Утас 2*" className="col-md-12" />,
                         )}
@@ -534,7 +548,7 @@ class DeliveryPanel extends React.Component {
                   <hr />
 
                   <div className="text-right">
-                    <button className="btn btn-main" type="submit" >
+                    <button className="btn btn-main" type="submit" disabled={!(!dateLoading || !selectLoading)}>
                       Дараах
                     </button>
                   </div>

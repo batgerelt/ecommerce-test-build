@@ -140,34 +140,45 @@ class Card extends React.Component {
       if (item.skucd !== undefined) {
         this.addWishList(item.skucd);
       } else if (item.cd !== undefined) {
-        this.addWishList(item.cd);
-      } else if (item.recipeid !== undefined) {
-        this.props.getRecipeProducts({ id: item.recipeid }).then((res) => {
-          if (res.payload.success) {
-            res.payload.data.map((item, i) => {
-              this.addWishList(item.cd);
-            });
-          }
-        });
-      } else {
-        this.props.getDetailPackage({ id: item.id }).then((res) => {
-          if (res.payload.success) {
-            res.payload.data.products.map((item, i) => {
-              this.addWishList(item.cd);
-            });
-          }
-        });
+        if (item.cd !== undefined) {
+          this.addWishList(item.cd);
+        } else if (item.recipeid !== undefined) {
+          this.props.addWishListRecipe({ id: item.recipeid }).then((res) => {
+            if (res.payload.success) {
+              this.setState({ changeHeart: !this.state.changeHeart });
+              this.removeAddedWishColorTime();
+            }
+          });
+        } else {
+          this.props.addWishListPackage({ id: item.id }).then((res) => {
+            if (res.payload.success) {
+              this.setState({ changeHeart: !this.state.changeHeart });
+              this.removeAddedWishColorTime();
+            }
+          });
+        }
       }
     }
-  };
+  }
 
   addWishList = (skucd) => {
-    this.props.addWishList({ skucd }).then((res) => {
-      if (res.payload.success) {
-        message.success(res.payload.message);
-      }
-    });
-  };
+      this.props.addWishList({ skucd }).then((res) => {
+        const { addWishList, removeAddedWishColor } = this.props;
+        addWishList({ skucd }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ changeHeart: !this.state.changeHeart });
+            this.removeAddedWishColorTime();
+          }
+        });
+      });
+  }
+
+  removeAddedWishColorTime = () => {
+    const { removeAddedWishColor } = this.props;
+    setTimeout(() => {
+      removeAddedWishColor();
+    }, 500);
+  }
 
   renderCards = () => {
     try {
@@ -271,7 +282,7 @@ class Card extends React.Component {
             <div
               className={`col-five pad10${
                 isLastInRow ? " d-none d-xl-block lol" : " col-md-3 col-6"
-              }`}
+                }`}
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
@@ -280,6 +291,7 @@ class Card extends React.Component {
                       className="image"
                       style={{
                         backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                        backgroundSize: "contain",
                       }}
                     />
                   </Link>
@@ -306,8 +318,8 @@ class Card extends React.Component {
                       {item.name
                         ? item.name
                         : item.packagenm
-                        ? item.packagenm
-                        : ""}
+                          ? item.packagenm
+                          : ""}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -321,8 +333,8 @@ class Card extends React.Component {
                       {item.shortnm
                         ? item.shortnm
                         : item.featuretxt
-                        ? item.featuretxt
-                        : ""}
+                          ? item.featuretxt
+                          : ""}
                     </span>
                   </Link>
 
@@ -350,6 +362,7 @@ class Card extends React.Component {
                       className="image"
                       style={{
                         backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                        backgroundSize: "contain",
                       }}
                     />
                   </Link>
@@ -411,6 +424,7 @@ class Card extends React.Component {
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img})`,
+                      backgroundSize: "contain",
                     }}
                   />
                 </Link>
@@ -464,6 +478,7 @@ class Card extends React.Component {
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                      backgroundSize: "contain",
                     }}
                   />
                 </Link>

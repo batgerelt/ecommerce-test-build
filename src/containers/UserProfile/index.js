@@ -6,30 +6,31 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
-  Recipe as RecipeModel,
   Cart as CartModel,
 } from "../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
-  ...state.recipe,
   ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
-    AuthModel,
+    ...AuthModel,
     ...ProfileModel,
-    RecipeModel,
-    CartModel,
+    ...CartModel,
   }, dispatch),
 });
 
 class UserProfile extends React.Component {
   componentWillMount() {
     if (localStorage.getItem('auth') !== null) {
-      this.props.getCustomer({ custid: this.props.data[0].info.customerInfo.id });
+      this.props.getCustomer().then((res) => {
+        if (res.payload.success) {
+          localStorage.setItem('percent', res.payload.data.info.cstatus);
+        }
+      });
     }
   }
 

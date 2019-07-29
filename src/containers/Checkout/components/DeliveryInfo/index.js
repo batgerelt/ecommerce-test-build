@@ -68,6 +68,10 @@ class DeliveryInfo extends React.Component {
   }
 
   setDeliveryType = (value) => {
+    const { totalPrice } = this.state;
+    if (totalPrice >= value.freecondition && value.freecondition !== 0) {
+      value.price = 0;
+    }
     this.setState({ chosenType: value });
   }
 
@@ -181,6 +185,7 @@ class DeliveryInfo extends React.Component {
         ${chosenInfo.districtnm}, 
         ${chosenInfo.committeenm}, 
         ${chosenInfo.address}`;
+      console.log(organizationData);
       if (organizationData.length === 0) {
         tmp.taxRegno = "";
         tmp.taxName = "";
@@ -413,10 +418,10 @@ class DeliveryInfo extends React.Component {
             <Checkbox onChange={this.handleAgreement}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл</span>
+                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
               </a>
             </Checkbox>
-            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentType && state.deliveryType)}>
+            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
               <span className="text-uppercase">Тооцоо хийх</span>
             </button>
           </div>

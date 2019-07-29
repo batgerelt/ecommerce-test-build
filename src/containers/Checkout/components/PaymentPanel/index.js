@@ -3,12 +3,25 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { Radio, Input, Form } from "antd";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { IndividualTab, OrganizationTab } from "../";
 
+const MySwal = withReactContent(Swal);
 const RadioGroup = Radio.Group;
 class PaymentPanel extends React.Component {
   state = {
     chosenRadio: 1,
+  };
+
+  errorMsg = (txt) => {
+    MySwal.fire({
+      type: "error",
+      text: txt,
+      animation: true,
+      width: "25rem",
+      confirmButtonColor: "#feb415",
+    });
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -17,6 +30,17 @@ class PaymentPanel extends React.Component {
   handleGetValue = () => { return console.log('LoginRegister'); }
 
   changeRadio = (e) => {
+    const { DeliveryInfo } = this.props;
+    if (e.target.value === 2) {
+      if (DeliveryInfo.state.useEpoint) {
+        this.errorMsg("Байгууллагаар баримт авах үед Ипойнт оноо ашиглах боломжгүй тул таны ашиглахаар тохируулсан оноо төлбөрөөс хасагдахгүйг анхаарна уу.");
+        let cardInfo = DeliveryInfo.state.ePointData;
+        cardInfo.point = (parseFloat(cardInfo.point) + parseFloat(DeliveryInfo.state.epointUsedPoint)).toFixed(2);
+        DeliveryInfo.setUseEpoint(false, cardInfo, 0);
+      }
+    } else {
+      DeliveryInfo.setOrganizationData([]);
+    }
     this.setState({ chosenRadio: e.target.value });
   }
 
