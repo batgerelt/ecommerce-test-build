@@ -822,8 +822,7 @@ class Model extends BaseModel {
       case this.model.confirmCartRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.confirmCartRemotely.response:
-        console.log("action.payload: ", action.payload);
-        return { ...state, products: action.payload.data };
+        return state;
 
       default:
         return state;
