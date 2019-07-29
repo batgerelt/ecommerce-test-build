@@ -32,15 +32,17 @@ class Cart extends React.Component {
     });
   };
 
-  // handleConfirmClick = async () => {
-  //   const result = await this.props.confirmCartRemotely();
+  handleConfirmClick = async () => {
+    const result = await this.props.confirmCartRemotely();
 
-  //   if (!result.payload.success) {
-  //     return <Redirect to="" />;
-  //   }
+    if (!result.payload.success) {
+      result.payload.data.forEach(message => this.handleNotify(message));
 
-  //   return <Redirect to={{ pathname: "/checkout" }} push />;
-  // };
+      return <Redirect to="" />;
+    }
+
+    return <Redirect to={{ pathname: "/checkout" }} push />;
+  };
 
   // eslint-disable-next-line consistent-return
   handleClearClick = async () => {
@@ -583,7 +585,7 @@ class Cart extends React.Component {
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                       }`}
-                      // onClick={() => this.handleConfirmClick()}
+                      onClick={() => this.handleConfirmClick()}
                     >
                       <span className="text-uppercase">Баталгаажуулах</span>
                     </Link>
