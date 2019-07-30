@@ -88,7 +88,6 @@ class LoginModal extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     const { isRemember } = this.state;
     return (

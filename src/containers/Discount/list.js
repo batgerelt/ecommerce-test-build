@@ -1,14 +1,110 @@
 /* eslint-disable radix */
+/* eslint-disable no-unreachable */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-undef */
+/* eslint-disable no-mixed-operators */
+/* eslint-disable import/first */
+/* eslint-disable radix */
 import React from "react";
-
-import { CardList, Banner, PageBanner } from "../../components";
+import { BackTop } from "antd";
+import {
+  InfiniteLoader,
+  WindowScroller,
+  List,
+  AutoSizer,
+} from "react-virtualized";
+import { Card, CardList, Banner, PageBanner } from "../../components";
 import {
   CARD_TYPES,
   CARD_LIST_TYPES,
   CARD_NUMS_IN_ROW,
 } from "../../utils/Consts";
 
+const ITEM_HEIGHT = 340;
+const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
+  return (
+    <Card
+      shape={CARD_TYPES.slim}
+      item={item}
+      LoginModal={LoginModal}
+      addWishList={addWishList}
+    />
+  );
+});
 class Discount extends React.Component {
+  infiniteLoaderRef = React.createRef();
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+      headerProducts: [],
+      rowCount: 1,
+      count: 0,
+      loading: false,
+    };
+  }
+
+  componentWillMount() {
+    /*  this.props.getDiscountProduct({
+      jumcd: '99',
+      start: 0,
+      rowcnt: 10,
+      order: `price_asc`,
+    }).then((res) => {
+      if (res.payload.success) {
+        this.setState({ headerProducts: res.payload.data.product });
+      }
+    }); */
+  }
+
+  // data nemeh heseg
+  loadMoreRows = (key) => {
+    if (!this.props.discountFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+      this.setState({ loading: true });
+      this.props.getDiscountProduct({
+        jumcd: '99',
+        start: this.state.count,
+        rowcnt: 20,
+        order: `price_asc`,
+      }).then((res) => {
+        if (res.payload.success) {
+          this.setState({
+            products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
+          });
+        }
+      });
+    }
+  };
+
+  noRowsRenderer = () => <div>No data</div>;
+
+  getMaxItemsAmountPerRow = (width) => {
+    if (width > 1100) {
+      return Math.max(Math.floor(width / 207.99), 1);
+    }
+    return Math.max(Math.floor(width / 160), 1);
+  };
+
+  getRowsAmount = (width, itemsAmount, hasMore) => {
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+  };
+
+  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
+    const result = [];
+    const startIndex = rowIndex * maxItemsPerRow;
+    for (
+      let i = startIndex;
+      i < Math.min(startIndex + maxItemsPerRow, itemsAmount);
+      i++
+    ) {
+      result.push(i);
+    }
+    return result;
+  };
+
+
   renderMainBanner = () => {
     try {
       const { discountbanner, menuDiscount } = this.props;
@@ -29,25 +125,14 @@ class Discount extends React.Component {
   renderHeaderProduct = () => {
     try {
       const seq = "1,1";
-      const cardTypes = seq.split(",");
-      const { discountproduct } = this.props;
-
-      let cardsLength = 0;
-      cardTypes.map(
-        i =>
-          (cardsLength +=
-            parseInt(i) === CARD_TYPES.slim
-              ? CARD_NUMS_IN_ROW.slim
-              : CARD_NUMS_IN_ROW.wide),
-      );
-
+      const { headerProducts } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
             <CardList
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
-              items={discountproduct.slice(0, cardsLength)}
+              items={headerProducts}
               {...this.props}
             />
           </div>
@@ -73,29 +158,82 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { discountproduct } = this.props;
-
-      const seq = "1,1";
-      const cardTypes = seq.split(",");
-      let cardsLength = 0;
-      cardTypes.map(
-        i =>
-          (cardsLength +=
-            parseInt(i) === CARD_TYPES.slim
-              ? CARD_NUMS_IN_ROW.slim
-              : CARD_NUMS_IN_ROW.wide),
-      );
-
       return (
         <div className="section">
           <div className="container pad10">
-            <CardList
-              cardListType={CARD_LIST_TYPES.horizontal}
-              items={discountproduct.slice(cardsLength)}
-              showAll
-              cardType={CARD_TYPES.slim}
-              {...this.props}
-            />
+            <div className="row row10">
+              <AutoSizer disableHeight>
+                {({ width }) => {
+                  const rowCount = this.getRowsAmount(
+                    width,
+                    this.state.products.length,
+                    true,
+                  );
+                  return (
+                    <InfiniteLoader
+                      ref={this.infiniteLoaderRef}
+                      rowCount={rowCount}
+                      isRowLoaded={({ index }) => {
+                        const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                          width,
+                        );
+                        const allItemsLoaded =
+                          this.generateIndexesForRow(
+                            index,
+                            maxItemsPerRow,
+                            this.state.products.length,
+                          ).length > 0;
+
+                        return !true || allItemsLoaded;
+                      }}
+                      loadMoreRows={this.loadMoreRows}
+                    >
+                      {({ onRowsRendered, registerChild }) => (
+                        <WindowScroller>
+                          {({ height, scrollTop }) => (
+                            <List
+                              autoHeight
+                              ref={registerChild}
+                              height={340}
+                              scrollTop={scrollTop}
+                              width={width}
+                              rowCount={rowCount}
+                              rowHeight={ITEM_HEIGHT}
+                              onRowsRendered={onRowsRendered}
+                              rowRenderer={({ index, style, key }) => {
+                                const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                                  width,
+                                );
+                                const rowItems = this.generateIndexesForRow(
+                                  index,
+                                  maxItemsPerRow,
+                                  this.state.products.length,
+                                ).map(itemIndex => this.state.products[itemIndex]);
+                                return (
+                                  <div style={style} key={key} className="jss148">
+                                    {
+                                      rowItems.map(itemId => (
+                                        <RowItem
+                                          key={itemId.cd}
+                                          item={itemId}
+                                          LoginModal={this.props.LoginModal}
+                                          addWishList={this.props.addWishList}
+                                        />
+                                      ))
+                                    }
+                                  </div>
+                                );
+                              }}
+                              noRowsRenderer={this.noRowsRenderer}
+                            />
+                          )}
+                        </WindowScroller>
+                      )}
+                    </InfiniteLoader>
+                  );
+                }}
+              </AutoSizer>
+            </div>
           </div>
         </div>
       );
@@ -103,12 +241,13 @@ class Discount extends React.Component {
       return console.log(error);
     }
   };
+
   render() {
     return (
       <div className="top-container">
         {this.renderMainBanner()}
-        {this.renderHeaderProduct()}
-        {this.renderSubBanner()}
+        {/* this.renderHeaderProduct() */}
+        {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
       </div>
     );
