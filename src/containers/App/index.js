@@ -88,6 +88,7 @@ class App extends Component {
     this.props.getAttributeAll();
     this.props.getAttributeValue();
     this.props.getAllBrand();
+    this.props.getAllPromotion();
   }
 
   render() {

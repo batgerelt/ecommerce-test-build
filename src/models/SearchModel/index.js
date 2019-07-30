@@ -15,6 +15,7 @@ class Model extends BaseModel {
     searchkeyword: [],
     searchKeyWordResponse: [],
     isFetchingSearch: false,
+    promotionall: [],
   }
 
   constructor(data = {}) {
@@ -46,6 +47,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'searchProduct'),
           error: this.buildActionName('error', data.model, 'searchProduct'),
         },
+        promotionAll: {
+          request: this.buildActionName('request', data.model, 'promotionAll'),
+          response: this.buildActionName('response', data.model, 'promotionAll'),
+          error: this.buildActionName('error', data.model, 'promotionAll'),
+        },
       };
     }
   }
@@ -71,6 +77,9 @@ class Model extends BaseModel {
   resetSearch = () => ({
     type: 'resetsearch',
   });
+  getAllPromotion = () => asyncFn({
+    url: `/search/promotion`, method: 'GET', model: this.model.promotionAll,
+  })
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -113,6 +122,14 @@ class Model extends BaseModel {
         return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
       case this.model.searchProduct.response:
         return { ...state, isFetchingSearch: false, searchKeyWordResponse: action.payload.data };
+
+      // GET ALL PROMOTION
+      case this.model.promotionAll.request:
+        return { ...state, isFetchingSearch: true, current: this.requestCase(state.current, action) };
+      case this.model.promotionAll.error:
+        return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
+      case this.model.promotionAll.response:
+        return { ...state, promotionall: action.payload.data };
 
       // RESET SEARCH
       case 'resetsearch':

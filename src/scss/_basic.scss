@@ -2780,6 +2780,11 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .category-list {
+  span {
+    color: #757575;
+    cursor: pointer;
+  }
+  
   a {
     color: #757575;
   }
@@ -2800,10 +2805,11 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
     }
   }
 
-  li.disabled {
-    // pointer-events: none;
-    // cursor: not-allowed;
-    // opacity: 0.5;
+  li:hover{
+    span{
+      color: #ffb200;
+      transition: 0.1s;
+    }
   }
 
   li.selected {
@@ -2813,6 +2819,18 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
     -o-transition: 0.5s;
     transition: 0.5s;
     a {
+      color: #ffb200;
+      transition: 0.1s;
+    }
+  }
+
+  li.selected {
+    margin-left: 10px;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    span {
       color: #ffb200;
       transition: 0.1s;
     }

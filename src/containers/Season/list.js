@@ -22,7 +22,6 @@ import styles from "./style.less";
 
 let screenWidth = 0;
 let searchword = null;
-let searchtime = null;
 
 class CategoryInfo extends React.Component {
   constructor(props) {
@@ -30,7 +29,6 @@ class CategoryInfo extends React.Component {
 
     this.state = {
       products: [],
-      catid: 0,
       isListViewOn: false,
       loading: false,
       isLeftPanel: false,
@@ -40,10 +38,7 @@ class CategoryInfo extends React.Component {
       brands: [],
       attributes: [],
       count: 0,
-      selectedCat: null,
-      isCatChecked: false,
       aggregations: [],
-      ismore: false,
 
       catId: 0,
       custId: 0,
@@ -62,34 +57,43 @@ class CategoryInfo extends React.Component {
   }
 
   componentWillMount() {
-    this.props.searchProduct({
-      body: { ...this.state },
-    }).then((res) => {
-      if (res.payload.success) {
-        this.setState({ loading: false });
-      }
-    });
+    try {
+      return this.props.searchProduct({
+        body: { ...this.state },
+      }).then((res) => {
+        if (res.payload.success) {
+          this.setState({
+            products: res.payload.data.hits.hits,
+            startsWith: this.state.startsWith + 20,
+            aggregations: res.payload.data.aggregations,
+          });
+        }
+      });
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   handleChangeOrder = (e) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
+
     const params = {
-      catId: this.state.catid,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
+      value: '',
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: "",
-      minPrice: 0,
+      promotion: this.state.promotion,
+      minPrice: this.state.minPrice,
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
       }
@@ -110,21 +114,21 @@ class CategoryInfo extends React.Component {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
-      catId: this.state.catid,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
+      value: '',
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      promotion: this.state.promotion,
+      minPrice: e[0],
+      maxPrice: e[1],
       startsWith: this.state.count,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
       }
@@ -139,21 +143,21 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, colors });
 
     const params = {
-      catId: this.state.catid,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
+      value: '',
+      attribute: this.state.attributes.join(','),
       color: colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      promotion: this.state.promotion,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
       }
@@ -168,21 +172,21 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, brands });
 
     const params = {
-      catId: this.state.catid,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
+      value: '',
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: brands.join(','),
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      promotion: this.state.promotion,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
       }
@@ -193,25 +197,26 @@ class CategoryInfo extends React.Component {
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
     if (e.target.checked) { attributes.push(`${attribute};${value}`); }
-    else { attributes.map((i, index) => (i === `${attribute};${value.toString()}` ? attributes.splice(index, 1) : null)); }
+    else { attributes.map((i, index) => (i === `${attribute};${value}` ? attributes.splice(index, 1) : null)); }
     this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
-      catId: this.state.catid,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
+      value: '',
       attribute: attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      promotion: this.state.promotion,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
       }
@@ -221,31 +226,28 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
-
     const params = {
-      catId: cat.key,
+      catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
-      color: "",
-      brand: "",
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      value: "",
+      attribute: this.state.attributes.join(','),
+      color: this.state.colors.join(','),
+      brand: this.state.brands.join(','),
+      promotion: this.state.promotion === cat.key ? true : cat.key,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
     };
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
-          isCatChecked: !this.state.isCatChecked,
-          aggregations: res.payload.data.aggregations,
-          catid: cat.key,
+          count: 20,
+          promotion: this.state.promotion === cat.key ? true : cat.key,
         });
       }
     });
@@ -253,18 +255,18 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
+      const { promotionall } = this.props;
       const { aggregations } = this.state;
 
       if (aggregations.length !== 0) {
         return (
           <ul className="list-unstyled category-list">
             {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
+              aggregations.promotions.buckets.buckets.map((cat, index) => (
+                <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
+                  <span onClick={() => this.handleClickCategory(cat)}>
+                    {promotionall.find(i => i.id === cat.key) === undefined ? null : promotionall.find(i => i.id === cat.key).name}
+                  </span>
                 </li>
                 ))
             }
@@ -323,7 +325,7 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} />
+                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} promotion />
                 </div>
               </div>
 
@@ -372,7 +374,7 @@ class CategoryInfo extends React.Component {
                       Эрэмбэлэх:
                     </label>
                     <Select
-                      defaultValue={this.state.sort}
+                      defaultValue={this.state.orderColumn}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
@@ -460,17 +462,16 @@ class CategoryInfo extends React.Component {
   loadMoreRows = () => {
     try {
       const { searchKeyWordResponse } = this.props;
-
       if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
         const { isLogged, data } = this.props;
         const params = {
-          catId: this.state.catid,
+          catId: 0,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
           value: searchword,
           attribute: "",
           color: this.state.colors.join(','),
           brand: this.state.brands.join(','),
-          promotion: "",
+          promotion: this.state.promotion,
           minPrice: 0,
           maxPrice: 0,
           startsWith: this.state.count,
@@ -479,7 +480,7 @@ class CategoryInfo extends React.Component {
           highlight: false,
         };
 
-        this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
+        this.props.searchProduct({ body: { ...params } }).then((res) => {
           if (res.payload.success) {
             this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
           }
@@ -539,8 +540,9 @@ class CategoryInfo extends React.Component {
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
                               <div style={style} key={key} className="jss148">
-                                {rowItems.map(itemId => (
+                                {rowItems.map((itemId, index) => (
                                   <Card
+                                    key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
                                     LoginModal={this.props.LoginModal}
@@ -568,39 +570,6 @@ class CategoryInfo extends React.Component {
       return console.log(error);
     }
   };
-
-  getData = () => {
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
-    const { isLogged, data } = this.props;
-
-    const params = {
-      catId: 0,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
-      color: "",
-      brand: "",
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
-      startsWith: 0,
-      rowCount: 20,
-      orderColumn: "",
-      highlight: false,
-    };
-
-    this.props.searchKeyWordFilter({ body: { ...params } }).then((res) => {
-      if (res.payload.success) {
-        this.setState({
-          products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
-          count: 20,
-          aggregations: res.payload.data.aggregations,
-          // ismore: !this.state.ismore,
-        });
-      }
-    });
-  }
 
   renderBanner = () => {
     try {
