@@ -358,7 +358,7 @@ class Card extends React.Component {
                     <span
                       className="image"
                       style={{
-                        backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                        backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                         backgroundSize: "contain",
                       }}
                     />
@@ -420,7 +420,7 @@ class Card extends React.Component {
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img})`,
+                      backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                       backgroundSize: "contain",
                     }}
                   />
@@ -474,7 +474,7 @@ class Card extends React.Component {
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                      backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                       backgroundSize: "contain",
                     }}
                   />

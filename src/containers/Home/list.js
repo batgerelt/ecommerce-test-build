@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
+import { BackTop } from "antd";
 
 import { Slider, Widget, Banner } from "../../components";
 import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
@@ -220,6 +221,7 @@ class Homepage extends React.Component {
             />
           </div>
         </div>
+        <BackTop />
       </div>
     );
   }

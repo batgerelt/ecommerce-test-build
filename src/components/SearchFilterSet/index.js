@@ -3,6 +3,7 @@
 import React from "react";
 import { Collapse } from "react-collapse";
 import { Slider } from "antd";
+import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -25,16 +26,8 @@ class FilterSet extends React.Component {
   state = initialState;
 
   toggleCollapse = (e) => {
-    if (e === "iscolor") {
-      return this.setState({ iscolor: !this.state.iscolor });
-    }
-    if (e === "isprice") {
-      return this.setState({ isprice: !this.state.isprice });
-    }
-    if (e === "isbrand") {
-      return this.setState({ isbrand: !this.state.isbrand });
-    }
-    return null;
+    e.preventDefault();
+    this.setState({ isOpened: !this.state.isOpened });
   };
 
   renderAttribute = () => {
@@ -44,49 +37,53 @@ class FilterSet extends React.Component {
       return aggregations.attributes.groups.buckets.map((attribute, index) => {
         let attname = attrall.find(i => i.id === attribute.key).name;
 
-        return (
-          <div key={index}>
-            <span
-              // onClick={() => this.toggleCollapse("isbrand")}
-              className="collapse-title"
-            >
-              {attname}
-            </span>
-            <Collapse isOpened>
-              <div className="collapse show" id="collapseThree">
-                <div className="collapse-content">
-                  <ul className="list-unstyled">
-                    {
-                      attribute.values.buckets.map((attributeval, ind) => {
-                        let attrvaluenm = attrvalue.find(value => value.id === attributeval.key).name;
+        if (attribute.doc_count >= this.props.total) {
+          return (
+            <div key={index}>
+              <span
+                onClick={this.toggleCollapse}
+                className="collapse-title"
+              >
+                {attname}
+              </span>
+              <Collapse isOpened>
+                <div className="collapse show" id={moment()}>
+                  <div className="collapse-content">
+                    <ul className="list-unstyled">
+                      {
+                        attribute.values.buckets.map((attributeval, ind) => {
+                          let attrvaluenm = attrvalue.find(value => value.id === attributeval.key).name;
 
-                        return (
-                          <li key={ind} style={{ display: 'flex' }}>
-                            <Checkbox
-                              key={ind}
-                              onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
-                              style={{ color: 'gray', width: 25, height: 25 }}
-                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
-                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
-                            />
+                          return (
+                            <li key={ind} style={{ display: 'flex' }}>
+                              <Checkbox
+                                key={ind}
+                                onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
+                                style={{ color: 'gray', width: 25, height: 25 }}
+                                icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                                checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                              />
 
-                            <label style={{ marginLeft: 5 }}>{attrvaluenm}</label>
-                          </li>
-                        );
-                      })
-                    }
-                  </ul>
+                              <label style={{ marginLeft: 5 }}>{attrvaluenm}</label>
+                            </li>
+                          );
+                        })
+                      }
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </Collapse>
-          </div>
-        );
+              </Collapse>
+            </div>
+          );
+        }
+
+        return null;
       });
     } catch (error) {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
   renderFilterBrand = () => {
@@ -97,13 +94,13 @@ class FilterSet extends React.Component {
         return (
           <div>
             <span
-              onClick={() => this.toggleCollapse("isbrand")}
+              onClick={this.toggleCollapse}
               className="collapse-title"
             >
               {this.state.brand}
             </span>
             <Collapse isOpened={this.state.isbrand}>
-              <div className="collapse show" id="collapseThree">
+              <div className="collapse show" id={moment()}>
                 <div className="collapse-content">
                   <ul className="list-unstyled">
                     {aggregations.brands.buckets.buckets.map((brand, index) => (
@@ -117,7 +114,7 @@ class FilterSet extends React.Component {
                         />
 
                         <label style={{ marginLeft: 5 }}>
-                          {brandall.find(i => i.id === brand.key) === undefined ? 'hello' : brandall.find(i => i.id === brand.key).name}
+                          {brandall.find(i => i.id === brand.key) === undefined ? null : brandall.find(i => i.id === brand.key).name}
                         </label>
                       </li>
                     ))}
@@ -145,12 +142,12 @@ class FilterSet extends React.Component {
           <div>
             <span
               className="collapse-title"
-              onClick={() => this.toggleCollapse("iscolor")}
+              onClick={this.toggleCollapse}
             >
               {this.state.color}
             </span>
             <Collapse isOpened={this.state.iscolor}>
-              <div className="collapse show" id="collapseThree">
+              <div className="collapse show" id={moment()}>
                 <div className="collapse-content">
                   <ul className="list-unstyled">
                     {aggregations.colors.buckets.map((color, index) => (
@@ -201,7 +198,7 @@ class FilterSet extends React.Component {
         <div>
           <span
             className="collapse-title"
-            onClick={() => this.toggleCollapse("isprice")}
+            onClick={this.toggleCollapse}
           >
             {this.state.price}
           </span>

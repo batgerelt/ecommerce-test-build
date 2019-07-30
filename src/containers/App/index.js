@@ -48,6 +48,7 @@ import {
   PassReset,
   Confirm,
   Order,
+  Emart,
 } from "../";
 import translation from '../../translation';
 
@@ -89,6 +90,7 @@ class App extends Component {
     this.props.getAttributeAll();
     this.props.getAttributeValue();
     this.props.getAllBrand();
+    this.props.getAllPromotion();
   }
 
   render() {
@@ -124,7 +126,7 @@ class App extends Component {
               <Route path="/recipedetail/:id" component={RecipeDetail} />
               <Route path="/cart" component={Cart} />
               <Route path="/packagedetail/:id" component={PackageDetail} />
-              <Route path="/emart" component={ProductList} />
+              <Route path="/emart" component={Emart} />
               <Route path="/profile" component={Profile} />
               <Route path="/search/:word/:time" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
