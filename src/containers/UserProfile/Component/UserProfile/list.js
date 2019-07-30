@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
 import SwalModals from "./SwalModals";
+import LetterInput from "../../../../components/LetterInput";
 
 const MySwal = withReactContent(Swal);
 
@@ -334,7 +335,12 @@ class Component extends React.Component {
       </Col>
     );
   }
-
+  onChangeLast = (value) => {
+    this.props.form.setFieldsValue({ lastname: value });
+  };
+  onChangeFirst = (value) => {
+    this.props.form.setFieldsValue({ firstname: value });
+  };
   renderProfile = () => {
     try {
       const { getFieldDecorator } = this.props.form;
@@ -348,7 +354,7 @@ class Component extends React.Component {
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
                   rules: [{ required: true, message: "Овогоо оруулна уу" }],
-                })(<Input placeholder="Овог" />)}
+                })(<LetterInput placeholder="Овог" onChange={this.onChangeLast} />)}
               </Form.Item>
             </Col>
 
@@ -357,7 +363,7 @@ class Component extends React.Component {
                 {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
                   rules: [{ required: true, message: "Нэрээ оруулна уу" }],
-                })(<Input placeholder="Нэр" />)}
+                })(<LetterInput placeholder="Нэр" onChange={this.onChangeFirst} />)}
               </Form.Item>
             </Col>
 

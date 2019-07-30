@@ -2,6 +2,7 @@
 import React from "react";
 import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
 import { Link } from "react-router-dom";
+import LetterInput from "../../LetterInput";
 
 class RegistrationModal extends React.Component {
   state = {
@@ -23,7 +24,6 @@ class RegistrationModal extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.signup({ body: values }).then((res) => {
-          console.log(res.payload);
           if (res.payload.success) {
             this.handleSignup();
             message.success(res.payload.message);
@@ -53,6 +53,14 @@ class RegistrationModal extends React.Component {
     callback();
   };
 
+  onChangeLast = (value) => {
+    this.props.form.setFieldsValue({ lastname: value });
+  };
+
+  onChangeFirst = (value) => {
+    this.props.form.setFieldsValue({ firstname: value });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -66,10 +74,10 @@ class RegistrationModal extends React.Component {
           <Form.Item>
             {getFieldDecorator("lastname", {
               rules: [
-                { required: true, pattern: new RegExp("[A-Za-zА-Яа-я]"), message: "Овогоо оруулна уу" },
+                { required: true, message: "Овогоо оруулна уу" },
               ],
             })(
-              <Input placeholder="Овог" maxLength={50} type="text" className="form-control" autoComplete="off" />,
+              <LetterInput placeholder="Овог" className="form-control" onChange={this.onChangeLast} />,
             )}
           </Form.Item>
           <Form.Item>
@@ -80,7 +88,7 @@ class RegistrationModal extends React.Component {
                 message: "Нэрээ оруулна уу",
               }],
             })(
-              <Input placeholder="Нэр" maxLength={50} type="text" className="form-control" autoComplete="off" />,
+              <LetterInput placeholder="Нэр" className="form-control" onChange={this.onChangeFirst} />,
             )}
           </Form.Item>
           <Form.Item>
