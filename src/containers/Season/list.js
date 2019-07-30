@@ -7,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select } from "antd";
+import { Spin, Select, BackTop } from "antd";
 import { Link } from "react-router-dom";
 import {
   InfiniteLoader,
@@ -599,6 +599,7 @@ class CategoryInfo extends React.Component {
             </div>
           </div>
         </div>
+        <BackTop />
       </div>
     );
   }

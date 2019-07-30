@@ -13,6 +13,7 @@ class Model extends BaseModel {
     categoryinfo: [],
     categoryproducts: [],
     categoryall: [],
+    categoryparents: [],
   }
 
   constructor(data = {}) {
@@ -39,11 +40,17 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'categoryproducts'),
           error: this.buildActionName('error', data.model, 'categoryproducts'),
         },
+        categoryparents: {
+          request: this.buildActionName('request', data.model, 'categoryparents'),
+          response: this.buildActionName('response', data.model, 'categoryparents'),
+          error: this.buildActionName('error', data.model, 'categoryparents'),
+        },
       };
     }
   }
   getCategoryAll = () => asyncFn({ url: `/search/category`, method: 'GET', model: this.model.categoryall });
   getCategoryMenu = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
+  getCategoryParents = ({ id }) => asyncFn({ url: `/category/parent/${id}`, method: 'GET', model: this.model.categoryparents });
   getCategoryInfo = ({
     id, rowcount = 20, ordercol = 'price_asc',
   }) => asyncFn({ url: `/category/info/${id}/${rowcount}/${ordercol}`, method: 'GET', model: this.model.categoryinfo });
@@ -84,6 +91,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.categoryproducts.response:
         return { ...state, categoryproducts: action.payload.data };
+
+      // GET CATEGORY PARENTS
+      case this.model.categoryparents.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.categoryparents.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.categoryparents.response:
+        return { ...state, categoryparents: action.payload.data };
 
       default:
         return state;
