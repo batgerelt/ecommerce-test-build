@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
+import LetterInput from "../../../../components/LetterInput";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -187,7 +188,7 @@ class Component extends React.Component {
           <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.committeenm}</strong> : <p>{item.committeenm}</p>}</td>
           <td
             style={{
-              width: "50px", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
+              width: "15%", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
             }}
           >
             {item.ismain === 1 ? <strong>{item.address}</strong> : <p>{item.address}</p>}
@@ -211,6 +212,9 @@ class Component extends React.Component {
       return console.log(error);
     }
   }
+  onChangeName = (value) => {
+    this.props.form.setFieldsValue({ name: value });
+  };
   renderAddress = () => {
     try {
       const { getFieldDecorator } = this.props.form;
@@ -225,7 +229,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
                 rules: [{ required: true, message: "Нэрээ оруулна уу " }],
-              })(<Input placeholder="Нэр" autoComplete="off" />)}
+              })(<LetterInput placeholder="Нэр" onChange={this.onChangeName} />)}
             </Form.Item>
           </Col>
 

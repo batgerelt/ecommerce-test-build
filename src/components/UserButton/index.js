@@ -54,7 +54,6 @@ class UserButton extends React.Component {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
         const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-        const goyImage = JSON.stringify(process.env.IMAGES + user.imgnm);
         content = (
           <li className="list-inline-item user" onClick={this.showpro}>
             <Link to="#" className="flex-this">
@@ -72,7 +71,7 @@ class UserButton extends React.Component {
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
                       </div>
                       <p className="name">
-                        {user.lastname} {user.firstname}
+                        {user.firstname}
                       </p>
                     </div>
                     {this.renderProgress()}

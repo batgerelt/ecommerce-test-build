@@ -22,7 +22,9 @@ class Model extends BaseModel {
     recipeproduct: [],
     categorymenu: [],
     count: 0,
+    discountCount: 0,
     isFetching: false,
+    discountFetching: false,
     allFetched: false,
     addedWishList: false,
   }
@@ -176,11 +178,11 @@ class Model extends BaseModel {
 
       // GET DISCOUNT PRODUCT
       case this.model.discountproduct.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, discountFetching: true, current: this.requestCase(state.current, action) };
       case this.model.discountproduct.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, discountFetching: false, current: this.errorCase(state.current, action) };
       case this.model.discountproduct.response:
-        return { ...state, discountproduct: action.payload.data };
+        return { ...state, discountFetching: false, discountproduct: action.payload.data };
 
       // GET NEW PRODUCT
       case this.model.newproduct.request:

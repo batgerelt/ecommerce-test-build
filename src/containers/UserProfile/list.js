@@ -27,9 +27,9 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.error('2MB-ээс бага хэмжээтэй зураг оруулна уу');
+    message.error('5MB-ээс бага хэмжээтэй зураг оруулна уу');
   }
   return isLt2M;
 }
@@ -108,7 +108,7 @@ class List extends React.Component {
   }
 
   renderName(info) {
-    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.lastname} {info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
   }
 
   render() {

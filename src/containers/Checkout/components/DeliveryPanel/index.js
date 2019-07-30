@@ -404,8 +404,8 @@ class DeliveryPanel extends React.Component {
                 <Form onSubmit={this.onSubmit}>
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (
-                      <div className="col-xl-12 col-md-12" style={{ display: "flex" }}>
-                        <div className="col-xl-8 col-md-8" style={{ paddingLeft: "0px", paddingRight: "11px" }} >
+                      <div className="col-xl-12 col-md-12 checkout-addbtn-container">
+                        <div className="col-xl-8 col-md-8 checkout-address-container">
                           <Form.Item>
                             {getFieldDecorator("id", {
                               initialValue: this.checkError(chosenAddress.id),

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-arrow-callback */
@@ -39,22 +40,65 @@ class Bookmarks extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      products: props.products,
-      fetch: false,
+      products: [],
+      headerProducts: [],
+      rowCount: 1,
+      count: 0,
+      loading: false,
     };
   }
 
-  // tuhain mor load hiigdsen eseh
-  isRowLoaded = ({ index }) => index < this.state.products.length;
+  componentWillMount() {
+    /* this.props.getNewProduct({
+      jumcd: '99',
+      start: 0,
+      rowcnt: 10,
+      order: `price_asc`,
+    }).then((res) => {
+      if (res.payload.success) {
+        this.setState({ headerProducts: res.payload.data.product });
+      }
+    }); */
+  }
 
   // data nemeh heseg
   loadMoreRows = (key) => {
-    if (!this.props.isFetching) {
-      this.props.getNewProduct({ start: this.props.count });
+    try {
+      if (!this.props.isFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+        this.setState({ loading: true });
+        this.props.getNewProduct({
+          jumcd: '99',
+          start: this.state.count,
+          rowcnt: 20,
+          order: `price_asc`,
+        }).then((res) => {
+          if (res.payload.success) {
+            this.setState({
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
+            }, () => {
+              this.setState({ loading: false });
+            });
+          }
+        });
+      }
+    } catch (error) {
+      return console.log(error);
     }
   };
 
   noRowsRenderer = () => <div>No data</div>;
+
+  isRowLoaded = (index, width) => {
+    const { products } = this.state;
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+    const allItemsLoaded =
+      this.generateIndexesForRow(
+        index,
+        maxItemsPerRow,
+        products.length,
+      ).length > 0;
+    return !true || allItemsLoaded;
+  }
 
   getMaxItemsAmountPerRow = (width) => {
     if (width > 1100) {
@@ -83,13 +127,12 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const { pagebanner } = this.props;
-
+      const { newbanner, menuNew, pagebanner } = this.props;
       return (
         <PageBanner
-          title={"Шинэ"}
-          subtitle={"Манай дэлгүүрээр зарагдаж байгаа шинэ бараанууд"}
-          banners={pagebanner}
+          title={menuNew.menunm}
+          subtitle={menuNew.subtitle}
+          banners={newbanner.length === 0 ? [] : newbanner.header}
           bgColor="#bbdefb"
         />
       );
@@ -101,17 +144,17 @@ class Bookmarks extends PureComponent {
   renderHeaderProduct = () => {
     try {
       const seq = "1,1";
-      const cardTypes = seq.split(",");
-      const { newproduct } = this.props;
+      // const cardTypes = seq.split(",");
+      const { headerProducts } = this.state;
 
-      let cardsLength = 0;
+      /* let cardsLength = 0;
       cardTypes.map(
         i =>
           (cardsLength +=
             parseInt(i) === CARD_TYPES.slim
               ? CARD_NUMS_IN_ROW.slim
               : CARD_NUMS_IN_ROW.wide),
-      );
+      ); */
       return (
         <div className="section">
           <div className="container pad10">
@@ -119,8 +162,7 @@ class Bookmarks extends PureComponent {
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               {...this.props}
-              items={newproduct.slice(0, cardsLength)}
-              {...this.props}
+              items={headerProducts}
             />
           </div>
         </div>
@@ -132,8 +174,8 @@ class Bookmarks extends PureComponent {
 
   renderSubBanner = () => {
     try {
-      const { pagebanner } = this.props;
-      return <Banner data={pagebanner} />;
+      const { newbanner } = this.props;
+      return <Banner data={newbanner.length === 0 ? [] : newbanner.footer} />;
     } catch (error) {
       return console.log(error);
     }
@@ -144,78 +186,68 @@ class Bookmarks extends PureComponent {
       return (
         <div className="section">
           <div className="container pad10">
-            <AutoSizer disableHeight>
-              {({ width }) => {
-                const { newproduct } = this.props;
-                const rowCount = this.getRowsAmount(
-                  width,
-                  newproduct.length,
-                  true,
-                );
-                return (
-                  <InfiniteLoader
-                    ref={this.infiniteLoaderRef}
-                    rowCount={rowCount}
-                    isRowLoaded={({ index }) => {
-                      const { newproduct } = this.props;
-                      const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                        width,
-                      );
-                      const allItemsLoaded =
-                        this.generateIndexesForRow(
-                          index,
-                          maxItemsPerRow,
-                          newproduct.length,
-                        ).length > 0;
-
-                      return !true || allItemsLoaded;
-                    }}
-                    loadMoreRows={this.loadMoreRows}
-                  >
-                    {({ onRowsRendered, registerChild }) => (
-                      <WindowScroller>
-                        {({ height, scrollTop }) => (
-                          <List
-                            autoHeight
-                            ref={registerChild}
-                            height={340}
-                            scrollTop={scrollTop}
-                            width={width}
-                            rowCount={rowCount}
-                            rowHeight={ITEM_HEIGHT}
-                            onRowsRendered={onRowsRendered}
-                            rowRenderer={({ index, style, key }) => {
-                              const { newproduct } = this.props;
-                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                width,
-                              );
-                              const rowItems = this.generateIndexesForRow(
-                                index,
-                                maxItemsPerRow,
-                                newproduct.length,
-                              ).map(itemIndex => newproduct[itemIndex]);
-                              return (
-                                <div style={style} key={key} className="jss148">
-                                  {rowItems.map(itemId => (
-                                    <RowItem
-                                      key={itemId.cd}
-                                      item={itemId}
-                                      LoginModal={this.props.LoginModal}
-                                      addWishList={this.props.addWishList}
-                                    />
-                                  ))}
-                                </div>
-                              );
-                            }}
-                            noRowsRenderer={this.noRowsRenderer}
-                          />
-                        )}
-                      </WindowScroller>
-                    )}
-                  </InfiniteLoader>
-                );
-              }}
-            </AutoSizer>
+            <div className="row row10">
+              <AutoSizer disableHeight>
+                {({ width }) => {
+                  const { products } = this.state;
+                  const rowCount = this.getRowsAmount(
+                    width,
+                    products.length,
+                    true,
+                  );
+                  return (
+                    <InfiniteLoader
+                      ref={this.infiniteLoaderRef}
+                      rowCount={rowCount}
+                      isRowLoaded={index => this.isRowLoaded(index, width)}
+                      loadMoreRows={this.loadMoreRows}
+                    >
+                      {({ onRowsRendered, registerChild }) => (
+                        <WindowScroller>
+                          {({ height, scrollTop }) => (
+                            <List
+                              autoHeight
+                              ref={registerChild}
+                              height={height}
+                              scrollTop={scrollTop}
+                              width={width}
+                              rowCount={rowCount}
+                              rowHeight={ITEM_HEIGHT}
+                              onRowsRendered={onRowsRendered}
+                              rowRenderer={({ index, style, key }) => {
+                                const { products } = this.state;
+                                const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                                  width,
+                                );
+                                const rowItems = this.generateIndexesForRow(
+                                  index,
+                                  maxItemsPerRow,
+                                  products.length,
+                                ).map(itemIndex => products[itemIndex]);
+                                return (
+                                  <div style={style} key={key} className="jss148" >
+                                    {rowItems.map(itemId => (
+                                      <Card
+                                        key={itemId.cd}
+                                        shape={1}
+                                        item={itemId}
+                                        LoginModal={this.props.LoginModal}
+                                        addWishList={this.props.addWishList}
+                                      />
+                                    ))}
+                                  </div>
+                                );
+                              }}
+                              noRowsRenderer={this.noRowsRenderer}
+                            />
+                          )}
+                        </WindowScroller>
+                      )}
+                    </InfiniteLoader>
+                  );
+                }}
+              </AutoSizer>
+            </div>
           </div>
         </div>
       );
@@ -228,8 +260,8 @@ class Bookmarks extends PureComponent {
     return (
       <div className="top-container">
         {this.renderMainBanner()}
-        {this.renderHeaderProduct()}
-        {this.renderSubBanner()}
+        {/* this.renderHeaderProduct() */}
+        {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
         <BackTop />
       </div>

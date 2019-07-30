@@ -130,13 +130,13 @@ class SwalModals extends React.Component {
               </p>
               <p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p>
               <div className="button-container">
-                <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
+                <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
                   <span className="text-uppercase" style={{ fontWeight: "normal" }}>Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх</span>
                 </button>
-                <button className="btn btn-dark" onClick={this.handleChangeAddress} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
+                <button className="btn btn-dark" onClick={this.handleChangeAddress} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
                   <span className="text-uppercase">Хаяг солих</span>
                 </button>
-                <button className="btn btn-dark" onClick={this.handleBackBasket} style={{ whiteSpace: "initial", width: "23em" }}>
+                <button className="btn btn-dark" onClick={this.handleBackBasket} style={{ whiteSpace: "initial", width: "100%" }}>
                   <span className="text-uppercase">Сагс руу буцах</span>
                 </button>
               </div>
