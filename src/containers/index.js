@@ -20,6 +20,7 @@ import Profile from "./UserProfile";
 import PassReset from "./PasswordReset";
 import Confirm from "./Confirm";
 import Order from "./OrderDetail";
+import Emart from "./Emart";
 
 export {
   App,
@@ -44,4 +45,5 @@ export {
   PassReset,
   Confirm,
   Order,
+  Emart,
 };

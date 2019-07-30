@@ -136,41 +136,38 @@ class Card extends React.Component {
     } else {
       const { item } = this.props;
       this.setState({ changeHeart: true });
-
       if (item.skucd !== undefined) {
         this.addWishList(item.skucd);
       } else if (item.cd !== undefined) {
-        if (item.cd !== undefined) {
-          this.addWishList(item.cd);
-        } else if (item.recipeid !== undefined) {
-          this.props.addWishListRecipe({ id: item.recipeid }).then((res) => {
-            if (res.payload.success) {
-              this.setState({ changeHeart: !this.state.changeHeart });
-              this.removeAddedWishColorTime();
-            }
-          });
-        } else {
-          this.props.addWishListPackage({ id: item.id }).then((res) => {
-            if (res.payload.success) {
-              this.setState({ changeHeart: !this.state.changeHeart });
-              this.removeAddedWishColorTime();
-            }
-          });
-        }
-      }
-    }
-  }
-
-  addWishList = (skucd) => {
-      this.props.addWishList({ skucd }).then((res) => {
-        const { addWishList, removeAddedWishColor } = this.props;
-        addWishList({ skucd }).then((res) => {
+        this.addWishList(item.cd);
+      } else if (item.recipeid !== undefined) {
+        this.props.addWishListRecipe({ id: item.recipeid }).then((res) => {
           if (res.payload.success) {
             this.setState({ changeHeart: !this.state.changeHeart });
             this.removeAddedWishColorTime();
           }
         });
+      } else {
+        this.props.addWishListPackage({ id: item.id }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ changeHeart: !this.state.changeHeart });
+            this.removeAddedWishColorTime();
+          }
+        });
+      }
+    }
+  }
+
+  addWishList = (skucd) => {
+    this.props.addWishList({ skucd }).then((res) => {
+      const { addWishList, removeAddedWishColor } = this.props;
+      addWishList({ skucd }).then((res) => {
+        if (res.payload.success) {
+          this.setState({ changeHeart: !this.state.changeHeart });
+          this.removeAddedWishColorTime();
+        }
       });
+    });
   }
 
   removeAddedWishColorTime = () => {
@@ -361,7 +358,7 @@ class Card extends React.Component {
                     <span
                       className="image"
                       style={{
-                        backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                        backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                         backgroundSize: "contain",
                       }}
                     />
@@ -423,7 +420,7 @@ class Card extends React.Component {
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img})`,
+                      backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                       backgroundSize: "contain",
                     }}
                   />
@@ -477,7 +474,7 @@ class Card extends React.Component {
                   <span
                     className="image"
                     style={{
-                      backgroundImage: `url(${process.env.IMAGE + (this.props.item.img === undefined ? this.props.item.imgnm : this.props.item.img)})`,
+                      backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                       backgroundSize: "contain",
                     }}
                   />

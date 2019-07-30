@@ -33,7 +33,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getDiscountProduct({});
     this.props.getDiscountBanner();
     this.props.getDiscountMenu({});
   }

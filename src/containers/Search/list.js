@@ -7,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select } from "antd";
+import { Spin, Select, BackTop } from "antd";
 import { Link } from "react-router-dom";
 import {
   InfiniteLoader,
@@ -57,12 +57,12 @@ class CategoryInfo extends React.Component {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
-      attribute: "",
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
       promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -92,12 +92,12 @@ class CategoryInfo extends React.Component {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
-      attribute: "",
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
       promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      minPrice: e[0],
+      maxPrice: e[1],
       startsWith: this.state.count,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -121,12 +121,12 @@ class CategoryInfo extends React.Component {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
-      attribute: "",
+      attribute: this.state.attributes.join(','),
       color: colors.join(','),
       brand: this.state.brands.join(','),
       promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -150,12 +150,12 @@ class CategoryInfo extends React.Component {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
-      attribute: "",
+      attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: brands.join(','),
       promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -183,8 +183,8 @@ class CategoryInfo extends React.Component {
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
       promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -302,7 +302,7 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} />
+                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
                 </div>
               </div>
 
@@ -518,8 +518,9 @@ class CategoryInfo extends React.Component {
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
                               <div style={style} key={key} className="jss148">
-                                {rowItems.map(itemId => (
+                                {rowItems.map((itemId, index) => (
                                   <Card
+                                    key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
                                     LoginModal={this.props.LoginModal}
@@ -549,7 +550,6 @@ class CategoryInfo extends React.Component {
   };
 
   getData = () => {
-    console.log('getData: ');
     this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
     const { isLogged, data } = this.props;
 
@@ -603,6 +603,7 @@ class CategoryInfo extends React.Component {
             </div>
           </div>
         </div>
+        <BackTop />
       </div>
     );
   }
