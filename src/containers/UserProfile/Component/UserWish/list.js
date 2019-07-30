@@ -90,8 +90,7 @@ class Component extends React.Component {
             spinning={this.state.loader}
           >
             <div
-              className="product-list-history frame frameMargin"
-              style={{ maxHeight: "500px", overflow: "auto" }}
+              className="product-list-history"
             >
               {this.renderProducts()}
             </div>

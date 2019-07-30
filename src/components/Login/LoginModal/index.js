@@ -32,7 +32,7 @@ class LoginModal extends React.Component {
 
   handleResetVisible = () => {
     this.setState({ visible: false });
-    this.setState({ isVisibleReset: !this.state.isVisibleReset });
+    this.props.ForgetModal.handleForgetModal();
   };
   handleSubmit = (e) => {
     e.preventDefault();
@@ -83,149 +83,107 @@ class LoginModal extends React.Component {
     });
   };
 
-  handleCancelReset = () => {
-    this.setState({ isVisibleReset: !this.state.isVisibleReset });
-  };
-
-  handleSubmitReset = () => {
-    this.props.reset({ mail: this.state.mail }).then((res) => {
-      if (res.payload.success) {
-        message.success(res.payload.message);
-        this.handleCancelReset();
-      }
-    });
-  };
-
-  changemail = (e) => {
-    this.setState({ mail: e.target.value });
-  };
-
   onRemember = (e) => {
     this.setState({ isRemember: e.target.checked });
   };
 
   render() {
+    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     const { isRemember } = this.state;
     return (
-      <div>
-        <Modal
-          title="Нэвтрэх"
-          visible={this.state.visible}
-          onCancel={this.handleLoginModal}
-          footer={null}
-        >
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator("email", {
-                initialValue:
-                  localStorage.getItem("username") === null
-                    ? ""
-                    : localStorage.getItem("username"),
-                rules: [
-                  {
-                    required: true,
-                    message: "Имэйл хаяг оруулна уу",
-                    type: "email",
-                  },
-                ],
-              })(
-                <Input
-                  allowClear
-                  className="form-control"
-                  placeholder="Имэйл"
-                  size="large"
-                  autoComplete="off"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [{ required: true, message: "Нууц үг оруулна уу" }],
-              })(
-                <Input.Password
-                  allowClear
-                  className="form-control"
-                  placeholder="Нууц үг"
-                  type="password"
-                  autoComplete="off"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="btn btn-block btn-login text-uppercase"
-              >
-                Нэвтрэх
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Col span={12}>
-                <Checkbox
-                  className="btn"
-                  onChange={this.onRemember}
-                  checked={isRemember}
-                >
-                  Сануулах
-                </Checkbox>
-              </Col>
-              <Col span={12} style={{ textAlign: "right" }}>
-                <Link
-                  to=""
-                  className="btn btn-link"
-                  style={{ fontSize: "14px" }}
-                  onClick={this.handleResetVisible}
-                >
-                  Нууц үгээ мартсан{" "}
-                </Link>
-              </Col>
-            </Form.Item>
-          </Form>
-
-          <FacebookLogin />
-          <GoogleLogin />
-
-          <div className="text-center">
-            <p>
-              Та шинээр бүртгүүлэх бол{" "}
-              <Link
-                to="#"
-                className="btn btn-link"
-                onClick={this.handleRegistrationModal}
-              >
-                <strong>ЭНД ДАРЖ</strong>
-              </Link>{" "}
-              бүртгүүлнэ үү
-            </p>
-          </div>
-        </Modal>
-
-        <Modal
-          title="Нууц үг сэргээх"
-          visible={this.state.isVisibleReset}
-          onCancel={this.handleCancelReset}
-          footer={null}
-        >
-          <form onSubmit={this.handleSubmitReset}>
-            <div>
+      <Modal
+        title="Нэвтрэх"
+        visible={this.state.visible}
+        onCancel={this.handleLoginModal}
+        footer={null}
+      >
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <Form.Item>
+            {getFieldDecorator("email", {
+              initialValue:
+                localStorage.getItem("username") === null
+                  ? ""
+                  : localStorage.getItem("username"),
+              rules: [
+                {
+                  required: true,
+                  message: "Имэйл хаяг оруулна уу",
+                  type: "email",
+                },
+              ],
+            })(
               <Input
-                placeholder="И-мэйл хаягаа оруулна уу"
-                onChange={this.changemail}
-                type="mail"
-              />
-            </div>
-            <a
-              className="btn btn-dark"
-              style={{ width: "100%", marginTop: "20px" }}
-              onClick={this.handleSubmitReset}
+                allowClear
+                className="form-control"
+                placeholder="Имэйл"
+                size="large"
+                autoComplete="off"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator("password", {
+              rules: [{ required: true, message: "Нууц үг оруулна уу" }],
+            })(
+              <Input.Password
+                allowClear
+                className="form-control"
+                placeholder="Нууц үг"
+                type="password"
+                autoComplete="off"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="btn btn-block btn-login text-uppercase"
             >
-              <span className="text-uppercase">Цааш</span>
-            </a>
-          </form>
-        </Modal>
-      </div>
+              Нэвтрэх
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Col span={12}>
+              <Checkbox
+                className="btn"
+                onChange={this.onRemember}
+                checked={isRemember}
+              >
+                Сануулах
+              </Checkbox>
+            </Col>
+            <Col span={12} style={{ textAlign: "right" }}>
+              <Link
+                to=""
+                className="btn btn-link"
+                style={{ fontSize: "14px" }}
+                onClick={this.handleResetVisible}
+              >
+                Нууц үгээ мартсан{" "}
+              </Link>
+            </Col>
+          </Form.Item>
+        </Form>
+
+        <FacebookLogin />
+        <GoogleLogin />
+
+        <div className="text-center">
+          <p>
+            Та шинээр бүртгүүлэх бол{" "}
+            <Link
+              to="#"
+              className="btn btn-link"
+              onClick={this.handleRegistrationModal}
+            >
+              <strong>ЭНД ДАРЖ</strong>
+            </Link>{" "}
+            бүртгүүлнэ үү
+          </p>
+        </div>
+      </Modal>
     );
   }
 }

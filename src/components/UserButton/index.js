@@ -61,7 +61,7 @@ class UserButton extends React.Component {
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
-              <span className="">{user.lastname} {user.firstname}</span>
+              <span className="">{user.firstname}</span>
             </Link>
             <div className={`dropdown ${profilemenu}`}>
               <div className="drop-content">
