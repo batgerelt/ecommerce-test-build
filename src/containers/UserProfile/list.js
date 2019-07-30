@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { Avatar, Progress, Upload, Button } from "antd";
+import { Avatar, Progress, Upload, Button, message, Spin, Icon } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -24,6 +24,14 @@ function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('2MB-ээс бага хэмжээтэй зураг оруулна уу');
+  }
+  return isLt2M;
 }
 
 class List extends React.Component {
@@ -104,10 +112,10 @@ class List extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { match } = this.props;
     const { pathname } = this.props.location;
-    const { imageUrl, showButton } = this.state;
+    const { imageUrl, showButton, loading } = this.state;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="section section-gray">
         <div className="container">
@@ -122,11 +130,17 @@ class List extends React.Component {
                         accept={".jpg,.png,.jpeg,.gif"}
                         showUploadList={false}
                         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        beforeUpload={beforeUpload}
                         onChange={this.handleChange}
                       >
-                        <div className={style.avatarpreview}>
-                          {showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo !== undefined ? this.renderImage() : null}
-                        </div>
+                        <Spin
+                          spinning={loading}
+                          indicator={antIcon}
+                        >
+                          <div className={style.avatarpreview}>
+                            {showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.props.userInfo !== undefined ? this.renderImage() : null}
+                          </div>
+                        </Spin>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
                       <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} >Таны мэдээлэл</p>
