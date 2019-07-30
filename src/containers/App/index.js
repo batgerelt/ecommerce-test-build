@@ -10,6 +10,7 @@ import ScrollToTop from "react-router-scroll-top";
 import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
+import { ForgetModal } from "../../components/ForgetModal";
 import Notfound from "../Exception/404";
 import {
   Locale as LocaleModel,
@@ -104,7 +105,7 @@ class App extends Component {
             <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
             <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
             <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
-
+            <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} {...this} />
             {/** fixed header */}
             <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
             {/** Үндсэн root болон nested root-үүд доор байрлана */}
