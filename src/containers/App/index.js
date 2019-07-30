@@ -49,6 +49,7 @@ import {
   Confirm,
   Order,
   Emart,
+  Brand,
 } from "../";
 import translation from '../../translation';
 
@@ -122,7 +123,7 @@ class App extends Component {
               <Route path="/checkout" component={Checkout} />
               <Route path="/info/:id" component={Static} />
               <Route path="/category/:id" component={Category} />
-              <Route path="/brand/:id" component={ProductList} />
+              <Route path="/brand/:id" component={Brand} />
               <Route path="/recipedetail/:id" component={RecipeDetail} />
               <Route path="/cart" component={Cart} />
               <Route path="/packagedetail/:id" component={PackageDetail} />

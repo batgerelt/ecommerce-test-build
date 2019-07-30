@@ -101,7 +101,7 @@ class CategoryInfo extends React.Component {
       promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
-      startsWith: this.state.count,
+      startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,

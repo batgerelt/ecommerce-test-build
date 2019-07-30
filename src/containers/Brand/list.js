@@ -16,12 +16,12 @@ import {
   AutoSizer,
 } from "react-virtualized";
 
-import { Card, Loader, SearchFilterSet, PageBanner } from "../../components";
+import { Card, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
 
 let screenWidth = 0;
-let searchword = null;
+let brandid = null;
 
 class CategoryInfo extends React.Component {
   constructor(props) {
@@ -29,8 +29,12 @@ class CategoryInfo extends React.Component {
 
     this.state = {
       products: [],
+      catid: 0,
       isListViewOn: false,
       loading: false,
+      minPrice: 0,
+      maxPrice: 0,
+      sort: "price_asc",
       isLeftPanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -38,56 +42,30 @@ class CategoryInfo extends React.Component {
       brands: [],
       attributes: [],
       count: 0,
+      selectedCat: null,
+      isCatChecked: false,
       aggregations: [],
-
-      catId: 0,
-      custId: 0,
-      value: "",
-      attribute: "",
-      color: "",
-      brand: "",
-      promotion: true,
-      minPrice: 0,
-      maxPrice: 0,
-      startsWith: 0,
-      rowCount: 20,
-      orderColumn: 'price_asc',
-      highlight: false,
+      ismore: false,
     };
   }
 
   componentWillMount() {
-    try {
-      return this.props.searchProduct({
-        body: { ...this.state },
-      }).then((res) => {
-        if (res.payload.success) {
-          this.setState({
-            products: res.payload.data.hits.hits,
-            startsWith: this.state.startsWith + 20,
-            aggregations: res.payload.data.aggregations,
-          });
-        }
-      });
-    } catch (error) {
-      return console.log(error);
-    }
+    this.getData();
   }
 
   handleChangeOrder = (e) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
-
     const params = {
-      catId: 0,
+      catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      brand: brandid,
+      promotion: "",
       minPrice: this.state.minPrice,
-      maxPrice: 0,
+      maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -114,13 +92,13 @@ class CategoryInfo extends React.Component {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
-      catId: 0,
+      catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      brand: brandid,
+      promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
       startsWith: 0,
@@ -143,13 +121,13 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, colors });
 
     const params = {
-      catId: 0,
+      catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: this.state.attributes.join(','),
       color: colors.join(','),
-      brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      brand: brandid,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -172,13 +150,13 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, brands });
 
     const params = {
-      catId: 0,
+      catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
-      brand: brands.join(','),
-      promotion: this.state.promotion,
+      brand: brandid,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -197,17 +175,17 @@ class CategoryInfo extends React.Component {
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
     if (e.target.checked) { attributes.push(`${attribute};${value}`); }
-    else { attributes.map((i, index) => (i === `${attribute};${value}` ? attributes.splice(index, 1) : null)); }
+    else { attributes.map((i, index) => (i === `${attribute};${value.toString()}` ? attributes.splice(index, 1) : null)); }
     this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
-      catId: 0,
+      catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: attributes.join(','),
       color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      brand: brandid,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -215,7 +193,6 @@ class CategoryInfo extends React.Component {
       orderColumn: this.state.sort,
       highlight: false,
     };
-
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
@@ -226,16 +203,17 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+
     const params = {
-      catId: 0,
+      catId: cat.key,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: this.state.attributes.join(','),
-      color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
-      promotion: this.state.promotion === cat.key ? true : cat.key,
-      minPrice: this.state.minPrice,
-      maxPrice: this.state.maxPrice,
+      attribute: "",
+      color: "",
+      brand: brandid,
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
@@ -246,8 +224,10 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 20,
-          promotion: this.state.promotion === cat.key ? true : cat.key,
+          count: 0,
+          isCatChecked: !this.state.isCatChecked,
+          aggregations: res.payload.data.aggregations,
+          catid: cat.key,
         });
       }
     });
@@ -255,18 +235,18 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { promotionall } = this.props;
+      const { categoryall } = this.props;
       const { aggregations } = this.state;
 
       if (aggregations.length !== 0) {
         return (
           <ul className="list-unstyled category-list">
             {
-              aggregations.promotions.buckets.buckets.map((cat, index) => (
-                <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
-                  <span onClick={() => this.handleClickCategory(cat)}>
-                    {promotionall.find(i => i.id === cat.key) === undefined ? null : promotionall.find(i => i.id === cat.key).name}
-                  </span>
+              aggregations.categories.buckets.map((cat, index) => (
+                <li key={index}>
+                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
+                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
+                  </Link>
                 </li>
                 ))
             }
@@ -325,7 +305,7 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} promotion />
+                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
                 </div>
               </div>
 
@@ -374,7 +354,7 @@ class CategoryInfo extends React.Component {
                       Эрэмбэлэх:
                     </label>
                     <Select
-                      defaultValue={this.state.orderColumn}
+                      defaultValue={this.state.sort}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
@@ -462,16 +442,17 @@ class CategoryInfo extends React.Component {
   loadMoreRows = () => {
     try {
       const { searchKeyWordResponse } = this.props;
+
       if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
         const { isLogged, data } = this.props;
         const params = {
-          catId: 0,
+          catId: this.state.catid,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
-          value: searchword,
+          value: '',
           attribute: "",
           color: this.state.colors.join(','),
-          brand: this.state.brands.join(','),
-          promotion: this.state.promotion,
+          brand: "emart",
+          promotion: "",
           minPrice: 0,
           maxPrice: 0,
           startsWith: this.state.count,
@@ -571,27 +552,44 @@ class CategoryInfo extends React.Component {
     }
   };
 
-  renderBanner = () => {
-    try {
-      const { menuSeason, seasonbanner } = this.props;
-      return (
-        <PageBanner
-          title={menuSeason.menunm}
-          subtitle={menuSeason.subtitle}
-          banners={seasonbanner}
-          bgColor="#4286f4"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
+  getData = () => {
+    brandid = this.props.match.params.id;
+    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
+    const { isLogged, data } = this.props;
+
+    const params = {
+      catId: 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      value: '',
+      attribute: "",
+      color: "",
+      brand: brandid,
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      startsWith: 0,
+      rowCount: 20,
+      orderColumn: "",
+      highlight: false,
+    };
+
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
+      if (res.payload.success) {
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 20,
+          aggregations: res.payload.data.aggregations,
+          // ismore: !this.state.ismore,
+        });
+      }
+    });
   }
 
   render() {
     return (
       <div className="top-container">
-        {this.renderBanner()}
-        <div className="section season">
+        <div className="section">
           <div className="container pad10">
             <div className="row row10">
               {this.renderLeftPanel()}
