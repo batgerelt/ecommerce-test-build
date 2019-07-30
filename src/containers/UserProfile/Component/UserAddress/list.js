@@ -174,16 +174,17 @@ class Component extends React.Component {
       const address = addrs;
       return address.map((item, index) => (
         <tr key={index} style={{ width: "100%", padding: "70px" }}>
-          <td style={{ width: "5%" }}>{item.name}</td>
-          <td style={{ width: "5%" }}>{item.phone1}</td>
-          <td style={{ width: "15%" }}>{item.provincenm}</td>
-          <td style={{ width: "10%" }}>{item.districtnm}</td>
+          <td style={{ width: "5%" }}>{item.ismain === 1 ? <strong>{item.name}</strong> : <p>{item.name}</p>}</td>
+          <td style={{ width: "5%" }}>{item.ismain === 1 ? <strong>{item.phone1}</strong> : <p>{item.phone1}</p>}</td>
+          <td style={{ width: "15%" }}>{item.ismain === 1 ? <strong>{item.provincenm}</strong> : <p>{item.provincenm}</p>}</td>
+          <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.districtnm}</strong> : <p>{item.districtnm}</p>}</td>
+          <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.committeenm}</strong> : <p>{item.committeenm}</p>}</td>
           <td
             style={{
               width: "50px", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
             }}
           >
-            {item.address}
+            {item.ismain === 1 ? <strong>{item.address}</strong> : <p>{item.address}</p>}
           </td>
           {item.ismain !== 1 ?
             <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
