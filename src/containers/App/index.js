@@ -51,6 +51,7 @@ import {
   Confirm,
   Order,
   Emart,
+  Brand,
 } from "../";
 import translationEn from "../../translations/en.json";
 import translationMn from "../../translations/mn.json";
@@ -111,31 +112,14 @@ class App extends Component {
         <Router>
           <ScrollToTop>
             {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
-            <LoginModal
-              onRef={ref => (this.LoginModal = ref)}
-              {...this.props}
-              {...this}
-            />
-            <RegistrationModal
-              onRef={ref => (this.RegistrationModal = ref)}
-              {...this.props}
-            />
-            <Mobilemenu
-              onRef={ref => (this.Mobilemenu = ref)}
-              {...this.props}
-              {...this}
-            />
-            <ForgetModal
-              onRef={ref => (this.ForgetModal = ref)}
-              {...this.props}
-              {...this}
-            />
+            <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
+            <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
+            <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
+            <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} {...this} />
+
             {/** fixed header */}
-            <Header
-              onRef={ref => (this.Header = ref)}
-              {...this.props}
-              {...this}
-            />
+            <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
+
             {/** Үндсэн root болон nested root-үүд доор байрлана */}
             <Switch>
               <Route exact path="/" component={Home} />
@@ -148,13 +132,13 @@ class App extends Component {
               <Route path="/checkout" component={Checkout} />
               <Route path="/info/:id" component={Static} />
               <Route path="/category/:id" component={Category} />
-              <Route path="/brand/:id" component={ProductList} />
+              <Route path="/brand/:id" component={Brand} />
               <Route path="/recipedetail/:id" component={RecipeDetail} />
               <Route path="/cart" component={Cart} />
               <Route path="/packagedetail/:id" component={PackageDetail} />
               <Route path="/emart" component={Emart} />
               <Route path="/profile" component={Profile} />
-              <Route path="/search/:word/:time" component={Search} />
+              <Route path="/search/:cat/:word/:time" component={Search} />
               <Route path="/ResetPassword/:key" component={PassReset} />
               <Route path="/confirm/:key" component={Confirm} />
               <Route path="/order/:id" component={Order} />

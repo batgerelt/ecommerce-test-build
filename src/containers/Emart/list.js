@@ -101,7 +101,7 @@ class CategoryInfo extends React.Component {
       promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
-      startsWith: this.state.count,
+      startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
@@ -363,7 +363,7 @@ class CategoryInfo extends React.Component {
                       <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this">
+                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
                     <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleViewChange}

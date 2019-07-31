@@ -279,6 +279,19 @@ button{
   position: relative;
   z-index: 2;
 
+  .list-inline-item > span {
+    display: block;
+    padding: 5px;
+    line-height: 30px;
+    text-decoration: none;
+
+    span,
+    .fa {
+      color: $white9;
+      font-size: 0.9rem;
+    }
+  }
+
   .list-inline-item > a {
     display: block;
     padding: 5px;
@@ -291,6 +304,7 @@ button{
       font-size: 0.9rem;
     }
   }
+
   .list-inline-item.active > a span,
   .list-inline-item.active > a .fa,
   li:hover a span,
@@ -3197,4 +3211,9 @@ textarea:focus {
 .checkout-address-container{
   padding-left: 0px;
   padding-right: 11px;
+}
+
+.infinite-scroll-component {
+  height: initial !important;
+  overflow: initial !important;
 }

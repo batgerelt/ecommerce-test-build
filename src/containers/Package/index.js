@@ -39,19 +39,35 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
+  state = {
+    loading: true,
+  }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getAllPackage();
+    /*  this.props.getPackage({
+       order: "price_asc",
+       start: 0,
+       rowcnt: 60,
+     }); */
     this.props.getPackageBanner();
     this.props.getPackageMenu({});
-    this.props.getWidget();
+    this.props.getWidget().then((res) => {
+      this.setState({ loading: false });
+    });
   }
 
   render() {
     return (
       <div>
-        <List {...this.props} {...this} />
-        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+        {
+          this.state.loading
+            ? ""
+            :
+            <div>
+              <List {...this.props} {...this} />
+              <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+            </div>
+        }
       </div>
     );
   }

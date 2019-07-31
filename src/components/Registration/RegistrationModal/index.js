@@ -26,7 +26,6 @@ class RegistrationModal extends React.Component {
         this.props.signup({ body: values }).then((res) => {
           if (res.payload.success) {
             this.handleSignup();
-            message.success(res.payload.message);
           }
         });
       }

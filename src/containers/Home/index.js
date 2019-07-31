@@ -54,9 +54,17 @@ class Page extends React.Component {
     this.props.getEmartProduct({});
     this.props.getDiscountProduct({});
     this.props.getWidget();
-    this.props.getAllPackage();
+    this.props.getPackage({
+      order: 'date_desc',
+      start: 0,
+      rowcnt: 20,
+    });
     this.props.getNewProduct({});
-    this.props.getRecipeAll();
+    this.props.getRecipe({
+      order: 'price_asc',
+      start: 0,
+      rowcnt: 20,
+    });
   }
 
   render() {

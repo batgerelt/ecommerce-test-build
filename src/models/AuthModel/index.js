@@ -1,3 +1,4 @@
+import { message } from "antd";
 import BaseModel from "../BaseModel";
 import { asyncFn } from "../utils";
 
@@ -15,11 +16,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName("response", "logged"),
       error: this.buildActionName("error", "logged"),
     };
-    // this.logoutModel = {
-    //   request: this.buildActionName('request', 'logout'),
-    //   response: this.buildActionName('response', 'logout'),
-    //   error: this.buildActionName('error', 'logout'),
-    // };
+    /* this.logoutModel = {
+      request: this.buildActionName('request', 'logout'),
+      response: this.buildActionName('response', 'logout'),
+      error: this.buildActionName('error', 'logout'),
+    }; */
     this.signupModel = {
       request: this.buildActionName("request", "signup"),
       response: this.buildActionName("response", "signup"),

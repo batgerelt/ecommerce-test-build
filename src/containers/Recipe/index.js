@@ -36,7 +36,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getRecipeProduct();
     this.props.getRecipeMenu({});
     this.props.getRecipeBanner();
   }

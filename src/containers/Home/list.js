@@ -50,12 +50,12 @@ class Homepage extends React.Component {
           );
           break;
         case WIDGET_SLUGS.package:
-          widget.items = products.packageAll;
+          widget.items = products.packageAll.products;
           widget.readMore = "Бусад багцыг үзэх";
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.recipe:
-          widget.items = products.recipeAll;
+          widget.items = products.recipeAll.products;
           widget.readMore = "Бусад хоолны жорыг үзэх";
           widget.icon = <Icon name="home" color="red" />;
           break;
