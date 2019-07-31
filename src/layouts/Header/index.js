@@ -4,6 +4,7 @@
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { generatePath } from "react-router";
 import { Icon, Form } from "antd";
 import moment from "moment";
 
@@ -51,13 +52,11 @@ class AppHeader extends Component {
     }
   };
 
-  onItem = (e, item) => {
+  handleChangeCategory = (item) => {
     this.setState({ item });
   };
 
-  onItem1 = (e) => {
-    this.setState({ item: "Бүх бараа" });
-  };
+  handelAllCategory = () => this.setState({ item: { id: 0, name: "Бүх бараа" } })
 
   togglePopup = () => {
     this.props.Mobilemenu.handleOpen();
@@ -83,8 +82,9 @@ class AppHeader extends Component {
 
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
-      window.history.pushState('', '', url);
+      generatePath(`/target`);
     }
+    return null;
   }
 
   renderTopNavigation = () => {
@@ -132,7 +132,7 @@ class AppHeader extends Component {
     try {
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
-      const { keywordid, word } = this.state;
+      const { keywordid, word, item } = this.state;
       const { addedWishList } = this.props.product;
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
@@ -198,7 +198,7 @@ class AppHeader extends Component {
                             >
                               <a
                                 className="dropdown-item"
-                                onClick={e => this.onItem1(e)}
+                                onClick={this.handelAllCategory}
                               >
                                 <span className="no-padding">Бүх бараа</span>
                               </a>
@@ -206,7 +206,7 @@ class AppHeader extends Component {
                                 <a
                                   className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
                                   key={index}
-                                  onClick={e => this.onItem(e, item)}
+                                  onClick={e => this.handleChangeCategory(item, e)}
                                 >
                                   {item.icon ? (
                                     <img
@@ -233,15 +233,10 @@ class AppHeader extends Component {
                                 placeholder="Бүгдээс хайх"
                                 style={{ boxShadow: 'none' }}
                                 onChange={e => this.handleChangeKeyWord(e)}
-                                onKeyPress={e => this.handleKeyPress(e, keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`)}
+                                onKeyPress={e => this.handleKeyPress(e, '/a')}
                               />
                               <datalist id="cat" className="list-unstyled">
-                                {this.state.suggestion.map(item => (
-                                  <option
-                                    key={item.id}
-                                    value={item.keyword}
-                                  />
-                                ))}
+                                {this.state.suggestion.map(item => <option key={item.id} value={item.keyword} />)}
                               </datalist>
                             </label>
                           </div>
@@ -249,19 +244,14 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={`/search/${word}/${moment()}`}
+                            to={word === "" ? "#" : `/search/${item.id}/${word}/${moment()}`}
                             style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i
                               className="fa fa-search d-block d-sm-none"
                               style={{ fontSize: "20px", margin: "5px" }}
                             />
-                            <span
-                              className="text-uppercase d-none d-sm-block"
-                              onClick={this.handleSearch}
-                            >
-                              Хайх
-                            </span>
+                            <span className="text-uppercase d-none d-sm-block">Хайх</span>
                           </Link>
                           <Link
                             to=""
@@ -290,8 +280,7 @@ class AppHeader extends Component {
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item">
-                      <Link
-                        to=""
+                      <span
                         className="flex-this search-mobile-btn d-flex d-lg-none row10"
                         onClick={this.toggleSearch}
                       >
@@ -301,7 +290,7 @@ class AppHeader extends Component {
                           <small>Хайлт</small>
                           <span className="text-uppercase">хийх</span>
                         </p>
-                      </Link>
+                      </span>
                     </li>
                     <li className="list-inline-item">
                       {

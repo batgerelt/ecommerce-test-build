@@ -23,6 +23,7 @@ import styles from "./style.less";
 let screenWidth = 0;
 let searchword = null;
 let searchtime = null;
+let catid = null;
 
 class CategoryInfo extends React.Component {
   constructor(props) {
@@ -35,8 +36,8 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_asc",
-      isLeftPanel: false,
+      sort: "price_desc",
+      isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
       colors: [],
@@ -256,18 +257,19 @@ class CategoryInfo extends React.Component {
     }
   }
 
+  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
+
   renderLeftPanel = () => {
     try {
-      const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
-      const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
+      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : null}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
+                onClick={this.showMobilePanel}
               >
                 <img
                   src={crossImage}
@@ -302,7 +304,13 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    total={this.props.searchKeyWordResponse.hits.total.value}
+                    aggregations={this.props.searchKeyWordResponse.aggregations}
+                  />
                 </div>
               </div>
 
@@ -337,7 +345,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showLeftPanel}
+                      onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">Шүүлтүүр</span>
@@ -356,11 +364,11 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this">
+                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
                     <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleViewChange}
@@ -550,11 +558,11 @@ class CategoryInfo extends React.Component {
   };
 
   getData = () => {
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
+    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore, catid });
     const { isLogged, data } = this.props;
 
     const params = {
-      catId: 0,
+      catId: catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
       attribute: "",
@@ -565,7 +573,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "",
+      orderColumn: this.state.sort,
       highlight: false,
     };
 
@@ -576,7 +584,6 @@ class CategoryInfo extends React.Component {
           loading: !this.state.loading,
           count: 20,
           aggregations: res.payload.data.aggregations,
-          // ismore: !this.state.ismore,
         });
       }
     });
@@ -585,13 +592,14 @@ class CategoryInfo extends React.Component {
   handleChangeWord = () => {
     searchword = this.props.match.params.word;
     searchtime = this.props.match.params.time;
+    catid = this.props.match.params.cat;
     return this.getData();
   }
 
   render() {
-    const { word, time } = this.props.match.params;
+    const { word, time, cat } = this.props.match.params;
     // Хайлтын хуудаснаас өөр үг хайх үед
-    if (word !== searchword || time !== searchtime) { this.handleChangeWord(); }
+    if (word !== searchword || time !== searchtime || cat !== catid) { this.handleChangeWord(); }
 
     return (
       <div className="top-container">
