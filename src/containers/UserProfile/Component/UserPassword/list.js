@@ -17,7 +17,6 @@ class Component extends React.Component {
         };
         this.props.resetPassword({ body: params }).then((res) => {
           if (res.payload.success) {
-            message.success(res.payload.message);
             this.props.form.resetFields();
           }
         });

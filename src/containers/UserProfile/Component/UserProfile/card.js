@@ -15,7 +15,6 @@ class Component extends React.Component {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
-            message.success(res.payload.message);
             this.props.getCustomer();
           }
           this.setState({ loader: false });
