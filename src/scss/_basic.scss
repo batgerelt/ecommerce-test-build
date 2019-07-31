@@ -3212,3 +3212,8 @@ textarea:focus {
   padding-left: 0px;
   padding-right: 11px;
 }
+
+.infinite-scroll-component {
+  height: initial !important;
+  overflow: initial !important;
+}
