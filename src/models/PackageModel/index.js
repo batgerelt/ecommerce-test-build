@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import BaseModel from "../BaseModel";
 import { asyncFn } from "../utils";
 
@@ -13,6 +14,7 @@ class Model extends BaseModel {
     packageAll: [],
     packageDetail: [],
     packageInfo: [],
+    packageFetching: false,
   };
 
   constructor(data = {}) {
@@ -38,8 +40,8 @@ class Model extends BaseModel {
     }
   }
 
-  getAllPackage = () =>
-    asyncFn({ url: `/package`, method: "GET", model: this.model.all });
+  getPackage = ({ order = `price_desc`, start = 0, rowcnt = 20 }) =>
+    asyncFn({ url: `/package/${order}/${start}/${rowcnt}`, method: "GET", model: this.model.all });
   getDetailPackage = ({ id }) =>
     asyncFn({ url: `/package/${id}`, method: "GET", model: this.model.detail });
   getInfoPackage = ({ id }) =>
@@ -101,7 +103,7 @@ class Model extends BaseModel {
                 found.qty = found.salemaxqty;
                 this.handleNotify(
                   `"${found.name}" барааг хамгийн ихдээ "${
-                    found.salemaxqty
+                  found.salemaxqty
                   }"-г худалдан авах боломжтой.`,
                 );
               } else if (found.qty < found.saleminqty) {
@@ -148,7 +150,7 @@ class Model extends BaseModel {
                     found.qty = found.salemaxqty;
                     this.handleNotify(
                       `"${found.name}" барааг хамгийн ихдээ "${
-                        found.salemaxqty
+                      found.salemaxqty
                       }"-г худалдан авах боломжтой.`,
                     );
                   } else {
@@ -178,7 +180,7 @@ class Model extends BaseModel {
                     found.qty = found.salemaxqty;
                     this.handleNotify(
                       `"${found.name}" барааг хамгийн ихдээ "${
-                        found.salemaxqty
+                      found.salemaxqty
                       }"-г худалдан авах боломжтой.`,
                     );
                   } else {
@@ -218,7 +220,7 @@ class Model extends BaseModel {
             product.qty = product.salemaxqty;
             this.handleNotify(
               `"${product.name}" барааг хамгийн ихдээ "${
-                product.salemaxqty
+              product.salemaxqty
               }"-г худалдан авах боломжтой.`,
             );
           }
@@ -243,11 +245,11 @@ class Model extends BaseModel {
     switch (action.type) {
       // GET ALL PACKAGE
       case this.model.all.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, packageFetching: true, current: this.requestCase(state.current, action) };
       case this.model.all.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, packageFetching: false, current: this.errorCase(state.current, action) };
       case this.model.all.response:
-        return { ...state, packageAll: action.payload.data };
+        return { ...state, packageFetching: false, packageAll: action.payload.data };
 
       // GET PACKAGE DETAIL
       case this.model.detail.request:
