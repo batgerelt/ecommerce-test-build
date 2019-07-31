@@ -73,7 +73,6 @@ class Component extends React.Component {
         };
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
-            message.success(res.payload.message);
             this.props.getUserInfo();
             this.props.form.resetFields();
             this.setState({ load: false });

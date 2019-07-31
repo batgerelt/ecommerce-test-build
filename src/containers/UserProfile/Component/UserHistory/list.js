@@ -16,7 +16,6 @@ class Component extends React.Component {
   }
   addHistory = (item) => {
     this.props.addWish({ skucd: item.cd }).then((res) => {
-      message.success(res.payload.message);
     });
   }
   handleIncrement = (item) => {
@@ -108,7 +107,7 @@ class Component extends React.Component {
             spinning={loader}
           >
             <div
-              className="product-list-history frame frameMargin"
+              className="product-list-history"
               style={{ maxHeight: "500px", overflow: "auto" }}
             >
               {this.renderProducts()}

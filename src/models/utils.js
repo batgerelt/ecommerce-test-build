@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import withQuery from 'with-query';
 import { message } from 'antd';
+import translation from "./translation";
 
 const request = ({
   url, method, body, isfiles,
@@ -9,7 +10,6 @@ const request = ({
   let bearerHeader = 'Bearer ';
   // bitgii hamaagvi uurchluud baildaa uur zunduu gazar ashiglchihsn bgaa ymiig !!!!!!!!!!!!!!!!!!!!
   const root = localStorage.getItem('auth') === null ? null : JSON.parse(localStorage.getItem('auth'));
-
   if (root !== null) {
     bearerHeader += root.data[0].info.access_token;
   }
@@ -73,6 +73,15 @@ const asyncFn = ({
     name,
   });
   try {
+    let lag = localStorage.getItem('lang');
+    let lang = 0;
+    if (lag !== null) {
+      if (lag === 'mn') {
+        lang = 0;
+      } else {
+        lang = 1;
+      }
+    }
     if (model.request === 'REQUEST_LOGOUT') {
       dispatch({
         type: model.response,
@@ -84,8 +93,10 @@ const asyncFn = ({
       });
       if (data && data.success !== false) {
         if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
-      } else {
-        message.warning(data.message);
+      }
+      if (data.code !== null) {
+        console.log(data);
+        message.warning(translation.msg[data.code][lang]);
       }
       if (!data) {
         throw new Error('no data provided');

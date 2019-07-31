@@ -22,7 +22,6 @@ class ForgetModal extends React.Component {
       if (!err) {
         this.props.reset({ mail: values.email }).then((res) => {
           if (res.payload.success) {
-            message.success(res.payload.message);
             this.handleForgetModal();
           }
         });

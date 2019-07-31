@@ -30,7 +30,6 @@ class SwalModals extends React.Component {
   onSubmit = () => {
     this.props.updateMain({ body: this.props.param }).then((res) => {
       if (res.payload.success) {
-        message.success(res.payload.message);
         localStorage.removeItem("username");
         this.props.logout();
         this.props.clearLocally();

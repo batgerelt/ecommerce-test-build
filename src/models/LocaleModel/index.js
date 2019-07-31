@@ -26,6 +26,7 @@ class Model extends BaseModel {
     switch (action.type) {
       case 'LOCALE_SET_LANG':
         console.log(state);
+        localStorage.setItem('lang', action.payload);
         return { ...state, lang: action.payload };
 
       default:
