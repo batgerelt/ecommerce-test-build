@@ -21,6 +21,7 @@ import PassReset from "./PasswordReset";
 import Confirm from "./Confirm";
 import Order from "./OrderDetail";
 import Emart from "./Emart";
+import Brand from "./Brand";
 
 export {
   App,
@@ -46,4 +47,5 @@ export {
   Confirm,
   Order,
   Emart,
+  Brand,
 };

@@ -64,7 +64,7 @@ class FilterSet extends React.Component {
                                 checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                               />
 
-                              <label style={{ marginLeft: 5 }}>{attrvaluenm}</label>
+                              <label style={{ marginLeft: 5, lineHeight: '28px' }}>{attrvaluenm}</label>
                             </li>
                           );
                         })
@@ -80,8 +80,8 @@ class FilterSet extends React.Component {
         return null;
       });
     } catch (error) {
-      // return console.log(error);
-      return null;
+      return console.log(error);
+      // return null;
     }
   };
 
@@ -113,7 +113,7 @@ class FilterSet extends React.Component {
                           checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                         />
 
-                        <label style={{ marginLeft: 5 }}>
+                        <label style={{ marginLeft: 5, lineHeight: '28px' }}>
                           {brandall.find(i => i.id === brand.key) === undefined ? null : brandall.find(i => i.id === brand.key).name}
                         </label>
                       </li>
@@ -180,20 +180,17 @@ class FilterSet extends React.Component {
   // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
   renderFilterPrice = () => {
     try {
-      const { aggregations, minPrice, maxPrice } = this.props;
-      // console.log(this.props);
+      const { aggregations } = this.props;
       const marks = {
         [aggregations.min_price.value]: {
-          label: (
-            <strong>{formatter.format(aggregations.min_price.value)}₮</strong>
-          ),
+          label: <strong>{formatter.format(aggregations.min_price.value)}₮</strong>,
         },
         [aggregations.max_price.value]: {
-          label: (
-            <strong>{formatter.format(aggregations.max_price.value)}₮</strong>
-          ),
+          label: <strong>{formatter.format(aggregations.max_price.value)}₮</strong>,
         },
       };
+
+      console.log(aggregations.min_price.value, aggregations.max_price.value);
       return (
         <div>
           <span

@@ -14,6 +14,7 @@ class Model extends BaseModel {
     recipeProducts: [],
     recipe: null,
     steps: [],
+    recipeFetching: false,
   }
 
   constructor(data = {}) {
@@ -38,7 +39,7 @@ class Model extends BaseModel {
       };
     }
   }
-  getRecipeAll = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipeall });
+  getRecipe = ({ order = `price_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeall });
   getRecipeDetail = ({ id }) => asyncFn({ url: `/cookrecipe/${id}`, method: 'GET', model: this.model.recipedetail });
   getRecipeProducts = ({ id }) => asyncFn({ url: `/cookrecipe/${id}/products`, method: 'GET', model: this.model.recipeproducts });
 
@@ -46,11 +47,11 @@ class Model extends BaseModel {
     switch (action.type) {
       // GET BRAND
       case this.model.recipeall.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, recipeFetching: true, current: this.requestCase(state.current, action) };
       case this.model.recipeall.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, recipeFetching: false, current: this.errorCase(state.current, action) };
       case this.model.recipeall.response:
-        return { ...state, recipeAll: action.payload.data };
+        return { ...state, recipeFetching: false, recipeAll: action.payload.data };
 
       // GET BRAND
       case this.model.recipedetail.request:

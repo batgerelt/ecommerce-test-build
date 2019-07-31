@@ -199,6 +199,7 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.props.getCategoryParents({ id: cat.key });
 
     const params = {
       catId: cat.key,
@@ -215,6 +216,7 @@ class CategoryInfo extends React.Component {
       orderColumn: this.state.sort,
       highlight: false,
     };
+
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         this.setState({
