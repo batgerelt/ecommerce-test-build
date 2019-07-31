@@ -5,12 +5,11 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 import React from "react";
+import { injectIntl, defineMessages } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate, message } from "antd";
-import { toast } from "react-toastify";
-import { css } from "glamor";
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -20,18 +19,13 @@ class Card extends React.Component {
   state = {
     changeHeart: false,
   };
-  handleNotify = (message) => {
-    toast(message, {
-      autoClose: 5000,
-      position: "top-center",
-      progressClassName: css({
-        background: "#feb415",
-      }),
-    });
-  };
+
+  handleNotify = () => { };
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
+    const { intl } = this.props;
+
     try {
       if (this.props.auth.isLogged) {
         // eslint-disable-next-line no-lonely-if
@@ -43,7 +37,13 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            const messages = defineMessages({
+              warning: {
+                id: result.payload.code,
+              },
+            });
+
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
           }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
@@ -53,7 +53,13 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            const messages = defineMessages({
+              warning: {
+                id: result.payload.code,
+              },
+            });
+
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
@@ -568,4 +574,4 @@ Card.propTypes = {
   className: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Card);
+export default injectIntl(connect(mapStateToProps)(Card));

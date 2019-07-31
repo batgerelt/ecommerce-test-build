@@ -585,9 +585,7 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
-        console.log(state);
-        console.log(action.payload);
-        return { ...state, products: action.payload.data };
+        return { ...state, products: action.payload.data.items };
 
       case "CART_DECREMENT_PRODUCT_LOCALLY":
         try {

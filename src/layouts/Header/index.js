@@ -4,6 +4,7 @@
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Icon, Form } from "antd";
 import moment from "moment";
 
@@ -130,6 +131,7 @@ class AppHeader extends Component {
 
   renderTopMain = () => {
     try {
+      const { intl } = this.props;
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
       const { keywordid, word } = this.state;
@@ -230,7 +232,7 @@ class AppHeader extends Component {
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
-                                placeholder="Бүгдээс хайх"
+                                placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none' }}
                                 onChange={e => this.handleChangeKeyWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, keywordid === null ? `/search/${word}/0` : `/search/${keywordid}/1`)}
@@ -260,7 +262,7 @@ class AppHeader extends Component {
                               className="text-uppercase d-none d-sm-block"
                               onClick={this.handleSearch}
                             >
-                              Хайх
+                              <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
                           <Link
@@ -315,16 +317,16 @@ class AppHeader extends Component {
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
                               <p className="header-text">
-                                <small>Хадгалсан</small>
-                                <span className="text-uppercase">бараа</span>
+                                <small><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           ) : (
                             <Link to="#" className="row10">
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text">
-                                <small>Хадгалсан</small>
-                                <span className="text-uppercase">бараа</span>
+                                <small><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           )
@@ -420,4 +422,4 @@ class AppHeader extends Component {
     );
   }
 }
-export default AppHeader;
+export default injectIntl(AppHeader);

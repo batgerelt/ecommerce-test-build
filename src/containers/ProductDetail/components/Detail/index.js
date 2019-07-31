@@ -8,10 +8,28 @@ import { css } from "glamor";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
-  state = {
-    productQty: this.props.detail.products[0].saleminqty || 1,
-    rate: 0,
-  };
+  // state = {
+  //   productQty: this.props.detail.products[0].saleminqty || 1,
+  //   rate: 0,
+  // };
+
+  constructor(props) {
+    super(props);
+
+    const found = this.props.products.find(prod => prod.cd === this.props.detail.products[0].cd);
+
+    if (found) {
+      this.state = {
+        productQty: this.props.detail.products[0].addminqty || 1,
+        rate: 0,
+      };
+    } else {
+      this.state = {
+        productQty: this.props.detail.products[0].saleminqty || 1,
+        rate: 0,
+      };
+    }
+  }
 
   handleNotify = (message) => {
     toast(message, {
@@ -321,11 +339,19 @@ class Detail extends Component {
   getTotalPrice = () => this.state.productQty * this.getPrice();
 
   handleInputChange = product => (e) => {
+    let lowerLimit = product.saleminqty;
+
+    const found = this.props.products.find(prod => prod.cd === product.cd);
+
+    if (found) {
+      lowerLimit = found.addminqty;
+    }
+
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
-      this.setState({ productQty: product.saleminqty });
-    } else if (e.target.value < product.saleminqty) {
-      this.setState({ productQty: product.saleminqty });
+      this.setState({ productQty: lowerLimit });
+    } else if (e.target.value < lowerLimit) {
+      this.setState({ productQty: lowerLimit });
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
     } else {
@@ -351,10 +377,19 @@ class Detail extends Component {
   };
 
   handleDecrementClick = (product) => {
+    let lowerLimit = product.saleminqty;
+
+    const found = this.props.products.find(prod => prod.cd === product.cd);
+
+    if (found) {
+      lowerLimit = found.addminqty;
+    }
+
     const productQty =
-      this.state.productQty - product.addminqty < product.saleminqty
-        ? product.saleminqty
+      this.state.productQty - product.addminqty < lowerLimit
+        ? lowerLimit
         : this.state.productQty - product.addminqty;
+
     this.setState({ productQty });
   };
 
@@ -372,6 +407,7 @@ class Detail extends Component {
     } else {
       product.qty = this.state.productQty;
       product.insymd = Date.now();
+      console.log('product: ', product);
       this.props.increaseProductByQtyLocally(product);
     }
   };

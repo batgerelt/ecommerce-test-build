@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
+import { injectIntl } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link } from "react-router-dom";
 
@@ -36,12 +37,18 @@ class LoginModal extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const { intl } = this.props;
+
     // eslint-disable-next-line consistent-return
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
           if (!result.payload.success) {
+            if (result.payload.code) {
+              return message.error(intl.formatMessage({ id: result.payload.code }));
+            }
             return null;
           }
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
@@ -187,4 +194,4 @@ class LoginModal extends React.Component {
   }
 }
 
-export default Form.create({ name: "normal_login" })(LoginModal);
+export default injectIntl(Form.create({ name: "normal_login" })(LoginModal));

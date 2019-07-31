@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FormattedMessage } from "react-intl";
 import NotificationBadge, { Effect } from "react-notification-badge";
 import { Link } from "react-router-dom";
 
@@ -84,8 +85,8 @@ class CartButton extends Component {
         />
         <img src={cartImage} alt="cart" height="25px" />
         <p className="header-text">
-          <small>Миний</small>
-          <span className="text-uppercase">сагс</span>
+          <small><FormattedMessage id="header.myCart.part1" /></small>
+          <span className="text-uppercase"><FormattedMessage id="header.myCart.part2" /></span>
         </p>
         <strong>{formatter.format(this.getTotalPrice())}₮</strong>
       </Link>
