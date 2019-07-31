@@ -312,11 +312,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name
-                        ? item.name
-                        : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -334,13 +330,15 @@ class Card extends React.Component {
                           : ""}
                     </span>
                   </Link>
-
-                  <Rate
-                    allowHalf
-                    disabled
-                    defaultValue={0}
-                    value={item.rate / 2}
-                  />
+                  {
+                    item.id === undefined && item.recipeid === undefined ?
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={0}
+                        value={item.rate / 2}
+                      /> : ""
+                  }
                   <br />
                   <Link to={item.route ? item.route : ""} className="price">
                     {prices}
@@ -383,7 +381,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title}
+                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -398,12 +396,15 @@ class Card extends React.Component {
                     </span>
                   </Link>
 
-                  <Rate
-                    allowHalf
-                    disabled
-                    defaultValue={0}
-                    value={item.rate / 2}
-                  />
+                  {
+                    item.id === undefined && item.recipeid === undefined ?
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={0}
+                        value={item.rate / 2}
+                      /> : ""
+                  }
                   <br />
                   <Link to={item.route ? item.route : ""} className="price">
                     {prices}
@@ -487,12 +488,15 @@ class Card extends React.Component {
                 <Link to={item.route ? item.route : ""} className="cat">
                   <span>{item.featuretxt ? item.featuretxt : item.feature}</span>
                 </Link>
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={0}
-                  value={item.rate / 2}
-                />
+                {
+                  item.id === undefined && item.recipeid === undefined ?
+                    <Rate
+                      allowHalf
+                      disabled
+                      defaultValue={0}
+                      value={item.rate / 2}
+                    /> : ""
+                }
                 <Link
                   to={item.route ? item.route : ""}
                   className="price"
