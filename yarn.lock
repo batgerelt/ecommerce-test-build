@@ -7089,6 +7089,10 @@ react-images@^0.5.19:
     react-scrolllock "^2.0.1"
     react-transition-group "2"
 
+react-infinite-scroll-component@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-4.5.2.tgz#ebd16195f34a5f191b259ed53d257378b1001c6d"
+
 react-intl@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.9.0.tgz#c97c5d17d4718f1575fdbd5a769f96018a3b1843"

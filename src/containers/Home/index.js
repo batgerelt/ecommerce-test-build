@@ -55,7 +55,7 @@ class Page extends React.Component {
     this.props.getDiscountProduct({});
     this.props.getWidget();
     this.props.getPackage({
-      order: 'price_asc',
+      order: 'date_desc',
       start: 0,
       rowcnt: 20,
     });
