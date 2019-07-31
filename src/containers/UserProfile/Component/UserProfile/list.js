@@ -65,7 +65,6 @@ class Component extends React.Component {
           };
           this.props.addAddress({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
-              message.success(res.payload.message);
               this.getdata();
             }
           });
@@ -107,7 +106,6 @@ class Component extends React.Component {
           } else {
             this.props.updateMain({ body: param }).then((res) => {
               if (res.payload.success) {
-                message.success(res.payload.message);
                 this.getdata();
               }
             });
@@ -335,12 +333,6 @@ class Component extends React.Component {
       </Col>
     );
   }
-  onChangeLast = (value) => {
-    this.props.form.setFieldsValue({ lastname: value });
-  };
-  onChangeFirst = (value) => {
-    this.props.form.setFieldsValue({ firstname: value });
-  };
   renderProfile = () => {
     try {
       const { getFieldDecorator } = this.props.form;
@@ -354,7 +346,7 @@ class Component extends React.Component {
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
                   rules: [{ required: true, message: "Овогоо оруулна уу" }],
-                })(<LetterInput placeholder="Овог" onChange={this.onChangeLast} />)}
+                })(<LetterInput placeholder="Овог" onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
               </Form.Item>
             </Col>
 
@@ -363,7 +355,7 @@ class Component extends React.Component {
                 {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
                   rules: [{ required: true, message: "Нэрээ оруулна уу" }],
-                })(<LetterInput placeholder="Нэр" onChange={this.onChangeFirst} />)}
+                })(<LetterInput placeholder="Нэр" onChange={value => (this.props.form.setFieldsValue({ firstname: value }))} />)}
               </Form.Item>
             </Col>
 

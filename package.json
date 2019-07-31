@@ -33,6 +33,7 @@
     "react-image-appear": "^1.1.21",
     "react-image-magnify": "^2.7.4",
     "react-images": "^0.5.19",
+    "react-infinite-scroll-component": "^4.5.2",
     "react-intl": "^2.9.0",
     "react-messenger-customer-chat": "^0.7.2",
     "react-motion": "^0.5.2",

@@ -44,11 +44,11 @@ class Page extends React.Component {
   }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    /* this.props.getPackage({
-      order: "price_asc",
-      start: 0,
-      rowcnt: 20,
-    }); */
+    /*  this.props.getPackage({
+       order: "price_asc",
+       start: 0,
+       rowcnt: 60,
+     }); */
     this.props.getPackageBanner();
     this.props.getPackageMenu({});
     this.props.getWidget().then((res) => {

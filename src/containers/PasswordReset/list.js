@@ -9,12 +9,8 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.props.match.params.key);
     this.props.form.validateFields((err, values) => {
       this.props.changePassword({ key: this.props.match.params.key, password: values.password }).then((res) => {
-        if (res.payload.success) {
-          message.success(res.payload.message);
-        }
         this.setState({ home: true });
       });
     });
