@@ -179,10 +179,15 @@ class AuthModel extends BaseModel {
       //   };
       case "AUTH_LOGOUT":
         const username = localStorage.getItem("username");
+        const lang = localStorage.getItem("lang");
         localStorage.clear();
         localStorage.setItem("username", username);
+        localStorage.setItem("lang", lang);
         if (localStorage.getItem("username") === 'null') {
           localStorage.removeItem("username");
+        }
+        if (localStorage.getItem("lang") === 'null') {
+          localStorage.removeItem('lang');
         }
         return {
           ...state,
