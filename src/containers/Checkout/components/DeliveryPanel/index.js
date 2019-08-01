@@ -204,7 +204,7 @@ class DeliveryPanel extends React.Component {
             if (res.payload.success) {
               chosenAddress.id = res.payload.data;
               body.id = res.payload.data;
-              this.setState({ chosenAddress });
+              this.setState({ chosenAddress, addresstype: "edit" });
               this.props.getUserInfo().then((res) => {
                 if (res.payload.success) {
                   this.setState({ noAddress: false });

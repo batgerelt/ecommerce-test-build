@@ -26,6 +26,7 @@ class PaymentTypePanel extends React.Component {
 
   renderPaymentTypes = () => {
     const { paymentTypes } = this.props;
+    const { chosenPaymentType } = this.state;
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
@@ -38,7 +39,7 @@ class PaymentTypePanel extends React.Component {
               className="form-check-input radio-button"
               type="radio"
               name="paymentRadios"
-              defaultChecked={item.id === 1}
+              defaultChecked={chosenPaymentType.id === item.id}
               id={item.id}
               onChange={this.changeRadio}
             />

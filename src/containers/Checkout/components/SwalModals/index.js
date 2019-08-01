@@ -392,7 +392,7 @@ class SwalModals extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{this.getOrderDate()}</span>
+                          <span>{ordData.order.deliverydate.substring(0, 10)}</span>
                         </p>
                       </div>
                       <div className="bottom-text text-center">
