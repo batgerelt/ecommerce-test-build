@@ -451,7 +451,7 @@ class CategoryInfo extends React.Component {
           value: '',
           attribute: "",
           color: this.state.colors.join(','),
-          brand: "emart",
+          brand: brandid,
           promotion: "",
           minPrice: 0,
           maxPrice: 0,
@@ -569,7 +569,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "",
+      orderColumn: 'price_desc',
       highlight: false,
     };
 
