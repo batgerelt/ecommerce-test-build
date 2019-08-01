@@ -284,7 +284,6 @@ class AppHeader extends Component {
                         className="flex-this search-mobile-btn d-flex d-lg-none row10"
                         onClick={this.toggleSearch}
                       >
-                        {/* <i className="fa fa-search" /> */}
                         <img src={searchImage} alt="search" height="25px" />
                         <p>
                           <small>Хайлт</small>
