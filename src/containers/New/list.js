@@ -31,6 +31,7 @@ const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
       item={item}
       LoginModal={LoginModal}
       addWishList={addWishList}
+      {...this.props}
     />
   );
 });
@@ -233,6 +234,7 @@ class Bookmarks extends PureComponent {
                                         item={itemId}
                                         LoginModal={this.props.LoginModal}
                                         addWishList={this.props.addWishList}
+                                        {...this.props}
                                       />
                                     ))}
                                   </div>

@@ -65,14 +65,15 @@ class Card extends React.Component {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
+          console.log('result: ', result);
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
-              this.handleNotify(message),
+              message.warning(message),
             );
           }
         } else if (item.id) {
@@ -81,12 +82,12 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
-              this.handleNotify(message),
+              message.warning(message),
             );
           }
         } else {
@@ -97,13 +98,24 @@ class Card extends React.Component {
         if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.cd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
             id: item.recipeid,
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           const products = result.payload.data.map(prod => ({
@@ -112,13 +124,26 @@ class Card extends React.Component {
           }));
 
           this.props.incrementRecipeProductsLocally(products);
+
+          const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
+
+          recipeProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
             id: item.id,
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           const products = result.payload.data.products.map(prod => ({
@@ -127,6 +152,21 @@ class Card extends React.Component {
           }));
 
           this.props.incrementPackageProductsLocally(products);
+          console.log('products: ', products);
+
+          const packageProducts = this.props.products.filter(prod => prod.id === item.id);
+          console.log('packageProducts: ', packageProducts);
+
+          packageProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
         } else {
           //
         }

@@ -167,6 +167,8 @@ class ProductDetail extends React.Component {
 
   render() {
     const { detail, categorymenu } = this.props;
+    console.log('this.props: ', this.props);
+    console.log('detail: ', detail);
     if (detail.length === 0 || detail.products.length === 0) {
       return <NotFound />;
     }

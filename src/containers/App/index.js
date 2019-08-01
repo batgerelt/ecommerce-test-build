@@ -1,13 +1,13 @@
 /* eslint-disable import/first */
 import React, { Component } from "react";
-import { addLocaleData, IntlProvider } from "react-intl";
-import localeEn from "react-intl/locale-data/en";
-import localeMn from "react-intl/locale-data/mn";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
+import { addLocaleData, IntlProvider } from "react-intl";
+import localeEn from "react-intl/locale-data/en";
+import localeMn from "react-intl/locale-data/mn";
 
 import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -53,6 +53,7 @@ import {
   Emart,
   Brand,
 } from "../";
+
 import translationEn from "../../translations/en.json";
 import translationMn from "../../translations/mn.json";
 

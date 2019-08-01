@@ -248,6 +248,7 @@ class Recipe extends React.Component {
                                       item={itemId}
                                       LoginModal={this.props.LoginModal}
                                       addWishList={this.props.addWishList}
+                                      {...this.props}
                                     />
                                   ))}
                                 </div>
