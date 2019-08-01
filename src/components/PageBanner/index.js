@@ -9,13 +9,23 @@ class PageHeader extends React.Component {
     selected: [],
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.setState({ ...this.props });
     this.setState({
       selected: this.props.banners[
         Math.floor(Math.random() * this.props.banners.length)
       ],
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.banners.length !== nextProps.banners.length) {
+      this.setState({
+        selected: nextProps.banners[
+          Math.floor(Math.random() * nextProps.banners.length)
+        ],
+      });
+    }
   }
 
   changeLocation = () => {
@@ -30,7 +40,6 @@ class PageHeader extends React.Component {
   renderContent = () => {
     try {
       const { title, subtitle, bgColor } = this.props;
-
       return (
         <div
           className="whole-page-title class container pad10"
@@ -39,7 +48,7 @@ class PageHeader extends React.Component {
               this.state.selected === undefined
                 ? ""
                 : process.env.IMAGE + this.state.selected.imgnm
-            })`,
+              })`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right",
             backgroundSize: "50% 115px",
