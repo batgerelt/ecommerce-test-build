@@ -14,6 +14,7 @@ class Discount extends React.Component {
     headerProducts: [],
     start: 8,
     rowcount: 1,
+    allCount: 8,
     hasMore: true,
   }
   componentWillMount() {
@@ -30,15 +31,21 @@ class Discount extends React.Component {
   }
 
   getData = () => {
-    this.props.getPackage({
-      order: "price_asc",
-      start: this.state.start,
-      rowcnt: 20,
-    }).then((res) => {
-      if (res.payload.success) {
-        this.setState({ footerProducts: this.state.footerProducts.concat(res.payload.data.products), rowcount: res.payload.data.count, start: this.state.start + 20 });
-      }
-    });
+    if (!this.props.packageFetching && this.state.rowcount !== this.state.allCount) {
+      this.props.getPackage({
+        order: "price_asc",
+        start: this.state.start,
+        rowcnt: 8,
+      }).then((res) => {
+        if (res.payload.success) {
+          let tmp = this.state.footerProducts;
+          tmp.push(res.payload.data.products);
+          this.setState({
+            footerProducts: tmp, rowcount: res.payload.data.count, start: this.state.start + 8, allCount: this.state.allCount + res.payload.data.products.length,
+          });
+        }
+      });
+    }
   }
 
 
@@ -98,32 +105,19 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { packageAll, widgetAll } = this.props;
-      const { footerProducts, rowcount, headerProducts } = this.state;
-      let tmp = 0;
-      let result = [];
-      let final = [];
-      footerProducts.map((item, i) => {
-        if (tmp === 8) {
-          tmp = 0;
-          final.push(result);
-          result = [];
-        }
-        tmp++;
-        result.push(item);
-      });
-      final.push(result);
+      const { widgetAll } = this.props;
+      console.log('widgetAll: ', widgetAll);
+      const { footerProducts, allCount } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
             <InfiniteScroll
               dataLength={this.state.footerProducts.length}
               next={this.getData}
-              hasMore={footerProducts.length + headerProducts.length !== this.state.rowcount}
+              hasMore={this.state.rowcount !== this.state.allCount}
               loader={<Spin />}
             >
-
-              {final.map((item, i) => (
+              {footerProducts.map((item, i) => (
                 <CardList
                   key={i}
                   cardListType={CARD_LIST_TYPES.horizontal}
