@@ -49,14 +49,14 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
 
         // API: `http://10.0.10.30:8876/mn/api`,
-        //API: `http://10.0.0.53:80/mn/api`,
-        //IMAGE: `http://10.0.0.55:81/`,
-        //IMAGES: `http://10.0.0.53:80/`,
+        API: `http://10.0.0.53:80/mn/api`,
+        IMAGE: `http://10.0.0.55:81/`,
+        IMAGES: `http://10.0.0.53:80/`,
 
         /**REAL URL */
-        API: `http://10.0.0.22:8876/mn/api`,
-        IMAGE: `http://www.cdn.emartmall.mn/`,
-        IMAGES: `http://10.0.0.22:8876/`,
+        //API: `http://10.0.0.22:8876/mn/api`,
+        //IMAGE: `http://www.cdn.emartmall.mn/`,
+        //IMAGES: `http://10.0.0.22:8876/`,
 
         /**TEST URL */
         TEST_API: `http://10.0.0.22:8876/mn`,

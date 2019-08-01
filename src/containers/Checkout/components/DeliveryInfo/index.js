@@ -185,7 +185,6 @@ class DeliveryInfo extends React.Component {
         ${chosenInfo.districtnm}, 
         ${chosenInfo.committeenm}, 
         ${chosenInfo.address}`;
-      console.log(organizationData);
       if (organizationData.length === 0) {
         tmp.taxRegno = "";
         tmp.taxName = "";
