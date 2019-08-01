@@ -278,7 +278,7 @@ class Detail extends Component {
 
   handleSaveClick = () => {
     const { isLogged, addWishList, detail } = this.props;
-    if (isLogged !== null) {
+    if (isLogged) {
       let skucd = detail.products.cd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {

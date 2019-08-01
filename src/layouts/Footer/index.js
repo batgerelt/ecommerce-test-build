@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-concat */
 import React from "react";
 import { Link } from "react-router-dom";
+import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./style.css";
@@ -144,7 +145,7 @@ class Footer extends React.Component {
         <div className="col-sm-12 col-md-6 col-lg-3 pad10">
           <ul className="list-unstyled address">
             <li>
-              <strong>Холбоо барих</strong>
+              <strong><FormattedMessage id="footer.contract.title" /></strong>
             </li>
             <li>
               <span>{staticinfo.address}</span>
@@ -186,7 +187,7 @@ class Footer extends React.Component {
             }
             <div className="bottom-container">
               <center>
-                <p>Copyright © 2016-2019 emart. All Rights Reserved.</p>
+                <p><FormattedMessage id="footer.copyright.text" /></p>
               </center>
             </div>
           </div>

@@ -31,6 +31,7 @@ const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
       item={item}
       LoginModal={LoginModal}
       addWishList={addWishList}
+      {...this.props}
     />
   );
 });

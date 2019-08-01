@@ -51,7 +51,6 @@ class Page extends React.Component {
     this.props.getProductComment({ skucd: id });
     this.props.getProductCollection({ skucd: id });
     this.props.getProductAttribute({ skucd: id });
-
     if (localStorage.getItem("auth") !== null) {
       this.props.getProductRate({ skucd: id });
       this.props.addViewList({ skucd: id });

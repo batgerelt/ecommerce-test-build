@@ -39,6 +39,7 @@ class Comment extends Component {
         product, comments, user, auth,
       } = this.props;
       const { rate, rate_user_cnt } = product;
+      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
       return (
         <div
           className="comments-container"
@@ -50,7 +51,7 @@ class Comment extends Component {
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${user.length !== 0 ? localStorage.getItem('img') : defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${user.length !== 0 ? realImage : defaultAvatar})` }}
                   />
                 </div>
                 <p className="name text-uppercase">

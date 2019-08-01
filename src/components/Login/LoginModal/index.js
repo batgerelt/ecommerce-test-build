@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link } from "react-router-dom";
 
@@ -36,12 +37,18 @@ class LoginModal extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const { intl } = this.props;
+
     // eslint-disable-next-line consistent-return
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
           if (!result.payload.success) {
+            if (result.payload.code) {
+              return message.error(intl.formatMessage({ id: result.payload.code }));
+            }
             return null;
           }
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
@@ -88,11 +95,12 @@ class LoginModal extends React.Component {
   };
 
   render() {
+    const { intl } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { isRemember } = this.state;
     return (
       <Modal
-        title="Нэвтрэх"
+        title={intl.formatMessage({ id: "loginModal.title" })}
         visible={this.state.visible}
         onCancel={this.handleLoginModal}
         footer={null}
@@ -107,7 +115,7 @@ class LoginModal extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Имэйл хаяг оруулна уу",
+                  message: intl.formatMessage({ id: "loginModal.form.email.validation.required" }),
                   type: "email",
                 },
               ],
@@ -115,7 +123,7 @@ class LoginModal extends React.Component {
               <Input
                 allowClear
                 className="form-control"
-                placeholder="Имэйл"
+                placeholder={intl.formatMessage({ id: "loginModal.form.email.placeholder" })}
                 size="large"
                 autoComplete="off"
               />,
@@ -123,12 +131,12 @@ class LoginModal extends React.Component {
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("password", {
-              rules: [{ required: true, message: "Нууц үг оруулна уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "loginModal.form.password.validation.required" }) }],
             })(
               <Input.Password
                 allowClear
                 className="form-control"
-                placeholder="Нууц үг"
+                placeholder={intl.formatMessage({ id: "loginModal.form.password.placeholder" })}
                 type="password"
                 autoComplete="off"
               />,
@@ -140,7 +148,7 @@ class LoginModal extends React.Component {
               htmlType="submit"
               className="btn btn-block btn-login text-uppercase"
             >
-              Нэвтрэх
+              <FormattedMessage id="loginModal.form.button.submit" />
             </Button>
           </Form.Item>
           <Form.Item>
@@ -150,7 +158,7 @@ class LoginModal extends React.Component {
                 onChange={this.onRemember}
                 checked={isRemember}
               >
-                Сануулах
+                <FormattedMessage id="loginModal.form.rememberMe" />
               </Checkbox>
             </Col>
             <Col span={12} style={{ textAlign: "right" }}>
@@ -160,7 +168,7 @@ class LoginModal extends React.Component {
                 style={{ fontSize: "14px" }}
                 onClick={this.handleResetVisible}
               >
-                Нууц үгээ мартсан{" "}
+                <FormattedMessage id="loginModal.form.link.forgotPassword" />
               </Link>
             </Col>
           </Form.Item>
@@ -187,4 +195,4 @@ class LoginModal extends React.Component {
   }
 }
 
-export default Form.create({ name: "normal_login" })(LoginModal);
+export default injectIntl(Form.create({ name: "normal_login" })(LoginModal));
