@@ -65,7 +65,7 @@ class List extends React.Component {
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span>{orderdetail.info.deliveryname}</span>
+                  <span>Хүргэлтийн үнэ</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
