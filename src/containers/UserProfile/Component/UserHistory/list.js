@@ -16,6 +16,9 @@ class Component extends React.Component {
   }
   addHistory = (item) => {
     this.props.addWish({ skucd: item.cd }).then((res) => {
+      if (res.payload.success) {
+        message.success(res.payload.message);
+      }
     });
   }
   handleIncrement = (item) => {
@@ -106,10 +109,7 @@ class Component extends React.Component {
           <Spin
             spinning={loader}
           >
-            <div
-              className="product-list-history"
-              style={{ maxHeight: "500px", overflow: "auto" }}
-            >
+            <div className="product-list-history">
               {this.renderProducts()}
             </div>
           </Spin>
