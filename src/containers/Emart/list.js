@@ -569,7 +569,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "",
+      orderColumn: this.state.sort,
       highlight: false,
     };
 

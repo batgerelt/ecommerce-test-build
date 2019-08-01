@@ -34,7 +34,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_desc",
+      sort: "price_asc",
       isLeftPanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -359,8 +359,8 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
+                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
@@ -569,7 +569,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: 'price_desc',
+      orderColumn: this.state.sort,
       highlight: false,
     };
 
