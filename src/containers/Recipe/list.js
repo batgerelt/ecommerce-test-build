@@ -246,8 +246,7 @@ class Recipe extends React.Component {
                                       key={itemId.recipeid + key}
                                       shape={2}
                                       item={itemId}
-                                      LoginModal={this.props.LoginModal}
-                                      addWishList={this.props.addWishList}
+                                      {...this.props}
                                     />
                                   ))}
                                 </div>

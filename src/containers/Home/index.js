@@ -61,7 +61,7 @@ class Page extends React.Component {
     });
     this.props.getNewProduct({});
     this.props.getRecipe({
-      order: 'price_asc',
+      order: 'date_desc',
       start: 0,
       rowcnt: 20,
     });
