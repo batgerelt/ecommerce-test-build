@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Rate, Spin } from "antd";
+import { Divider, Rate, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
 import { Loader } from "../../../../components/Loader";
 
@@ -96,6 +96,7 @@ class Component extends React.Component {
             </div>
           </Spin>
         </div>
+        <BackTop />
       </div>
     );
   }

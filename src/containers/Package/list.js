@@ -26,6 +26,7 @@ class Discount extends React.Component {
       rowCount: 1,
       count: 0,
       loading: false,
+      finish: false,
     };
   }
 
@@ -81,23 +82,21 @@ class Discount extends React.Component {
   };
 
   // data nemeh heseg
-  loadMoreRows = (key) => {
+  loadMoreRows = async (key) => {
     try {
-      if (!this.props.packageFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+      if (this.props.packageFetching === false && this.state.products.length < this.state.rowCount && this.state.loading === false) {
         this.setState({ loading: true });
-        this.props.getPackage({
+        let result = await this.props.getPackage({
           order: "date_desc",
           start: this.state.count,
           rowcnt: 20,
-        }).then((res) => {
-          if (res.payload.success) {
-            this.setState({
-              products: this.state.products.concat(res.payload.data.products), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-            }, () => {
-              this.setState({ loading: false });
-            });
-          }
         });
+        if (result.payload.success) {
+          let tmp = this.state.products;
+          this.setState({
+            products: tmp.concat(result.payload.data.products), count: this.state.count + 20, rowCount: result.payload.data.count, loading: false,
+          });
+        }
       }
     } catch (error) {
       return console.log(error);
@@ -160,8 +159,8 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      console.log(this.state.products);
       const { packageAll, widgetAll } = this.props;
+      console.log(this.state.products);
       return (
         <div className="section">
           <div className="container pad10">

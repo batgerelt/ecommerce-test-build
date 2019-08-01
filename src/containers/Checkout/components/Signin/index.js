@@ -75,7 +75,7 @@ class Signin extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Имэйл уу ?",
+                      message: "Имэйл оруулна уу",
                     },
                   ],
                 })(
@@ -87,12 +87,12 @@ class Signin extends React.Component {
                   />,
                 )}
               </Form.Item>
-              <Form.Item hasFeedback style={{ marginBottom: "10px" }}>
+              <Form.Item style={{ marginBottom: "10px" }}>
                 {getFieldDecorator("password", {
                   rules: [
                     {
                       required: true,
-                      message: "Нууц үг оруулна уу ?",
+                      message: "Нууц үг оруулна уу",
                     },
                   ],
                 })(

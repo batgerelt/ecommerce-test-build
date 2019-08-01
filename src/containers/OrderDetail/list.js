@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link } from "react-router-dom";
+import { BackTop } from "antd";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -187,6 +188,7 @@ class List extends React.Component {
                 </div>
               </div>
             </div>
+            <BackTop />
           </div>
         </div>
       </div>
