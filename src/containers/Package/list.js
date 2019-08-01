@@ -160,7 +160,6 @@ class Discount extends React.Component {
   renderFooterProduct = () => {
     try {
       const { packageAll, widgetAll } = this.props;
-      console.log(this.state.products);
       return (
         <div className="section">
           <div className="container pad10">
