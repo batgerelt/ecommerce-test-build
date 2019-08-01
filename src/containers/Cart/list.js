@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
+import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast } from "react-toastify";
-import { css } from "glamor";
+import { message } from 'antd';
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -19,18 +19,7 @@ class Cart extends React.Component {
     }
   }
 
-  // eslint-disable-next-line arrow-parens
-  handleNotify = message => {
-    toast(message, {
-      autoClose: 5000,
-      position: "top-center",
-      progressClassName: css({
-        // eslint-disable-next-line comma-dangle
-        background: "#feb415"
-        // eslint-disable-next-line comma-dangle
-      })
-    });
-  };
+  handleNotify = () => { };
 
   handleConfirmClick = async () => {
     const result = await this.props.confirmCartRemotely();
@@ -95,7 +84,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
-    let { products } = this.props;
+    let { products, intl } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -113,11 +102,30 @@ class Cart extends React.Component {
           qty: found.qty,
           iscart: 1,
         });
+
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          const messages = defineMessages({
+            warning: {
+              id: result.payload.code,
+            },
+          });
+
+          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
         }
       } else {
         this.props.updateProductByQtyLocally(found);
+
+        const updated = this.props.products.find(prod => prod.cd === found.cd);
+
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            warning: {
+              id: updated.error,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+        }
       }
     } else {
       throw new Error("Бараа олдсонгүй!");
@@ -126,7 +134,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrementClick = async (product) => {
-    let { products } = this.props;
+    let { products, intl } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -142,17 +150,35 @@ class Cart extends React.Component {
         qty: productQty,
         iscart: 1,
       });
+
       if (!result.payload.success) {
-        this.handleNotify(result.payload.message);
+        const messages = defineMessages({
+          warning: {
+            id: result.payload.code,
+          },
+        });
+
+        return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
       }
     } else {
       this.props.incrementProductLocally(product);
+
+      const updated = this.props.products.find(prod => prod.cd === product.cd);
+
+      if (updated && updated.error !== undefined) {
+        const messages = defineMessages({
+          warning: {
+            id: updated.error,
+          },
+        });
+        message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+      }
     }
   };
 
   // eslint-disable-next-line consistent-return
   handleDecrementClick = async (product) => {
-    let { products } = this.props;
+    let { products, intl } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
@@ -166,11 +192,29 @@ class Cart extends React.Component {
           qty: productQty,
           iscart: 1,
         });
+
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          const messages = defineMessages({
+            warning: {
+              id: result.payload.code,
+            },
+          });
+
+          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
         }
       } else {
         this.props.decrementProductLocally(found);
+
+        const updated = this.props.products.find(prod => prod.cd === found.cd);
+
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            warning: {
+              id: updated.error,
+            },
+          });
+          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+        }
       }
     } else {
       throw new Error("Бараа олдсонгүй!");
@@ -334,7 +378,7 @@ class Cart extends React.Component {
                       style={{
                         backgroundImage: `url(${process.env.IMAGE}${
                           wishlistProd.img
-                        })`,
+                          })`,
                       }}
                     />
                   </Link>
@@ -349,8 +393,8 @@ class Cart extends React.Component {
                             wishlistProd.sprice
                               ? wishlistProd.sprice
                               : wishlistProd.price
-                              ? wishlistProd.price
-                              : 0,
+                                ? wishlistProd.price
+                                : 0,
                           )}
                           ₮
                         </strong>
@@ -403,17 +447,17 @@ class Cart extends React.Component {
             <thead className="thead-light">
               <tr>
                 <th className="column-1" style={{ width: "30%" }}>
-                  <span>Бүтээгдэхүүний нэр</span>
+                  <FormattedMessage id="cart.table.productName" />
                 </th>
                 <th className="column-2" style={{ width: "24%" }}>
-                  Нэгжийн үнэ
+                  <FormattedMessage id="cart.table.unitPrice" />
                 </th>
                 <th className="column-3" style={{ width: "24%" }}>
-                  Тоо ширхэг
+                  <FormattedMessage id="cart.table.count" />
                 </th>
                 <th className="column-4">
                   <p className="price total">
-                    <strong>Барааны үнэ</strong>
+                    <strong><FormattedMessage id="cart.table.price" /></strong>
                   </p>
                 </th>
               </tr>
@@ -430,7 +474,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                              }${prod.img || prod.url || ""})`,
+                                }${prod.img || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -466,8 +510,8 @@ class Cart extends React.Component {
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                          // onKeyDown={this.handleQtyKeyDown(prod)}
-                          // onBlur={this.handleQtyBlur(prod)}
+                        // onKeyDown={this.handleQtyKeyDown(prod)}
+                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button
@@ -500,13 +544,13 @@ class Cart extends React.Component {
                             onClick={e => this.handleSaveClick(e, prod)}
                           >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
-                            <span>Хадгалах</span>
+                            <span><FormattedMessage id="cart.table.button.save" /></span>
                           </Link>
                         </li>
                         <li>
                           <Link to="" onClick={this.handleRemoveClick(prod)}>
                             <i className="fa fa-times" aria-hidden="true" />{" "}
-                            <span>Устгах</span>
+                            <span><FormattedMessage id="cart.table.button.remove" /></span>
                           </Link>
                         </li>
                       </ul>
@@ -532,14 +576,14 @@ class Cart extends React.Component {
         <div className="container pad10">
           <div className="cart-container">
             <h1 className="title">
-              <span className="text-uppercase">Миний сагс</span>
+              <span className="text-uppercase"><FormattedMessage id="cart.title" /></span>
             </h1>
             <div className="row row10">
               <div className="col-xl-8 col-lg-8 pad10">
                 <div className="row">
                   <div className="col">
                     <h5 className="title">
-                      <span>Сагсан дахь бараанууд</span>
+                      <span><FormattedMessage id="cart.table.title" /></span>
                     </h5>
                   </div>
                   <div className="col">
@@ -549,7 +593,7 @@ class Cart extends React.Component {
                       onClick={this.handleClearClick}
                     >
                       <i className="fa fa-trash" aria-hidden="true" />{" "}
-                      <span className="text-uppercase">Сагс хоослох</span>
+                      <span className="text-uppercase"><FormattedMessage id="cart.button.clear" /></span>
                     </button>
                   </div>
                 </div>
@@ -560,22 +604,22 @@ class Cart extends React.Component {
               <div className="col-xl-4 col-lg-4 pad10">
                 <div className="cart-info">
                   <h5 className="title">
-                    <span>Төлбөр</span>
+                    <span><FormattedMessage id="cart.sidebar.payment.title" /></span>
                   </h5>
 
                   <div className="block cart-info-container">
                     <p className="count">
-                      <span>Нийт бараа: </span>
+                      <span><FormattedMessage id="cart.sidebar.payment.total" />: </span>
                       <span>{this.renderTotalQty()}ш</span>
                     </p>
                     {this.state.deliveryInfo && (
                       <p className="delivery">
-                        <span>Хүргэлт:</span>
+                        <span><FormattedMessage id="cart.sidebar.payment.delivery" />: </span>
                         <span>{this.state.deliveryInfo}</span>
                       </p>
                     )}
                     <p className="total flex-space">
-                      <span>Нийт дүн:</span>
+                      <span><FormattedMessage id="cart.sidebar.payment.totalPrice" />: </span>
                       <strong>
                         {formatter.format(this.renderTotalPrice())}₮
                       </strong>
@@ -584,10 +628,10 @@ class Cart extends React.Component {
                       to="/checkout"
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
-                      }`}
+                        }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase">Баталгаажуулах</span>
+                      <span className="text-uppercase"><FormattedMessage id="cart.sidebar.payment.proceed" /></span>
                     </Link>
                   </div>
 
@@ -602,4 +646,4 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart;
+export default injectIntl(Cart);

@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import withQuery from 'with-query';
 import { message } from 'antd';
-import translation from "./translation";
 
 const request = ({
   url, method, body, isfiles,
@@ -93,10 +92,12 @@ const asyncFn = ({
       });
       if (data && data.success !== false) {
         if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
+      } else {
+        // message.warning(data.message);
       }
-      if (data.code !== null) {
-        message.warning(translation.msg[data.code][lang]);
-      }
+      // if (data.code !== null) {
+      //   message.warning(translation.msg[data.code][lang]);
+      // }
       if (!data) {
         throw new Error('no data provided');
       }

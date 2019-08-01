@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { FormattedMessage } from 'react-intl';
 import ReactGoogleLogin from "react-google-login";
 import { toast } from "react-toastify";
 
@@ -27,7 +28,7 @@ class GoogleLogin extends React.Component {
             className="btn btn-block btn-social btn-gmail"
             onClick={props.onClick}
           >
-            Gmail-р нэвтрэх
+            <FormattedMessage id="loginModal.form.button.googleLogin" />
           </button>
         )}
       />

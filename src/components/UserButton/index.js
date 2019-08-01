@@ -45,7 +45,7 @@ class UserButton extends React.Component {
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
         <div className="text-uppercase" style={{ cursor: 'default' }}>
-          <FormattedMessage id="auth.login" defaultMessage="Нэвтрэх" />
+          <FormattedMessage id="header.userButton.text" />
         </div>
       </li>
     );

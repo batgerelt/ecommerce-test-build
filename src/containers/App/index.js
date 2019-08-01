@@ -1,11 +1,13 @@
 /* eslint-disable import/first */
 import React, { Component } from "react";
-import { IntlProvider } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
+import { addLocaleData, IntlProvider } from "react-intl";
+import localeEn from "react-intl/locale-data/en";
+import localeMn from "react-intl/locale-data/mn";
 
 import { Header, Footer, Mobilemenu } from "../../layouts";
 import { LoginModal } from "../../components/Login";
@@ -51,10 +53,19 @@ import {
   Emart,
   Brand,
 } from "../";
-import translation from '../../translation';
+
+import translationEn from "../../translations/en.json";
+import translationMn from "../../translations/mn.json";
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
+
+addLocaleData([...localeEn, ...localeMn]);
+
+const translation = {
+  en: translationEn,
+  mn: translationMn,
+};
 
 const mapStateToProps = state => ({ ...state });
 
@@ -98,10 +109,7 @@ class App extends Component {
     const { lang } = this.props.locale;
 
     return (
-      <IntlProvider
-        locale={lang}
-        messages={translation[lang]}
-      >
+      <IntlProvider locale={lang} messages={translation[lang]} textComponent={React.Fragment}>
         <Router>
           <ScrollToTop>
             {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}

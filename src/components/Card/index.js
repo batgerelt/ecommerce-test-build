@@ -5,12 +5,11 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 import React from "react";
+import { injectIntl, defineMessages } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate, message } from "antd";
-import { toast } from "react-toastify";
-import { css } from "glamor";
 import { Label } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -20,18 +19,13 @@ class Card extends React.Component {
   state = {
     changeHeart: false,
   };
-  handleNotify = (message) => {
-    toast(message, {
-      autoClose: 5000,
-      position: "top-center",
-      progressClassName: css({
-        background: "#feb415",
-      }),
-    });
-  };
+
+  handleNotify = () => { };
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
+    const { intl } = this.props;
+
     try {
       if (this.props.auth.isLogged) {
         if (item.skucd) {
@@ -42,7 +36,13 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            const messages = defineMessages({
+              warning: {
+                id: result.payload.code,
+              },
+            });
+
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
           }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
@@ -52,20 +52,27 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            const messages = defineMessages({
+              warning: {
+                id: result.payload.code,
+              },
+            });
+
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
+          console.log('result: ', result);
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
-              this.handleNotify(message),
+              message.warning(message),
             );
           }
         } else if (item.id) {
@@ -74,12 +81,12 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach(message =>
-              this.handleNotify(message),
+              message.warning(message),
             );
           }
         } else {
@@ -93,13 +100,24 @@ class Card extends React.Component {
         } else if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.cd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
             id: item.recipeid,
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           const products = result.payload.data.map(prod => ({
@@ -108,13 +126,26 @@ class Card extends React.Component {
           }));
 
           this.props.incrementRecipeProductsLocally(products);
+
+          const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
+
+          recipeProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
             id: item.id,
           });
 
           if (!result.payload.success) {
-            return this.handleNotify(result.payload.message);
+            return message.warning(result.payload.message);
           }
 
           const products = result.payload.data.products.map(prod => ({
@@ -123,6 +154,21 @@ class Card extends React.Component {
           }));
 
           this.props.incrementPackageProductsLocally(products);
+          console.log('products: ', products);
+
+          const packageProducts = this.props.products.filter(prod => prod.id === item.id);
+          console.log('packageProducts: ', packageProducts);
+
+          packageProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
         } else {
           //
         }
@@ -576,4 +622,4 @@ Card.propTypes = {
   className: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Card);
+export default injectIntl(connect(mapStateToProps)(Card));

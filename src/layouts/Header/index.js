@@ -4,6 +4,7 @@
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { generatePath } from "react-router";
 import { Icon, Form } from "antd";
 import moment from "moment";
@@ -111,8 +112,8 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline right-panel text-right" style={{ boxShadow: 'none' }}>
                   <li className="list-inline-item">
-                    <select onChange={this.props.setLang} className="classic" defaultValue="0" style={{ boxShadow: 'none' }}>
-                      <option value="mn" defaultValue style={{ boxShadow: 'none' }}>МОН</option>
+                    <select onChange={this.props.setLang} className="classic" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none' }}>
+                      <option value="mn" style={{ boxShadow: 'none' }}>МОН</option>
                       <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
                     </select>
                   </li>
@@ -130,6 +131,7 @@ class AppHeader extends Component {
 
   renderTopMain = () => {
     try {
+      const { intl } = this.props;
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
       const { keywordid, word, item } = this.state;
@@ -230,7 +232,7 @@ class AppHeader extends Component {
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
-                                placeholder="Бүгдээс хайх"
+                                placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none' }}
                                 onChange={e => this.handleChangeKeyWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, '/a')}
@@ -251,7 +253,12 @@ class AppHeader extends Component {
                               className="fa fa-search d-block d-sm-none"
                               style={{ fontSize: "20px", margin: "5px" }}
                             />
-                            <span className="text-uppercase d-none d-sm-block">Хайх</span>
+                            <span
+                              className="text-uppercase d-none d-sm-block"
+                              onClick={this.handleSearch}
+                            >
+                              <FormattedMessage id="header.searchBar.button" />
+                            </span>
                           </Link>
                           <Link
                             to=""
@@ -303,16 +310,16 @@ class AppHeader extends Component {
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
                               <p className="header-text">
-                                <small>Хадгалсан</small>
-                                <span className="text-uppercase">бараа</span>
+                                <small><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           ) : (
                             <Link to="#" className="row10">
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text">
-                                <small>Хадгалсан</small>
-                                <span className="text-uppercase">бараа</span>
+                                <small><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           )
@@ -408,4 +415,4 @@ class AppHeader extends Component {
     );
   }
 }
-export default AppHeader;
+export default injectIntl(AppHeader);
