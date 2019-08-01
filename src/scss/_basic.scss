@@ -3155,6 +3155,13 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   height: 100%;
 }
 
+.background-contain{
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
 .ant-spin-spinning{
   width: 100%;
 }
