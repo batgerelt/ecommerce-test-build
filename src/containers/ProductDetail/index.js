@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.product,
   ...state.cart,
+  ...state.category,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -29,88 +30,38 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  state = {
-    detailLoad: true,
-    relationalLoad: true,
-    attributeLoad: true,
-    commentLoad: true,
-    collectionLoad: true,
-    categoryLoad: true,
-    detail: false,
-  };
-  /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
+  state = { loading: true };
+
   componentWillMount() {
-    const { id } = this.props.match.params;
-    if (localStorage.getItem("auth") !== null) {
-      this.props.addViewList({ skucd: id });
-    }
-    this.getData();
+    this.getData(this.props.match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
-      if (localStorage.getItem("auth") !== null) {
-        this.props.addViewList({ skucd: id });
-      }
-      this.setState(
-        {
-          detailLoad: true,
-          relationalLoad: true,
-          attributeLoad: true,
-          commentLoad: true,
-          collectionLoad: true,
-          categoryLoad: true,
-        },
-        () => {
-          this.getData();
-        },
-      );
+      this.setState({ loading: true });
+      this.getData(nextProps.match.params.id);
     }
   }
 
-  getData = () => {
-    const { id } = this.props.match.params;
-    this.props
-      .getProductDetail({ skucd: id })
-      .then(r => this.setState({ detailLoad: false }));
-    this.props
-      .getProductRelational({ skucd: id })
-      .then(r => this.setState({ relationalLoad: false }));
-    this.props
-      .getProductComment({ skucd: id })
-      .then(r => this.setState({ commentLoad: false }));
-    this.props
-      .getProductCollection({ skucd: id })
-      .then(r => this.setState({ collectionLoad: false }));
-    this.props
-      .getProductAttribute({ skucd: id })
-      .then(r => this.setState({ attributeLoad: false }));
-    this.props.getCategorys().then(r => this.setState({ categoryLoad: false }));
+  getData = (id) => {
+    // const { id } = this.props.match.params;
+    this.props.getProductDetail({ skucd: id }).then(r => this.setState({ loading: false }));
+    this.props.getProductRelational({ skucd: id });
+    this.props.getProductComment({ skucd: id });
+    this.props.getProductCollection({ skucd: id });
+    this.props.getProductAttribute({ skucd: id });
     if (localStorage.getItem("auth") !== null) {
       this.props.getProductRate({ skucd: id });
+      this.props.addViewList({ skucd: id });
     }
   };
 
   render() {
-    const {
-      detailLoad,
-      relationalLoad,
-      commentLoad,
-      collectionLoad,
-      categoryLoad,
-      attributeLoad,
-    } = this.state;
+    const { loading } = this.state;
     return (
       <Spin
-        spinning={
-          detailLoad ||
-          relationalLoad ||
-          commentLoad ||
-          collectionLoad ||
-          categoryLoad ||
-          attributeLoad
-        }
+        spinning={loading}
         indicator={<Loader />}
       >
         <List {...this.props} {...this} />

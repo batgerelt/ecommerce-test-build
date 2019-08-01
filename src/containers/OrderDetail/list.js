@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link } from "react-router-dom";
+import { BackTop } from "antd";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -65,7 +66,7 @@ class List extends React.Component {
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span>{orderdetail.info.deliveryname}</span>
+                  <span>Хүргэлтийн үнэ</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
@@ -187,6 +188,7 @@ class List extends React.Component {
                 </div>
               </div>
             </div>
+            <BackTop />
           </div>
         </div>
       </div>

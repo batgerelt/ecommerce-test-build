@@ -7,8 +7,29 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       loading: false,
+      confirmDirty: false,
     };
   }
+
+  handleConfirmBlur = (e) => {
+    const { value } = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    if (value && this.state.confirmDirty) {
+      this.props.form.validateFields(["confirmpassword"], { force: true });
+    }
+    callback();
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    if (value && value !== this.props.form.getFieldValue("password")) {
+      callback("Шинэ нууц үгээ зөв давтана уу");
+    } else {
+      callback();
+    }
+  };
 
   onSubmitRegister = (e) => {
     e.preventDefault();
@@ -30,6 +51,7 @@ class Signup extends React.Component {
     });
   };
 
+
   renderRegisterForm = () => {
     try {
       const { getFieldDecorator } = this.props.form;
@@ -39,7 +61,11 @@ class Signup extends React.Component {
             <div className="col-xl-6 pad10">
               <Form.Item>
                 {getFieldDecorator("lastname", {
-                  rules: [{ required: true, message: "Овог оруулна уу ?" }],
+                  rules: [{
+                    required: true,
+                    pattern: new RegExp("[A-Za-zА-Яа-я]"),
+                    message: "Нэрээ оруулна уу",
+                  }],
                 })(
                   <Input
                     allowClear
@@ -54,7 +80,11 @@ class Signup extends React.Component {
             <div className="col-xl-6 pad10">
               <Form.Item>
                 {getFieldDecorator("firstname", {
-                  rules: [{ required: true, message: "Нэр оруулна уу ?" }],
+                  rules: [{
+                    required: true,
+                    pattern: new RegExp("[A-Za-zА-Яа-я]"),
+                    message: "Нэрээ оруулна уу",
+                  }],
                 })(
                   <Input
                     allowClear
@@ -69,7 +99,12 @@ class Signup extends React.Component {
             <div className="col-xl-6 pad10">
               <Form.Item>
                 {getFieldDecorator("email", {
-                  rules: [{ required: true, message: "И мэйл оруулна уу ?" }],
+                  rules: [{
+                    required: true,
+                    type: "email",
+                    pattern: new RegExp("[A-Za-z]"),
+                    message: "Имэйл хаягаа оруулна уу",
+                  }],
                 })(
                   <Input
                     allowClear
@@ -84,7 +119,11 @@ class Signup extends React.Component {
             <div className="col-xl-6 pad10">
               <Form.Item>
                 {getFieldDecorator("phonE1", {
-                  rules: [{ required: true, message: "Утас оруулна уу ?" }],
+                  rules: [
+                    { required: true, message: "Утасны дугаар оруулна уу" },
+                    { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
+                    { min: 8, message: "Утасны дугаар 8 оронтой байна" },
+                  ],
                 })(
                   <Input
                     allowClear
@@ -97,30 +136,27 @@ class Signup extends React.Component {
               </Form.Item>
             </div>
             <div className="col-xl-6 pad10">
-              <Form.Item hasFeedback>
+              <Form.Item>
                 {getFieldDecorator("password", {
-                  rules: [{ required: true, message: "Нууц үг оруулна уу ?" }],
+                  rules: [
+                    { required: true, message: "Нууц үгээ заавал оруулна уу" },
+                    { validator: this.validateToNextPassword },
+                    { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
+                  ],
                 })(
-                  <Input.Password
-                    allowClear
-                    placeholder="Нууц үг*"
-                    autoComplete="off"
-                    className="form-control"
-                  />,
+                  <Input.Password placeholder="Нууц үг" className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>
             <div className="col-xl-6 pad10">
-              <Form.Item hasFeedback>
+              <Form.Item>
                 {getFieldDecorator("confirmpassword", {
-                  rules: [{ required: true, message: "Нууц үг оруулна уу ?" }],
+                  rules: [
+                    { required: true, message: "Нууц үгээ дахин оруулна уу" },
+                    { validator: this.compareToFirstPassword },
+                  ],
                 })(
-                  <Input.Password
-                    allowClear
-                    placeholder="Нууц үг давт*"
-                    className="form-control"
-                    autoComplete="off"
-                  />,
+                  <Input.Password onBlur={this.handleConfirmBlur} placeholder="Нууц үгээ дахин давтах!" className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>

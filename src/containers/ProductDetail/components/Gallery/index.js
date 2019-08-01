@@ -138,9 +138,7 @@ class Gallery extends Component {
   };
 
   render() {
-    const { images } = this.props;
-
-    return images.length === 0 ? null : this.renderContent();
+    return this.renderContent();
   }
 }
 

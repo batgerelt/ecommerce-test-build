@@ -28,7 +28,6 @@ class Card extends React.Component {
 
     try {
       if (this.props.auth.isLogged) {
-        // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
@@ -93,9 +92,12 @@ class Card extends React.Component {
         } else {
           //
         }
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (item.cd) {
+      } else if (item.skucd) {
+        console.log(item);
+          item.insymd = Date.now();
+          item.cd = item.skucd;
+          this.props.incrementProductLocally(item);
+        } else if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
 
@@ -170,7 +172,6 @@ class Card extends React.Component {
         } else {
           //
         }
-      }
     } catch (e) {
       return console.log(e);
     }
@@ -358,11 +359,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name
-                        ? item.name
-                        : item.packagenm
-                          ? item.packagenm
-                          : ""}
+                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -380,13 +377,15 @@ class Card extends React.Component {
                           : ""}
                     </span>
                   </Link>
-
-                  <Rate
-                    allowHalf
-                    disabled
-                    defaultValue={0}
-                    value={item.rate / 2}
-                  />
+                  {
+                    item.id === undefined && item.recipeid === undefined ?
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={0}
+                        value={item.rate / 2}
+                      /> : ""
+                  }
                   <br />
                   <Link to={item.route ? item.route : ""} className="price">
                     {prices}
@@ -400,7 +399,10 @@ class Card extends React.Component {
             <div className="col-md-4 pad10">
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
+                  <Link
+                    to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
+                    // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
+                  >
                     <span
                       className="image"
                       style={{
@@ -429,7 +431,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title}
+                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -444,12 +446,15 @@ class Card extends React.Component {
                     </span>
                   </Link>
 
-                  <Rate
-                    allowHalf
-                    disabled
-                    defaultValue={0}
-                    value={item.rate / 2}
-                  />
+                  {
+                    item.id === undefined && item.recipeid === undefined ?
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={0}
+                        value={item.rate / 2}
+                      /> : ""
+                  }
                   <br />
                   <Link to={item.route ? item.route : ""} className="price">
                     {prices}
@@ -533,12 +538,15 @@ class Card extends React.Component {
                 <Link to={item.route ? item.route : ""} className="cat">
                   <span>{item.featuretxt ? item.featuretxt : item.feature}</span>
                 </Link>
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={0}
-                  value={item.rate / 2}
-                />
+                {
+                  item.id === undefined && item.recipeid === undefined ?
+                    <Rate
+                      allowHalf
+                      disabled
+                      defaultValue={0}
+                      value={item.rate / 2}
+                    /> : ""
+                }
                 <Link
                   to={item.route ? item.route : ""}
                   className="price"

@@ -162,6 +162,7 @@ class List extends React.Component {
               sliderData={images}
               params={sliderParams}
               elContainer={"images"}
+              contain
             />
           </div>
         </div>
@@ -332,8 +333,8 @@ class List extends React.Component {
                       name="productQty"
                       maxLength={5}
                       onChange={this.handleInputChange(prod)}
-                      /* onKeyDown={this.handleQtyKeyDown(prod)} */
-                      /* onBlur={this.handleQtyBlur(prod)} */
+                    /* onKeyDown={this.handleQtyKeyDown(prod)} */
+                    /* onBlur={this.handleQtyBlur(prod)} */
                     />
                     <div className="input-group-append" id="button-addon4">
                       <button
@@ -391,7 +392,7 @@ class List extends React.Component {
         acc +
         // eslint-disable-next-line no-mixed-operators
         this.getPrice(cur) *
-          (cur.qty || cur.qty === 0 ? cur.qty : cur.saleminqty || 1),
+        (cur.qty || cur.qty === 0 ? cur.qty : cur.saleminqty || 1),
       0,
     );
   };

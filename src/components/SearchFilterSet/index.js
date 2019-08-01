@@ -80,8 +80,8 @@ class FilterSet extends React.Component {
         return null;
       });
     } catch (error) {
-      return console.log(error);
-      // return null;
+      // return console.log(error);
+      return null;
     }
   };
 
@@ -190,7 +190,6 @@ class FilterSet extends React.Component {
         },
       };
 
-      console.log(aggregations.min_price.value, aggregations.max_price.value);
       return (
         <div>
           <span

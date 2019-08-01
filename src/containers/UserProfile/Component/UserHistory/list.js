@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Rate, message, Spin } from "antd";
+import { Divider, Rate, message, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -16,6 +16,9 @@ class Component extends React.Component {
   }
   addHistory = (item) => {
     this.props.addWish({ skucd: item.cd }).then((res) => {
+      if (res.payload.success) {
+        message.success(res.payload.message);
+      }
     });
   }
   handleIncrement = (item) => {
@@ -106,14 +109,12 @@ class Component extends React.Component {
           <Spin
             spinning={loader}
           >
-            <div
-              className="product-list-history"
-              style={{ maxHeight: "500px", overflow: "auto" }}
-            >
+            <div className="product-list-history">
               {this.renderProducts()}
             </div>
           </Spin>
         </div>
+        <BackTop />
       </div>
     );
   }

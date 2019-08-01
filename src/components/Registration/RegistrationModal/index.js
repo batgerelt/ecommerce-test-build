@@ -118,7 +118,7 @@ class RegistrationModal extends React.Component {
               />,
             )}
           </Form.Item>
-          <Form.Item hasFeedback>
+          <Form.Item>
             {getFieldDecorator("password", {
               rules: [
                 { required: true, message: "Нууц үгээ заавал оруулна уу" },
@@ -129,7 +129,7 @@ class RegistrationModal extends React.Component {
               <Input.Password placeholder="Нууц үг" className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
-          <Form.Item hasFeedback>
+          <Form.Item>
             {getFieldDecorator("confirm", {
               rules: [
                 { required: true, message: "Нууц үгээ дахин оруулна уу" },

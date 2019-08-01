@@ -3131,7 +3131,7 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 .jss148 {
   display: flex;
   margin-top: 1px;
-  justify-content: center;
+  justify-content: left;
 }
 
 .jss148{
@@ -3150,6 +3150,13 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 
 .background-cover{
   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+.background-contain{
+  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
   height: 100%;

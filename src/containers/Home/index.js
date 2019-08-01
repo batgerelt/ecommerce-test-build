@@ -52,7 +52,6 @@ class Page extends React.Component {
     this.props.getBrand();
     this.props.getHomePageBanner();
     this.props.getEmartProduct({});
-    this.props.getDiscountProduct({});
     this.props.getWidget();
     this.props.getPackage({
       order: 'date_desc',
@@ -61,9 +60,15 @@ class Page extends React.Component {
     });
     this.props.getNewProduct({});
     this.props.getRecipe({
-      order: 'price_asc',
+      order: 'date_desc',
       start: 0,
       rowcnt: 20,
+    });
+    this.props.getDiscountProduct({
+      jumcd: '99',
+      start: 0,
+      rowcnt: 20,
+      order: `price_asc`,
     });
   }
 

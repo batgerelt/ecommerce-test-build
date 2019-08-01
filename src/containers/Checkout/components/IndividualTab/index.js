@@ -132,7 +132,7 @@ class IndividualTab extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: "Картын дугаар зөв оруулна уу" },
                           { len: 14, message: "14 оронтой байх ёстой" }],
                         })(
-                          <Input autoComplete="off" autofill="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
@@ -141,7 +141,7 @@ class IndividualTab extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: "Нууц үг зөв оруулна уу" },
                           { len: 4, message: "4 оронтой байх ёстой" }],
                         })(
-                          <Input autoComplete="off" autofill="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>

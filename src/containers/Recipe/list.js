@@ -48,7 +48,7 @@ class Recipe extends React.Component {
       if (!this.props.recipeFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
         this.setState({ loading: true });
         this.props.getRecipe({
-          order: "price_asc",
+          order: "date_desc",
           start: this.state.count,
           rowcnt: 20,
         }).then((res) => {
@@ -246,8 +246,6 @@ class Recipe extends React.Component {
                                       key={itemId.recipeid + key}
                                       shape={2}
                                       item={itemId}
-                                      LoginModal={this.props.LoginModal}
-                                      addWishList={this.props.addWishList}
                                       {...this.props}
                                     />
                                   ))}

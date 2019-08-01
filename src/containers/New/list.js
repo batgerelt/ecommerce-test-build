@@ -232,8 +232,6 @@ class Bookmarks extends PureComponent {
                                         key={itemId.cd}
                                         shape={1}
                                         item={itemId}
-                                        LoginModal={this.props.LoginModal}
-                                        addWishList={this.props.addWishList}
                                         {...this.props}
                                       />
                                     ))}

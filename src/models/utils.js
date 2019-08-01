@@ -95,6 +95,9 @@ const asyncFn = ({
       } else {
         // message.warning(data.message);
       }
+      // if (data.code !== null) {
+      //   message.warning(translation.msg[data.code][lang]);
+      // }
       if (!data) {
         throw new Error('no data provided');
       }

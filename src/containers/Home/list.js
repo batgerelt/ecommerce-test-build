@@ -23,7 +23,6 @@ const sliderParams = {
 class Homepage extends React.Component {
   getBlocks = (widgets, products) => {
     let blocks = [];
-
     widgets.forEach((widget) => {
       switch (widget.slug) {
         case WIDGET_SLUGS.onlyemart:
@@ -32,7 +31,7 @@ class Homepage extends React.Component {
           break;
         case WIDGET_SLUGS.discount:
 
-          widget.items = products.discountproduct;
+          widget.items = products.discountproduct.length === 0 ? [] : products.discountproduct.product;
           widget.interval = (
             <span>
               {moment()
