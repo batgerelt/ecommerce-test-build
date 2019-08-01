@@ -6,6 +6,10 @@
 # testing
 /coverage
 /build
+
+#enviroment
+/config/env.js
+
 # production
 
 # misc
