@@ -23,6 +23,8 @@ class Component extends React.Component {
         skucd: item.cd,
         qty: item.addminqty || 1,
         iscart: 0,
+      }).then((res) => {
+        console.log(res.payload);
       });
     }
   }
@@ -89,9 +91,7 @@ class Component extends React.Component {
           <Spin
             spinning={this.state.loader}
           >
-            <div
-              className="product-list-history"
-            >
+            <div className="product-list-history">
               {this.renderProducts()}
             </div>
           </Spin>

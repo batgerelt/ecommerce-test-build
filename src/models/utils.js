@@ -95,7 +95,6 @@ const asyncFn = ({
         if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       }
       if (data.code !== null) {
-        console.log(data);
         message.warning(translation.msg[data.code][lang]);
       }
       if (!data) {
