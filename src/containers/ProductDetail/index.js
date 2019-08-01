@@ -32,24 +32,21 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { loading: true };
 
-  async componentWillMount() {
-    const { id } = this.props.match.params;
-    this.props.getProductDetail({ skucd: id }).then(r => this.setState({ loading: false }));
-
-    this.getData();
+  componentWillMount() {
+    this.getData(this.props.match.params.id);
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
       this.setState({ loading: true });
-      this.getData();
+      this.getData(nextProps.match.params.id);
     }
   }
 
-  getData = () => {
-    const { id } = this.props.match.params;
-
+  getData = (id) => {
+    // const { id } = this.props.match.params;
+    this.props.getProductDetail({ skucd: id }).then(r => this.setState({ loading: false }));
     this.props.getProductRelational({ skucd: id });
     this.props.getProductComment({ skucd: id });
     this.props.getProductCollection({ skucd: id });
