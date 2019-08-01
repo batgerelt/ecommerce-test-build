@@ -216,8 +216,7 @@ class Discount extends React.Component {
                                         <RowItem
                                           key={itemId.cd}
                                           item={itemId}
-                                          LoginModal={this.props.LoginModal}
-                                          addWishList={this.props.addWishList}
+                                          {...this.props}
                                         />
                                       ))
                                     }

@@ -211,8 +211,7 @@ class Discount extends React.Component {
                                       key={itemId.id + key}
                                       shape={cardType}
                                       item={itemId}
-                                      LoginModal={this.props.LoginModal}
-                                      addWishList={this.props.addWishList}
+                                      {...this.props}
                                     />
                                   ))}
                                 </div>
