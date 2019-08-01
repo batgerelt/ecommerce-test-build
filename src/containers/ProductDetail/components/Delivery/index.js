@@ -5,9 +5,6 @@ class Delivery extends Component {
   renderDelivery = () => {
     try {
       const { detail } = this.props;
-      if (!detail.deliveryinfo) {
-        return null;
-      }
 
       return (
         <div className="block product-delivery">

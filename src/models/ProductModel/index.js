@@ -12,7 +12,7 @@ class Model extends BaseModel {
     emartproduct: [],
     discountproduct: [],
     newproduct: [],
-    detail: [],
+    detail: null,
     attribute: [],
     relational: [],
     collection: [],
@@ -200,7 +200,7 @@ class Model extends BaseModel {
       case this.model.detail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.detail.response:
-        return { ...state, detail: action.payload.data[0] };
+        return { ...state, detail: action.payload.data };
 
       // GET ATTRIBUTE
       case this.model.attribute.request:

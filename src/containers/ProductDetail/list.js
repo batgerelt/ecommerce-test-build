@@ -15,9 +15,6 @@ import {
   Comment,
   Breadcrumb,
 } from "./components";
-import { NotFound } from "../../components";
-// eslint-disable-next-line import/first
-import { height } from "@material-ui/system";
 
 class ProductDetail extends React.Component {
   renderRealational = () => {
@@ -34,8 +31,8 @@ class ProductDetail extends React.Component {
       const { detail } = this.props;
       return (
         <Gallery
-          images={detail.length === 0 ? [] : detail.images}
-          tags={detail.length === 0 ? [] : detail.products[0].tags}
+          images={detail.images}
+          tags={detail.products.tags}
         />
       );
     } catch (error) {
@@ -49,7 +46,7 @@ class ProductDetail extends React.Component {
       } = this.props;
       return (
         <Detail
-          detail={detail.length === 0 ? {} : detail.products[0]}
+          detail={detail.products}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
           isLoggedIn={this.props.data.isLogged}
           addWishList={addWishList}
@@ -70,7 +67,7 @@ class ProductDetail extends React.Component {
       const { detail } = this.props;
 
       return (
-        <Delivery detail={detail.length === 0 ? [] : detail.products[0]} />
+        <Delivery detail={detail.products} />
       );
     } catch (error) {
       return console.log(error);
@@ -83,7 +80,7 @@ class ProductDetail extends React.Component {
       const { detail, attribute, collection } = this.props;
       return (
         <Moreinfo
-          product={detail.length === 0 ? [] : detail.products[0]}
+          product={detail.products}
           attributes={attribute.length === 0 ? [] : attribute}
           similarProducts={collection.length === 0 ? [] : collection}
           {...this.props}
@@ -101,7 +98,7 @@ class ProductDetail extends React.Component {
       } = this.props;
       return (
         <Comment
-          product={detail.length === 0 ? {} : detail.products[0]}
+          product={detail.products}
           comments={comment}
           addComment={addComment}
           getProductComment={getProductComment}
@@ -116,11 +113,11 @@ class ProductDetail extends React.Component {
 
   renderBreadCrumb = () => {
     try {
-      const { detail, categorymenu } = this.props;
+      const { detail, categoryall } = this.props;
       return (
         <Breadcrumb
-          product={detail.length === 0 ? {} : detail.products[0]}
-          categories={categorymenu}
+          product={detail ? {} : detail.products}
+          categories={categoryall}
         />
       );
     } catch (error) {
@@ -128,8 +125,9 @@ class ProductDetail extends React.Component {
     }
   };
 
-  renderSocialButtons = (product) => {
+  renderSocialButtons = () => {
     try {
+      const { detail } = this.props;
       return (
         <div className="social-buttons">
           <ul
@@ -142,7 +140,7 @@ class ProductDetail extends React.Component {
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <FacebookShareButton
                 url={window.location.href}
-                quote={product.name}
+                quote={detail.products.name}
                 className="Demo__some-network__share-button"
               >
                 <FacebookIcon size={25} round />
@@ -151,7 +149,7 @@ class ProductDetail extends React.Component {
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <TwitterShareButton
                 url={window.location.href}
-                quote={product.name}
+                quote={detail.products.name}
                 className="Demo__some-network__share-button"
               >
                 <TwitterIcon size={25} round />
@@ -161,15 +159,11 @@ class ProductDetail extends React.Component {
         </div>
       );
     } catch (error) {
-      return console.log(error);
+      return console.log('renderSocialButtons: ', error);
     }
   };
 
   render() {
-    const { detail, categorymenu } = this.props;
-    if (detail.length === 0 || detail.products.length === 0) {
-      return <NotFound />;
-    }
     return (
       <div className="section">
         <div className="container">
@@ -179,7 +173,7 @@ class ProductDetail extends React.Component {
               <div className="col-sm-9 col-md-9 col-lg-9 row" style={{ paddingLeft: "5px" }}>
                 <div className="col-xl-5 col-lg-5 col-md-5" style={{ paddingLeft: "5px" }}>
                   {this.renderGallery()}
-                  {this.renderSocialButtons(detail.length === 0 ? {} : detail.products[0])}
+                  {this.renderSocialButtons()}
                 </div>
                 {this.renderDetails()}
               </div>

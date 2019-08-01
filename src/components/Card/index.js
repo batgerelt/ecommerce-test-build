@@ -34,7 +34,6 @@ class Card extends React.Component {
   handleIncrement = async (item) => {
     try {
       if (this.props.auth.isLogged) {
-        // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
@@ -86,9 +85,12 @@ class Card extends React.Component {
         } else {
           //
         }
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (item.cd) {
+      } else if (item.skucd) {
+        console.log(item);
+          item.insymd = Date.now();
+          item.cd = item.skucd;
+          this.props.incrementProductLocally(item);
+        } else if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
         } else if (item.recipeid) {
@@ -124,7 +126,6 @@ class Card extends React.Component {
         } else {
           //
         }
-      }
     } catch (e) {
       return console.log(e);
     }
@@ -352,7 +353,10 @@ class Card extends React.Component {
             <div className="col-md-4 pad10">
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
+                  <Link
+                    to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
+                    // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
+                  >
                     <span
                       className="image"
                       style={{

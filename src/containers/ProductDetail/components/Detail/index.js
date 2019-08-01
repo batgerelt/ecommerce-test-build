@@ -9,7 +9,7 @@ import { css } from "glamor";
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
-    productQty: this.props.detail.products[0].saleminqty || 1,
+    productQty: this.props.detail.products.saleminqty || 1,
     rate: 0,
   };
 
@@ -25,11 +25,9 @@ class Detail extends Component {
 
   renderDetails = () => {
     const { categorymenu, rate, isLogged } = this.props;
-    const detail = this.props.detail.products
-      ? this.props.detail.products[0]
-      : null;
-    const selectedCat =
-      detail.catid && categorymenu.find(cat => cat.id === detail.catid);
+    const detail = this.props.detail.products ? this.props.detail.products : null;
+    const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
+
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
@@ -75,7 +73,7 @@ class Detail extends Component {
       isLogged, detail, addRate, getProductRate,
     } = this.props;
     if (isLogged) {
-      let skucd = detail.products[0].cd;
+      let skucd = detail.products.cd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
@@ -96,9 +94,7 @@ class Detail extends Component {
   };
 
   renderCartInfo = () => {
-    const detail = this.props.detail.products
-      ? this.props.detail.products[0]
-      : null;
+    const detail = this.props.detail.products ? this.props.detail.products : null;
     if (!detail) {
       return null;
     }
@@ -283,7 +279,7 @@ class Detail extends Component {
   handleSaveClick = () => {
     const { isLogged, addWishList, detail } = this.props;
     if (isLogged !== null) {
-      let skucd = detail.products[0].cd;
+      let skucd = detail.products.cd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
           setTimeout(() => {
@@ -297,9 +293,7 @@ class Detail extends Component {
   };
 
   getPrice = () => {
-    const detail = this.props.detail.products
-      ? this.props.detail.products[0]
-      : null;
+    const detail = this.props.detail.products ? this.props.detail.products : null;
     if (!detail) {
       return null;
     }
@@ -332,15 +326,6 @@ class Detail extends Component {
       this.setState({ productQty: parseInt(e.target.value, 10) });
     }
   };
-
-  // handleQtyKeyDown = product => (e) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-  //     product.qty = this.state.productQty;
-  //     this.props.onQtyChange(product);
-  //     this.setState({ productQty: product.qty });
-  //   }
-  // };
 
   handleIncrementClick = (product) => {
     const productQty =

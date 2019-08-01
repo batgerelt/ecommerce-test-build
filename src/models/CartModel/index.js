@@ -410,7 +410,6 @@ class Model extends BaseModel {
 
       if (index !== -1) {
         if (shouldOverride) {
-          // eslint-disable-next-line no-lonely-if
           if (found.isgift === 1) {
             if (found.qty < found.saleminqty) {
               found.qty = found.saleminqty;
@@ -418,9 +417,7 @@ class Model extends BaseModel {
               found.qty = product.qty;
             }
           } else if (found.availableqty > 0) {
-            // eslint-disable-next-line no-lonely-if
             if (found.salemaxqty > 0) {
-              // eslint-disable-next-line no-lonely-if
               if (found.qty > found.salemaxqty) {
                 found.qty = found.salemaxqty;
                 this.handleNotify(
@@ -433,128 +430,97 @@ class Model extends BaseModel {
               } else {
                 found.qty = product.qty;
               }
+            } else if (found.qty > found.availableqty) {
+              found.qty = found.availableqty;
+              this.handleNotify(
+                `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
+              );
+            } else if (found.qty < found.saleminqty) {
+              found.qty = found.saleminqty;
             } else {
-              // eslint-disable-next-line no-lonely-if
-              if (found.qty > found.availableqty) {
-                found.qty = found.availableqty;
-                this.handleNotify(
-                  `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
-                );
-              } else if (found.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
-              } else {
-                found.qty = product.qty;
-              }
+              found.qty = product.qty;
             }
           }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (shouldDecrement) {
-            const productQty = shouldUpdateByQty
-              ? found.qty - product.qty < found.saleminqty
-                ? found.saleminqty
-                : found.qty - product.qty
-              : found.qty - found.addminqty < found.saleminqty
-                ? found.saleminqty
-                : found.qty - found.addminqty;
-            found.qty = productQty;
-          } else {
-            // eslint-disable-next-line no-lonely-if
-            if (shouldUpdateByQty) {
-              // eslint-disable-next-line no-lonely-if
-              if (found.isgift === 1) {
+        } else if (shouldDecrement) {
+          const productQty = shouldUpdateByQty
+            ? found.qty - product.qty < found.saleminqty
+              ? found.saleminqty
+              : found.qty - product.qty
+            : found.qty - found.addminqty < found.saleminqty
+              ? found.saleminqty
+              : found.qty - found.addminqty;
+          found.qty = productQty;
+        } else if (shouldUpdateByQty) {
+          if (found.isgift === 1) {
+            found.qty += product.qty;
+          } else if (found.availableqty > 0) {
+            if (found.salemaxqty > 0) {
+              if (found.qty + product.qty > found.salemaxqty) {
+                found.qty = found.salemaxqty;
+                this.handleNotify(
+                  `"${found.name}" барааг хамгийн ихдээ "${
+                    found.salemaxqty
+                  }"-г худалдан авах боломжтой.`,
+                );
+              } else {
                 found.qty += product.qty;
-              } else if (found.availableqty > 0) {
-                // eslint-disable-next-line no-lonely-if
-                if (found.salemaxqty > 0) {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + product.qty > found.salemaxqty) {
-                    found.qty = found.salemaxqty;
-                    this.handleNotify(
-                      `"${found.name}" барааг хамгийн ихдээ "${
-                        found.salemaxqty
-                      }"-г худалдан авах боломжтой.`,
-                    );
-                  } else {
-                    found.qty += product.qty;
-                  }
-                } else {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + product.qty > found.availableqty) {
-                    found.qty = found.availableqty;
-                    this.handleNotify(
-                      `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
-                    );
-                  } else {
-                    found.qty += product.qty;
-                  }
-                }
               }
+            } else if (found.qty + product.qty > found.availableqty) {
+              found.qty = found.availableqty;
+              this.handleNotify(
+                `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
+              );
             } else {
-              // eslint-disable-next-line no-lonely-if
-              if (found.isgift === 1) {
-                found.qty += found.addminqty;
-              } else if (found.availableqty > 0) {
-                // eslint-disable-next-line no-lonely-if
-                if (found.salemaxqty > 0) {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + found.addminqty > found.salemaxqty) {
-                    found.qty = found.salemaxqty;
-                    this.handleNotify(
-                      `"${found.name}" барааг хамгийн ихдээ "${
-                        found.salemaxqty
-                      }"-г худалдан авах боломжтой.`,
-                    );
-                  } else {
-                    found.qty += found.addminqty;
-                  }
-                } else {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + found.addminqty > found.availableqty) {
-                    found.qty = found.availableqty;
-                    this.handleNotify(
-                      `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
-                    );
-                  } else {
-                    found.qty += found.addminqty;
-                  }
-                }
-              }
+              found.qty += product.qty;
             }
+          }
+        } else if (found.isgift === 1) {
+          found.qty += found.addminqty;
+        } else if (found.availableqty > 0) {
+          if (found.salemaxqty > 0) {
+            if (found.qty + found.addminqty > found.salemaxqty) {
+              found.qty = found.salemaxqty;
+              this.handleNotify(
+                `"${found.name}" барааг хамгийн ихдээ "${
+                  found.salemaxqty
+                }"-г худалдан авах боломжтой.`,
+              );
+            } else {
+              found.qty += found.addminqty;
+            }
+          } else if (found.qty + found.addminqty > found.availableqty) {
+            found.qty = found.availableqty;
+            this.handleNotify(
+              `"${found.name}" барааны нөөц хүрэлцэхгүй байна.`,
+            );
+          } else {
+            found.qty += found.addminqty;
           }
         }
         products.splice(index, 1, found);
       }
-    } else {
-      // eslint-disable-next-line no-lonely-if
-      if (product.isgift === 1) {
-        if (product.qty < product.saleminqty) {
-          product.qty = product.saleminqty;
-        }
-        products.push(product);
-      } else if (product.availableqty > 0) {
-        // eslint-disable-next-line no-lonely-if
-        if (product.salemaxqty > 0) {
-          // eslint-disable-next-line no-lonely-if
-          if (product.qty > product.salemaxqty) {
-            product.qty = product.salemaxqty;
-            this.handleNotify(
-              `"${product.name}" барааг хамгийн ихдээ "${
-                product.salemaxqty
-              }"-г худалдан авах боломжтой.`,
-            );
-          }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (product.qty > product.availableqty) {
-            product.qty = product.availableqty;
-            this.handleNotify(
-              `"${product.name}" барааны нөөц хүрэлцэхгүй байна.`,
-            );
-          }
-        }
-        products.push(product);
+    } else if (product.isgift === 1) {
+      if (product.qty < product.saleminqty) {
+        product.qty = product.saleminqty;
       }
+      products.push(product);
+    } else if (product.availableqty > 0) {
+      if (product.salemaxqty > 0) {
+        if (product.qty > product.salemaxqty) {
+          product.qty = product.salemaxqty;
+          this.handleNotify(
+            `"${product.name}" барааг хамгийн ихдээ "${
+              product.salemaxqty
+            }"-г худалдан авах боломжтой.`,
+          );
+        }
+      } else if (product.qty > product.availableqty) {
+        product.qty = product.availableqty;
+        this.handleNotify(
+          `"${product.name}" барааны нөөц хүрэлцэхгүй байна.`,
+        );
+      }
+      products.push(product);
     }
 
     return products;
