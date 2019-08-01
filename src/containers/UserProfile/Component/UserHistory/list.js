@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Rate, message, Spin } from "antd";
+import { Divider, Rate, message, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -114,6 +114,7 @@ class Component extends React.Component {
             </div>
           </Spin>
         </div>
+        <BackTop />
       </div>
     );
   }
