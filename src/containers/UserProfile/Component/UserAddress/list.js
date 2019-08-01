@@ -177,7 +177,7 @@ class Component extends React.Component {
           <td style={{ width: "5%" }}>{item.ismain === 1 ? <strong>{item.name}</strong> : <p>{item.name}</p>}</td>
           <td
             style={{
-              width: "15%", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
+              width: "15%", overflowWrap: "break-word", wordWrap: "break-word",
             }}
           >
             {item.ismain === 1 ? <strong>{item.phone1}, {item.phone2}</strong> : <p>{item.phone1}, {item.phone2}</p>}
