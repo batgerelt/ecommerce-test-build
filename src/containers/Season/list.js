@@ -31,7 +31,7 @@ class CategoryInfo extends React.Component {
       products: [],
       isListViewOn: false,
       loading: false,
-      isLeftPanel: false,
+      isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
       colors: [],
@@ -281,16 +281,14 @@ class CategoryInfo extends React.Component {
 
   renderLeftPanel = () => {
     try {
-      const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
-      const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
-
+      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
+                onClick={this.showMobilePanel}
               >
                 <img
                   src={crossImage}
@@ -339,6 +337,8 @@ class CategoryInfo extends React.Component {
     }
   }
 
+  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
+
   renderFilteredList = () => {
     try {
       const { searchKeyWordResponse } = this.props;
@@ -360,7 +360,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showLeftPanel}
+                      onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">Шүүлтүүр</span>
