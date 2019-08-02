@@ -94,16 +94,43 @@ class Card extends React.Component {
         }
       } else if (item.skucd) {
         console.log(item);
-          item.insymd = Date.now();
-          item.cd = item.skucd;
-          this.props.incrementProductLocally(item);
-        } else if (item.cd) {
-          item.insymd = Date.now();
-          this.props.incrementProductLocally(item);
+        item.insymd = Date.now();
+        item.cd = item.skucd;
+        this.props.incrementProductLocally(item);
+      } else if (item.cd) {
+        item.insymd = Date.now();
+        this.props.incrementProductLocally(item);
 
-          const updated = this.props.products.find(prod => prod.cd === item.cd);
+        const updated = this.props.products.find(prod => prod.cd === item.cd);
 
-          if (updated && updated.error !== undefined) {
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            warning: {
+              id: updated.error,
+            },
+          });
+          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+        }
+      } else if (item.recipeid) {
+        const result = await this.props.getRecipeProducts({
+          id: item.recipeid,
+        });
+
+        if (!result.payload.success) {
+          return message.warning(result.payload.message);
+        }
+
+        const products = result.payload.data.map(prod => ({
+          ...prod,
+          insymd: Date.now(),
+        }));
+
+        this.props.incrementRecipeProductsLocally(products);
+
+        const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
+
+        recipeProducts.forEach((updated) => {
+          if (updated.error !== undefined) {
             const messages = defineMessages({
               warning: {
                 id: updated.error,
@@ -111,67 +138,38 @@ class Card extends React.Component {
             });
             message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
           }
-        } else if (item.recipeid) {
-          const result = await this.props.getRecipeProducts({
-            id: item.recipeid,
-          });
+        });
+      } else if (item.id) {
+        const result = await this.props.getPackageProducts({
+          id: item.id,
+        });
 
-          if (!result.payload.success) {
-            return message.warning(result.payload.message);
-          }
-
-          const products = result.payload.data.map(prod => ({
-            ...prod,
-            insymd: Date.now(),
-          }));
-
-          this.props.incrementRecipeProductsLocally(products);
-
-          const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
-
-          recipeProducts.forEach((updated) => {
-            if (updated.error !== undefined) {
-              const messages = defineMessages({
-                warning: {
-                  id: updated.error,
-                },
-              });
-              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-            }
-          });
-        } else if (item.id) {
-          const result = await this.props.getPackageProducts({
-            id: item.id,
-          });
-
-          if (!result.payload.success) {
-            return message.warning(result.payload.message);
-          }
-
-          const products = result.payload.data.products.map(prod => ({
-            ...prod,
-            insymd: Date.now(),
-          }));
-
-          this.props.incrementPackageProductsLocally(products);
-          console.log('products: ', products);
-
-          const packageProducts = this.props.products.filter(prod => prod.id === item.id);
-          console.log('packageProducts: ', packageProducts);
-
-          packageProducts.forEach((updated) => {
-            if (updated.error !== undefined) {
-              const messages = defineMessages({
-                warning: {
-                  id: updated.error,
-                },
-              });
-              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-            }
-          });
-        } else {
-          //
+        if (!result.payload.success) {
+          return message.warning(result.payload.message);
         }
+
+        const products = result.payload.data.products.map(prod => ({
+          ...prod,
+          insymd: Date.now(),
+        }));
+
+        this.props.incrementPackageProductsLocally(products);
+
+        const packageProducts = this.props.products.filter(prod => prod.id === item.id);
+
+        packageProducts.forEach((updated) => {
+          if (updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
+        });
+      } else {
+        //
+      }
     } catch (e) {
       return console.log(e);
     }
@@ -210,7 +208,6 @@ class Card extends React.Component {
       const { addWishList, removeAddedWishColor } = this.props;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
-          this.setState({ changeHeart: !this.state.changeHeart });
           this.removeAddedWishColorTime();
         }
       });
@@ -401,7 +398,7 @@ class Card extends React.Component {
                 <div className="image-container">
                   <Link
                     to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
-                    // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
+                  // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
                   >
                     <span
                       className="image"

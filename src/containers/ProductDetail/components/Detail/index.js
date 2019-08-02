@@ -23,6 +23,12 @@ class Detail extends Component {
     });
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+      this.setState({ productQty: nextProps.detail.products.saleminqty || 1 });
+    }
+  }
+
   renderDetails = () => {
     const { categorymenu, rate, isLogged } = this.props;
     const detail = this.props.detail.products ? this.props.detail.products : null;

@@ -311,7 +311,7 @@ class SwalModals extends React.Component {
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
-                            <span>Мөнгөн дүн:</span>
+                            <span>Захиалгын дүн:</span>
                             <strong className="big">
                               {formatter.format(ordData.order.totalamount)}₮
                             </strong>
