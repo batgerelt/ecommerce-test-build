@@ -51,13 +51,13 @@ class Comment extends Component {
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${user.length !== 0 ? realImage : defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${auth ? realImage : defaultAvatar})` }}
                   />
                 </div>
-                <p className="name text-uppercase">
+                <p className="name">
                   <strong>
                     {
-                      user.length !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
+                      auth !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
                         : ""
                     }
                   </strong>
@@ -91,7 +91,6 @@ class Comment extends Component {
               </form>
             </div>
           )}
-
           {comments.length !== 0 && (
             <div style={{ marginTop: "80px" }}>
               <h1 className="title">
@@ -100,9 +99,9 @@ class Comment extends Component {
 
               <div className="comments-list">
                 <div className="main-rating">
-                  <Rate allowHalf disabled value={rate / 2} />
+                  <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">
-                    ({rate_user_cnt} хүн үнэлгээ өгсөн байна)
+                    ({rate_user_cnt === null ? 0 : rate_user_cnt} хүн үнэлгээ өгсөн байна)
                   </p>
                 </div>
 

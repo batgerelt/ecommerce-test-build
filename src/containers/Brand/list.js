@@ -248,7 +248,7 @@ class CategoryInfo extends React.Component {
                     {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
                   </Link>
                 </li>
-                ))
+              ))
             }
           </ul>
         );
@@ -489,10 +489,10 @@ class CategoryInfo extends React.Component {
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                     const allItemsLoaded = this.generateIndexesForRow(
-                        index,
-                        maxItemsPerRow,
-                        products.length,
-                      ).length > 0;
+                      index,
+                      maxItemsPerRow,
+                      products.length,
+                    ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}

@@ -248,6 +248,7 @@ class Discount extends React.Component {
         {/* this.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

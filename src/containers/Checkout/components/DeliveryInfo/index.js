@@ -43,6 +43,7 @@ class DeliveryInfo extends React.Component {
     chosenDate: null,
     useEpoint: false,
     epointUsedPoint: 0,
+    notif: false,
   };
 
   checkError = (value) => {
@@ -298,6 +299,10 @@ class DeliveryInfo extends React.Component {
     });
   };
 
+  handleAgreementNotif = (value) => {
+    this.setState({ notif: value });
+  }
+
   handlePayment = (e, item, ordData, type) => {
     e.preventDefault();
     MySwal.fire({
@@ -414,10 +419,10 @@ class DeliveryInfo extends React.Component {
               <span>НӨАТ:</span>
               <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p>
-            <Checkbox onChange={this.handleAgreement}>
+            <Checkbox onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
+                <span style={{ fontWeight: "bold", color: this.state.notif ? "red" : "" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>

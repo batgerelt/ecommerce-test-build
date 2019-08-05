@@ -25,8 +25,6 @@ class Model extends BaseModel {
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       case 'LOCALE_SET_LANG':
-        console.log(state);
-        localStorage.setItem('lang', action.payload);
         return { ...state, lang: action.payload };
 
       default:

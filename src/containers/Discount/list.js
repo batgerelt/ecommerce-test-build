@@ -22,16 +22,6 @@ import {
 } from "../../utils/Consts";
 
 const ITEM_HEIGHT = 340;
-const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
-  return (
-    <Card
-      shape={CARD_TYPES.slim}
-      item={item}
-      LoginModal={LoginModal}
-      addWishList={addWishList}
-    />
-  );
-});
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -58,22 +48,27 @@ class Discount extends React.Component {
     }); */
   }
 
-  // data nemeh heseg
+  // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = (key) => {
-    if (!this.props.discountFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
-      this.setState({ loading: true });
-      this.props.getDiscountProduct({
-        jumcd: '99',
-        start: this.state.count,
-        rowcnt: 20,
-        order: `price_asc`,
-      }).then((res) => {
-        if (res.payload.success) {
-          this.setState({
-            products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-          });
-        }
-      });
+    try {
+      if (!this.props.discountFetching && this.state.products.length < this.state.rowCount) {
+        this.setState({ loading: true });
+        this.props.getDiscountProduct({
+          jumcd: '99',
+          start: this.state.count,
+          rowcnt: 20,
+          order: `price_asc`,
+        }).then((res) => {
+          if (res.payload.success) {
+            this.setState({
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count,
+            });
+          }
+        });
+      }
+      return null;
+    } catch (error) {
+      return console.log(error);
     }
   };
 
@@ -213,8 +208,9 @@ class Discount extends React.Component {
                                   <div style={style} key={key} className="jss148">
                                     {
                                       rowItems.map(itemId => (
-                                        <RowItem
+                                        <Card
                                           key={itemId.cd}
+                                          shape={CARD_TYPES.slim}
                                           item={itemId}
                                           {...this.props}
                                         />
@@ -248,6 +244,7 @@ class Discount extends React.Component {
         {/* this.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

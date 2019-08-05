@@ -124,7 +124,7 @@ class AuthModel extends BaseModel {
         return {
           ...state,
           isLoading: false,
-          isLogged: true,
+          isLogged: action.payload.success,
           data: action.payload.data,
         };
       case this.loggedModel.request:
@@ -140,13 +140,13 @@ class AuthModel extends BaseModel {
           isLoading: false,
           error: true,
           errorMessage: action.message,
-          isLogged: true,
+          isLogged: action.payload.success,
         };
       case this.loggedModel.response:
         return {
           ...state,
           isLoading: false,
-          isLogged: true,
+          isLogged: action.payload.success,
           user: {
             name: action.payload.name,
             username: action.payload.username,
@@ -179,15 +179,10 @@ class AuthModel extends BaseModel {
       //   };
       case "AUTH_LOGOUT":
         const username = localStorage.getItem("username");
-        const lang = localStorage.getItem("lang");
         localStorage.clear();
         localStorage.setItem("username", username);
-        localStorage.setItem("lang", lang);
         if (localStorage.getItem("username") === 'null') {
           localStorage.removeItem("username");
-        }
-        if (localStorage.getItem("lang") === 'null') {
-          localStorage.removeItem('lang');
         }
         return {
           ...state,

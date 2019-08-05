@@ -8,6 +8,7 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
+import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
@@ -285,6 +286,7 @@ class Recipe extends React.Component {
         {/* his.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

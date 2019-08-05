@@ -4,7 +4,9 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
 import SwalModals from "./SwalModals";
-import LetterInput from "../../../../components/LetterInput";
+import LetterInput from "../../../../components/Input/LetterInput";
+import NumberInput from "../../../../components/Input/NumberInput";
+import LatinInput from "../../../../components/Input/LatinInput";
 
 const MySwal = withReactContent(Swal);
 
@@ -345,7 +347,7 @@ class Component extends React.Component {
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
-                  rules: [{ required: true, message: "Овогоо оруулна уу" }],
+                  rules: [{ required: true, message: "Овгоо оруулна уу" }],
                 })(<LetterInput placeholder="Овог" onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
               </Form.Item>
             </Col>
@@ -364,7 +366,7 @@ class Component extends React.Component {
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
                   rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу" }],
-                })(<Input placeholder="Имэйл" />)}
+                })(<LatinInput placeholder="Имэйл" />)}
               </Form.Item>
             </Col>
 
@@ -375,15 +377,14 @@ class Component extends React.Component {
                   rules: [
                     {
                       required: true,
-                      pattern: new RegExp("^[0-9]*$"),
-                      message: "Утасны дугаар 8 оронтой байх ёстой",
+                      message: "Утасны дугаараа оруулна уу",
                     },
                     {
                       min: 8,
-                      message: "Утасны дугаар 8 оронтой байна",
+                      message: "Утасны дугаараа оруулна уу",
                     },
                   ],
-                })(<Input placeholder="Утас 1" maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder="Утас 1" maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -392,10 +393,10 @@ class Component extends React.Component {
                 {getFieldDecorator("phone2", {
                   initialValue: userInfo.info.phone2,
                   rules: [
-                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: "Утасны дугаар 8 оронтой байх ёстой" },
-                    { min: 8, message: "Утасны дугаар 8 оронтой байна" },
+                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: "Утасны дугаараа оруулна уу" },
+                    { min: 8, message: "Утасны дугаараа оруулна уу" },
                   ],
-                })(<Input placeholder="Утас 2" maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder="Утас 2" maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
