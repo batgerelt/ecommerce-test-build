@@ -1,7 +1,9 @@
 import React from "react";
 import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
-import LetterInput from "../../../../components/LetterInput";
+import LetterInput from "../../../../components/Input/LetterInput";
+import NumberInput from "../../../../components/Input/NumberInput";
+import LatinInput from "../../../../components/Input/LatinInput";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -60,9 +62,9 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({ load: true });
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.setState({ load: true });
         const param = {
           custid: this.props.data[0].info.customerInfo.id,
           locid: this.state.params.commid,
@@ -236,18 +238,18 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone1", {
                 rules: [{ required: true, message: "Утсаа оруулна уу " },
-                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу " },
+                { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаараа оруулна уу " },
                 { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
-              })(<Input placeholder="Утас 1" autoComplete="off" />)}
+              })(<NumberInput placeholder="Утас 1" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone2", {
-                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
+                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаараа оруулна уу" },
                 { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
-              })(<Input placeholder="Утас 2" autoComplete="off" />)}
+              })(<NumberInput placeholder="Утас 2" autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -321,7 +323,7 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
               <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
-                <span className="text-uppercase">Хадгалах</span>
+                <span className="text-uppercase">Хаяг нэмэх</span>
               </Button>
             </Form.Item>
           </Col>

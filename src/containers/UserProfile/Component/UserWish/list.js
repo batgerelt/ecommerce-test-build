@@ -91,7 +91,7 @@ class Component extends React.Component {
           <Spin
             spinning={this.state.loader}
           >
-            <div className="product-list-history">
+            <div className="product-list-history" style={{ minHeight: "30em" }}>
               {this.renderProducts()}
             </div>
           </Spin>

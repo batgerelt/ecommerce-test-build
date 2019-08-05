@@ -1,6 +1,9 @@
 import React from "react";
-import { Divider, Rate, message, Spin, BackTop } from "antd";
+import { Rate, message, Spin, BackTop, Icon } from "antd";
 import { Link } from "react-router-dom";
+/* import ReactSVG from "react-svg"; */
+/* import { Loader } from "../../../../components"; */
+/* import { loader } from "../../../../assets"; */
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -99,7 +102,8 @@ class Component extends React.Component {
     }
   }
   render() {
-    const { loader } = this.state;
+    const loaders = this.state.loader;
+    const icon = <Icon type="sync" spin />;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
@@ -107,9 +111,10 @@ class Component extends React.Component {
             <span>Үзсэн барааны түүх</span>
           </p>
           <Spin
-            spinning={loader}
+            spinning={loaders}
+            indicator={icon}
           >
-            <div className="product-list-history">
+            <div className="product-list-history" style={{ minHeight: "30em" }}>
               {this.renderProducts()}
             </div>
           </Spin>

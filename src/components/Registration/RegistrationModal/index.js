@@ -1,8 +1,9 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
-import { Link } from "react-router-dom";
-import LetterInput from "../../LetterInput";
+import { Modal, Form, Input } from "antd";
+import LetterInput from "../../Input/LetterInput";
+import LatinInput from "../../Input/LatinInput";
+import NumberInput from "../../Input/NumberInput";
 
 class RegistrationModal extends React.Component {
   state = {
@@ -73,7 +74,7 @@ class RegistrationModal extends React.Component {
           <Form.Item>
             {getFieldDecorator("lastname", {
               rules: [
-                { required: true, message: "Овогоо оруулна уу" },
+                { required: true, message: "Овгоо оруулна уу" },
               ],
             })(
               <LetterInput placeholder="Овог" className="form-control" onChange={this.onChangeLast} />,
@@ -99,7 +100,11 @@ class RegistrationModal extends React.Component {
                 message: "Имэйл хаягаа оруулна уу",
               }],
             })(
-              <Input placeholder="И мэйл хаяг" className="form-control" autoComplete="off" />,
+              <LatinInput
+                placeholder="И мэйл хаяг"
+                className="form-control"
+                autoComplete="off"
+              />,
             )}
           </Form.Item>
           <Form.Item>
@@ -110,7 +115,7 @@ class RegistrationModal extends React.Component {
                 { min: 8, message: "Утасны дугаар 8 оронтой байна" },
               ],
             })(
-              <Input
+              <NumberInput
                 placeholder="Утасны дугаар"
                 maxLength={8}
                 className="form-control"
