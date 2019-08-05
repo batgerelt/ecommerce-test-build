@@ -54,7 +54,6 @@ class CategoryInfo extends React.Component {
   }
 
   handleChangeOrder = (e) => {
-    e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
@@ -90,7 +89,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
-    e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
@@ -116,7 +114,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangeColor = (e) => {
-    e.preventDefault();
     const { isLogged, data } = this.props;
     const { colors } = this.state;
     if (e.target.checked) { colors.push(e.target.value); }
@@ -146,7 +143,6 @@ class CategoryInfo extends React.Component {
   }
 
   handleChangeBrand = (e, brand) => {
-    e.preventDefault();
     const { isLogged, data } = this.props;
     const { brands } = this.state;
     if (e.target.checked) { brands.push(brand); }
@@ -230,6 +226,7 @@ class CategoryInfo extends React.Component {
           loading: !this.state.loading,
           count: 0,
           catid: cat[0],
+          aggregations: res.payload.data,
         });
       }
     });
@@ -238,9 +235,9 @@ class CategoryInfo extends React.Component {
   renderCategoryList = () => {
     try {
       const { categoryall } = this.props;
-      const { aggregations } = this.state;
+      const { categories } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (categories.buckets.length !== 0) {
         return (
           <Tree
             switcherIcon={<Icon type="down" />}
@@ -248,7 +245,7 @@ class CategoryInfo extends React.Component {
             defaultExpandAll={false}
             defaultExpandParent={false}
           >
-            { aggregations.categories.buckets.map(one => (
+            { categories.buckets.map(one => (
               <Tree.TreeNode title={categoryall.find(i => i.id === one.key).name} key={one.key}>
 
                 { one.buckets.buckets && one.buckets.buckets.map(two => (
@@ -256,18 +253,20 @@ class CategoryInfo extends React.Component {
 
                     { two.buckets.buckets && two.buckets.buckets.map(three => (
                       <Tree.TreeNode title={categoryall.find(i => i.id === three.key).name} key={three.key} />
-                    ))}
+                      ))}
 
                   </Tree.TreeNode>
-                ))}
+                  ))}
               </Tree.TreeNode>
-            ))}
+              ))}
           </Tree>
         );
       }
+
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
       return console.log(error);
+      // return null;
     }
   }
 
@@ -322,8 +321,7 @@ class CategoryInfo extends React.Component {
                     onRef={ref => (this.FilterSet = ref)}
                     {...this.props}
                     {...this}
-                    total={this.props.searchKeyWordResponse.hits.total.value}
-                    aggregations={this.state.aggregations}
+                    data={this.state.aggregations}
                   />
                 </div>
               </div>
@@ -598,7 +596,8 @@ class CategoryInfo extends React.Component {
             products: res.payload.data.hits.hits,
             loading: !this.state.loading,
             count: 20,
-            aggregations: res.payload.data.aggregations,
+            aggregations: res.payload.data,
+            categories: res.payload.data.aggregations.categories,
           });
         }
       });
