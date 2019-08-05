@@ -35,13 +35,14 @@ class DeliveryPanel extends React.Component {
     zoneSetting: null,
     chosenDate: null,
     dateLoading: false,
+    requiredField: true,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     try {
-      const { main } = this.props.userinfo;
+      const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
@@ -53,6 +54,11 @@ class DeliveryPanel extends React.Component {
         this.getCommitte(main.provinceid, main.districtid, false);
       } else {
         this.setState({ noAddress: true, addresstype: "new" });
+        /* this.props.form.setFieldsValue({
+          phone1: info.phone1,
+          phone2: info.phone2,
+          name: info.firstname,
+        }); */
         this.getDistrictAndCommitte(0);
       }
     } catch (error) {
@@ -180,9 +186,12 @@ class DeliveryPanel extends React.Component {
 
   changeTab = (e) => {
     const { deliveryTypes } = this.props;
+    // this.props.form.resetFields();
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     this.props.DeliveryInfo.setDeliveryType(found);
-    this.setState({ defaultActiveKey: e, chosenDeliveryType: found });
+    this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
+      this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
+    });
   };
 
   onSubmit = (e) => {
@@ -199,7 +208,7 @@ class DeliveryPanel extends React.Component {
         body.name = values.name;
         body.phonE1 = values.phone1;
         body.phonE2 = values.phone2;
-        if (addresstype === "new") {
+        if (addresstype === "new" && chosenDeliveryType.id !== 3) {
           this.props.addAddress({ body }).then((res) => {
             if (res.payload.success) {
               chosenAddress.id = res.payload.data;
@@ -333,7 +342,6 @@ class DeliveryPanel extends React.Component {
       this.props.getDistrictAndCommitte({ id }).then((res) => {
         this.setState({ selectLoading: false });
         if (res.payload.success) {
-          console.log(res.payload.data, chosenAddress);
           chosenAddress.provinceid = res.payload.data.provinceid;
           chosenAddress.provincenm = "Улаанбаатар хот";
           chosenAddress.districtid = res.payload.data.districtid;
@@ -366,7 +374,8 @@ class DeliveryPanel extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      defaultActiveKey, chosenAddress, districtLocation, selectLoading, noAddress, committeLocation, chosenDate, dateLoading, addresstype,
+      defaultActiveKey, chosenAddress, districtLocation, selectLoading,
+      noAddress, committeLocation, chosenDate, dateLoading, addresstype, requiredField,
     } = this.state;
     const {
       deliveryTypes,
@@ -409,7 +418,7 @@ class DeliveryPanel extends React.Component {
                           <Form.Item>
                             {getFieldDecorator("id", {
                               initialValue: this.checkError(chosenAddress.id),
-                              rules: [{ required: !noAddress || addresstype === "new" ? false : true, message: "Хаяг оруулна уу" }],
+                              rules: [{ required: false, message: "Хаяг оруулна уу" }],
                             })(
                               <Select onChange={this.onChangeLoc} showSearch className="addr" disabled={noAddress} optionFilterProp="children" placeholder="Хаягаа сонгоно уу ?">
                                 {this.renderAddrsOption()}
@@ -432,7 +441,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
                             initialValue: this.checkError(chosenAddress.provinceid),
-                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу" }],
+                            rules: [{ required: requiredField, message: "Хот/Аймаг сонгоно уу" }],
                           })(
                             <Select placeholder="Хот/аймаг *" showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
@@ -448,7 +457,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("districtid", {
                             initialValue: this.checkError(chosenAddress.districtid),
-                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
+                            rules: [{ required: requiredField, message: "Дүүрэг/Сум сонгоно уу" }],
                           })(
                             <Select showSearch optionFilterProp="children" placeholder="Дүүрэг/Сум*" onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
@@ -464,7 +473,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("committeeid", {
                             initialValue: this.checkError(chosenAddress.committeeid),
-                            rules: [{ required: true, message: "Хороо сонгоно уу" }],
+                            rules: [{ required: requiredField, message: "Хороо сонгоно уу" }],
                           })(
                             <Select placeholder="Хороо*" showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(committeLocation)}
@@ -481,7 +490,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
-                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу" }],
+                            rules: [{ required: requiredField, message: "Гэрийн хаяг оруулна уу" }],
                           })(
                             <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг*" />,
                           )}

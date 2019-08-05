@@ -44,6 +44,10 @@ class PaymentPanel extends React.Component {
     this.setState({ chosenRadio: e.target.value });
   }
 
+  handleClick = (e) => {
+    this.props.DeliveryInfo.handleAgreementNotif(true);
+  }
+
   render() {
     const { chosenRadio } = this.state;
     return (
@@ -68,6 +72,11 @@ class PaymentPanel extends React.Component {
             :
             <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
         }
+        <div className="text-right">
+          <button className="btn btn-main" onClick={this.handleClick}>
+            Дараах
+          </button>
+        </div>
       </div>
     );
   }

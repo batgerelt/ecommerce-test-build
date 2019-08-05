@@ -124,7 +124,7 @@ class AuthModel extends BaseModel {
         return {
           ...state,
           isLoading: false,
-          isLogged: true,
+          isLogged: action.payload.success,
           data: action.payload.data,
         };
       case this.loggedModel.request:
@@ -140,13 +140,13 @@ class AuthModel extends BaseModel {
           isLoading: false,
           error: true,
           errorMessage: action.message,
-          isLogged: true,
+          isLogged: action.payload.success,
         };
       case this.loggedModel.response:
         return {
           ...state,
           isLoading: false,
-          isLogged: true,
+          isLogged: action.payload.success,
           user: {
             name: action.payload.name,
             username: action.payload.username,
