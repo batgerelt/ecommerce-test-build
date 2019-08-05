@@ -203,7 +203,7 @@ class Discount extends React.Component {
                                 products.length,
                               ).map(itemIndex => products[itemIndex]);
                               return (
-                                <div style={style} key={key} className="jss148" >
+                                <div style={style} key={key} className="jss148">
                                   {rowItems.map(itemId => (
                                     <Card
                                       key={itemId.id + key}

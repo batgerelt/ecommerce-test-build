@@ -194,7 +194,7 @@ class Bookmarks extends PureComponent {
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    true,
+                    products.length !== this.state.rowCount,
                   );
                   return (
                     <InfiniteLoader
@@ -215,7 +215,9 @@ class Bookmarks extends PureComponent {
                               rowCount={rowCount}
                               rowHeight={ITEM_HEIGHT}
                               onRowsRendered={onRowsRendered}
-                              rowRenderer={({ index, style, key }) => {
+                              rowRenderer={({
+                                index, isScrolling, key, style,
+                              }) => {
                                 const { products } = this.state;
                                 const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                                   width,
