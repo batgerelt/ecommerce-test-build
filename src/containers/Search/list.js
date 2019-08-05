@@ -7,8 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select, BackTop } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -44,14 +43,18 @@ class CategoryInfo extends React.Component {
       brands: [],
       attributes: [],
       count: 0,
-      selectedCat: null,
-      isCatChecked: false,
       aggregations: [],
-      ismore: false,
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      colors: [], brands: [], attributes: [],
+    });
+  }
+
   handleChangeOrder = (e) => {
+    e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
@@ -87,6 +90,7 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
+    e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
@@ -112,6 +116,7 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangeColor = (e) => {
+    e.preventDefault();
     const { isLogged, data } = this.props;
     const { colors } = this.state;
     if (e.target.checked) { colors.push(e.target.value); }
@@ -141,6 +146,7 @@ class CategoryInfo extends React.Component {
   }
 
   handleChangeBrand = (e, brand) => {
+    e.preventDefault();
     const { isLogged, data } = this.props;
     const { brands } = this.state;
     if (e.target.checked) { brands.push(brand); }
@@ -203,7 +209,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading });
 
     const params = {
-      catId: cat.key,
+      catId: cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword,
       attribute: "",
@@ -223,9 +229,7 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 0,
-          isCatChecked: !this.state.isCatChecked,
-          aggregations: res.payload.data.aggregations,
-          catid: cat.key,
+          catid: cat[0],
         });
       }
     });
@@ -238,17 +242,27 @@ class CategoryInfo extends React.Component {
 
       if (aggregations.length !== 0) {
         return (
-          <ul className="list-unstyled category-list">
-            {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
-                </li>
-                ))
-            }
-          </ul>
+          <Tree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            defaultExpandAll={false}
+            defaultExpandParent={false}
+          >
+            { aggregations.categories.buckets.map(one => (
+              <Tree.TreeNode title={categoryall.find(i => i.id === one.key).name} key={one.key}>
+
+                { one.buckets.buckets && one.buckets.buckets.map(two => (
+                  <Tree.TreeNode title={categoryall.find(i => i.id === two.key).name} key={two.key}>
+
+                    { two.buckets.buckets && two.buckets.buckets.map(three => (
+                      <Tree.TreeNode title={categoryall.find(i => i.id === three.key).name} key={three.key} />
+                    ))}
+
+                  </Tree.TreeNode>
+                ))}
+              </Tree.TreeNode>
+            ))}
+          </Tree>
         );
       }
       return <div className="block">Ангилал байхгүй байна</div>;
@@ -309,7 +323,7 @@ class CategoryInfo extends React.Component {
                     {...this.props}
                     {...this}
                     total={this.props.searchKeyWordResponse.hits.total.value}
-                    aggregations={this.props.searchKeyWordResponse.aggregations}
+                    aggregations={this.state.aggregations}
                   />
                 </div>
               </div>
@@ -558,35 +572,39 @@ class CategoryInfo extends React.Component {
   };
 
   getData = () => {
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore, catid });
-    const { isLogged, data } = this.props;
+    try {
+      this.setState({ loading: !this.state.loading, ismore: !this.state.ismore, catid });
+      const { isLogged, data } = this.props;
 
-    const params = {
-      catId: catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: searchword,
-      attribute: "",
-      color: "",
-      brand: "",
-      promotion: "",
-      minPrice: 0,
-      maxPrice: 0,
-      startsWith: 0,
-      rowCount: 20,
-      orderColumn: this.state.sort,
-      highlight: false,
-    };
+      const params = {
+        catId: catid,
+        custId: isLogged ? data[0].info.customerInfo.id : 0,
+        value: searchword,
+        attribute: "",
+        color: "",
+        brand: "",
+        promotion: "",
+        minPrice: 0,
+        maxPrice: 0,
+        startsWith: 0,
+        rowCount: 20,
+        orderColumn: this.state.sort,
+        highlight: false,
+      };
 
-    this.props.searchProduct({ body: { ...params } }).then((res) => {
-      if (res.payload.success) {
-        this.setState({
-          products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
-          count: 20,
-          aggregations: res.payload.data.aggregations,
-        });
-      }
-    });
+      return this.props.searchProduct({ body: { ...params } }).then((res) => {
+        if (res.payload.success) {
+          this.setState({
+            products: res.payload.data.hits.hits,
+            loading: !this.state.loading,
+            count: 20,
+            aggregations: res.payload.data.aggregations,
+          });
+        }
+      });
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   handleChangeWord = () => {

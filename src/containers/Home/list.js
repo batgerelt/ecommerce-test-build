@@ -121,8 +121,7 @@ class Homepage extends React.Component {
 
       return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
-      // return console.log(error);
-      return null;
+      return console.log(error);
     }
   }
 

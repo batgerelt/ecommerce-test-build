@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash';
 import withQuery from 'with-query';
-import { message } from 'antd';
 
 const request = ({
   url, method, body, isfiles,
@@ -91,7 +90,7 @@ const asyncFn = ({
         url, method, body, isfiles,
       });
       if (data && data.success !== false) {
-        if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
+        // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
         // message.warning(data.message);
       }

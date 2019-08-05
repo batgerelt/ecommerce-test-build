@@ -175,7 +175,7 @@ class SwalModals extends React.Component {
                     >
                       <div className="col-md-12 pad10">
                         <p className="title">
-                          <strong>Гүйлгээний мэдээлэл</strong>
+                          <strong>Төлбөр төлөх банкаа сонгоно уу</strong>
                         </p>
                         <div className="menu-content text-left">
                           <ul className="list-unstyled">

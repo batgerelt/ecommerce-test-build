@@ -63,10 +63,10 @@ class Detail extends Component {
             </p>
           </div>
 
-          <div className="gift">
+          {/* <div className="gift">
             <div className="image-container" />
             <div className="info-container" />
-          </div>
+          </div> */}
 
           {this.renderCartInfo()}
         </div>

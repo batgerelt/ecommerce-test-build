@@ -74,7 +74,7 @@ class PaymentPanel extends React.Component {
         }
         <div className="text-right">
           <button className="btn btn-main" onClick={this.handleClick}>
-            Дараах
+            Дуусгах
           </button>
         </div>
       </div>
