@@ -7,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select, BackTop } from "antd";
+import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import { Link } from "react-router-dom";
 import {
   InfiniteLoader,
@@ -236,19 +236,31 @@ class CategoryInfo extends React.Component {
       const { categoryall } = this.props;
       const { aggregations } = this.state;
 
+      console.log(aggregations.categories);
+
       if (aggregations.length !== 0) {
         return (
-          <ul className="list-unstyled category-list">
-            {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
-                </li>
-                ))
-            }
-          </ul>
+          <Tree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            defaultExpandAll={false}
+            defaultExpandParent={false}
+          >
+            { aggregations.categories.buckets.map(one => (
+              <Tree.TreeNode title={categoryall.find(i => i.id === one.key).name} key={one.key}>
+
+                { one.buckets === undefined ? null : one.buckets.buckets.map(two => (
+                  <Tree.TreeNode title={categoryall.find(i => i.id === two.key).name} key={two.key}>
+
+                    { two.buckets === undefined ? null : two.buckets.buckets.map(three => (
+                      <Tree.TreeNode title={categoryall.find(i => i.id === three.key).name} key={three.key} />
+                    ))}
+
+                  </Tree.TreeNode>
+                ))}
+              </Tree.TreeNode>
+            ))}
+          </Tree>
         );
       }
       return <div className="block">Ангилал байхгүй байна</div>;

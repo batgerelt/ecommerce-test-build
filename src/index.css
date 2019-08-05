@@ -19,3 +19,23 @@ select {
   user-select: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+  background-color: #fff0a3 !important;
+}
+
+.ant-tree-title:hover{
+  background-color: #fff0a3 !important;
+  border-color: #fff0a3 !important;
+}
+
+.ant-collapse-content > .ant-collapse-content-box{
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header{
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
