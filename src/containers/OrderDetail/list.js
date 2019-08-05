@@ -1,7 +1,8 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link } from "react-router-dom";
-import { BackTop, Icon } from "antd";
+import { BackTop, Avatar } from "antd";
+import store from "../../../src/scss/assets/images/demo/store.png";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -70,7 +71,7 @@ class List extends React.Component {
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
-                  <strong>Захиалгын дүн</strong>
+                  <strong>Нийт дүн</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
@@ -80,7 +81,7 @@ class List extends React.Component {
               </ul>
             </div>
             <h5 className="title flex-this flex-space">
-              <span>Захиалгын төлөв</span>
+              <span>Хүргэлтийн төлөв</span>
               <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
                 {orderdetail.info.customerstatusname}
               </strong>
@@ -168,8 +169,8 @@ class List extends React.Component {
                         className="btn btn-link pull-right"
                         style={{ marginTop: "15px" }}
                       >
-                        <Icon type="rollback" />
-                        <span className="text-uppercase"> Захиалгын түүх рүү буцах</span>
+                        <Avatar size="small" shape="square" src={store} />
+                        <span className="text-uppercase"> Захиалгын жагсаалт харах</span>
                       </Link>
                     </div>
                   </div>
