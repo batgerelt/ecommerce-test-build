@@ -278,6 +278,7 @@ class CategoryInfo extends React.Component {
     try {
       const { categoryall } = this.props;
       const { categories } = this.state;
+      console.log('categories: ', categories);
 
       if (categories.buckets.length !== 0) {
         return (
@@ -298,7 +299,8 @@ class CategoryInfo extends React.Component {
                       title={categoryall.find(i => i.id === two.key).name}
                       key={two.key}
                     >
-                      {two.buckets.buckets &&
+                      {
+                        two.buckets !== undefined && two.buckets.buckets !== undefined ?
                         two.buckets.buckets.map(three => (
                           <Tree.TreeNode
                             title={
@@ -306,7 +308,8 @@ class CategoryInfo extends React.Component {
                             }
                             key={three.key}
                           />
-                        ))}
+                        )) : null
+                      }
                     </Tree.TreeNode>
                   ))}
               </Tree.TreeNode>
@@ -317,8 +320,8 @@ class CategoryInfo extends React.Component {
 
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
-      // return console.log(error);
-      return null;
+      return console.log(error);
+      // return null;
     }
   };
 
