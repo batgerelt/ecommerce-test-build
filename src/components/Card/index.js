@@ -64,7 +64,6 @@ class Card extends React.Component {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
-          console.log('result: ', result);
 
           if (!result.payload.success) {
             return message.warning(result.payload.message);
@@ -93,7 +92,6 @@ class Card extends React.Component {
           //
         }
       } else if (item.skucd) {
-        console.log(item);
         item.insymd = Date.now();
         item.cd = item.skucd;
         this.props.incrementProductLocally(item);
