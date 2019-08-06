@@ -20,9 +20,9 @@ class FilterSet extends React.Component {
 class Content extends React.Component {
   renderAttribute = () => {
     try {
-      const { attrvalue, attrall, aggregations } = this.props;
+      const { attrvalue, attrall, data } = this.props;
 
-      return aggregations.attributes.groups.buckets.map((attribute, index) => {
+      return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
         let attname = attrall.find(i => i.id === attribute.key).name;
 
         if (attribute.doc_count >= this.props.total) {
@@ -68,15 +68,15 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
   renderFilterBrand = () => {
     try {
-      const { aggregations, brandall } = this.props;
+      const { data, brandall } = this.props;
 
-      if (aggregations.brands.buckets.buckets.length !== 0) {
+      if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
           <Collapse.Panel header="Бренд" key="8">
             <div className="collapse show" id={moment()}>
               <div className="collapse-content">
                 <ul className="list-unstyled">
-                  {aggregations.brands.buckets.buckets.map((brand, index) => (
+                  {data.aggregations.brands.buckets.buckets.map((brand, index) => (
                     <li key={index} style={{ display: 'flex' }}>
                       <Checkbox
                         key={index}
@@ -108,14 +108,14 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн өнгийн жагсаалт харуулах хэсэг
   renderFilterColor = () => {
     try {
-      const { aggregations } = this.props;
-      if (aggregations.colors.buckets.length !== 0) {
+      const { data } = this.props;
+      if (data.aggregations.colors.buckets.length !== 0) {
         return (
           <Collapse.Panel header={'Өнгө'} key="9">
             <div className="collapse show">
               <div className="collapse-content">
                 <ul className="list-unstyled">
-                  {aggregations.colors.buckets.map((color, index) => (
+                  {data.aggregations.colors.buckets.map((color, index) => (
                     <Checkbox
                       key={index}
                       onChange={this.props.handleChangeColor}
@@ -144,13 +144,13 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
   renderFilterPrice = () => {
     try {
-      const { aggregations } = this.props;
+      const { data } = this.props;
       const marks = {
-        [aggregations.min_price.value]: {
-          label: <strong>{formatter.format(aggregations.min_price.value)}₮</strong>,
+        [data.aggregations.min_price.value]: {
+          label: <strong>{formatter.format(data.aggregations.min_price.value)}₮</strong>,
         },
-        [aggregations.max_price.value]: {
-          label: <strong>{formatter.format(aggregations.max_price.value)}₮</strong>,
+        [data.aggregations.max_price.value]: {
+          label: <strong>{formatter.format(data.aggregations.max_price.value)}₮</strong>,
         },
       };
 
@@ -158,14 +158,14 @@ class Content extends React.Component {
         <Collapse.Panel header={'Үнэ'} key="10">
           <Slider
             range
-            min={aggregations.min_price.value}
-            max={aggregations.max_price.value}
+            min={data.aggregations.min_price.value}
+            max={data.aggregations.max_price.value}
             marks={marks}
             onAfterChange={this.props.handleChangePrice}
             style={{ width: "90%" }}
             defaultValue={[
-              aggregations.min_price.value,
-              aggregations.max_price.value,
+              data.aggregations.min_price.value,
+              data.aggregations.max_price.value,
             ]}
           />
         </Collapse.Panel>

@@ -229,6 +229,7 @@ class AppHeader extends Component {
                               style={{ margin: "0px", width: "100%" }}
                             >
                               <input
+                                required
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
@@ -246,7 +247,7 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={word === "" ? "#" : `/search/${item.id}/${word}/${moment()}`}
+                            to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
                             style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i

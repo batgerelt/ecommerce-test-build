@@ -380,7 +380,6 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
-    console.log("products: ", products);
 
     if (!products) {
       return 0;
@@ -497,16 +496,17 @@ class List extends React.Component {
               <div className="col-md-3 pad10">
                 <div className="product-plus">
                   {this.props.info === undefined ? null : this.renderDelivery()}
-                  <div className="block product-suggest">
-                    <p className="title">
-                      <strong>Ижил бараа</strong>
-                    </p>
-                    <ul className="list-unstyled">
-                      {this.props.packageDetail === undefined
-                        ? null
-                        : this.renderSimilarProducts()}
-                    </ul>
-                  </div>
+                  {this.props.packageDetail === undefined
+                    ? null
+                    : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
+                      <div className="block product-suggest">
+                        <p className="title">
+                          <strong>Ижил бараа</strong>
+                        </p>
+                        <ul className="list-unstyled">
+                          {this.renderSimilarProducts()}
+                        </ul>
+                      </div> : null}
                 </div>
               </div>
             </div>

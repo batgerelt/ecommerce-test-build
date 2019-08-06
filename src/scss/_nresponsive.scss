@@ -1126,6 +1126,12 @@
             }
         }
     }
+
+    .image-magnify{
+        img {
+          height: 359.25px !important;
+        }
+      }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
@@ -1226,6 +1232,12 @@
     body {
         margin-top: 95px;
     }
+
+    .image-magnify{
+        img {
+          height: 259.25px !important;
+        }
+      }
 }
 
 @media (max-width: 576px) {
