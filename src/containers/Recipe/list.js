@@ -201,7 +201,6 @@ class Recipe extends React.Component {
   renderFooterProduct = () => {
     try {
       const { packageAll, widgetAll } = this.props;
-      const { products } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
@@ -211,7 +210,7 @@ class Recipe extends React.Component {
                 const rowCount = this.getRowsAmount(
                   width,
                   products.length,
-                  true,
+                  products.length !== this.state.rowCount,
                 );
                 return (
                   <InfiniteLoader

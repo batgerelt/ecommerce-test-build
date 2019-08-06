@@ -26,7 +26,8 @@ class Magnifier extends React.Component {
             height: "200%",
           },
         }}
-        style={{ zIndex: 15 }}
+        className="image-magnify"
+        style={{ zIndex: 15, objectFit: 'contain' }}
       />
     );
   }
