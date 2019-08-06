@@ -49,7 +49,7 @@ class ProductDetail extends React.Component {
         <Detail
           detail={detail.products === null ? {} : detail.products}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
-          isLoggedIn={this.props.data.isLogged}
+          isLoggedIn={this.props.isLogged}
           addWishList={addWishList}
           addRate={addRate}
           LoginModal={this.props.LoginModal}
