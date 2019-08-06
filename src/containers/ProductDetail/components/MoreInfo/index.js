@@ -33,7 +33,7 @@ class Moreinfo extends Component {
       return (
         <div className="col-md-12 col-lg-12 col-sm-12 col-xl-12 ck-editor">
           {!!attributes && !!attributes.length && (
-            <div style={{ marginTop: "80px", marginBottom: "0" }}>
+            <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
                 <span className="text-uppercase">Мэдээлэл</span>
               </h1>
@@ -51,7 +51,7 @@ class Moreinfo extends Component {
           )}
 
           {!!similarProducts && !!similarProducts.length && (
-            <div style={{ marginTop: "80px", marginBottom: "0" }}>
+            <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
                 <span className="text-uppercase">Ижил бараа</span>
               </h1>
@@ -64,7 +64,7 @@ class Moreinfo extends Component {
           )}
 
           {product.description && (
-            <div style={{ marginTop: "80px", marginBottom: "0" }}>
+            <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
                 <span className="text-uppercase">Танилцуулга</span>
               </h1>

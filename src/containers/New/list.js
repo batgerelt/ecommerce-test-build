@@ -22,7 +22,7 @@ import {
 } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
-const ITEM_HEIGHT = 340;
+let ITEM_HEIGHT = 340;
 
 const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
   return (
@@ -71,7 +71,7 @@ class Bookmarks extends PureComponent {
           jumcd: '99',
           start: this.state.count,
           rowcnt: 20,
-          order: `price_asc`,
+          order: `date_desc`,
         }).then((res) => {
           if (res.payload.success) {
             this.setState({
@@ -182,6 +182,16 @@ class Bookmarks extends PureComponent {
     }
   };
 
+  generateItemHeight = (width) => {
+    if (width >= 700 && width < 960 || width > 1000) {
+      return 340;
+    }
+    if (width < 400) {
+      return 340;
+    }
+    return 400;
+  }
+
   renderFooterProduct = () => {
     try {
       return (
@@ -213,7 +223,7 @@ class Bookmarks extends PureComponent {
                               scrollTop={scrollTop}
                               width={width}
                               rowCount={rowCount}
-                              rowHeight={ITEM_HEIGHT}
+                              rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({
                                 index, isScrolling, key, style,

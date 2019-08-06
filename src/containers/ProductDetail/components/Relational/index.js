@@ -83,7 +83,7 @@ class Relational extends Component {
                           style={{
                             backgroundImage: `url(${process.env.IMAGE}${
                               prod.img
-                            })`,
+                              })`,
                           }}
                         />
                       </Link>
@@ -118,6 +118,7 @@ class Relational extends Component {
                   className="btn btn-border"
                   onClick={this.handleShowMoreClick}
                   disabled={isShowMoreClicked}
+                  style={{ height: "100%" }}
                 >
                   <span className="text text-uppercase">
                     Бүх хослох барааг үзэх

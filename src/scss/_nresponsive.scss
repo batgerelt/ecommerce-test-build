@@ -37,6 +37,10 @@
     body {
         margin-top: 145px;
     }
+    
+    .gift{
+        display: none;
+    }
 
     .top-nav {
         .d-none {
@@ -370,7 +374,7 @@
             .name {
                 span {
                     font-size: 18px;
-                    font-weight: 600;
+                    font-weight: 400;
                     // color: #feb413;
                 }
             }
@@ -1129,7 +1133,7 @@
 
     .image-magnify{
         img {
-          height: 359.25px !important;
+          // height: 359.25px !important;
         }
       }
 }
@@ -1235,7 +1239,7 @@
 
     .image-magnify{
         img {
-          height: 259.25px !important;
+          // height: 259.25px !important;
         }
       }
 }

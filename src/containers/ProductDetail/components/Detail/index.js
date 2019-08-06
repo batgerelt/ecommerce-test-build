@@ -262,13 +262,12 @@ class Detail extends Component {
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
             <span>Сагсанд нэмэх</span>
           </button>
-
-          {detail.sdate !== null && detail.edate !== null && (
-            <p className="text text-right">
-              Хямдрал {this.generateDate(detail)} хоногийн дараа дуусна
-            </p>
-          )}
         </div>
+        {detail.sdate !== null && detail.edate !== null && (
+          <p className="text text-right">
+            Хямдрал {this.generateDate(detail)} хоногийн дараа дуусна
+          </p>
+        )}
       </form>
     );
   };

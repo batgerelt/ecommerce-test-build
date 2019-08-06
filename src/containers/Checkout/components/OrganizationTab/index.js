@@ -21,6 +21,14 @@ class OrganizationTab extends React.Component {
     }
   }
 
+  checkOrgValue = (e) => {
+    let value = this.props.form.getFieldsValue(["regno"]);
+    if (value.regno === undefined || value.regno === "") {
+      return true;
+    }
+    return false;
+  }
+
   edit = (e) => {
     const { setFieldsValue } = this.props.form;
     const { DeliveryInfo } = this.props;
@@ -70,7 +78,7 @@ class OrganizationTab extends React.Component {
           </div>
           {
             !connected ?
-              <Button loading={loading} className="btn btn-main solid" htmlType="submit">Холбох</Button> :
+              <Button loading={loading} disabled={this.checkOrgValue()} className="btn btn-main solid" htmlType="submit">Холбох</Button> :
               <Button loading={loading} className="btn btn-main solid" onClick={this.edit}>Засах</Button>
           }
         </Form>

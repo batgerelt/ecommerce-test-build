@@ -367,6 +367,7 @@ class DeliveryPanel extends React.Component {
 
   handleAddAddress = (e) => {
     e.preventDefault();
+    console.log("sf");
     this.setState({ addresstype: "new" });
     this.getDistrictAndCommitte(0);
   }
@@ -429,7 +430,7 @@ class DeliveryPanel extends React.Component {
                         {
                           main !== null ?
                             <div className="col-xl-4 col-md-4">
-                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Шинэ хаяг</button>
+                              <button className="btn btn-dark addAddressBtn" type="button" onClick={this.handleAddAddress}>Шинэ хаяг</button>
                             </div> : null
                         }
                       </div>
@@ -556,7 +557,7 @@ class DeliveryPanel extends React.Component {
                   </div>
                   <hr />
 
-                  <div className="text-right">
+                  <div className="text-right" style={{ marginBottom: "15px" }}>
                     <button className="btn btn-main" type="submit" disabled={!(!dateLoading || !selectLoading)}>
                       Дараах
                     </button>
