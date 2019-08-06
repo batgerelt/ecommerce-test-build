@@ -13,7 +13,9 @@ class Comment extends Component {
   };
 
   handleCommitChange = (e) => {
-    this.setState({ comment: e.target.value });
+    if (e.target.value.length <= 120) {
+      this.setState({ comment: e.target.value });
+    }
   };
 
   handleCommentSend = (e) => {
@@ -78,7 +80,7 @@ class Comment extends Component {
                     id="emailHelp"
                     className="form-text text-muted text-right"
                   >
-                    0 / 120
+                    {this.state.comment.length} / 120
                   </small>
                 </div>
                 <button
