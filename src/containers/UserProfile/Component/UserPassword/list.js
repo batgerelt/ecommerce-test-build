@@ -38,10 +38,18 @@ class Component extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
+    if (value.length < 6) {
+      callback("Нууц үг сул байна.");
+    } else if (value.search(/[a-zA-Z]/) === -1) {
+      callback("Нууц үг сул байна.");
+    } else if (value.search(/[0-9]/) === -1) {
+      callback("Нууц үг сул байна.");
+    } else {
+      callback();
+    }
     if (value && this.state.confirmDirty) {
       this.props.form.validateFields(["confirm"], { force: true });
     }
-    callback();
   };
 
   renderPassword = () => {
@@ -52,7 +60,7 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
               {getFieldDecorator("oldPassword", {
-                rules: [{ required: true, message: "Хуучин нууц үг!" }, { validator: this.validateToNextPassword }],
+                rules: [{ validator: this.validateToNextPassword }],
               })(<Input.Password placeholder="Хуучин нууц үг" />)}
             </Form.Item>
           </Col>
@@ -62,7 +70,6 @@ class Component extends React.Component {
                 rules: [
                   { required: true, message: "Шинэ нууц үг!" },
                   { validator: this.validateToNextPassword },
-                  { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
                 ],
               })(<Input.Password placeholder="Шинэ нууц үг" />)}
             </Form.Item>

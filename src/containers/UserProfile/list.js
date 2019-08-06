@@ -53,7 +53,7 @@ class List extends React.Component {
     return (
       <div>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
-        <span>{percents}% / 100%</span>
+        <span> {percents}% / 100%</span>
       </div>
     );
   }
