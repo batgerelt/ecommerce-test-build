@@ -1186,6 +1186,17 @@
     }
 }
 
+@media only screen and (max-device-width: 1024px) and (min-device-width: 767px){
+    .panel-left {
+        margin-top: 60px !important;
+        width: 30% !important;
+        max-width: 30% !important;
+    }
+    .user-menu-content {
+        margin-top: 60px !important;
+    }
+}
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     .product-detail-page {
         .col-md-9 {
@@ -1197,6 +1208,9 @@
             flex: 0 0 100%;
             max-width: 100%;
         }
+    }
+    .orderdetail  {
+        margin-top: 150px !important;
     }
     
     /* .mobile-menu-container {

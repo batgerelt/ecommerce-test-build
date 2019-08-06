@@ -148,7 +148,7 @@ class List extends React.Component {
   render() {
     const { orderdetail } = this.props;
     return (
-      <div className="section">
+      <div className="section orderdetail">
         <div className="top-container">
           <div className="container pad10">
             <div className="cart-container after-order">

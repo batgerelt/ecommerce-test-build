@@ -335,7 +335,6 @@ class Component extends React.Component {
             <Spin
               spinning={loader}
               indicator={<Loader />}
-              tip="Түр хүлээнэ үү"
             >
               <table className="table table-borderless">
                 <thead className="thead-light" hidden>
