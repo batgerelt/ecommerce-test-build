@@ -3224,3 +3224,10 @@ textarea:focus {
   height: initial !important;
   overflow: initial !important;
 }
+
+.image-magnify{
+  img {
+    object-fit: contain;
+    height: 315.41px !important;
+  }
+}

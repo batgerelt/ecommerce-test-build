@@ -169,7 +169,7 @@ class Discount extends React.Component {
                 const rowCount = this.getRowsAmount(
                   width,
                   products.length,
-                  true,
+                  this.state.products.length < this.state.rowCount,
                 );
                 return (
                   <InfiniteLoader
