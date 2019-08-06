@@ -110,7 +110,7 @@ class RegistrationModal extends React.Component {
           <Form.Item>
             {getFieldDecorator("phonE1", {
               rules: [
-                { required: true, message: "Утасны дугаар оруулна уу" },
+                { required: true, message: "Утасны дугаараа оруулна уу" },
                 { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
                 { min: 8, message: "Утасны дугаар 8 оронтой байна" },
               ],
