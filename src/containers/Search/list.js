@@ -278,7 +278,6 @@ class CategoryInfo extends React.Component {
     try {
       const { categoryall } = this.props;
       const { categories } = this.state;
-      console.log('categories: ', categories);
 
       if (categories.buckets.length !== 0) {
         return (
