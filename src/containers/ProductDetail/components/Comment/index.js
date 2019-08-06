@@ -45,7 +45,7 @@ class Comment extends Component {
       return (
         <div
           className="comments-container"
-          style={{ marginTop: "80px", width: "100%" }}
+          style={{ marginTop: "30px", width: "100%" }}
         >
           {auth && (
             <div className="write-comment">
@@ -94,7 +94,7 @@ class Comment extends Component {
             </div>
           )}
           {comments.length !== 0 && (
-            <div style={{ marginTop: "80px" }}>
+            <div style={{ marginTop: "40px" }}>
               <h1 className="title">
                 <span className="text-uppercase">Сэтгэгдэл</span>
               </h1>

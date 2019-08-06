@@ -13,6 +13,7 @@ import {
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
+import { ForgetModal } from "../../components/ForgetModal";
 import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
@@ -61,8 +62,9 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} loading={loading} LoginModal={this.LoginModal} />
-        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+        <List {...this.props} loading={loading} LoginModal={this.LoginModal} ForgetModal={this.ForgetModal} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
+        <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} />
       </Spin>
     );
   }

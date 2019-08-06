@@ -51,30 +51,33 @@ class PaymentPanel extends React.Component {
   render() {
     const { chosenRadio } = this.state;
     return (
-      <div className="content-container payment">
-        <p className="title">
-          <strong>НӨАТ баримтын төрөл</strong>
-        </p>
+      <div>
+        <div className="content-container payment">
+          <p className="title">
+            <strong>НӨАТ баримтын төрөл</strong>
+          </p>
 
-        <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
-          <div className="hand-pay flex-this">
-            <div className="form-check">
-              <Radio value={1}>Хувь хүн</Radio>
+          <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
+            <div className="hand-pay flex-this">
+              <div className="form-check">
+                <Radio value={1}>Хувь хүн</Radio>
+              </div>
+              <div className="form-check">
+                <Radio value={2}>Байгууллага</Radio>
+              </div>
             </div>
-            <div className="form-check">
-              <Radio value={2}>Байгууллага</Radio>
-            </div>
-          </div>
-        </RadioGroup>
-        {
-          chosenRadio === 1 ?
-            <IndividualTab onRef={ref => (this.IndividualTab = ref)} {...this} {...this.props} />
-            :
-            <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
-        }
+          </RadioGroup>
+          {
+            chosenRadio === 1 ?
+              <IndividualTab onRef={ref => (this.IndividualTab = ref)} {...this} {...this.props} />
+              :
+              <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
+          }
+        </div>
+        <hr />
         <div className="text-right">
-          <button className="btn btn-main" onClick={this.handleClick}>
-            Дуусгах
+          <button className="btn btn-main" onClick={this.handleClick} style={{ marginBottom: "15px" }}>
+            Дараах
           </button>
         </div>
       </div>

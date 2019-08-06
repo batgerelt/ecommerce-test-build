@@ -77,7 +77,7 @@ class PaymentTypePanel extends React.Component {
         </div>
         <hr />
         <div className="text-right">
-          <button className="btn btn-main" name="payment" type="submit">
+          <button className="btn btn-main" name="payment" type="submit" style={{ marginBottom: "15px" }}>
             Дараах
           </button>
         </div>
