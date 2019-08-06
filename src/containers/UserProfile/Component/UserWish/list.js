@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider, Rate, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -50,7 +50,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                <Rate value={Number(item.rate) / 2} disabled />
+                <Rate allowHalf value={item.rate / 2} disabled />
               </div>
             </div>
           </div>
@@ -90,6 +90,7 @@ class Component extends React.Component {
           </p>
           <Spin
             spinning={this.state.loader}
+            indicator={<Loader />}
           >
             <div className="product-list-history" style={{ minHeight: "30em" }}>
               {this.renderProducts()}

@@ -301,7 +301,7 @@
             }
 
             .top-2 {
-                display: none;
+                 padding-right: 0 !important;
             }
 
             .language {
@@ -1142,7 +1142,7 @@
         // left: 30px;
         // margin-left: 10px;
     }
-
+    
     .btn.mobile-search-cross {
         display: none !important;
     }
@@ -1180,6 +1180,10 @@
             flex: 0 0 100%;
             max-width: 100%;
         }
+    }
+
+    .fixed-left-side {
+        display: none !important;
     }
 
     .left-panel {

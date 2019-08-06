@@ -65,19 +65,6 @@ class MobileMenu extends React.Component {
               </button>
             </li>
           </ul>
-          <ul className="list-unstyled flex-this flex-space top-2">
-            <li className="list-inline-item notification">
-              <Link to="#">
-                <i className="fa fa-bell" aria-hidden="true" />
-                <span>5</span>
-              </Link>
-            </li>
-            <li className="list-inline-item">
-              <div onClick={this.showLogInModal} style={{ display: 'flex', alignItems: 'center' }}>
-                <span className="text-uppercase" >Нэвтрэх</span>
-              </div>
-            </li>
-          </ul>
         </div>
       );
     } catch (error) {
@@ -100,7 +87,7 @@ class MobileMenu extends React.Component {
                     <span>{item.menunm}</span>
                   </Link>
                 </li>
-                ))
+              ))
             }
           </ul>
         </div>
@@ -135,18 +122,18 @@ class MobileMenu extends React.Component {
             <Link to={item.route} style={{ color: "#999" }}>
               <span>{item.name}</span>
             </Link>
-            }
+          }
         >
           {item.children &&
-              item.children.map(function (it, ind) {
-                return (
-                  <Menu.Item key={ind} style={{ color: "white" }}>
-                    <Link to={it.route} onClick={() => this.togglePopup}>
-                      {it.name}
-                    </Link>
-                  </Menu.Item>
-                );
-              })}
+            item.children.map(function (it, ind) {
+              return (
+                <Menu.Item key={ind} style={{ color: "white" }}>
+                  <Link to={it.route} onClick={() => this.togglePopup}>
+                    {it.name}
+                  </Link>
+                </Menu.Item>
+              );
+            })}
         </Menu.SubMenu>
       ));
 

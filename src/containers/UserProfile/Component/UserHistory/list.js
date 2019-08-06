@@ -1,9 +1,7 @@
 import React from "react";
 import { Rate, message, Spin, BackTop, Icon } from "antd";
 import { Link } from "react-router-dom";
-/* import ReactSVG from "react-svg"; */
-/* import { Loader } from "../../../../components"; */
-/* import { loader } from "../../../../assets"; */
+import { Loader } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -61,7 +59,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                <Rate value={item.rate / 2} disabled />
+                <Rate allowHalf value={item.rate / 2} disabled />
               </div>
             </div>
           </div>
@@ -112,7 +110,7 @@ class Component extends React.Component {
           </p>
           <Spin
             spinning={loaders}
-            indicator={icon}
+            indicator={<Loader />}
           >
             <div className="product-list-history" style={{ minHeight: "30em" }}>
               {this.renderProducts()}

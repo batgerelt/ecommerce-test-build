@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
 import LatinInput from "../../../../components/Input/LatinInput";
+import { Loader } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -333,6 +334,7 @@ class Component extends React.Component {
             </p>
             <Spin
               spinning={loader}
+              indicator={<Loader />}
               tip="Түр хүлээнэ үү"
             >
               <table className="table table-borderless">
