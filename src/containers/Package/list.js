@@ -39,7 +39,7 @@ class Discount extends React.Component {
           title={menuPackage.menunm}
           subtitle={menuPackage.subtitle}
           banners={packagebanner.length === 0 ? [] : packagebanner.header}
-          bgColor="rgb(255, 153, 204)"
+          bgColor="#8CBD3F"
         />
       );
     } catch (error) {

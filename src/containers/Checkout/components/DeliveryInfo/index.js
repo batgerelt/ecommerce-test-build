@@ -422,7 +422,7 @@ class DeliveryInfo extends React.Component {
             <Checkbox onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold", color: this.state.notif ? "red" : "" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
+                <span style={{ fontWeight: "bold", color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
