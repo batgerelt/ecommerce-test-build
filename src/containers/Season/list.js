@@ -64,7 +64,7 @@ class CategoryInfo extends React.Component {
         if (res.payload.success) {
           this.setState({
             products: res.payload.data.hits.hits,
-            startsWith: this.state.startsWith + 20,
+            startsWith: 20,
             aggregations: res.payload.data,
             promotions: res.payload.data.aggregations.promotions,
           });

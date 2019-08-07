@@ -327,10 +327,8 @@ class CategoryInfo extends React.Component {
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
-                    onRef={ref => (this.FilterSet = ref)}
                     {...this.props}
                     {...this}
-                    {...this.state}
                     data={this.state.aggregations}
                   />
                 </div>

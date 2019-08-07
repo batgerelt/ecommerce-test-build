@@ -35,7 +35,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       sort: "",
       isLeftPanel: false,
-      ITEM_HEIGHT: 284.98,
+      ITEM_HEIGHT: 294.98,
       shapeType: 2,
       colors: [],
       brands: [],
@@ -46,6 +46,10 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       ismore: false,
     };
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   handleChangeOrder = (e) => {
@@ -477,7 +481,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -596,6 +600,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    style={{ padding: '10px 10px' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
@@ -628,7 +633,7 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     searchid = this.props.match.params.id;
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
+    this.setState({ loading: true, ismore: !this.state.ismore });
     const { isLogged, data } = this.props;
 
     const params = {
@@ -651,7 +656,7 @@ class CategoryInfo extends React.Component {
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
+          loading: false,
           count: 20,
           aggregations: res.payload.data,
           categories: res.payload.data.aggregations.categories,

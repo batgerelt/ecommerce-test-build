@@ -32,7 +32,7 @@ class CategoryInfo extends React.Component {
       products: [],
       catid: 0,
       isListViewOn: false,
-      loading: false,
+      loading: true,
       minPrice: 0,
       maxPrice: 0,
       sort: "",
@@ -46,6 +46,10 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       nodata: false,
     };
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   componentDidMount() {
@@ -648,7 +652,7 @@ class CategoryInfo extends React.Component {
   getData = () => {
     try {
       this.setState({
-        loading: !this.state.loading,
+        loading: true,
         ismore: !this.state.ismore,
         catid,
       });
@@ -674,7 +678,7 @@ class CategoryInfo extends React.Component {
         if (res.payload.success) {
           this.setState({
             products: res.payload.data.hits.hits,
-            loading: !this.state.loading,
+            loading: false,
             count: 20,
             aggregations: res.payload.data,
             categories: res.payload.data.aggregations.categories,

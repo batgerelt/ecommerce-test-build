@@ -69,7 +69,6 @@ class Content extends React.Component {
   renderFilterBrand = () => {
     try {
       const { data, brandall } = this.props;
-
       if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
           <Collapse.Panel header="Бренд" key="8">
