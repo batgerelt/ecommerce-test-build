@@ -35,7 +35,7 @@ class Recipe extends React.Component {
           title={menuRecipe.menunm}
           subtitle={menuRecipe.subtitle}
           banners={recipebanner.length === 0 ? [] : recipebanner.header}
-          bgColor="#fffdb7"
+          bgColor="#F2769B"
         />
       );
     } catch (error) {

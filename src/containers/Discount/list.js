@@ -36,22 +36,22 @@ class Discount extends React.Component {
   }
 
   componentWillMount() {
-    /*  this.props.getDiscountProduct({
+    this.props.getDiscountProduct({
       jumcd: '99',
-      start: 0,
-      rowcnt: 10,
+      start: this.state.count,
+      rowcnt: 20,
       order: `price_asc`,
     }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
+        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
       }
-    }); */
+    });
   }
 
   // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = (key) => {
     try {
-      if (!this.props.discountFetching && this.state.products.length < this.state.rowCount) {
+      if (!this.props.discountFetching && this.state.products.length < this.props.discountproduct.count) {
         this.setState({ loading: true });
         this.props.getDiscountProduct({
           jumcd: '99',
@@ -61,7 +61,7 @@ class Discount extends React.Component {
         }).then((res) => {
           if (res.payload.success) {
             this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count,
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
             });
           }
         });
@@ -109,7 +109,7 @@ class Discount extends React.Component {
           title={menuDiscount.menunm}
           subtitle={menuDiscount.subtitle}
           banners={discountbanner.length === 0 ? [] : discountbanner.header}
-          bgColor="#4286f4"
+          bgColor="#EF3340"
         />
       );
     } catch (error) {
@@ -163,6 +163,7 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
+      console.log(this.props);
       return (
         <div className="section">
           <div className="container pad10">
@@ -172,7 +173,7 @@ class Discount extends React.Component {
                   const rowCount = this.getRowsAmount(
                     width,
                     this.state.products.length,
-                    this.state.products.length !== this.state.rowCount,
+                    this.state.products.length !== this.props.discountproduct.count,
                   );
                   return (
                     <InfiniteLoader
@@ -219,7 +220,7 @@ class Discount extends React.Component {
                                     {
                                       rowItems.map(itemId => (
                                         <Card
-                                          key={itemId.cd}
+                                          key={itemId.cd + key}
                                           shape={CARD_TYPES.slim}
                                           item={itemId}
                                           {...this.props}

@@ -190,9 +190,7 @@ class Model extends BaseModel {
       case this.model.newproduct.error:
         return { ...state, isFetching: false, current: this.errorCase(state.current, action) };
       case this.model.newproduct.response:
-        return {
-          ...state, isFetching: false, newproduct: state.newproduct.concat(action.payload.data), count: state.count + 20,
-        };
+        return { ...state, isFetching: false, newproduct: action.payload.data };
 
       // GET DETAIL
       case this.model.detail.request:

@@ -588,7 +588,7 @@ class CategoryInfo extends React.Component {
           title={menuSeason.menunm}
           subtitle={menuSeason.subtitle}
           banners={seasonbanner}
-          bgColor="#4286f4"
+          bgColor="rgb(163, 167, 170)"
         />
       );
     } catch (error) {

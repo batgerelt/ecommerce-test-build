@@ -50,22 +50,22 @@ class Bookmarks extends PureComponent {
   }
 
   componentWillMount() {
-    /* this.props.getNewProduct({
+    this.props.getNewProduct({
       jumcd: '99',
-      start: 0,
-      rowcnt: 10,
-      order: `price_asc`,
+      start: this.state.count,
+      rowcnt: 20,
+      order: `date_desc`,
     }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
+        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
       }
-    }); */
+    });
   }
 
   // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (!this.props.isFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+      if (!this.props.isFetching && this.state.products.length < this.props.newproduct.count) {
         this.setState({ loading: true });
         this.props.getNewProduct({
           jumcd: '99',
@@ -75,9 +75,7 @@ class Bookmarks extends PureComponent {
         }).then((res) => {
           if (res.payload.success) {
             this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-            }, () => {
-              this.setState({ loading: false });
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
             });
           }
         });
@@ -128,13 +126,13 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const { newbanner, menuNew, pagebanner } = this.props;
+      const { newbanner, menuNew } = this.props;
       return (
         <PageBanner
           title={menuNew.menunm}
           subtitle={menuNew.subtitle}
           banners={newbanner.length === 0 ? [] : newbanner.header}
-          bgColor="#bbdefb"
+          bgColor="#00A1E4"
         />
       );
     } catch (error) {
@@ -204,7 +202,7 @@ class Bookmarks extends PureComponent {
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    products.length !== this.state.rowCount,
+                    true,
                   );
                   return (
                     <InfiniteLoader
