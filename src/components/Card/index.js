@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate, message } from "antd";
-import { Label } from "../";
+import { Label, ElasticLabel } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -408,7 +408,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    // this.props.elastic ? <Label elastic data={item} /> :
+                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
                     item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}

@@ -1,10 +1,14 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
-import { message } from "antd";
+import { message, Button } from "antd";
 
 class List extends React.Component {
   state = { message: [] };
+
+  handleLogin = () => {
+    this.props.LoginModal.handleLoginModal();
+  }
 
   renderSuccessTrue() {
     return (
@@ -15,6 +19,7 @@ class List extends React.Component {
           боломжтой
         </p>
         <p>Манай системийн хэрэглэгч болсон танд баярлалаа!</p>
+        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>нэвтрэх</Button>
       </div>
     );
   }
@@ -55,7 +60,7 @@ class List extends React.Component {
                       src={IMAGE + staticInfo.logopath}
                     /> */}
                   </div>
-                  {confirms.length === 0 ? null : this.renderConfirm()}
+                  {confirms.length === 0 ? null : this.renderSuccessTrue()}
                 </center>
               </div>
             </div>

@@ -449,12 +449,12 @@ class CategoryInfo extends React.Component {
           catId: this.state.catid,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
           value: '',
-          attribute: "",
+          attribute: this.state.attributes.join(','),
           color: this.state.colors.join(','),
           brand: "emart",
           promotion: "",
-          minPrice: 0,
-          maxPrice: 0,
+          minPrice: this.state.minPrice,
+          maxPrice: this.state.maxPrice,
           startsWith: this.state.count,
           rowCount: 20,
           orderColumn: this.state.sort,
@@ -523,6 +523,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    elastic
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}

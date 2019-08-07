@@ -18,6 +18,7 @@ import FilterSet from "./FilterSet";
 import CardSlider from "./CardSlider";
 import NotFound from "./NotFound";
 import SearchFilterSet from "./SearchFilterSet";
+import ElasticLabel from "./ElasticLabel";
 
 export {
   Exception,
@@ -40,4 +41,5 @@ export {
   CardSlider,
   NotFound,
   SearchFilterSet,
+  ElasticLabel,
 };

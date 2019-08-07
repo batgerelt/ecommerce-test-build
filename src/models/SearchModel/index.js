@@ -16,6 +16,7 @@ class Model extends BaseModel {
     searchKeyWordResponse: [],
     isFetchingSearch: false,
     promotionall: [],
+    tags: [],
   }
 
   constructor(data = {}) {
@@ -52,11 +53,18 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'promotionAll'),
           error: this.buildActionName('error', data.model, 'promotionAll'),
         },
+        tags: {
+          request: this.buildActionName('request', data.model, 'tags'),
+          response: this.buildActionName('response', data.model, 'tags'),
+          error: this.buildActionName('error', data.model, 'tags'),
+        },
       };
     }
   }
 
   searchWord = ({ keyword, rownum = 20 } = {}) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
+
+  getTags = () => asyncFn({ url: `/search/tag`, method: 'GET', model: this.model.tags });
 
   searchProductBrand = ({
     id, start = 0, rowcnt = 20, order = `price_asc`,
@@ -134,6 +142,14 @@ class Model extends BaseModel {
       // RESET SEARCH
       case 'resetsearch':
         return { ...state, searchKeyWordResponse: state.searchKeyWordResponse.hits.hits.splice(0, 20) };
+
+      // GET ALL TAGS
+      case this.model.tags.request:
+        return { ...state, isFetchingSearch: true, current: this.requestCase(state.current, action) };
+      case this.model.tags.error:
+        return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
+      case this.model.tags.response:
+        return { ...state, tags: action.payload.data };
 
       default:
         return state;
