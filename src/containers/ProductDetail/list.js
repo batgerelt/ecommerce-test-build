@@ -114,11 +114,11 @@ class ProductDetail extends React.Component {
 
   renderBreadCrumb = () => {
     try {
-      const { detail, categoryall } = this.props;
+      const { detail, categorymenu } = this.props;
       return (
         <Breadcrumb
           product={detail.products}
-          categories={categoryall}
+          categories={categorymenu}
         />
       );
     } catch (error) {
