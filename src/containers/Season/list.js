@@ -8,7 +8,6 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { Spin, Select, BackTop } from "antd";
-import { Link } from "react-router-dom";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -39,6 +38,7 @@ class CategoryInfo extends React.Component {
       attributes: [],
       count: 0,
       aggregations: [],
+      promotions: [],
 
       catId: 0,
       custId: 0,
@@ -51,7 +51,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: 'price_asc',
+      orderColumn: '',
       highlight: false,
     };
   }
@@ -65,7 +65,8 @@ class CategoryInfo extends React.Component {
           this.setState({
             products: res.payload.data.hits.hits,
             startsWith: this.state.startsWith + 20,
-            aggregations: res.payload.data.aggregations,
+            aggregations: res.payload.data,
+            promotions: res.payload.data.aggregations.promotions,
           });
         }
       });
@@ -90,7 +91,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: e,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
@@ -248,6 +249,7 @@ class CategoryInfo extends React.Component {
           loading: !this.state.loading,
           count: 20,
           promotion: this.state.promotion === cat.key ? true : cat.key,
+          aggregations: res.payload.data,
         });
       }
     });
@@ -256,26 +258,27 @@ class CategoryInfo extends React.Component {
   renderCategoryList = () => {
     try {
       const { promotionall } = this.props;
-      const { aggregations } = this.state;
+      const { promotions } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              aggregations.promotions.buckets.buckets.map((cat, index) => (
+              promotions.buckets.buckets.map((cat, index) => (
                 <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
                   <span onClick={() => this.handleClickCategory(cat)}>
                     {promotionall.find(i => i.id === cat.key) === undefined ? null : promotionall.find(i => i.id === cat.key).name}
                   </span>
                 </li>
-                ))
+              ))
             }
           </ul>
         );
       }
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   }
 
@@ -323,7 +326,13 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} promotion />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    data={this.state.aggregations}
+                    promotion
+                  />
                 </div>
               </div>
 

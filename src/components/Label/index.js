@@ -1,6 +1,5 @@
 import React from "react";
 import Style from "style-it";
-import PropTypes from "prop-types";
 
 import { LABEL_TYPES } from "../../utils/Consts";
 
@@ -25,8 +24,8 @@ class Label extends React.Component {
     } else {
       content = (
         <div>
-          {data.content !== undefined ? <strong>{data.content}</strong> : ""}
-          <small>{data.text ? data.text : ""}</small>
+          {data.content !== undefined ? <strong>{data.content}</strong> : null }
+          <small>{data.text ? data.text : data.isnew ? "шинэ" : ''}</small>
         </div>
       );
     }
@@ -118,11 +117,5 @@ class Label extends React.Component {
     );
   }
 }
-
-// Label.propTypes = {
-//   type: PropTypes.number.isRequired,
-//   data: PropTypes.object.isRequired,
-//   seq: PropTypes.number,
-// };
 
 export default Label;

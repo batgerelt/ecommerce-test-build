@@ -7,8 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select, BackTop } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -34,7 +33,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_asc",
+      sort: "",
       isLeftPanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -58,7 +57,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -68,7 +67,7 @@ class CategoryInfo extends React.Component {
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: e,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
@@ -93,7 +92,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -122,7 +121,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: this.state.attributes.join(','),
       color: colors.join(','),
@@ -151,7 +150,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -180,7 +179,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: attributes.join(','),
       color: this.state.colors.join(','),
@@ -205,8 +204,8 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading });
 
     const params = {
-      catId: cat.key,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      catId: cat[0],
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: "",
       attribute: "",
       color: "",
@@ -225,9 +224,8 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 0,
-          isCatChecked: !this.state.isCatChecked,
-          aggregations: res.payload.data.aggregations,
-          catid: cat.key,
+          catid: cat[0],
+          aggregations: res.payload.data,
         });
       }
     });
@@ -236,26 +234,49 @@ class CategoryInfo extends React.Component {
   renderCategoryList = () => {
     try {
       const { categoryall } = this.props;
-      const { aggregations } = this.state;
+      const { categories } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (categories.buckets.length !== 0) {
         return (
-          <ul className="list-unstyled category-list">
-            {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
-                </li>
-              ))
-            }
-          </ul>
+          <Tree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            defaultExpandAll={false}
+            defaultExpandParent={false}
+          >
+            {categories.buckets.map(one => (
+              <Tree.TreeNode
+                title={categoryall.find(i => i.id === one.key).name}
+                key={one.key}
+              >
+                {one.buckets === undefined ? null
+                  : one.buckets.buckets.map(two => (
+                    <Tree.TreeNode
+                      title={categoryall.find(i => i.id === two.key).name}
+                      key={two.key}
+                    >
+                      {two.buckets !== undefined &&
+                        two.buckets.buckets !== undefined
+                          ? two.buckets.buckets.map(three => (
+                            <Tree.TreeNode
+                              title={
+                                  categoryall.find(i => i.id === three.key).name
+                                }
+                              key={three.key}
+                            />
+                            ))
+                          : null}
+                    </Tree.TreeNode>
+                    ))}
+              </Tree.TreeNode>
+            ))}
+          </Tree>
         );
       }
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   }
 
@@ -305,7 +326,13 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    {...this.state}
+                    data={this.state.aggregations}
+                  />
                 </div>
               </div>
 
@@ -354,13 +381,12 @@ class CategoryInfo extends React.Component {
                       Эрэмбэлэх:
                     </label>
                     <Select
-                      defaultValue={this.state.sort}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
+                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
@@ -447,7 +473,7 @@ class CategoryInfo extends React.Component {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,
-          custId: isLogged ? data[0].info.customerInfo.id : 0,
+          custId: isLogged ? data.value.userInfo.empcode : 0,
           value: '',
           attribute: "",
           color: this.state.colors.join(','),
@@ -559,7 +585,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLogged ? data.value.userInfo.empcode : 0,
       value: '',
       attribute: "",
       color: "",
@@ -579,8 +605,8 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 20,
-          aggregations: res.payload.data.aggregations,
-          // ismore: !this.state.ismore,
+          aggregations: res.payload.data,
+          categories: res.payload.data.aggregations.categories,
         });
       }
     });

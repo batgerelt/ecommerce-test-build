@@ -25,7 +25,7 @@ class Content extends React.Component {
       return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
         let attname = attrall.find(i => i.id === attribute.key).name;
 
-        if (attribute.doc_count >= this.props.total) {
+        if (attribute.doc_count >= data.hits.total.value) {
           return (
             <Collapse.Panel header={attname} key={index}>
               <div className="collapse show">

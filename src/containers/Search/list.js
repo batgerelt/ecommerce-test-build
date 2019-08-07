@@ -35,7 +35,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_desc",
+      sort: "",
       isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -71,7 +71,7 @@ class CategoryInfo extends React.Component {
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: e,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
@@ -319,8 +319,8 @@ class CategoryInfo extends React.Component {
 
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
-      return console.log(error);
-      // return null;
+      // return console.log(error);
+      return null;
     }
   };
 
@@ -432,7 +432,6 @@ class CategoryInfo extends React.Component {
                       Эрэмбэлэх:
                     </label>
                     <Select
-                      defaultValue={this.state.sort}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"

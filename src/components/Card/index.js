@@ -406,19 +406,22 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
-                  {item.tags &&
-                    item.tags.map((label, index) => (
+                  {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
+                  {
+                    // this.props.elastic ? <Label elastic data={item} /> :
+                    item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}
                         type={LABEL_TYPES.vertical}
                         data={label}
                         seq={index}
                       />
-                    ))}
+                    ))
+                  }
                   {hover}
                 </div>
                 <div className="info-container">
-                  <Link to={item.route ? item.route : ""} className="name">
+                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
                     <span
                       style={{
                         whiteSpace: "nowrap",
