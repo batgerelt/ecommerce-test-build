@@ -76,6 +76,7 @@ class Signin extends React.Component {
                     {
                       required: true,
                       message: "Имэйл оруулна уу",
+                      type: "email",
                     },
                   ],
                 })(

@@ -129,6 +129,10 @@ class AppHeader extends Component {
     }
   }
 
+  handleLogin = (e) => {
+    this.props.LoginModal.handleLoginModal();
+  }
+
   renderTopMain = () => {
     try {
       const { intl } = this.props;
@@ -317,7 +321,7 @@ class AppHeader extends Component {
                               </p>
                             </Link>
                           ) : (
-                            <Link to="#" className="row10">
+                            <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text">
                                 <small><FormattedMessage id="header.wishlist.part1" /></small>

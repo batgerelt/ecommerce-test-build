@@ -151,6 +151,16 @@ class Discount extends React.Component {
     }
   };
 
+  generateItemHeight = (width) => {
+    if (width >= 700 && width < 960 || width > 1000) {
+      return 340;
+    }
+    if (width < 400) {
+      return 340;
+    }
+    return 400;
+  }
+
   renderFooterProduct = () => {
     try {
       return (
@@ -193,7 +203,7 @@ class Discount extends React.Component {
                               scrollTop={scrollTop}
                               width={width}
                               rowCount={rowCount}
-                              rowHeight={ITEM_HEIGHT}
+                              rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {
                                 const maxItemsPerRow = this.getMaxItemsAmountPerRow(

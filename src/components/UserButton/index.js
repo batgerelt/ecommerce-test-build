@@ -44,6 +44,7 @@ class UserButton extends React.Component {
   };
 
   showpro = () => {
+    console.log(this.state.visible);
     this.setState({ visible: !this.state.visible });
   };
 
@@ -165,7 +166,7 @@ class UserButton extends React.Component {
               <span className="">{user.firstname}</span>
             </Link>
             {/* large display */}
-            <div className={`d-sm-none d-md-block d-xl-block dropdown ${profilemenu}`}>
+            <div className={`dropdown ${visible ? ' open' : ''}`}>
               <div className="drop-content">
                 <div className="profile-menu">
                   <div className="menu-header">
@@ -180,32 +181,32 @@ class UserButton extends React.Component {
                     {this.renderProgress1()}
                   </div>
                   <ul className="list-unstyled">
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">
                         <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/history" className="flex-this">
                         <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/wish" className="flex-this">
                         <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/delivery" className="flex-this">
                         <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/address" className="flex-this">
                         <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/password" className="flex-this">
                         <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
                       </Link>
@@ -220,8 +221,8 @@ class UserButton extends React.Component {
               </div>
             </div>
             {/* small display */}
-            <div className={`d-none mobile-menu-container ${visible ? ' activated' : ''}`}>
-              <div className={`d-none fixed-mobile-menu ${visible ? ' activated' : ''}`}>
+            <div className={`mobile-menu-container ${visible ? ' activated' : ''}`}>
+              <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
                 <div className="d-none single">
                   <ul className="list-unstyled flex-this flex-space top-1">
                     <li className="list-inline-item d-none">
@@ -319,7 +320,7 @@ class UserButton extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%", backgroundColor: "white" }} onClick={this.showpro} />
+              <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%" }} onClick={this.showpro} />
             </div>
           </li>
         );

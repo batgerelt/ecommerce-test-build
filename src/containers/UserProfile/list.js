@@ -53,7 +53,7 @@ class List extends React.Component {
     return (
       <div>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
-        <span>{percents}% / 100%</span>
+        <span> {percents}% / 100%</span>
       </div>
     );
   }
@@ -122,7 +122,7 @@ class List extends React.Component {
           <div className="user-section">
             <div className="user-section-container">
               <div className="row">
-                <div className="col-md-4 d-none d-md-block">
+                <div className="col-md-4 d-none d-md-block panel-left">
                   <div className="profile-menu">
                     <div className="menu-header">
                       <Upload
