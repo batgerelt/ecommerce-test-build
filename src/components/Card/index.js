@@ -408,7 +408,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    this.props.elastic ? <ElasticLabel data={item} /> :
+                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
                     item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}

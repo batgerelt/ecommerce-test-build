@@ -549,6 +549,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    elastic
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}

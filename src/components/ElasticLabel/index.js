@@ -5,7 +5,7 @@ import Style from "style-it";
 class index extends Component {
   renderNew = () => {
     try {
-      const color = "green";
+      const { tags } = this.props;
       return (
         <Style>
           {`
@@ -22,7 +22,7 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").color};
                 text-align: center;
                 font-size: ${"1.7"}rem;
                 color: white;
@@ -36,7 +36,7 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").color};
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -69,7 +69,7 @@ class index extends Component {
             `}
               <span className="text">
                 <div>
-                  <small>{"ШИНЭ"}</small>
+                  <small>{tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").name}</small>
                 </div>
               </span>
             </Style>
@@ -83,15 +83,15 @@ class index extends Component {
 
   renderSale = () => {
     try {
-      const { data } = this.props;
-      const color = "yellow";
+      const { data, tags } = this.props;
+
       return (
         <Style>
           {`
               .label {
                 display: block;
                 position: absolute;
-                top: 70px;
+                top: ${data.isnew ? '70px' : '0px'};
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
@@ -102,7 +102,7 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").color};
                 text-align: center;
                 font-size: ${"1.7"}rem;
                 color: white;
@@ -116,7 +116,7 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").color};
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -144,13 +144,12 @@ class index extends Component {
                 margin-left: 2px;
                 line-height: 1.2;
                 letter-spacing: 1px;
-                bottom: 6px;
               }
             `}
               <span className="text">
                 <div>
                   <strong>{data.salepercent}</strong>
-                  <small>%</small>
+                  <small>{tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").name}</small>
                 </div>
               </span>
             </Style>
@@ -164,15 +163,14 @@ class index extends Component {
 
   renderUnavailable = () => {
     try {
-      const { data } = this.props;
-      const color = "black";
+      const { data, tags } = this.props;
       return (
         <Style>
           {`
               .label {
                 display: block;
                 position: absolute;
-                top: 127px;
+                top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '0px')};
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
@@ -183,7 +181,7 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").color};
                 text-align: center;
                 font-size: ${"1.7"}rem;
                 color: white;
@@ -197,7 +195,7 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${color};
+                background-color: ${tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").color};
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -230,7 +228,7 @@ class index extends Component {
             `}
               <span className="text">
                 <div>
-                  <small>ДУУССАН</small>
+                  <small>{tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").name}</small>
                 </div>
               </span>
             </Style>
