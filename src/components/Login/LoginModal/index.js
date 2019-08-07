@@ -3,7 +3,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { FacebookLogin, GoogleLogin } from "../";
 
@@ -12,6 +12,7 @@ class LoginModal extends React.Component {
     visible: false,
     isVisibleReset: false,
     isRemember: localStorage.getItem("auth") === null ? 1 : 0,
+    direct: false,
   };
 
   componentWillUnmount() {
@@ -37,7 +38,7 @@ class LoginModal extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(this.props);
     const { intl } = this.props;
 
     // eslint-disable-next-line consistent-return
@@ -51,6 +52,7 @@ class LoginModal extends React.Component {
             }
             return null;
           }
+          this.setState({ direct: true });
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
@@ -177,19 +179,25 @@ class LoginModal extends React.Component {
         <FacebookLogin />
         <GoogleLogin />
 
-        <div className="text-center">
-          <p>
-            Та шинээр бүртгүүлэх бол{" "}
-            <Link
-              to="#"
-              className="btn btn-link"
-              onClick={this.handleRegistrationModal}
-            >
-              <strong>ЭНД ДАРЖ</strong>
-            </Link>{" "}
-            бүртгүүлнэ үү
-          </p>
-        </div>
+        {
+          this.props.RegistrationModal ?
+            <div className="text-center">
+              <p>
+                Та шинээр бүртгүүлэх бол{" "}
+                <Link
+                  to="#"
+                  className="btn btn-link"
+                  onClick={this.handleRegistrationModal}
+                >
+                  <strong>ЭНД ДАРЖ</strong>
+                </Link>{" "}
+                бүртгүүлнэ үү
+              </p>
+            </div>
+            :
+            null
+        }
+        {this.state.direct ? <Redirect to="/" /> : null}
       </Modal>
     );
   }

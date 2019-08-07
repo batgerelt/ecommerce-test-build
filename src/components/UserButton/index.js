@@ -44,7 +44,6 @@ class UserButton extends React.Component {
   };
 
   showpro = () => {
-    console.log(this.state.visible);
     this.setState({ visible: !this.state.visible });
   };
 
