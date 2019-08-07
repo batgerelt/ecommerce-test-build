@@ -270,7 +270,7 @@ class Bookmarks extends PureComponent {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {/* this.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}

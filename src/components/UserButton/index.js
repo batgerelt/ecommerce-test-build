@@ -181,32 +181,32 @@ class UserButton extends React.Component {
                     {this.renderProgress1()}
                   </div>
                   <ul className="list-unstyled">
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">
                         <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/history" className="flex-this">
                         <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/wish" className="flex-this">
                         <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/delivery" className="flex-this">
                         <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/address" className="flex-this">
                         <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={this.showpro}>
                       <Link to="/profile/password" className="flex-this">
                         <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
                       </Link>

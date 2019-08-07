@@ -280,7 +280,7 @@ class Recipe extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {/* his.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
