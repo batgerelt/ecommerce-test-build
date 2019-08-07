@@ -1190,7 +1190,26 @@
     }
 }
 
-@media only screen and (max-device-width: 1024px) and (min-device-width: 767px){
+@media only screen and (max-width: 1024px) {
+    .rendername {
+        font-size: 13px !important;
+    }
+    .renderprogress {
+        width: 67% !important;
+        font-size: 14px !important;
+    }
+}
+
+@media only screen and (max-device-width: 769px) {
+    .rendername {
+        font-size: 10px !important;
+    }
+}
+
+@media only screen and (max-device-width: 1023px) and (min-device-width: 767px){
+    .top-container-responsive {
+        padding-top: 59px !important;
+    }
     .panel-left {
         margin-top: 60px !important;
         width: 30% !important;

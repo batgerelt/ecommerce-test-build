@@ -52,8 +52,8 @@ class List extends React.Component {
     let percents = (Number(info.cstatus) + 1) * 25;
     return (
       <div>
-        <Progress percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
-        <span> {percents}% / 100%</span>
+        <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
+        <span className="rendername"> {percents}% / 100%</span>
       </div>
     );
   }
