@@ -36,7 +36,7 @@ class Content extends React.Component {
                           let attrvaluenm = attrvalue.find(value => value.id === attributeval.key).name;
 
                           return (
-                            <li key={ind} style={{ display: 'flex' }}>
+                            <li key={ind} style={{ display: 'flex', height: '25px' }}>
                               <Checkbox
                                 key={ind}
                                 onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
@@ -77,7 +77,7 @@ class Content extends React.Component {
               <div className="collapse-content">
                 <ul className="list-unstyled">
                   {data.aggregations.brands.buckets.buckets.map((brand, index) => (
-                    <li key={index} style={{ display: 'flex' }}>
+                    <li key={index} style={{ display: 'flex', height: '25px' }}>
                       <Checkbox
                         key={index}
                         onChange={e => this.props.handleChangeBrand(e, brand.key)}

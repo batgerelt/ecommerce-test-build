@@ -61,7 +61,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -104,7 +104,7 @@ class CategoryInfo extends React.Component {
     });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -142,7 +142,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: colors.join(","),
@@ -178,7 +178,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -218,7 +218,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: attributes.join(","),
       color: this.state.colors.join(","),
@@ -248,7 +248,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: cat[0],
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: "",
       color: "",
@@ -533,14 +533,14 @@ class CategoryInfo extends React.Component {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,
-          custId: isLogged ? data.value.userInfo.empcode : 0,
+          custId: isLogged ? data[0].info.customerInfo.id : 0,
           value: searchword === '.' ? '' : searchword,
-          attribute: "",
+          attribute: this.state.attributes.join(','),
           color: this.state.colors.join(","),
           brand: this.state.brands.join(","),
           promotion: "",
-          minPrice: 0,
-          maxPrice: 0,
+          minPrice: this.state.minPrice,
+          maxPrice: this.state.maxPrice,
           startsWith: this.state.count,
           rowCount: 20,
           orderColumn: this.state.sort,
@@ -614,6 +614,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    elastic
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
@@ -655,7 +656,7 @@ class CategoryInfo extends React.Component {
 
       const params = {
         catId: catid,
-        custId: isLogged ? data.value.userInfo.empcode : 0,
+        custId: isLogged ? data[0].info.customerInfo.id : 0,
         value: searchword === '.' ? '' : searchword,
         attribute: "",
         color: "",
