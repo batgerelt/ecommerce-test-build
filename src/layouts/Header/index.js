@@ -28,6 +28,7 @@ class AppHeader extends Component {
       keywordid: null,
       isSearch: false,
       pro: false,
+      categoryDropdown: false,
     };
   }
 
@@ -346,10 +347,13 @@ class AppHeader extends Component {
     }
   }
 
+  handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
+
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
       const { categorymenu } = this.props.category;
+      const { categoryDropdown } = this.state;
 
       let root = [];
       categorymenu.map((item) => {
@@ -368,7 +372,7 @@ class AppHeader extends Component {
       });
 
       const dropdown = (
-        <div className="drop-container bg-dark">
+        <div className="drop-container bg-dark" onClick={this.handleCategoryDropdown}>
           <div className="container pad10 bg-dark">
             <Category dataSource={root} {...this.props} />
           </div>
@@ -389,10 +393,10 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Dropdown overlay={dropdown} trigger={['click']}>
-                  <Link to="#">
+                <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
+                  <Link to="#" onClick={this.handleCategoryDropdown}>
                     <span>Ангилал</span>
-                    <Icon type="down" style={{ color: "#feb415" }} />
+                    <Icon type="left" style={{ color: '#feb415' }} rotate={categoryDropdown ? -90 : 0} />
                   </Link>
                 </Dropdown>
               </li>
