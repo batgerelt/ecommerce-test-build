@@ -7,6 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -246,12 +247,12 @@ class CategoryInfo extends React.Component {
                     {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
                   </Link>
                 </li>
-                ))
+              ))
             }
           </ul>
         );
       }
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
     } catch (error) {
       return console.log(error);
     }
@@ -278,10 +279,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="season.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="season.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -300,7 +301,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="season.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
@@ -329,7 +330,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
-                    бараа олдлоо
+                    <FormattedMessage id="season.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -349,7 +350,7 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="season.sort.label" />:
                     </label>
                     <Select
                       defaultValue={this.state.sort}
@@ -357,8 +358,8 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="season.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="season.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this">
@@ -487,10 +488,10 @@ class CategoryInfo extends React.Component {
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                     const allItemsLoaded = this.generateIndexesForRow(
-                        index,
-                        maxItemsPerRow,
-                        products.length,
-                      ).length > 0;
+                      index,
+                      maxItemsPerRow,
+                      products.length,
+                    ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}

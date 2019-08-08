@@ -11,6 +11,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable import/newline-after-import */
 import React from "react";
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Tabs, Input, Form, Select, DatePicker, message } from "antd";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -283,12 +284,12 @@ class DeliveryPanel extends React.Component {
   }
 
   renderAddrsOption = () => {
-    const { userinfo } = this.props;
+    const { userinfo, intl } = this.props;
     let tmp;
     let main = "";
     if (userinfo.addrs.length !== 0) {
       tmp = userinfo.addrs.map((item, i) => {
-        item.ismain === 1 ? main = "Үндсэн хаяг" : main = "Туслах хаяг";
+        item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
         return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
       });
     }
@@ -371,6 +372,7 @@ class DeliveryPanel extends React.Component {
     const {
       deliveryTypes,
       systemlocation,
+      intl,
     } = this.props;
     const { main } = this.props.userinfo;
     return (
@@ -420,7 +422,7 @@ class DeliveryPanel extends React.Component {
                         {
                           main !== null ?
                             <div className="col-xl-4 col-md-4">
-                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>Шинэ хаяг</button>
+                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}><FormattedMessage id="shared.form.button.newAddress" /></button>
                             </div> : null
                         }
                       </div>
@@ -432,9 +434,9 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
                             initialValue: this.checkError(chosenAddress.provinceid),
-                            rules: [{ required: true, message: "Хот/Аймаг сонгоно уу" }],
+                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
                           })(
-                            <Select placeholder="Хот/аймаг *" showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
+                            <Select placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
                             </Select>,
                           )}
@@ -448,9 +450,9 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("districtid", {
                             initialValue: this.checkError(chosenAddress.districtid),
-                            rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
+                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                           })(
-                            <Select showSearch optionFilterProp="children" placeholder="Дүүрэг/Сум*" onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
                             </Select>,
                           )}
@@ -464,9 +466,9 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("committeeid", {
                             initialValue: this.checkError(chosenAddress.committeeid),
-                            rules: [{ required: true, message: "Хороо сонгоно уу" }],
+                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
                           })(
-                            <Select placeholder="Хороо*" showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Select placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(committeLocation)}
                             </Select>,
                           )}
@@ -481,9 +483,9 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
-                            rules: [{ required: true, message: "Гэрийн хаяг оруулна уу" }],
+                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                           })(
-                            <Input autoComplete="off" allowClear type="text" placeholder="Гэрийн хаяг*" />,
+                            <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                           )}
                         </Form.Item>
                       </div>
@@ -494,9 +496,9 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("name", {
                           initialValue: this.checkError(chosenAddress.name),
-                          rules: [{ required: true, message: "Захиалагчийн нэр оруулна уу" }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder="Захиалагчийн нэр*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -504,11 +506,11 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone1", {
                           initialValue: this.checkError(chosenAddress.phone1),
-                          rules: [{ required: true, message: "Утас 1 оруулна уу" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу ?" },
-                          { len: 8, message: "8 оронтой байх ёстой" }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                          { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder="Утас 1*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -516,11 +518,11 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("phone2", {
                           initialValue: this.checkError(chosenAddress.phone2),
-                          rules: [{ required: true, message: "Утас 2 оруулна уу" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
-                          { len: 8, message: "8 оронтой байх ёстой" }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                          { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder="Утас 2*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
@@ -528,7 +530,7 @@ class DeliveryPanel extends React.Component {
                   <hr />
                   <div className="text-left">
                     <span style={{ marginLeft: "10px", color: "rgba(0, 0, 0, 0.5)", fontWeight: "bold" }}>
-                      Хүргэлтээр авах өдрөө сонгоно уу
+                      <FormattedMessage id="shared.form.label.deliveryDate" />
                     </span>
 
                     <DatePicker
@@ -549,7 +551,7 @@ class DeliveryPanel extends React.Component {
 
                   <div className="text-right">
                     <button className="btn btn-main" type="submit" disabled={!(!dateLoading || !selectLoading)}>
-                      Дараах
+                      <FormattedMessage id="shared.form.button.next" />
                     </button>
                   </div>
                 </Form>
@@ -562,4 +564,4 @@ class DeliveryPanel extends React.Component {
   }
 }
 
-export default Form.create({ name: "deliverypanel" })(DeliveryPanel);
+export default injectIntl(Form.create({ name: "deliverypanel" })(DeliveryPanel));

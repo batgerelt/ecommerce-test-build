@@ -115,7 +115,7 @@ class LoginModal extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: intl.formatMessage({ id: "loginModal.form.email.validation.required" }),
+                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   type: "email",
                 },
               ],
@@ -123,7 +123,7 @@ class LoginModal extends React.Component {
               <Input
                 allowClear
                 className="form-control"
-                placeholder={intl.formatMessage({ id: "loginModal.form.email.placeholder" })}
+                placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                 size="large"
                 autoComplete="off"
               />,
@@ -131,12 +131,12 @@ class LoginModal extends React.Component {
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("password", {
-              rules: [{ required: true, message: intl.formatMessage({ id: "loginModal.form.password.validation.required" }) }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) }],
             })(
               <Input.Password
                 allowClear
                 className="form-control"
-                placeholder={intl.formatMessage({ id: "loginModal.form.password.placeholder" })}
+                placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
                 type="password"
                 autoComplete="off"
               />,
@@ -148,7 +148,7 @@ class LoginModal extends React.Component {
               htmlType="submit"
               className="btn btn-block btn-login text-uppercase"
             >
-              <FormattedMessage id="loginModal.form.button.submit" />
+              <FormattedMessage id="shared.form.button.login" />
             </Button>
           </Form.Item>
           <Form.Item>
@@ -158,7 +158,7 @@ class LoginModal extends React.Component {
                 onChange={this.onRemember}
                 checked={isRemember}
               >
-                <FormattedMessage id="loginModal.form.rememberMe" />
+                <FormattedMessage id="shared.form.label.rememberMe" />
               </Checkbox>
             </Col>
             <Col span={12} style={{ textAlign: "right" }}>
@@ -168,7 +168,7 @@ class LoginModal extends React.Component {
                 style={{ fontSize: "14px" }}
                 onClick={this.handleResetVisible}
               >
-                <FormattedMessage id="loginModal.form.link.forgotPassword" />
+                <FormattedMessage id="shared.form.label.forgotPassword" />
               </Link>
             </Col>
           </Form.Item>
@@ -179,15 +179,26 @@ class LoginModal extends React.Component {
 
         <div className="text-center">
           <p>
-            Та шинээр бүртгүүлэх бол{" "}
-            <Link
-              to="#"
-              className="btn btn-link"
-              onClick={this.handleRegistrationModal}
-            >
-              <strong>ЭНД ДАРЖ</strong>
-            </Link>{" "}
-            бүртгүүлнэ үү
+            <FormattedMessage
+              id="loginModal.linkToRegistration"
+              defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"
+              values={{
+                link: (
+                  <Link
+                    to="#"
+                    className="btn btn-link"
+                    onClick={this.handleRegistrationModal}
+                  >
+                    <strong>
+                      <FormattedMessage
+                        id="loginModal.linkToRegistration.link"
+                        defaultMessage="ЭНД ДАРЖ"
+                      />
+                    </strong>
+                  </Link>
+                ),
+              }}
+            />
           </p>
         </div>
       </Modal>

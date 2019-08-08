@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
 import LetterInput from "../../../../components/LetterInput";
@@ -216,6 +217,7 @@ class Component extends React.Component {
   };
   renderAddress = () => {
     try {
+      const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const {
         loader,
@@ -227,27 +229,28 @@ class Component extends React.Component {
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
-                rules: [{ required: true, message: "Нэрээ оруулна уу " }],
-              })(<LetterInput placeholder="Нэр" onChange={this.onChangeName} />)}
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.name.validation.required" }) }],
+              })(<LetterInput placeholder={intl.formatMessage({ id: "shared.form.name.placeholder" })} onChange={this.onChangeName} />)}
             </Form.Item>
           </Col>
 
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone1", {
-                rules: [{ required: true, message: "Утсаа оруулна уу " },
-                { pattern: new RegExp("^[0-9]*$"), message: "Утсаа зөв оруулна уу " },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
-              })(<Input placeholder="Утас 1" autoComplete="off" />)}
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+              })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
           <Col span={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone2", {
-                rules: [{ pattern: new RegExp("^[0-9]*$"), message: "Утас зөв оруулна уу" },
-                { len: 8, message: "Утасны дугаар 8 оронтой байх ёстой " }],
-              })(<Input placeholder="Утас 2" autoComplete="off" />)}
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+              })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -255,11 +258,11 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("mainLocation", {
                 initialValue: this.checkError(this.state.params.provid),
-                rules: [{ required: true, message: "Хот/аймаг сонгоно уу " }],
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
               })(
                 <Select
                   showSearch
-                  placeholder="Хот/аймаг *"
+                  placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
                   onChange={this.onMainLocation}
                   disabled={loader}
                   loading={loader}
@@ -274,11 +277,11 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
                 initialValue: this.checkError(this.state.params.distid),
-                rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу " }],
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
               })(
                 <Select
                   showSearch
-                  placeholder="Дүүрэг/Сум *"
+                  placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })}
                   optionFilterProp="children"
                   onChange={this.onSubLocation}
                   disabled={loader}
@@ -294,11 +297,11 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
                 initialValue: this.checkError(this.state.params.commid),
-                rules: [{ required: true, message: "Хороо сонгоно уу " }],
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validtation.required" }) }],
               })(
                 <Select
                   showSearch
-                  placeholder="Хороо *"
+                  placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}
                   optionFilterProp="children"
                   onChange={this.onchangesyscom}
                   disabled={loader}
@@ -313,34 +316,34 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
               {getFieldDecorator("homeaddress", {
-                rules: [{ required: true, message: "Гэрийн хаягаа оруулна уу " }],
-              })(<Input placeholder="Гэрийн хаяг" autoComplete="off" />)}
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+              })(<Input placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
           <Col span={24}>
             <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
               <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
-                <span className="text-uppercase">Хадгалах</span>
+                <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
               </Button>
             </Form.Item>
           </Col>
           <Col span={24} className="delivery-address" style={{ width: '98.5%', marginBottom: '5px' }}>
             <p className="title">
-              <span>Бүртгэлтэй хаягууд</span>
+              <span><FormattedMessage id="profile.deliveryAddress.table.title" /></span>
             </p>
             <Spin
               spinning={loader}
-              tip="Түр хүлээнэ үү"
+              tip={intl.formatMessage({ id: "shared.spin" })}
             >
               <table className="table table-borderless">
                 <thead className="thead-light" hidden>
                   <tr>
-                    <th className="column-1">Нэр</th>
-                    <th className="column-2">Утас</th>
-                    <th className="column-3">Аймаг/Хот</th>
-                    <th className="column-3">Сум/Дүүрэг</th>
-                    <th className="column-3">Хаяг</th>
+                    <th className="column-1"><FormattedMessage id="shared.form.name.placeholder" /></th>
+                    <th className="column-2"><FormattedMessage id="shared.form.phone1.placeholder" /></th>
+                    <th className="column-3"><FormattedMessage id="shared.form.city.placeholder" /></th>
+                    <th className="column-3"><FormattedMessage id="shared.form.district.placeholder" /></th>
+                    <th className="column-3"><FormattedMessage id="shared.form.address.placeholder" /></th>
                     <th className="column-3"> </th>
                   </tr>
                 </thead>
@@ -362,7 +365,7 @@ class Component extends React.Component {
       <div className="col-md-8">
         <div className="user-menu-content">
           <p className="title">
-            <span>Хүргэлтийн хаяг</span>
+            <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
           </p>
           <div className="user-profile-contain">
             {this.props.useraddress === undefined ? null : this.renderAddress()}
@@ -373,4 +376,4 @@ class Component extends React.Component {
   }
 }
 
-export default Form.create({ name: "component" })(Component);
+export default injectIntl(Form.create({ name: "component" })(Component));

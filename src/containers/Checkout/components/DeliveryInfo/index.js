@@ -6,6 +6,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-danger */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Checkbox, Modal, Button } from "antd";
@@ -347,10 +348,10 @@ class DeliveryInfo extends React.Component {
           <hr />
           <div className="content">
             <p className="title">
-              <strong>Хүргэлтийн мэдээлэл</strong>
+              <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
             </p>
             <p className="text flex-space">
-              <span>Хүргэлтийн төрөл</span>
+              <span><FormattedMessage id="shared.sidebar.label.deliveryType" /></span>
               <strong>
                 {`${this.checkError(chosenType.typenm)}`}
               </strong>
@@ -389,40 +390,41 @@ class DeliveryInfo extends React.Component {
           <hr />
           <div className="content">
             <p className="title">
-              <strong>Төлөх дүн</strong>
+              <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
             </p>
             <p className="text flex-space">
-              <span>Бараа ({totalQty}):</span>
+              <span><FormattedMessage id="shared.sidebar.label.products" /> ({totalQty}):</span>
               <strong>{formatter.format(totalPrice)}₮</strong>
             </p>
             <p className="text flex-space">
-              <span>Хүргэлтийн үнэ:</span>
+              <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
               <strong>{`${formatter.format(this.checkError(chosenType.price))}₮`}</strong>
             </p>
             {
               useEpoint ?
                 <p className="text flex-space">
-                  <span>Имарт карт оноо:</span>
+                  {/* <span>Имарт карт оноо:</span> */}
+                  <span><FormattedMessage id="shared.sidebar.label.epoint" />:</span>
                   <strong style={{ color: "red" }}>{`-${formatter.format(epointUsedPoint)}`}₮</strong>
                 </p> : ""
             }
             <hr />
             <p className="text flex-space">
-              <span>Нийт дүн:</span>
+              <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
               <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
             <p className="text flex-space">
-              <span>НӨАТ:</span>
+              <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
               <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p>
             <Checkbox onChange={this.handleAgreement}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold" }}>Үйлчилгээний нөхцөл зөвшөөрөх</span>
+                <span style={{ fontWeight: "bold" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
-              <span className="text-uppercase">Тооцоо хийх</span>
+              <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.pay" /></span>
             </button>
           </div>
         </div>

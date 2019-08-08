@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
 import { Loader } from "../../../../components/Loader";
@@ -86,7 +87,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Хадгалсан бараа</span>
+            <span><FormattedMessage id="profile.wishlist.title" /></span>
           </p>
           <Spin
             spinning={this.state.loader}

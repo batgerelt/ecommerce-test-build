@@ -22,13 +22,12 @@ import {
 } from "../../utils/Consts";
 
 const ITEM_HEIGHT = 340;
-const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
+const RowItem = React.memo(function RowItem({ item, ...props }) {
   return (
     <Card
       shape={CARD_TYPES.slim}
       item={item}
-      LoginModal={LoginModal}
-      addWishList={addWishList}
+      {...props}
     />
   );
 });
@@ -45,17 +44,17 @@ class Discount extends React.Component {
     };
   }
 
-  componentWillMount() {
-    /*  this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 10,
-      order: `price_asc`,
-    }).then((res) => {
-      if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
-      }
-    }); */
+  componentDidMount(props) {
+    console.log(this.props);
+    this.setState({ headerProducts: this.props.discountproduct });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.lang !== this.props.lang) {
+      const headerProducts = this.props.getDiscountProduct({});
+      console.log('headerProducts: ', headerProducts);
+      this.setState({ headerProducts });
+    }
   }
 
   // data nemeh heseg
@@ -245,7 +244,7 @@ class Discount extends React.Component {
     return (
       <div className="top-container">
         {this.renderMainBanner()}
-        {/* this.renderHeaderProduct() */}
+        {this.renderHeaderProduct()}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
       </div>
@@ -253,4 +252,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default React.memo(Discount);

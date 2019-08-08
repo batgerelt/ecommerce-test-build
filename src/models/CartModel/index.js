@@ -724,7 +724,13 @@ class Model extends BaseModel {
             products = this.updateReduxStore(products, prod);
           });
 
-          return { ...state, products };
+          const errors = products.filter(prod => prod.error !== undefined);
+
+          return {
+            ...state,
+            products: products.filter(prod => prod.error === undefined),
+            errors: errors.length > 0 ? errors : [],
+          };
         } catch (e) {
           console.log(e);
         }
@@ -751,9 +757,14 @@ class Model extends BaseModel {
           action.payload.forEach((prod) => {
             products = this.updateReduxStore(products, prod);
           });
-          console.log('products: ', products);
 
-          return { ...state, products };
+          const errors = products.filter(prod => prod.error !== undefined);
+
+          return {
+            ...state,
+            products: products.filter(prod => prod.error === undefined),
+            errors: errors.length > 0 ? errors : [],
+          };
         } catch (e) {
           console.log(e);
         }

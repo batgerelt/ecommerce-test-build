@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import arrow from "../../../../../src/scss/assets/images/demo/arrow.png";
@@ -45,7 +46,7 @@ class Component extends React.Component {
               style={{ color: "#feb415" }}
               className="d-none d-lg-block d-xl-block"
             >
-              <span>Цааш үзэх</span>
+              <span><FormattedMessage id="profile.orderHistory.table.showMore" /></span>
             </Link>
             <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none" >
               <Avatar size="small" src={arrow} />
@@ -63,11 +64,11 @@ class Component extends React.Component {
       <table className="table-hover table-sm">
         <thead>
           <tr style={{ height: "70px" }}>
-            <th width="5%" style={{ textAlign: "center" }}>Захиалга №</th>
-            <th width="15%" style={{ textAlign: "center" }}>Он сар өдөр</th>
-            <th width="30%" style={{ textAlign: "center" }}>Төлөв</th>
-            <th width="10%" style={{ textAlign: "center" }}>Үнийн дүн</th>
-            <th width="10%" style={{ textAlign: "center" }}>Дэлгэрэнгүй</th>
+            <th width="5%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
+            <th width="15%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
+            <th width="30%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
+            <th width="10%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.price" /></th>
+            <th width="10%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.link" /></th>
           </tr>
         </thead>
         <tbody>{this.renderDelivery()}</tbody>
@@ -80,7 +81,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Захиалгын түүх</span>
+            <span><FormattedMessage id="profile.orderHistory.title" /></span>
           </p>
           <div
             className="frame frameMargin"

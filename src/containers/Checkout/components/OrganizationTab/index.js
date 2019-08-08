@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button } from "antd";
 
 class OrganizationTab extends React.Component {
@@ -50,6 +51,7 @@ class OrganizationTab extends React.Component {
   }
 
   renderForm = () => {
+    const { intl } = this.props;
     const { connected, loading } = this.state;
     try {
       const { getFieldDecorator } = this.props.form;
@@ -60,9 +62,9 @@ class OrganizationTab extends React.Component {
               <div className="form-group">
                 <Form.Item>
                   {getFieldDecorator("regno", {
-                    rules: [{ required: true, message: "Байгууллагын регистэр оруулна уу ?" }],
+                    rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
                   })(
-                    <Input size="large" autoComplete="off" type="text" placeholder="Байгууллагын регистэр*" disabled={connected} className="col-md-12" />,
+                    <Input size="large" autoComplete="off" type="text" placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })} disabled={connected} className="col-md-12" />,
                   )}
                 </Form.Item>
               </div>
@@ -70,8 +72,8 @@ class OrganizationTab extends React.Component {
           </div>
           {
             !connected ?
-              <Button loading={loading} className="btn btn-main solid" htmlType="submit">Холбох</Button> :
-              <Button loading={loading} className="btn btn-main solid" onClick={this.edit}>Засах</Button>
+              <Button loading={loading} className="btn btn-main solid" htmlType="submit"><FormattedMessage id="shared.form.button.connect" /></Button> :
+              <Button loading={loading} className="btn btn-main solid" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></Button>
           }
         </Form>
       );
@@ -85,4 +87,4 @@ class OrganizationTab extends React.Component {
   }
 }
 
-export default Form.create({ name: "organization" })(OrganizationTab);
+export default injectIntl(Form.create({ name: "organization" })(OrganizationTab));

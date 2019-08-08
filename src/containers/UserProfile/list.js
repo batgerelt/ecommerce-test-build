@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Avatar, Progress, Upload, Button, message, Spin, Icon } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
@@ -143,7 +144,7 @@ class List extends React.Component {
                         </Spin>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} >Таны мэдээлэл</p>
+                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p>
                       <div>
                         {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
                       </div>
@@ -151,38 +152,38 @@ class List extends React.Component {
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                       <li className={pathname === "/profile" ? "active" : " "} >
                         <Link to={`${match.path}`} className="flex-this">
-                          <Avatar size="small" shape="square" src={profile} className="marginRight10" /><span>Профайл хуудас</span>
+                          <Avatar size="small" shape="square" src={profile} className="marginRight10" /><span><FormattedMessage id="header.profile.userProfile" /></span>
                         </Link>
                       </li>
                       <li className={pathname === "/profile/history" ? "active" : " "}>
                         <Link to={`${match.path}/history`} className="flex-this">
-                          <Avatar size="small" shape="square" src={history} className="marginRight10" /><span>Үзсэн барааны түүх</span>
+                          <Avatar size="small" shape="square" src={history} className="marginRight10" /><span><FormattedMessage id="header.profile.seenHistory" /></span>
                         </Link>
                       </li>
                       <li className={pathname === "/profile/wish" ? "active" : " "}>
                         <Link to={`${match.path}/wish`} className="flex-this">
-                          <Avatar size="small" shape="square" src={wishlist} className="marginRight10" /><span>Хадгалсан бараа</span>
+                          <Avatar size="small" shape="square" src={wishlist} className="marginRight10" /><span><FormattedMessage id="header.profile.savedProducts" /></span>
                         </Link>
                       </li>
                       <li className={pathname === "/profile/delivery" ? "active" : " "} >
                         <Link to={`${match.path}/delivery`} className="flex-this">
-                          <Avatar size="small" shape="square" src={store} className="marginRight10" /><span>Захиалгын түүх</span>
+                          <Avatar size="small" shape="square" src={store} className="marginRight10" /><span><FormattedMessage id="header.profile.orderHistory" /></span>
                         </Link>
                       </li>
                       <li className={pathname === "/profile/address" ? "active" : " "}>
                         <Link to={`${match.path}/address`} className="flex-this">
-                          <Avatar size="small" shape="square" src={location} className="marginRight10" /><span>Хүргэлтийн хаяг</span>
+                          <Avatar size="small" shape="square" src={location} className="marginRight10" /><span><FormattedMessage id="header.profile.deliveryAddress" /></span>
                         </Link>
                       </li>
                       <li className={pathname === "/profile/password" ? "active" : " "}>
                         <Link to={`${match.path}/password`} className="flex-this">
-                          <Avatar size="small" shape="square" src={password} className="marginRight10" /><span>Нууц үгээ солих</span>
+                          <Avatar size="small" shape="square" src={password} className="marginRight10" /><span><FormattedMessage id="header.profile.changePassword" /></span>
                         </Link>
                       </li>
                     </ul>
                   </div>
                   <Link to="#" className="btn btn-gray" onClick={this.handleLogout}>
-                    <i className="fa fa-chevron-left" /><span>Гарах</span>
+                    <i className="fa fa-chevron-left" /><span><FormattedMessage id="header.profile.logout" /></span>
                   </Link>
                 </div>
 

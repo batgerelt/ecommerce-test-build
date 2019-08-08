@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable radix */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Collapse, Spin } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -74,7 +75,7 @@ class Checkout extends React.Component {
       <h5 className="title">
         <a className="flex-this">
           <i className="fa fa-truck" aria-hidden="true" />
-          <span>Хүргэлтийн төрөл</span>
+          <span><FormattedMessage id="checkout.deliveryType.title" /></span>
         </a>
       </h5>
     </div>
@@ -85,7 +86,7 @@ class Checkout extends React.Component {
       <h5 className="title">
         <a className="flex-this">
           <i className="fa fa-user" aria-hidden="true" />
-          <span>Хэрэглэгчээр бүртгүүлэх</span>
+          <span><FormattedMessage id="checkout.registerAsUser.title" /></span>
         </a>
       </h5>
     </div>
@@ -106,7 +107,7 @@ class Checkout extends React.Component {
       <h5 className="title">
         <a className="flex-this">
           <i className="fa fa-credit-card" aria-hidden="true" />
-          <span>Төлбөрийн төрөл</span>
+          <span><FormattedMessage id="checkout.paymentType.title" /></span>
         </a>
       </h5>
     </div>
@@ -117,7 +118,7 @@ class Checkout extends React.Component {
       <h5 className="title">
         <a className="flex-this">
           <i className="fa fa-plus-square" aria-hidden="true" />
-          <span>Нэмэлт сонголт</span>
+          <span><FormattedMessage id="checkout.extra.title" /></span>
         </a>
       </h5>
     </div>

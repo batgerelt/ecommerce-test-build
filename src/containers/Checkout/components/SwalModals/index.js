@@ -3,6 +3,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from "react-redux";
 import { Collapse, Tabs, Divider, Button } from "antd";
 import Swal from "sweetalert2";
@@ -125,19 +126,26 @@ class SwalModals extends React.Component {
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content" style={{ textAlign: "center" }}>
-              <p className="text agreement-modal-text" style={{ color: "black" }}>
+              {/* <p className="text agreement-modal-text" style={{ color: "black" }}>
                 {`"${checkProductZone.message}"`}
               </p>
-              <p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p>
+              <p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p> */}
+              <FormattedMessage
+                id="checkout.swal.delivery.error"
+                defaultMessage="{productName} барааг таны сонгосон хаягт хүргэх боломжгүй байна"
+                values={{
+                  productName: (<p>{checkProductZone.message}</p>),
+                }}
+              />
               <div className="button-container">
                 <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
-                  <span className="text-uppercase" style={{ fontWeight: "normal" }}>Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх</span>
+                  <span className="text-uppercase" style={{ fontWeight: "normal" }}><FormattedMessage id="checkout.swal.button.removeFromCartAndProceed" /></span>
                 </button>
                 <button className="btn btn-dark" onClick={this.handleChangeAddress} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
-                  <span className="text-uppercase">Хаяг солих</span>
+                  <span className="text-uppercase"><FormattedMessage id="checkout.swal.button.changeAddress" /></span>
                 </button>
                 <button className="btn btn-dark" onClick={this.handleBackBasket} style={{ whiteSpace: "initial", width: "100%" }}>
-                  <span className="text-uppercase">Сагс руу буцах</span>
+                  <span className="text-uppercase"><FormattedMessage id="checkout.swal.button.backToCart" /></span>
                 </button>
               </div>
             </div>
@@ -175,24 +183,24 @@ class SwalModals extends React.Component {
                     >
                       <div className="col-md-12 pad10">
                         <p className="title">
-                          <strong>Гүйлгээний мэдээлэл</strong>
+                          <strong><FormattedMessage id="checkout.swal.label.transactionInfo" /></strong>
                         </p>
                         <div className="menu-content text-left">
                           <ul className="list-unstyled">
                             <li>
-                              <span>Данс</span>
+                              <span><FormattedMessage id="checkout.swal.label.account" /></span>
                               <strong>{item.account}</strong>
                             </li>
                             <li>
-                              <span>Гүйлгээний утга</span>
+                              <span><FormattedMessage id="checkout.swal.label.transactionDescription" /></span>
                               <strong>{ordData.order.ordernumber}</strong>
                             </li>
                             <li>
-                              <span>Хүлээн авагчийн нэр</span>
+                              <span><FormattedMessage id="checkout.swal.label.receiverName" /></span>
                               <strong>{item.name}</strong>
                             </li>
                             <li>
-                              <span>Мөнгөн дүн</span>
+                              <span><FormattedMessage id="checkout.swal.label.amount" /></span>
                               <strong>
                                 {formatter.format(ordData.order.totalamount)}₮
                               </strong>
@@ -209,7 +217,7 @@ class SwalModals extends React.Component {
                   onClick={e => readyBtn(e, chosenBank, ordData, type)}
                   className="btn btn-main"
                 >
-                  <span className="text-uppercase">Болсон</span>
+                  <span className="text-uppercase"><FormattedMessage id="checkout.swal.label.done" /></span>
                 </a>
               </div>
             </div>
@@ -223,17 +231,17 @@ class SwalModals extends React.Component {
             <div className="card-content">
               <div className="col-md-12 pad10">
                 <p className="title">
-                  <strong>Гүйлгээний мэдээлэл</strong>
+                  <strong><FormattedMessage id="checkout.swal.label.transactionInfo" /></strong>
                 </p>
                 <div className="menu-content" style={{ display: "flex" }}>
                   <div style={{ width: "50%" }}>
                     <ul className="list-unstyled">
                       <li>
-                        <span>Гүйлгээний утга</span>
+                        <span><FormattedMessage id="checkout.swal.label.transactionDescription" /></span>
                         <strong>{ordData.order.ordernumber}</strong>
                       </li>
                       <li>
-                        <span>Мөнгөн дүн</span>
+                        <span><FormattedMessage id="checkout.swal.label.amount" /></span>
                         <strong>
                           {formatter.format(ordData.order.payamount)}₮
                         </strong>
@@ -253,7 +261,7 @@ class SwalModals extends React.Component {
               {isMobile ? (
                 <div>
                   <Divider style={{ color: "rgba(0, 0, 0, 0.5)" }}>
-                    Төлөх аргууд
+                    <FormattedMessage id="checkout.swal.label.transactionMethods" />
                   </Divider>
                   <div className="row">{this.renderBankLogo()}</div>
                 </div>
@@ -266,7 +274,7 @@ class SwalModals extends React.Component {
                   onClick={e => readyBtn(e, chosenBank, ordData, type)}
                   className="btn btn-main"
                 >
-                  <span className="text-uppercase">Болсон</span>
+                  <span className="text-uppercase"><FormattedMessage id="checkout.swal.label.done" /></span>
                 </a>
               </div>
             </div>
@@ -293,47 +301,54 @@ class SwalModals extends React.Component {
                         />
                         <h4 className="title">
                           <span className="text-uppercase">
-                            Таны захиалга амжилттай бүртгэгдлээ
+                            <FormattedMessage id="checkout.swal.info.success" />
                           </span>
                         </h4>
                       </div>
                       <div className="message">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Захиалга <strong>{ordData.order.ordernumber}</strong>
+                            <FormattedMessage
+                              id="checkout.swal.label.orderNumber"
+                              defaultMessage="Захиалга {orderNumber}"
+                              values={{
+                                orderNumber: (<strong>{ordData.order.ordernumber}</strong>),
+                              }}
+                            />
                           </span>
                         </h5>
                         <ul className="list-unstyled class">
                           <li className="flex-this flex-space">
-                            <span>Худалдаж авсан барааны тоо:</span>
+                            {/* <span>Худалдаж авсан барааны тоо:</span> */}
+                            <span><FormattedMessage id="checkout.swal.label.productsCount" /></span>
                             <strong className="big">
                               {ordData.order.orderquantity}
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
-                            <span>Мөнгөн дүн:</span>
+                            <span><FormattedMessage id="checkout.swal.label.amount" />:</span>
                             <strong className="big">
                               {formatter.format(ordData.order.totalamount)}₮
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
-                            <span>Төлбөрийн төрөл:</span>
+                            <span><FormattedMessage id="checkout.swal.label.paymentType" />:</span>
                             <strong className="big">{PaymentTypePanel.state.chosenPaymentType.name}</strong>
                           </li>
                           {paymentType !== "qpay" ? (
                             <div>
                               <li className="flex-this flex-space">
-                                <span>Банк:</span>
+                                <span><FormattedMessage id="checkout.swal.label.bank" />:</span>
                                 <strong className="big">{chosenBankInfo.banknm}</strong>
                               </li>
                               <li className="flex-this flex-space">
-                                <span>Дансны дугаар:</span>
+                                <span><FormattedMessage id="checkout.swal.label.accountNumber" />:</span>
                                 <strong className="big">
                                   {chosenBankInfo.account}
                                 </strong>
                               </li>
                               <li className="flex-this flex-space">
-                                <span>Хүлээн авагч:</span>
+                                <span><FormattedMessage id="checkout.swal.label.receiver" />:</span>
                                 <strong className="big">{chosenBankInfo.name}</strong>
                               </li>
                             </div>
@@ -345,7 +360,7 @@ class SwalModals extends React.Component {
                       <div className="user-detail text-left">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Хүргэлтийн мэдээлэл:
+                            <FormattedMessage id="shared.sidebar.title.deliveryInfo" />:
                           </span>
                         </h5>
                         <p className="text flex-this">
@@ -397,28 +412,36 @@ class SwalModals extends React.Component {
                       </div>
                       <div className="bottom-text text-center">
                         <p>
-                          Та төлбөрөө <b style={{ fontWeight: "bold" }}>2</b>{" "}
-                          цагийн дотор төлснөөр таны захиалга баталгаажиж
-                          идэвхжинэ. Тус хугацаанд төлбөр төлөгдөөгүй тохиолдолд
-                        захиалгыг автоматаар цуцлах болохыг анхаарна уу. <br />
+                          <FormattedMessage
+                            id="checkout.swal.info.orderCancellation"
+                            defaultMessage="Та төлбөрөө {hours}
+                            цагийн дотор төлснөөр таны захиалга баталгаажиж
+                            идэвхжинэ. Тус хугацаанд төлбөр төлөгдөөгүй тохиолдолд захиалгыг автоматаар цуцлах болохыг анхаарна уу."
+                            values={{
+                              hours: (<strong>2</strong>),
+                            }}
+                          />
+                          <br />
                           {paymentType !== "qpay" ? (
                             <div>
-                              Төлбөрийг дээрх дансанд шилжүүлэх ба захиалгын
-                              <b style={{ fontWeight: "bold" }}>
-                                {ordData.order.ordernumber}
-                              </b>{" "}
-                              дугаарыг гүйлгээний утга дээр заавал бичнэ үү.
+                              <FormattedMessage
+                                id="checkout.swal.info.orderPayment"
+                                defaultMessage="Төлбөрийг дээрх дансанд шилжүүлэх ба захиалгын {orderNumber} дугаарыг гүйлгээний утга дээр заавал бичнэ үү."
+                                values={{
+                                  orderNumber: (
+                                    <strong>{ordData.order.ordernumber}</strong>),
+                                }}
+                              />
                             </div>
                           ) : (
                               ""
                             )}
                           <br />
                           <br />
-                          Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар
-                          холбогдоно уу. Баярлалаа
+                          <FormattedMessage id="checkout.swal.info.contract" />
                         </p>
                         <strong className="text-uppercase">
-                          Лавлах утас: 7611 0101
+                          <FormattedMessage id="checkout.swal.label.contract" />: 7611 0101
                         </strong>
                       </div>
                       <div className="btn-container text-center">
@@ -430,7 +453,7 @@ class SwalModals extends React.Component {
                           }}
                         >
                           <span className="text-uppercase">
-                            Нүүр хуудасруу буцах
+                            <FormattedMessage id="checkout.swal.label.backToHomepage" />
                           </span>
                         </a>
                         <a
@@ -440,7 +463,7 @@ class SwalModals extends React.Component {
                             this.props.history.push(`/order/${ordData.order.id}`);
                           }}
                         >
-                          <span className="text-uppercase">Захиалга харах</span>
+                          <span className="text-uppercase"><FormattedMessage id="checkout.swal.label.showOrders" /></span>
                         </a>
                       </div>
                       {/*  <div className="bottom-text text-center">
@@ -460,4 +483,4 @@ class SwalModals extends React.Component {
   }
 }
 
-export default SwalModals;
+export default injectIntl(SwalModals);

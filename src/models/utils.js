@@ -13,7 +13,8 @@ const request = ({
     bearerHeader += root.data[0].info.access_token;
   }
   if (method === 'GET') {
-    return fetch(withQuery(process.env.API + url, body), {
+    const to = localStorage.getItem("lang");
+    return fetch(withQuery(process.env.API.replace(/(en|mn)/i, to) + url, body), {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -72,15 +73,6 @@ const asyncFn = ({
     name,
   });
   try {
-    let lag = localStorage.getItem('lang');
-    let lang = 0;
-    if (lag !== null) {
-      if (lag === 'mn') {
-        lang = 0;
-      } else {
-        lang = 1;
-      }
-    }
     if (model.request === 'REQUEST_LOGOUT') {
       dispatch({
         type: model.response,
@@ -95,9 +87,6 @@ const asyncFn = ({
       } else {
         // message.warning(data.message);
       }
-      // if (data.code !== null) {
-      //   message.warning(translation.msg[data.code][lang]);
-      // }
       if (!data) {
         throw new Error('no data provided');
       }

@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Form, message, Input, Spin, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 
@@ -24,22 +25,24 @@ class Component extends React.Component {
   }
 
   render() {
+    const { intl } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (
       <Col span={24}>
         <Spin
           spinning={loader}
-          tip="Түр хүлээнэ үү"
+          tip={intl.formatMessage({ id: "shared.spin" })}
         >
           <Form>
             <Col span={12}>
               <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
                 {getFieldDecorator("cardno", {
                   rules: [
-                    { required: true, message: "Картын дугаараа оруулна уу" },
+                    // { required: true, message: "Картын дугаараа оруулна уу" },
+                    { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                   ],
-                })(<Input placeholder="Картын дугаар" autoComplete="off" />)}
+                })(<Input placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -47,9 +50,9 @@ class Component extends React.Component {
               <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
                 {getFieldDecorator("password", {
                   rules: [
-                    { required: true, message: "Нууц үгээ оруулна уу" },
+                    { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                   ],
-                })(<Input.Password placeholder="Нууц үг" autoComplete="off" />)}
+                })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -57,7 +60,7 @@ class Component extends React.Component {
               <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
                 <div className="text-right">
                   <Button className="btn btn-dark" style={{ width: "108.28px", background: '#343a40' }} onClick={this.handleSubmit}>
-                    <span className="text-uppercase">Холбох</span>
+                    <span className="text-uppercase"><FormattedMessage id="shared.form.button.connect" /></span>
                   </Button>
                 </div>
               </Form.Item>
@@ -69,4 +72,4 @@ class Component extends React.Component {
   }
 }
 
-export default Form.create({ name: "UserProfile" })(Component);
+export default injectIntl(Form.create({ name: "UserProfile" })(Component));

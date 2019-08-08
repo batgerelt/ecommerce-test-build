@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { FormattedDate, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -120,14 +121,23 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { info } = this.props;
-      const date = info.insymd.split("T")[0].split("-");
+      // const date = info.insymd.split("T")[0].split("-");
       return (
         <div>
           <h4 className="title">
             <span>{info.packagenm}</span>
           </h4>
           <p className="date">
-            <span>{`${date[0]} оны ${date[1]} сарын ${date[2]}`}</span>
+            <FormattedMessage
+              id="packageDetail.date"
+              defaultMessage="{year}.{month}.{day}"
+              values={{
+                year: <FormattedDate value={new Date(info.insymd)} year="numeric" />,
+                month: <FormattedDate value={new Date(info.insymd)} month="2-digit" />,
+                day: <FormattedDate value={new Date(info.insymd)} day="2-digit" />,
+              }}
+            />
+            {/* <span>{`${date[0]} оны ${date[1]} сарын ${date[2]}`}</span> */}
           </p>
         </div>
       );
@@ -194,7 +204,7 @@ class List extends React.Component {
       return (
         <div className="block product-delivery">
           <p className="title">
-            <strong>Хүргэлтийн мэдээлэл</strong>
+            <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
           <p className="text">
             <span>{info.deliverytxt}</span>
@@ -427,7 +437,7 @@ class List extends React.Component {
               <div className="col-xl-4 pad10">
                 <div className="pack-price">
                   <p className="text flex-this end">
-                    <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
+                    <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="packageDetail.label.price" />:</span>
                     <strong>{formatter.format(this.getTotal())}₮</strong>
                   </p>
                   <button
@@ -440,7 +450,7 @@ class List extends React.Component {
                       aria-hidden="true"
                       style={{ fontSize: "1.2rem" }}
                     />{" "}
-                    <span className="text-uppercase">Сагсанд нэмэх</span>
+                    <span className="text-uppercase"><FormattedMessage id="packageDetail.button.addToCart" /></span>
                   </button>
                 </div>
               </div>
@@ -449,8 +459,10 @@ class List extends React.Component {
           <div className="info-container" style={{ float: "right" }}>
             <span>
               <i>
-                Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор
-                багцаас хасаад сагсанд нэмэх боломжтой.
+                {/* Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор
+                багцаас хасаад сагсанд нэмэх боломжтой. */}
+                You can add products to cart by changing the counts to 0 of products that you don not want to buy.
+                <FormattedMessage id="packageDetail.info" />
               </i>
             </span>
           </div>
@@ -468,12 +480,12 @@ class List extends React.Component {
             <ul className="list-unstyled">
               <li>
                 <Link to="">
-                  <span>Нүүр хуудас</span>
+                  <span><FormattedMessage id="packageDetail.breadcrumb.home" /></span>
                 </Link>
               </li>
               <li>
                 <Link to="/package">
-                  <span>Багц</span>
+                  <span><FormattedMessage id="packageDetail.breadcrumb.package" /></span>
                 </Link>
               </li>
             </ul>
@@ -499,7 +511,7 @@ class List extends React.Component {
                   {this.props.info === undefined ? null : this.renderDelivery()}
                   <div className="block product-suggest">
                     <p className="title">
-                      <strong>Ижил бараа</strong>
+                      <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
                     </p>
                     <ul className="list-unstyled">
                       {this.props.packageDetail === undefined

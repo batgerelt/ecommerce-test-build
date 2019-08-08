@@ -1,6 +1,7 @@
 import React from "react";
 import { Divider, Rate, message, Spin, BackTop } from "antd";
 import { Link } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -104,7 +105,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Үзсэн барааны түүх</span>
+            <span><FormattedMessage id="profile.seenHistory.title" /></span>
           </p>
           <Spin
             spinning={loader}

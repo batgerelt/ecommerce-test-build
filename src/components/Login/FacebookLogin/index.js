@@ -35,7 +35,7 @@ class FacebookLogin extends React.Component {
         fields="name,email,picture"
         callback={this.handleResponse}
         cssClass="btn btn-block btn-social btn-facebook"
-        textButton={intl.formatMessage({ id: "loginModal.form.button.facebookLogin" })}
+        textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
       />
     );
   }

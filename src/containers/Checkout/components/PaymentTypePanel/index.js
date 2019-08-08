@@ -2,6 +2,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Form } from "antd";
 
 class PaymentTypePanel extends React.Component {
@@ -78,7 +79,7 @@ class PaymentTypePanel extends React.Component {
         <hr />
         <div className="text-right">
           <button className="btn btn-main" name="payment" type="submit">
-            Дараах
+            <FormattedMessage id="shared.form.button.next" />
           </button>
         </div>
       </Form>
