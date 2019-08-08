@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { generatePath } from "react-router";
-import { Icon, Form } from "antd";
+import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
@@ -367,6 +367,14 @@ class AppHeader extends Component {
         });
       });
 
+      const dropdown = (
+        <div className="drop-container bg-dark">
+          <div className="container pad10 bg-dark">
+            <Category dataSource={root} {...this.props} />
+          </div>
+        </div>
+      );
+
       return (
         <div className="main-nav">
           <div className="container container-laptop pad10">
@@ -381,16 +389,12 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Link to="" >
-                  <span>Ангилал</span>
-                  <Icon type="down" style={{ color: "#feb415" }} />
-                </Link>
-
-                <div className="drop-container">
-                  <div className="container pad10">
-                    <Category dataSource={root} {...this.props} />
-                  </div>
-                </div>
+                <Dropdown overlay={dropdown} trigger={['click']}>
+                  <Link to="#">
+                    <span>Ангилал</span>
+                    <Icon type="down" style={{ color: "#feb415" }} />
+                  </Link>
+                </Dropdown>
               </li>
               <MainMenu dataSource={mainmenu} />
             </ul>
