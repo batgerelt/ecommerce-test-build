@@ -91,9 +91,7 @@ class Card extends React.Component {
         } else {
           //
         }
-      } else {
-        console.log('item: ', item);
-        if (item.skucd) {
+      } else if (item.skucd) {
           item.insymd = Date.now();
           item.cd = item.skucd;
           this.props.incrementProductLocally(item);
@@ -170,7 +168,6 @@ class Card extends React.Component {
         } else {
           //
         }
-      }
     } catch (e) {
       return console.log(e);
     }
@@ -435,7 +432,7 @@ class Card extends React.Component {
                       {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
-                  <Link to={item.route ? item.route : ""} className="cat">
+                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
                     <span
                       style={{
                         whiteSpace: "nowrap",
