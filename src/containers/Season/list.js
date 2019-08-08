@@ -61,7 +61,7 @@ class CategoryInfo extends React.Component {
       return this.props.searchProduct({
         body: { ...this.state },
       }).then((res) => {
-        if (res.payload.success) {
+        if (res.payload.success && res.payload.data) {
           this.setState({
             products: res.payload.data.hits.hits,
             startsWith: 20,

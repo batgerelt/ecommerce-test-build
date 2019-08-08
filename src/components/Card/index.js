@@ -91,82 +91,85 @@ class Card extends React.Component {
         } else {
           //
         }
-      } else if (item.skucd) {
-        item.insymd = Date.now();
-        item.cd = item.skucd;
-        this.props.incrementProductLocally(item);
-      } else if (item.cd) {
-        item.insymd = Date.now();
-        this.props.incrementProductLocally(item);
-
-        const updated = this.props.products.find(prod => prod.cd === item.cd);
-
-        if (updated && updated.error !== undefined) {
-          const messages = defineMessages({
-            warning: {
-              id: updated.error,
-            },
-          });
-          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-        }
-      } else if (item.recipeid) {
-        const result = await this.props.getRecipeProducts({
-          id: item.recipeid,
-        });
-
-        if (!result.payload.success) {
-          return message.warning(result.payload.message);
-        }
-
-        const products = result.payload.data.map(prod => ({
-          ...prod,
-          insymd: Date.now(),
-        }));
-
-        this.props.incrementRecipeProductsLocally(products);
-
-        const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
-
-        recipeProducts.forEach((updated) => {
-          if (updated.error !== undefined) {
-            const messages = defineMessages({
-              warning: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-          }
-        });
-      } else if (item.id) {
-        const result = await this.props.getPackageProducts({
-          id: item.id,
-        });
-
-        if (!result.payload.success) {
-          return message.warning(result.payload.message);
-        }
-
-        const products = result.payload.data.products.map(prod => ({
-          ...prod,
-          insymd: Date.now(),
-        }));
-
-        this.props.incrementPackageProductsLocally(products);
-
-        const packageProducts = this.props.products.filter(prod => prod.id === item.id);
-
-        packageProducts.forEach((updated) => {
-          if (updated.error !== undefined) {
-            const messages = defineMessages({
-              warning: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-          }
-        });
       } else {
-        //
+        console.log('item: ', item);
+        if (item.skucd) {
+          item.insymd = Date.now();
+          item.cd = item.skucd;
+          this.props.incrementProductLocally(item);
+        } else if (item.cd) {
+          item.insymd = Date.now();
+          this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.cd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
+        } else if (item.recipeid) {
+          const result = await this.props.getRecipeProducts({
+            id: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return message.warning(result.payload.message);
+          }
+
+          const products = result.payload.data.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementRecipeProductsLocally(products);
+
+          const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
+
+          recipeProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
+        } else if (item.id) {
+          const result = await this.props.getPackageProducts({
+            id: item.id,
+          });
+
+          if (!result.payload.success) {
+            return message.warning(result.payload.message);
+          }
+
+          const products = result.payload.data.products.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementPackageProductsLocally(products);
+
+          const packageProducts = this.props.products.filter(prod => prod.id === item.id);
+
+          packageProducts.forEach((updated) => {
+            if (updated.error !== undefined) {
+              const messages = defineMessages({
+                warning: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            }
+          });
+        } else {
+          //
+        }
       }
     } catch (e) {
       return console.log(e);
