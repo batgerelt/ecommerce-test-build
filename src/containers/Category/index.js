@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.product,
   ...state.search,
+  ...state.brand,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -44,35 +44,40 @@ class Discount extends React.Component {
     };
   }
 
-  componentDidMount(props) {
-    console.log(this.props);
-    this.setState({ headerProducts: this.props.discountproduct });
+  componentWillMount() {
+    this.props.getDiscountProduct({
+      jumcd: '99',
+      start: this.state.count,
+      rowcnt: 20,
+      order: `price_asc`,
+    }).then((res) => {
+      if (res.payload.success) {
+        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
+      }
+    });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.lang !== this.props.lang) {
-      const headerProducts = this.props.getDiscountProduct({});
-      console.log('headerProducts: ', headerProducts);
-      this.setState({ headerProducts });
-    }
-  }
-
-  // data nemeh heseg
+  // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = (key) => {
-    if (!this.props.discountFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
-      this.setState({ loading: true });
-      this.props.getDiscountProduct({
-        jumcd: '99',
-        start: this.state.count,
-        rowcnt: 20,
-        order: `price_asc`,
-      }).then((res) => {
-        if (res.payload.success) {
-          this.setState({
-            products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-          });
-        }
-      });
+    try {
+      if (!this.props.discountFetching && this.state.products.length < this.props.discountproduct.count) {
+        this.setState({ loading: true });
+        this.props.getDiscountProduct({
+          jumcd: '99',
+          start: this.state.count,
+          rowcnt: 20,
+          order: `price_asc`,
+        }).then((res) => {
+          if (res.payload.success) {
+            this.setState({
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
+            });
+          }
+        });
+      }
+      return null;
+    } catch (error) {
+      return console.log(error);
     }
   };
 
@@ -113,7 +118,7 @@ class Discount extends React.Component {
           title={menuDiscount.menunm}
           subtitle={menuDiscount.subtitle}
           banners={discountbanner.length === 0 ? [] : discountbanner.header}
-          bgColor="#4286f4"
+          bgColor="#EF3340"
         />
       );
     } catch (error) {
@@ -155,8 +160,19 @@ class Discount extends React.Component {
     }
   };
 
+  generateItemHeight = (width) => {
+    if (width >= 700 && width < 960 || width > 1000) {
+      return 340;
+    }
+    if (width < 400) {
+      return 340;
+    }
+    return 400;
+  }
+
   renderFooterProduct = () => {
     try {
+      console.log(this.props);
       return (
         <div className="section">
           <div className="container pad10">
@@ -166,7 +182,7 @@ class Discount extends React.Component {
                   const rowCount = this.getRowsAmount(
                     width,
                     this.state.products.length,
-                    true,
+                    this.state.products.length !== this.props.discountproduct.count,
                   );
                   return (
                     <InfiniteLoader
@@ -197,7 +213,7 @@ class Discount extends React.Component {
                               scrollTop={scrollTop}
                               width={width}
                               rowCount={rowCount}
-                              rowHeight={ITEM_HEIGHT}
+                              rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {
                                 const maxItemsPerRow = this.getMaxItemsAmountPerRow(
@@ -212,8 +228,9 @@ class Discount extends React.Component {
                                   <div style={style} key={key} className="jss148">
                                     {
                                       rowItems.map(itemId => (
-                                        <RowItem
-                                          key={itemId.cd}
+                                        <Card
+                                          key={itemId.cd + key}
+                                          shape={CARD_TYPES.slim}
                                           item={itemId}
                                           {...this.props}
                                         />
@@ -242,11 +259,12 @@ class Discount extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

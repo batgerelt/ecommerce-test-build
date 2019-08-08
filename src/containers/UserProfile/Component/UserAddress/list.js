@@ -2,7 +2,10 @@ import React from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
-import LetterInput from "../../../../components/LetterInput";
+import LetterInput from "../../../../components/Input/LetterInput";
+import NumberInput from "../../../../components/Input/NumberInput";
+import LatinInput from "../../../../components/Input/LatinInput";
+import { Loader } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -61,9 +64,9 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({ load: true });
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.setState({ load: true });
         const param = {
           custid: this.props.data[0].info.customerInfo.id,
           locid: this.state.params.commid,
@@ -240,7 +243,7 @@ class Component extends React.Component {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                 { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                 { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
+              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -250,7 +253,7 @@ class Component extends React.Component {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                 { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                 { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
+              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
@@ -335,6 +338,7 @@ class Component extends React.Component {
             <Spin
               spinning={loader}
               tip={intl.formatMessage({ id: "shared.spin" })}
+              indicator={<Loader />}
             >
               <table className="table table-borderless">
                 <thead className="thead-light" hidden>

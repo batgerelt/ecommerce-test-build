@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
 import SwalModals from "./SwalModals";
-import LetterInput from "../../../../components/LetterInput";
+import LetterInput from "../../../../components/Input/LetterInput";
+import NumberInput from "../../../../components/Input/NumberInput";
+import LatinInput from "../../../../components/Input/LatinInput";
 
 const MySwal = withReactContent(Swal);
 
@@ -368,7 +370,7 @@ class Component extends React.Component {
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
                   rules: [{ required: true, type: "email", message: intl.formatMessage({ id: "shared.form.email.validation.required" }) }],
-                })(<Input placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
+                })(<LatinInput placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
               </Form.Item>
             </Col>
 
@@ -387,7 +389,7 @@ class Component extends React.Component {
                       message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }),
                     },
                   ],
-                })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -399,7 +401,7 @@ class Component extends React.Component {
                     { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                     { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
                   ],
-                })(<Input placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 

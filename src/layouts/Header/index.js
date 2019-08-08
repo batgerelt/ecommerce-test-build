@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { generatePath } from "react-router";
-import { Icon, Form } from "antd";
+import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
@@ -28,6 +28,7 @@ class AppHeader extends Component {
       keywordid: null,
       isSearch: false,
       pro: false,
+      categoryDropdown: false,
     };
   }
 
@@ -129,6 +130,10 @@ class AppHeader extends Component {
     }
   }
 
+  handleLogin = (e) => {
+    this.props.LoginModal.handleLoginModal();
+  }
+
   renderTopMain = () => {
     try {
       const { intl } = this.props;
@@ -159,7 +164,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row row10">
-              <div className="col-xl-8 col-lg-8 col-md-5 col-4 pad10">
+              <div className="col-xl-9 col-lg-9 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -229,6 +234,7 @@ class AppHeader extends Component {
                               style={{ margin: "0px", width: "100%" }}
                             >
                               <input
+                                required
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
@@ -246,7 +252,7 @@ class AppHeader extends Component {
                         <li>
                           <Link
                             className="btn"
-                            to={word === "" ? "#" : `/search/${item.id}/${word}/${moment()}`}
+                            to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
                             style={{ boxShadow: 'none', color: 'black' }}
                           >
                             <i
@@ -283,13 +289,14 @@ class AppHeader extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-4 col-lg-4 col-md-7 col-8 pad10">
+              <div className="col-xl-3 col-lg-3 col-md-6 col-7 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item">
                       <span
                         className="flex-this search-mobile-btn d-flex d-lg-none row10"
                         onClick={this.toggleSearch}
+                        style={{ padding: 5 }}
                       >
                         <img src={searchImage} alt="search" height="25px" />
                         <p>
@@ -315,7 +322,7 @@ class AppHeader extends Component {
                               </p>
                             </Link>
                           ) : (
-                            <Link to="#" className="row10">
+                            <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text">
                                 <small><FormattedMessage id="header.wishlist.part1" /></small>
@@ -340,10 +347,13 @@ class AppHeader extends Component {
     }
   }
 
+  handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
+
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
       const { categorymenu } = this.props.category;
+      const { categoryDropdown } = this.state;
 
       let root = [];
       categorymenu.map((item) => {
@@ -361,6 +371,14 @@ class AppHeader extends Component {
         });
       });
 
+      const dropdown = (
+        <div className="drop-container bg-dark" onClick={this.handleCategoryDropdown}>
+          <div className="container pad10 bg-dark">
+            <Category dataSource={root} {...this.props} />
+          </div>
+        </div>
+      );
+
       return (
         <div className="main-nav">
           <div className="container container-laptop pad10">
@@ -375,16 +393,12 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Link to="" >
-                  <span>Ангилал</span>
-                  <Icon type="down" style={{ color: "#feb415" }} />
-                </Link>
-
-                <div className="drop-container">
-                  <div className="container pad10">
-                    <Category dataSource={root} {...this.props} />
-                  </div>
-                </div>
+                <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
+                  <Link to="#" onClick={this.handleCategoryDropdown}>
+                    <span>Ангилал</span>
+                    <Icon type="left" style={{ color: '#feb415' }} rotate={categoryDropdown ? -90 : 0} />
+                  </Link>
+                </Dropdown>
               </li>
               <MainMenu dataSource={mainmenu} />
             </ul>

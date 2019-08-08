@@ -22,7 +22,7 @@ import {
 } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
-const ITEM_HEIGHT = 340;
+let ITEM_HEIGHT = 340;
 
 const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
   return (
@@ -50,34 +50,32 @@ class Bookmarks extends PureComponent {
   }
 
   componentWillMount() {
-    /* this.props.getNewProduct({
+    this.props.getNewProduct({
       jumcd: '99',
-      start: 0,
-      rowcnt: 10,
-      order: `price_asc`,
+      start: this.state.count,
+      rowcnt: 20,
+      order: `date_desc`,
     }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
+        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
       }
-    }); */
+    });
   }
 
   // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (!this.props.isFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+      if (!this.props.isFetching && this.state.products.length < this.props.newproduct.count) {
         this.setState({ loading: true });
         this.props.getNewProduct({
           jumcd: '99',
           start: this.state.count,
           rowcnt: 20,
-          order: `price_asc`,
+          order: `date_desc`,
         }).then((res) => {
           if (res.payload.success) {
             this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-            }, () => {
-              this.setState({ loading: false });
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
             });
           }
         });
@@ -128,13 +126,13 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const { newbanner, menuNew, pagebanner } = this.props;
+      const { newbanner, menuNew } = this.props;
       return (
         <PageBanner
           title={menuNew.menunm}
           subtitle={menuNew.subtitle}
           banners={newbanner.length === 0 ? [] : newbanner.header}
-          bgColor="#bbdefb"
+          bgColor="#00A1E4"
         />
       );
     } catch (error) {
@@ -182,6 +180,16 @@ class Bookmarks extends PureComponent {
     }
   };
 
+  generateItemHeight = (width) => {
+    if (width >= 700 && width < 960 || width > 1000) {
+      return 340;
+    }
+    if (width < 400) {
+      return 340;
+    }
+    return 400;
+  }
+
   renderFooterProduct = () => {
     try {
       return (
@@ -213,9 +221,11 @@ class Bookmarks extends PureComponent {
                               scrollTop={scrollTop}
                               width={width}
                               rowCount={rowCount}
-                              rowHeight={ITEM_HEIGHT}
+                              rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
-                              rowRenderer={({ index, style, key }) => {
+                              rowRenderer={({
+                                index, isScrolling, key, style,
+                              }) => {
                                 const { products } = this.state;
                                 const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                                   width,
@@ -258,7 +268,7 @@ class Bookmarks extends PureComponent {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {/* this.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}

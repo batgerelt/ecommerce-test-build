@@ -8,8 +8,8 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { FormattedMessage } from 'react-intl';
-import { Spin, Select, BackTop } from "antd";
 import { Link } from "react-router-dom";
+import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -30,14 +30,14 @@ class CategoryInfo extends React.Component {
 
     this.state = {
       products: [],
-      catid: 0,
+      catid: null,
       isListViewOn: false,
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_asc",
+      sort: "",
       isLeftPanel: false,
-      ITEM_HEIGHT: 284.98,
+      ITEM_HEIGHT: 294.98,
       shapeType: 2,
       colors: [],
       brands: [],
@@ -50,6 +50,10 @@ class CategoryInfo extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.getData();
+  }
+
   handleChangeOrder = (e) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
@@ -57,20 +61,24 @@ class CategoryInfo extends React.Component {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: this.state.attributes.join(','),
-      color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
+      attribute: this.state.attributes.join(","),
+      color: this.state.colors.join(","),
+      brand: this.state.brands.join(","),
       promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: e,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 0,
+        });
       }
     });
   };
@@ -87,14 +95,18 @@ class CategoryInfo extends React.Component {
 
   handleChangePrice = (e) => {
     const { isLogged, data } = this.props;
-    this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
+    this.setState({
+      loading: !this.state.loading,
+      minPrice: e[0],
+      maxPrice: e[1],
+    });
     const params = {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: this.state.attributes.join(','),
-      color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
+      attribute: this.state.attributes.join(","),
+      color: this.state.colors.join(","),
+      brand: this.state.brands.join(","),
       promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
@@ -105,7 +117,11 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 0,
+        });
       }
     });
   };
@@ -113,17 +129,22 @@ class CategoryInfo extends React.Component {
   handleChangeColor = (e) => {
     const { isLogged, data } = this.props;
     const { colors } = this.state;
-    if (e.target.checked) { colors.push(e.target.value); }
-    else { colors.map((i, index) => (i === e.target.value ? colors.splice(index, 1) : null)); }
+    if (e.target.checked) {
+      colors.push(e.target.value);
+    } else {
+      colors.map((i, index) =>
+        (i === e.target.value ? colors.splice(index, 1) : null),
+      );
+    }
     this.setState({ loading: !this.state.loading, colors });
 
     const params = {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: this.state.attributes.join(','),
-      color: colors.join(','),
-      brand: this.state.brands.join(','),
+      attribute: this.state.attributes.join(","),
+      color: colors.join(","),
+      brand: this.state.brands.join(","),
       promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
@@ -134,25 +155,32 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 0,
+        });
       }
     });
-  }
+  };
 
   handleChangeBrand = (e, brand) => {
     const { isLogged, data } = this.props;
     const { brands } = this.state;
-    if (e.target.checked) { brands.push(brand); }
-    else { brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null)); }
+    if (e.target.checked) {
+      brands.push(brand);
+    } else {
+      brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null));
+    }
     this.setState({ loading: !this.state.loading, brands });
 
     const params = {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: this.state.attributes.join(','),
-      color: this.state.colors.join(','),
-      brand: brands.join(','),
+      attribute: this.state.attributes.join(","),
+      color: this.state.colors.join(","),
+      brand: brands.join(","),
       promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
@@ -163,25 +191,36 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 0,
+        });
       }
     });
-  }
+  };
 
   handleChangeAttribute = (e, value, attribute) => {
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
-    if (e.target.checked) { attributes.push(`${attribute};${value}`); }
-    else { attributes.map((i, index) => (i === `${attribute};${value.toString()}` ? attributes.splice(index, 1) : null)); }
+    if (e.target.checked) {
+      attributes.push(`${attribute};${value}`);
+    } else {
+      attributes.map((i, index) =>
+        (i === `${attribute};${value.toString()}`
+          ? attributes.splice(index, 1)
+          : null),
+      );
+    }
     this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
       catId: this.state.catid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
-      attribute: attributes.join(','),
-      color: this.state.colors.join(','),
-      brand: this.state.brands.join(','),
+      attribute: attributes.join(","),
+      color: this.state.colors.join(","),
+      brand: this.state.brands.join(","),
       promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
@@ -192,7 +231,11 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 0,
+        });
       }
     });
   };
@@ -203,7 +246,7 @@ class CategoryInfo extends React.Component {
     this.props.getCategoryParents({ id: cat.key });
 
     const params = {
-      catId: cat.key,
+      catId: cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
       attribute: "",
@@ -224,39 +267,61 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 0,
-          isCatChecked: !this.state.isCatChecked,
-          aggregations: res.payload.data.aggregations,
-          catid: cat.key,
+          catid: cat[0],
+          aggregations: res.payload.data,
         });
       }
     });
-  }
+  };
 
   renderCategoryList = () => {
     try {
       const { categoryall } = this.props;
-      const { aggregations } = this.state;
+      const { categories } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (categories.buckets.length !== 0) {
         return (
-          <ul className="list-unstyled category-list">
-            {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
-                </li>
-              ))
-            }
-          </ul>
+          <Tree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            defaultExpandAll={false}
+            defaultExpandParent={false}
+          >
+            {categories.buckets.map(one => (
+              <Tree.TreeNode
+                title={categoryall.find(i => i.id === one.key).name}
+                key={one.key}
+              >
+                {one.buckets === undefined ? null
+                  : one.buckets.buckets.map(two => (
+                    <Tree.TreeNode
+                      title={categoryall.find(i => i.id === two.key).name}
+                      key={two.key}
+                    >
+                      {two.buckets !== undefined &&
+                        two.buckets.buckets !== undefined
+                        ? two.buckets.buckets.map(three => (
+                          <Tree.TreeNode
+                            title={
+                              categoryall.find(i => i.id === three.key).name
+                            }
+                            key={three.key}
+                          />
+                        ))
+                        : null}
+                    </Tree.TreeNode>
+                  ))}
+              </Tree.TreeNode>
+            ))}
+          </Tree>
         );
       }
       return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
-  }
+  };
 
   renderLeftPanel = () => {
     try {
@@ -265,7 +330,10 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div
+            className={`left-panel-container ${leftPanel1}`}
+            onClick={this.showLeftPanel}
+          >
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
@@ -304,10 +372,15 @@ class CategoryInfo extends React.Component {
                   <strong><FormattedMessage id="season.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    {...this.state}
+                    data={this.state.aggregations}
+                  />
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -316,7 +389,7 @@ class CategoryInfo extends React.Component {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   renderFilteredList = () => {
     try {
@@ -353,7 +426,6 @@ class CategoryInfo extends React.Component {
                       <FormattedMessage id="season.sort.label" />:
                     </label>
                     <Select
-                      defaultValue={this.state.sort}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
@@ -382,7 +454,9 @@ class CategoryInfo extends React.Component {
           </div>
 
           <div className={styles.center}>
-            <Spin spinning={this.state.loading} indicator={<Loader />} >{this.renderProducts()}</Spin>
+            <Spin spinning={this.state.loading} indicator={<Loader />}>
+              {this.renderProducts()}
+            </Spin>
           </div>
         </div>
       );
@@ -390,7 +464,7 @@ class CategoryInfo extends React.Component {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
@@ -407,7 +481,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -445,15 +519,15 @@ class CategoryInfo extends React.Component {
       if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
         const { isLogged, data } = this.props;
         const params = {
-          catId: this.state.catid,
+          catId: this.state.catid === null ? searchid : this.state.catid,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
-          value: '',
-          attribute: "",
-          color: this.state.colors.join(','),
-          brand: this.state.brands.join(','),
+          value: "",
+          attribute: this.state.attributes.join(','),
+          color: this.state.colors.join(","),
+          brand: this.state.brands.join(","),
           promotion: "",
-          minPrice: 0,
-          maxPrice: 0,
+          minPrice: this.state.minPrice,
+          maxPrice: this.state.maxPrice,
           startsWith: this.state.count,
           rowCount: 20,
           orderColumn: this.state.sort,
@@ -462,7 +536,10 @@ class CategoryInfo extends React.Component {
 
         this.props.searchProduct({ body: { ...params } }).then((res) => {
           if (res.payload.success) {
-            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
+            this.setState({
+              products: this.state.products.concat(res.payload.data.hits.hits),
+              count: this.state.count + 20,
+            });
           }
         });
       }
@@ -487,11 +564,12 @@ class CategoryInfo extends React.Component {
                   rowCount={rowCount}
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                    const allItemsLoaded = this.generateIndexesForRow(
-                      index,
-                      maxItemsPerRow,
-                      products.length,
-                    ).length > 0;
+                    const allItemsLoaded =
+                      this.generateIndexesForRow(
+                        index,
+                        maxItemsPerRow,
+                        products.length,
+                      ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}
@@ -522,6 +600,8 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    style={{ padding: '10px 10px' }}
+                                    elastic
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
@@ -553,13 +633,13 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     searchid = this.props.match.params.id;
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
+    this.setState({ loading: true, ismore: !this.state.ismore });
     const { isLogged, data } = this.props;
 
     const params = {
       catId: searchid,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
-      value: '',
+      value: "",
       attribute: "",
       color: "",
       brand: "",
@@ -576,47 +656,50 @@ class CategoryInfo extends React.Component {
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
+          loading: false,
           count: 20,
-          aggregations: res.payload.data.aggregations,
-          // ismore: !this.state.ismore,
+          aggregations: res.payload.data,
+          categories: res.payload.data.aggregations.categories,
+          catid: searchid,
         });
       }
     });
 
     this.props.getCategoryParents({ id: this.props.match.params.id });
-  }
-
-  renderBreadCrumb = () => {
-    try {
-      const { categoryparents } = this.props;
-      return (
-        <div className="e-breadcrumb">
-          <ul className="list-unstyled">
-            {categoryparents.map(category => (
-              <li key={category.catnm}>
-                <Link to={category.route ? category.route : ""}>
-                  <span>{category.catnm}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    } catch (error) {
-      return console.log(error);
-    }
   };
+
+  // renderBreadCrumb = () => {
+  //   try {
+  //     const { categoryparents } = this.props;
+  //     return (
+  //       <div className="e-breadcrumb">
+  //         <ul className="list-unstyled">
+  //           {categoryparents.map(category => (
+  //             <li key={category.catnm}>
+  //               <Link to={category.route ? category.route : ""}>
+  //                 <span>{category.catnm}</span>
+  //               </Link>
+  //             </li>
+  //           ))}
+  //         </ul>
+  //       </div>
+  //     );
+  //   } catch (error) {
+  //     return console.log(error);
+  //   }
+  // };
 
   render() {
     const { id } = this.props.match.params;
-    if (id !== searchid) { this.getData(); }
+    if (id !== searchid) {
+      this.getData();
+    }
 
     return (
       <div className="top-container">
         <div className="section">
           <div className="container pad10">
-            {this.renderBreadCrumb()}
+            {/* {this.renderBreadCrumb()} */}
             <div className="row row10">
               {this.renderLeftPanel()}
               {this.renderFilteredList()}

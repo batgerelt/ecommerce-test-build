@@ -1,7 +1,8 @@
 import React from "react";
-import { Divider, Rate, message, Spin, BackTop } from "antd";
+import { Rate, message, Spin, BackTop, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { Loader } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -59,7 +60,7 @@ class Component extends React.Component {
                   <p className="name">{item.skunm}</p>
                   <p className="text">{item.shortnm}</p>
                 </Link>
-                <Rate value={item.rate / 2} disabled />
+                <Rate allowHalf value={item.rate / 2} disabled />
               </div>
             </div>
           </div>
@@ -100,7 +101,8 @@ class Component extends React.Component {
     }
   }
   render() {
-    const { loader } = this.state;
+    const loaders = this.state.loader;
+    const icon = <Icon type="sync" spin />;
     return (
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
@@ -108,9 +110,10 @@ class Component extends React.Component {
             <span><FormattedMessage id="profile.seenHistory.title" /></span>
           </p>
           <Spin
-            spinning={loader}
+            spinning={loaders}
+            indicator={<Loader />}
           >
-            <div className="product-list-history">
+            <div className="product-list-history" style={{ minHeight: "30em" }}>
               {this.renderProducts()}
             </div>
           </Spin>

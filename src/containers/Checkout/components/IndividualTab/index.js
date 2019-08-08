@@ -112,6 +112,14 @@ class IndividualTab extends React.Component {
     }
   }
 
+  checkCardValue = (e) => {
+    let value = this.props.form.getFieldsValue(["cardno", "pincode"]);
+    if (value.cardno === undefined || value.cardno === "" || value.pincode === undefined || value.pincode === "") {
+      return true;
+    }
+    return false;
+  }
+
 
   renderForm = () => {
     try {
@@ -150,7 +158,7 @@ class IndividualTab extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Button htmlType="submit" loading={loading} className="btn btn-main solid"><FormattedMessage id="shared.form.button.connect" /></Button>
+                <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main solid"><FormattedMessage id="shared.form.button.connect" /></Button>
               </div> :
               <div>
                 <p className="title">

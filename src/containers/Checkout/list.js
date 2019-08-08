@@ -28,7 +28,6 @@ class Checkout extends React.Component {
     chnged: false,
   };
 
-
   componentDidUpdate(nextProps) {
     if (!this.props.isLogged && nextProps.isLogged) {
       this.props.history.push("/");

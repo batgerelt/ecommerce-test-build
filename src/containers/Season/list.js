@@ -9,7 +9,6 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
-import { Link } from "react-router-dom";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -32,7 +31,7 @@ class CategoryInfo extends React.Component {
       products: [],
       isListViewOn: false,
       loading: false,
-      isLeftPanel: false,
+      isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
       colors: [],
@@ -40,6 +39,7 @@ class CategoryInfo extends React.Component {
       attributes: [],
       count: 0,
       aggregations: [],
+      promotions: [],
 
       catId: 0,
       custId: 0,
@@ -52,7 +52,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: 'price_asc',
+      orderColumn: '',
       highlight: false,
     };
   }
@@ -62,11 +62,12 @@ class CategoryInfo extends React.Component {
       return this.props.searchProduct({
         body: { ...this.state },
       }).then((res) => {
-        if (res.payload.success) {
+        if (res.payload.success && res.payload.data) {
           this.setState({
             products: res.payload.data.hits.hits,
-            startsWith: this.state.startsWith + 20,
-            aggregations: res.payload.data.aggregations,
+            startsWith: 20,
+            aggregations: res.payload.data,
+            promotions: res.payload.data.aggregations.promotions,
           });
         }
       });
@@ -91,7 +92,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: e,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
@@ -249,6 +250,7 @@ class CategoryInfo extends React.Component {
           loading: !this.state.loading,
           count: 20,
           promotion: this.state.promotion === cat.key ? true : cat.key,
+          aggregations: res.payload.data,
         });
       }
     });
@@ -257,13 +259,13 @@ class CategoryInfo extends React.Component {
   renderCategoryList = () => {
     try {
       const { promotionall } = this.props;
-      const { aggregations } = this.state;
+      const { promotions } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              aggregations.promotions.buckets.buckets.map((cat, index) => (
+              promotions.buckets.buckets.map((cat, index) => (
                 <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
                   <span onClick={() => this.handleClickCategory(cat)}>
                     {promotionall.find(i => i.id === cat.key) === undefined ? null : promotionall.find(i => i.id === cat.key).name}
@@ -276,22 +278,21 @@ class CategoryInfo extends React.Component {
       }
       return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   }
 
   renderLeftPanel = () => {
     try {
-      const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
-      const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
-
+      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
+                onClick={this.showMobilePanel}
               >
                 <img
                   src={crossImage}
@@ -326,7 +327,13 @@ class CategoryInfo extends React.Component {
                   <strong><FormattedMessage id="season.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} promotion />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    data={this.state.aggregations}
+                    promotion
+                  />
                 </div>
               </div>
 
@@ -339,6 +346,8 @@ class CategoryInfo extends React.Component {
       return null;
     }
   }
+
+  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
 
   renderFilteredList = () => {
     try {
@@ -361,7 +370,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showLeftPanel}
+                      onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">Шүүлтүүр</span>
@@ -469,12 +478,12 @@ class CategoryInfo extends React.Component {
           catId: 0,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
           value: searchword,
-          attribute: "",
+          attribute: this.state.attributes.join(','),
           color: this.state.colors.join(','),
           brand: this.state.brands.join(','),
           promotion: this.state.promotion,
-          minPrice: 0,
-          maxPrice: 0,
+          minPrice: this.state.minPrice,
+          maxPrice: this.state.maxPrice,
           startsWith: this.state.count,
           rowCount: 20,
           orderColumn: this.state.sort,
@@ -543,6 +552,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    elastic
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
@@ -580,7 +590,7 @@ class CategoryInfo extends React.Component {
           title={menuSeason.menunm}
           subtitle={menuSeason.subtitle}
           banners={seasonbanner}
-          bgColor="#4286f4"
+          bgColor="rgb(163, 167, 170)"
         />
       );
     } catch (error) {

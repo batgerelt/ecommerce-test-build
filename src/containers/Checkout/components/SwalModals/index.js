@@ -286,6 +286,7 @@ class SwalModals extends React.Component {
         const {
           PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
         } = this.props;
+        console.log(ordData);
         return (
           <div className="wrap">
             <div className="success-message-container">

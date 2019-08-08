@@ -39,10 +39,18 @@ class Component extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
+    if (value.length < 6) {
+      callback("Нууц үг сул байна.");
+    } else if (value.search(/[a-zA-Z]/) === -1) {
+      callback("Нууц үг сул байна.");
+    } else if (value.search(/[0-9]/) === -1) {
+      callback("Нууц үг сул байна.");
+    } else {
+      callback();
+    }
     if (value && this.state.confirmDirty) {
       this.props.form.validateFields(["confirm"], { force: true });
     }
-    callback();
   };
 
   renderPassword = () => {

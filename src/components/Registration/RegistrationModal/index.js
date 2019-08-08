@@ -3,7 +3,9 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
 import { Link } from "react-router-dom";
-import LetterInput from "../../LetterInput";
+import LetterInput from "../../Input/LetterInput";
+import LatinInput from "../../Input/LatinInput";
+import NumberInput from "../../Input/NumberInput";
 
 class RegistrationModal extends React.Component {
   state = {
@@ -102,18 +104,22 @@ class RegistrationModal extends React.Component {
                 message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
               }],
             })(
-              <Input placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} className="form-control" autoComplete="off" />,
+              <LatinInput
+                placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                className="form-control"
+                autoComplete="off"
+              />,
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("phonE1", {
+            {getFieldDecorator("phone1", {
               rules: [
                 { required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                 { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                 { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
               ],
             })(
-              <Input
+              <NumberInput
                 placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })}
                 maxLength={8}
                 className="form-control"

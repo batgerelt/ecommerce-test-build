@@ -24,6 +24,12 @@ class Detail extends Component {
     });
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+      this.setState({ productQty: nextProps.detail.products.saleminqty || 1 });
+    }
+  }
+
   renderDetails = () => {
     const {
       categorymenu, rate, isLogged, intl,
@@ -289,7 +295,7 @@ class Detail extends Component {
 
   handleSaveClick = () => {
     const { isLogged, addWishList, detail } = this.props;
-    if (isLogged !== null) {
+    if (isLogged) {
       let skucd = detail.products.cd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {

@@ -44,6 +44,7 @@ class DeliveryInfo extends React.Component {
     chosenDate: null,
     useEpoint: false,
     epointUsedPoint: 0,
+    notif: false,
   };
 
   checkError = (value) => {
@@ -186,7 +187,6 @@ class DeliveryInfo extends React.Component {
         ${chosenInfo.districtnm}, 
         ${chosenInfo.committeenm}, 
         ${chosenInfo.address}`;
-      console.log(organizationData);
       if (organizationData.length === 0) {
         tmp.taxRegno = "";
         tmp.taxName = "";
@@ -299,6 +299,10 @@ class DeliveryInfo extends React.Component {
       closeOnEsc: false,
     });
   };
+
+  handleAgreementNotif = (value) => {
+    this.setState({ notif: value });
+  }
 
   handlePayment = (e, item, ordData, type) => {
     e.preventDefault();
@@ -417,10 +421,10 @@ class DeliveryInfo extends React.Component {
               <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
               <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p>
-            <Checkbox onChange={this.handleAgreement}>
+            <Checkbox onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+                <span style={{ fontWeight: "bold", color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>

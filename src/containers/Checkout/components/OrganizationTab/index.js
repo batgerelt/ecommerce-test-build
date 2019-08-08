@@ -22,6 +22,14 @@ class OrganizationTab extends React.Component {
     }
   }
 
+  checkOrgValue = (e) => {
+    let value = this.props.form.getFieldsValue(["regno"]);
+    if (value.regno === undefined || value.regno === "") {
+      return true;
+    }
+    return false;
+  }
+
   edit = (e) => {
     const { setFieldsValue } = this.props.form;
     const { DeliveryInfo } = this.props;

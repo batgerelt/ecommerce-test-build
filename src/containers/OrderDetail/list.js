@@ -1,7 +1,8 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { Link } from "react-router-dom";
-import { BackTop } from "antd";
+import { BackTop, Avatar } from "antd";
+import store from "../../../src/scss/assets/images/demo/store.png";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -70,7 +71,7 @@ class List extends React.Component {
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
-                  <strong>Захиалгын дүн</strong>
+                  <strong>Нийт дүн</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
@@ -80,7 +81,7 @@ class List extends React.Component {
               </ul>
             </div>
             <h5 className="title flex-this flex-space">
-              <span>Захиалгын төлөв</span>
+              <span>Хүргэлтийн төлөв</span>
               <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
                 {orderdetail.info.customerstatusname}
               </strong>
@@ -117,7 +118,7 @@ class List extends React.Component {
                     aria-hidden="true"
                     style={{ color: "#feb415" }}
                   />
-                  <span>{orderdetail.info.orddate.slice(0, 10)}</span>
+                  <span>{orderdetail.info.deliverydate.slice(0, 10)}</span>
                 </p>
               </div>
             </div>
@@ -147,7 +148,7 @@ class List extends React.Component {
   render() {
     const { orderdetail } = this.props;
     return (
-      <div className="section">
+      <div className="section orderdetail">
         <div className="top-container">
           <div className="container pad10">
             <div className="cart-container after-order">
@@ -156,9 +157,23 @@ class List extends React.Component {
               </h1>
               <div className="row row10">
                 <div className="col-xl-8 pad10">
-                  <h5 className="title">
-                    <span>Захиалсан бараанууд</span>
-                  </h5>
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="title">
+                        <span>Захиалсан бараанууд</span>
+                      </h5>
+                    </div>
+                    <div className="col">
+                      <Link
+                        to="/profile/delivery"
+                        className="btn btn-link pull-right"
+                        style={{ marginTop: "15px" }}
+                      >
+                        <Avatar size="small" shape="square" src={store} />
+                        <span className="text-uppercase"> Захиалгын жагсаалт харах</span>
+                      </Link>
+                    </div>
+                  </div>
                   <div className="cart-table table-responsive">
                     <table className="table table-borderless">
                       <thead className="thead-light">

@@ -126,6 +126,7 @@ class Relational extends Component {
                   className="btn btn-border"
                   onClick={this.handleShowMoreClick}
                   disabled={isShowMoreClicked}
+                  style={{ height: "100%" }}
                 >
                   <span className="text text-uppercase">
                     <FormattedMessage id="shared.sidebar.button.showAllRelatedProducts" />

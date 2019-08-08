@@ -78,6 +78,7 @@ class Signin extends React.Component {
                     {
                       required: true,
                       message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                      type: "email",
                     },
                   ],
                 })(

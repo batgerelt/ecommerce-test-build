@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash';
 import withQuery from 'with-query';
-import { message } from 'antd';
+import { message } from "antd";
 
 const request = ({
   url, method, body, isfiles,
@@ -82,10 +82,11 @@ const asyncFn = ({
       const data = await request({
         url, method, body, isfiles,
       });
-      if (data && data.success !== false) {
-        if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
+
+      if ((data && data.success !== false) && data.data !== null) {
+        // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
-        // message.warning(data.message);
+        message.warning(data.message);
       }
       if (!data) {
         throw new Error('no data provided');

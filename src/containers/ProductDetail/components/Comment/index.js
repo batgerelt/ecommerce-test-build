@@ -14,7 +14,9 @@ class Comment extends Component {
   };
 
   handleCommitChange = (e) => {
-    this.setState({ comment: e.target.value });
+    if (e.target.value.length <= 120) {
+      this.setState({ comment: e.target.value });
+    }
   };
 
   handleCommentSend = (e) => {
@@ -40,10 +42,11 @@ class Comment extends Component {
         product, comments, user, auth, intl,
       } = this.props;
       const { rate, rate_user_cnt } = product;
+      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
       return (
         <div
           className="comments-container"
-          style={{ marginTop: "80px", width: "100%" }}
+          style={{ marginTop: "30px", width: "100%" }}
         >
           {auth && (
             <div className="write-comment">
@@ -51,13 +54,13 @@ class Comment extends Component {
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${user.length !== 0 ? localStorage.getItem('img') : defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${auth ? realImage : defaultAvatar})` }}
                   />
                 </div>
-                <p className="name text-uppercase">
+                <p className="name">
                   <strong>
                     {
-                      user.length !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
+                      auth !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
                         : ""
                     }
                   </strong>
@@ -79,7 +82,7 @@ class Comment extends Component {
                     id="emailHelp"
                     className="form-text text-muted text-right"
                   >
-                    0 / 120
+                    {this.state.comment.length} / 120
                   </small>
                 </div>
                 <button
@@ -92,19 +95,17 @@ class Comment extends Component {
               </form>
             </div>
           )}
-
           {comments.length !== 0 && (
-            <div style={{ marginTop: "80px" }}>
+            <div style={{ marginTop: "40px" }}>
               <h1 className="title">
                 <span className="text-uppercase"><FormattedMessage id="productDetail.comment.list.title" /></span>
               </h1>
 
               <div className="comments-list">
                 <div className="main-rating">
-                  <Rate allowHalf disabled value={rate / 2} />
+                  <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">
-                    {/* ({rate_user_cnt} хүн үнэлгээ өгсөн байна) */}
-                    <FormattedMessage id="productDetail.comment.list.rate" />
+                    ({rate_user_cnt === null ? 0 : rate_user_cnt} <FormattedMessage id="productDetail.comment.list.rate" />)
                   </p>
                 </div>
 

@@ -39,7 +39,7 @@ class Discount extends React.Component {
           title={menuPackage.menunm}
           subtitle={menuPackage.subtitle}
           banners={packagebanner.length === 0 ? [] : packagebanner.header}
-          bgColor="rgb(255, 153, 204)"
+          bgColor="#8CBD3F"
         />
       );
     } catch (error) {
@@ -169,7 +169,7 @@ class Discount extends React.Component {
                 const rowCount = this.getRowsAmount(
                   width,
                   products.length,
-                  true,
+                  this.state.products.length < this.state.rowCount,
                 );
                 return (
                   <InfiniteLoader
@@ -203,7 +203,7 @@ class Discount extends React.Component {
                                 products.length,
                               ).map(itemIndex => products[itemIndex]);
                               return (
-                                <div style={style} key={key} className="jss148" >
+                                <div style={style} key={key} className="jss148">
                                   {rowItems.map(itemId => (
                                     <Card
                                       key={itemId.id + key}
@@ -243,11 +243,12 @@ class Discount extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {/* this.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

@@ -35,12 +35,12 @@ class Component extends React.Component {
     try {
       const { delivery } = this.props;
       return delivery.map((item, index) => (
-        <tr key={index} style={{ height: "70px" }}>
-          <td style={{ textAlign: "center", paddingLeft: "10px" }}> #{item.ordernumber}</td>
-          <td style={{ textAlign: "center" }}><span className="success">{this.renderDate(item.orderdate)}</span></td>
+        <tr key={index} className="order-table-responsive">
+          <td>#{item.ordernumber}</td>
+          <td><span className="success">{this.renderDate(item.orderdate)}</span></td>
           <td style={{ textAlign: "center" }}>{this.renderType(item)}</td>
-          <td style={{ textAlign: "center" }}>{formatter.format(item.totalamount)}₮</td>
-          <td style={{ textAlign: "center", paddingRight: "5px" }}>
+          <td>{formatter.format(item.totalamount)}₮</td>
+          <td>
             <Link
               to={`/order/${item.id}`}
               style={{ color: "#feb415" }}
@@ -48,7 +48,7 @@ class Component extends React.Component {
             >
               <span><FormattedMessage id="profile.orderHistory.table.showMore" /></span>
             </Link>
-            <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none" >
+            <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none">
               <Avatar size="small" src={arrow} />
             </Link>
           </td>
@@ -61,18 +61,20 @@ class Component extends React.Component {
 
   renderTable() {
     return (
-      <table className="table-hover table-sm">
-        <thead>
-          <tr style={{ height: "70px" }}>
-            <th width="5%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
-            <th width="15%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
-            <th width="30%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
-            <th width="10%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.price" /></th>
-            <th width="10%" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.link" /></th>
-          </tr>
-        </thead>
-        <tbody>{this.renderDelivery()}</tbody>
-      </table>
+      <div className="cart-table table-responsive">
+        <table className="table table-borderless">
+          <thead className="thead-light">
+            <tr>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.date" /></th>
+              <th className="column-center"><FormattedMessage id="profile.orderHistory.table.status" /></th>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.price" /></th>
+              <th className="column-std-more-header"><span className="column-std-more"><FormattedMessage id="profile.orderHistory.table.link" /></span></th>
+            </tr>
+          </thead>
+          <tbody>{this.renderDelivery()}</tbody>
+        </table>
+      </div>
     );
   }
 
@@ -84,7 +86,7 @@ class Component extends React.Component {
             <span><FormattedMessage id="profile.orderHistory.title" /></span>
           </p>
           <div
-            className="frame frameMargin"
+            className=""
             style={{
               width: "100%",
               maxHeight: "600px",

@@ -45,31 +45,43 @@ class PaymentPanel extends React.Component {
     this.setState({ chosenRadio: e.target.value });
   }
 
+  handleClick = (e) => {
+    this.props.DeliveryInfo.handleAgreementNotif(true);
+  }
+
   render() {
     const { chosenRadio } = this.state;
     return (
-      <div className="content-container payment">
-        <p className="title">
-          <strong><FormattedMessage id="shared.form.label.tax.receipt" /></strong>
-        </p>
+      <div>
+        <div className="content-container payment">
+          <p className="title">
+            <strong><FormattedMessage id="shared.form.label.tax.receipt" /></strong>
+          </p>
 
-        <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
-          <div className="hand-pay flex-this">
-            <div className="form-check">
-              <Radio value={1}><FormattedMessage id="shared.form.label.individual" /></Radio>
+          <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
+            <div className="hand-pay flex-this">
+              <div className="form-check">
+                <Radio value={1}><FormattedMessage id="shared.form.label.individual" /></Radio>
+              </div>
+              <div className="form-check">
+                <Radio value={2}><FormattedMessage id="shared.form.label.company" /></Radio>
+              </div>
             </div>
-            <div className="form-check">
-              <Radio value={2}><FormattedMessage id="shared.form.label.company" /></Radio>
-            </div>
-          </div>
-        </RadioGroup>
-        {
-          chosenRadio === 1 ?
-            <IndividualTab onRef={ref => (this.IndividualTab = ref)} {...this} {...this.props} />
-            :
-            <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
-        }
-      </div>
+          </RadioGroup>
+          {
+            chosenRadio === 1 ?
+              <IndividualTab onRef={ref => (this.IndividualTab = ref)} {...this} {...this.props} />
+              :
+              <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
+          }
+        </div >
+        <hr />
+        <div className="text-right">
+          <button className="btn btn-main" onClick={this.handleClick} style={{ marginBottom: "15px" }}>
+            <FormattedMessage id="shared.form.button.next" />
+          </button>
+        </div>
+      </div >
     );
   }
 }

@@ -117,15 +117,15 @@ button{
 
   .logo {
     display: block;
-    padding: 10px 0;
+    // padding: 10px 0;
 
     img {
-      max-width: 100px;
+      max-width: 180px;
     }
   }
   .search {
     margin: 5px 0;
-    padding-left: 40px;
+    padding-left: 100px;
     @include calc(width, "100% - 100px");
 
     form {
@@ -851,7 +851,7 @@ button{
     margin-bottom: 40px;
 
     img {
-      max-height: 50px;
+      max-height: 60px;
     }
   }
   .address {
@@ -1971,8 +1971,8 @@ form {
   padding: 20px 0;
 
   h2 {
-    font-weight: 400;
-    color: $black9;
+    font-weight: 300;
+    color: #fff;
 
     strong {
       font-size: 1rem;
@@ -3140,6 +3140,11 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   }
 }
 
+.paddingRightLeft{
+  padding-right: 1px;
+  padding-left: 1px;
+}
+
 .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
   border-color: #ffc629;
 }
@@ -3224,3 +3229,14 @@ textarea:focus {
   height: initial !important;
   overflow: initial !important;
 }
+
+.image-magnify{
+  img {
+    object-fit: contain;
+    // height: 315.41px;
+  }
+}
+
+/* .ant-back-top-icon{
+  background: url("assets/images/demo/goup.svg") !important;
+} */

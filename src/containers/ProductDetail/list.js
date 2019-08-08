@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable radix */
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -23,7 +24,6 @@ class ProductDetail extends React.Component {
       const { relational } = this.props;
       return <Relational relatedProducts={relational} {...this.props} />;
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -38,7 +38,6 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -49,9 +48,9 @@ class ProductDetail extends React.Component {
       } = this.props;
       return (
         <Detail
-          detail={detail.products}
+          detail={detail.products === null ? {} : detail.products}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
-          isLoggedIn={this.props.data.isLogged}
+          isLoggedIn={this.props.isLogged}
           addWishList={addWishList}
           addRate={addRate}
           LoginModal={this.props.LoginModal}
@@ -61,7 +60,6 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -74,7 +72,6 @@ class ProductDetail extends React.Component {
         <Delivery detail={detail.products} />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -92,7 +89,6 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -113,22 +109,20 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
 
   renderBreadCrumb = () => {
     try {
-      const { detail, categoryall } = this.props;
+      const { detail, categorymenu } = this.props;
       return (
         <Breadcrumb
-          product={detail ? {} : detail.products}
-          categories={categoryall}
+          product={detail.products}
+          categories={categorymenu}
         />
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -167,7 +161,7 @@ class ProductDetail extends React.Component {
         </div>
       );
     } catch (error) {
-      return console.log('renderSocialButtons: ', error);
+      return null;
     }
   };
 

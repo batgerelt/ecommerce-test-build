@@ -8,6 +8,7 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
+import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
@@ -34,7 +35,7 @@ class Recipe extends React.Component {
           title={menuRecipe.menunm}
           subtitle={menuRecipe.subtitle}
           banners={recipebanner.length === 0 ? [] : recipebanner.header}
-          bgColor="#fffdb7"
+          bgColor="#F2769B"
         />
       );
     } catch (error) {
@@ -200,7 +201,6 @@ class Recipe extends React.Component {
   renderFooterProduct = () => {
     try {
       const { packageAll, widgetAll } = this.props;
-      const { products } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
@@ -210,7 +210,7 @@ class Recipe extends React.Component {
                 const rowCount = this.getRowsAmount(
                   width,
                   products.length,
-                  true,
+                  products.length !== this.state.rowCount,
                 );
                 return (
                   <InfiniteLoader
@@ -280,11 +280,12 @@ class Recipe extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {/* his.renderHeaderProduct() */}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
+        <BackTop />
       </div>
     );
   }

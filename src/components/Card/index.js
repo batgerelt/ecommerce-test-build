@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate, message } from "antd";
-import { Label } from "../";
+import { Label, ElasticLabel } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -226,7 +226,6 @@ class Card extends React.Component {
       const { addWishList, removeAddedWishColor } = this.props;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
-          this.setState({ changeHeart: !this.state.changeHeart });
           this.removeAddedWishColorTime();
         }
       });
@@ -427,19 +426,22 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
-                  {item.tags &&
-                    item.tags.map((label, index) => (
-                      <Label
-                        key={index}
-                        type={LABEL_TYPES.vertical}
-                        data={label}
-                        seq={index}
-                      />
-                    ))}
+                  {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
+                  {
+                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
+                      item.tags && item.tags.map((label, index) => (
+                        <Label
+                          key={index}
+                          type={LABEL_TYPES.vertical}
+                          data={label}
+                          seq={index}
+                        />
+                      ))
+                  }
                   {hover}
                 </div>
                 <div className="info-container">
-                  <Link to={item.route ? item.route : ""} className="name">
+                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
                     <span
                       style={{
                         whiteSpace: "nowrap",
@@ -450,7 +452,7 @@ class Card extends React.Component {
                       {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
                     </span>
                   </Link>
-                  <Link to={item.route ? item.route : ""} className="cat">
+                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
                     <span
                       style={{
                         whiteSpace: "nowrap",
