@@ -243,7 +243,7 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
+        shape, item, isLastInRow, className, lang, elastic, tags,
       } = this.props;
 
       let prices;
@@ -417,7 +417,6 @@ class Card extends React.Component {
                 <div className="image-container">
                   <Link
                     to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
-                  // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
                   >
                     <span
                       className="image"
@@ -429,7 +428,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
+                    elastic ? <ElasticLabel data={item} tags={tags} /> :
                       item.tags && item.tags.map((label, index) => (
                         <Label
                           key={index}
@@ -443,25 +442,15 @@ class Card extends React.Component {
                 </div>
                 <div className="info-container">
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.title : (item.title_en === null ? item.title : item.title_en)) :
+                        (item.name ? item.name : item.packagenm ? item.packagenm : item.recipenm)}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.shortnm ? item.shortnm : item.featuretxt ? item.featuretxt : item.feature}
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
+                      (item.shortnm ? item.shortnm : item.featuretxt)}
                     </span>
                   </Link>
 
