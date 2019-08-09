@@ -376,7 +376,6 @@ class CategoryInfo extends React.Component {
                     onRef={ref => (this.FilterSet = ref)}
                     {...this.props}
                     {...this}
-                    {...this.state}
                     data={this.state.aggregations}
                   />
                 </div>
