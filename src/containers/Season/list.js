@@ -517,10 +517,10 @@ class CategoryInfo extends React.Component {
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                     const allItemsLoaded = this.generateIndexesForRow(
-                        index,
-                        maxItemsPerRow,
-                        products.length,
-                      ).length > 0;
+                      index,
+                      maxItemsPerRow,
+                      products.length,
+                    ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}
@@ -589,7 +589,7 @@ class CategoryInfo extends React.Component {
           title={menuSeason.menunm}
           subtitle={menuSeason.subtitle}
           banners={seasonbanner}
-          bgColor="rgb(163, 167, 170)"
+          bgColor="#00CFB4"
         />
       );
     } catch (error) {

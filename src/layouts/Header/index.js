@@ -162,7 +162,7 @@ class AppHeader extends Component {
       return (
         <div className="top-main">
           <div className="container container-laptop pad10">
-            <div className="row row10">
+            <div className="row">
               <div className="col-xl-9 col-lg-9 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button

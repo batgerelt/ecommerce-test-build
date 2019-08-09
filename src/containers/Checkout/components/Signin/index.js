@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
@@ -44,9 +45,21 @@ class Signin extends React.Component {
                 if (!result.payload.success) {
                   return message.error(result.payload.message);
                 }
-                this.props.getProducts();
-                this.props.history.push("/cart");
-                // this.props.callback("2");
+                this.props.getProducts().then((res) => {
+                  let k = 0;
+                  products.map((item, i) => {
+                    res.payload.data.map((item1, i1) => {
+                      if (item.skucd === item1.cd) {
+                        k = 1;
+                      }
+                    });
+                  });
+                  if (res.payload.data.length !== 0 && k === 0) {
+                    this.props.history.push("/cart");
+                  } else {
+                    this.props.callback("2");
+                  }
+                });
               }
             });
             this.props.getSystemLocation({});

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { Input, Form, Button, message } from "antd";
+import NumberInput from "../../../../components/Input/NumberInput";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -125,12 +126,11 @@ class Signup extends React.Component {
                     { min: 8, message: "Утасны дугаар 8 оронтой байна" },
                   ],
                 })(
-                  <Input
-                    allowClear
-                    type="text"
-                    placeholder="Утас*"
-                    autoComplete="off"
+                  <NumberInput
+                    placeholder="Утасны дугаар"
+                    maxLength={8}
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>

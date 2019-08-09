@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
@@ -213,44 +214,52 @@ class Bookmarks extends PureComponent {
                     >
                       {({ onRowsRendered, registerChild }) => (
                         <WindowScroller>
-                          {({ height, scrollTop }) => (
-                            <List
-                              autoHeight
-                              ref={registerChild}
-                              height={height}
-                              scrollTop={scrollTop}
-                              width={width}
-                              rowCount={rowCount}
-                              rowHeight={this.generateItemHeight(width)}
-                              onRowsRendered={onRowsRendered}
-                              rowRenderer={({
-                                index, isScrolling, key, style,
-                              }) => {
-                                const { products } = this.state;
-                                const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                  width,
-                                );
-                                const rowItems = this.generateIndexesForRow(
-                                  index,
-                                  maxItemsPerRow,
-                                  products.length,
-                                ).map(itemIndex => products[itemIndex]);
-                                return (
-                                  <div style={style} key={key} className="jss148" >
-                                    {rowItems.map(itemId => (
-                                      <Card
-                                        key={itemId.cd}
-                                        shape={1}
-                                        item={itemId}
-                                        {...this.props}
-                                      />
-                                    ))}
-                                  </div>
-                                );
-                              }}
-                              noRowsRenderer={this.noRowsRenderer}
-                            />
-                          )}
+                          {({ height, scrollTop }) => {
+                            return (
+                              <List
+                                autoHeight
+                                ref={registerChild}
+                                height={height}
+                                scrollTop={scrollTop}
+                                width={width}
+                                rowCount={rowCount}
+                                rowHeight={this.generateItemHeight(width)}
+                                onRowsRendered={onRowsRendered}
+                                rowRenderer={({
+                                  index, isScrolling, key, style,
+                                }) => {
+                                  console.log(isScrolling);
+                                  const { products } = this.state;
+                                  const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                                    width,
+                                  );
+                                  const rowItems = this.generateIndexesForRow(
+                                    index,
+                                    maxItemsPerRow,
+                                    products.length,
+                                  ).map(itemIndex => products[itemIndex]);
+                                  return (
+                                    <div style={style} key={key} className="jss148" >
+                                      {
+                                        isScrolling ?
+                                          ""
+                                          :
+                                          rowItems.map(itemId => (
+                                            <Card
+                                              key={itemId.cd}
+                                              shape={1}
+                                              item={itemId}
+                                              {...this.props}
+                                            />
+                                          ))
+                                      }
+                                    </div>
+                                  );
+                                }}
+                                noRowsRenderer={this.noRowsRenderer}
+                              />
+                            );
+                          }}
                         </WindowScroller>
                       )}
                     </InfiniteLoader>
