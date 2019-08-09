@@ -214,7 +214,6 @@ class List extends React.Component {
       products &&
       products.length > 0 &&
       products.reduce((acc, cur) => acc + cur.price, 0);
-
     try {
       return (
         <div className="block product-suggest">
@@ -303,7 +302,7 @@ class List extends React.Component {
       const { recipe } = this.props;
       return recipe.spices.map((item, index) => (
         <div className="col-md-6" key={index}>
-          <p>
+          <p className="recipe-list-item">
             <span>#</span>
             {item}
           </p>
@@ -319,7 +318,7 @@ class List extends React.Component {
       const { recipe } = this.props;
       return recipe.ingredients.map((item, index) => (
         <div className="col-md-6" key={index}>
-          <p>
+          <p className="recipe-list-item">
             <span>#</span>
             {item}
           </p>

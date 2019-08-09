@@ -152,6 +152,7 @@ button{
         background: none;
       }
     }
+
     li {
       width: 65%;
 
@@ -314,6 +315,7 @@ button{
   ul {
     position: relative;
   }
+
   .has-drop {
     width: 150px;
     padding: 0 5px;
@@ -363,6 +365,14 @@ button{
       li:hover a strong {
         color: $main;
         padding-left: 5px;
+      }
+
+      li:active{
+        .drop-container{
+          visibility: hidden;
+          opacity: 0;
+          @include transition(0.2s ease-out);
+        }
       }
     }
   }
@@ -3236,6 +3246,19 @@ textarea:focus {
     // height: 315.41px;
   }
 }
+
+.recipe-list-item{
+  word-wrap: break-word;
+}
+
+/* .btn:hover{
+  color: #fff !important;
+  transition: 0.3s;
+  span{
+    color: #fff;
+    transition: 0.3s;
+  }
+} */
 
 /* .ant-back-top-icon{
   background: url("assets/images/demo/goup.svg") !important;
