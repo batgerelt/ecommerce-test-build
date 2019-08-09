@@ -243,7 +243,7 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
-    this.props.getCategoryParents({ id: cat.key });
+    this.props.getCategoryParents({ id: cat.length === 0 ? searchid : cat[0] });
 
     const params = {
       catId: cat.length === 0 ? searchid : cat[0],
@@ -667,26 +667,26 @@ class CategoryInfo extends React.Component {
     this.props.getCategoryParents({ id: this.props.match.params.id });
   };
 
-  // renderBreadCrumb = () => {
-  //   try {
-  //     const { categoryparents } = this.props;
-  //     return (
-  //       <div className="e-breadcrumb">
-  //         <ul className="list-unstyled">
-  //           {categoryparents.map(category => (
-  //             <li key={category.catnm}>
-  //               <Link to={category.route ? category.route : ""}>
-  //                 <span>{category.catnm}</span>
-  //               </Link>
-  //             </li>
-  //           ))}
-  //         </ul>
-  //       </div>
-  //     );
-  //   } catch (error) {
-  //     return console.log(error);
-  //   }
-  // };
+  renderBreadCrumb = () => {
+    try {
+      const { categoryparents } = this.props;
+      return (
+        <div className="e-breadcrumb">
+          <ul className="list-unstyled">
+            {categoryparents.map(category => (
+              <li key={category.id}>
+                <Link to={category.route ? category.route : ""}>
+                  <span>{category.catnm}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
 
   render() {
     const { id } = this.props.match.params;
@@ -698,7 +698,7 @@ class CategoryInfo extends React.Component {
       <div className="top-container">
         <div className="section">
           <div className="container pad10">
-            {/* {this.renderBreadCrumb()} */}
+            {this.renderBreadCrumb()}
             <div className="row row10">
               {this.renderLeftPanel()}
               {this.renderFilteredList()}
