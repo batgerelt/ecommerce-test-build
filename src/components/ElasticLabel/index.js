@@ -65,7 +65,6 @@ class index extends Component {
                 line-height: 1.2;
                 letter-spacing: 1px;
                 bottom: 6px;
-                text-transform: uppercase;s
               }
             `}
               <span className="text">
