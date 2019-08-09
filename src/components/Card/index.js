@@ -93,7 +93,8 @@ class Card extends React.Component {
         }
       } else if (item.skucd) {
           item.insymd = Date.now();
-          item.cd = item.skucd;
+        item.cd = item.skucd;
+        item.sprice = item.currentprice;
           this.props.incrementProductLocally(item);
         } else if (item.cd) {
           item.insymd = Date.now();
@@ -242,7 +243,7 @@ class Card extends React.Component {
           priceTitle = <span style={{ fontWeight: "normal" }}>Орцын үнэ:</span>;
         }
 
-        if (item.sprice) {
+        if (item.sprice || item.discountprice !== 0) {
           prices = (
             <div className="row">
               {!!priceTitle && (
@@ -258,7 +259,7 @@ class Card extends React.Component {
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </small>
                 <span className="current">
-                  {isNaN(item.sprice) ? 0 : formatter.format(item.sprice)}₮
+                  {isNaN(item.sprice || item.currentprice) ? 0 : formatter.format(item.sprice || item.currentprice)}₮
                 </span>
               </div>
             </div>

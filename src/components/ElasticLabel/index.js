@@ -65,6 +65,7 @@ class index extends Component {
                 line-height: 1.2;
                 letter-spacing: 1px;
                 bottom: 6px;
+                text-transform: uppercase;s
               }
             `}
               <span className="text">
@@ -91,7 +92,7 @@ class index extends Component {
               .label {
                 display: block;
                 position: absolute;
-                top: ${data.isnew ? '70px' : '0px'};
+                top: ${data.isnew ? '70px' : '15px'};
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
