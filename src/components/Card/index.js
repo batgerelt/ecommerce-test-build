@@ -5,7 +5,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 import React from "react";
-import { injectIntl, defineMessages } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -42,7 +42,7 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
           }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
@@ -58,7 +58,7 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
@@ -70,9 +70,14 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message =>
-              message.warning(message),
-            );
+            result.payload.data.fail.forEach((msg) => {
+              const messages = defineMessages({
+                warning: {
+                  id: msg.code,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+            });
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -84,89 +89,105 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message =>
-              message.warning(message),
-            );
+            result.payload.data.fail.forEach((msg) => {
+              const messages = defineMessages({
+                warning: {
+                  id: msg.code,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+            });
           }
         } else {
           //
         }
-      } else if (item.skucd) {
-        item.insymd = Date.now();
-        item.cd = item.skucd;
-        this.props.incrementProductLocally(item);
-      } else if (item.cd) {
-        item.insymd = Date.now();
-        this.props.incrementProductLocally(item);
-
-        const updated = this.props.products.find(prod => prod.cd === item.cd);
-
-        if (updated && updated.error !== undefined) {
-          const messages = defineMessages({
-            warning: {
-              id: updated.error,
-            },
-          });
-          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-        }
-      } else if (item.recipeid) {
-        const result = await this.props.getRecipeProducts({
-          id: item.recipeid,
-        });
-
-        if (!result.payload.success) {
-          return message.warning(result.payload.message);
-        }
-
-        const products = result.payload.data.map(prod => ({
-          ...prod,
-          insymd: Date.now(),
-        }));
-
-        this.props.incrementRecipeProductsLocally(products);
-
-        const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
-
-        recipeProducts.forEach((updated) => {
-          if (updated.error !== undefined) {
-            const messages = defineMessages({
-              warning: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-          }
-        });
-      } else if (item.id) {
-        const result = await this.props.getPackageProducts({
-          id: item.id,
-        });
-
-        if (!result.payload.success) {
-          return message.warning(result.payload.message);
-        }
-
-        const products = result.payload.data.products.map(prod => ({
-          ...prod,
-          insymd: Date.now(),
-        }));
-
-        this.props.incrementPackageProductsLocally(products);
-
-        const packageProducts = this.props.products.filter(prod => prod.id === item.id);
-
-        packageProducts.forEach((updated) => {
-          if (updated.error !== undefined) {
-            const messages = defineMessages({
-              warning: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-          }
-        });
       } else {
-        //
+        // eslint-disable-next-line no-lonely-if
+        if (item.skucd) {
+          item.insymd = Date.now();
+        item.cd = item.skucd;
+        item.sprice = item.currentprice;
+          this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.skucd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
+        } else if (item.cd) {
+          item.insymd = Date.now();
+          this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.cd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
+        } else if (item.recipeid) {
+          const result = await this.props.getRecipeProducts({
+            id: item.recipeid,
+          });
+
+          if (!result.payload.success) {
+            return message.warning(result.payload.message);
+          }
+
+          const products = result.payload.data.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementRecipeProductsLocally(products);
+
+          const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
+
+          errors.forEach((updated) => {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          });
+        } else if (item.id) {
+          const result = await this.props.getPackageProducts({
+            id: item.id,
+          });
+
+          if (!result.payload.success) {
+            return message.warning(result.payload.message);
+          }
+
+          const products = result.payload.data.products.map(prod => ({
+            ...prod,
+            insymd: Date.now(),
+          }));
+
+          this.props.incrementPackageProductsLocally(products);
+
+          const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
+
+          errors.forEach((updated) => {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          });
+        } else {
+          //
+        }
       }
     } catch (e) {
       return console.log(e);
@@ -222,7 +243,7 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
+        shape, item, isLastInRow, className, lang, elastic, tags,
       } = this.props;
 
       let prices;
@@ -236,13 +257,13 @@ class Card extends React.Component {
 
         if (item.id) {
           priceTitle = (
-            <span style={{ fontWeight: "normal" }}>Багцын үнэ:</span>
+            <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.package.label.price" />:</span>
           );
         } else if (item.recipeid) {
-          priceTitle = <span style={{ fontWeight: "normal" }}>Орцын үнэ:</span>;
+          priceTitle = <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.recipe.label.price" />:</span>;
         }
 
-        if (item.sprice) {
+        if (item.sprice || item.discountprice !== 0) {
           prices = (
             <div className="row">
               {!!priceTitle && (
@@ -258,7 +279,7 @@ class Card extends React.Component {
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </small>
                 <span className="current">
-                  {isNaN(item.sprice) ? 0 : formatter.format(item.sprice)}₮
+                  {isNaN(item.sprice || item.currentprice) ? 0 : formatter.format(item.sprice || item.currentprice)}₮
                 </span>
               </div>
             </div>
@@ -396,7 +417,6 @@ class Card extends React.Component {
                 <div className="image-container">
                   <Link
                     to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
-                  // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
                   >
                     <span
                       className="image"
@@ -408,39 +428,29 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
-                    item.tags && item.tags.map((label, index) => (
-                      <Label
-                        key={index}
-                        type={LABEL_TYPES.vertical}
-                        data={label}
-                        seq={index}
-                      />
-                    ))
+                    elastic ? <ElasticLabel data={item} tags={tags} /> :
+                      item.tags && item.tags.map((label, index) => (
+                        <Label
+                          key={index}
+                          type={LABEL_TYPES.vertical}
+                          data={label}
+                          seq={index}
+                        />
+                      ))
                   }
                   {hover}
                 </div>
                 <div className="info-container">
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.title : (item.title_en === null ? item.title : item.title_en)) :
+                        (item.name ? item.name : item.packagenm ? item.packagenm : item.recipenm)}
                     </span>
                   </Link>
-                  <Link to={item.route ? item.route : ""} className="cat">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.shortnm ? item.shortnm : item.featuretxt ? item.featuretxt : item.feature}
+                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
+                      (item.shortnm ? item.shortnm : item.featuretxt)}
                     </span>
                   </Link>
 

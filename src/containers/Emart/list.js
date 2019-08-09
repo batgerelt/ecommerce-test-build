@@ -575,13 +575,12 @@ class CategoryInfo extends React.Component {
     };
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      if (res.payload.success) {
+      if (res.payload.success && res.payload.data && res.payload.data.hits !== undefined) {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 20,
           aggregations: res.payload.data.aggregations,
-          // ismore: !this.state.ismore,
         });
       }
     });

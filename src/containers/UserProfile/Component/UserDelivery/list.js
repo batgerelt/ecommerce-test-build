@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import arrow from "../../../../../src/scss/assets/images/demo/arrow.png";
@@ -45,7 +46,7 @@ class Component extends React.Component {
               style={{ color: "#feb415" }}
               className="d-none d-lg-block d-xl-block"
             >
-              <span>Цааш үзэх</span>
+              <span><FormattedMessage id="profile.orderHistory.table.showMore" /></span>
             </Link>
             <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none">
               <Avatar size="small" src={arrow} />
@@ -64,11 +65,11 @@ class Component extends React.Component {
         <table className="table table-borderless">
           <thead className="thead-light">
             <tr>
-              <th className="column-std">Захиалга №</th>
-              <th className="column-std">Он сар өдөр</th>
-              <th className="column-center">Төлөв</th>
-              <th className="column-std">Үнийн дүн</th>
-              <th className="column-std-more-header"><span className="column-std-more">Дэлгэрэнгүй</span></th>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.date" /></th>
+              <th className="column-center"><FormattedMessage id="profile.orderHistory.table.status" /></th>
+              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.price" /></th>
+              <th className="column-std-more-header"><span className="column-std-more"><FormattedMessage id="profile.orderHistory.table.link" /></span></th>
             </tr>
           </thead>
           <tbody>{this.renderDelivery()}</tbody>
@@ -82,7 +83,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Захиалгын түүх</span>
+            <span><FormattedMessage id="profile.orderHistory.title" /></span>
           </p>
           <div
             className=""

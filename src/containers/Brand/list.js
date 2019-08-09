@@ -327,10 +327,8 @@ class CategoryInfo extends React.Component {
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
-                    onRef={ref => (this.FilterSet = ref)}
                     {...this.props}
                     {...this}
-                    {...this.state}
                     data={this.state.aggregations}
                   />
                 </div>
@@ -601,7 +599,7 @@ class CategoryInfo extends React.Component {
     };
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      if (res.payload.success) {
+      if (res.payload.success && res.payload.data) {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,

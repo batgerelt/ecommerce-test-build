@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -63,15 +64,16 @@ class IndividualTab extends React.Component {
   };
 
   handleUsePoint = async (e) => {
+    const { intl } = this.props;
     const { cardInfo } = this.state;
     const { value: password } = await Swal.fire({
-      title: "Нууц үг",
+      title: intl.formatMessage({ id: "shared.form.password.placeholder" }),
       input: "password",
       width: "20rem",
       confirmButtonText: "Ok",
       confirmButtonColor: "#feb415",
-      cancelButtonText: "Болих",
-      inputPlaceholder: "Картын нууц үгээ оруулна уу ?",
+      cancelButtonText: intl.formatMessage({ id: "shared.form.button.cancel" }),
+      inputPlaceholder: intl.formatMessage({ id: "shared.form.cardPassword.placeholder" }),
       showCancelButton: true,
       inputAttributes: {
         maxlength: 4,
@@ -121,6 +123,7 @@ class IndividualTab extends React.Component {
 
   renderForm = () => {
     try {
+      const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { loading, cardInfo, useEpoint } = this.state;
       return (
@@ -129,33 +132,33 @@ class IndividualTab extends React.Component {
             cardInfo === null ?
               <div>
                 <p className="title">
-                  <strong>Имарт картаа холбох</strong>
+                  <strong><FormattedMessage id="shared.form.label.card.connect" /></strong>
                 </p>
                 <div className="row row10 checkoutFormContainer">
                   <div className="col-xl-6 pad10">
                     <div className="form-group">
                       <Form.Item>
                         {getFieldDecorator("cardno", {
-                          rules: [{ required: true, message: "Картын дугаар оруулна уу" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Картын дугаар зөв оруулна уу" },
-                          { len: 14, message: "14 оронтой байх ёстой" }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
+                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="text" placeholder="Картын дугаар*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="text" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
                         {getFieldDecorator("pincode", {
-                          rules: [{ required: true, message: "Нууц үг оруулна уу" },
-                          { pattern: new RegExp("^[0-9]*$"), message: "Нууц үг зөв оруулна уу" },
-                          { len: 4, message: "4 оронтой байх ёстой" }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.password.validation.pattern" }) },
+                          { len: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder="Нууц үг*" className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
                   </div>
                 </div>
-                <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main solid">Холбох</Button>
+                <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main solid"><FormattedMessage id="shared.form.button.connect" /></Button>
               </div> :
               <div>
                 <p className="title">
@@ -167,9 +170,9 @@ class IndividualTab extends React.Component {
                       <Form.Item style={{ marginBottom: 0 }}>
                         {getFieldDecorator("cardPoint", {
                           initialValue: formatter.format(cardInfo.point),
-                          rules: [{ required: false, message: "Картын оноо оруулна уу ?" }],
+                          rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
                         })(
-                          <Input size="large" autoComplete="off" disabled type="text" placeholder="Картын оноо*" style={{ marginBottom: 0 }} className="col-md-12" />,
+                          <Input size="large" autoComplete="off" disabled type="text" placeholder={intl.formatMessage({ id: "shared.form.epoint.placeholder" })} style={{ marginBottom: 0 }} className="col-md-12" />,
                         )}
                       </Form.Item>
                       {/*  <label>
@@ -180,7 +183,7 @@ class IndividualTab extends React.Component {
                   </div>
                 </div>
                 <Button className="btn btn-main solid" disabled={useEpoint} onClick={this.handleUsePoint}>
-                  <span className="text-uppercase">Ашиглах</span>
+                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.use" /></span>
                 </Button>
               </div>
           }
@@ -196,4 +199,4 @@ class IndividualTab extends React.Component {
   }
 }
 
-export default Form.create({ name: "individual" })(IndividualTab);
+export default injectIntl(Form.create({ name: "individual" })(IndividualTab));

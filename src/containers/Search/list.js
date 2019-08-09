@@ -32,7 +32,7 @@ class CategoryInfo extends React.Component {
       products: [],
       catid: 0,
       isListViewOn: false,
-      loading: false,
+      loading: true,
       minPrice: 0,
       maxPrice: 0,
       sort: "",
@@ -46,6 +46,10 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       nodata: false,
     };
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   componentDidMount() {
@@ -276,7 +280,7 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
+      const { categoryall, lang } = this.props;
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -289,13 +293,13 @@ class CategoryInfo extends React.Component {
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
-                title={categoryall.find(i => i.id === one.key).name}
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
                 key={one.key}
               >
                 {one.buckets.buckets &&
                   one.buckets.buckets.map(two => (
                     <Tree.TreeNode
-                      title={categoryall.find(i => i.id === two.key).name}
+                      title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
                       key={two.key}
                     >
                       {
@@ -303,7 +307,7 @@ class CategoryInfo extends React.Component {
                         two.buckets.buckets.map(three => (
                           <Tree.TreeNode
                             title={
-                              categoryall.find(i => i.id === three.key).name
+                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
                             }
                             key={three.key}
                           />
@@ -648,7 +652,7 @@ class CategoryInfo extends React.Component {
   getData = () => {
     try {
       this.setState({
-        loading: !this.state.loading,
+        loading: true,
         ismore: !this.state.ismore,
         catid,
       });
@@ -671,10 +675,10 @@ class CategoryInfo extends React.Component {
       };
 
       return this.props.searchProduct({ body: { ...params } }).then((res) => {
-        if (res.payload.success) {
+        if (res.payload.success && res.payload.data) {
           this.setState({
             products: res.payload.data.hits.hits,
-            loading: !this.state.loading,
+            loading: false,
             count: 20,
             aggregations: res.payload.data,
             categories: res.payload.data.aggregations.categories,

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
+import { FormattedMessage } from 'react-intl';
 
 class Delivery extends Component {
   renderDelivery = () => {
@@ -9,7 +10,8 @@ class Delivery extends Component {
       return (
         <div className="block product-delivery">
           <p className="title">
-            <strong>Хүргэлтийн мэдээлэл</strong>
+            {/* <strong>Хүргэлтийн мэдээлэл</strong> */}
+            <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
           <p className="text">
             <span>{detail.deliveryinfo}</span>

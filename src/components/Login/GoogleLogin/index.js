@@ -28,7 +28,7 @@ class GoogleLogin extends React.Component {
             className="btn btn-block btn-social btn-gmail"
             onClick={props.onClick}
           >
-            <FormattedMessage id="loginModal.form.button.googleLogin" />
+            <FormattedMessage id="shared.form.button.googleLogin" />
           </button>
         )}
       />

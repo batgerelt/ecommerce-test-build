@@ -110,7 +110,7 @@ class Cart extends React.Component {
             },
           });
 
-          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -366,7 +366,7 @@ class Cart extends React.Component {
       wishlistProducts.length > 0 && (
         <div className="block fav-products">
           <p className="title">
-            <strong>Хадгалсан бараа</strong>
+            <strong><FormattedMessage id="cart.sidebar.wishlist.title" /></strong>
           </p>
           <ul className="list-unstyled">
             {wishlistProducts.map((wishlistProd, index) => (
@@ -412,7 +412,7 @@ class Cart extends React.Component {
             ))}
           </ul>
           <Link to="/profile/wish" className="btn btn-gray btn-block">
-            <span className="text-uppercase">Бүх барааг үзэх</span>
+            <span className="text-uppercase"><FormattedMessage id="cart.sidebar.wishlist.button.showAll" /></span>
           </Link>
         </div>
       )
@@ -425,8 +425,7 @@ class Cart extends React.Component {
 
       let content = (
         <div style={{ textAlign: "center" }}>
-          <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> Таны сагс хоосон
-          байна
+          <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
         </div>
       );
 
@@ -604,22 +603,22 @@ class Cart extends React.Component {
               <div className="col-xl-4 col-lg-4 pad10">
                 <div className="cart-info">
                   <h5 className="title">
-                    <span><FormattedMessage id="cart.sidebar.payment.title" /></span>
+                    <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
                   </h5>
 
                   <div className="block cart-info-container">
                     <p className="count">
-                      <span><FormattedMessage id="cart.sidebar.payment.total" />: </span>
-                      <span>{this.renderTotalQty()}ш</span>
+                      <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
+                      <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
                     </p>
                     {this.state.deliveryInfo && (
                       <p className="delivery">
-                        <span><FormattedMessage id="cart.sidebar.payment.delivery" />: </span>
+                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
                         <span>{this.state.deliveryInfo}</span>
                       </p>
                     )}
                     <p className="total flex-space">
-                      <span><FormattedMessage id="cart.sidebar.payment.totalPrice" />: </span>
+                      <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
                       <strong>
                         {formatter.format(this.renderTotalPrice())}₮
                       </strong>
@@ -631,7 +630,7 @@ class Cart extends React.Component {
                         }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase"><FormattedMessage id="cart.sidebar.payment.proceed" /></span>
+                      <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.proceed" /></span>
                     </Link>
                   </div>
 

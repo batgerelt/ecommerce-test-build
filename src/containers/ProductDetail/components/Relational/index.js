@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { height } from "@material-ui/system";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -28,6 +29,7 @@ class Relational extends Component {
   };
 
   handleIncrementClick = async (product) => {
+    const { intl } = this.props;
     try {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
@@ -35,8 +37,14 @@ class Relational extends Component {
           qty: product.addminqty || 1,
           iscart: 0,
         });
+
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          const messages = defineMessages({
+            warning: {
+              id: result.payload.code,
+            },
+          });
+          message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
         }
       } else {
         product.insymd = Date.now();
@@ -67,7 +75,7 @@ class Relational extends Component {
         !!data.length && (
           <div className="product-suggest">
             <p className="title">
-              <strong>Хослох бараа</strong>
+              <strong><FormattedMessage id="shared.sidebar.title.relatedProducts" /></strong>
             </p>
             <ul
               className="list-unstyled"
@@ -121,7 +129,7 @@ class Relational extends Component {
                   style={{ height: "100%" }}
                 >
                   <span className="text text-uppercase">
-                    Бүх хослох барааг үзэх
+                    <FormattedMessage id="shared.sidebar.button.showAllRelatedProducts" />
                   </span>
                 </Button>
               </div>
@@ -139,4 +147,4 @@ class Relational extends Component {
   }
 }
 
-export default Relational;
+export default injectIntl(Relational);

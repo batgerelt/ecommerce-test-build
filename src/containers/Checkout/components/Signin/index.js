@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
 import { Link } from "react-router-dom";
 
@@ -78,6 +79,7 @@ class Signin extends React.Component {
 
   renderLoginForm = () => {
     try {
+      const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       return (
         <Form onSubmit={this.onSubmitLogin}>
@@ -88,14 +90,14 @@ class Signin extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Имэйл оруулна уу",
+                      message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                       type: "email",
                     },
                   ],
                 })(
                   <Input
                     type="text"
-                    placeholder="Имэйл*"
+                    placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
                     className="form-control"
                   />,
@@ -106,12 +108,12 @@ class Signin extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Нууц үг оруулна уу",
+                      message: intl.formatMessage({ id: "shared.form.password.validation.required" }),
                     },
                   ],
                 })(
                   <Input.Password
-                    placeholder="Нууц үг*"
+                    placeholder={intl.formatMessage({ id: "shared.form.password.validation.required" })}
                     autoComplete="off"
                     className="form-control"
                   />,
@@ -123,7 +125,7 @@ class Signin extends React.Component {
                 size={"large"}
                 htmlType="submit"
               >
-                Нэвтрэх
+                <FormattedMessage id="shared.form.button.login" />
               </Button>
               <label className="checkout-hover" style={{ float: "right" }}>
                 <Link
@@ -132,7 +134,7 @@ class Signin extends React.Component {
                   style={{ fontSize: "14px" }}
                   onClick={this.handleResetPassword}
                 >
-                  Нууц үгээ мартсан
+                  <FormattedMessage id="shared.form.label.forgotPassword" />
                 </Link>
               </label>
               <button
@@ -140,14 +142,14 @@ class Signin extends React.Component {
                 className="btn btn-social btn-facebook"
                 style={{ width: "100%", marginTop: "10px" }}
               >
-                <span>Facebook-р нэвтрэх</span>
+                <span><FormattedMessage id="shared.form.button.facebookLogin" /></span>
               </button>
               <button
                 type="submit"
                 className="btn btn-social btn-gmail"
                 style={{ width: "100%" }}
               >
-                <span>Gmail-р нэвтрэх</span>
+                <span><FormattedMessage id="shared.form.button.googleLogin" /></span>
               </button>
             </div>
           </div>
@@ -163,4 +165,4 @@ class Signin extends React.Component {
   }
 }
 
-export default Form.create({ name: "checkoutlogin" })(Signin);
+export default injectIntl(Form.create({ name: "checkoutlogin" })(Signin));

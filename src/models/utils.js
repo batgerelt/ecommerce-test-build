@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash';
 import withQuery from 'with-query';
+import { message } from "antd";
 
 const request = ({
   url, method, body, isfiles,
@@ -12,7 +13,8 @@ const request = ({
     bearerHeader += root.data[0].info.access_token;
   }
   if (method === 'GET') {
-    return fetch(withQuery(process.env.API + url, body), {
+    const to = localStorage.getItem("lang");
+    return fetch(withQuery(process.env.API.replace(/(en|mn)/i, to) + url, body), {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -71,15 +73,6 @@ const asyncFn = ({
     name,
   });
   try {
-    let lag = localStorage.getItem('lang');
-    let lang = 0;
-    if (lag !== null) {
-      if (lag === 'mn') {
-        lang = 0;
-      } else {
-        lang = 1;
-      }
-    }
     if (model.request === 'REQUEST_LOGOUT') {
       dispatch({
         type: model.response,
@@ -89,14 +82,13 @@ const asyncFn = ({
       const data = await request({
         url, method, body, isfiles,
       });
-      if (data && data.success !== false) {
+
+      if (data && data.success) {
         // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
-        // message.warning(data.message);
+        console.log(data.success, data);
+        message.warning('data.message');
       }
-      // if (data.code !== null) {
-      //   message.warning(translation.msg[data.code][lang]);
-      // }
       if (!data) {
         throw new Error('no data provided');
       }

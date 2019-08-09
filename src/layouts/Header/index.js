@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { generatePath } from "react-router";
-import { Icon, Form } from "antd";
+import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
@@ -28,6 +28,7 @@ class AppHeader extends Component {
       keywordid: null,
       isSearch: false,
       pro: false,
+      categoryDropdown: false,
     };
   }
 
@@ -346,10 +347,15 @@ class AppHeader extends Component {
     }
   }
 
+  handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
+
+  handleScroll = e => console.log('e: ', e);
+
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
       const { categorymenu } = this.props.category;
+      const { categoryDropdown } = this.state;
 
       let root = [];
       categorymenu.map((item) => {
@@ -359,13 +365,21 @@ class AppHeader extends Component {
         }
       });
 
-      root.map((item, i) => {
-        categorymenu.map((item1, i1) => {
+      root.map((item) => {
+        categorymenu.map((item1) => {
           if (item.id === item1.parentid) {
             item.children.push(item1);
           }
         });
       });
+
+      const dropdown = (
+        <div className="drop-container bg-dark" onClick={this.handleCategoryDropdown}>
+          <div className="container pad10 bg-dark">
+            <Category dataSource={root} {...this.props} />
+          </div>
+        </div>
+      );
 
       return (
         <div className="main-nav">
@@ -381,16 +395,12 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Link to="" >
-                  <span>Ангилал</span>
-                  <Icon type="down" style={{ color: "#feb415" }} />
-                </Link>
-
-                <div className="drop-container">
-                  <div className="container pad10">
-                    <Category dataSource={root} {...this.props} />
-                  </div>
-                </div>
+                <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
+                  <Link to="#" onClick={this.handleCategoryDropdown}>
+                    <span>Ангилал</span>
+                    <Icon type="left" style={{ color: '#feb415', transition: '0.1s' }} rotate={categoryDropdown ? -90 : 0} />
+                  </Link>
+                </Dropdown>
               </li>
               <MainMenu dataSource={mainmenu} />
             </ul>

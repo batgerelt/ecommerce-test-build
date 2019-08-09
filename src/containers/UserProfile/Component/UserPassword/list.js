@@ -1,4 +1,5 @@
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, message, Input, Select, Icon, Spin, Col, Button } from "antd";
 import { Link } from "react-router-dom";
 
@@ -53,6 +54,7 @@ class Component extends React.Component {
   };
 
   renderPassword = () => {
+    const { intl } = this.props;
     try {
       const { getFieldDecorator } = this.props.form;
       return (
@@ -60,36 +62,37 @@ class Component extends React.Component {
           <Col span={24}>
             <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
               {getFieldDecorator("oldPassword", {
-                rules: [{ validator: this.validateToNextPassword }],
-              })(<Input.Password placeholder="Хуучин нууц үг" />)}
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.oldPassword.validation.required" }) }, { validator: this.validateToNextPassword }],
+              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
               {getFieldDecorator("password", {
                 rules: [
-                  { required: true, message: "Шинэ нууц үг!" },
+                  { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
                   { validator: this.validateToNextPassword },
+                  { min: 4, message: intl.formatMessage({ id: "shared.form.newPassword.validation.min" }) },
                 ],
-              })(<Input.Password placeholder="Шинэ нууц үг" />)}
+              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
               {getFieldDecorator("confirm", {
                 rules: [
-                  { required: true, message: "Шинэ нууц үгээ дахин давтах!" },
+                  { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },
                   { validator: this.compareToFirstPassword },
                 ],
               })(
-                <Input.Password onBlur={this.handleConfirmBlur} placeholder="Шинэ нууц үгээ дахин давтах" />,
+                <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />,
               )}
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item className="text-right" style={{ marginBottom: '5px' }}>
               <Button htmlType="submit" style={{ background: '#343a40' }} className="btn btn-dark" onClick={this.handleSubmit}>
-                <span className="text-uppercase">Хадгалах</span>
+                <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
               </Button>
             </Form.Item>
           </Col>
@@ -104,7 +107,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Нууц үг солих</span>
+            <span><FormattedMessage id="profile.changePassword.title" /></span>
           </p>
           <div className="user-profile-contain">
             {this.renderPassword()}
@@ -115,4 +118,4 @@ class Component extends React.Component {
   }
 }
 
-export default Form.create({ name: "component" })(Component);
+export default injectIntl(Form.create({ name: "component" })(Component));

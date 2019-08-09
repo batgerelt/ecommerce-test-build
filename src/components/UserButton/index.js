@@ -112,7 +112,7 @@ class UserButton extends React.Component {
       <div>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
         <p className="text text-center">
-          <strong>Таны мэдээлэл</strong>
+          <strong><FormattedMessage id="header.profile.userInfo" /></strong>
           <span>{percents}%</span>
         </p>
       </div>
@@ -147,7 +147,7 @@ class UserButton extends React.Component {
     let content = (
       <li className="list-inline-item" onClick={this.handleLogin}>
         <div className="text-uppercase" style={{ cursor: 'default' }}>
-          <FormattedMessage id="header.userButton.text" />
+          <FormattedMessage id="header.profile.text" />
         </div>
       </li>
     );
@@ -182,38 +182,38 @@ class UserButton extends React.Component {
                   <ul className="list-unstyled">
                     <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">
-                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
+                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.userProfile" /></span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/history" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
+                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.seenHistory" /></span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/wish" className="flex-this">
-                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
+                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.savedProducts" /></span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
+                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.orderHistory" /></span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/address" className="flex-this">
-                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
+                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.deliveryAddress" /></span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/password" className="flex-this">
-                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
+                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.changePassword" /></span>
                       </Link>
                     </li>
                   </ul>
                   <div className="text-right" onClick={this.handleLogoutClick}>
                     <button className="btn btn-gray">
-                      <span className="text-uppercase">Гарах <IconFont type="icon-tuichu" /></span>
+                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" /> <IconFont type="icon-tuichu" /></span>
                     </button>
                   </div>
                 </div>

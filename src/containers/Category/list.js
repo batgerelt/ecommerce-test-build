@@ -7,6 +7,8 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
+import { Link } from "react-router-dom";
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
@@ -35,7 +37,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       sort: "",
       isLeftPanel: false,
-      ITEM_HEIGHT: 284.98,
+      ITEM_HEIGHT: 294.98,
       shapeType: 2,
       colors: [],
       brands: [],
@@ -46,6 +48,10 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       ismore: false,
     };
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   handleChangeOrder = (e) => {
@@ -294,23 +300,23 @@ class CategoryInfo extends React.Component {
                     >
                       {two.buckets !== undefined &&
                         two.buckets.buckets !== undefined
-                          ? two.buckets.buckets.map(three => (
-                            <Tree.TreeNode
-                              title={
-                                  categoryall.find(i => i.id === three.key).name
-                                }
-                              key={three.key}
-                            />
-                            ))
-                          : null}
+                        ? two.buckets.buckets.map(three => (
+                          <Tree.TreeNode
+                            title={
+                              categoryall.find(i => i.id === three.key).name
+                            }
+                            key={three.key}
+                          />
+                        ))
+                        : null}
                     </Tree.TreeNode>
-                    ))}
+                  ))}
               </Tree.TreeNode>
             ))}
           </Tree>
         );
       }
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -341,10 +347,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="season.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="season.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -363,7 +369,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="season.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -396,10 +402,8 @@ class CategoryInfo extends React.Component {
               <div className="col-lg-6 pad10">
                 <div className="total-result">
                   <p className="text">
-                    <strong style={{ marginRight: 5 }}>
-                      {searchKeyWordResponse.hits.total.value}
-                    </strong>
-                    бараа олдлоо
+                    <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
+                    <FormattedMessage id="season.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -419,15 +423,15 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="season.sort.label" />:
                     </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="season.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="season.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this">
@@ -477,7 +481,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -596,6 +600,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    style={{ padding: '10px 10px' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
@@ -628,7 +633,7 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     searchid = this.props.match.params.id;
-    this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
+    this.setState({ loading: true, ismore: !this.state.ismore });
     const { isLogged, data } = this.props;
 
     const params = {
@@ -651,7 +656,7 @@ class CategoryInfo extends React.Component {
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
+          loading: false,
           count: 20,
           aggregations: res.payload.data,
           categories: res.payload.data.aggregations.categories,

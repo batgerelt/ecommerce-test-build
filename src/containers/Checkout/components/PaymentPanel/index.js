@@ -2,6 +2,7 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { Radio, Input, Form } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -54,16 +55,16 @@ class PaymentPanel extends React.Component {
       <div>
         <div className="content-container payment">
           <p className="title">
-            <strong>НӨАТ баримтын төрөл</strong>
+            <strong><FormattedMessage id="shared.form.label.tax.receipt" /></strong>
           </p>
 
           <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
             <div className="hand-pay flex-this">
               <div className="form-check">
-                <Radio value={1}>Хувь хүн</Radio>
+                <Radio value={1}><FormattedMessage id="shared.form.label.individual" /></Radio>
               </div>
               <div className="form-check">
-                <Radio value={2}>Байгууллага</Radio>
+                <Radio value={2}><FormattedMessage id="shared.form.label.company" /></Radio>
               </div>
             </div>
           </RadioGroup>
@@ -73,14 +74,14 @@ class PaymentPanel extends React.Component {
               :
               <OrganizationTab onRef={ref => (this.OrganizationTab = ref)} {...this} {...this.props} />
           }
-        </div>
+        </div >
         <hr />
         <div className="text-right">
           <button className="btn btn-main" onClick={this.handleClick} style={{ marginBottom: "15px" }}>
-            Дараах
+            <FormattedMessage id="shared.form.button.next" />
           </button>
         </div>
-      </div>
+      </div >
     );
   }
 }

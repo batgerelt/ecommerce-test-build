@@ -24,8 +24,8 @@ class MainMenu extends React.Component {
         <ul className="list-unstyled">
           <li key={index}>
             <Link
-              to={item.route ? item.route : " "}
-              className="list-unstyled"
+              to={item.route ? item.route : ""}
+              className="list-unstyled text-light"
             >
               <strong className="text-uppercase">{item.name}</strong>
             </Link>
@@ -35,7 +35,7 @@ class MainMenu extends React.Component {
               <li key={ind} onClick={() => this.handleDetail(it.id)}>
                 <Link
                   to={it.route ? it.route : " "}
-                  className="list-unstyled"
+                  className="list-unstyled text-muted"
                 >
                   <span>{it.name}</span>
                 </Link>

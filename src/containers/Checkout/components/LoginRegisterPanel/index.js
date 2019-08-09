@@ -2,6 +2,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Tabs } from "antd";
 import { Signup, Signin } from "../";
 
@@ -96,7 +97,7 @@ class LoginRegisterPanel extends React.Component {
                 src={require("../../../../scss/assets/images/demo/login.svg")}
               />
               <p className="text">
-                <strong>{"Нэвтрэх"}</strong>
+                <strong><FormattedMessage id="shared.form.button.login" /></strong>
               </p>
             </div>
           }
@@ -116,7 +117,7 @@ class LoginRegisterPanel extends React.Component {
                 src={require("../../../../scss/assets/images/demo/user.svg")}
               />
               <p className="text">
-                <strong>{"Бүртгүүлэх"}</strong>
+                <strong><FormattedMessage id="shared.form.button.register" /></strong>
               </p>
             </div>
           }
