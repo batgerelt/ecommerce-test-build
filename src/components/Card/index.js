@@ -585,8 +585,8 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                {item.tags &&
-                  item.tags.map((label, index) => (
+                { elastic ? <ElasticLabel data={item} tags={tags} /> :
+                  item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}
                       type={LABEL_TYPES.horizontal}

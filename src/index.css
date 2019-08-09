@@ -21,12 +21,12 @@ select {
 }
 
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
-  background-color: #fff0a3 !important;
+  background-color: #ffffff !important;
+  color: #fdd300 !important;
 }
 
 .ant-tree-title:hover{
-  background-color: #fff0a3 !important;
-  border-color: #fff0a3 !important;
+  background-color: #ffffff !important;
 }
 
 .ant-collapse-content > .ant-collapse-content-box{
