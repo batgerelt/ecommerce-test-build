@@ -251,7 +251,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading });
 
     const params = {
-      catId: cat[0],
+      catId: cat.length === 0 ? catid : cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: "",

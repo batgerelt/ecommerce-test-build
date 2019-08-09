@@ -246,7 +246,7 @@ class CategoryInfo extends React.Component {
     this.props.getCategoryParents({ id: cat.key });
 
     const params = {
-      catId: cat[0],
+      catId: cat.length === 0 ? searchid : cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
       attribute: "",

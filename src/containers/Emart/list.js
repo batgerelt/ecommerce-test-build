@@ -385,8 +385,8 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
+                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
