@@ -22,6 +22,15 @@ import {
 } from "../../utils/Consts";
 
 const ITEM_HEIGHT = 340;
+const RowItem = React.memo(function RowItem({ item, ...props }) {
+  return (
+    <Card
+      shape={CARD_TYPES.slim}
+      item={item}
+      {...props}
+    />
+  );
+});
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -252,7 +261,7 @@ class Discount extends React.Component {
     return (
       <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
-        {/* this.renderHeaderProduct() */}
+        {this.renderHeaderProduct()}
         {/* this.renderSubBanner() */}
         {this.renderFooterProduct()}
         <BackTop />
@@ -261,4 +270,4 @@ class Discount extends React.Component {
   }
 }
 
-export default Discount;
+export default React.memo(Discount);

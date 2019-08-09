@@ -5,7 +5,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 import React from "react";
-import { injectIntl, defineMessages } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -42,7 +42,7 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
           }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
@@ -58,7 +58,7 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
@@ -70,9 +70,14 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message =>
-              message.warning(message),
-            );
+            result.payload.data.fail.forEach((msg) => {
+              const messages = defineMessages({
+                warning: {
+                  id: msg.code,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+            });
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -84,18 +89,36 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach(message =>
-              message.warning(message),
-            );
+            result.payload.data.fail.forEach((msg) => {
+              const messages = defineMessages({
+                warning: {
+                  id: msg.code,
+                },
+              });
+              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+            });
           }
         } else {
           //
         }
-      } else if (item.skucd) {
+      } else {
+        // eslint-disable-next-line no-lonely-if
+        if (item.skucd) {
           item.insymd = Date.now();
         item.cd = item.skucd;
         item.sprice = item.currentprice;
           this.props.incrementProductLocally(item);
+
+          const updated = this.props.products.find(prod => prod.cd === item.skucd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          }
         } else if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
@@ -126,17 +149,15 @@ class Card extends React.Component {
 
           this.props.incrementRecipeProductsLocally(products);
 
-          const recipeProducts = this.props.products.filter(prod => prod.recipeid === item.recipeid);
+          const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
 
-          recipeProducts.forEach((updated) => {
-            if (updated.error !== undefined) {
-              const messages = defineMessages({
-                warning: {
-                  id: updated.error,
-                },
-              });
-              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-            }
+          errors.forEach((updated) => {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
           });
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
@@ -154,21 +175,20 @@ class Card extends React.Component {
 
           this.props.incrementPackageProductsLocally(products);
 
-          const packageProducts = this.props.products.filter(prod => prod.id === item.id);
+          const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
 
-          packageProducts.forEach((updated) => {
-            if (updated.error !== undefined) {
-              const messages = defineMessages({
-                warning: {
-                  id: updated.error,
-                },
-              });
-              message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
-            }
+          errors.forEach((updated) => {
+            const messages = defineMessages({
+              warning: {
+                id: updated.error,
+              },
+            });
+            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
           });
         } else {
           //
         }
+      }
     } catch (e) {
       return console.log(e);
     }
@@ -237,10 +257,10 @@ class Card extends React.Component {
 
         if (item.id) {
           priceTitle = (
-            <span style={{ fontWeight: "normal" }}>Багцын үнэ:</span>
+            <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.package.label.price" />:</span>
           );
         } else if (item.recipeid) {
-          priceTitle = <span style={{ fontWeight: "normal" }}>Орцын үнэ:</span>;
+          priceTitle = <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.recipe.label.price" />:</span>;
         }
 
         if (item.sprice || item.discountprice !== 0) {
@@ -410,14 +430,14 @@ class Card extends React.Component {
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
                     this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
-                    item.tags && item.tags.map((label, index) => (
-                      <Label
-                        key={index}
-                        type={LABEL_TYPES.vertical}
-                        data={label}
-                        seq={index}
-                      />
-                    ))
+                      item.tags && item.tags.map((label, index) => (
+                        <Label
+                          key={index}
+                          type={LABEL_TYPES.vertical}
+                          data={label}
+                          seq={index}
+                        />
+                      ))
                   }
                   {hover}
                 </div>

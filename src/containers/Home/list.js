@@ -1,4 +1,5 @@
 import React from "react";
+import { injectIntl } from 'react-intl';
 import moment from "moment";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
@@ -22,12 +23,13 @@ const sliderParams = {
 
 class Homepage extends React.Component {
   getBlocks = (widgets, products) => {
+    const { intl } = this.props;
     let blocks = [];
     widgets.forEach((widget) => {
       switch (widget.slug) {
         case WIDGET_SLUGS.onlyemart:
           widget.items = products.emartproduct;
-          widget.readMore = "Бусад Имартын барааг үзэх";
+          widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
           break;
         case WIDGET_SLUGS.discount:
 
@@ -43,24 +45,24 @@ class Homepage extends React.Component {
                 .format("MM/DD")}
             </span>
           );
-          widget.readMore = "Бусад хямдралтай барааг үзэх";
+          widget.readMore = intl.formatMessage({ id: "home.widget.discount.readMore" });
           widget.icon = (
             <Icon name="calendar" color="red" />
           );
           break;
         case WIDGET_SLUGS.package:
           widget.items = products.packageAll.products;
-          widget.readMore = "Бусад багцыг үзэх";
+          widget.readMore = intl.formatMessage({ id: "home.widget.package.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.recipe:
           widget.items = products.recipeAll.products;
-          widget.readMore = "Бусад хоолны жорыг үзэх";
+          widget.readMore = intl.formatMessage({ id: "home.widget.recipe.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.new:
           widget.items = products.newproduct;
-          widget.readMore = "Бусад шинэ барааг үзэх";
+          widget.readMore = intl.formatMessage({ id: "home.widget.new.readMore" });
           break;
         default:
       }
@@ -226,4 +228,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage;
+export default injectIntl(Homepage);

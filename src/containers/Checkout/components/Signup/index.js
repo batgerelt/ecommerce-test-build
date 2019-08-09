@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
 
 class Signup extends React.Component {
@@ -24,8 +25,9 @@ class Signup extends React.Component {
   };
 
   compareToFirstPassword = (rule, value, callback) => {
+    const { intl } = this.props;
     if (value && value !== this.props.form.getFieldValue("password")) {
-      callback("Шинэ нууц үгээ зөв давтана уу");
+      callback(intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }));
     } else {
       callback();
     }
@@ -33,6 +35,7 @@ class Signup extends React.Component {
 
   onSubmitRegister = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (values.password === values.confirmpassword) {
@@ -45,7 +48,7 @@ class Signup extends React.Component {
             }
           });
         } else {
-          message.error("Нууц үг таарсангүй");
+          message.error(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
         }
       }
     });
@@ -54,6 +57,7 @@ class Signup extends React.Component {
 
   renderRegisterForm = () => {
     try {
+      const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       return (
         <Form onSubmit={this.onSubmitRegister}>
@@ -64,13 +68,13 @@ class Signup extends React.Component {
                   rules: [{
                     required: true,
                     pattern: new RegExp("[A-Za-zА-Яа-я]"),
-                    message: "Нэрээ оруулна уу",
+                    message: intl.formatMessage({ id: "shared.form.lastname.validation.required" }),
                   }],
                 })(
                   <Input
                     allowClear
                     type="text"
-                    placeholder="Овог*"
+                    placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })}
                     className="form-control"
                     autoComplete="off"
                   />,
@@ -83,13 +87,13 @@ class Signup extends React.Component {
                   rules: [{
                     required: true,
                     pattern: new RegExp("[A-Za-zА-Яа-я]"),
-                    message: "Нэрээ оруулна уу",
+                    message: intl.formatMessage({ id: "shared.form.firstname.validation.required" }),
                   }],
                 })(
                   <Input
                     allowClear
                     type="text"
-                    placeholder="Нэр*"
+                    placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })}
                     className="form-control"
                     autoComplete="off"
                   />,
@@ -103,13 +107,13 @@ class Signup extends React.Component {
                     required: true,
                     type: "email",
                     pattern: new RegExp("[A-Za-z]"),
-                    message: "Имэйл хаягаа оруулна уу",
+                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   }],
                 })(
                   <Input
                     allowClear
                     type="text"
-                    placeholder="И мэйл*"
+                    placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
                     className="form-control"
                   />,
@@ -120,15 +124,15 @@ class Signup extends React.Component {
               <Form.Item>
                 {getFieldDecorator("phonE1", {
                   rules: [
-                    { required: true, message: "Утасны дугаар оруулна уу" },
-                    { pattern: new RegExp("^[0-9]*$"), message: "Утасны дугаар зөв оруулна уу" },
-                    { min: 8, message: "Утасны дугаар 8 оронтой байна" },
+                    { required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                    { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                    { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
                   ],
                 })(
                   <Input
                     allowClear
                     type="text"
-                    placeholder="Утас*"
+                    placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })}
                     autoComplete="off"
                     className="form-control"
                   />,
@@ -139,12 +143,12 @@ class Signup extends React.Component {
               <Form.Item>
                 {getFieldDecorator("password", {
                   rules: [
-                    { required: true, message: "Нууц үгээ заавал оруулна уу" },
+                    { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                     { validator: this.validateToNextPassword },
-                    { min: 4, message: "Нууц үг хамгийн багадаа 4 оронтой байна." },
+                    { min: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) },
                   ],
                 })(
-                  <Input.Password placeholder="Нууц үг" className="form-control" autoComplete="off" />,
+                  <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>
@@ -152,11 +156,11 @@ class Signup extends React.Component {
               <Form.Item>
                 {getFieldDecorator("confirmpassword", {
                   rules: [
-                    { required: true, message: "Нууц үгээ дахин оруулна уу" },
+                    { required: true, message: intl.formatMessage({ id: "shared.form.passwordAgain.validation.required" }) },
                     { validator: this.compareToFirstPassword },
                   ],
                 })(
-                  <Input.Password onBlur={this.handleConfirmBlur} placeholder="Нууц үгээ дахин давтах!" className="form-control" autoComplete="off" />,
+                  <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.validation.required" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>
@@ -169,7 +173,7 @@ class Signup extends React.Component {
               htmlType="submit"
               style={{ padding: "5px 50px", marginLeft: "17em" }}
             >
-              Бүртгүүлэх
+              <FormattedMessage id="shared.form.button.register" />
             </Button>
           </div>
         </Form>
@@ -184,4 +188,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Form.create({ name: "checkoutregister" })(Signup);
+export default injectIntl(Form.create({ name: "checkoutregister" })(Signup));

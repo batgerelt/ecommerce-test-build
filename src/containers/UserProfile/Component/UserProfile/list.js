@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Form, message, Input, Select, Divider, Col, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -205,6 +206,7 @@ class Component extends React.Component {
   }
 
   renderNoMain() {
+    const { intl } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (
@@ -212,11 +214,11 @@ class Component extends React.Component {
         <Col span={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
-              rules: [{ required: true, message: "Хот/аймаг сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Хот/аймаг *"
+                placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
                 optionFilterProp="children"
                 onChange={this.onMainLocation}
                 disabled={loader}
@@ -231,11 +233,11 @@ class Component extends React.Component {
         <Col span={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
-              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Дүүрэг/Сум *"
+                placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })}
                 optionFilterProp="children"
                 onChange={this.onSubLocation}
                 disabled={loader}
@@ -250,11 +252,11 @@ class Component extends React.Component {
         <Col span={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
-              rules: [{ required: true, message: "Хороо сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Хороо *"
+                placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}
                 optionFilterProp="children"
                 onChange={this.onchangesyscom}
                 disabled={loader}
@@ -270,6 +272,7 @@ class Component extends React.Component {
   }
 
   renderMain() {
+    const { intl } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { loader } = this.state;
     return (
@@ -278,11 +281,11 @@ class Component extends React.Component {
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
               initialValue: this.checkError(this.state.params.provid),
-              rules: [{ required: true, message: "Хот/аймаг сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Хот/аймаг *"
+                placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
                 onChange={this.onMainLocation}
                 disabled={loader}
                 loading={loader}
@@ -297,11 +300,11 @@ class Component extends React.Component {
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
               initialValue: this.checkError(this.state.params.distid),
-              rules: [{ required: true, message: "Дүүрэг/Сум сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Дүүрэг/Сум *"
+                placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })}
                 optionFilterProp="children"
                 onChange={this.onSubLocation}
                 disabled={loader}
@@ -317,11 +320,11 @@ class Component extends React.Component {
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
               initialValue: this.checkError(this.state.params.commid),
-              rules: [{ required: true, message: "Хороо сонгоно уу" }],
+              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder="Хороо *"
+                placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}
                 optionFilterProp="children"
                 onChange={this.onchangesyscom}
                 disabled={loader}
@@ -337,6 +340,7 @@ class Component extends React.Component {
   }
   renderProfile = () => {
     try {
+      const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { userInfo } = this.props;
       return (
@@ -347,8 +351,8 @@ class Component extends React.Component {
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
-                  rules: [{ required: true, message: "Овгоо оруулна уу" }],
-                })(<LetterInput placeholder="Овог" onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.lastname.validation.required" }) }],
+                })(<LetterInput placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
               </Form.Item>
             </Col>
 
@@ -356,8 +360,8 @@ class Component extends React.Component {
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
-                  rules: [{ required: true, message: "Нэрээ оруулна уу" }],
-                })(<LetterInput placeholder="Нэр" onChange={value => (this.props.form.setFieldsValue({ firstname: value }))} />)}
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.firstname.validation.required" }) }],
+                })(<LetterInput placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ firstname: value }))} />)}
               </Form.Item>
             </Col>
 
@@ -365,8 +369,8 @@ class Component extends React.Component {
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
-                  rules: [{ required: true, type: "email", message: "Зөв имэйл оруулна уу" }],
-                })(<LatinInput placeholder="Имэйл" />)}
+                  rules: [{ required: true, type: "email", message: intl.formatMessage({ id: "shared.form.email.validation.required" }) }],
+                })(<LatinInput placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
               </Form.Item>
             </Col>
 
@@ -377,14 +381,15 @@ class Component extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: "Утасны дугаараа оруулна уу",
+                      pattern: new RegExp("^[0-9]*$"),
+                      message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }),
                     },
                     {
                       min: 8,
-                      message: "Утасны дугаараа оруулна уу",
+                      message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }),
                     },
                   ],
-                })(<NumberInput placeholder="Утас 1" maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -393,10 +398,10 @@ class Component extends React.Component {
                 {getFieldDecorator("phone2", {
                   initialValue: userInfo.info.phone2,
                   rules: [
-                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: "Утасны дугаараа оруулна уу" },
-                    { min: 8, message: "Утасны дугаараа оруулна уу" },
+                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                    { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
                   ],
-                })(<NumberInput placeholder="Утас 2" maxLength={8} autoComplete="off" />)}
+                })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
 
@@ -410,15 +415,15 @@ class Component extends React.Component {
               <Form.Item style={{ width: '98.5%' }}>
                 {getFieldDecorator("address", {
                   initialValue: userInfo.main === null ? null : userInfo.main.address,
-                  rules: [{ required: true, message: "Гэрийн хаягаа оруулна уу" }],
-                })(<Input placeholder="Гэрийн хаяг" />)}
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                })(<Input placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />)}
               </Form.Item>
             </Col>
 
             <Col span={24}>
               <Form.Item className="text text-right" style={{ width: '98.5%' }}>
                 <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
-                  <span className="text-uppercase">Хадгалах</span>
+                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
                 </Button>
               </Form.Item>
             </Col>
@@ -430,7 +435,7 @@ class Component extends React.Component {
           </Form>
 
           <Col span={24}>
-            <p>Имарт карт</p>
+            <p><FormattedMessage id="profile.userProfile.form.label.emart" /></p>
           </Col>
 
           {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
@@ -445,7 +450,7 @@ class Component extends React.Component {
       <div className="col-md-8 pad10">
         <div className="user-menu-content">
           <p className="title">
-            <span>Профайл</span>
+            <span><FormattedMessage id="profile.userProfile.form.title" /></span>
           </p>
           <div className="user-profile-contain">
             {this.props.userInfo === undefined ? null : this.renderProfile()}
@@ -456,4 +461,4 @@ class Component extends React.Component {
   }
 }
 
-export default Form.create({ name: "component" })(Component);
+export default injectIntl(Form.create({ name: "component" })(Component));

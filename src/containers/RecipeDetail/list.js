@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { FormattedDate, FormattedMessage } from 'react-intl';
 import { Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { Slider } from "../../components";
@@ -17,12 +18,12 @@ class List extends React.Component {
         <ul className="list-unstyled">
           <li>
             <Link to="">
-              <span>Нүүр</span>
+              <span><FormattedMessage id="recipeDetail.breadcrumb.home" /></span>
             </Link>
           </li>
           <li>
             <Link to="/recipe">
-              <span>Хоолны жор</span>
+              <span><FormattedMessage id="recipeDetail.breadcrumb.recipe" /></span>
             </Link>
           </li>
           <li>
@@ -37,14 +38,23 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { recipe } = this.props;
-      const date = recipe.insymd.split("T")[0].split("-");
+      // const date = recipe.insymd.split("T")[0].split("-");
       return (
         <div>
           <h4 className="title">
             <span>{recipe.recipenm}</span>
           </h4>
           <p className="date">
-            <span>{`${date[0]} оны ${date[1]} сарын ${date[2]}`}</span>
+            <FormattedMessage
+              id="recipeDetail.date"
+              defaultMessage="{year}.{month}.{day}"
+              values={{
+                year: <FormattedDate value={new Date(recipe.insymd)} year="numeric" />,
+                month: <FormattedDate value={new Date(recipe.insymd)} month="2-digit" />,
+                day: <FormattedDate value={new Date(recipe.insymd)} day="2-digit" />,
+              }}
+            />
+            {/* <span>{`${date[0]} оны ${date[1]} сарын ${date[2]}`}</span> */}
           </p>
         </div>
       );
@@ -95,7 +105,10 @@ class List extends React.Component {
       return (
         <div className="block product-delivery">
           <p className="title">
-            <strong>Хүргэлтийн мэдээлэл</strong>
+            {/* <strong>Хүргэлтийн мэдээлэл</strong> */}
+            <strong>
+              <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
+            </strong>
           </p>
           <p className="text">
             <span>{recipe.deliverytxt}</span>
@@ -206,13 +219,15 @@ class List extends React.Component {
       return (
         <div className="block product-suggest">
           <p className="title">
-            <strong>Жоронд орсон бараа</strong>
+            <strong>
+              <FormattedMessage id="shared.sidebar.title.recipeProducts" />
+            </strong>
           </p>
           <ul className="list-unstyled">{this.renderProd()}</ul>
           <div className="more-link text-center">
             <div className="pack-price">
               <p className="text flex-this end">
-                <span style={{ fontSize: "1.6rem" }}>Үнэ:</span>
+                <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="shared.sidebar.label.price" />:</span>
                 <strong>{formatter.format(total)}₮</strong>
               </p>
               <button
@@ -225,7 +240,7 @@ class List extends React.Component {
                   aria-hidden="true"
                   style={{ fontSize: "1.2rem" }}
                 />{" "}
-                <span className="text-uppercase">Сагсанд нэмэх</span>
+                <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.addToCart" /></span>
               </button>
             </div>
           </div>
@@ -255,17 +270,24 @@ class List extends React.Component {
             <div className="col-md-4 col-xs-4">
               <p>
                 <Avatar size="small" src={smile} />
-                {recipe.humancnt} хүний порц
+                {/* {recipe.humancnt} хүний порц */}
+                <FormattedMessage
+                  id="recipeDetail.icons.foodSize"
+                  defaultMessage="{people} хүний орц"
+                  values={{
+                    people: recipe.humancnt,
+                  }}
+                />
               </p>
             </div>
           </div>
           <div className="row row10">
             <div className="col-md-6">
-              <p className="title">ОРЦ</p>
+              <p className="title"><FormattedMessage id="recipeDetail.recipe.title.ingredient" /></p>
               <div className="row row10">{this.renderIngredients()}</div>
             </div>
             <div className="col-md-6">
-              <p className="title">АМТЛАГЧ</p>
+              <p className="title"><FormattedMessage id="recipeDetail.recipe.title.seasoning" /></p>
               {this.renderSpices()}
             </div>
           </div>
@@ -314,7 +336,7 @@ class List extends React.Component {
       return (
         <div className="ck-editor">
           <h4 className="title" style={{ textTransform: "uppercase" }}>
-            <span>Зөвлөгөө</span>
+            <span><FormattedMessage id="recipeDetail.suggestion.title" /></span>
           </h4>
           <div dangerouslySetInnerHTML={{ __html: recipe.description }} />
         </div>
@@ -380,7 +402,7 @@ class List extends React.Component {
                         marginBottom: "20px",
                       }}
                     >
-                      <span>Хоол хийх заавар</span>
+                      <span><FormattedMessage id="recipeDetail.instruction.title" /></span>
                     </h4>
                     {this.renderSteps()}
                   </div>

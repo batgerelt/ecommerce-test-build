@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { connect } from "react-redux";
 import { Collapse, Tabs, Divider, Button, message } from "antd";
 import Swal from "sweetalert2";
@@ -43,12 +44,12 @@ class SwalModals extends React.Component {
       <div className="checkout-container msg-bank">
         <div className="card-content" style={{ textAlign: "center" }}>
           <div className="button-container">
-            <p style={{ fontSize: '14px' }}>Та имэйл хаягаа шинэчлэх тохиолдолд шинэ имэйл хаягаараа баталгаажуулалт хийхийг анхаарна уу</p>
+            <p style={{ fontSize: '14px' }}><FormattedMessage id="profile.userProfile.form.swal.text" /></p>
             <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
-              <span className="text-uppercase" style={{ fontWeight: "normal" }}>ИМэйл хаяг шинэчлэх</span>
+              <span className="text-uppercase" style={{ fontWeight: "normal" }}><FormattedMessage id="profile.userProfile.form.swal.button.updateEmail" /></span>
             </button>
             <button className="btn btn-dark" onClick={this.handleChangeAddress} style={{ whiteSpace: "initial", width: "23em", marginBottom: "0.75em" }}>
-              <span className="text-uppercase">Болих</span>
+              <span className="text-uppercase"><FormattedMessage id="profile.userProfile.form.swal.button.cancel" /></span>
             </button>
           </div>
         </div>

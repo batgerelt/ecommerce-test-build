@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Button, Rate, message } from "antd";
 import moment from "moment";
@@ -30,7 +31,9 @@ class Detail extends Component {
   }
 
   renderDetails = () => {
-    const { categorymenu, rate, isLogged } = this.props;
+    const {
+      categorymenu, rate, isLogged, intl,
+    } = this.props;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
 
@@ -59,7 +62,8 @@ class Detail extends Component {
             />
 
             <p className="text">
-              ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"})
+              {/* ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
+              ({isLogged ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
           </div>
 
@@ -105,17 +109,18 @@ class Detail extends Component {
       return null;
     }
 
+    const { intl } = this.props;
     const { productQty } = this.state;
 
     let priceInfo = null;
 
-    let priceTitle = "Үнэ: ";
+    let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
     if (detail.issalekg && detail.kgproduct && detail.kgproduct[0]) {
-      priceTitle = `${detail.kgproduct[0].salegram} гр-н үнэ: `;
+      priceTitle = `${detail.kgproduct[0].salegram} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
         <p className="count-text text-right">
-          {`Кг үнэ: ${formatter.format(detail.kgproduct[0].kilogramprice)}₮`}
+          {`${intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}: ${formatter.format(detail.kgproduct[0].kilogramprice)} ₮`}
         </p>
       );
     }
@@ -238,7 +243,7 @@ class Detail extends Component {
         </div>
 
         <div className="total-price text-right">
-          <span>Дүн:</span>
+          <span><FormattedMessage id="productDetail.label.totalPrice" />:</span>
           <strong>{formatter.format(this.getTotalPrice())}₮</strong>
         </div>
 
@@ -249,7 +254,7 @@ class Detail extends Component {
             style={{ marginRight: "10px" }}
             onClick={this.handleSaveClick}
           >
-            <span>Хадгалах</span>
+            <span><FormattedMessage id="productDetail.button.save" /></span>
           </button>
 
           <button
@@ -260,14 +265,21 @@ class Detail extends Component {
             onClick={() => this.handleAddToCart(detail)}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
-            <span>Сагсанд нэмэх</span>
+            <span><FormattedMessage id="productDetail.button.addToCart" /></span>
           </button>
+
+          {detail.sdate !== null && detail.edate !== null && (
+            <p className="text text-right">
+              <FormattedMessage
+                id="productDetail.label.discountDateWarning"
+                defaultMessage="Хямдрал {days} хоногийн дараа дуусна"
+                values={{
+                  days: this.generateDate(detail),
+                }}
+              />
+            </p>
+          )}
         </div>
-        {detail.sdate !== null && detail.edate !== null && (
-          <p className="text text-right">
-            Хямдрал {this.generateDate(detail)} хоногийн дараа дуусна
-          </p>
-        )}
       </form>
     );
   };
@@ -350,19 +362,37 @@ class Detail extends Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (product) => {
+    const { intl } = this.props;
     if (this.props.isLogged) {
       const result = await this.props.increaseProductByQtyRemotely({
         skucd: product.cd,
         qty: this.state.productQty,
         iscart: 0,
       });
+
       if (!result.payload.success) {
-        this.handleNotify(result.payload.message);
+        const messages = defineMessages({
+          warning: {
+            id: result.payload.code,
+          },
+        });
+        message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
       }
     } else {
       product.qty = this.state.productQty;
       product.insymd = Date.now();
       this.props.increaseProductByQtyLocally(product);
+
+      const updated = this.props.products.find(prod => prod.cd === product.cd);
+
+      if (updated && updated.error !== undefined) {
+        const messages = defineMessages({
+          warning: {
+            id: updated.error,
+          },
+        });
+        message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+      }
     }
   };
 
@@ -371,4 +401,4 @@ class Detail extends Component {
   }
 }
 
-export default Detail;
+export default injectIntl(Detail);

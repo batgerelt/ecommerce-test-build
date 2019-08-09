@@ -7,6 +7,8 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
+import { Link } from "react-router-dom";
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
@@ -298,23 +300,23 @@ class CategoryInfo extends React.Component {
                     >
                       {two.buckets !== undefined &&
                         two.buckets.buckets !== undefined
-                          ? two.buckets.buckets.map(three => (
-                            <Tree.TreeNode
-                              title={
-                                  categoryall.find(i => i.id === three.key).name
-                                }
-                              key={three.key}
-                            />
-                            ))
-                          : null}
+                        ? two.buckets.buckets.map(three => (
+                          <Tree.TreeNode
+                            title={
+                              categoryall.find(i => i.id === three.key).name
+                            }
+                            key={three.key}
+                          />
+                        ))
+                        : null}
                     </Tree.TreeNode>
-                    ))}
+                  ))}
               </Tree.TreeNode>
             ))}
           </Tree>
         );
       }
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -345,10 +347,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="season.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="season.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -367,7 +369,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="season.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -400,10 +402,8 @@ class CategoryInfo extends React.Component {
               <div className="col-lg-6 pad10">
                 <div className="total-result">
                   <p className="text">
-                    <strong style={{ marginRight: 5 }}>
-                      {searchKeyWordResponse.hits.total.value}
-                    </strong>
-                    бараа олдлоо
+                    <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
+                    <FormattedMessage id="season.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -423,15 +423,15 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="season.sort.label" />:
                     </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="season.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="season.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this">

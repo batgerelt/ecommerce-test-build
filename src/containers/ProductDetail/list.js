@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable radix */
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -136,7 +137,7 @@ class ProductDetail extends React.Component {
             style={{ display: "inline-block", verticalAlign: "middle" }}
           >
             <li className="list-inline-item">
-              <span>Хуваалцах:</span>
+              <span><FormattedMessage id="shared.share" />:</span>
             </li>
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <FacebookShareButton

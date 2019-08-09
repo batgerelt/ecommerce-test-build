@@ -8,6 +8,7 @@ import {
   Menu as MenuModel,
   Cart as CartModel,
   Auth as AuthModel,
+  Locale as LocaleModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -18,6 +19,7 @@ const mapStateToProps = state => ({
   ...state.menu,
   ...state.cart,
   ...state.auth,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -27,6 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...MenuModel,
     ...CartModel,
     ...AuthModel,
+    ...LocaleModel,
   }, dispatch),
 });
 

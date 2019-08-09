@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Rate } from "antd";
@@ -38,7 +39,7 @@ class Comment extends Component {
   renderCommentList = () => {
     try {
       const {
-        product, comments, user, auth,
+        product, comments, user, auth, intl,
       } = this.props;
       const { rate, rate_user_cnt } = product;
       const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
@@ -70,7 +71,8 @@ class Comment extends Component {
                 <div className="form-group">
                   <textarea
                     className="form-control textarea"
-                    placeholder="Сэтгэгдэл үлдээх хэсэг"
+                    // placeholder="Сэтгэгдэл үлдээх хэсэг"
+                    placeholder={intl.formatMessage({ id: "productDetail.comment.form.placeholder" })}
                     name="comment"
                     style={{ minHeight: "150px" }}
                     value={this.state.comment}
@@ -88,7 +90,7 @@ class Comment extends Component {
                   className="btn btn-dark text-uppercase"
                   onClick={this.handleCommentSend}
                 >
-                  Сэтгэгдэл үлдээх
+                  <FormattedMessage id="productDetail.comment.form.button" />
                 </button>
               </form>
             </div>
@@ -96,14 +98,14 @@ class Comment extends Component {
           {comments.length !== 0 && (
             <div style={{ marginTop: "40px" }}>
               <h1 className="title">
-                <span className="text-uppercase">Сэтгэгдэл</span>
+                <span className="text-uppercase"><FormattedMessage id="productDetail.comment.list.title" /></span>
               </h1>
 
               <div className="comments-list">
                 <div className="main-rating">
                   <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">
-                    ({rate_user_cnt === null ? 0 : rate_user_cnt} хүн үнэлгээ өгсөн байна)
+                    ({rate_user_cnt === null ? 0 : rate_user_cnt} <FormattedMessage id="productDetail.comment.list.rate" />)
                   </p>
                 </div>
 
@@ -146,4 +148,4 @@ Comment.propTypes = {
   comments: PropTypes.array.isRequired,
 };
 
-export default Comment;
+export default injectIntl(Comment);

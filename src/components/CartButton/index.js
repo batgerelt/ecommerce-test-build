@@ -86,7 +86,9 @@ class CartButton extends Component {
         <img src={cartImage} alt="cart" height="25px" />
         <p className="header-text">
           <small><FormattedMessage id="header.myCart.part1" /></small>
-          <span className="text-uppercase"><FormattedMessage id="header.myCart.part2" /></span>
+          <span className="text-uppercase">
+            <FormattedMessage id="header.myCart.part2" />
+          </span>
         </p>
         <strong>{formatter.format(this.getTotalPrice())}₮</strong>
       </Link>
