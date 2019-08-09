@@ -200,22 +200,20 @@ class DeliveryInfo extends React.Component {
 
   sendPayment = (tmp) => {
     const { PaymentTypePanel } = this.props;
-    let data; let type;
+    let data;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
       this.props.changeLoading(false);
       // MySwal.close();
       if (res.payload.success) {
         if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
           this.props.clearRemotely();
-          type = "msgBank";
           data = this.props.bankInfo;
-          this.openLastModal(type, data, res.payload.data);
+          this.openLastModal("msgBank", data, res.payload.data);
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
           this.props.clearRemotely();
-          type = "qpay";
-          this.openLastModal(type, [], res.payload.data);
+          this.openLastModal("qpay", [], res.payload.data);
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 1) {
