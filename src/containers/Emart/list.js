@@ -7,8 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { Spin, Select, BackTop } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -43,7 +42,6 @@ class CategoryInfo extends React.Component {
       attributes: [],
       count: 0,
       selectedCat: null,
-      isCatChecked: false,
       aggregations: [],
       ismore: false,
     };
@@ -205,7 +203,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading });
 
     const params = {
-      catId: cat.key,
+      catId: cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
       attribute: "",
@@ -225,9 +223,8 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 0,
-          isCatChecked: !this.state.isCatChecked,
-          aggregations: res.payload.data.aggregations,
-          catid: cat.key,
+          ggregations: res.payload.data,
+          catid: cat[0],
         });
       }
     });
@@ -235,27 +232,51 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
-      const { aggregations } = this.state;
+      const { categoryall, lang } = this.props;
+      const { categories } = this.state;
 
-      if (aggregations.length !== 0) {
+      if (categories.buckets.length !== 0) {
         return (
-          <ul className="list-unstyled category-list">
-            {
-              aggregations.categories.buckets.map((cat, index) => (
-                <li key={index}>
-                  <Link to="#" onClick={() => this.handleClickCategory(cat)}>
-                    {categoryall.find(i => i.id === cat.key) === undefined ? null : categoryall.find(i => i.id === cat.key).name}
-                  </Link>
-                </li>
-                ))
-            }
-          </ul>
+          <Tree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            defaultExpandAll={false}
+            defaultExpandParent={false}
+          >
+            {categories.buckets.map(one => (
+              <Tree.TreeNode
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
+                key={one.key}
+              >
+                {one.buckets.buckets &&
+                  one.buckets.buckets.map(two => (
+                    <Tree.TreeNode
+                      title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                      key={two.key}
+                    >
+                      {
+                        two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                        two.buckets.buckets.map(three => (
+                          <Tree.TreeNode
+                            title={
+                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
+                            }
+                            key={three.key}
+                          />
+                        )) : null
+                      }
+                    </Tree.TreeNode>
+                  ))}
+              </Tree.TreeNode>
+            ))}
+          </Tree>
         );
       }
+
       return <div className="block">Ангилал байхгүй байна</div>;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   }
 
@@ -305,7 +326,12 @@ class CategoryInfo extends React.Component {
                   <strong>Шүүлтүүр</strong>
                 </h5>
                 <div className="left-filter">
-                  <SearchFilterSet onRef={ref => (this.FilterSet = ref)} {...this.props} {...this} {...this.state} total={this.props.searchKeyWordResponse.hits.total.value} />
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    data={this.state.aggregations}
+                  />
                 </div>
               </div>
 
@@ -580,7 +606,9 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 20,
-          aggregations: res.payload.data.aggregations,
+          aggregations: res.payload.data,
+          categories: res.payload.data.aggregations.categories,
+          nodata: res.payload.data.hits.hits.length === 0,
         });
       }
     });
@@ -591,10 +619,19 @@ class CategoryInfo extends React.Component {
       <div className="top-container">
         <div className="section">
           <div className="container pad10">
-            <div className="row row10">
-              {this.renderLeftPanel()}
-              {this.renderFilteredList()}
-            </div>
+            {this.state.nodata ? (
+              <div
+                style={{ minHeight: window.innerHeight / 3 }}
+                className="row row10"
+              >
+                <h1>Барааны мэдээлэл олдсонгүй</h1>
+              </div>
+            ) : (
+              <div className="row row10">
+                {this.renderLeftPanel()}
+                {this.renderFilteredList()}
+              </div>
+            )}
           </div>
         </div>
         <BackTop />

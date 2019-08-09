@@ -86,7 +86,6 @@ const asyncFn = ({
       if (data && data.success) {
         // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
-        console.log(data.success, data);
         message.warning('data.message');
       }
       if (!data) {

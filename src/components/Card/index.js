@@ -274,7 +274,15 @@ class Card extends React.Component {
                   {priceTitle}
                 </div>
               )}
-              <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
+
+              {/* elastic search price tag */}
+              {item.pricetag === null ? null : (
+                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
+                  {item.pricetag}
+                </div>
+              )}
+
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
                 <small className="sale">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </small>
@@ -295,7 +303,15 @@ class Card extends React.Component {
                   {priceTitle}
                 </div>
               )}
-              <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
+
+              {/* elastic search price tag */}
+              {item.pricetag === null ? null : (
+                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
+                  {item.pricetag}
+                </div>
+              )}
+
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
                 <span className="current">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
