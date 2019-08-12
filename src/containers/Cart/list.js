@@ -9,13 +9,34 @@ import { message } from 'antd';
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
-  state = { deliveryInfo: null };
+  state = { deliveryInfo: null, products: [] };
 
-  async componentDidMount() {
-    const result = await this.props.getStaticInfo();
+  async loadData() {
+    if (this.props.isLogged) {
+      const productsResult = await this.props.getProducts();
 
-    if (result.payload.success) {
-      this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
+      if (productsResult.payload.success) {
+        this.setState({ products: productsResult.payload.data });
+      }
+    } else {
+      this.setState({ products: this.props.products });
+    }
+
+    const staticInfoResult = await this.props.getStaticInfo();
+
+    if (staticInfoResult.payload.success) {
+      this.setState({ deliveryInfo: staticInfoResult.payload.data[0].deliverytxt });
+    }
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if ((prevProps.intl.locale !== this.props.intl.locale)
+      || (prevProps.products !== this.props.products)) {
+      this.loadData();
     }
   }
 
@@ -61,7 +82,7 @@ class Cart extends React.Component {
   handleRemoveClick = product => async (e) => {
     e.preventDefault();
 
-    let { products } = this.props;
+    let { products } = this.state;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -84,7 +105,8 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
-    let { products, intl } = this.props;
+    let { intl } = this.props;
+    let { products } = this.state;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -134,7 +156,8 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrementClick = async (product) => {
-    let { products, intl } = this.props;
+    let { intl } = this.props;
+    let { products } = this.state;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -178,7 +201,8 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleDecrementClick = async (product) => {
-    let { products, intl } = this.props;
+    let { intl } = this.props;
+    let { products } = this.state;
 
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
@@ -325,7 +349,7 @@ class Cart extends React.Component {
   };
 
   renderTotalQty = () => {
-    const { products } = this.props;
+    const { products } = this.state;
 
     return products && products.reduce((acc, cur) => acc + cur.qty, 0);
   };
@@ -342,7 +366,7 @@ class Cart extends React.Component {
       );
     }
 
-    const { products } = this.props;
+    const { products } = this.state;
 
     return (
       products &&
@@ -421,7 +445,7 @@ class Cart extends React.Component {
 
   renderContent = () => {
     try {
-      let { products } = this.props;
+      let { products } = this.state;
 
       let content = (
         <div style={{ textAlign: "center" }}>
@@ -445,13 +469,13 @@ class Cart extends React.Component {
           <table className="table table-borderless">
             <thead className="thead-light">
               <tr>
-                <th className="column-1" style={{ width: "30%" }}>
+                <th className="column-1" style={{ width: "40%" }}>
                   <FormattedMessage id="cart.table.productName" />
                 </th>
-                <th className="column-2" style={{ width: "24%" }}>
+                <th className="column-2" style={{ width: "20%" }}>
                   <FormattedMessage id="cart.table.unitPrice" />
                 </th>
-                <th className="column-3" style={{ width: "24%" }}>
+                <th className="column-3" style={{ width: "25%" }}>
                   <FormattedMessage id="cart.table.count" />
                 </th>
                 <th className="column-4">
@@ -534,7 +558,10 @@ class Cart extends React.Component {
                   </td>
                 </tr>
                 <tr className="table-action">
-                  <td colSpan="5" style={{ paddinRight: "30px" }}>
+                  <td colSpan="2" style={{ fontSize: "0.8em" }}>
+                    {prod.deliveryinfo}
+                  </td>
+                  <td colSpan="2" style={{ paddinRight: "30px" }}>
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>
@@ -569,7 +596,7 @@ class Cart extends React.Component {
   };
 
   render() {
-    const { products } = this.props;
+    const { products } = this.state;
     return (
       <div className="section">
         <div className="container pad10">

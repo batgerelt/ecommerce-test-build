@@ -774,6 +774,7 @@ class Model extends BaseModel {
       case this.model.clearRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.clearRemotely.response:
+        console.log("action.payload: ", action.payload);
         return {
           ...state,
           products: action.payload.data === null ? [] : action.payload.data,

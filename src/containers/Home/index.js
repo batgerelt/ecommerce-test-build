@@ -48,28 +48,27 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getCategoryMenu();
     this.props.getBrand();
     this.props.getHomePageBanner();
-    this.props.getEmartProduct({});
-    this.props.getWidget();
-    this.props.getPackage({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-    this.props.getNewProduct({});
-    this.props.getRecipe({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-    this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 20,
-      order: `price_asc`,
-    });
+    // this.props.getCategoryMenu();
+    // this.props.getEmartProduct({});
+    // this.props.getPackage({
+    //   order: 'date_desc',
+    //   start: 0,
+    //   rowcnt: 20,
+    // });
+    // this.props.getNewProduct({});
+    // this.props.getRecipe({
+    //   order: 'date_desc',
+    //   start: 0,
+    //   rowcnt: 20,
+    // });
+    // this.props.getDiscountProduct({
+    //   jumcd: '99',
+    //   start: 0,
+    //   rowcnt: 20,
+    //   order: `price_asc`,
+    // });
   }
 
   render() {
