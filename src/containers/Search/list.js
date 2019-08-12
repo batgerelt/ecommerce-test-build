@@ -618,7 +618,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px' }}
+                                    style={{ padding: '10px 10px !important' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
@@ -698,7 +698,6 @@ class CategoryInfo extends React.Component {
 
   render() {
     const { word, time, cat } = this.props.match.params;
-    console.log('word, time, cat: ', word, time, cat);
     // Хайлтын хуудаснаас өөр үг хайх үед
     if (word !== searchword || time !== searchtime || cat !== catid) {
       this.getData();

@@ -457,13 +457,14 @@ class Card extends React.Component {
                   {hover}
                 </div>
                 <div className="info-container">
-                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="name">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {elastic ? (lang === "mn" ? item.title : (item.title_en === null ? item.title : item.title_en)) :
                         (item.name ? item.name : item.packagenm ? item.packagenm : item.recipenm)}
                     </span>
                   </Link>
-                  <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
+
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
                       (item.shortnm ? item.shortnm : item.featuretxt)}
@@ -480,7 +481,7 @@ class Card extends React.Component {
                       /> : ""
                   }
                   <br />
-                  <Link to={item.route ? item.route : ""} className="price">
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="price">
                     {prices}
                   </Link>
                 </div>

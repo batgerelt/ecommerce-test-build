@@ -87,6 +87,14 @@ class AppHeader extends Component {
     return null;
   }
 
+  hadleValidate = (e) => {
+    if (e.target.value === '') {
+      e.target.setCustomValidity("Хайх үгээ оруулна уу!");
+      return true;
+    }
+    return false;
+  }
+
   renderTopNavigation = () => {
     try {
       const { staticinfo } = this.props.staticcontent;
@@ -232,7 +240,8 @@ class AppHeader extends Component {
                               style={{ margin: "0px", width: "100%" }}
                             >
                               <input
-                                required
+                                required={item.id === 0 && word === ''}
+                                onInvalid={this.hadleValidate}
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
@@ -241,7 +250,7 @@ class AppHeader extends Component {
                                 onChange={e => this.handleChangeSearchWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
-                              <datalist id="cat" className="list-unstyled">
+                              <datalist id="cat" className="list-unstyled" onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}>
                                 {this.state.suggestion.map(item => <option key={item.id} value={item.keyword} />)}
                               </datalist>
                             </label>
