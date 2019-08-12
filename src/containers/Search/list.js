@@ -440,10 +440,10 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">
+                      <Select.Option value="price_asc">
                         Үнэ өсөхөөр
                       </Select.Option>
-                      <Select.Option value="price_asc">
+                      <Select.Option value="price_desc">
                         Үнэ буурахаар
                       </Select.Option>
                     </Select>
@@ -618,7 +618,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px' }}
+                                    style={{ padding: '10px 10px !important' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
@@ -652,6 +652,10 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     try {
+      searchword = this.props.match.params.word;
+      searchtime = this.props.match.params.time;
+      catid = this.props.match.params.cat;
+
       this.setState({
         loading: true,
         ismore: !this.state.ismore,
@@ -692,18 +696,11 @@ class CategoryInfo extends React.Component {
     }
   };
 
-  handleChangeWord = () => {
-    searchword = this.props.match.params.word;
-    searchtime = this.props.match.params.time;
-    catid = this.props.match.params.cat;
-    return this.getData();
-  };
-
   render() {
     const { word, time, cat } = this.props.match.params;
     // Хайлтын хуудаснаас өөр үг хайх үед
     if (word !== searchword || time !== searchtime || cat !== catid) {
-      this.handleChangeWord();
+      this.getData();
     }
 
     return (
