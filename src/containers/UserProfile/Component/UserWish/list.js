@@ -52,13 +52,13 @@ class Component extends React.Component {
                   <p className="text">{item.shortnm}</p>
                 </Link>
                 <Rate allowHalf value={item.rate / 2} disabled />
+                <div className="price">
+                  <strong>{formatter.format(item.price)}₮</strong>
+                </div>
               </div>
             </div>
           </div>
-          <div className="price">
-            <strong>{formatter.format(item.price)}₮</strong>
-          </div>
-          <div className="action">
+          <div className="action" style={{ width: "100%" }}>
             <ul className="list-unstyled flex-this end">
               <li>
                 <Link to="#">

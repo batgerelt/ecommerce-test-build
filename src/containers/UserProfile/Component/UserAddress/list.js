@@ -340,21 +340,23 @@ class Component extends React.Component {
               tip={intl.formatMessage({ id: "shared.spin" })}
               indicator={<Loader />}
             >
-              <table className="table table-borderless">
-                <thead className="thead-light" hidden>
-                  <tr>
-                    <th className="column-1"><FormattedMessage id="shared.form.name.placeholder" /></th>
-                    <th className="column-2"><FormattedMessage id="shared.form.phone1.placeholder" /></th>
-                    <th className="column-3"><FormattedMessage id="shared.form.city.placeholder" /></th>
-                    <th className="column-3"><FormattedMessage id="shared.form.district.placeholder" /></th>
-                    <th className="column-3"><FormattedMessage id="shared.form.address.placeholder" /></th>
-                    <th className="column-3"> </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
-                </tbody>
-              </table>
+              <div className="cart-table table-responsive">
+                <table className="table table-borderless">
+                  <thead className="thead-light" hidden>
+                    <tr>
+                      <th className="column-1"><FormattedMessage id="shared.form.name.placeholder" /></th>
+                      <th className="column-2"><FormattedMessage id="shared.form.phone1.placeholder" /></th>
+                      <th className="column-3"><FormattedMessage id="shared.form.city.placeholder" /></th>
+                      <th className="column-3"><FormattedMessage id="shared.form.district.placeholder" /></th>
+                      <th className="column-3"><FormattedMessage id="shared.form.address.placeholder" /></th>
+                      <th className="column-3"> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
+                  </tbody>
+                </table>
+              </div>
             </Spin>
           </Col>
         </Form>
