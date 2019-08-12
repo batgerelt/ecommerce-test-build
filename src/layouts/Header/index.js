@@ -3,9 +3,8 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { generatePath } from "react-router";
 import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
 
@@ -92,7 +91,7 @@ class AppHeader extends Component {
 
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
-      generatePath(`/target`);
+      this.props.history.push(url);
     }
     return null;
   }
@@ -249,7 +248,7 @@ class AppHeader extends Component {
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none' }}
                                 onChange={e => this.handleChangeKeyWord(e)}
-                                onKeyPress={e => this.handleKeyPress(e, '/a')}
+                                onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
                               <datalist id="cat" className="list-unstyled">
                                 {this.state.suggestion.map(item => <option key={item.id} value={item.keyword} />)}
@@ -439,4 +438,4 @@ class AppHeader extends Component {
     );
   }
 }
-export default injectIntl(AppHeader);
+export default withRouter(injectIntl(AppHeader));
