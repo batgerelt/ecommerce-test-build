@@ -25,7 +25,7 @@ library.add(fas, far, fab);
 
 const { persistor, store } = configureStore();
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <LocaleProvider locale={mnMN}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>

@@ -190,6 +190,7 @@ class DeliveryPanel extends React.Component {
     // this.props.form.resetFields();
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     this.props.DeliveryInfo.setDeliveryType(found);
+    this.getZoneSetting(this.state.chosenAddress);
     this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
       this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
     });
