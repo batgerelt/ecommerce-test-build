@@ -74,10 +74,6 @@ class Model extends BaseModel {
     body, url: `/search/att`, method: 'POST', model: this.model.searchattribute,
   });
 
-  searchKeyWord = ({
-    catid = 0, keywordid, startsWith = 10, rowCount = 0, orderCol = 'price_asc',
-  } = {}) => asyncFn({ url: `/search/search/searchkeyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
-
   searchProduct = ({ body } = {}) => asyncFn({
     body, url: `/search/elastic`, method: 'POST', model: this.model.searchProduct,
   })
