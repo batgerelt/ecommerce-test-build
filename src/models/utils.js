@@ -13,6 +13,21 @@ const request = ({
     bearerHeader += root.data[0].info.access_token;
   }
   if (method === 'GET') {
+    // let root = localStorage.getItem("persist:root");
+    // if (typeof root === "string") {
+    //   root = JSON.parse(root);
+    // }
+    // console.log('root: ', root);
+
+    // let { locale } = root;
+    // if (typeof locale === "string") {
+    //   locale = JSON.parse(locale);
+    // }
+    // console.log('locale: ', locale);
+
+    // const to = locale.lang;
+    // console.log('to: ', to);
+
     const to = localStorage.getItem("lang");
     return fetch(withQuery(process.env.API.replace(/(en|mn)/i, to) + url, body), {
       credentials: 'include',

@@ -35,6 +35,14 @@ class AppHeader extends Component {
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
 
+  handleLangChange = (e) => {
+    this.props.setLang(e);
+    this.props.getMenu();
+    this.props.getCategoryMenu();
+    this.props.getStaticPages();
+    this.props.getStaticInfo();
+  };
+
   handleChangeKeyWord = (e) => {
     const { suggestion } = this.state;
 
@@ -113,7 +121,7 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline right-panel text-right" style={{ boxShadow: 'none' }}>
                   <li className="list-inline-item">
-                    <select onChange={this.props.setLang} className="classic" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none' }}>
+                    <select onChange={this.handleLangChange} className="classic" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none' }}>
                       <option value="mn" style={{ boxShadow: 'none' }}>МОН</option>
                       <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
                     </select>
