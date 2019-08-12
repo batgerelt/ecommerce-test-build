@@ -62,7 +62,7 @@ class Model extends BaseModel {
     }
   }
 
-  searchWord = ({ keyword, rownum = 20 } = {}) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
+  searchWord = ({ keyword, rownum = 20 }) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
 
   getTags = () => asyncFn({ url: `/search/tag`, method: 'GET', model: this.model.tags });
 

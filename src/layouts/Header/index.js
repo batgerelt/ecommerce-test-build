@@ -42,21 +42,12 @@ class AppHeader extends Component {
     this.props.getStaticInfo();
   };
 
-  handleChangeKeyWord = (e) => {
-    const { suggestion } = this.state;
-
-    suggestion.map((item) => {
-      if (e.target.value === item.keyword) {
-        this.setState({ keywordid: item.id });
-      }
-      return null;
-    });
-
+  handleChangeSearchWord = (e) => {
     this.setState({ word: e.target.value });
 
     if (this.state.word.length >= 1) {
       this.props.searchWord({ keyword: e.target.value }).then((res) => {
-        res === undefined ? null : res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
       });
     }
   };
@@ -247,7 +238,7 @@ class AppHeader extends Component {
                                 className="form-control input-search"
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none' }}
-                                onChange={e => this.handleChangeKeyWord(e)}
+                                onChange={e => this.handleChangeSearchWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
                               <datalist id="cat" className="list-unstyled">
