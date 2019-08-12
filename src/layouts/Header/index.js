@@ -274,7 +274,7 @@ class AppHeader extends Component {
                             </span>
                           </Link>
                           <Link
-                            to=""
+                            to="#"
                             className="btn mobile-search-cross"
                             onClick={this.toggleSearch}
                             style={{ background: "#feb415" }}
