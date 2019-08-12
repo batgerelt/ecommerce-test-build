@@ -9,7 +9,6 @@ import {
   Cart as CartModel,
   Attribute as AttributeModel,
   Auth as AuthModel,
-  Product as ProductModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -21,6 +20,7 @@ const mapStateToProps = state => ({
   ...state.attribute,
   ...state.category,
   ...state.brand,
+  ...state.locale,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -29,7 +29,6 @@ const mapDispatchToProps = dispatch => ({
     ...CartModel,
     ...AttributeModel,
     ...AuthModel,
-    ...ProductModel,
   }, dispatch),
 });
 

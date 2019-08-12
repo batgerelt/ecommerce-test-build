@@ -171,7 +171,7 @@ class AppHeader extends Component {
       return (
         <div className="top-main">
           <div className="container container-laptop pad10">
-            <div className="row row10">
+            <div className="row">
               <div className="col-xl-9 col-lg-9 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button
@@ -357,6 +357,8 @@ class AppHeader extends Component {
 
   handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
 
+  handleScroll = e => console.log('e: ', e);
+
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
@@ -371,8 +373,8 @@ class AppHeader extends Component {
         }
       });
 
-      root.map((item, i) => {
-        categorymenu.map((item1, i1) => {
+      root.map((item) => {
+        categorymenu.map((item1) => {
           if (item.id === item1.parentid) {
             item.children.push(item1);
           }
@@ -404,7 +406,7 @@ class AppHeader extends Component {
                 <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
                   <Link to="#" onClick={this.handleCategoryDropdown}>
                     <span>Ангилал</span>
-                    <Icon type="left" style={{ color: '#feb415' }} rotate={categoryDropdown ? -90 : 0} />
+                    <Icon type="left" style={{ color: '#feb415', transition: '0.1s' }} rotate={categoryDropdown ? -90 : 0} />
                   </Link>
                 </Dropdown>
               </li>

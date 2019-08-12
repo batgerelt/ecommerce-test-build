@@ -2,6 +2,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
+import NumberInput from "../../../../components/Input/NumberInput";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -129,12 +130,11 @@ class Signup extends React.Component {
                     { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
                   ],
                 })(
-                  <Input
-                    allowClear
-                    type="text"
+                  <NumberInput
                     placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })}
-                    autoComplete="off"
+                    maxLength={8}
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>

@@ -20,10 +20,12 @@ class FilterSet extends React.Component {
 class Content extends React.Component {
   renderAttribute = () => {
     try {
-      const { attrvalue, attrall, data } = this.props;
+      const {
+        attrvalue, attrall, data, lang,
+      } = this.props;
 
       return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
-        let attname = attrall.find(i => i.id === attribute.key).name;
+        let attname = lang === "mn" ? attrall.find(i => i.id === attribute.key).name : attrall.find(i => i.id === attribute.key).nameen;
 
         if (attribute.doc_count >= data.hits.total.value) {
           return (
@@ -33,7 +35,7 @@ class Content extends React.Component {
                   <ul className="list-unstyled">
                     {
                         attribute.values.buckets.map((attributeval, ind) => {
-                          let attrvaluenm = attrvalue.find(value => value.id === attributeval.key).name;
+                          let attrvaluenm = lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen;
 
                           return (
                             <li key={ind} style={{ display: 'flex', height: '25px' }}>
@@ -68,7 +70,7 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
   renderFilterBrand = () => {
     try {
-      const { data, brandall } = this.props;
+      const { data, brandall, lang } = this.props;
       if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
           <Collapse.Panel header="Бренд" key="8">
@@ -86,7 +88,7 @@ class Content extends React.Component {
                       />
 
                       <label style={{ marginLeft: 5, lineHeight: '28px' }}>
-                        {brandall.find(i => i.id === brand.key) === undefined ? null : brandall.find(i => i.id === brand.key).name}
+                        {lang === "mn" ? brandall.find(i => i.id === brand.key).name : brandall.find(i => i.id === brand.key).nameen}
                       </label>
                     </li>
                     ))}

@@ -43,7 +43,7 @@ class DeliveryPanel extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     try {
-      const { main, info } = this.props.userinfo;
+      const { main, info } = this.props.userInfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
@@ -293,11 +293,11 @@ class DeliveryPanel extends React.Component {
   }
 
   renderAddrsOption = () => {
-    const { userinfo, intl } = this.props;
+    const { userInfo, intl } = this.props;
     let tmp;
     let main = "";
-    if (userinfo.addrs.length !== 0) {
-      tmp = userinfo.addrs.map((item, i) => {
+    if (userInfo.addrs.length !== 0) {
+      tmp = userInfo.addrs.map((item, i) => {
         item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
         return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
       });

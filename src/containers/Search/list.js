@@ -251,7 +251,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading });
 
     const params = {
-      catId: cat[0],
+      catId: cat.length === 0 ? catid : cat[0],
       custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: "",
@@ -280,7 +280,7 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
+      const { categoryall, lang } = this.props;
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -293,13 +293,13 @@ class CategoryInfo extends React.Component {
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
-                title={categoryall.find(i => i.id === one.key).name}
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
                 key={one.key}
               >
                 {one.buckets.buckets &&
                   one.buckets.buckets.map(two => (
                     <Tree.TreeNode
-                      title={categoryall.find(i => i.id === two.key).name}
+                      title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
                       key={two.key}
                     >
                       {
@@ -307,7 +307,7 @@ class CategoryInfo extends React.Component {
                         two.buckets.buckets.map(three => (
                           <Tree.TreeNode
                             title={
-                              categoryall.find(i => i.id === three.key).name
+                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
                             }
                             key={three.key}
                           />
@@ -618,6 +618,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
+                                    style={{ padding: '10px 10px' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}

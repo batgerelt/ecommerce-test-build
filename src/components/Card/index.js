@@ -105,7 +105,8 @@ class Card extends React.Component {
         // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
           item.insymd = Date.now();
-          item.cd = item.skucd;
+        item.cd = item.skucd;
+        item.sprice = item.currentprice;
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.cd === item.skucd);
@@ -242,7 +243,7 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className,
+        shape, item, isLastInRow, className, lang, elastic, tags,
       } = this.props;
 
       let prices;
@@ -262,7 +263,7 @@ class Card extends React.Component {
           priceTitle = <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.recipe.label.price" />:</span>;
         }
 
-        if (item.sprice) {
+        if (item.sprice || item.discountprice !== 0) {
           prices = (
             <div className="row">
               {!!priceTitle && (
@@ -273,12 +274,20 @@ class Card extends React.Component {
                   {priceTitle}
                 </div>
               )}
-              <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
+
+              {/* elastic search price tag */}
+              {item.pricetag === null ? null : (
+                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
+                  {item.pricetag}
+                </div>
+              )}
+
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
                 <small className="sale">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </small>
                 <span className="current">
-                  {isNaN(item.sprice) ? 0 : formatter.format(item.sprice)}₮
+                  {isNaN(item.sprice || item.currentprice) ? 0 : formatter.format(item.sprice || item.currentprice)}₮
                 </span>
               </div>
             </div>
@@ -294,7 +303,15 @@ class Card extends React.Component {
                   {priceTitle}
                 </div>
               )}
-              <div className={`col-md-${priceTitle ? "6" : "12"} no-padding-l`}>
+
+              {/* elastic search price tag */}
+              {item.pricetag === null ? null : (
+                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
+                  {item.pricetag}
+                </div>
+              )}
+
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
                 <span className="current">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
@@ -416,7 +433,6 @@ class Card extends React.Component {
                 <div className="image-container">
                   <Link
                     to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
-                  // onClick={() => this.props.getProductDetail({ skucd: item.skucd ? item.skucd : item.cd })}
                   >
                     <span
                       className="image"
@@ -428,7 +444,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    this.props.elastic ? <ElasticLabel data={item} tags={this.props.tags} /> :
+                    elastic ? <ElasticLabel data={item} tags={tags} /> :
                       item.tags && item.tags.map((label, index) => (
                         <Label
                           key={index}
@@ -442,25 +458,15 @@ class Card extends React.Component {
                 </div>
                 <div className="info-container">
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="name">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.title : (item.title_en === null ? item.title : item.title_en)) :
+                        (item.name ? item.name : item.packagenm ? item.packagenm : item.recipenm)}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
-                    <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.shortnm ? item.shortnm : item.featuretxt ? item.featuretxt : item.feature}
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
+                      (item.shortnm ? item.shortnm : item.featuretxt)}
                     </span>
                   </Link>
 
@@ -579,8 +585,8 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                {item.tags &&
-                  item.tags.map((label, index) => (
+                { elastic ? <ElasticLabel data={item} tags={tags} /> :
+                  item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}
                       type={LABEL_TYPES.horizontal}

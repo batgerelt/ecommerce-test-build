@@ -98,10 +98,10 @@ const asyncFn = ({
         url, method, body, isfiles,
       });
 
-      if ((data && data.success !== false) && data.data !== null) {
+      if (data && data.success) {
         // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
-        message.warning(data.message);
+        message.warning('data.message');
       }
       if (!data) {
         throw new Error('no data provided');

@@ -91,7 +91,7 @@ class index extends Component {
               .label {
                 display: block;
                 position: absolute;
-                top: ${data.isnew ? '70px' : '0px'};
+                top: ${data.isnew ? '70px' : '15px'};
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
