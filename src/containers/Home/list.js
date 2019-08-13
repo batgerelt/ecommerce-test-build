@@ -33,7 +33,7 @@ class Homepage extends React.Component {
 
   async loadData() {
     const widgetsResult = await this.props.getWidget();
-    const emartProductsResult = await this.props.getEmartProduct({});
+    // const emartProductsResult = await this.props.getEmartProduct({});
     const newProductsResult = await this.props.getNewProduct({});
     const discountProductsResult = await this.props.getDiscountProduct({
       jumcd: '99',
@@ -55,7 +55,7 @@ class Homepage extends React.Component {
     if (widgetsResult.payload.success) {
       this.setState({
         widgetAll: widgetsResult.payload.data,
-        emartproduct: emartProductsResult.payload.data,
+        // emartproduct: emartProductsResult.payload.data,
         discountproduct: discountProductsResult.payload.data,
         packageAll: packagesResult.payload.data,
         newproduct: newProductsResult.payload.data,

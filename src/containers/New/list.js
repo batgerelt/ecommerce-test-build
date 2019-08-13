@@ -56,7 +56,7 @@ class Bookmarks extends PureComponent {
       maxPrice: 0,
       module: 'new',
       startsWith: 0,
-      rowCount: 10,
+      rowCount: 20,
       orderColumn: '',
       highlight: false,
       count: 10,
@@ -65,18 +65,18 @@ class Bookmarks extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-      console.log('res: ', res);
+    this.props.searchProduct({ body: { ...this.state, rowCount: 10 } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: this.state.products.concat(res.payload.data.hits.hits) });
+        this.setState({ headerProducts: res.payload.data.hits.hits });
       }
     });
   }
 
   // data nemeh heseg
-  loadMoreRows = (key) => {
+  loadMoreRows = () => {
     try {
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+        console.log('res: ', res);
         if (res.payload.success) {
           this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
         }
@@ -193,24 +193,35 @@ class Bookmarks extends PureComponent {
 
   renderFooterProduct = () => {
     try {
-      let tmp;
+      const { products } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
             <div className="row row10">
               <AutoSizer disableHeight>
                 {({ width }) => {
-                  const { products } = this.state;
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    true,
+                    products.length !== this.props.discountproduct.count,
                   );
                   return (
                     <InfiniteLoader
                       ref={this.infiniteLoaderRef}
                       rowCount={rowCount === 1 ? rowCount : rowCount - 1}
-                      isRowLoaded={index => this.isRowLoaded(index, width)}
+                      isRowLoaded={({ index }) => {
+                        const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                          width,
+                        );
+                        const allItemsLoaded =
+                          this.generateIndexesForRow(
+                            index,
+                            maxItemsPerRow,
+                            products.length,
+                          ).length > 0;
+
+                        return !true || allItemsLoaded;
+                      }}
                       loadMoreRows={this.loadMoreRows}
                     >
                       {({ onRowsRendered, registerChild }) => (
@@ -219,40 +230,37 @@ class Bookmarks extends PureComponent {
                             <List
                               autoHeight
                               ref={registerChild}
-                              height={height}
+                              height={340}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount}
+                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                               rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
-                              rowRenderer={({
-                                  index, isScrolling, key, style,
-                                }) => {
-                                  const { products } = this.state;
-                                  const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                    width,
-                                  );
-                                  const rowItems = this.generateIndexesForRow(
-                                    index,
-                                    maxItemsPerRow,
-                                    products.length,
-                                  ).map(itemIndex => products[itemIndex]._source);
-                                  return (
-                                    <div style={style} key={key} className="jss148" >
-                                      {
-                                          rowItems.map(itemId => (
-                                            <Card
-                                              elastic
-                                              key={itemId.skucd + key}
-                                              shape={CARD_TYPES.slim}
-                                              item={itemId}
-                                              {...this.props}
-                                            />
-                                          ))
-                                      }
-                                    </div>
-                                  );
-                                }}
+                              rowRenderer={({ index, style, key }) => {
+                                const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                                  width,
+                                );
+                                const rowItems = this.generateIndexesForRow(
+                                  index,
+                                  maxItemsPerRow,
+                                  products.length,
+                                ).map(itemIndex => products[itemIndex]._source);
+                                return (
+                                  <div style={style} key={key} className="jss148">
+                                    {
+                                      rowItems.map(itemId => (
+                                        <Card
+                                          elastic
+                                          key={itemId.skucd + key}
+                                          shape={CARD_TYPES.slim}
+                                          item={itemId}
+                                          {...this.props}
+                                        />
+                                      ))
+                                    }
+                                  </div>
+                                );
+                              }}
                               noRowsRenderer={this.noRowsRenderer}
                             />
                           )}

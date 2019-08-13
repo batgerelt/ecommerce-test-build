@@ -51,7 +51,7 @@ class Discount extends React.Component {
       maxPrice: 0,
       module: 'discount',
       startsWith: 0,
-      rowCount: 20,
+      rowCount: 10,
       orderColumn: '',
       highlight: false,
     };
@@ -60,7 +60,7 @@ class Discount extends React.Component {
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
+        this.setState({ headerProducts: res.payload.data.hits.hits });
       }
     });
   }
@@ -108,7 +108,6 @@ class Discount extends React.Component {
     return result;
   };
 
-
   renderMainBanner = () => {
     try {
       const { discountbanner, menuDiscount } = this.props;
@@ -130,13 +129,16 @@ class Discount extends React.Component {
     try {
       const seq = "1,1";
       const { headerProducts } = this.state;
+      const data = [];
+      headerProducts.map(i => data.push(i._source));
+
       return (
         <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <CardList
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
-              items={headerProducts}
+              items={data}
               {...this.props}
             />
           </div>
@@ -158,9 +160,7 @@ class Discount extends React.Component {
     try {
       const { discountbanner } = this.state;
       return (
-        <Banner
-          data={discountbanner}
-        />
+        <Banner data={discountbanner} />
       );
     } catch (error) {
       return console.log(error);
