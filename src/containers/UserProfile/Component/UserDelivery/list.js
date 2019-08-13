@@ -44,13 +44,13 @@ class Component extends React.Component {
             <Link
               to={`/order/${item.id}`}
               style={{ color: "#feb415" }}
-              className="d-none d-lg-block d-xl-block"
+            // className="d-none d-lg-block d-xl-block"
             >
               <span><FormattedMessage id="profile.orderHistory.table.showMore" /></span>
             </Link>
-            <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none">
+            {/* <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none">
               <Avatar size="small" src={arrow} />
-            </Link>
+            </Link> */}
           </td>
         </tr>
       ));

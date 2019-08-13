@@ -12,6 +12,13 @@ import password from "../../../src/scss/assets/images/demo/password.png";
 import store from "../../../src/scss/assets/images/demo/store.png";
 import crossImage from "../../scss/assets/svg/error.svg";
 import style from "./style.less";
+import profile1 from "../../scss/assets/svg/profile.svg";
+import history1 from "../../scss/assets/svg/history.svg";
+import wishlist1 from "../../scss/assets/svg/wishlist.svg";
+import store1 from "../../scss/assets/svg/store.svg";
+import location1 from "../../scss/assets/svg/location.svg";
+import password1 from "../../scss/assets/svg/password.svg";
+
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
@@ -99,8 +106,8 @@ class UserButton extends React.Component {
       <div style={{ width: "230px" }}>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
         <p className="text text-center">
-          <strong style={{ color: "rgba(255, 255, 255, 0.7)" }}>Таны мэдээлэл</strong>
-          <span style={{ color: "rgba(255, 255, 255, 0.7)" }}>{percents}%</span>
+          <strong style={{ color: "white" }}>Таны мэдээлэл</strong>
+          <span style={{ color: "white" }}>{percents}%</span>
         </p>
       </div>
     );
@@ -136,6 +143,7 @@ class UserButton extends React.Component {
   }
 
   render() {
+    const { pathname } = this.props.location;
     const {
       imageUrl,
       showButton,
@@ -151,7 +159,7 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-
+    console.log(pathname);
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
@@ -270,49 +278,50 @@ class UserButton extends React.Component {
                             </div>
                           </Spin>
                         </Upload>
-                        <span className="" style={{ color: "rgba(255, 255, 255, 0.7)" }}>{user.firstname}</span>
-                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px" }}>хадгалах</p></Button> : null}
+                        <span className="" style={{ color: "white" }}>{user.firstname}</span>
+                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "white" }}>хадгалах</p></Button> : null}
                       </div>
                       {this.renderProgress()}
                     </li>
                   </ul>
-                  <div className="profile-menu">
+                  <div className="profile-menu" style={{ backgroundColor: "#262a32" }}>
                     <div className="menu-header">
                       <ul className="list-unstyled">
-                        <li className="" onClick={this.handleClose}>
+                        <li className={pathname === "/profile" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile" className="flex-this">
-                            <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
+                            <Avatar size="small" shape="square" src={profile1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>Профайл хуудас</span>
                           </Link>
                         </li>
-                        <li className="" onClick={this.handleClose}>
+                        <li clclassName={pathname === "/profile/history" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/history" className="flex-this">
-                            <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
+                            <Avatar size="small" shape="square" src={history1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Үзсэн барааны түүх</span>
                           </Link>
                         </li>
-                        <li className="" onClick={this.handleClose}>
+                        <li className={pathname === "/profile/wish" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/wish" className="flex-this">
-                            <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
+                            <Avatar size="small" shape="square" src={wishlist1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Хадгалсан бараа</span>
                           </Link>
                         </li>
-                        <li className="" onClick={this.handleClose}>
+                        <li className={pathname === "/profile/delivery" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/delivery" className="flex-this">
-                            <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
+                            <Avatar size="small" shape="square" src={store1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Захиалгын түүх</span>
                           </Link>
                         </li>
-                        <li className="" onClick={this.handleClose}>
+                        <li className={pathname === "/profile/address" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/address" className="flex-this">
-                            <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
+                            <Avatar size="small" shape="square" src={location1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Хүргэлтийн хаяг</span>
                           </Link>
                         </li>
-                        <li className="" onClick={this.handleClose}>
+                        <li className={pathname === "/profile/password" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/password" className="flex-this">
-                            <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
+                            <Avatar size="small" shape="square" src={password1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Нууц үгээ солих</span>
                           </Link>
                         </li>
                       </ul>
-                      <div className="text-left" onClick={this.handleLogout}>
+                      <div onClick={this.handleLogout}>
                         <Link to="#" className="btn btn-gray">
-                          <span className="text-uppercase">Гарах</span>
+                          <span className="text-uppercase" style={{ color: "white" }}>Гарах</span>
                         </Link>
                       </div>
                     </div>

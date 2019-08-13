@@ -1147,13 +1147,21 @@
     height: 50px;
 }
 .column-center {
-    width: "30%";
+    width: 30%;
     text-align: center;
 }
 .column-std {
     width: 18%;
 }
-@media (max-width: 1200px) {
+@media only screen and (min-device-width: 1024px) {
+    .column-std {
+        width: 30%;
+    }
+    .column-center {
+        width: 50%;
+    }
+}
+@media only screen and (max-device-width: 1200px) {
     .column-std-more-header {
         width: 5%;
     }
