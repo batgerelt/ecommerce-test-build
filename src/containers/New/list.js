@@ -59,7 +59,6 @@ class Bookmarks extends PureComponent {
       rowCount: 10,
       orderColumn: '',
       highlight: false,
-      rowCount: 1,
       count: 10,
       newbanner: [],
     };
@@ -67,6 +66,7 @@ class Bookmarks extends PureComponent {
 
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+      console.log('res: ', res);
       if (res.payload.success) {
         this.setState({ headerProducts: this.state.products.concat(res.payload.data.hits.hits) });
       }
@@ -76,13 +76,11 @@ class Bookmarks extends PureComponent {
   // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (!this.props.isFetching && this.state.products.length < this.props.newproduct.count) {
-        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-          if (res.payload.success) {
-            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
-          }
-        });
-      }
+      this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+        if (res.payload.success) {
+          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
+        }
+      });
     } catch (error) {
       return console.log(error);
     }
@@ -150,20 +148,23 @@ class Bookmarks extends PureComponent {
     }
   };
 
+  generateItemHeight = (width) => {
+    if (width >= 700 && width < 960 || width > 1000) {
+      return 340;
+    }
+    if (width < 400) {
+      return 340;
+    }
+    return 400;
+  }
+
   renderHeaderProduct = () => {
     try {
       const seq = "1,1";
-      // const cardTypes = seq.split(",");
       const { headerProducts } = this.state;
+      const data = [];
 
-      /* let cardsLength = 0;
-      cardTypes.map(
-        i =>
-          (cardsLength +=
-            parseInt(i) === CARD_TYPES.slim
-              ? CARD_NUMS_IN_ROW.slim
-              : CARD_NUMS_IN_ROW.wide),
-      ); */
+      headerProducts.map(i => data.push(i._source));
       return (
         <div className="section">
           <div className="container pad10">
@@ -171,7 +172,7 @@ class Bookmarks extends PureComponent {
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               {...this.props}
-              items={headerProducts}
+              items={data}
             />
           </div>
         </div>
@@ -227,7 +228,6 @@ class Bookmarks extends PureComponent {
                               rowRenderer={({
                                   index, isScrolling, key, style,
                                 }) => {
-                                  console.log(isScrolling);
                                   const { products } = this.state;
                                   const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                                     width,
@@ -240,14 +240,11 @@ class Bookmarks extends PureComponent {
                                   return (
                                     <div style={style} key={key} className="jss148" >
                                       {
-                                        isScrolling ?
-                                          ""
-                                          :
                                           rowItems.map(itemId => (
                                             <Card
                                               elastic
-                                              key={itemId.cd}
-                                              shape={1}
+                                              key={itemId.skucd + key}
+                                              shape={CARD_TYPES.slim}
                                               item={itemId}
                                               {...this.props}
                                             />

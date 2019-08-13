@@ -8,7 +8,7 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
 import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
