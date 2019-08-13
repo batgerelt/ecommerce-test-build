@@ -105,8 +105,8 @@ class Card extends React.Component {
         // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
           item.insymd = Date.now();
-        item.cd = item.skucd;
-        item.sprice = item.currentprice;
+          item.cd = item.skucd;
+          item.sprice = item.currentprice;
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.cd === item.skucd);
@@ -276,7 +276,7 @@ class Card extends React.Component {
               )}
 
               {/* elastic search price tag */}
-              {item.pricetag === null ? null : (
+              {item.pricetag === null || item.pricetag === undefined ? null : (
                 <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
                   {item.pricetag}
                 </div>
@@ -467,7 +467,7 @@ class Card extends React.Component {
                   <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
-                      (item.shortnm ? item.shortnm : item.featuretxt)}
+                        (item.shortnm ? item.shortnm : item.featuretxt)}
                     </span>
                   </Link>
 

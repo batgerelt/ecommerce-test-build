@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
@@ -23,7 +22,7 @@ import {
 } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
-let ITEM_HEIGHT = 340;
+const ITEM_HEIGHT = 340;
 
 const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
   return (
@@ -32,7 +31,6 @@ const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
       item={item}
       LoginModal={LoginModal}
       addWishList={addWishList}
-      {...this.props}
     />
   );
 });
@@ -43,6 +41,7 @@ class Bookmarks extends PureComponent {
     super(props);
     this.state = {
       products: [],
+      fetch: false,
       headerProducts: [],
       loading: false,
 
@@ -57,16 +56,19 @@ class Bookmarks extends PureComponent {
       maxPrice: 0,
       module: 'new',
       startsWith: 0,
-      rowCount: 20,
+      rowCount: 10,
       orderColumn: '',
       highlight: false,
+      rowCount: 1,
+      count: 10,
+      newbanner: [],
     };
   }
 
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
+        this.setState({ headerProducts: this.state.products.concat(res.payload.data.hits.hits) });
       }
     });
   }
@@ -112,6 +114,13 @@ class Bookmarks extends PureComponent {
     return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.newbanner.length !== prevProps.newbanner.length) {
+      const selected = this.props.newbanner.footer[Math.floor(Math.random() * this.props.newbanner.footer.length)];
+      this.setState({ newbanner: selected });
+    }
+  }
+
   generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
     const result = [];
     const startIndex = rowIndex * maxItemsPerRow;
@@ -127,13 +136,13 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const { newbanner, menuNew } = this.props;
+      const { newbanner, menuNew, pagebanner } = this.props;
       return (
         <PageBanner
           title={menuNew.menunm}
           subtitle={menuNew.subtitle}
           banners={newbanner.length === 0 ? [] : newbanner.header}
-          bgColor="#00A1E4"
+          bgColor="#bbdefb"
         />
       );
     } catch (error) {
@@ -174,25 +183,16 @@ class Bookmarks extends PureComponent {
 
   renderSubBanner = () => {
     try {
-      const { newbanner } = this.props;
-      return <Banner data={newbanner.length === 0 ? [] : newbanner.footer} />;
+      const { newbanner } = this.state;
+      return <Banner data={newbanner} />;
     } catch (error) {
       return console.log(error);
     }
   };
 
-  generateItemHeight = (width) => {
-    if (width >= 700 && width < 960 || width > 1000) {
-      return 340;
-    }
-    if (width < 400) {
-      return 340;
-    }
-    return 400;
-  }
-
   renderFooterProduct = () => {
     try {
+      let tmp;
       return (
         <div className="section">
           <div className="container pad10">
@@ -214,18 +214,17 @@ class Bookmarks extends PureComponent {
                     >
                       {({ onRowsRendered, registerChild }) => (
                         <WindowScroller>
-                          {({ height, scrollTop }) => {
-                            return (
-                              <List
-                                autoHeight
-                                ref={registerChild}
-                                height={height}
-                                scrollTop={scrollTop}
-                                width={width}
-                                rowCount={rowCount}
-                                rowHeight={this.generateItemHeight(width)}
-                                onRowsRendered={onRowsRendered}
-                                rowRenderer={({
+                          {({ height, scrollTop }) => (
+                            <List
+                              autoHeight
+                              ref={registerChild}
+                              height={height}
+                              scrollTop={scrollTop}
+                              width={width}
+                              rowCount={rowCount}
+                              rowHeight={this.generateItemHeight(width)}
+                              onRowsRendered={onRowsRendered}
+                              rowRenderer={({
                                   index, isScrolling, key, style,
                                 }) => {
                                   console.log(isScrolling);
@@ -257,10 +256,9 @@ class Bookmarks extends PureComponent {
                                     </div>
                                   );
                                 }}
-                                noRowsRenderer={this.noRowsRenderer}
-                              />
-                            );
-                          }}
+                              noRowsRenderer={this.noRowsRenderer}
+                            />
+                            )}
                         </WindowScroller>
                       )}
                     </InfiniteLoader>
@@ -278,10 +276,10 @@ class Bookmarks extends PureComponent {
 
   render() {
     return (
-      <div className="top-container top-container-responsive">
+      <div className="top-container">
         {this.renderMainBanner()}
-        {/* this.renderHeaderProduct() */}
-        {/* this.renderSubBanner() */}
+        {this.renderHeaderProduct()}
+        {this.renderSubBanner()}
         {this.renderFooterProduct()}
         <BackTop />
       </div>
