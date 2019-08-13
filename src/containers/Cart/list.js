@@ -11,15 +11,17 @@ const formatter = new Intl.NumberFormat("en-US");
 class Cart extends React.Component {
   state = { deliveryInfo: null, products: [] };
 
-  async loadData() {
+  async componentDidMount() {
     if (this.props.isLogged) {
       const productsResult = await this.props.getProducts();
 
       if (productsResult.payload.success) {
         this.setState({ products: productsResult.payload.data });
+        // this.setState({ products: this.changeQties(productsResult.payload.data) });
       }
     } else {
       this.setState({ products: this.props.products });
+      // this.setState({ products: this.changeQties(this.props.products) });
     }
 
     const staticInfoResult = await this.props.getStaticInfo();
@@ -29,16 +31,13 @@ class Cart extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.loadData();
-  }
+  // changeQties = products => products.map((product) => {
+  //   if (product.saleminqty > 1) {
+  //     product.qty /= product.saleminqty;
+  //   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.intl.locale !== this.props.intl.locale)
-      || (prevProps.products !== this.props.products)) {
-      this.loadData();
-    }
-  }
+  //   return product;
+  // });
 
   handleNotify = () => { };
 
@@ -58,6 +57,7 @@ class Cart extends React.Component {
   handleClearClick = async () => {
     if (this.props.isLogged) {
       const result = await this.props.clearRemotely();
+      console.log('result: ', result);
       if (!result.payload.success) {
         this.handleNotify(result.payload.message);
       }

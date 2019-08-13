@@ -22,58 +22,6 @@ const sliderParams = {
 };
 
 class Homepage extends React.Component {
-  state = {
-    widgetAll: [],
-    emartproduct: [],
-    discountproduct: [],
-    packageAll: [],
-    newproduct: [],
-    recipeAll: [],
-  };
-
-  async loadData() {
-    const widgetsResult = await this.props.getWidget();
-    const emartProductsResult = await this.props.getEmartProduct({});
-    const newProductsResult = await this.props.getNewProduct({});
-    const discountProductsResult = await this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 20,
-      order: `price_asc`,
-    });
-    const packagesResult = await this.props.getPackage({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-    const recipesResult = await this.props.getRecipe({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-
-    if (widgetsResult.payload.success) {
-      this.setState({
-        widgetAll: widgetsResult.payload.data,
-        emartproduct: emartProductsResult.payload.data,
-        discountproduct: discountProductsResult.payload.data,
-        packageAll: packagesResult.payload.data,
-        newproduct: newProductsResult.payload.data,
-        recipeAll: recipesResult.payload.data,
-      });
-    }
-  }
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.intl.locale !== this.props.intl.locale) {
-      this.loadData();
-    }
-  }
-
   getBlocks = (widgets, products) => {
     const { intl } = this.props;
     let blocks = [];
@@ -84,8 +32,9 @@ class Homepage extends React.Component {
           widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
           break;
         case WIDGET_SLUGS.discount:
-
-          widget.items = products.discountproduct.length === 0 ? [] : products.discountproduct.product;
+          widget.items = products.discountproduct.product.length === 0
+            ? []
+            : products.discountproduct.product;
           widget.interval = (
             <span>
               {moment()
@@ -119,28 +68,27 @@ class Homepage extends React.Component {
         default:
       }
 
+      console.log('widget: ', widget);
+
       if (widget.items.length > 0) {
         blocks.push(<Widget key={widget.slug} widgetData={widget} {...this.props} />);
       }
+      console.log('blocks: ', blocks);
     });
+
+    console.log('blocks: ', blocks);
     return blocks;
   }
 
   renderBlocks = () => {
     try {
-      const { homepagebanner } = this.props;
       const {
-        widgetAll,
-        emartproduct,
-        discountproduct,
-        packageAll,
-        newproduct,
-        recipeAll,
-      } = this.state;
+        homepagebanner, widgetAll, discountproduct,
+        packageAll, newproduct, recipeAll,
+      } = this.props;
 
       const items = {
         products: {
-          emartproduct,
           discountproduct,
           packageAll,
           newproduct,
@@ -159,6 +107,7 @@ class Homepage extends React.Component {
       let blocksToRender = [];
 
       blocksToRender.push(this.getBlocks(widgets.slice(0, 2), items.products));
+
       if (items.blocks.banner.middle.length) {
         blocksToRender.push(
           <Banner
@@ -169,6 +118,7 @@ class Homepage extends React.Component {
       }
 
       blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
+
       if (items.blocks.banner.footer.length) {
         blocksToRender.push(
           <Banner
@@ -178,6 +128,7 @@ class Homepage extends React.Component {
         );
       }
 
+      console.log('blocksToRender: ', blocksToRender);
       return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
       // return console.log(error);

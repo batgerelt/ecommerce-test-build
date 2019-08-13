@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/require-default-props */
@@ -20,8 +21,6 @@ class Card extends React.Component {
     changeHeart: false,
   };
 
-  handleNotify = () => { };
-
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
     const { intl } = this.props;
@@ -31,7 +30,7 @@ class Card extends React.Component {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
-            qty: item.addminqty || 1,
+            qty: item.saleminqty || 1,
             iscart: 0,
           });
 
@@ -42,12 +41,18 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+            return message.warning(intl.formatMessage(
+              messages.warning,
+              {
+                name: result.payload.data.values[0],
+                qty: result.payload.data.values[1],
+              },
+            ));
           }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.cd,
-            qty: item.addminqty || 1,
+            qty: item.saleminqty || 1,
             iscart: 0,
           });
 
@@ -58,7 +63,13 @@ class Card extends React.Component {
               },
             });
 
-            return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+            return message.warning(intl.formatMessage(
+              messages.warning,
+              {
+                name: result.payload.data.values[0],
+                qty: result.payload.data.values[1],
+              },
+            ));
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
@@ -76,7 +87,10 @@ class Card extends React.Component {
                   id: msg.code,
                 },
               });
-              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+              message.warning(intl.formatMessage(
+                messages.warning,
+                { name: msg.value.name, qty: msg.value.qty },
+              ));
             });
           }
         } else if (item.id) {
@@ -95,7 +109,10 @@ class Card extends React.Component {
                   id: msg.code,
                 },
               });
-              message.warning(intl.formatMessage(messages.warning, { name: msg.value.name, qty: msg.value.qty }));
+              message.warning(intl.formatMessage(
+                messages.warning,
+                { name: msg.value.name, qty: msg.value.qty },
+              ));
             });
           }
         } else {
@@ -105,8 +122,8 @@ class Card extends React.Component {
         // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
           item.insymd = Date.now();
-        item.cd = item.skucd;
-        item.sprice = item.currentprice;
+          item.cd = item.skucd;
+          item.sprice = item.currentprice;
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.cd === item.skucd);
@@ -117,9 +134,13 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            message.warning(intl.formatMessage(
+              messages.warning,
+              { name: updated.name, qty: updated.qty },
+            ));
           }
         } else if (item.cd) {
+          console.log('item: ', item);
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
 
@@ -131,7 +152,10 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            message.warning(intl.formatMessage(
+              messages.warning,
+              { name: updated.name, qty: updated.qty },
+            ));
           }
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
@@ -157,7 +181,10 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            message.warning(intl.formatMessage(
+              messages.warning,
+              { name: updated.name, qty: updated.qty },
+            ));
           });
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
@@ -183,7 +210,10 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+            message.warning(intl.formatMessage(
+              messages.warning,
+              { name: updated.name, qty: updated.qty },
+            ));
           });
         } else {
           //
@@ -276,7 +306,7 @@ class Card extends React.Component {
               )}
 
               {/* elastic search price tag */}
-              {item.pricetag === null ? null : (
+              {!item.pricetag ? null : (
                 <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
                   {item.pricetag}
                 </div>
@@ -352,6 +382,47 @@ class Card extends React.Component {
           </button>
         </div>
       );
+
+      let itemName = "";
+      let featureText = "";
+
+      if (lang === "mn") {
+        if (item.name) {
+          itemName = item.name;
+        } else if (item.packagenm) {
+          itemName = item.packagenm;
+        } else if (item.title) {
+          itemName = item.title;
+        } else if (item.recipenm) {
+          itemName = item.recipeid;
+        }
+
+        if (item.shortnm) {
+          featureText = item.shortnm;
+        } else if (item.feature) {
+          featureText = item.feature;
+        }
+      } else {
+        if (item.name_en) {
+          itemName = item.name_en;
+        } else if (item.packagenm_en) {
+          itemName = item.packagenm_en;
+        } else if (item.title_en) {
+          itemName = item.title_en;
+        } else if (item.recipenm_en) {
+          itemName = item.recipeid_en;
+        }
+
+        if (item.shortnm_en) {
+          featureText = item.shortnm_en;
+        } else if (item.feature_en) {
+          featureText = item.feature_en;
+        }
+      }
+
+      console.log('itemName: ', itemName);
+      console.log('featureText: ', featureText);
+
       switch (shape) {
         case CARD_TYPES.slim:
           return (
@@ -378,6 +449,7 @@ class Card extends React.Component {
                         type={LABEL_TYPES.vertical}
                         data={label}
                         seq={index}
+                        lang={this.props.intl.locale}
                       />
                     ))}
                   {hover}
@@ -391,7 +463,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.name ? item.name : item.packagenm ? item.packagenm : item.title ? item.title : item.recipenm}
+                      {itemName}
                     </span>
                   </Link>
                   <Link to={item.route ? item.route : ""} className="cat">
@@ -402,11 +474,7 @@ class Card extends React.Component {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item.shortnm
-                        ? item.shortnm
-                        : item.featuretxt
-                          ? item.featuretxt
-                          : ""}
+                      {featureText}
                     </span>
                   </Link>
                   {
@@ -451,6 +519,7 @@ class Card extends React.Component {
                           type={LABEL_TYPES.vertical}
                           data={label}
                           seq={index}
+                          lang={this.props.intl.locale}
                         />
                       ))
                   }
@@ -466,7 +535,7 @@ class Card extends React.Component {
                   <Link to={item.route ? item.route : `productdetail/${item.skucd}`} className="cat">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
-                      (item.shortnm ? item.shortnm : item.featuretxt)}
+                        (item.shortnm ? item.shortnm : item.featuretxt)}
                     </span>
                   </Link>
 
@@ -507,6 +576,7 @@ class Card extends React.Component {
                       type={LABEL_TYPES.vertical}
                       data={label}
                       seq={index}
+                      lang={this.props.intl.locale}
                     />
                   ))}
                 {hover}
@@ -585,13 +655,14 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                { elastic ? <ElasticLabel data={item} tags={tags} /> :
+                {elastic ? <ElasticLabel data={item} tags={tags} /> :
                   item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}
                       type={LABEL_TYPES.horizontal}
                       data={label}
                       seq={index}
+                      lang={this.props.intl.locale}
                     />
                   ))}
                 <div className="cart-container d-flex">
