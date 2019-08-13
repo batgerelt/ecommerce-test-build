@@ -36,7 +36,6 @@ class Detail extends Component {
     } = this.props;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
-
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">

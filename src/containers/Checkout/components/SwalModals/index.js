@@ -513,6 +513,7 @@ class SwalModals extends Component {
           </div>
         );
       }
+      return null;
     } catch (error) {
       console.log(error);
     }

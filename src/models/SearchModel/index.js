@@ -62,7 +62,7 @@ class Model extends BaseModel {
     }
   }
 
-  searchWord = ({ keyword, rownum = 20 } = {}) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
+  searchWord = ({ keyword, rownum = 20 }) => asyncFn({ url: `/search/searchkeyword/${keyword}/${rownum}`, method: 'GET', model: this.model.searchword });
 
   getTags = () => asyncFn({ url: `/search/tag`, method: 'GET', model: this.model.tags });
 
@@ -73,10 +73,6 @@ class Model extends BaseModel {
   searchAttribute = ({ body } = {}) => asyncFn({
     body, url: `/search/att`, method: 'POST', model: this.model.searchattribute,
   });
-
-  searchKeyWord = ({
-    catid = 0, keywordid, startsWith = 10, rowCount = 0, orderCol = 'price_asc',
-  } = {}) => asyncFn({ url: `/search/search/searchkeyword/${catid}/${keywordid}/${startsWith}/${rowCount}/${orderCol}`, method: 'GET', model: this.model.searchkeyword });
 
   searchProduct = ({ body } = {}) => asyncFn({
     body, url: `/search/elastic`, method: 'POST', model: this.model.searchProduct,

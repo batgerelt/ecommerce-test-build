@@ -80,6 +80,7 @@ class ProductDetail extends React.Component {
   renderMoreInfo = () => {
     try {
       const { detail, attribute, collection } = this.props;
+      console.log(detail);
       return (
         <Moreinfo
           product={detail.products}

@@ -3,6 +3,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
 import NumberInput from "../../../../components/Input/NumberInput";
+import LetterInput from "../../../../components/Input/LetterInput";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -55,6 +56,14 @@ class Signup extends React.Component {
     });
   };
 
+  onChangeLast = (value) => {
+    this.props.form.setFieldsValue({ lastname: value });
+  };
+
+  onChangeFirst = (value) => {
+    this.props.form.setFieldsValue({ firstname: value });
+  };
+
 
   renderRegisterForm = () => {
     try {
@@ -72,13 +81,7 @@ class Signup extends React.Component {
                     message: intl.formatMessage({ id: "shared.form.lastname.validation.required" }),
                   }],
                 })(
-                  <Input
-                    allowClear
-                    type="text"
-                    placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })}
-                    className="form-control"
-                    autoComplete="off"
-                  />,
+                  <LetterInput placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })} className="form-control" onChange={this.onChangeLast} />,
                 )}
               </Form.Item>
             </div>
@@ -91,13 +94,7 @@ class Signup extends React.Component {
                     message: intl.formatMessage({ id: "shared.form.firstname.validation.required" }),
                   }],
                 })(
-                  <Input
-                    allowClear
-                    type="text"
-                    placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })}
-                    className="form-control"
-                    autoComplete="off"
-                  />,
+                  <LetterInput placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })} className="form-control" onChange={this.onChangeFirst} />,
                 )}
               </Form.Item>
             </div>

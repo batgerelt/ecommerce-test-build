@@ -83,7 +83,9 @@ class index extends Component {
 
   renderSale = () => {
     try {
-      const { data, tags } = this.props;
+      const {
+        data, tags, wide, list,
+      } = this.props;
 
       return (
         <Style>
@@ -91,7 +93,7 @@ class index extends Component {
               .label {
                 display: block;
                 position: absolute;
-                top: ${data.isnew ? '70px' : '15px'};
+                top: ${wide ? (data.isnew ? '70px' : '15px') : '0px'};
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>

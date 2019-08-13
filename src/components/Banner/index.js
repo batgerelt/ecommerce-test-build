@@ -10,17 +10,17 @@ class Banner extends React.Component {
       return null;
     }
 
-    const selected = data[Math.floor(Math.random() * data.length)];
+    // const selected = data[Math.floor(Math.random() * data.length)];
 
-    if (selected && data) {
+    if (data) {
       return (
         <div className="banner-container">
-          <span style={{ backgroundImage: `url(${process.env.IMAGE + selected.imgnm})` }} />
+          <span style={{ backgroundImage: `url(${process.env.IMAGE + data.imgnm})` }} />
           <div className="container pad10">
-            <a href={selected.link ? selected.link : "#"} target="_blank">
+            <a href={data.link ? data.link : "#"} target="_blank">
               <img
                 alt="banner"
-                src={process.env.IMAGE + selected.imgnm}
+                src={process.env.IMAGE + data.imgnm}
                 className="img-fluid"
               />
             </a>

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
@@ -22,6 +23,8 @@ class Model extends BaseModel {
     recipeproduct: [],
     categorymenu: [],
     count: 0,
+    newCount: 0,
+    newProductCount: 1,
     discountCount: 0,
     isFetching: false,
     discountFetching: false,
@@ -137,6 +140,14 @@ class Model extends BaseModel {
     };
   }
 
+  pushNewProduct = (products) => {
+    let tmp = this.initialState.newproduct;
+    products.map((item, i) => {
+      tmp.push(item);
+    });
+    return tmp;
+  }
+
   getProductDetail = ({ skucd }) => asyncFn({ url: `/product/detail/${skucd}`, method: 'GET', model: this.model.detail });
   getProductAttribute = ({ skucd }) => asyncFn({ url: `/product/attribute/${skucd}`, method: 'GET', model: this.model.attribute });
   getProductRelational = ({ skucd }) => asyncFn({ url: `/product/relational/${skucd}`, method: 'GET', model: this.model.relational });
@@ -190,7 +201,14 @@ class Model extends BaseModel {
       case this.model.newproduct.error:
         return { ...state, isFetching: false, current: this.errorCase(state.current, action) };
       case this.model.newproduct.response:
-        return { ...state, isFetching: false, newproduct: action.payload.data };
+        return {
+          ...state,
+          isFetching: false,
+          newProductCount: action.payload.data.count,
+          // eslint-disable-next-line array-callback-return
+          newproduct: this.pushNewProduct(action.payload.data.product),
+          newCount: state.newCount + 20,
+        };
 
       // GET DETAIL
       case this.model.detail.request:

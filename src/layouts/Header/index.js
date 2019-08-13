@@ -3,9 +3,8 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { generatePath } from "react-router";
 import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
 
@@ -43,21 +42,12 @@ class AppHeader extends Component {
     this.props.getStaticInfo();
   };
 
-  handleChangeKeyWord = (e) => {
-    const { suggestion } = this.state;
-
-    suggestion.map((item) => {
-      if (e.target.value === item.keyword) {
-        this.setState({ keywordid: item.id });
-      }
-      return null;
-    });
-
+  handleChangeSearchWord = (e) => {
     this.setState({ word: e.target.value });
 
     if (this.state.word.length >= 1) {
       this.props.searchWord({ keyword: e.target.value }).then((res) => {
-        res === undefined ? null : res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
       });
     }
   };
@@ -92,9 +82,17 @@ class AppHeader extends Component {
 
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
-      generatePath(`/target`);
+      this.props.history.push(url);
     }
     return null;
+  }
+
+  hadleValidate = (e) => {
+    if (e.target.value === '') {
+      e.target.setCustomValidity("Хайх үгээ оруулна уу!");
+      return true;
+    }
+    return false;
   }
 
   renderTopNavigation = () => {
@@ -242,16 +240,17 @@ class AppHeader extends Component {
                               style={{ margin: "0px", width: "100%" }}
                             >
                               <input
-                                required
+                                required={item.id === 0 && word === ''}
+                                onInvalid={this.hadleValidate}
                                 list="cat"
                                 type="text"
                                 className="form-control input-search"
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none' }}
-                                onChange={e => this.handleChangeKeyWord(e)}
-                                onKeyPress={e => this.handleKeyPress(e, '/a')}
+                                onChange={e => this.handleChangeSearchWord(e)}
+                                onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
-                              <datalist id="cat" className="list-unstyled">
+                              <datalist id="cat" className="list-unstyled" onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}>
                                 {this.state.suggestion.map(item => <option key={item.id} value={item.keyword} />)}
                               </datalist>
                             </label>
@@ -275,7 +274,7 @@ class AppHeader extends Component {
                             </span>
                           </Link>
                           <Link
-                            to=""
+                            to="#"
                             className="btn mobile-search-cross"
                             onClick={this.toggleSearch}
                             style={{ background: "#feb415" }}
@@ -439,4 +438,4 @@ class AppHeader extends Component {
     );
   }
 }
-export default injectIntl(AppHeader);
+export default withRouter(injectIntl(AppHeader));
