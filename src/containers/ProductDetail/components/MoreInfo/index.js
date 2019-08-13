@@ -12,7 +12,6 @@ class Moreinfo extends Component {
       let { product, attributes, similarProducts } = this.props;
       const similarProductsLimit = isMobile ? 1 : 4;
       const shouldLoop = similarProducts.length > similarProductsLimit;
-
       const params = {
         slidesPerView: similarProductsLimit,
         spaceBetween: 0,
@@ -30,7 +29,7 @@ class Moreinfo extends Component {
           clickable: true,
         },
       };
-
+      console.log(attributes);
       return (
         <div className="col-md-12 col-lg-12 col-sm-12 col-xl-12 ck-editor">
           {!!attributes && !!attributes.length && (
@@ -70,7 +69,7 @@ class Moreinfo extends Component {
                 <span className="text-uppercase"><FormattedMessage id="productDetail.intro.title" /></span>
               </h1>
 
-              <div dangerouslySetInnerHTML={{ __html: product.description }} />
+              <div style={{ textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: product.description }} />
             </div>
           )}
         </div>

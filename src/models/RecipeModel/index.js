@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
 
@@ -12,6 +13,8 @@ class Model extends BaseModel {
     recipeAll: [],
     recipeDetail: [],
     recipeProducts: [],
+    recipeCount: 0,
+    recipeProductCount: 1,
     recipe: null,
     steps: [],
     recipeFetching: false,
@@ -43,6 +46,14 @@ class Model extends BaseModel {
   getRecipeDetail = ({ id }) => asyncFn({ url: `/cookrecipe/${id}`, method: 'GET', model: this.model.recipedetail });
   getRecipeProducts = ({ id }) => asyncFn({ url: `/cookrecipe/${id}/products`, method: 'GET', model: this.model.recipeproducts });
 
+  pushRecipeProduct = (products) => {
+    let tmp = this.initialState.recipeProducts;
+    products.map((item, i) => {
+      tmp.push(item);
+    });
+    return tmp;
+  }
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET BRAND
@@ -67,7 +78,12 @@ class Model extends BaseModel {
       case this.model.recipeproducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeproducts.response:
-        return { ...state, recipeProducts: action.payload.data };
+        return {
+          ...state,
+          recipeProducts: this.pushRecipeProduct(action.payload.data.product),
+          recipeProductCount: action.payload.data.count,
+          recipeCount: state.recipeCount + 20,
+        };
 
       default:
         return state;

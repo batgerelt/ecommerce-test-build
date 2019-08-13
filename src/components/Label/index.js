@@ -5,11 +5,16 @@ import { LABEL_TYPES } from "../../utils/Consts";
 
 class Label extends React.Component {
   render() {
-    const { type, data, seq } = this.props;
+    const {
+      type, data, seq, lang,
+    } = this.props;
+    console.log('lang: ', lang);
 
     if (!data) {
       return null;
     }
+
+    const text = lang === "mn" ? data.text : data.texten;
 
     let content = null;
     if (data.isPackage) {
@@ -18,14 +23,14 @@ class Label extends React.Component {
           <span style={{ fontSize: "0.9rem" }}>
             {data.content ? data.content : ""}
           </span>
-          <span>{data.text ? data.text : ""}</span>
+          <span>{text}</span>
         </small>
       );
     } else {
       content = (
         <div>
-          {data.content !== undefined ? <strong>{data.content}</strong> : null }
-          <small>{data.text ? data.text : data.isnew ? "шинэ" : ''}</small>
+          {data.content !== undefined ? <strong>{data.content}</strong> : null}
+          <small>{text}</small>
         </div>
       );
     }
@@ -103,7 +108,7 @@ class Label extends React.Component {
               .text small {
                 position: relative;
                 z-index: 1;
-                font-size: ${data.text.length > 5 ? "0.5" : "0.7"}rem;
+                font-size: ${text.length > 5 ? "0.5" : "0.7"}rem;
                 display: inline-block;
                 margin-left: 2px;
                 line-height: 1.2;
