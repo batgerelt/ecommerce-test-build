@@ -44,21 +44,29 @@ class Bookmarks extends PureComponent {
     this.state = {
       products: [],
       headerProducts: [],
-      rowCount: 1,
-      count: 0,
       loading: false,
+
+      catId: 0,
+      custId: 0,
+      value: '',
+      attribute: "",
+      color: "",
+      brand: "",
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      module: 'new',
+      startsWith: 0,
+      rowCount: 20,
+      orderColumn: '',
+      highlight: false,
     };
   }
 
   componentWillMount() {
-    this.props.getNewProduct({
-      jumcd: '99',
-      start: this.state.count,
-      rowcnt: 20,
-      order: `date_desc`,
-    }).then((res) => {
+    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
+        this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
       }
     });
   }
@@ -67,17 +75,9 @@ class Bookmarks extends PureComponent {
   loadMoreRows = (key) => {
     try {
       if (!this.props.isFetching && this.state.products.length < this.props.newproduct.count) {
-        this.setState({ loading: true });
-        this.props.getNewProduct({
-          jumcd: '99',
-          start: this.state.count,
-          rowcnt: 20,
-          order: `date_desc`,
-        }).then((res) => {
+        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
           if (res.payload.success) {
-            this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
-            });
+            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
           }
         });
       }
@@ -237,7 +237,7 @@ class Bookmarks extends PureComponent {
                                     index,
                                     maxItemsPerRow,
                                     products.length,
-                                  ).map(itemIndex => products[itemIndex]);
+                                  ).map(itemIndex => products[itemIndex]._source);
                                   return (
                                     <div style={style} key={key} className="jss148" >
                                       {
@@ -246,6 +246,7 @@ class Bookmarks extends PureComponent {
                                           :
                                           rowItems.map(itemId => (
                                             <Card
+                                              elastic
                                               key={itemId.cd}
                                               shape={1}
                                               item={itemId}

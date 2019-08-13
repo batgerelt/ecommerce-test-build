@@ -307,7 +307,7 @@ class Card extends React.Component {
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
                 <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
-                  {item.pricetag}
+                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
@@ -362,11 +362,11 @@ class Card extends React.Component {
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
-                  <Link to={item.route ? item.route : ""}>
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
                     <span
                       className="image"
                       style={{
-                        backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                        backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                         backgroundSize: "contain",
                       }}
                     />
@@ -444,7 +444,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    elastic ? <ElasticLabel data={item} tags={tags} /> :
+                    elastic ? <ElasticLabel wide data={item} tags={tags} /> :
                       item.tags && item.tags.map((label, index) => (
                         <Label
                           key={index}
@@ -586,7 +586,7 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                { elastic ? <ElasticLabel data={item} tags={tags} /> :
+                { elastic ? <ElasticLabel list data={item} tags={tags} /> :
                   item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}
