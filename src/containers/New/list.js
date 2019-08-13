@@ -161,7 +161,7 @@ class Bookmarks extends PureComponent {
               : CARD_NUMS_IN_ROW.wide),
       ); */
       return (
-        <div className="section">
+        <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <CardList
               cardListType={CARD_LIST_TYPES.horizontal}
@@ -204,7 +204,7 @@ class Bookmarks extends PureComponent {
                   return (
                     <InfiniteLoader
                       ref={this.infiniteLoaderRef}
-                      rowCount={rowCount}
+                      rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                       isRowLoaded={index => this.isRowLoaded(index, width)}
                       loadMoreRows={this.loadMoreRows}
                     >
@@ -214,10 +214,10 @@ class Bookmarks extends PureComponent {
                             <List
                               autoHeight
                               ref={registerChild}
-                              height={1000}
+                              height={height}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount}
+                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                               rowHeight={ITEM_HEIGHT}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {

@@ -22,8 +22,9 @@ class Recipe extends React.Component {
       products: [],
       headerProducts: [],
       rowCount: 1,
-      count: 0,
+      count: 6,
       loading: false,
+      recipebanner: [],
     };
   }
 
@@ -43,11 +44,24 @@ class Recipe extends React.Component {
       return console.log(error);
     }
   };
+  componentWillMount() {
+    this.props.getRecipe({
+      order: "date_desc",
+      start: 0,
+      rowcnt: 6,
+    }).then((res) => {
+      if (res.payload.success) {
+        this.setState({
+          headerProducts: res.payload.data.products, rowCount: res.payload.data.count,
+        });
+      }
+    });
+  }
 
   // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (!this.props.recipeFetching && this.state.products.length < this.state.rowCount && !this.state.loading) {
+      if (this.state.headerProducts.length + this.state.products.length < this.state.rowCount) {
         this.setState({ loading: true });
         this.props.getRecipe({
           order: "date_desc",
@@ -111,26 +125,32 @@ class Recipe extends React.Component {
 
   renderHeaderProduct = () => {
     try {
-      const { products } = this.state;
+      const { headerProducts } = this.state;
 
       return (
-        <div className="section">
+        <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
-            {products.length > 6 ?
+            <CardList
+              cardListType={CARD_LIST_TYPES.horizontal}
+              items={headerProducts}
+              {...this.props}
+              shape={2}
+            />
+            {/* headerProducts.length > 6 ?
               (
                 <CardList
                   cardListType={CARD_LIST_TYPES.vertical}
                   cardsInCol={2}
-                  items={products.slice(0, 6)}
+                  items={headerProducts}
                   {...this.props}
                 />
               ) : (
                 <CardList
                   cardListType={CARD_LIST_TYPES.horizontal}
-                  items={products}
+                  items={headerProducts}
                   {...this.props}
                 />
-              )}
+              ) */}
           </div>
         </div>
       );
@@ -139,12 +159,18 @@ class Recipe extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.recipebanner.length !== prevProps.recipebanner.length) {
+      const selected = this.props.recipebanner.footer[Math.floor(Math.random() * this.props.recipebanner.footer.length)];
+      this.setState({ recipebanner: selected });
+    }
+  }
+
   renderSubBanner = () => {
     try {
-      const { recipebanner } = this.props;
-
+      const { recipebanner } = this.state;
       return (
-        <Banner data={recipebanner.length === 0 ? [] : recipebanner.footer} />
+        <Banner data={recipebanner} />
       );
     } catch (error) {
       return console.log(error);
@@ -216,7 +242,7 @@ class Recipe extends React.Component {
                 return (
                   <InfiniteLoader
                     ref={this.infiniteLoaderRef}
-                    rowCount={rowCount}
+                    rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                     isRowLoaded={index => this.isRowLoaded(index, width)}
                     loadMoreRows={this.loadMoreRows}
                   >
@@ -229,7 +255,7 @@ class Recipe extends React.Component {
                             height={height}
                             scrollTop={scrollTop}
                             width={width}
-                            rowCount={rowCount}
+                            rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                             rowHeight={ITEM_HEIGHT}
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
@@ -283,8 +309,8 @@ class Recipe extends React.Component {
     return (
       <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
-        {/* his.renderHeaderProduct() */}
-        {/* this.renderSubBanner() */}
+        {this.renderHeaderProduct()}
+        {this.renderSubBanner()}
         {this.renderFooterProduct()}
         <BackTop />
       </div>

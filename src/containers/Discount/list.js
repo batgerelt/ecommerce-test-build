@@ -39,20 +39,21 @@ class Discount extends React.Component {
       products: [],
       headerProducts: [],
       rowCount: 1,
-      count: 0,
+      count: 10,
       loading: false,
+      discountbanner: [],
     };
   }
 
   componentWillMount() {
     this.props.getDiscountProduct({
       jumcd: '99',
-      start: this.state.count,
-      rowcnt: 20,
+      start: 0,
+      rowcnt: 10,
       order: `price_asc`,
     }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20 });
+        this.setState({ headerProducts: res.payload.data.product });
       }
     });
   }
@@ -60,8 +61,7 @@ class Discount extends React.Component {
   // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = (key) => {
     try {
-      if (!this.props.discountFetching && this.state.products.length < this.props.discountproduct.count) {
-        this.setState({ loading: true });
+      if (this.state.products.length + this.state.headerProducts.length < this.state.rowCount) {
         this.props.getDiscountProduct({
           jumcd: '99',
           start: this.state.count,
@@ -70,7 +70,7 @@ class Discount extends React.Component {
         }).then((res) => {
           if (res.payload.success) {
             this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20,
+              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.product,
             });
           }
         });
@@ -131,7 +131,7 @@ class Discount extends React.Component {
       const seq = "1,1";
       const { headerProducts } = this.state;
       return (
-        <div className="section">
+        <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <CardList
               cardListType={CARD_LIST_TYPES.horizontal}
@@ -147,12 +147,19 @@ class Discount extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.discountbanner.length !== prevProps.discountbanner.length) {
+      const selected = this.props.discountbanner.footer[Math.floor(Math.random() * this.props.discountbanner.footer.length)];
+      this.setState({ discountbanner: selected });
+    }
+  }
+
   renderSubBanner = () => {
     try {
-      const { discountbanner } = this.props;
+      const { discountbanner } = this.state;
       return (
         <Banner
-          data={discountbanner.length === 0 ? [] : discountbanner.footer}
+          data={discountbanner}
         />
       );
     } catch (error) {
@@ -172,7 +179,6 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      console.log(this.props);
       return (
         <div className="section">
           <div className="container pad10">
@@ -182,12 +188,12 @@ class Discount extends React.Component {
                   const rowCount = this.getRowsAmount(
                     width,
                     this.state.products.length,
-                    this.state.products.length !== this.props.discountproduct.count,
+                    this.state.products.length !== this.state.rowCount,
                   );
                   return (
                     <InfiniteLoader
                       ref={this.infiniteLoaderRef}
-                      rowCount={rowCount}
+                      rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                       isRowLoaded={({ index }) => {
                         const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                           width,
@@ -212,7 +218,7 @@ class Discount extends React.Component {
                               height={340}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount}
+                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                               rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {
@@ -224,20 +230,23 @@ class Discount extends React.Component {
                                   maxItemsPerRow,
                                   this.state.products.length,
                                 ).map(itemIndex => this.state.products[itemIndex]);
-                                return (
-                                  <div style={style} key={key} className="jss148">
-                                    {
-                                      rowItems.map(itemId => (
-                                        <Card
-                                          key={itemId.cd + key}
-                                          shape={CARD_TYPES.slim}
-                                          item={itemId}
-                                          {...this.props}
-                                        />
-                                      ))
-                                    }
-                                  </div>
-                                );
+                                if (rowItems.length !== 0) {
+                                  return (
+                                    <div style={style} key={key} className="jss148">
+                                      {
+                                        rowItems.map(itemId => (
+                                          <Card
+                                            key={itemId.cd + key}
+                                            shape={CARD_TYPES.slim}
+                                            item={itemId}
+                                            {...this.props}
+                                          />
+                                        ))
+                                      }
+                                    </div>
+                                  );
+                                }
+                                return null;
                               }}
                               noRowsRenderer={this.noRowsRenderer}
                             />
@@ -262,7 +271,7 @@ class Discount extends React.Component {
       <div className="top-container top-container-responsive">
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
-        {/* this.renderSubBanner() */}
+        {this.renderSubBanner()}
         {this.renderFooterProduct()}
         <BackTop />
       </div>

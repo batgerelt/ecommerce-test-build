@@ -477,6 +477,7 @@ class SwalModals extends React.Component {
           </div>
         );
       }
+      return null;
     } catch (error) {
       console.log(error);
     }
