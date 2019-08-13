@@ -59,7 +59,6 @@ class Bookmarks extends PureComponent {
       rowCount: 10,
       orderColumn: '',
       highlight: false,
-      rowCount: 1,
       count: 10,
       newbanner: [],
     };
