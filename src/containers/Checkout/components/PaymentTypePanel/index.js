@@ -77,7 +77,7 @@ class PaymentTypePanel extends React.Component {
           {this.renderPaymentTypes()}
         </div>
         <hr />
-        <div className="text-right">
+        <div className="text-right" style={{ marginBottom: "15px" }}>
           <button className="btn btn-main" name="payment" type="submit">
             <FormattedMessage id="shared.form.button.next" />
           </button>

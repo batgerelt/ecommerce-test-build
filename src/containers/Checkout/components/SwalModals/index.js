@@ -356,7 +356,6 @@ class SwalModals extends Component {
                         </h5>
                         <ul className="list-unstyled class">
                           <li className="flex-this flex-space">
-                            <span>Худалдаж авсан барааны тоо:</span>
                             <span>
                               {intl.formatMessage({ id: "checkout.swal.label.productsCount" })}
                             </span>
@@ -461,10 +460,14 @@ class SwalModals extends Component {
                       </div>
                       <div className="bottom-text text-center">
                         <p>
-                          <span dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<strong>2</strong>" }) }} />
+                          <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
                           <br />
                           {paymentType !== "qpay" ? (
-                            <div dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<strong>${ordData.order.ordernumber}</strong>` }) }} />
+                            <div>
+                              <b>
+                                {intl.formatMessage(messages.warning3, { orderNumber: ordData.order.ordernumber })}
+                              </b>
+                            </div>
                           ) : (
                               ""
                             )}

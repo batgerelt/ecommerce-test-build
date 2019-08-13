@@ -158,11 +158,11 @@ class IndividualTab extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main solid"><FormattedMessage id="shared.form.button.connect" /></Button>
+                <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main"><FormattedMessage id="shared.form.button.connect" /></Button>
               </div> :
               <div>
                 <p className="title">
-                  <strong>Оноо</strong>
+                  <strong>Ипойнт онооны үлдэгдэл</strong>
                 </p>
                 <div className="row row10 checkoutFormContainer">
                   <div className="col-xl-6 pad10">
@@ -182,9 +182,9 @@ class IndividualTab extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Button className="btn btn-main solid" disabled={useEpoint} onClick={this.handleUsePoint}>
-                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.use" /></span>
-                </Button>
+                <button className="btn btn-main" disabled={useEpoint} onClick={this.handleUsePoint}>
+                  <FormattedMessage id="shared.form.button.use" />
+                </button>
               </div>
           }
         </Form>
