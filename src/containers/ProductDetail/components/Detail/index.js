@@ -10,7 +10,7 @@ import { css } from "glamor";
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
-    productQty: this.props.detail.products.saleminqty || 1,
+    productQty: 1,
     rate: 0,
   };
 
@@ -115,11 +115,12 @@ class Detail extends Component {
 
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
-    if (detail.issalekg && detail.kgproduct && detail.kgproduct[0]) {
-      priceTitle = `${detail.kgproduct[0].salegram} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
+    console.log(detail);
+    if (detail.issalekg) {
+      priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
         <p className="count-text text-right">
-          {`${intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}: ${formatter.format(detail.kgproduct[0].kilogramprice)} ₮`}
+          {`${intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}: ${formatter.format(detail.price)} ₮`}
         </p>
       );
     }
@@ -131,29 +132,30 @@ class Detail extends Component {
       // Хямдарсан үед
       let salePrice = detail.sprice;
 
-      if (detail.issalekg && detail.kgproduct && detail.kgproduct[0]) {
+      if (detail.issalekg && detail.sprice !== 0) {
         // Хямдарсан бөгөөд кг-н бараа
-        kiloPrice = (
-          <p className="count-text text-right">
-            Кг үнэ:
-            <small
-              className="sale"
-              style={{
-                color: "#666",
-                textDecoration: "line-through",
-                marginLeft: "5px",
-                marginRight: "5px",
-              }}
-            >
-              {formatter.format(price)}₮
-            </small>
-            {formatter.format(detail.kgproduct[0].kilogramprice)}₮
-          </p>
-        );
-        price = Math.round(
+        /*  kiloPrice = (
+           <p className="count-text text-right">
+             Кг үнэ:
+             <small
+               className="sale"
+               style={{
+                 color: "#666",
+                 textDecoration: "line-through",
+                 marginLeft: "5px",
+                 marginRight: "5px",
+               }}
+             >
+               {formatter.format(price)}₮
+             </small>
+             {formatter.format(detail.kgproduct[0].kilogramprice)}
+           </p>
+         ); */
+        /* price = Math.round(
           price / Math.round(1000 / detail.kgproduct[0].salegram),
         );
-        salePrice = detail.kgproduct[0].salegramprice;
+        salePrice = detail.kgproduct[0].salegramprice; */
+        salePrice = detail.sprice;
       }
 
       priceInfo = (
@@ -176,14 +178,14 @@ class Detail extends Component {
               </span>
             </div>
           </div>
-          {kiloPrice}
+          {/* kiloPrice */}
         </div>
       );
     } else {
       // Хямдраагүй үед
-      if (detail.issalekg && detail.kgproduct && detail.kgproduct[0]) {
-        price = detail.kgproduct[0].salegramprice;
-      }
+      /* if (detail.issalekg) {
+        price = detail.price;
+      } */
 
       priceInfo = (
         <div>
@@ -317,8 +319,8 @@ class Detail extends Component {
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
-    if (detail.issalekg && detail.kgproduct[0]) {
-      price = detail.kgproduct[0].salegramprice;
+    if (detail.sprice !== 0) {
+      price = detail.sprice;
     }
 
     if (detail.spercent && detail.spercent !== 100 && !detail.issalekg) {
