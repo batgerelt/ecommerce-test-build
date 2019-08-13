@@ -8,6 +8,7 @@ import {
   Product as ProductModel,
   Menu as MenuModel,
   Cart as CartModel,
+  Search as SearchModel,
 } from "../../models";
 import List from "./list";
 
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProductModel,
     ...MenuModel,
     ...CartModel,
+    ...SearchModel,
   }, dispatch),
 });
 

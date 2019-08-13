@@ -43,6 +43,22 @@ class Bookmarks extends PureComponent {
       products: [],
       fetch: false,
       headerProducts: [],
+      loading: false,
+
+      catId: 0,
+      custId: 0,
+      value: '',
+      attribute: "",
+      color: "",
+      brand: "",
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      module: 'new',
+      startsWith: 0,
+      rowCount: 10,
+      orderColumn: '',
+      highlight: false,
       rowCount: 1,
       count: 10,
       newbanner: [],
@@ -50,14 +66,9 @@ class Bookmarks extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.getNewProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 10,
-      order: `price_asc`,
-    }).then((res) => {
+    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
+        this.setState({ headerProducts: this.state.products.concat(res.payload.data.hits.hits) });
       }
     });
   }
@@ -65,17 +76,10 @@ class Bookmarks extends PureComponent {
   // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (this.state.products.length + this.state.headerProducts.length < this.state.rowCount) {
-        this.props.getNewProduct({
-          jumcd: '99',
-          start: this.state.count,
-          rowcnt: 20,
-          order: `price_asc`,
-        }).then((res) => {
+      if (!this.props.isFetching && this.state.products.length < this.props.newproduct.count) {
+        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
           if (res.payload.success) {
-            this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.count,
-            });
+            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
           }
         });
       }
@@ -217,10 +221,13 @@ class Bookmarks extends PureComponent {
                               height={height}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
-                              rowHeight={ITEM_HEIGHT}
+                              rowCount={rowCount}
+                              rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
-                              rowRenderer={({ index, style, key }) => {
+                              rowRenderer={({
+                                index, isScrolling, key, style,
+                              }) => {
+                                console.log(isScrolling);
                                 const { products } = this.state;
                                 const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                                   width,
@@ -229,17 +236,23 @@ class Bookmarks extends PureComponent {
                                   index,
                                   maxItemsPerRow,
                                   products.length,
-                                ).map(itemIndex => products[itemIndex]);
+                                ).map(itemIndex => products[itemIndex]._source);
                                 return (
-                                  <div style={style} key={key} className="jss148">
-                                    {rowItems.map(itemId => (
-                                      <RowItem
-                                        key={itemId.cd}
-                                        item={itemId}
-                                        LoginModal={this.props.LoginModal}
-                                        addWishList={this.props.addWishList}
-                                      />
-                                    ))}
+                                  <div style={style} key={key} className="jss148" >
+                                    {
+                                      isScrolling ?
+                                        ""
+                                        :
+                                        rowItems.map(itemId => (
+                                          <Card
+                                            elastic
+                                            key={itemId.cd}
+                                            shape={1}
+                                            item={itemId}
+                                            {...this.props}
+                                          />
+                                        ))
+                                    }
                                   </div>
                                 );
                               }}

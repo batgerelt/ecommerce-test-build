@@ -38,22 +38,29 @@ class Discount extends React.Component {
     this.state = {
       products: [],
       headerProducts: [],
-      rowCount: 1,
-      count: 10,
       loading: false,
-      discountbanner: [],
+
+      catId: 0,
+      custId: 0,
+      value: '',
+      attribute: "",
+      color: "",
+      brand: "",
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      module: 'discount',
+      startsWith: 0,
+      rowCount: 20,
+      orderColumn: '',
+      highlight: false,
     };
   }
 
   componentWillMount() {
-    this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 10,
-      order: `price_asc`,
-    }).then((res) => {
+    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.product });
+        this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
       }
     });
   }
@@ -61,17 +68,10 @@ class Discount extends React.Component {
   // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = (key) => {
     try {
-      if (this.state.products.length + this.state.headerProducts.length < this.state.rowCount) {
-        this.props.getDiscountProduct({
-          jumcd: '99',
-          start: this.state.count,
-          rowcnt: 20,
-          order: `price_asc`,
-        }).then((res) => {
+      if (!this.props.discountFetching && this.state.products.length < this.props.discountproduct.count) {
+        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
           if (res.payload.success) {
-            this.setState({
-              products: this.state.products.concat(res.payload.data.product), count: this.state.count + 20, rowCount: res.payload.data.product,
-            });
+            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
           }
         });
       }
@@ -179,6 +179,7 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
+      const { products } = this.state;
       return (
         <div className="section">
           <div className="container pad10">
@@ -187,8 +188,8 @@ class Discount extends React.Component {
                 {({ width }) => {
                   const rowCount = this.getRowsAmount(
                     width,
-                    this.state.products.length,
-                    this.state.products.length !== this.state.rowCount,
+                    products.length,
+                    products.length !== this.props.discountproduct.count,
                   );
                   return (
                     <InfiniteLoader
@@ -202,7 +203,7 @@ class Discount extends React.Component {
                           this.generateIndexesForRow(
                             index,
                             maxItemsPerRow,
-                            this.state.products.length,
+                            products.length,
                           ).length > 0;
 
                         return !true || allItemsLoaded;
@@ -228,25 +229,23 @@ class Discount extends React.Component {
                                 const rowItems = this.generateIndexesForRow(
                                   index,
                                   maxItemsPerRow,
-                                  this.state.products.length,
-                                ).map(itemIndex => this.state.products[itemIndex]);
-                                if (rowItems.length !== 0) {
-                                  return (
-                                    <div style={style} key={key} className="jss148">
-                                      {
-                                        rowItems.map(itemId => (
-                                          <Card
-                                            key={itemId.cd + key}
-                                            shape={CARD_TYPES.slim}
-                                            item={itemId}
-                                            {...this.props}
-                                          />
-                                        ))
-                                      }
-                                    </div>
-                                  );
-                                }
-                                return null;
+                                  products.length,
+                                ).map(itemIndex => products[itemIndex]._source);
+                                return (
+                                  <div style={style} key={key} className="jss148">
+                                    {
+                                      rowItems.map(itemId => (
+                                        <Card
+                                          elastic
+                                          key={itemId.cd + key}
+                                          shape={CARD_TYPES.slim}
+                                          item={itemId}
+                                          {...this.props}
+                                        />
+                                      ))
+                                    }
+                                  </div>
+                                );
                               }}
                               noRowsRenderer={this.noRowsRenderer}
                             />

@@ -9,6 +9,7 @@ import {
   Cart as CartModel,
   Auth as AuthModel,
   Locale as LocaleModel,
+  Search as SearchModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...CartModel,
     ...AuthModel,
     ...LocaleModel,
+    ...SearchModel,
   }, dispatch),
 });
 
