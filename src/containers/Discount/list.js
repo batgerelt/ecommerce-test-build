@@ -237,7 +237,7 @@ class Discount extends React.Component {
                                       rowItems.map(itemId => (
                                         <Card
                                           elastic
-                                          key={itemId.cd + key}
+                                          key={itemId.skucd + key}
                                           shape={CARD_TYPES.slim}
                                           item={itemId}
                                           {...this.props}
