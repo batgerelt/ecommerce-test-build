@@ -272,8 +272,10 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className, lang, elastic, tags,
+        shape, item, isLastInRow, className, elastic, tags,
       } = this.props;
+
+      const lang = this.props.intl.locale;
 
       let prices;
 
@@ -393,13 +395,15 @@ class Card extends React.Component {
         } else if (item.title) {
           itemName = item.title;
         } else if (item.recipenm) {
-          itemName = item.recipeid;
+          itemName = item.recipenm;
         }
 
         if (item.shortnm) {
           featureText = item.shortnm;
         } else if (item.feature) {
           featureText = item.feature;
+        } else if (item.featuretxt) {
+          featureText = item.featuretxt;
         }
       } else {
         if (item.name_en) {
@@ -409,13 +413,15 @@ class Card extends React.Component {
         } else if (item.title_en) {
           itemName = item.title_en;
         } else if (item.recipenm_en) {
-          itemName = item.recipeid_en;
+          itemName = item.recipenm_en;
         }
 
         if (item.shortnm_en) {
           featureText = item.shortnm_en;
         } else if (item.feature_en) {
           featureText = item.feature_en;
+        } else if (item.featuretxt_en) {
+          featureText = item.featuretxt_en;
         }
       }
 
@@ -445,7 +451,7 @@ class Card extends React.Component {
                         type={LABEL_TYPES.vertical}
                         data={label}
                         seq={index}
-                        lang={this.props.intl.locale}
+                        lang={lang}
                       />
                     ))}
                   {hover}
@@ -515,7 +521,7 @@ class Card extends React.Component {
                           type={LABEL_TYPES.vertical}
                           data={label}
                           seq={index}
-                          lang={this.props.intl.locale}
+                          lang={lang}
                         />
                       ))
                   }
@@ -524,15 +530,13 @@ class Card extends React.Component {
                 <div className="info-container">
                   <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="name">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                      {elastic ? (lang === "mn" ? item.title : (item.title_en === null ? item.title : item.title_en)) :
-                        (item.name ? item.name : item.packagenm ? item.packagenm : item.recipenm)}
+                      {itemName}
                     </span>
                   </Link>
 
                   <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                      {elastic ? (lang === "mn" ? item.feature : (item.feature_en === null ? item.feature : item.feature_en)) :
-                        (item.shortnm ? item.shortnm : item.featuretxt)}
+                      {featureText}
                     </span>
                   </Link>
 
@@ -587,7 +591,7 @@ class Card extends React.Component {
                       textOverflow: "ellipsis",
                     }}
                   >
-                    {item.recipenm}
+                    {itemName}
                   </span>
                 </Link>
                 <Link to={item.route ? item.route : ""} className="cat">
@@ -598,7 +602,7 @@ class Card extends React.Component {
                       textOverflow: "ellipsis",
                     }}
                   >
-                    {item.featuretxt}
+                    {featureText}
                   </span>
                 </Link>
                 <br />
@@ -624,10 +628,10 @@ class Card extends React.Component {
               </div>
               <div className="info-container">
                 <Link to={item.route ? item.route : ""} className="name">
-                  <span>{item.name ? item.name : item.title}</span>
+                  <span>{itemName}</span>
                 </Link>
                 <Link to={item.route ? item.route : ""} className="cat">
-                  <span>{item.featuretxt ? item.featuretxt : item.feature}</span>
+                  <span>{featureText}</span>
                 </Link>
                 {
                   item.id === undefined && item.recipeid === undefined ?

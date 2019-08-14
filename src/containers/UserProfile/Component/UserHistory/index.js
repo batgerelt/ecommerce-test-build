@@ -7,6 +7,7 @@ import {
   Profile as ProfileModel,
   Cart as CartModel,
   Product as ProductModel,
+  Locale as LocaleModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
@@ -14,6 +15,7 @@ const mapStateToProps = state => ({
   ...state.profile,
   ...state.cart,
   ...state.product,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -22,6 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProfileModel,
     ...CartModel,
     ...ProductModel,
+    ...LocaleModel,
   }, dispatch),
 });
 

@@ -337,7 +337,6 @@ class Component extends React.Component {
             </p>
             <Spin
               spinning={loader}
-              tip={intl.formatMessage({ id: "shared.spin" })}
               indicator={<Loader />}
             >
               <div className="cart-table table-responsive">

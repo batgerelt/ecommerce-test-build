@@ -7,6 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
@@ -256,14 +257,14 @@ class CategoryInfo extends React.Component {
                     >
                       {
                         two.buckets !== undefined && two.buckets.buckets !== undefined ?
-                        two.buckets.buckets.map(three => (
-                          <Tree.TreeNode
-                            title={
-                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
-                            }
-                            key={three.key}
-                          />
-                        )) : null
+                          two.buckets.buckets.map(three => (
+                            <Tree.TreeNode
+                              title={
+                                lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
+                              }
+                              key={three.key}
+                            />
+                          )) : null
                       }
                     </Tree.TreeNode>
                   ))}
@@ -273,7 +274,7 @@ class CategoryInfo extends React.Component {
         );
       }
 
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -301,10 +302,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="search.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -323,7 +324,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="search.sort.label" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -357,7 +358,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
-                    бараа олдлоо
+                    <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -377,7 +378,7 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
                       defaultValue={this.state.sort}
@@ -385,8 +386,8 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_asc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_desc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
@@ -515,10 +516,10 @@ class CategoryInfo extends React.Component {
                   isRowLoaded={({ index }) => {
                     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
                     const allItemsLoaded = this.generateIndexesForRow(
-                        index,
-                        maxItemsPerRow,
-                        products.length,
-                      ).length > 0;
+                      index,
+                      maxItemsPerRow,
+                      products.length,
+                    ).length > 0;
 
                     return !true || allItemsLoaded;
                   }}
@@ -528,6 +529,7 @@ class CategoryInfo extends React.Component {
                     <WindowScroller>
                       {({ height, scrollTop }) => (
                         <List
+                          style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
                           height={340}

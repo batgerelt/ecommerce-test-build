@@ -27,7 +27,7 @@ class List extends React.Component {
             </Link>
           </li>
           <li>
-            <span>{recipe === null ? null : recipe.recipenm}</span>
+            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </li>
         </ul>
       );
@@ -101,7 +101,7 @@ class List extends React.Component {
 
   renderDelivery = () => {
     try {
-      const { recipe } = this.props;
+      const { recipe, lang } = this.props;
       return (
         <div className="block product-delivery">
           <p className="title">
@@ -111,7 +111,7 @@ class List extends React.Component {
             </strong>
           </p>
           <p className="text">
-            <span>{recipe.deliverytxt}</span>
+            <span>{lang === "mn" ? recipe.deliverytxt : recipe.deliverytxt_en}</span>
           </p>
         </div>
       );
@@ -164,6 +164,7 @@ class List extends React.Component {
 
   renderProd = () => {
     try {
+      const { lang } = this.props;
       const products = this.props.recipeProducts;
       return products.map((item, index) => (
         <li key={index}>
@@ -181,7 +182,7 @@ class List extends React.Component {
             <div className="info-container flex-space">
               <Link to={item.route ? item.route : ""}>
                 <strong>
-                  <span>{item.name}</span>
+                  <span>{lang === "mn" ? item.name : item.name_en}</span>
                 </strong>
                 <p>Үнэ: {formatter.format(item.price)}₮</p>
               </Link>
@@ -252,18 +253,19 @@ class List extends React.Component {
 
   renderRecipe = () => {
     try {
-      const { recipe } = this.props;
+      const { recipe, lang } = this.props;
+      console.log('recipe: ', recipe);
       return (
         <div>
           <div className="row row10">
             <div className="col-md-4 col-xs-4">
               <p>
-                <Avatar size="small" src={chef} /> {recipe.madeoflvlText}
+                <Avatar size="small" src={chef} /> {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvText_en}
               </p>
             </div>
             <div className="col-md-4 col-xs-4">
               <p>
-                <Avatar size="small" src={time} /> {recipe.time}
+                <Avatar size="small" src={time} /> {lang === "mn" ? recipe.time : recipe.time_en}
               </p>
             </div>
             <div className="col-md-4 col-xs-4">
@@ -331,13 +333,16 @@ class List extends React.Component {
 
   renderCk = () => {
     try {
-      const { recipe } = this.props;
+      const { recipe, lang } = this.props;
       return (
         <div className="ck-editor">
           <h4 className="title" style={{ textTransform: "uppercase" }}>
             <span><FormattedMessage id="recipeDetail.suggestion.title" /></span>
           </h4>
-          <div dangerouslySetInnerHTML={{ __html: recipe.description }} />
+          <div dangerouslySetInnerHTML={{
+            __html: lang === "mn" ? recipe.description : recipe.description_en,
+          }}
+          />
         </div>
       );
     } catch (error) {
@@ -347,7 +352,8 @@ class List extends React.Component {
 
   renderSteps = () => {
     try {
-      const { steps } = this.props;
+      const { steps, lang } = this.props;
+      console.log('steps: ', steps);
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10">
@@ -366,8 +372,8 @@ class List extends React.Component {
               />
             </div>
             <div className="col-md-8">
-              <h4>АЛХАМ {++index}</h4>
-              {step.description}
+              <h4><FormattedMessage id="recipeDetail.label.step" /> {++index}</h4>
+              {lang === "mn" ? step.description : step.description_en}
               <p />
             </div>
           </div>

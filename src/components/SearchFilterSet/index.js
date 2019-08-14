@@ -2,6 +2,7 @@
 /* eslint-disable brace-style */
 /* eslint-disable radix */
 import React from "react";
+import { injectIntl } from 'react-intl';
 // import { Collapse } from "react-collapse";
 import { Slider, Collapse, Icon } from "antd";
 import moment from "moment";
@@ -31,22 +32,22 @@ class Content extends React.Component {
                 <div className="collapse-content">
                   <ul className="list-unstyled">
                     {
-                        attribute.values.buckets.map((attributeval, ind) => (
-                          <li key={ind} style={{ display: 'flex', height: '25px' }}>
-                            <Checkbox
-                              key={ind}
-                              onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
-                              style={{ color: 'gray', width: 25, height: 25 }}
-                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
-                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
-                            />
-                            <label style={{ marginLeft: 5, lineHeight: '28px' }}>
-                              {lang === "mn" ? console.log('mn') : console.log('en')}
-                              {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
-                            </label>
-                          </li>
-                          ))
-                      }
+                      attribute.values.buckets.map((attributeval, ind) => (
+                        <li key={ind} style={{ display: 'flex', height: '25px' }}>
+                          <Checkbox
+                            key={ind}
+                            onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
+                            style={{ color: 'gray', width: 25, height: 25 }}
+                            icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                            checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                          />
+                          <label style={{ marginLeft: 5, lineHeight: '28px' }}>
+                            {lang === "mn" ? console.log('mn') : console.log('en')}
+                            {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
+                          </label>
+                        </li>
+                      ))
+                    }
                   </ul>
                 </div>
               </div>
@@ -65,12 +66,12 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
   renderFilterBrand = () => {
     try {
-      const { data, brandall } = this.props;
+      const { data, brandall, intl } = this.props;
       const lang = localStorage.getItem('lang');
 
       if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
-          <Collapse.Panel header="Бренд" key="8">
+          <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.brand" })} key="8">
             <div className="collapse show" id={moment()}>
               <div className="collapse-content">
                 <ul className="list-unstyled">
@@ -88,7 +89,7 @@ class Content extends React.Component {
                         {lang === "mn" ? brandall.find(i => i.id === brand.key).name : brandall.find(i => i.id === brand.key).nameen}
                       </label>
                     </li>
-                    ))}
+                  ))}
                 </ul>
               </div>
             </div>
@@ -106,10 +107,10 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн өнгийн жагсаалт харуулах хэсэг
   renderFilterColor = () => {
     try {
-      const { data } = this.props;
+      const { data, intl } = this.props;
       if (data.aggregations.colors.buckets.length !== 0) {
         return (
-          <Collapse.Panel header={'Өнгө'} key="9">
+          <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.color" })} key="9">
             <div className="collapse show">
               <div className="collapse-content">
                 <ul className="list-unstyled">
@@ -121,10 +122,10 @@ class Content extends React.Component {
                       style={{ color: color.key, width: 25, height: 25 }}
                       icon={
                         <CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />
-                        }
+                      }
                       checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                     />
-                    ))}
+                  ))}
                 </ul>
               </div>
             </div>
@@ -142,7 +143,7 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
   renderFilterPrice = () => {
     try {
-      const { data } = this.props;
+      const { data, intl } = this.props;
       const marks = {
         [data.aggregations.min_price.value]: {
           label: <strong>{formatter.format(data.aggregations.min_price.value)}₮</strong>,
@@ -153,7 +154,7 @@ class Content extends React.Component {
       };
 
       return (
-        <Collapse.Panel header={'Үнэ'} key="10">
+        <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.price" })} key="10">
           <Slider
             range
             min={data.aggregations.min_price.value}
@@ -191,4 +192,4 @@ class Content extends React.Component {
   }
 }
 
-export default FilterSet;
+export default injectIntl(FilterSet);

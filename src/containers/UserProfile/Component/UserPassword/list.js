@@ -40,11 +40,11 @@ class Component extends React.Component {
 
   validateToNextPassword = (rule, value, callback) => {
     if (value.length < 6) {
-      callback("Нууц үг сул байна.");
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
     } else if (value.search(/[a-zA-Z]/) === -1) {
-      callback("Нууц үг сул байна.");
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
     } else if (value.search(/[0-9]/) === -1) {
-      callback("Нууц үг сул байна.");
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
     } else {
       callback();
     }
@@ -60,9 +60,9 @@ class Component extends React.Component {
       return (
         <Form className="row row10">
           <Col span={24}>
-            <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
+            <Form.Item style={{ marginBottom: '5px' }}>
               {getFieldDecorator("oldPassword", {
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.oldPassword.validation.required" }) }, { validator: this.validateToNextPassword }],
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.oldPassword.validation.required" }) }],
               })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
