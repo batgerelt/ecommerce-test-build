@@ -9,6 +9,7 @@ import {
   Cart as CartModel,
   Attribute as AttributeModel,
   Auth as AuthModel,
+  Product as ProductModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -29,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
     ...CartModel,
     ...AttributeModel,
     ...AuthModel,
+    ...ProductModel,
   }, dispatch),
 });
 

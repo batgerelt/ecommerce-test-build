@@ -41,7 +41,6 @@ class Content extends React.Component {
                               checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                             />
                             <label style={{ marginLeft: 5, lineHeight: '28px' }}>
-                              {lang === "mn" ? console.log('mn') : console.log('en')}
                               {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
                             </label>
                           </li>

@@ -412,6 +412,8 @@ class Card extends React.Component {
           itemName = item.packagenm_en;
         } else if (item.title_en) {
           itemName = item.title_en;
+        } else if (item.title_en === null) {
+          itemName = item.title;
         } else if (item.recipenm_en) {
           itemName = item.recipenm_en;
         }
@@ -422,6 +424,10 @@ class Card extends React.Component {
           featureText = item.feature_en;
         } else if (item.featuretxt_en) {
           featureText = item.featuretxt_en;
+        } else if (item.feature_en) {
+          featureText = item.feature_en;
+        } else if (item.feature_en === null) {
+          featureText = item.feature;
         }
       }
 

@@ -498,7 +498,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -619,7 +619,7 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px !important' }}
+                                    style={{ padding: '10px 10px' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
