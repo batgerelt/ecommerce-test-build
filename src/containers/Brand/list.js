@@ -7,6 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
@@ -257,23 +258,23 @@ class CategoryInfo extends React.Component {
                     >
                       {two.buckets !== undefined &&
                         two.buckets.buckets !== undefined
-                          ? two.buckets.buckets.map(three => (
-                            <Tree.TreeNode
-                              title={
-                                  categoryall.find(i => i.id === three.key).name
-                                }
-                              key={three.key}
-                            />
-                            ))
-                          : null}
+                        ? two.buckets.buckets.map(three => (
+                          <Tree.TreeNode
+                            title={
+                              categoryall.find(i => i.id === three.key).name
+                            }
+                            key={three.key}
+                          />
+                        ))
+                        : null}
                     </Tree.TreeNode>
-                    ))}
+                  ))}
               </Tree.TreeNode>
             ))}
           </Tree>
         );
       }
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -301,10 +302,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="search.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -323,7 +324,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -356,7 +357,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
-                    бараа олдлоо
+                    <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -368,7 +369,7 @@ class CategoryInfo extends React.Component {
                       onClick={this.showLeftPanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">Шүүлтүүр</span>
+                      <span className="text-uppercase"><FormattedMessage id="search.filter.filter.title" /></span>
                     </a>
                   </div>
                   <div className="form-group my-select flex-this">
@@ -376,15 +377,15 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this" style={{ marginLeft: '15px' }}>

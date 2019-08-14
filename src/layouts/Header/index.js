@@ -61,7 +61,10 @@ class AppHeader extends Component {
     this.setState({ item });
   };
 
-  handelAllCategory = () => this.setState({ item: { id: 0, name: "Бүх бараа" } })
+  handelAllCategory = () => {
+    const { intl } = this.props;
+    this.setState({ item: { id: 0, name: intl.formatMessage({ id: "header.category.label.allProducts" }) } });
+  }
 
   togglePopup = () => {
     this.props.Mobilemenu.handleOpen();
@@ -413,7 +416,7 @@ class AppHeader extends Component {
               <li className="list-inline-item has-drop">
                 <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
                   <Link to="#" onClick={this.handleCategoryDropdown}>
-                    <span>Ангилал</span>
+                    <span><FormattedMessage id="search.filter.category.title" /></span>
                     <Icon type="left" style={{ color: '#feb415', transition: '0.1s' }} rotate={categoryDropdown ? -90 : 0} />
                   </Link>
                 </Dropdown>

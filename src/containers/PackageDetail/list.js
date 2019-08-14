@@ -462,9 +462,6 @@ class List extends React.Component {
           <div className="info-container" style={{ float: "right" }}>
             <span>
               <i>
-                {/* Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор
-                багцаас хасаад сагсанд нэмэх боломжтой. */}
-                You can add products to cart by changing the counts to 0 of products that you don not want to buy.
                 <FormattedMessage id="packageDetail.info" />
               </i>
             </span>

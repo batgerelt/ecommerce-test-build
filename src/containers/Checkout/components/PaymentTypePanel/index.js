@@ -26,8 +26,10 @@ class PaymentTypePanel extends React.Component {
   };
 
   renderPaymentTypes = () => {
+    console.log('this.props: ', this.props);
     const { paymentTypes } = this.props;
     const { chosenPaymentType } = this.state;
+    const lang = this.props.intl;
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
@@ -53,8 +55,8 @@ class PaymentTypePanel extends React.Component {
               style={{ marginTop: "10px" }}
             />
             <p>
-              <strong>{item.name}</strong>
-              <span>{item.description}</span>
+              <strong>{lang === "mn" ? item.name : item.name_en}</strong>
+              <span>{lang === "mn" ? item.description : item.description_en}</span>
             </p>
           </h5>
         </label>

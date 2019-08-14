@@ -46,7 +46,6 @@ class DeliveryPanel extends React.Component {
       const { main, info } = this.props.userInfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
-      console.log(found, "aa");
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
       this.props.DeliveryInfo.setDeliveryType(found);
       if (main !== null) {
@@ -386,6 +385,7 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
+    console.log('this.props: ', this.props);
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -405,7 +405,7 @@ class DeliveryPanel extends React.Component {
                     src={require("../../../../scss/assets/images/demo/" + k)}
                   />
                   <p className="text">
-                    <strong>{item.typenm}</strong>
+                    <strong>{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
                     <span>{formatter.format(item.price) + "₮"}</span>
                   </p>
                 </div>
