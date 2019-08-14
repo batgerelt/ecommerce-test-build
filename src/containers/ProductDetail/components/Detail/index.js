@@ -10,18 +10,8 @@ import { css } from "glamor";
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
-    productQty: 1,
+    productQty: this.props.detail.products.saleminqty || 1,
     rate: 0,
-  };
-
-  handleNotify = (message) => {
-    toast(message, {
-      autoClose: 5000,
-      position: "top-center",
-      progressClassName: css({
-        background: "#feb415",
-      }),
-    });
   };
 
   componentWillReceiveProps(nextProps) {
@@ -351,17 +341,17 @@ class Detail extends Component {
 
   handleIncrementClick = (product) => {
     const productQty =
-      this.state.productQty + product.addminqty > product.availableqty
+      this.state.productQty + product.saleminqty > product.availableqty
         ? product.availableqty
-        : this.state.productQty + product.addminqty;
+        : this.state.productQty + product.saleminqty;
     this.setState({ productQty });
   };
 
   handleDecrementClick = (product) => {
     const productQty =
-      this.state.productQty - product.addminqty < product.saleminqty
+      this.state.productQty - product.saleminqty < product.saleminqty
         ? product.saleminqty
-        : this.state.productQty - product.addminqty;
+        : this.state.productQty - product.saleminqty;
     this.setState({ productQty });
   };
 
@@ -381,7 +371,10 @@ class Detail extends Component {
             id: result.payload.code,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+        message.warning(intl.formatMessage(messages.warning, {
+          name: result.payload.data.values[0],
+          qty: result.payload.data.values[1],
+        }));
       }
     } else {
       product.qty = this.state.productQty;
@@ -396,7 +389,10 @@ class Detail extends Component {
             id: updated.error,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+        message.warning(intl.formatMessage(messages.warning, {
+          name: updated.name,
+          qty: updated.qty,
+        }));
       }
     }
   };

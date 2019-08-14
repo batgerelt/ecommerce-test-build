@@ -17,6 +17,7 @@ class Signin extends React.Component {
 
   onSubmitLogin = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.setState({ loading: true });
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
@@ -44,7 +45,7 @@ class Signin extends React.Component {
                   body: products,
                 });
                 if (!result.payload.success) {
-                  return message.error(result.payload.message);
+                  message.warning(intl.formatMessage({ id: result.payload.code }));
                 }
                 this.props.getProducts().then((res) => {
                   let k = 0;

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedDate, FormattedMessage } from 'react-intl';
-import { Avatar } from "antd";
+import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
+import { Avatar, message } from "antd";
 import { Link } from "react-router-dom";
 import { Slider } from "../../components";
 import chef from "../../../src/scss/assets/images/demo/chef.png";
@@ -122,33 +122,76 @@ class List extends React.Component {
 
   handleIncrementClick = async (product) => {
     try {
+      const { intl } = this.props;
+
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: product.cd,
-          qty: product.addminqty || 1,
+          qty: product.saleminqty || 1,
           iscart: 0,
         });
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          const messages = defineMessages({
+            error: {
+              id: result.payload.code,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.error, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }));
         }
       } else {
         product.insymd = Date.now();
         this.props.incrementProductLocally(product);
+
+        const updated = this.props.products.find(prod => prod.cd === product.cd);
+
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            error: {
+              id: updated.error,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.error, {
+            name: updated.name,
+            qty: updated.qty,
+          }));
+        }
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  // eslint-disable-next-line consistent-return
   handleIncrementAllClick = async (products) => {
     try {
+      const { intl } = this.props;
+
       if (this.props.isLogged) {
         const result = await this.props.incrementRecipeProductsRemotely({
           recipeid: this.props.match.params.id,
         });
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          return message.warning(intl.formatMessage({ id: result.payload.code }));
+        }
+        if (result.payload.data.fail.length > 0) {
+          result.payload.data.fail.forEach((msg) => {
+            const messages = defineMessages({
+              error: {
+                id: msg.code,
+              },
+            });
+
+            message.warning(intl.formatMessage(messages.error, {
+              name: msg.value.name,
+              qty: msg.value.salemaxqty,
+            }));
+          });
         }
       } else {
         products = products.map(prod => ({
@@ -156,6 +199,23 @@ class List extends React.Component {
           insymd: Date.now(),
         }));
         this.props.incrementRecipeProductsLocally(products);
+
+        products.forEach((product) => {
+          const updated = this.props.products.find(prod => prod.cd === product.cd);
+
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              error: {
+                id: updated.error,
+              },
+            });
+
+            message.warning(intl.formatMessage(messages.error, {
+              name: updated.name,
+              qty: updated.qty,
+            }));
+          }
+        });
       }
     } catch (e) {
       console.log(e);
@@ -427,4 +487,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default injectIntl(List);

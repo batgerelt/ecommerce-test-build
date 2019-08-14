@@ -9,43 +9,30 @@ import { message } from 'antd';
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
-  state = { deliveryInfo: null, products: [] };
+  state = { deliveryInfo: null };
 
   async componentDidMount() {
-    if (this.props.isLogged) {
-      const productsResult = await this.props.getProducts();
+    const result = await this.props.getStaticInfo();
 
-      if (productsResult.payload.success) {
-        this.setState({ products: productsResult.payload.data });
-        // this.setState({ products: this.changeQties(productsResult.payload.data) });
-      }
-    } else {
-      this.setState({ products: this.props.products });
-      // this.setState({ products: this.changeQties(this.props.products) });
-    }
-
-    const staticInfoResult = await this.props.getStaticInfo();
-
-    if (staticInfoResult.payload.success) {
-      this.setState({ deliveryInfo: staticInfoResult.payload.data[0].deliverytxt });
+    if (result.payload.success) {
+      this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
     }
   }
 
-  // changeQties = products => products.map((product) => {
-  //   if (product.saleminqty > 1) {
-  //     product.qty /= product.saleminqty;
-  //   }
+  changeQties = products => products.map((product) => {
+    if (product.saleminqty > 1) {
+      product.qty /= product.saleminqty;
+    }
 
-  //   return product;
-  // });
-
-  handleNotify = () => { };
+    return product;
+  });
 
   handleConfirmClick = async () => {
     const result = await this.props.confirmCartRemotely();
+    const { intl } = this.props;
 
     if (!result.payload.success) {
-      result.payload.data.forEach(message => this.handleNotify(message));
+      result.payload.data.forEach(code => message.warning(intl.formatMessage({ id: code })));
 
       return <Redirect to="" />;
     }
@@ -55,11 +42,12 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleClearClick = async () => {
+    const { intl } = this.props;
+
     if (this.props.isLogged) {
       const result = await this.props.clearRemotely();
-      console.log('result: ', result);
       if (!result.payload.success) {
-        this.handleNotify(result.payload.message);
+        message.warning(intl.formatMessage({ id: result.payload.code }));
       }
     } else {
       this.props.clearLocally();
@@ -82,7 +70,8 @@ class Cart extends React.Component {
   handleRemoveClick = product => async (e) => {
     e.preventDefault();
 
-    let { products } = this.state;
+    const { intl } = this.props;
+    let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -93,7 +82,7 @@ class Cart extends React.Component {
           skucd: found.cd,
         });
         if (!result.payload.success) {
-          this.handleNotify(result.payload.message);
+          message.warning(intl.formatMessage({ id: result.payload.code }));
         }
       } else {
         this.props.removeProductLocally(product);
@@ -106,7 +95,7 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
     let { intl } = this.props;
-    let { products } = this.state;
+    let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
 
@@ -127,12 +116,15 @@ class Cart extends React.Component {
 
         if (!result.payload.success) {
           const messages = defineMessages({
-            warning: {
+            error: {
               id: result.payload.code,
             },
           });
 
-          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+          message.warning(intl.formatMessage(messages.error, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }));
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -141,12 +133,15 @@ class Cart extends React.Component {
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
-            warning: {
+            error: {
               id: updated.error,
             },
           });
 
-          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          message.warning(intl.formatMessage(messages.error, {
+            name: updated.name,
+            qty: updated.qty,
+          }));
         }
       }
     } else {
@@ -157,13 +152,13 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleIncrementClick = async (product) => {
     let { intl } = this.props;
-    let { products } = this.state;
+    let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
 
     let productQty = product.saleminqty;
     if (found) {
-      productQty = found.qty + (found.addminqty || 1);
+      productQty = found.qty + (found.saleminqty || 1);
     }
     product.qty = productQty;
 
@@ -176,12 +171,12 @@ class Cart extends React.Component {
 
       if (!result.payload.success) {
         const messages = defineMessages({
-          warning: {
+          error: {
             id: result.payload.code,
           },
         });
 
-        return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+        message.warning(intl.formatMessage(messages.error, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
       }
     } else {
       this.props.incrementProductLocally(product);
@@ -190,11 +185,11 @@ class Cart extends React.Component {
 
       if (updated && updated.error !== undefined) {
         const messages = defineMessages({
-          warning: {
+          error: {
             id: updated.error,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+        message.warning(intl.formatMessage(messages.error, { name: updated.name, qty: updated.qty }));
       }
     }
   };
@@ -202,15 +197,15 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleDecrementClick = async (product) => {
     let { intl } = this.props;
-    let { products } = this.state;
+    let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
       if (this.props.isLogged) {
         const productQty =
-          found.qty - found.addminqty < found.saleminqty
+          found.qty - found.saleminqty < found.saleminqty
             ? found.saleminqty
-            : found.qty - found.addminqty;
+            : found.qty - found.saleminqty;
         const result = await this.props.decrementProductRemotely({
           skucd: found.cd,
           qty: productQty,
@@ -219,12 +214,12 @@ class Cart extends React.Component {
 
         if (!result.payload.success) {
           const messages = defineMessages({
-            warning: {
+            error: {
               id: result.payload.code,
             },
           });
 
-          return message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+          message.warning(intl.formatMessage(messages.error, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -233,11 +228,11 @@ class Cart extends React.Component {
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
-            warning: {
+            error: {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.warning, { name: updated.name, qty: updated.qty }));
+          message.warning(intl.formatMessage(messages.error, { name: updated.name, qty: updated.qty }));
         }
       }
     } else {
@@ -349,7 +344,7 @@ class Cart extends React.Component {
   };
 
   renderTotalQty = () => {
-    const { products } = this.state;
+    const { products } = this.props;
 
     return products && products.reduce((acc, cur) => acc + cur.qty, 0);
   };
@@ -366,7 +361,7 @@ class Cart extends React.Component {
       );
     }
 
-    const { products } = this.state;
+    const { products } = this.props;
 
     return (
       products &&
@@ -446,7 +441,7 @@ class Cart extends React.Component {
 
   renderContent = () => {
     try {
-      let { products } = this.state;
+      let { products } = this.props;
       const lang = this.props.intl.locale;
 
       let content = (
@@ -598,7 +593,7 @@ class Cart extends React.Component {
   };
 
   render() {
-    const { products } = this.state;
+    const { products } = this.props;
     return (
       <div className="section">
         <div className="container pad10">

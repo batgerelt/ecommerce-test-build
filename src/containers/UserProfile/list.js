@@ -30,7 +30,7 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.error('5MB-ээс бага хэмжээтэй зураг оруулна уу');
+    message.warning('5MB-ээс бага хэмжээтэй зураг оруулна уу');
   }
   return isLt2M;
 }

@@ -47,10 +47,10 @@ class LoginModal extends React.Component {
         try {
           let result = await this.props.login({ body: { ...values } });
           if (result.payload.success) {
-            message.info(intl.formatMessage({ id: "loginModal.info.success" }));
+            message.warning(intl.formatMessage({ id: "loginModal.info.success" }));
           } else {
             if (result.payload.code) {
-              return message.error(intl.formatMessage({ id: result.payload.code }));
+              message.warning(intl.formatMessage({ id: result.payload.code }));
             }
             return null;
           }
@@ -83,7 +83,7 @@ class LoginModal extends React.Component {
             body: products,
           });
           if (!result.payload.success) {
-            return message.error(result.payload.message);
+            message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
           this.props.getProducts();

@@ -36,22 +36,8 @@ class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     try {
-      // if (this.props.isLogged) {
-      //   this.props.getProducts(this.props.data[0].info.customerInfo.id);
-      // } else {
-      //   let cart = {};
-      //   let products = [];
-
-      //   let serializedCart = localStorage.getItem('cart');
-      //   if (serializedCart !== null) {
-      //     cart = JSON.parse(serializedCart);
-      //     ({ products } = cart);
-      //   }
-
-      //   console.log(this.props);
-      //   // this.props.products = products;
-      // }
       if (this.props.isLogged) {
+        this.props.getProducts(this.props.data[0].info.customerInfo.id);
         this.props.getWishByCount({ count: 5 });
       }
     } catch (e) {
