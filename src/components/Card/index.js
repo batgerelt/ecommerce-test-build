@@ -420,9 +420,6 @@ class Card extends React.Component {
         }
       }
 
-      console.log('itemName: ', itemName);
-      console.log('featureText: ', featureText);
-
       switch (shape) {
         case CARD_TYPES.slim:
           return (
