@@ -120,12 +120,13 @@ class List extends React.Component {
 
   renderTitleDate = () => {
     try {
-      const { info } = this.props;
+      const { info, lang } = this.props;
+      console.log('this.props: ', this.props);
       // const date = info.insymd.split("T")[0].split("-");
       return (
         <div>
           <h4 className="title">
-            <span>{info.packagenm}</span>
+            <span>{lang === "mn" ? info.packagenm : info.packagenm_en}</span>
           </h4>
           <p className="date">
             <FormattedMessage
@@ -184,13 +185,13 @@ class List extends React.Component {
 
   renderCk = () => {
     try {
-      const { info } = this.props;
+      const { info, lang } = this.props;
       return (
         <div
           style={{ lineHeight: "200%" }}
           className="product-plus htmlcontainer"
           dangerouslySetInnerHTML={{
-            __html: info.description,
+            __html: lang === "mn" ? info.description : info.description_en,
           }}
         />
       );
@@ -200,14 +201,14 @@ class List extends React.Component {
   };
   renderDelivery = () => {
     try {
-      const { info } = this.props;
+      const { info, lang } = this.props;
       return (
         <div className="block product-delivery">
           <p className="title">
             <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
           <p className="text">
-            <span>{info.deliverytxt}</span>
+            <span>{lang === "mn" ? info.deliverytxt : info.deliverytxt_en}</span>
           </p>
         </div>
       );
@@ -218,8 +219,9 @@ class List extends React.Component {
 
   renderSimilarProducts = () => {
     try {
-      const { packageDetail } = this.props;
+      const { packageDetail, lang } = this.props;
       if (packageDetail.sameproducts !== undefined) {
+        console.log('packageDetail.sameproducts: ', packageDetail.sameproducts);
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>
             <div className="single flex-this">
@@ -235,7 +237,7 @@ class List extends React.Component {
               </div>
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
-                  <span>{prod.skunm}</span>
+                  <span>{lang === "mn" ? prod.skunm : prod.skunm_en}</span>
                   <strong>
                     {formatter.format(prod.sprice || prod.price)}₮
                   </strong>
@@ -293,6 +295,8 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
+      const { lang } = this.props;
+      console.log('products: ', products);
       return (
         products &&
         products.map((prod, index) => (
@@ -311,7 +315,7 @@ class List extends React.Component {
               <div className="flex-space">
                 <p className="text col-md-5 col-sm-5">
                   <Link to={prod.route || ""} style={{ color: "#666" }}>
-                    <span>{prod.name}</span>
+                    <span>{lang === "mn" ? prod.name : prod.name_en}</span>
                     <strong>{formatter.format(this.getPrice(prod))}₮</strong>
                   </Link>
                 </p>
@@ -523,7 +527,7 @@ class List extends React.Component {
                     : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
                       <div className="block product-suggest">
                         <p className="title">
-                          <strong>Ижил бараа</strong>
+                          <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
                         </p>
                         <ul className="list-unstyled">
                           {this.renderSimilarProducts()}

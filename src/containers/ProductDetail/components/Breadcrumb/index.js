@@ -22,6 +22,7 @@ class Breadcrumb extends Component {
       if (parentCats.length) {
         parentCats = parentCats.reverse();
       }
+      console.log('parentCats: ', parentCats);
 
       return (
         parentCats && (
@@ -30,7 +31,7 @@ class Breadcrumb extends Component {
               {parentCats.map((parent, index) => (
                 <li key={index}>
                   <Link to={parent.route ? parent.route : ""}>
-                    <span>{parent.name}</span>
+                    <span>{this.props.lang === "mn" ? parent.name : parent.name_en}</span>
                   </Link>
                 </li>
               ))}

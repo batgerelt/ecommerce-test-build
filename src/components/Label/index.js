@@ -8,7 +8,6 @@ class Label extends React.Component {
     const {
       type, data, seq, lang,
     } = this.props;
-    console.log('lang: ', lang);
 
     if (!data) {
       return null;

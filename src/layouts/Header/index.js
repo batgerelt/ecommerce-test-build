@@ -19,9 +19,10 @@ class AppHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lang: this.props.intl.locale,
       isDropdownOpen: false,
       isSearchDropdownOpen: false,
-      item: { id: 0, name: "Бүх бараа" },
+      item: { id: 0, name: "" },
       suggestion: [],
       word: "",
       keywordid: null,
@@ -36,10 +37,10 @@ class AppHeader extends Component {
 
   handleLangChange = (e) => {
     this.props.setLang(e);
-    this.props.getMenu();
-    this.props.getCategoryMenu();
-    this.props.getStaticPages();
-    this.props.getStaticInfo();
+    // this.props.getMenu();
+    // this.props.getCategoryMenu();
+    // this.props.getStaticPages();
+    // this.props.getStaticInfo();
   };
 
   handleChangeSearchWord = (e) => {
@@ -47,9 +48,13 @@ class AppHeader extends Component {
 
     if (this.state.word.length >= 1) {
       this.props.searchWord({ keyword: e.target.value }).then((res) => {
-        res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        if (res !== undefined) {
+          res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        } else { this.setState({ suggestion: [] }); }
       });
     }
+
+    if (e.target.value.length === 1) { this.setState({ suggestion: [] }); }
   };
 
   handleChangeCategory = (item) => {
@@ -203,7 +208,9 @@ class AppHeader extends Component {
                               aria-expanded="false"
                               style={{ boxShadow: 'none' }}
                             >
-                              {this.state.item.name}
+                              {this.state.item.name
+                                ? this.state.item.name
+                                : <FormattedMessage id="header.category.label.allProducts" />}
                             </button>
                             <div
                               className={dropdownClass}
@@ -213,7 +220,9 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={this.handelAllCategory}
                               >
-                                <span className="no-padding">Бүх бараа</span>
+                                <span className="no-padding">
+                                  <FormattedMessage id="header.category.label.allProducts" />
+                                </span>
                               </a>
                               {root.map((item, index) => (
                                 <a
@@ -227,7 +236,7 @@ class AppHeader extends Component {
                                       alt={item}
                                     />
                                   ) : null}
-                                  <span>{item.name}</span>
+                                  <span>{this.state.lang === "mn" ? item.name : item.name_en}</span>
                                 </a>
                               ))}
                             </div>

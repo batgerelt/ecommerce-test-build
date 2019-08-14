@@ -34,20 +34,21 @@ class Detail extends Component {
     const {
       categorymenu, rate, isLogged, intl,
     } = this.props;
+    const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
-          <h5 className="title">{detail.name}</h5>
+          <h5 className="title">{lang === "mn" ? detail.name : detail.name_en}</h5>
 
-          {detail.backtxt && `(${detail.backtxt})`}
+          {detail.backtxt && lang === "mn" ? `(${detail.backtxt})` : `(${detail.backtxt_en})`}
 
           {selectedCat && (
             <p className="big-text">
               <strong>
                 <Link to={selectedCat.route} style={{ color: "#6c757d" }}>
-                  {selectedCat.name}
+                  {lang === "mn" ? selectedCat.name : selectedCat.name_en}
                 </Link>
               </strong>
             </p>
@@ -319,6 +320,9 @@ class Detail extends Component {
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
+    // if (detail.issalekg && detail.kgproduct[0]) {
+    //   price = detail.kgproduct[0].salegramprice;
+    // }
     if (detail.sprice !== 0) {
       price = detail.sprice;
     }

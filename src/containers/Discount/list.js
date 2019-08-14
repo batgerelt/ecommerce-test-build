@@ -193,6 +193,7 @@ class Discount extends React.Component {
                   );
                   return (
                     <InfiniteLoader
+                      style={{ outline: 'none' }}
                       ref={this.infiniteLoaderRef}
                       rowCount={rowCount === 1 ? rowCount : rowCount - 1}
                       isRowLoaded={({ index }) => {
@@ -214,6 +215,7 @@ class Discount extends React.Component {
                         <WindowScroller>
                           {({ height, scrollTop }) => (
                             <List
+                              style={{ outline: 'none' }}
                               autoHeight
                               ref={registerChild}
                               height={340}

@@ -5,17 +5,20 @@ import List from "./list";
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
+  Locale as LocaleModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
     ...ProfileModel,
+    ...LocaleModel,
   }, dispatch),
 });
 

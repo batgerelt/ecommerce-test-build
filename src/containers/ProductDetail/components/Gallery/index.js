@@ -3,6 +3,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
+import { injectIntl } from 'react-intl';
 import PropTypes from "prop-types";
 import Lightbox from "react-images";
 
@@ -71,7 +72,7 @@ class Gallery extends Component {
 
   renderContent = () => {
     try {
-      const { images, tags } = this.props;
+      const { images, tags, intl } = this.props;
       const { current, isLightBoxOpen } = this.state;
       return (
         <div className="product-gallery">
@@ -120,10 +121,10 @@ class Gallery extends Component {
             images={this.renderImages()}
             currentImage={current}
             showThumbnails
-            closeButtonTitle="Хаах"
+            closeButtonTitle={intl.formatMessage({ id: "gallery.button.close" })}
             backdropClosesModal
             enableKeyboardInput
-            imageCountSeparator=" -ээс "
+            imageCountSeparator={intl.formatMessage({ id: "gallery.label.from" })}
             isOpen={isLightBoxOpen}
             onClickPrev={this.handleLightBoxClickPrev}
             onClickNext={this.handleLightBoxClickNext}
@@ -147,4 +148,4 @@ Gallery.propTypes = {
   tags: PropTypes.array,
 };
 
-export default Gallery;
+export default injectIntl(Gallery);

@@ -228,6 +228,7 @@ class Bookmarks extends PureComponent {
                         <WindowScroller>
                           {({ height, scrollTop }) => (
                             <List
+                              style={{ outline: 'none' }}
                               autoHeight
                               ref={registerChild}
                               height={340}

@@ -84,8 +84,9 @@ class Footer extends React.Component {
     }
   }
 
-  renderColSecound = () => {
+  renderColSecond = () => {
     try {
+      const { lang } = this.props.locale;
       const { staticpages } = this.props.staticcontent;
 
       return (
@@ -96,7 +97,7 @@ class Footer extends React.Component {
                 return (
                   <li key={index} onClick={() => this.handleDetail(item.id)}>
                     <Link to={`${"/info" + "/"}${item.id}`}>
-                      <span>{item.name}</span>
+                      <span>{lang === "mn" ? item.name : item.name_en}</span>
                     </Link>
                   </li>
                 );
@@ -113,6 +114,7 @@ class Footer extends React.Component {
 
   renderColThird = () => {
     try {
+      const { lang } = this.props.locale;
       const { staticpages } = this.props.staticcontent;
 
       return (
@@ -123,7 +125,7 @@ class Footer extends React.Component {
                 return (
                   <li key={index} onClick={() => this.handleDetail(item.id)}>
                     <Link to={`${"/info" + "/"}${item.id}`}>
-                      <span>{item.name}</span>
+                      <span>{lang === "mn" ? item.name : item.name_en}</span>
                     </Link>
                   </li>
                 );
@@ -140,6 +142,7 @@ class Footer extends React.Component {
 
   renderColLast = () => {
     try {
+      const { lang } = this.props.locale;
       const { staticinfo } = this.props.staticcontent;
       return (
         <div className="col-sm-12 col-md-6 col-lg-3 pad10">
@@ -148,7 +151,7 @@ class Footer extends React.Component {
               <strong><FormattedMessage id="footer.contract.title" /></strong>
             </li>
             <li>
-              <span>{staticinfo.address}</span>
+              <span>{lang === "mn" ? staticinfo.address : staticinfo.address_en}</span>
             </li>
             <li>
               <span>{staticinfo.phone}</span>
@@ -179,7 +182,7 @@ class Footer extends React.Component {
               staticinfo === null || staticpages.length === 0 ? null : (
                 <div className="row row10">
                   {this.renderColFirst()}
-                  {this.renderColSecound()}
+                  {this.renderColSecond()}
                   {this.renderColThird()}
                   {this.renderColLast()}
                 </div>

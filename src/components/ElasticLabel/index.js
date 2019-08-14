@@ -5,13 +5,22 @@ import Style from "style-it";
 class index extends Component {
   renderNew = () => {
     try {
-      const { tags } = this.props;
+      const { tags, list, data } = this.props;
+      const style = list ?
+        `
+        bottom: 35px; 
+        margin: auto auto auto ${data.isavailable ? (data.salepercent !== 0 ? '400px' : '450px') : (data.salepercent !== 0 ? '450px' : '500px')};
+        `
+        :
+        `display: block;
+        position: absolute;`;
       return (
         <Style>
           {`
               .label {
                 display: block;
                 position: absolute;
+                ${style}
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
@@ -83,9 +92,13 @@ class index extends Component {
 
   renderSale = () => {
     try {
-      const {
-        data, tags, wide, list,
-      } = this.props;
+      const { data, tags, list } = this.props;
+      const style = list ?
+        `
+        bottom: 35px; 
+        margin: auto auto auto ${data.isavailable ? '450px' : '500px'};
+        ` :
+        `top: ${data.isnew ? '70px' : '15px'}`;
 
       return (
         <Style>
@@ -93,9 +106,9 @@ class index extends Component {
               .label {
                 display: block;
                 position: absolute;
-                top: ${wide ? (data.isnew ? '70px' : '15px') : '0px'};
+                ${style}
               }
-            `}
+          `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
             <Style>
               {`
@@ -163,16 +176,22 @@ class index extends Component {
     }
   };
 
-  renderUnavailable = () => {
+  renderSoldOut = () => {
     try {
-      const { data, tags } = this.props;
+      const { data, tags, list } = this.props;
+      const style = list ?
+        `
+        bottom: 35px; 
+        margin: auto auto auto 500px`
+        :
+        `top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '0px')};`;
       return (
         <Style>
           {`
               .label {
                 display: block;
                 position: absolute;
-                top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '0px')};
+                ${style}
               }
             `}
           <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
@@ -185,7 +204,7 @@ class index extends Component {
                 height: 30px;
                 background-color: ${tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").color};
                 text-align: center;
-                font-size: ${"1.7"}rem;
+                font-size: ${"1.5"}rem;
                 color: white;
                 letter-spacing: -1px;
                 vertical-align: top;
@@ -248,7 +267,7 @@ class index extends Component {
       <div style={{ padding: "15px 8px" }}>
         {data.isnew ? this.renderNew() : null}
         {data.salepercent !== 0 ? this.renderSale() : null}
-        {!data.isavailable ? this.renderUnavailable() : null}
+        {!data.isavailable ? this.renderSoldOut() : null}
       </div>
     );
   }

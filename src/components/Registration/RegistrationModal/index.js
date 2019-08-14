@@ -24,12 +24,17 @@ class RegistrationModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        // eslint-disable-next-line consistent-return
         this.props.signup({ body: values }).then((res) => {
-          if (res.payload.success) {
-            this.handleSignup();
+          if (!res.payload.success) {
+            return message.error(intl.formatMessage({ id: res.payload.code }));
           }
+
+          message.info(intl.formatMessage({ id: res.payload.message }));
+          this.handleSignup();
         });
       }
     });

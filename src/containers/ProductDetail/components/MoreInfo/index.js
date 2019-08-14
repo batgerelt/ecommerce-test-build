@@ -9,7 +9,9 @@ import { isMobile } from "react-device-detect";
 class Moreinfo extends Component {
   renderMoreInfo = () => {
     try {
-      let { product, attributes, similarProducts } = this.props;
+      let {
+        product, attributes, similarProducts, lang,
+      } = this.props;
       const similarProductsLimit = isMobile ? 1 : 4;
       const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {
@@ -29,7 +31,6 @@ class Moreinfo extends Component {
           clickable: true,
         },
       };
-      console.log(attributes);
       return (
         <div className="col-md-12 col-lg-12 col-sm-12 col-xl-12 ck-editor">
           {!!attributes && !!attributes.length && (
@@ -41,9 +42,13 @@ class Moreinfo extends Component {
                 {attributes.map((attr, index) => (
                   <div key={index} className="row row10">
                     <dt className="col-sm-3" style={{ maxWidth: "15%" }}>
+                      {/* {lang === "mn" ? attr.value : attr.value_en} */}
                       {attr.value}
                     </dt>
-                    <dd className="col-sm-6">{attr.name}</dd>
+                    <dd className="col-sm-6">
+                      {/* {lang === "mn" ? attr.name : attr.name_en} */}
+                      {attr.name}
+                    </dd>
                   </div>
                 ))}
               </div>
@@ -69,7 +74,12 @@ class Moreinfo extends Component {
                 <span className="text-uppercase"><FormattedMessage id="productDetail.intro.title" /></span>
               </h1>
 
-              <div style={{ textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: product.description }} />
+              <div
+                style={{ textAlign: 'center' }}
+                dangerouslySetInnerHTML={{
+                  __html: lang === "mn" ? product.description : product.description_en,
+                }}
+              />
             </div>
           )}
         </div>

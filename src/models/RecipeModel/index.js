@@ -80,7 +80,8 @@ class Model extends BaseModel {
       case this.model.recipeproducts.response:
         return {
           ...state,
-          recipeProducts: this.pushRecipeProduct(action.payload.data.product),
+          // recipeProducts: this.pushRecipeProduct(action.payload.data.product),
+          recipeProducts: action.payload.data,
           recipeProductCount: action.payload.data.count,
           recipeCount: state.recipeCount + 20,
         };
