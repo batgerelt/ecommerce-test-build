@@ -201,10 +201,8 @@ class DeliveryInfo extends React.Component {
   sendPayment = (tmp) => {
     const { PaymentTypePanel } = this.props;
     let data;
-    console.log(tmp, "dataaaa");
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
       this.props.changeLoading(false);
-      console.log(res, "response");
       // MySwal.close();
       if (res.payload.success) {
         if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
@@ -284,6 +282,7 @@ class DeliveryInfo extends React.Component {
           ordData={ordData}
           readyBtn={this.handlePayment}
           onRef={ref => (this.SwalModals = ref)}
+          totalQty={this.state.totalQty}
           {...this}
           {...this.props}
         />

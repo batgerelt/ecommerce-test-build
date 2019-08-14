@@ -143,7 +143,7 @@ class IndividualTab extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
                           { len: 14, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="text" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" defaultValue="" type="text" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                       <Form.Item>
@@ -152,7 +152,7 @@ class IndividualTab extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.password.validation.pattern" }) },
                           { len: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="col-md-12" />,
+                          <Input autoComplete="off" defaultValue="" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>

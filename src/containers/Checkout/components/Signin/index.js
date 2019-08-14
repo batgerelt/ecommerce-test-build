@@ -89,6 +89,7 @@ class Signin extends React.Component {
                 })(
                   <Input
                     type="text"
+                    defaultValue=""
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
                     className="form-control"
@@ -107,6 +108,7 @@ class Signin extends React.Component {
                   <Input.Password
                     placeholder={intl.formatMessage({ id: "shared.form.password.validation.required" })}
                     autoComplete="off"
+                    defaultValue=""
                     className="form-control"
                   />,
                 )}

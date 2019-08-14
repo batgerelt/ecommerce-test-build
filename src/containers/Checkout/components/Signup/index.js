@@ -111,6 +111,7 @@ class Signup extends React.Component {
                   <Input
                     allowClear
                     type="text"
+                    defaultValue=""
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
                     className="form-control"
@@ -145,7 +146,7 @@ class Signup extends React.Component {
                     { min: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) },
                   ],
                 })(
-                  <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="off" />,
+                  <Input.Password defaultValue="" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>
@@ -157,7 +158,7 @@ class Signup extends React.Component {
                     { validator: this.compareToFirstPassword },
                   ],
                 })(
-                  <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.validation.required" })} className="form-control" autoComplete="off" />,
+                  <Input.Password defaultValue="" onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.validation.required" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>

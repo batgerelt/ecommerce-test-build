@@ -116,7 +116,6 @@ class Detail extends Component {
 
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
-    console.log(detail);
     if (detail.issalekg) {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (

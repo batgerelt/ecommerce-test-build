@@ -17,6 +17,8 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { SwalModals } from "../";
+import LetterInput from "../../../../components/Input/LetterInput";
+import NumberInput from "../../../../components/Input/NumberInput";
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 const formatter = new Intl.NumberFormat("en-US");
@@ -43,7 +45,7 @@ class DeliveryPanel extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     try {
-      const { main, info } = this.props.userInfo;
+      const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
@@ -190,8 +192,8 @@ class DeliveryPanel extends React.Component {
     // this.props.form.resetFields();
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     this.props.DeliveryInfo.setDeliveryType(found);
-    this.getZoneSetting(this.state.chosenAddress);
     this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
+      this.getZoneSetting(this.state.chosenAddress);
       this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
     });
   };
@@ -294,16 +296,20 @@ class DeliveryPanel extends React.Component {
   }
 
   renderAddrsOption = () => {
-    const { userInfo, intl } = this.props;
-    let tmp;
-    let main = "";
-    if (userInfo.addrs.length !== 0) {
-      tmp = userInfo.addrs.map((item, i) => {
-        item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
-        return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
-      });
+    try {
+      const { userinfo, intl } = this.props;
+      let tmp;
+      let main = "";
+      if (userinfo.addrs.length !== 0) {
+        tmp = userinfo.addrs.map((item, i) => {
+          item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
+          return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
+        });
+      }
+      return tmp;
+    } catch (error) {
+      return console.log(error);
     }
-    return tmp;
   };
 
   disabledDate = (current) => {
@@ -369,10 +375,13 @@ class DeliveryPanel extends React.Component {
 
   handleAddAddress = (e) => {
     e.preventDefault();
-    console.log("sf");
     this.setState({ addresstype: "new" });
     this.getDistrictAndCommitte(0);
   }
+
+  onChangeLast = (value) => {
+    this.props.form.setFieldsValue({ name: value });
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -385,7 +394,6 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
-    console.log('this.props: ', this.props);
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -462,7 +470,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("districtid", {
                             initialValue: this.checkError(chosenAddress.districtid),
-                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
+                            rules: [{ required: main === null && defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                           })(
                             <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
@@ -478,7 +486,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("committeeid", {
                             initialValue: this.checkError(chosenAddress.committeeid),
-                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
+                            rules: [{ required: main === null && defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
                           })(
                             <Select placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(committeLocation)}
@@ -495,7 +503,7 @@ class DeliveryPanel extends React.Component {
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
-                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                            rules: [{ required: main === null && defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                           })(
                             <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                           )}
@@ -510,7 +518,7 @@ class DeliveryPanel extends React.Component {
                           initialValue: this.checkError(chosenAddress.name),
                           rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" />,
+                          <LetterInput autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
                         )}
                       </Form.Item>
                     </div>
@@ -522,7 +530,13 @@ class DeliveryPanel extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                           { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                          <NumberInput
+                            placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })}
+                            maxLength={8}
+                            allowClear
+                            className="col-md-12"
+                            autoComplete="off"
+                          />,
                         )}
                       </Form.Item>
                     </div>
