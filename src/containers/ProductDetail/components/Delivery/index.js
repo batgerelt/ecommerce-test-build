@@ -6,6 +6,7 @@ class Delivery extends Component {
   renderDelivery = () => {
     try {
       const { detail } = this.props;
+
       return (
         <div className="block product-delivery">
           <p className="title">
@@ -13,7 +14,8 @@ class Delivery extends Component {
             <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
           <p className="text">
-            <span>{detail.deliveryinfo}</span>
+            <span>{this.props.lang === "mn" ? detail.deliveryinfo : detail.deliveryinfo_en}</span>
+            {/* <span>{detail.deliveryinfo}</span> */}
           </p>
         </div>
       );

@@ -14,6 +14,7 @@ class Component extends React.Component {
   };
   renderType = (item) => {
     try {
+      const { lang } = this.props;
       const prod = item;
       return (
         <span
@@ -24,7 +25,7 @@ class Component extends React.Component {
             borderRadius: "15px",
           }}
         >
-          {prod.statusnm}
+          {lang === "mn" ? prod.statusnm : prod.statusnm_en}
         </span>
       );
     } catch (error) {
@@ -34,6 +35,7 @@ class Component extends React.Component {
   renderDelivery = () => {
     try {
       const { delivery } = this.props;
+      console.log('delivery: ', delivery);
       return delivery.map((item, index) => (
         <tr key={index} className="order-table-responsive">
           <td>#{item.ordernumber}</td>

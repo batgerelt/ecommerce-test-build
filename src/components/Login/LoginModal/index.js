@@ -46,7 +46,9 @@ class LoginModal extends React.Component {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
-          if (!result.payload.success) {
+          if (result.payload.success) {
+            message.info(intl.formatMessage({ id: "loginModal.info.success" }));
+          } else {
             if (result.payload.code) {
               return message.error(intl.formatMessage({ id: result.payload.code }));
             }

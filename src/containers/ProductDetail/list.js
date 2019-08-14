@@ -67,9 +67,10 @@ class ProductDetail extends React.Component {
   renderDeliveryInfo = () => {
     try {
       const { detail } = this.props;
+      const lang = this.props.intl.locale;
 
       return (
-        <Delivery detail={detail.products} />
+        <Delivery detail={detail.products} {...this.props} />
       );
     } catch (error) {
       return null;
@@ -80,7 +81,6 @@ class ProductDetail extends React.Component {
   renderMoreInfo = () => {
     try {
       const { detail, attribute, collection } = this.props;
-      console.log(detail);
       return (
         <Moreinfo
           product={detail.products}
@@ -121,6 +121,7 @@ class ProductDetail extends React.Component {
         <Breadcrumb
           product={detail.products}
           categories={categorymenu}
+          {...this.props}
         />
       );
     } catch (error) {
@@ -167,6 +168,7 @@ class ProductDetail extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className="section">
         <div className="container">

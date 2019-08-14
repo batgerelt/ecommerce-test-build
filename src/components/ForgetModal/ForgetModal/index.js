@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link } from "react-router-dom";
 
@@ -18,12 +19,17 @@ class ForgetModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
-          if (res.payload.success) {
-            this.handleForgetModal();
+          if (!res.payload.success) {
+            return message.error(intl.formatMessage({ id: res.payload.code }));
           }
+
+          message.info(intl.formatMessage({ id: res.payload.message }));
+          this.handleForgetModal();
         });
       }
     });
@@ -36,9 +42,10 @@ class ForgetModal extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { visible } = this.state;
+    const { intl } = this.props;
     return (
       <Modal
-        title="Нууц үг сэргээх"
+        title={intl.formatMessage({ id: "forgottenPasswordModal.title" })}
         visible={visible}
         onCancel={this.handleForgetModal}
         footer={null}
@@ -49,7 +56,7 @@ class ForgetModal extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Имэйл хаяг оруулна уу",
+                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   type: "email",
                 },
               ],
@@ -57,7 +64,7 @@ class ForgetModal extends React.Component {
               <Input
                 allowClear
                 className="form-control"
-                placeholder="Имэйл"
+                placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                 size="large"
                 autoComplete="off"
               />,
@@ -69,7 +76,7 @@ class ForgetModal extends React.Component {
               htmlType="submit"
               className="btn btn-block btn-login text-uppercase"
             >
-              Цааш
+              <FormattedMessage id="shared.form.button.next" />
             </Button>
           </Form.Item>
         </Form>
@@ -78,4 +85,4 @@ class ForgetModal extends React.Component {
   }
 }
 
-export default Form.create({ name: "normal_forget" })(ForgetModal);
+export default injectIntl(Form.create({ name: "normal_forget" })(ForgetModal));

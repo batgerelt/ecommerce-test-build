@@ -22,58 +22,6 @@ const sliderParams = {
 };
 
 class Homepage extends React.Component {
-  state = {
-    widgetAll: [],
-    emartproduct: [],
-    discountproduct: [],
-    packageAll: [],
-    newproduct: [],
-    recipeAll: [],
-  };
-
-  async loadData() {
-    const widgetsResult = await this.props.getWidget();
-    // const emartProductsResult = await this.props.getEmartProduct({});
-    const newProductsResult = await this.props.getNewProduct({});
-    const discountProductsResult = await this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 20,
-      order: `price_asc`,
-    });
-    const packagesResult = await this.props.getPackage({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-    const recipesResult = await this.props.getRecipe({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-
-    if (widgetsResult.payload.success) {
-      this.setState({
-        widgetAll: widgetsResult.payload.data,
-        // emartproduct: emartProductsResult.payload.data,
-        discountproduct: discountProductsResult.payload.data,
-        packageAll: packagesResult.payload.data,
-        newproduct: newProductsResult.payload.data,
-        recipeAll: recipesResult.payload.data,
-      });
-    }
-  }
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.intl.locale !== this.props.intl.locale) {
-      this.loadData();
-    }
-  }
-
   getBlocks = (widgets, products) => {
     const { intl } = this.props;
     let blocks = [];
@@ -128,15 +76,15 @@ class Homepage extends React.Component {
 
   renderBlocks = () => {
     try {
-      const { homepagebanner } = this.props;
       const {
+        homepagebanner,
         widgetAll,
         emartproduct,
         discountproduct,
         packageAll,
         newproduct,
         recipeAll,
-      } = this.state;
+      } = this.props;
 
       const items = {
         products: {

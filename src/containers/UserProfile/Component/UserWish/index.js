@@ -6,12 +6,14 @@ import {
   Auth as AuthModel,
   Profile as ProfileModel,
   Cart as CartModel,
+  Locale as LocaleModel,
 } from "../../../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
   ...state.cart,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     AuthModel,
     ...ProfileModel,
     ...CartModel,
+    ...LocaleModel,
   }, dispatch),
 });
 

@@ -384,13 +384,14 @@ class Cart extends React.Component {
       return null;
     }
     const wishlistProducts = this.props.wish;
+    const lang = this.props.intl.locale;
 
     return (
       wishlistProducts &&
       wishlistProducts.length > 0 && (
         <div className="block fav-products">
           <p className="title">
-            <strong><FormattedMessage id="cart.sidebar.wishlist.title" /></strong>
+            <strong><FormattedMessage id="shared.sidebar.title.wishlist" /></strong>
           </p>
           <ul className="list-unstyled">
             {wishlistProducts.map((wishlistProd, index) => (
@@ -411,7 +412,7 @@ class Cart extends React.Component {
                   <div className="flex-space">
                     <Link to={wishlistProd.route || ""}>
                       <div className="text">
-                        <span>{wishlistProd.skunm}</span>
+                        <span>{lang === "mn" ? wishlistProd.skunm : wishlistProd.skunm_en}</span>
                         <strong>
                           {formatter.format(
                             wishlistProd.sprice
@@ -436,7 +437,7 @@ class Cart extends React.Component {
             ))}
           </ul>
           <Link to="/profile/wish" className="btn btn-gray btn-block">
-            <span className="text-uppercase"><FormattedMessage id="cart.sidebar.wishlist.button.showAll" /></span>
+            <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.showAll" /></span>
           </Link>
         </div>
       )
@@ -446,6 +447,7 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let { products } = this.state;
+      const lang = this.props.intl.locale;
 
       let content = (
         <div style={{ textAlign: "center" }}>
@@ -507,8 +509,8 @@ class Cart extends React.Component {
                           to={prod.route || ""}
                           style={{ color: "#6c757d" }}
                         >
-                          <strong>{prod.name}</strong>
-                          <span>{prod.featuretxt || ""}</span>
+                          <strong>{lang === "mn" ? prod.name : prod.name_en}</strong>
+                          <span>{lang === "mn" ? prod.featuretxt : prod.featuretxt_en}</span>
                         </Link>
                       </div>
                     </div>
@@ -559,7 +561,7 @@ class Cart extends React.Component {
                 </tr>
                 <tr className="table-action">
                   <td colSpan="2" style={{ fontSize: "0.8em" }}>
-                    {prod.deliveryinfo}
+                    {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
                   </td>
                   <td colSpan="2" style={{ paddinRight: "30px" }}>
                     <div className="text-right single-action">
