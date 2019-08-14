@@ -99,6 +99,10 @@
 	"checkout.swal.label.transactionMethods": "Төлөх аргууд",
 	"footer.contract.title": "Холбоо барих",
 	"footer.copyright.text": "Имарт © 2016-2019. Бүх эрх хуулиар хамгаалагдсан.",
+	"forgottenPasswordModal.title": "Нууц үгээ мартсан",
+	"gallery.button.close": "Хаах",
+	"gallery.label.from": " -аас ",
+	"header.category.label.allProducts": "Бүх бараа",
 	"header.myCart.part1": "Миний",
 	"header.myCart.part2": "сагс",
 	"header.profile.changePassword": "Нууц үгээ солих",
@@ -119,6 +123,7 @@
 	"home.widget.new.readMore": "Бусад шинэ барааг үзэх",
 	"home.widget.package.readMore": "Бусад багцыг үзэх",
 	"home.widget.recipe.readMore": "Бусад хоолны жорыг үзэх",
+	"loginModal.info.success": "Амжилттай нэвтэрлээ",
 	"loginModal.linkToRegistration": "Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү",
 	"loginModal.linkToRegistration.link": "ЭНД ДАРЖ",
 	"loginModal.title": "Нэвтрэх",
@@ -271,5 +276,5 @@
 	"shared.sidebar.title.recipeProducts": "Хоолны жоронд орсон бараа",
 	"shared.sidebar.title.relatedProducts": "Хослох бараа",
 	"shared.sidebar.title.similarProducts": "Ижил бараа",
-	"shared.sidebar.title.wishlist": "Таалагдсан бараа"
+	"shared.sidebar.title.wishlist": "Хадгалсан бараа"
 }

@@ -5,6 +5,7 @@ import {
   Auth as AuthModel,
   Cart as CartModel,
   Recipe as RecipeModel,
+  Locale as LocaleModel,
 } from "../../models";
 import List from "./list";
 
@@ -12,6 +13,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.cart,
   ...state.recipe,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...AuthModel,
     ...CartModel,
     ...RecipeModel,
+    ...LocaleModel,
   }, dispatch),
 });
 

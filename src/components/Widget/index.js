@@ -10,6 +10,8 @@ import "./Widget.css";
 class Widget extends React.Component {
   render() {
     const { widgetData } = this.props;
+    const lang = this.props.intl.locale;
+
     if (!widgetData) {
       return null;
     }
@@ -18,7 +20,7 @@ class Widget extends React.Component {
     if (widgetData.subtitle) {
       subtitle = (
         <p className="text">
-          {widgetData.icon ? widgetData.icon : null} {widgetData.subtitle}
+          {widgetData.icon ? widgetData.icon : null} {lang === "mn" ? widgetData.subtitle : widgetData.subtitle_en}
         </p>
       );
     }
@@ -48,7 +50,7 @@ class Widget extends React.Component {
       <div className="section">
         <div className="container pad10">
           <h1 className="title">
-            <span className="text-uppercase">{widgetData.name}</span>
+            <span className="text-uppercase">{lang === "mn" ? widgetData.name : widgetData.name_en}</span>
             {subtitle}
             {widgetData.interval ? widgetData.interval : ""}
           </h1>

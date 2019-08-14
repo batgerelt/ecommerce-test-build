@@ -21,6 +21,7 @@ class MainMenu extends React.Component {
     const { pathname } = this.props.location;
     console.log("pathname", pathname);
     const data = this.props && this.props.dataSource;
+    const lang = this.props.intl.locale;
     let indents = data.map((item, index) => (
       <div className="col-md-3 pad20" key={index} style={{ zIndex: "100" }}>
         <ul className="list-unstyled">
@@ -29,7 +30,7 @@ class MainMenu extends React.Component {
               to={item.route ? item.route : ""}
               className="list-unstyled text-light active"
             >
-              <strong className="text-uppercase">{item.name}</strong>
+              <strong className="text-uppercase">{lang === "mn" ? item.name : item.name_en}</strong>
             </Link>
           </li>
           {item.children &&
@@ -39,7 +40,7 @@ class MainMenu extends React.Component {
                   to={it.route ? it.route : " "}
                   className="list-unstyled text-muted active"
                 >
-                  <span>{it.name}</span>
+                  <span>{lang === "mn" ? it.name : it.name_en}</span>
                 </Link>
               </li>
             ))}

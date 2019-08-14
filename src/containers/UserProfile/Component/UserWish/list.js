@@ -31,7 +31,7 @@ class Component extends React.Component {
   }
   renderProducts = () => {
     try {
-      const { wish } = this.props;
+      const { wish, lang } = this.props;
       return wish.map((item, index) => (
         <div className="single flex-space" key={index}>
           <div className="product">
@@ -48,8 +48,8 @@ class Component extends React.Component {
               </div>
               <div className="info">
                 <Link to={item.route ? item.route : " "}>
-                  <p className="name">{item.skunm}</p>
-                  <p className="text">{item.shortnm}</p>
+                  <p className="name">{lang === "mn" ? item.skunm : item.skunm_en}</p>
+                  <p className="text">{lang === "mn" ? item.shortnm : item.shortnm_en}</p>
                 </Link>
                 <Rate allowHalf value={item.rate / 2} disabled />
               </div>
@@ -58,7 +58,7 @@ class Component extends React.Component {
           <div className="action" style={{ width: "100%" }}>
             <ul className="list-unstyled flex-this end">
               <li>
-                <div className="price" style={{ paddingRight: "10px" }}>
+                <div className="price-pro" style={{ paddingRight: "10px" }}>
                   <strong>{formatter.format(item.price)}₮</strong>
                 </div>
               </li>

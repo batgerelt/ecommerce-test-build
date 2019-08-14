@@ -6,6 +6,7 @@ import {
   Auth as AuthModel,
   Product as ProductModel,
   Cart as CartModel,
+  Locale as LocaleModel,
 } from "../../models";
 import List from "./list";
 import { Loader } from "../../components";
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   ...state.product,
   ...state.cart,
   ...state.category,
+  ...state.locale,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -24,6 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...AuthModel,
       ...ProductModel,
       ...CartModel,
+      ...LocaleModel,
     },
     dispatch,
   ),

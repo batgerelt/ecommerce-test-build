@@ -42,7 +42,7 @@ class PageHeader extends React.Component {
       const { title, subtitle, bgColor } = this.props;
       return (
         <div
-          className="whole-page-title class container pad10"
+          className="whole-page-title class container banner-pad"
           style={{
             backgroundImage: `url(${
               this.state.selected === undefined
@@ -56,7 +56,7 @@ class PageHeader extends React.Component {
           }}
           onClick={this.changeLocation}
         >
-          <div className="container pad10">
+          <div className="container">
             <div className="title-container flex-space">
               <h2>
                 <span className="big">{title}</span>

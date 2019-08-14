@@ -47,23 +47,23 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  async componentWillMount() {
-    await this.props.getCategoryMenu();
-    await this.props.getBrand();
-    await this.props.getHomePageBanner();
-    await this.props.getWidget();
-    await this.props.getPackage({
+  componentWillMount() {
+    this.props.getCategoryMenu();
+    this.props.getBrand();
+    this.props.getHomePageBanner();
+    this.props.getWidget();
+    this.props.getPackage({
       order: 'date_desc',
       start: 0,
       rowcnt: 20,
     });
-    await this.props.getNewProduct({});
-    await this.props.getRecipe({
+    this.props.getNewProduct({});
+    this.props.getRecipe({
       order: 'date_desc',
       start: 0,
       rowcnt: 20,
     });
-    await this.props.getDiscountProduct({
+    this.props.getDiscountProduct({
       jumcd: '99',
       start: 0,
       rowcnt: 20,
