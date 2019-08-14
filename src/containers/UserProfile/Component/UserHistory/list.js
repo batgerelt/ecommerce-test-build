@@ -64,7 +64,7 @@ class Component extends React.Component {
               </div>
             </div>
           </div>
-          <div className="action" style={{ width: "100%" }}>
+          <div className="action">
             <ul className="list-unstyled flex-this end">
               <li>
                 <div className="price" style={{ paddingRight: "10px" }}>

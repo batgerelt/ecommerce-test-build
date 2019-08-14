@@ -159,7 +159,6 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-    console.log(pathname);
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user = JSON.parse(localStorage.getItem('next'));
@@ -293,7 +292,7 @@ class UserButton extends React.Component {
                             <span style={{ color: "white" }}>Профайл хуудас</span>
                           </Link>
                         </li>
-                        <li clclassName={pathname === "/profile/history" ? "active" : " "} onClick={this.handleClose}>
+                        <li className={pathname === "/profile/history" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/history" className="flex-this">
                             <Avatar size="small" shape="square" src={history1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Үзсэн барааны түүх</span>
                           </Link>
