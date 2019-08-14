@@ -4,36 +4,32 @@ import PropTypes from "prop-types";
 
 class Banner extends React.Component {
   render() {
-    const { data } = this.props;
+    try {
+      const { data } = this.props;
+      const selected = data.length === undefined ? data : data[Math.floor(Math.random() * data.length)];
 
-    if (!data) {
-      return null;
-    }
-
-    // const selected = data[Math.floor(Math.random() * data.length)];
-
-    if (data) {
       return (
         <div className="banner-container">
-          <span style={{ backgroundImage: `url(${process.env.IMAGE + data.imgnm})` }} />
+          <span style={{ backgroundImage: `url(${process.env.IMAGE + selected.imgnm})` }} />
           <div className="container pad10">
-            <a href={data.link ? data.link : "#"} target="_blank">
+            <a href={selected.link ? selected.link : "#"} target="_blank">
               <img
                 alt="banner"
-                src={process.env.IMAGE + data.imgnm}
+                src={process.env.IMAGE + selected.imgnm}
                 className="img-fluid"
               />
             </a>
           </div>
         </div>
       );
+    } catch (error) {
+      return (
+        <div className="banner-container">
+          <span />
+          <div className="container pad10" />
+        </div>
+      );
     }
-    return (
-      <div className="banner-container">
-        <span />
-        <div className="container pad10" />
-      </div>
-    );
   }
 }
 
