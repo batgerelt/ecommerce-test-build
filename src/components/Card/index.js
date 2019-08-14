@@ -140,7 +140,6 @@ class Card extends React.Component {
             ));
           }
         } else if (item.cd) {
-          console.log('item: ', item);
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);
 
@@ -419,9 +418,6 @@ class Card extends React.Component {
           featureText = item.feature_en;
         }
       }
-
-      console.log('itemName: ', itemName);
-      console.log('featureText: ', featureText);
 
       switch (shape) {
         case CARD_TYPES.slim:

@@ -29,7 +29,6 @@ class Signin extends React.Component {
             // eslint-disable-next-line consistent-return
             this.props.getUserInfo().then(async (res) => {
               if (res.payload.success) {
-                console.log(res.payload);
                 if (res.payload.data.main !== null) {
                   this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
                   this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
@@ -47,15 +46,8 @@ class Signin extends React.Component {
                   return message.error(result.payload.message);
                 }
                 this.props.getProducts().then((res) => {
-                  let k = 0;
-                  products.map((item, i) => {
-                    res.payload.data.map((item1, i1) => {
-                      if (item.skucd === item1.cd) {
-                        k = 1;
-                      }
-                    });
-                  });
-                  if (res.payload.data.length !== 0 && k === 0) {
+                  let k = res.payload.data.length - products.length;
+                  if (res.payload.data.length !== 0 && k !== 0) {
                     this.props.history.push("/cart");
                   } else {
                     this.props.callback("2");
