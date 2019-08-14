@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { BackTop, Avatar } from "antd";
 import store from "../../../src/scss/assets/images/demo/store.png";
@@ -8,6 +9,7 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class List extends React.Component {
   renderTable = () => {
+    const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
       return orderdetail.items.map((item, index) => (
@@ -23,8 +25,8 @@ class List extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <strong>{item.name}</strong>
-                <span>{item.backtxt}</span>
+                <strong>{lang === "mn" ? item.name : item.name_en}</strong>
+                <span>{lang === "mn" ? item.backtxt : item.backtxt_en}</span>
               </div>
             </div>
           </td>
@@ -54,36 +56,37 @@ class List extends React.Component {
   renderDelivery = () => {
     try {
       const { orderdetail } = this.props;
+      const lang = this.props.intl.locale;
       if (orderdetail.info !== null) {
         return (
           <div className="cart-info">
             <h5 className="title">
-              <span>Захиалгын дүн</span>
+              <span><FormattedMessage id="shared.sidebar.title.orderInfo" /></span>
             </h5>
             <div className="block">
               <ul className="list-unstyled">
                 <li className="flex-this flex-space">
-                  <span>Нийт барааны үнэ</span>
+                  <span><FormattedMessage id="shared.sidebar.label.totalPrice" /></span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span>Хүргэлтийн үнэ</span>
+                  <span><FormattedMessage id="shared.sidebar.label.deliveryCost" /></span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
-                  <strong>Нийт дүн</strong>
+                  <strong><FormattedMessage id="shared.sidebar.label.total" /></strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span>НӨАТ</span>
+                  <span><FormattedMessage id="shared.sidebar.label.tax" /></span>
                   <strong>{formatter.format(orderdetail.info.totalvatamount)}₮</strong>
                 </li>
               </ul>
             </div>
             <h5 className="title flex-this flex-space">
-              <span>Хүргэлтийн төлөв</span>
+              <span><FormattedMessage id="shared.sidebar.title.deliveryStatus" /></span>
               <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
-                {orderdetail.info.customerstatusname}
+                {lang === "mn" ? orderdetail.info.customerstatusname : orderdetail.info.customerstatusname_en}
               </strong>
             </h5>
             <div className="block">
@@ -135,11 +138,13 @@ class List extends React.Component {
       const { orderdetail } = this.props;
       if (orderdetail.info !== null) {
         return (
-          <span className="text-uppercase">Захиалга #{orderdetail.info === undefined ? null : orderdetail.info.ordernumber}</span>
+          <span className="text-uppercase">
+            <FormattedMessage id="orderDetail.title.orderNumber" /> #{orderdetail.info === undefined ? null : orderdetail.info.ordernumber}
+          </span>
         );
       }
       return (
-        <span className="text-uppercase">Захиалга хоосон байна.</span>
+        <span className="text-uppercase"><FormattedMessage id="orderDetail.info.noOrders" /></span>
       );
     } catch (error) {
       return console.log(error);
@@ -160,7 +165,7 @@ class List extends React.Component {
                   <div className="row">
                     <div className="col">
                       <h5 className="title">
-                        <span>Захиалсан бараанууд</span>
+                        <span><FormattedMessage id="orderDetail.table.title" /></span>
                       </h5>
                     </div>
                     <div className="col">
@@ -170,7 +175,7 @@ class List extends React.Component {
                         style={{ marginTop: "15px" }}
                       >
                         <Avatar size="small" shape="square" src={store} />
-                        <span className="text-uppercase"> Захиалгын жагсаалт харах</span>
+                        <span className="text-uppercase"> <FormattedMessage id="orderDetail.button.showOrderList" /></span>
                       </Link>
                     </div>
                   </div>
@@ -178,17 +183,17 @@ class List extends React.Component {
                     <table className="table table-borderless">
                       <thead className="thead-light">
                         <tr>
-                          <th className="column-1">Бүтээгдэхүүний нэр</th>
+                          <th className="column-1"><FormattedMessage id="orderDetail.table.col.productName" /></th>
                           <th className="column-2">
-                            <span style={{ float: "right" }}>Нэгжийн үнэ</span>
+                            <span style={{ float: "right" }}><FormattedMessage id="orderDetail.table.col.unitPrice" /></span>
                           </th>
                           <th className="column-3">
-                            <span style={{ float: "right" }}>Тоо ширхэг</span>
+                            <span style={{ float: "right" }}><FormattedMessage id="orderDetail.table.col.quantity" /></span>
                           </th>
                           <th className="column-4">
                             <span style={{ float: "right" }}>
                               <p className="price total">
-                                <strong>Нийт үнэ</strong>
+                                <strong><FormattedMessage id="orderDetail.table.col.totalPrice" /></strong>
                               </p>
                             </span>
                           </th>
@@ -211,4 +216,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default injectIntl(List);

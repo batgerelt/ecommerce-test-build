@@ -7,6 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
   InfiniteLoader,
@@ -321,7 +322,7 @@ class CategoryInfo extends React.Component {
         );
       }
 
-      return <div className="block">Ангилал байхгүй байна</div>;
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -356,10 +357,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="search.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -378,7 +379,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>Шүүлтүүр</strong>
+                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -413,7 +414,7 @@ class CategoryInfo extends React.Component {
                     <strong style={{ marginRight: 5 }}>
                       {searchKeyWordResponse.hits.total.value}
                     </strong>
-                    бараа олдлоо
+                    <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -433,7 +434,7 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
                       onChange={this.handleChangeOrder}
@@ -441,10 +442,10 @@ class CategoryInfo extends React.Component {
                       id="inputState"
                     >
                       <Select.Option value="price_asc">
-                        Үнэ өсөхөөр
+                        <FormattedMessage id="search.sort.values.priceAsc" />
                       </Select.Option>
                       <Select.Option value="price_desc">
-                        Үнэ буурахаар
+                        <FormattedMessage id="search.sort.values.priceDesc" />
                       </Select.Option>
                     </Select>
                   </div>

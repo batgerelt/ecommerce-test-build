@@ -6,6 +6,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Spin, Select } from "antd";
 import { toast } from "react-toastify";
@@ -78,7 +79,7 @@ class CategoryInfo extends React.Component {
       filters = (
         <div>
           <h5 className="title">
-            <strong>Шүүлтүүр</strong>
+            <strong><FormattedMessage id="search.filter.filter.title" /></strong>
           </h5>
           <div className="left-filter">{filters}</div>
         </div>
@@ -101,10 +102,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong>Хайлтын үр дүн</strong>
+                <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span>Ангилал</span>
+                <span><FormattedMessage id="search.filter.category.title" /></span>
               </p>
               {filters}
             </div>
@@ -151,7 +152,7 @@ class CategoryInfo extends React.Component {
                   <p className="text">
                     {/* <strong>"{selectedCat}"</strong> */}
                     {products.length}{" "}
-                    бараа олдлоо
+                    <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -163,7 +164,7 @@ class CategoryInfo extends React.Component {
                       onClick={this.showLeftPanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">Шүүлтүүр</span>
+                      <span className="text-uppercase"><FormattedMessage id="search.filter.filter.title" /></span>
                     </a>
                   </div>
                   <div className="form-group my-select flex-this">
@@ -174,7 +175,7 @@ class CategoryInfo extends React.Component {
                         marginRight: "5px",
                       }}
                     >
-                      Эрэмбэлэх:
+                      <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
                       defaultValue={this.state.sort}
@@ -182,8 +183,8 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc">Үнэ буурахаар</Select.Option>
-                      <Select.Option value="price_asc">Үнэ өсөхөөр</Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this">

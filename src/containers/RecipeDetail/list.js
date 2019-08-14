@@ -372,7 +372,7 @@ class List extends React.Component {
               />
             </div>
             <div className="col-md-8">
-              <h4>АЛХАМ {++index}</h4>
+              <h4><FormattedMessage id="recipeDetail.label.step" /> {++index}</h4>
               {lang === "mn" ? step.description : step.description_en}
               <p />
             </div>
