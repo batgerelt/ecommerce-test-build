@@ -435,7 +435,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;

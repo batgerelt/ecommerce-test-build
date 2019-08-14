@@ -438,7 +438,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 284.98;
+        tmp = 300.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -584,12 +584,13 @@ class CategoryInfo extends React.Component {
   };
 
   renderBanner = () => {
+    const lang = localStorage.getItem('lang');
     try {
       const { menuSeason, seasonbanner } = this.props;
       return (
         <PageBanner
-          title={menuSeason.menunm}
-          subtitle={menuSeason.subtitle}
+          title={lang === "mn" ? menuSeason.menunm : menuSeason.menunm_en}
+          subtitle={lang === "mn" ? menuSeason.subtitle : menuSeason.subtitle_en}
           banners={seasonbanner}
           bgColor="#00CFB4"
         />

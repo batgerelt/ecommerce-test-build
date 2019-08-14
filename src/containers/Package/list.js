@@ -23,11 +23,23 @@ class Discount extends React.Component {
     this.state = {
       products: [],
       headerProducts: [],
-      rowCount: 1,
-      count: 0,
+      rowCount: 0,
+      count: 10,
       loading: false,
       finish: false,
     };
+  }
+
+  componentWillMount() {
+    /*  this.props.getPackage({
+       order: "date_desc",
+       start: 0,
+       rowcnt: 10,
+     }).then((res) => {
+       if (res.payload.success) {
+         this.setState({ headerProducts: res.payload.data.products, rowCount: res.payload.data.count });
+       }
+     }); */
   }
 
   renderMainBanner = () => {
@@ -49,7 +61,7 @@ class Discount extends React.Component {
 
   renderHeaderProduct = () => {
     try {
-      const { widgetAll, packageAll } = this.props;
+      const { widgetAll } = this.props;
       return (
         <div className="section package">
           <div className="container pad10">
@@ -57,7 +69,7 @@ class Discount extends React.Component {
               <CardList
                 cardListType={CARD_LIST_TYPES.horizontal}
                 seq={widgetAll.find(i => i.slug === "package").type}
-                items={packageAll.slice(0, 8)}
+                items={this.state.headerProducts}
                 {...this.props}
               />
             }
@@ -84,19 +96,15 @@ class Discount extends React.Component {
   // data nemeh heseg
   loadMoreRows = async (key) => {
     try {
-      if (this.props.packageFetching === false && this.state.products.length < this.state.rowCount && this.state.loading === false) {
-        this.setState({ loading: true });
-        let result = await this.props.getPackage({
+      const {
+        packageScroll, packageRowCount,
+      } = this.props;
+      if (!this.props.packageFetching && packageScroll.length + this.state.headerProducts.length < packageRowCount) {
+        this.props.getPackageScroll({
           order: "date_desc",
-          start: this.state.count,
+          start: this.props.packageCount,
           rowcnt: 20,
         });
-        if (result.payload.success) {
-          let tmp = this.state.products;
-          this.setState({
-            products: tmp.concat(result.payload.data.products), count: this.state.count + 20, rowCount: result.payload.data.count, loading: false,
-          });
-        }
       }
     } catch (error) {
       return console.log(error);
@@ -106,13 +114,13 @@ class Discount extends React.Component {
   noRowsRenderer = () => <div>No data</div>;
 
   isRowLoaded = (index, width) => {
-    const { products } = this.state;
+    const { packageScroll } = this.props;
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width, cardType);
     const allItemsLoaded =
       this.generateIndexesForRow(
         index,
         maxItemsPerRow,
-        products.length,
+        packageScroll.length,
       ).length > 0;
     return !true || allItemsLoaded;
   }
@@ -159,17 +167,18 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { packageAll, widgetAll } = this.props;
+      const { packageScroll, widgetAll } = this.props;
+      console.log(packageScroll);
       return (
         <div className="section">
           <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {
-                const { products } = this.state;
+                const { packageScroll } = this.props;
                 const rowCount = this.getRowsAmount(
                   width,
-                  products.length,
-                  this.state.products.length < this.state.rowCount,
+                  packageScroll.length,
+                  this.props.packageScroll.length < this.props.packageRowCount,
                 );
                 return (
                   <InfiniteLoader
@@ -192,7 +201,7 @@ class Discount extends React.Component {
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
                               cardType = 1;/* index % 2 === 0 ? 2 : 1; */
-                              const { products } = this.state;
+                              const { packageScroll } = this.props;
                               const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                                 width,
                                 cardType,
@@ -200,8 +209,8 @@ class Discount extends React.Component {
                               const rowItems = this.generateIndexesForRow(
                                 index,
                                 maxItemsPerRow,
-                                products.length,
-                              ).map(itemIndex => products[itemIndex]);
+                                packageScroll.length,
+                              ).map(itemIndex => packageScroll[itemIndex]);
                               return (
                                 <div style={style} key={key} className="jss148">
                                   {rowItems.map(itemId => (

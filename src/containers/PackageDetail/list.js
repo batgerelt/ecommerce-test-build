@@ -20,8 +20,8 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleSimilarProductIncrement = async (product) => {
+    const { intl } = this.props;
     if (this.props.isLogged) {
-      const { intl } = this.props;
       const result = await this.props.incrementProductRemotely({
         skucd: product.cd,
         qty: product.saleminqty || 1,

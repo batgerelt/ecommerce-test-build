@@ -78,7 +78,10 @@ class index extends Component {
             `}
               <span className="text">
                 <div>
-                  <small>{tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").name}</small>
+                  <small>
+                    {localStorage.getItem('lang') === "mn" ? tags.find(tag => tag.slug === "new").name
+                      : tags.find(tag => tag.slug === "new").nameen}
+                  </small>
                 </div>
               </span>
             </Style>
@@ -244,12 +247,14 @@ class index extends Component {
                 margin-left: 2px;
                 line-height: 1.2;
                 letter-spacing: 1px;
-                bottom: 6px;
+                bottom: ${localStorage.getItem('lang') === "mn" ? '6px' : '-3px'};
               }
-            `}
+             `}
               <span className="text">
                 <div>
-                  <small>{tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").name}</small>
+                  <small>
+                    { localStorage.getItem('lang') === "mn" ? tags.find(tag => tag.slug === "sold_out").name : tags.find(tag => tag.slug === "sold_out").nameen}
+                  </small>
                 </div>
               </span>
             </Style>

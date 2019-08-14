@@ -309,9 +309,8 @@ class SwalModals extends Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
+          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData, totalQty,
         } = this.props;
-
         const messages = defineMessages({
           warning1: {
             id: "checkout.swal.label.orderNumber",
@@ -360,7 +359,7 @@ class SwalModals extends Component {
                               {intl.formatMessage({ id: "checkout.swal.label.productsCount" })}
                             </span>
                             <strong className="big">
-                              {ordData.order.orderquantity}
+                              {totalQty}
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
