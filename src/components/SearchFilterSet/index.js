@@ -20,37 +20,32 @@ class FilterSet extends React.Component {
 class Content extends React.Component {
   renderAttribute = () => {
     try {
-      const {
-        attrvalue, attrall, data, lang,
-      } = this.props;
+      const { attrvalue, attrall, data } = this.props;
+      const lang = localStorage.getItem('lang');
 
       return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
-        let attname = lang === "mn" ? attrall.find(i => i.id === attribute.key).name : attrall.find(i => i.id === attribute.key).nameen;
-
         if (attribute.doc_count >= data.hits.total.value) {
           return (
-            <Collapse.Panel header={attname} key={index}>
+            <Collapse.Panel header={lang === "mn" ? attrall.find(i => i.id === attribute.key).name : attrall.find(i => i.id === attribute.key).nameen} key={index}>
               <div className="collapse show">
                 <div className="collapse-content">
                   <ul className="list-unstyled">
                     {
-                        attribute.values.buckets.map((attributeval, ind) => {
-                          let attrvaluenm = lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen;
-
-                          return (
-                            <li key={ind} style={{ display: 'flex', height: '25px' }}>
-                              <Checkbox
-                                key={ind}
-                                onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
-                                style={{ color: 'gray', width: 25, height: 25 }}
-                                icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
-                                checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
-                              />
-
-                              <label style={{ marginLeft: 5, lineHeight: '28px' }}>{attrvaluenm}</label>
-                            </li>
-                          );
-                        })
+                        attribute.values.buckets.map((attributeval, ind) => (
+                          <li key={ind} style={{ display: 'flex', height: '25px' }}>
+                            <Checkbox
+                              key={ind}
+                              onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
+                              style={{ color: 'gray', width: 25, height: 25 }}
+                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                            />
+                            <label style={{ marginLeft: 5, lineHeight: '28px' }}>
+                              {lang === "mn" ? console.log('mn') : console.log('en')}
+                              {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
+                            </label>
+                          </li>
+                          ))
                       }
                   </ul>
                 </div>
@@ -70,7 +65,9 @@ class Content extends React.Component {
   // Шүүлтүүр хэсгийн брендийн жагсаалт харуулах хэсэг
   renderFilterBrand = () => {
     try {
-      const { data, brandall, lang } = this.props;
+      const { data, brandall } = this.props;
+      const lang = localStorage.getItem('lang');
+
       if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
           <Collapse.Panel header="Бренд" key="8">

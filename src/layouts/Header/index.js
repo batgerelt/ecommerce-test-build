@@ -48,9 +48,13 @@ class AppHeader extends Component {
 
     if (this.state.word.length >= 1) {
       this.props.searchWord({ keyword: e.target.value }).then((res) => {
-        res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        if (res !== undefined) {
+          res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
+        } else { this.setState({ suggestion: [] }); }
       });
     }
+
+    if (e.target.value.length === 1) { this.setState({ suggestion: [] }); }
   };
 
   handleChangeCategory = (item) => {

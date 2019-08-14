@@ -22,14 +22,14 @@ class Signin extends React.Component {
       if (!err) {
         this.props.login({ body: { ...values } }).then(async (r) => {
           if (r.payload.success) {
-            const realImage = JSON.stringify(process.env.IMAGES + r.payload.data[0].info.customerInfo.imgnm);
-            localStorage.setItem('img', realImage);
+            localStorage.setItem('img', r.payload.data[0].info.customerInfo.imgnm);
             localStorage.setItem('auth', JSON.stringify(r.payload));
             localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
             localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
             // eslint-disable-next-line consistent-return
             this.props.getUserInfo().then(async (res) => {
               if (res.payload.success) {
+                console.log(res.payload);
                 if (res.payload.data.main !== null) {
                   this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
                   this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });

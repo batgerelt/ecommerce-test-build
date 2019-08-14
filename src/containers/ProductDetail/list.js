@@ -168,31 +168,37 @@ class ProductDetail extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    return (
-      <div className="section">
-        <div className="container">
-          {this.renderBreadCrumb()}
-          <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
-            <div className="row row10">
-              <div className="col-sm-9 col-md-9 col-lg-9 row" style={{ paddingLeft: "5px" }}>
-                <div className="col-xl-5 col-lg-5 col-md-5" style={{ paddingLeft: "5px" }}>
-                  {this.renderGallery()}
-                  {this.renderSocialButtons()}
+    if (this.props.detail !== null && this.props.detail.products !== null) {
+      return (
+        <div className="section">
+          <div className="container">
+            {this.renderBreadCrumb()}
+            <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
+              <div className="row row10">
+                <div className="col-sm-9 col-md-9 col-lg-9 row" style={{ paddingLeft: "5px" }}>
+                  <div className="col-xl-5 col-lg-5 col-md-5" style={{ paddingLeft: "5px" }}>
+                    {this.renderGallery()}
+                    {this.renderSocialButtons()}
+                  </div>
+                  {this.renderDetails()}
                 </div>
-                {this.renderDetails()}
-              </div>
-              <div className="col-xl-3 col-lg-3 col-sm-3 col-md-3">
-                <div className="product-plus">
-                  {this.renderDeliveryInfo()}
-                  {this.renderRealational()}
+                <div className="col-xl-3 col-lg-3 col-sm-3 col-md-3">
+                  <div className="product-plus">
+                    {this.renderDeliveryInfo()}
+                    {this.renderRealational()}
+                  </div>
                 </div>
+                {this.renderMoreInfo()}
+                {this.renderCommentList()}
               </div>
-              {this.renderMoreInfo()}
-              {this.renderCommentList()}
             </div>
           </div>
         </div>
+      );
+    }
+    return (
+      <div>
+        Бараа олдсонгүй
       </div>
     );
   }

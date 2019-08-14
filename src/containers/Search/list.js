@@ -597,6 +597,7 @@ class CategoryInfo extends React.Component {
                     <WindowScroller>
                       {({ height, scrollTop }) => (
                         <List
+                          style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
                           height={340}

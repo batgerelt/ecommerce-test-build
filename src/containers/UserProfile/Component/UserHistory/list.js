@@ -61,14 +61,16 @@ class Component extends React.Component {
                   <p className="text">{lang === "mn" ? item.shortnm : item.shortnm_en}</p>
                 </Link>
                 <Rate allowHalf value={item.rate / 2} disabled />
-                <div className="price">
-                  <strong>{formatter.format(item.price)}₮</strong>
-                </div>
               </div>
             </div>
           </div>
-          <div className="action" style={{ width: "100%" }}>
+          <div className="action">
             <ul className="list-unstyled flex-this end">
+              <li>
+                <div className="price" style={{ paddingRight: "10px" }}>
+                  <strong>{formatter.format(item.price)}₮</strong>
+                </div>
+              </li>
               <li>
                 <Link to="#">
                   <i
