@@ -584,12 +584,13 @@ class CategoryInfo extends React.Component {
   };
 
   renderBanner = () => {
+    const lang = localStorage.getItem('lang');
     try {
       const { menuSeason, seasonbanner } = this.props;
       return (
         <PageBanner
-          title={menuSeason.menunm}
-          subtitle={menuSeason.subtitle}
+          title={lang === "mn" ? menuSeason.menunm : menuSeason.menunm_en}
+          subtitle={lang === "mn" ? menuSeason.subtitle : menuSeason.subtitle_en}
           banners={seasonbanner}
           bgColor="#00CFB4"
         />

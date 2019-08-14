@@ -628,6 +628,7 @@ class Card extends React.Component {
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                       backgroundSize: "contain",
+                      height: '100px',
                     }}
                   />
                 </Link>
