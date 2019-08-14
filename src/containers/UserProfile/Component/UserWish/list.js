@@ -58,7 +58,7 @@ class Component extends React.Component {
           <div className="action" style={{ width: "100%" }}>
             <ul className="list-unstyled flex-this end">
               <li>
-                <div className="price" style={{ paddingRight: "10px" }}>
+                <div className="price-pro" style={{ paddingRight: "10px" }}>
                   <strong>{formatter.format(item.price)}₮</strong>
                 </div>
               </li>
