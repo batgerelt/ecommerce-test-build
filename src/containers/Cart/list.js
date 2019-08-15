@@ -505,7 +505,7 @@ class Cart extends React.Component {
                             style={{
                               backgroundImage: `url(${
                                 process.env.IMAGE
-                                }${prod.img || prod.url || ""})`,
+                                }${prod.img || prod.imgnm || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -515,8 +515,8 @@ class Cart extends React.Component {
                           to={prod.route || ""}
                           style={{ color: "#6c757d" }}
                         >
-                          <strong>{lang === "mn" ? prod.name : prod.name_en}</strong>
-                          <span>{lang === "mn" ? prod.featuretxt : prod.featuretxt_en}</span>
+                          <strong>{lang === "mn" ? prod.name || prod.title : prod.name_en || prod.title_en}</strong>
+                          <span>{lang === "mn" ? prod.featuretxt || prod.feature : prod.featuretxt_en || prod.feature_en}</span>
                         </Link>
                       </div>
                     </div>

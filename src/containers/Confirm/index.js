@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class PackageDetail extends React.Component {
   componentWillMount() {
     this.props.confirm({ key: this.props.match.params.key }).then((res) => {
-      console.log(res);
     });
   }
 

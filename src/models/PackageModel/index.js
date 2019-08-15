@@ -200,7 +200,7 @@ class Model extends BaseModel {
         products.splice(index, 1, found);
       }
     } else {
-      if (product.isgift === 1) {
+      if (product.isgift) {
         if (product.qty < product.saleminqty) {
           product.qty = 0;
         }
