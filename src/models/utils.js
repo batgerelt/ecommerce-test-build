@@ -7,6 +7,7 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
+  // bitgii hamaagvi uurchluud baildaa uur zunduu gazar ashiglchihsn bgaa ymiig !!!!!!!!!!!!!!!!!!!!
   const root = localStorage.getItem('auth') === null ? null : JSON.parse(localStorage.getItem('auth'));
   if (root !== null) {
     bearerHeader += root.data[0].info.access_token;
@@ -28,7 +29,7 @@ const request = ({
     // console.log('to: ', to);
 
     const to = localStorage.getItem("lang");
-    return fetch(withQuery(process.env.API.replace(/(en|mn)/i, 'mn') + url, body), {
+    return fetch(withQuery(process.env.API + url, body), {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -100,7 +101,7 @@ const asyncFn = ({
       if (data && data.success) {
         // if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
       } else {
-        message.warning(data.message);
+        message.warning('data.message');
       }
       if (!data) {
         throw new Error('no data provided');

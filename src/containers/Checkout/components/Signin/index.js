@@ -79,6 +79,7 @@ class Signin extends React.Component {
             <div className="offset-md-3 col-md-6 pad10">
               <Form.Item style={{ marginBottom: "10px" }}>
                 {getFieldDecorator("email", {
+                  initialValue: "",
                   rules: [
                     {
                       required: true,
@@ -89,7 +90,6 @@ class Signin extends React.Component {
                 })(
                   <Input
                     type="text"
-                    defaultValue=""
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
                     className="form-control"
@@ -98,6 +98,7 @@ class Signin extends React.Component {
               </Form.Item>
               <Form.Item style={{ marginBottom: "10px" }}>
                 {getFieldDecorator("password", {
+                  initialValue: "",
                   rules: [
                     {
                       required: true,
@@ -108,7 +109,6 @@ class Signin extends React.Component {
                   <Input.Password
                     placeholder={intl.formatMessage({ id: "shared.form.password.validation.required" })}
                     autoComplete="off"
-                    defaultValue=""
                     className="form-control"
                   />,
                 )}
