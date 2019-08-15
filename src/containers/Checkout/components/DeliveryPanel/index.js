@@ -224,7 +224,7 @@ class DeliveryPanel extends React.Component {
                 }
               });
             } else {
-              message.error(res.payload.message);
+              message.warning(res.payload.message);
             }
           });
         };

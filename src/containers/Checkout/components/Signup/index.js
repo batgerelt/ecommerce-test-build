@@ -46,11 +46,11 @@ class Signup extends React.Component {
               this.props.LoginRegisterPanel.changeTab(1);
               message.success("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
             } else {
-              message.error(res.payload.message);
+              message.warning(res.payload.message);
             }
           });
         } else {
-          message.error(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
+          message.warning(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
         }
       }
     });

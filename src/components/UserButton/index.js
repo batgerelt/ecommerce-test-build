@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress, Icon, Button, Upload, Spin, message } from "antd";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
@@ -33,7 +33,7 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.error('5MB-ээс бага хэмжээтэй зураг оруулна уу');
+    message.warning('5MB-ээс бага хэмжээтэй зураг оруулна уу');
   }
   return isLt2M;
 }
@@ -59,6 +59,11 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
+
+    if (!this.props.isLogged) {
+      const { intl } = this.props;
+      message.warning(intl.formatMessage({ id: "userButton.info.success" }));
+    }
   }
 
   handleChange = (info) => {
@@ -337,7 +342,7 @@ class UserButton extends React.Component {
   }
 }
 
-export default UserButton;
+export default injectIntl(UserButton);
 
 /* <div className={`dropdown ${profilemenu}`}>
               <div className="drop-content">

@@ -76,7 +76,6 @@ class Bookmarks extends PureComponent {
   loadMoreRows = () => {
     try {
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-        console.log('res: ', res);
         if (res.payload.success) {
           this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
         }

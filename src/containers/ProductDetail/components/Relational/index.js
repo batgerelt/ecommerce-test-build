@@ -14,16 +14,6 @@ class Relational extends Component {
     isShowMoreClicked: false,
   };
 
-  handleNotify = (message) => {
-    toast(message, {
-      autoClose: 5000,
-      position: "top-center",
-      progressClassName: css({
-        background: "#feb415",
-      }),
-    });
-  };
-
   handleShowMoreClick = () => {
     this.setState({ isShowMoreClicked: true });
   };
@@ -34,7 +24,7 @@ class Relational extends Component {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
           skucd: product.cd,
-          qty: product.addminqty || 1,
+          qty: product.saleminqty || 1,
           iscart: 0,
         });
 

@@ -25,10 +25,10 @@ class ForgetModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return message.error(intl.formatMessage({ id: res.payload.code }));
+            return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
 
-          message.info(intl.formatMessage({ id: res.payload.message }));
+          message.warning(intl.formatMessage({ id: res.payload.code }));
           this.handleForgetModal();
         });
       }

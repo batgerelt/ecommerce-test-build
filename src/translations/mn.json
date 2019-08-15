@@ -32,6 +32,7 @@
 	"426": "Хэрэглэгчийн мэйл хаяг хоосон байна",
 	"427": "Имэйл хаяг бүртгэгдсэн байна",
 	"428": "Утасны дугаар бүртгэгдсэн байна",
+	"434": "Имэйл хаягаа шалгана уу",
 	"500": "Та уг барааг худалдан авсан тохиололд үнэлгээ өгөх боломжтой",
 	"501": "Та уг барааг худалдан авсан тохиололд сэтгэгдэл үлдээх боломжтой",
 	"600": "Ийм дугаартай захиалга олдсонгүй",
@@ -259,12 +260,12 @@
 	"shared.form.password.validation.pattern": "Нууц үг 4 тэмдэгтээс урт байх ёстой",
 	"shared.form.password.validation.min": "Нууц үг 4 тэмдэгтээс урт байх ёстой",
 	"shared.form.passwordAgain.placeholder": "Нууц үг давтах",
-	"shared.form.passwordAgain.validation.compare": "Нууц үгүүд ижил байх ёстой",
+	"shared.form.passwordAgain.validation.compare": "Нууц үгээ зөв давтана уу",
 	"shared.form.passwordAgain.validation.required": "Нууц үгээ дахин оруулна уу",
 	"shared.form.password.validation.required": "Нууц үгээ оруулна уу",
 	"shared.form.phone1.placeholder": "Утас 1",
-	"shared.form.phone1.validation.min": "Утас 8 тоотой байх ёстой",
-	"shared.form.phone1.validation.pattern": "Утас 8 тоотой байх ёстой",
+	"shared.form.phone1.validation.min": "Утасны дугаар 8 оронтой байна",
+	"shared.form.phone1.validation.pattern": "Утасны дугаар 8 оронтой байна",
 	"shared.form.phone1.validation.required": "Утасны дугаараа оруулна уу",
 	"shared.form.phone2.placeholder": "Утас 2",
 	"shared.sidebar.button.pay": "Төлбөр төлөх",
@@ -290,5 +291,6 @@
 	"shared.sidebar.title.recipeProducts": "Хоолны жоронд орсон бараа",
 	"shared.sidebar.title.relatedProducts": "Хослох бараа",
 	"shared.sidebar.title.similarProducts": "Ижил бараа",
-	"shared.sidebar.title.wishlist": "Хадгалсан бараа"
+	"shared.sidebar.title.wishlist": "Хадгалсан бараа",
+	"userButton.info.success": "Амжилттай гарлаа"
 }
