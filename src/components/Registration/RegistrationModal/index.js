@@ -33,7 +33,7 @@ class RegistrationModal extends React.Component {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }
 
-          message.warning(intl.formatMessage({ id: res.payload.message }));
+          message.warning(intl.formatMessage({ id: res.payload.code }));
           this.handleSignup();
         });
       }
@@ -55,12 +55,13 @@ class RegistrationModal extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
+    const { intl } = this.props;
     if (value.length < 6) {
-      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
     } else if (value.search(/[a-zA-ZА-Яа-яөүӨҮ]/) === -1) {
-      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
     } else if (value.search(/[0-9]/) === -1) {
-      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
     } else {
       callback();
     }

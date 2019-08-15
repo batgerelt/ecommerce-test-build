@@ -211,9 +211,11 @@ class AppHeader extends Component {
                               aria-expanded="false"
                               style={{ boxShadow: 'none' }}
                             >
-                              {this.state.item.name
+                              {
+                                this.state.item.name
                                 ? this.state.item.name
-                                : <FormattedMessage id="header.category.label.allProducts" />}
+                                  : <FormattedMessage id="header.category.label.allProducts" />
+                              }
                             </button>
                             <div
                               className={dropdownClass}

@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { message, Button } from "antd";
 
@@ -13,13 +14,12 @@ class List extends React.Component {
   renderSuccessTrue() {
     return (
       <div>
-        <h3>Баталгаажуулалт амжилттай</h3>
-        <p>
-          Та өөрийн бүртгүүлсэн хаягаараа нэвтрэн орж худалдан авалтаа хийх
-          боломжтой
-        </p>
-        <p>Манай системийн хэрэглэгч болсон танд баярлалаа!</p>
-        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>нэвтрэх</Button>
+        <h3><FormattedMessage id="registration.confirmation.title" /></h3>
+        <p><FormattedMessage id="registration.confirmation.body1" /></p>
+        <p><FormattedMessage id="registration.confirmation.body2" /></p>
+        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>
+          <FormattedMessage id="shared.form.button.login" />
+        </Button>
       </div>
     );
   }
