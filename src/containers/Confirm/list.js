@@ -31,6 +31,7 @@ class List extends React.Component {
   renderConfirm = () => {
     try {
       const { confirms } = this.props;
+      console.log(confirms.success);
       if (confirms.success) {
         return this.renderSuccessTrue();
       }
@@ -41,7 +42,6 @@ class List extends React.Component {
   }
   render() {
     const { confirms } = this.props;
-    console.log(this.props);
     return (
       <div className="top-container">
         <div className="section">
@@ -54,13 +54,13 @@ class List extends React.Component {
                     className="logo"
                     style={{ width: "15%", marginBottom: "50px" }}
                   >
-                    {/* <img
+                    <img
                       style={{ width: "100%" }}
                       alt="logo"
-                      src={IMAGE + staticInfo.logopath}
-                    /> */}
+                      src="http://test.emart.urto.mn/Uploads/Products/emartMallLogo.png"
+                    />
                   </div>
-                  {confirms.length === 0 ? null : this.renderSuccessTrue()}
+                  {confirms.length === 0 ? null : this.renderConfirm()}
                 </center>
               </div>
             </div>
