@@ -163,6 +163,7 @@ class Bookmarks extends PureComponent {
       const { headerProducts } = this.state;
       const data = [];
 
+      console.log('headerProducts: ', headerProducts);
       headerProducts.map(i => data.push(i._source));
       return (
         <div style={{ paddingTop: '10px' }}>
