@@ -490,7 +490,7 @@ class Model extends BaseModel {
           products.splice(index, 1, found);
         }
       } else {
-        if (product.isgift === 1) {
+        if (product.isgift) {
           if (product.qty < product.saleminqty) {
             product.qty = product.saleminqty;
             product.error = "204";
@@ -528,7 +528,6 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
-          console.log('action.payload: ', action.payload);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),

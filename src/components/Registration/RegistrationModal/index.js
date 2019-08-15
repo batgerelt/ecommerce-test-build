@@ -33,7 +33,7 @@ class RegistrationModal extends React.Component {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }
 
-          message.warning(intl.formatMessage({ id: res.payload.message }));
+          message.warning(intl.formatMessage({ id: res.payload.code }));
           this.handleSignup();
         });
       }
