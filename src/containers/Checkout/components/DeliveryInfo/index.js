@@ -200,6 +200,7 @@ class DeliveryInfo extends React.Component {
 
   sendPayment = (tmp) => {
     const { PaymentTypePanel } = this.props;
+    console.log("request", tmp);
     let data;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
       this.props.changeLoading(false);
@@ -427,7 +428,9 @@ class DeliveryInfo extends React.Component {
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
-              <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.pay" /></span>
+              <span className="text-uppercase">
+                <FormattedMessage id="shared.sidebar.button.pay" />
+              </span>
             </button>
           </div>
         </div>

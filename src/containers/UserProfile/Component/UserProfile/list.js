@@ -191,12 +191,12 @@ class Component extends React.Component {
   renderCard(card) {
     return (
       <Col span={24}>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Form.Item>
             <Input value={card.cardno} disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Form.Item>
             <Input value="0000" type="password" disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
           </Form.Item>
@@ -211,7 +211,7 @@ class Component extends React.Component {
     const { loader } = this.state;
     return (
       <Col span={24}>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
@@ -230,7 +230,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
@@ -249,7 +249,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
@@ -277,7 +277,7 @@ class Component extends React.Component {
     const { loader } = this.state;
     return (
       <Col span={24}>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
               initialValue: this.checkError(this.state.params.provid),
@@ -296,7 +296,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
               initialValue: this.checkError(this.state.params.distid),
@@ -316,7 +316,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
               initialValue: this.checkError(this.state.params.commid),
@@ -347,7 +347,7 @@ class Component extends React.Component {
         <div className="row row10">
           <Form>
 
-            <Col span={8}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("lastname", {
                   initialValue: userInfo.info.lastname,
@@ -356,7 +356,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={8}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("firstname", {
                   initialValue: userInfo.info.firstname,
@@ -365,7 +365,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={8}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
@@ -374,7 +374,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={8}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("phone1", {
                   initialValue: userInfo.info.phone1,
@@ -393,7 +393,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={8}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }}>
                 {getFieldDecorator("phone2", {
                   initialValue: userInfo.info.phone2,
@@ -405,13 +405,13 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={8}>
+            <Col xs={0} sm={0} md={8} lg={8} xl={8}>
               <Form.Item style={{ width: '96%' }} />
             </Col>
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
-            <Col span={24}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item style={{ width: '98.5%' }}>
                 {getFieldDecorator("address", {
                   initialValue: userInfo.main === null ? null : userInfo.main.address,
@@ -420,7 +420,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col span={24}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item className="text text-right" style={{ width: '98.5%' }}>
                 <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
                   <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
@@ -447,14 +447,12 @@ class Component extends React.Component {
   };
   render() {
     return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.userProfile.form.title" /></span>
-          </p>
-          <div className="user-profile-contain">
-            {this.props.userInfo === undefined ? null : this.renderProfile()}
-          </div>
+      <div className="user-menu-content" style={{ margin: "0px !important" }}>
+        <p className="title">
+          <span><FormattedMessage id="profile.userProfile.form.title" /></span>
+        </p>
+        <div className="user-profile-contain">
+          {this.props.userInfo === undefined ? null : this.renderProfile()}
         </div>
       </div>
     );

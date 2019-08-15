@@ -27,17 +27,20 @@ class Cart extends React.Component {
     return product;
   });
 
+  // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
-    const result = await this.props.confirmCartRemotely();
-    const { intl } = this.props;
+    if (this.props.isLogged) {
+      const result = await this.props.confirmCartRemotely();
+      const { intl } = this.props;
 
-    if (!result.payload.success) {
-      result.payload.data.forEach(code => message.warning(intl.formatMessage({ id: code })));
+      if (!result.payload.success) {
+        result.payload.data.forEach(code => message.warning(intl.formatMessage({ id: code })));
 
-      return <Redirect to="" />;
+        return <Redirect to="/cart" />;
+      }
+    } else {
+      return <Redirect to={{ pathname: "/checkout" }} push />;
     }
-
-    return <Redirect to={{ pathname: "/checkout" }} push />;
   };
 
   // eslint-disable-next-line consistent-return
@@ -660,7 +663,9 @@ class Cart extends React.Component {
                         }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.proceed" /></span>
+                      <span className="text-uppercase">
+                        <FormattedMessage id="shared.sidebar.button.proceed" />
+                      </span>
                     </Link>
                   </div>
 

@@ -262,6 +262,7 @@
 	"shared.form.password.placeholder": "Нууц үг",
 	"shared.form.password.validation.pattern": "Нууц үг 4 тэмдэгтээс урт байх ёстой",
 	"shared.form.password.validation.min": "Нууц үг 4 тэмдэгтээс урт байх ёстой",
+	"shared.form.password.validation.weak": "Нууц үг сул байна. (Үсэг, тоо орсон байх)",
 	"shared.form.passwordAgain.placeholder": "Нууц үг давтах",
 	"shared.form.passwordAgain.validation.compare": "Нууц үгээ зөв давтана уу",
 	"shared.form.passwordAgain.validation.required": "Нууц үгээ дахин оруулна уу",

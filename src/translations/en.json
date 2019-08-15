@@ -262,6 +262,7 @@
 	"shared.form.password.placeholder": "Password",
 	"shared.form.password.validation.pattern": "Password must have at least 4 characters",
 	"shared.form.password.validation.min": "Password must have at least 4 characters",
+	"shared.form.password.validation.weak": "Password is weak. (Must include letters and numbers)",
 	"shared.form.passwordAgain.placeholder": "Password Again",
 	"shared.form.passwordAgain.validation.compare": "Passwords must be the same",
 	"shared.form.passwordAgain.validation.required": "Please enter your password again",

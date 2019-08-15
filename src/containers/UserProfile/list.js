@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedMessage } from 'react-intl';
-import { Avatar, Progress, Upload, Button, message, Spin, Icon } from "antd";
+import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -121,9 +121,9 @@ class List extends React.Component {
       <div className="section section-gray">
         <div className="container">
           <div className="user-section">
-            <div className="user-section-container">
-              <div className="row">
-                <div className="col-md-4 d-none d-md-block panel-left">
+            <div>
+              <Row style={{ width: "100%" }}>
+                <Col className="pad10" xs={0} sm={0} md={8} lg={8} xl={8}>
                   <div className="profile-menu">
                     <div className="menu-header">
                       <Upload
@@ -185,18 +185,18 @@ class List extends React.Component {
                   <Link to="#" className="btn btn-gray" onClick={this.handleLogout}>
                     <i className="fa fa-chevron-left" /><span><FormattedMessage id="header.profile.logout" /></span>
                   </Link>
-                </div>
-
-                <Switch>
-                  <Route exact path={match.path} component={UserProfile} {...this} />
-                  <Route path={`${match.path}/history`} component={UserHistory} {...this} />
-                  <Route path={`${match.path}/wish`} component={UserWish} {...this} />
-                  <Route path={`${match.path}/delivery`} component={UserDelivery} {...this} />
-                  <Route path={`${match.path}/address`} component={UserAddress} {...this} />
-                  <Route path={`${match.path}/password`} component={UserPassword} {...this} />
-                </Switch>
-
-              </div>
+                </Col>
+                <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+                  <Switch>
+                    <Route exact path={match.path} component={UserProfile} {...this} />
+                    <Route path={`${match.path}/history`} component={UserHistory} {...this} />
+                    <Route path={`${match.path}/wish`} component={UserWish} {...this} />
+                    <Route path={`${match.path}/delivery`} component={UserDelivery} {...this} />
+                    <Route path={`${match.path}/address`} component={UserAddress} {...this} />
+                    <Route path={`${match.path}/password`} component={UserPassword} {...this} />
+                  </Switch>
+                </Col>
+              </Row>
             </div>
           </div>
         </div>
