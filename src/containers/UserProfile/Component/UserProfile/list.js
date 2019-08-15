@@ -211,7 +211,7 @@ class Component extends React.Component {
     const { loader } = this.state;
     return (
       <Col span={24}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("mainLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
@@ -230,7 +230,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("subLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
@@ -249,7 +249,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Form.Item style={{ width: '96%' }}>
             {getFieldDecorator("commiteLocation", {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
