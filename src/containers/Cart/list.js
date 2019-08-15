@@ -107,7 +107,7 @@ class Cart extends React.Component {
 
       // eslint-disable-next-line no-restricted-globals
       if (isNaN(found.qty)) {
-        found.qty = found.saleminqty || 1;
+        found.qty = found.saleminqty > 1 ? found.qty * found.saleminqty : found.saleminqty;
       }
 
       if (this.props.isLogged) {
