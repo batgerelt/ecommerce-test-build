@@ -367,14 +367,12 @@ class Component extends React.Component {
   render() {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
-      <div className="col-md-8">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
-          </p>
-          <div className="user-profile-contain">
-            {this.props.useraddress === undefined ? null : this.renderAddress()}
-          </div>
+      <div className="user-menu-content">
+        <p className="title">
+          <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
+        </p>
+        <div className="user-profile-contain">
+          {this.props.useraddress === undefined ? null : this.renderAddress()}
         </div>
       </div>
     );

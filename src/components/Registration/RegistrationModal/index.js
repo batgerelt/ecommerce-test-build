@@ -55,10 +55,18 @@ class RegistrationModal extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
+    if (value.length < 6) {
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+    } else if (value.search(/[a-zA-ZА-Яа-яөүӨҮ]/) === -1) {
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+    } else if (value.search(/[0-9]/) === -1) {
+      callback("Нууц үг сул байна. (Үсэг, тоо орсон байх)");
+    } else {
+      callback();
+    }
     if (value && this.state.confirmDirty) {
       this.props.form.validateFields(["confirm"], { force: true });
     }
-    callback();
   };
 
   onChangeLast = (value) => {
@@ -135,9 +143,7 @@ class RegistrationModal extends React.Component {
           <Form.Item>
             {getFieldDecorator("password", {
               rules: [
-                { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                 { validator: this.validateToNextPassword },
-                { min: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) },
               ],
             })(
               <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="off" />,

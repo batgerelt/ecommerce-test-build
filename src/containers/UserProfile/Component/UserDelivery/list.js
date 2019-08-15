@@ -82,21 +82,19 @@ class Component extends React.Component {
 
   render() {
     return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.orderHistory.title" /></span>
-          </p>
-          <div
-            className=""
-            style={{
-              width: "100%",
-              maxHeight: "600px",
-              overflow: "auto",
-            }}
-          >
-            {this.props.delivery.length !== 0 ? this.renderTable() : null}
-          </div>
+      <div className="user-menu-content">
+        <p className="title">
+          <span><FormattedMessage id="profile.orderHistory.title" /></span>
+        </p>
+        <div
+          className=""
+          style={{
+            width: "100%",
+            maxHeight: "600px",
+            overflow: "auto",
+          }}
+        >
+          {this.props.delivery.length !== 0 ? this.renderTable() : null}
         </div>
       </div>
     );

@@ -104,14 +104,12 @@ class Component extends React.Component {
   };
   render() {
     return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.changePassword.title" /></span>
-          </p>
-          <div className="user-profile-contain">
-            {this.renderPassword()}
-          </div>
+      <div className="user-menu-content">
+        <p className="title">
+          <span><FormattedMessage id="profile.changePassword.title" /></span>
+        </p>
+        <div className="user-profile-contain">
+          {this.renderPassword()}
         </div>
       </div>
     );
