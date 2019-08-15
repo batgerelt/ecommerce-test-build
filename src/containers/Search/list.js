@@ -607,7 +607,7 @@ class CategoryInfo extends React.Component {
                           style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}
@@ -626,7 +626,6 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px' }}
                                     elastic
                                     key={index}
                                     shape={this.state.shapeType}
