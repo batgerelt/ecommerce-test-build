@@ -155,42 +155,45 @@ class Cart extends React.Component {
     let { products } = this.props;
 
     let found = products.find(prod => prod.cd === product.cd);
-
-    let productQty = product.saleminqty;
     if (found) {
-      productQty = found.qty + (found.saleminqty || 1);
-    }
-    product.qty = productQty;
-
-    if (this.props.isLogged) {
-      const result = await this.props.incrementProductRemotely({
-        skucd: product.cd,
-        qty: productQty,
-        iscart: 1,
-      });
-
-      if (!result.payload.success) {
-        const messages = defineMessages({
-          error: {
-            id: result.payload.code,
-          },
+      if (this.props.isLogged) {
+        const result = await this.props.incrementProductRemotely({
+          skucd: found.cd,
+          qty: found.qty + found.saleminqty,
+          iscart: 1,
         });
 
-        message.warning(intl.formatMessage(messages.error, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+        if (!result.payload.success) {
+          const messages = defineMessages({
+            error: {
+              id: result.payload.code,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.error, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }));
+        }
+      } else {
+        this.props.incrementProductLocally(found);
+
+        const updated = this.props.products.find(prod => prod.cd === found.cd);
+
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            error: {
+              id: updated.error,
+            },
+          });
+          message.warning(intl.formatMessage(messages.error, {
+            name: updated.name,
+            qty: updated.qty,
+          }));
+        }
       }
     } else {
-      this.props.incrementProductLocally(product);
-
-      const updated = this.props.products.find(prod => prod.cd === product.cd);
-
-      if (updated && updated.error !== undefined) {
-        const messages = defineMessages({
-          error: {
-            id: updated.error,
-          },
-        });
-        message.warning(intl.formatMessage(messages.error, { name: updated.name, qty: updated.qty }));
-      }
+      throw new Error("Бараа олдсонгүй!");
     }
   };
 
@@ -202,13 +205,13 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.cd === product.cd);
     if (found) {
       if (this.props.isLogged) {
-        const productQty =
-          found.qty - found.saleminqty < found.saleminqty
-            ? found.saleminqty
-            : found.qty - found.saleminqty;
+        // const productQty =
+        //   found.qty - found.saleminqty < found.saleminqty
+        //     ? found.saleminqty
+        //     : found.qty - found.saleminqty;
         const result = await this.props.decrementProductRemotely({
           skucd: found.cd,
-          qty: productQty,
+          qty: found.qty - found.saleminqty,
           iscart: 1,
         });
 
@@ -219,7 +222,10 @@ class Cart extends React.Component {
             },
           });
 
-          message.warning(intl.formatMessage(messages.error, { name: result.payload.data.values[0], qty: result.payload.data.values[1] }));
+          message.warning(intl.formatMessage(messages.error, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }));
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -346,7 +352,9 @@ class Cart extends React.Component {
   renderTotalQty = () => {
     const { products } = this.props;
 
-    return products && products.reduce((acc, cur) => acc + cur.qty, 0);
+    return products && products.reduce((acc, cur) => (
+      acc + (cur.saleminqty > 1 ? cur.qty / cur.saleminqty : cur.qty)
+    ), 0);
   };
 
   renderTotalPrice = (product = null) => {
@@ -526,12 +534,10 @@ class Cart extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          value={prod.qty}
+                          value={prod.saleminqty > 1 ? prod.qty / prod.saleminqty : prod.qty}
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
-                        // onKeyDown={this.handleQtyKeyDown(prod)}
-                        // onBlur={this.handleQtyBlur(prod)}
                         />
                         <div className="input-group-append" id="button-addon4">
                           <button

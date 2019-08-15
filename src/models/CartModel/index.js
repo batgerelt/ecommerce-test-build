@@ -475,6 +475,7 @@ class Model extends BaseModel {
                 found.qty = found.salemaxqty;
                 found.error = "202";
               } else {
+                console.log('found: ', found);
                 found.qty += found.saleminqty;
               }
             } else if (found.qty + found.saleminqty > found.availableqty) {
@@ -483,6 +484,8 @@ class Model extends BaseModel {
             } else {
               found.qty += found.saleminqty;
             }
+          } else {
+            found.error = "200";
           }
           products.splice(index, 1, found);
         }
@@ -525,6 +528,7 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
+          console.log('action.payload: ', action.payload);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
