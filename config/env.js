@@ -48,12 +48,12 @@ function getClientEnvironment(publicUrl) {
         NODE_ENV: process.env.NODE_ENV || "development",
         PUBLIC_URL: publicUrl,
 
-        // API: `http://10.0.10.30:8876/mn/api`,
-        // API: `http://10.0.0.53:80/mn/api`,
-        //IMAGE: `http://www.cdn.emartmall.mn/`,
-        //IMAGES: `http://10.0.0.22:8876/`,
+        // REAL
+        //API: `http://10.0.0.53:80/mn/api`,
+        //IMAGE: `http://10.0.0.55:81/`,
+        //IMAGES: `http://10.0.0.53:8876/`,
 
-        /* REAL URL */
+        //TEST
         API: `http://10.0.0.22:8876/mn/api`,
         IMAGE: `http://www.cdn.emartmall.mn/`,
         IMAGES: `http://10.0.0.22:8876/`,
