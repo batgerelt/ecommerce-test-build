@@ -36,13 +36,13 @@ class Card extends React.Component {
 
           if (!result.payload.success) {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: result.payload.code,
               },
             });
 
-            return message.warning(intl.formatMessage(
-              messages.warning,
+            message.warning(intl.formatMessage(
+              messages.error,
               {
                 name: result.payload.data.values[0],
                 qty: result.payload.data.values[1],
@@ -58,13 +58,13 @@ class Card extends React.Component {
 
           if (!result.payload.success) {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: result.payload.code,
               },
             });
 
-            return message.warning(intl.formatMessage(
-              messages.warning,
+            message.warning(intl.formatMessage(
+              messages.error,
               {
                 name: result.payload.data.values[0],
                 qty: result.payload.data.values[1],
@@ -77,19 +77,19 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return message.warning(result.payload.message);
+            message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach((msg) => {
               const messages = defineMessages({
-                warning: {
+                error: {
                   id: msg.code,
                 },
               });
               message.warning(intl.formatMessage(
-                messages.warning,
-                { name: msg.value.name, qty: msg.value.qty },
+                messages.error,
+                { name: msg.value.name, qty: msg.value.salemaxqty },
               ));
             });
           }
@@ -99,18 +99,18 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return message.warning(result.payload.message);
+            message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
           if (result.payload.data.fail.length > 0) {
             result.payload.data.fail.forEach((msg) => {
               const messages = defineMessages({
-                warning: {
+                error: {
                   id: msg.code,
                 },
               });
               message.warning(intl.formatMessage(
-                messages.warning,
+                messages.error,
                 { name: msg.value.name, qty: msg.value.qty },
               ));
             });
@@ -130,12 +130,12 @@ class Card extends React.Component {
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: updated.error,
               },
             });
             message.warning(intl.formatMessage(
-              messages.warning,
+              messages.error,
               { name: updated.name, qty: updated.qty },
             ));
           }
@@ -147,12 +147,12 @@ class Card extends React.Component {
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: updated.error,
               },
             });
             message.warning(intl.formatMessage(
-              messages.warning,
+              messages.error,
               { name: updated.name, qty: updated.qty },
             ));
           }
@@ -162,7 +162,7 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return message.warning(result.payload.message);
+            message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
           const products = result.payload.data.map(prod => ({
@@ -176,12 +176,12 @@ class Card extends React.Component {
 
           errors.forEach((updated) => {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: updated.error,
               },
             });
             message.warning(intl.formatMessage(
-              messages.warning,
+              messages.error,
               { name: updated.name, qty: updated.qty },
             ));
           });
@@ -191,7 +191,7 @@ class Card extends React.Component {
           });
 
           if (!result.payload.success) {
-            return message.warning(result.payload.message);
+            message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
           const products = result.payload.data.products.map(prod => ({
@@ -205,12 +205,12 @@ class Card extends React.Component {
 
           errors.forEach((updated) => {
             const messages = defineMessages({
-              warning: {
+              error: {
                 id: updated.error,
               },
             });
             message.warning(intl.formatMessage(
-              messages.warning,
+              messages.error,
               { name: updated.name, qty: updated.qty },
             ));
           });
@@ -288,10 +288,16 @@ class Card extends React.Component {
 
         if (item.id) {
           priceTitle = (
-            <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.package.label.price" />:</span>
+            <span style={{ fontWeight: "normal" }}>
+              <FormattedMessage id="card.package.label.price" />:
+            </span>
           );
         } else if (item.recipeid) {
-          priceTitle = <span style={{ fontWeight: "normal" }}><FormattedMessage id="card.recipe.label.price" />:</span>;
+          priceTitle = (
+            <span style={{ fontWeight: "normal" }}>
+              <FormattedMessage id="card.recipe.label.price" />:
+            </span>
+          );
         }
 
         if (item.sprice || item.discountprice !== 0) {

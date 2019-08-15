@@ -406,7 +406,7 @@ class Model extends BaseModel {
             if (found.isgift === 1) {
               if (found.qty < found.saleminqty) {
                 found.qty = found.saleminqty;
-                found.error = "201";
+                found.error = "204";
               } else {
                 found.qty = product.qty;
               }
@@ -417,7 +417,7 @@ class Model extends BaseModel {
                   found.error = "202";
                 } else if (found.qty < found.saleminqty) {
                   found.qty = found.saleminqty;
-                  found.error = "201";
+                  found.error = "204";
                 } else {
                   found.qty = product.qty;
                 }
@@ -426,7 +426,7 @@ class Model extends BaseModel {
                 found.error = "200";
               } else if (found.qty < found.saleminqty) {
                 found.qty = found.saleminqty;
-                found.error = "201";
+                found.error = "204";
               } else {
                 found.qty = product.qty;
               }
@@ -437,15 +437,15 @@ class Model extends BaseModel {
             if (shouldUpdateByQty) {
               if (found.qty - product.qty < found.saleminqty) {
                 found.qty = found.saleminqty;
-                found.error = "201";
+                found.error = "204";
               } else {
                 found.qty -= product.qty;
               }
-            } else if (found.qty - found.addminqty < found.saleminqty) {
+            } else if (found.qty - found.saleminqty < found.saleminqty) {
               found.qty = found.saleminqty;
-              found.error = "201";
+              found.error = "204";
             } else {
-              found.qty -= found.addminqty;
+              found.qty -= found.saleminqty;
             }
           } else if (shouldUpdateByQty) {
             if (found.isgift === 1) {
@@ -468,21 +468,24 @@ class Model extends BaseModel {
               found.error = "200";
             }
           } else if (found.isgift === 1) {
-            found.qty += found.addminqty;
+            found.qty += found.saleminqty;
           } else if (found.availableqty > 0) {
             if (found.salemaxqty > 0) {
-              if (found.qty + found.addminqty > found.salemaxqty) {
+              if (found.qty + found.saleminqty > found.salemaxqty) {
                 found.qty = found.salemaxqty;
                 found.error = "202";
               } else {
-                found.qty += found.addminqty;
+                console.log('found: ', found);
+                found.qty += found.saleminqty;
               }
-            } else if (found.qty + found.addminqty > found.availableqty) {
+            } else if (found.qty + found.saleminqty > found.availableqty) {
               found.qty = found.availableqty;
               found.error = "200";
             } else {
-              found.qty += found.addminqty;
+              found.qty += found.saleminqty;
             }
+          } else {
+            found.error = "200";
           }
           products.splice(index, 1, found);
         }
@@ -490,7 +493,7 @@ class Model extends BaseModel {
         if (product.isgift === 1) {
           if (product.qty < product.saleminqty) {
             product.qty = product.saleminqty;
-            product.error = "201";
+            product.error = "204";
           }
         } else if (product.availableqty > 0) {
           if (product.salemaxqty > 0) {
@@ -525,6 +528,7 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
+          console.log('action.payload: ', action.payload);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),

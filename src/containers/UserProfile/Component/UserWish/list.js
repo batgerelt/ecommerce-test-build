@@ -22,7 +22,7 @@ class Component extends React.Component {
     if (item.cd) {
       this.props.incrementProductRemotely({
         skucd: item.cd,
-        qty: item.addminqty || 1,
+        qty: item.saleminqty || 1,
         iscart: 0,
       }).then((res) => {
         console.log(res.payload);
@@ -86,21 +86,18 @@ class Component extends React.Component {
   }
   render() {
     return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.wishlist.title" /></span>
-          </p>
-          <Spin
-            spinning={this.state.loader}
-            indicator={<Loader />}
-          >
-            <div className="product-list-history" style={{ minHeight: "30em" }}>
-              {this.renderProducts()}
-            </div>
-          </Spin>
-        </div>
-        <BackTop />
+      <div className="user-menu-content">
+        <p className="title">
+          <span><FormattedMessage id="profile.wishlist.title" /></span>
+        </p>
+        <Spin
+          spinning={this.state.loader}
+          indicator={<Loader />}
+        >
+          <div className="product-list-history" style={{ minHeight: "30em" }}>
+            {this.renderProducts()}
+          </div>
+        </Spin>
       </div>
     );
   }

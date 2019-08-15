@@ -48,7 +48,9 @@ class CartButton extends Component {
       products = JSON.parse(products);
     }
 
-    const qties = products && products.map(prod => prod.qty);
+    const qties = products && products.map(prod => (
+      prod.saleminqty > 1 ? prod.qty / prod.saleminqty : prod.qty
+    ));
 
     return qties && qties.length > 0
       ? qties.reduce((acc, cur) => acc + cur)

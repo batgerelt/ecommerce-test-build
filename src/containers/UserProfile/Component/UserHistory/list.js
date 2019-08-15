@@ -27,7 +27,7 @@ class Component extends React.Component {
     if (item.cd) {
       this.props.incrementProductRemotely({
         skucd: item.cd,
-        qty: item.addminqty || 1,
+        qty: item.saleminqty || 1,
         iscart: 0,
       });
     }
@@ -106,21 +106,18 @@ class Component extends React.Component {
     const loaders = this.state.loader;
     const icon = <Icon type="sync" spin />;
     return (
-      <div className="col-md-8 pad10">
-        <div className="user-menu-content">
-          <p className="title">
-            <span><FormattedMessage id="profile.seenHistory.title" /></span>
-          </p>
-          <Spin
-            spinning={loaders}
-            indicator={<Loader />}
-          >
-            <div className="product-list-history" style={{ minHeight: "30em" }}>
-              {this.renderProducts()}
-            </div>
-          </Spin>
-        </div>
-        <BackTop />
+      <div className="user-menu-content">
+        <p className="title">
+          <span><FormattedMessage id="profile.seenHistory.title" /></span>
+        </p>
+        <Spin
+          spinning={loaders}
+          indicator={<Loader />}
+        >
+          <div className="product-list-history" style={{ minHeight: "30em" }}>
+            {this.renderProducts()}
+          </div>
+        </Spin>
       </div>
     );
   }
