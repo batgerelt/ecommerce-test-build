@@ -139,7 +139,7 @@ class Bookmarks extends PureComponent {
           title={menuNew.menunm}
           subtitle={menuNew.subtitle}
           banners={newbanner.length === 0 ? [] : newbanner.header}
-          bgColor="#bbdefb"
+          bgColor="#00A1E4"
         />
       );
     } catch (error) {
