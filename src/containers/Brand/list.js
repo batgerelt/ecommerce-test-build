@@ -537,7 +537,7 @@ class CategoryInfo extends React.Component {
                           style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}
