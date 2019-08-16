@@ -3,6 +3,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable radix */
 import React from "react";
+import { injectIntl } from 'react-intl';
 import {
   InfiniteLoader,
   WindowScroller,
@@ -27,11 +28,11 @@ class Recipe extends React.Component {
 
   renderMainBanner = () => {
     try {
-      const { recipebanner, menuRecipe } = this.props;
+      const { recipebanner, menuRecipe, intl } = this.props;
       return (
         <PageBanner
-          title={menuRecipe.menunm}
-          subtitle={menuRecipe.subtitle}
+          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
+          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
           banners={recipebanner.length === 0 ? [] : recipebanner.header}
           bgColor="#F2769B"
         />
@@ -202,4 +203,4 @@ class Recipe extends React.Component {
   }
 }
 
-export default Recipe;
+export default injectIntl(Recipe);
