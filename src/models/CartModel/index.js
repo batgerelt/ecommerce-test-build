@@ -388,13 +388,11 @@ class Model extends BaseModel {
         products = JSON.parse(products);
       }
 
-      if (product.qty === undefined) {
-        product.qty = product.saleminqty || 1;
-      }
-
       if (product.error !== undefined) {
         product.error = undefined;
       }
+
+      product.qty = 1;
 
       let found = products.find(prod => prod.cd === product.cd);
 
@@ -475,7 +473,6 @@ class Model extends BaseModel {
                 found.qty = found.salemaxqty;
                 found.error = "202";
               } else {
-                console.log('found: ', found);
                 found.qty += found.saleminqty;
               }
             } else if (found.qty + found.saleminqty > found.availableqty) {
@@ -490,6 +487,15 @@ class Model extends BaseModel {
           products.splice(index, 1, found);
         }
       } else {
+        if (product.saleminqty > 1) {
+          product.availableqty = product.availableqty !== 0
+            ? Math.floor(product.availableqty / product.saleminqty)
+            : 0;
+          product.salemaxqty = product.salemaxqty !== 0
+            ? Math.floor(product.salemaxqty / product.saleminqty)
+            : 0;
+        }
+
         if (product.isgift) {
           if (product.qty < product.saleminqty) {
             product.qty = product.saleminqty;

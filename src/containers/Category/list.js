@@ -316,7 +316,7 @@ class CategoryInfo extends React.Component {
           </Tree>
         );
       }
-      return <div className="block"><FormattedMessage id="season.filter.filter.noCategory" /></div>;
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -347,10 +347,10 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong><FormattedMessage id="season.filter.title" /></strong>
+                <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span><FormattedMessage id="season.filter.category.title" /></span>
+                <span><FormattedMessage id="search.filter.category.title" /></span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -369,7 +369,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong><FormattedMessage id="season.filter.filter.title" /></strong>
+                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -402,7 +402,7 @@ class CategoryInfo extends React.Component {
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
-                    <FormattedMessage id="season.searchResult.label.found" />
+                    <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
               </div>
@@ -422,15 +422,15 @@ class CategoryInfo extends React.Component {
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
                     >
-                      <FormattedMessage id="season.sort.label" />:
+                      <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_desc"><FormattedMessage id="season.sort.values.priceDesc" /></Select.Option>
-                      <Select.Option value="price_asc"><FormattedMessage id="season.sort.values.priceAsc" /></Select.Option>
+                      <Select.Option value="price_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="price_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this">

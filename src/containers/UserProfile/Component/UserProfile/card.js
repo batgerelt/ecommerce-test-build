@@ -11,12 +11,16 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
+            message.warning(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+          } else {
+            message.warning(intl.formatMessage({ id: "shared.form.info.cannotConnect" }));
           }
           this.setState({ loader: false });
         });

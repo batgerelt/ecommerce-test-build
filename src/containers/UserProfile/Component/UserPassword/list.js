@@ -9,6 +9,7 @@ class Component extends React.Component {
   state = {};
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const params = {
@@ -19,6 +20,9 @@ class Component extends React.Component {
         this.props.resetPassword({ body: params }).then((res) => {
           if (res.payload.success) {
             this.props.form.resetFields();
+            message.warning(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+          } else {
+            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
           }
         });
       }
