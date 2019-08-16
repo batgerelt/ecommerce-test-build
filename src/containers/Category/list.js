@@ -587,7 +587,7 @@ class CategoryInfo extends React.Component {
                         <List
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}
