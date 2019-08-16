@@ -22,7 +22,7 @@ select {
 
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
   background-color: #ffffff !important;
-  color: #fdd300 !important;
+  color: #ffc629 !important;
 }
 
 .ant-tree-title:hover{
