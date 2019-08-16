@@ -26,7 +26,6 @@ class PaymentTypePanel extends React.Component {
   };
 
   renderPaymentTypes = () => {
-    console.log('this.props: ', this.props);
     const { paymentTypes } = this.props;
     const { chosenPaymentType } = this.state;
     const lang = this.props.intl;

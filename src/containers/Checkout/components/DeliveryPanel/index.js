@@ -57,11 +57,6 @@ class DeliveryPanel extends React.Component {
         this.getCommitte(main.provinceid, main.districtid, false);
       } else {
         this.setState({ noAddress: true, addresstype: "new" });
-        /* this.props.form.setFieldsValue({
-          phone1: info.phone1,
-          phone2: info.phone2,
-          name: info.firstname,
-        }); */
         this.getDistrictAndCommitte(0);
       }
     } catch (error) {
@@ -142,18 +137,27 @@ class DeliveryPanel extends React.Component {
   }
 
   setFieldsValue = (value) => {
-    const { addresstype } = this.state;
+    const { addresstype, noAddress } = this.state;
     const { setFieldsValue } = this.props.form;
-    setFieldsValue({
-      id: addresstype === "new" ? [] : value.id,
-      committeeid: addresstype === "new" ? [] : value.committeeid,
-      districtid: addresstype === "new" ? [] : value.districtid,
-      provinceid: value.provinceid,
-      phone1: addresstype === "new" ? "" : value.phone1,
-      phone2: addresstype === "new" ? "" : value.phone2,
-      address: addresstype === "new" ? "" : value.address,
-      name: addresstype === "new" ? "" : value.name,
-    });
+    const { main, info } = this.props.userinfo;
+    if (noAddress) {
+      this.props.form.setFieldsValue({
+        phone1: info.phone1,
+        phone2: info.phone2,
+        name: info.lastname,
+      });
+    } else {
+      setFieldsValue({
+        id: addresstype === "new" ? [] : value.id,
+        committeeid: addresstype === "new" ? [] : value.committeeid,
+        districtid: addresstype === "new" ? [] : value.districtid,
+        provinceid: value.provinceid,
+        phone1: addresstype === "new" ? "" : value.phone1,
+        phone2: addresstype === "new" ? "" : value.phone2,
+        address: addresstype === "new" ? "" : value.address,
+        name: addresstype === "new" ? "" : value.name,
+      });
+    }
   }
 
   onChangeMainLoc = (e) => {
