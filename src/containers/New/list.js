@@ -57,7 +57,7 @@ class Bookmarks extends PureComponent {
       module: 'new',
       startsWith: 0,
       rowCount: 20,
-      orderColumn: '',
+      orderColumn: 'createddate_desc',
       highlight: false,
       count: 10,
       newbanner: [],
@@ -75,7 +75,6 @@ class Bookmarks extends PureComponent {
   // data nemeh heseg
   loadMoreRows = () => {
     try {
-      console.log("test");
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
         if (res.payload.success) {
           this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });

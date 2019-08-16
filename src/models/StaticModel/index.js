@@ -55,8 +55,6 @@ class Model extends BaseModel {
       case this.model.staticinfo.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.staticinfo.response:
-        console.log('state: ', state);
-        console.log('action.payload: ', action.payload);
         return { ...state, staticinfo: action.payload.data[0] };
 
       // GET STATIC PAGE

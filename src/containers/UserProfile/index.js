@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
+import NotFound from "../Exception/404";
 import List from "./list";
 import {
   Auth as AuthModel,
@@ -38,7 +39,7 @@ class UserProfile extends React.Component {
     if (localStorage.getItem('auth') !== null) {
       return <List {...this.props} />;
     }
-    return <Redirect to="/" />;
+    return <NotFound />;
   }
 }
 

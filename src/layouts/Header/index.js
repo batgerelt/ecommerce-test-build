@@ -157,6 +157,7 @@ class AppHeader extends Component {
       const { addedWishList } = this.props.product;
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
+      const lang = intl.locale;
 
       let root = [];
       categorymenu.map((item) => {
@@ -213,7 +214,7 @@ class AppHeader extends Component {
                             >
                               {
                                 this.state.item.name
-                                ? this.state.item.name
+                                  ? this.state.item.name
                                   : <FormattedMessage id="header.category.label.allProducts" />
                               }
                             </button>
@@ -241,7 +242,7 @@ class AppHeader extends Component {
                                       alt={item}
                                     />
                                   ) : null}
-                                  <span>{this.state.lang === "mn" ? item.name : item.name_en}</span>
+                                  <span>{lang === "mn" ? item.name : item.name_en}</span>
                                 </a>
                               ))}
                             </div>

@@ -290,7 +290,7 @@ class List extends React.Component {
             <div className="pack-price">
               <p className="text flex-this end">
                 <span style={{ fontSize: "1.6rem" }}>
-                  <FormattedMessage id="shared.sidebar.label.price" />:
+                  <FormattedMessage id="recipeDetail.recipe.product.label.price" />:
                 </span>
                 <strong>{formatter.format(total)}₮</strong>
               </p>
