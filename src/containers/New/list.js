@@ -57,7 +57,7 @@ class Bookmarks extends PureComponent {
       module: 'new',
       startsWith: 0,
       rowCount: 20,
-      orderColumn: '',
+      orderColumn: 'createddate_desc',
       highlight: false,
       count: 10,
       newbanner: [],
