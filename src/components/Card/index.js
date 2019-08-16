@@ -125,11 +125,9 @@ class Card extends React.Component {
           item.cd = item.skucd;
           item.sprice = item.currentprice;
           item.availableqty = 1000; // just for test
-          console.log('item: ', item);
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.cd === item.skucd);
-          console.log('updated: ', updated);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({

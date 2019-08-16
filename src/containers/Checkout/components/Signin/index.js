@@ -16,6 +16,7 @@ class Signin extends React.Component {
   }
 
   onSubmitLogin = (e) => {
+    console.log('login');
     e.preventDefault();
     const { intl } = this.props;
     this.setState({ loading: true });
@@ -54,12 +55,21 @@ class Signin extends React.Component {
                     this.props.callback("2");
                   }
                 });
+              } else {
+                console.log(res.payload);
               }
+            }).catch((err) => {
+              console.log('err: ', err);
+              // message.warning(intl.formatMessage({ id: result.payload.code }));
             });
             this.props.getSystemLocation({});
+          } else {
+            message.warning(intl.formatMessage({ id: r.payload.code }));
           }
           this.setState({ loading: false });
-        });
+        }).catch(err => console.log(err));
+      } else {
+        console.log(err);
       }
     });
   };
@@ -108,7 +118,7 @@ class Signin extends React.Component {
                   ],
                 })(
                   <Input.Password
-                    placeholder={intl.formatMessage({ id: "shared.form.password.validation.required" })}
+                    placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
                     autoComplete="off"
                     className="form-control"
                   />,

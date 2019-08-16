@@ -64,6 +64,7 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ load: true });
@@ -80,6 +81,9 @@ class Component extends React.Component {
             this.props.getUserInfo();
             this.props.form.resetFields();
             this.setState({ load: false });
+            message.warning(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+          } else {
+            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
           }
         });
       }
@@ -300,7 +304,7 @@ class Component extends React.Component {
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
                 initialValue: this.checkError(this.state.params.commid),
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validtation.required" }) }],
+                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
               })(
                 <Select
                   showSearch

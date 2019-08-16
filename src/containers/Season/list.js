@@ -260,6 +260,7 @@ class CategoryInfo extends React.Component {
     try {
       const { promotionall } = this.props;
       const { promotions } = this.state;
+      const lang = localStorage.getItem("lang");
 
       if (promotions) {
         return (
@@ -268,7 +269,15 @@ class CategoryInfo extends React.Component {
               promotions.buckets.buckets.map((cat, index) => (
                 <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
                   <span onClick={() => this.handleClickCategory(cat)}>
-                    {promotionall.find(i => i.id === cat.key) === undefined ? null : promotionall.find(i => i.id === cat.key).name}
+                    {
+                      promotionall.find(i => i.id === cat.key) === undefined
+                        ? null
+                        : (
+                          lang === "mn"
+                            ? promotionall.find(i => i.id === cat.key).name
+                            : promotionall.find(i => i.id === cat.key).nameen
+                        )
+                    }
                   </span>
                 </li>
               ))

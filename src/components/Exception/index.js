@@ -1,4 +1,5 @@
 import React, { createElement } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'antd';
@@ -24,10 +25,10 @@ const Exception = ({
         <div className={styles.actions}>
           {
             actions ||
-              createElement(linkElement, {
-                to: '/',
-                href: '/',
-              }, <Button type="primary">Нүүр хуудас руу буцах</Button>)
+            createElement(linkElement, {
+              to: '/',
+              href: '/',
+            }, <Button type="primary"><FormattedMessage id="shared.404.button.backHome" /></Button>)
           }
         </div>
       </div>

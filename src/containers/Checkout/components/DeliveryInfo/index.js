@@ -243,7 +243,6 @@ class DeliveryInfo extends React.Component {
 
   sendPayment = (tmp) => {
     const { PaymentTypePanel } = this.props;
-    console.log("request", tmp);
     let data;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
       this.props.changeLoading(false);

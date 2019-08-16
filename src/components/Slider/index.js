@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/require-default-props */
 import React from "react";
+import { injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -26,7 +27,7 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
-    const { sliderData } = this.props;
+    const { sliderData, intl } = this.props;
 
     try {
       return sliderData.map((item, index) => {
@@ -46,7 +47,7 @@ class Slider extends React.Component {
                     <span className="text-uppercase">
                       {item.btntext && item.btntext.trim()
                         ? item.btntext
-                        : "Дэлгэрэнгүй"}
+                        : intl.formatMessage({ id: "shared.form.button.more" })}
                     </span>
                   </a>
                 )}
@@ -103,4 +104,4 @@ Slider.propTypes = {
   elContainer: PropTypes.string.isRequired,
 };
 
-export default Slider;
+export default injectIntl(Slider);

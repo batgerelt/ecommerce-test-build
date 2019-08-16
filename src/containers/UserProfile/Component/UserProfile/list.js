@@ -55,6 +55,8 @@ class Component extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { intl } = this.props;
+    // eslint-disable-next-line consistent-return
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (this.props.userInfo.main === null) {
@@ -86,7 +88,7 @@ class Component extends React.Component {
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
           if (this.props.userInfo.info.email !== param.email) {
-            MySwal.fire({
+            return MySwal.fire({
               html: (
                 <SwalModals
                   type={"email"}
@@ -106,6 +108,7 @@ class Component extends React.Component {
               allowOutsideClick: false,
               closeOnEsc: false,
             });
+            // eslint-disable-next-line no-else-return
           } else {
             this.props.updateMain({ body: param }).then((res) => {
               if (res.payload.success) {
@@ -114,6 +117,7 @@ class Component extends React.Component {
             });
           }
         }
+        message.warning(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
       }
     });
   }

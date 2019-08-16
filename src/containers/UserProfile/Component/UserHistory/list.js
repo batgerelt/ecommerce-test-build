@@ -19,7 +19,7 @@ class Component extends React.Component {
   addHistory = (item) => {
     this.props.addWish({ skucd: item.cd }).then((res) => {
       if (res.payload.success) {
-        message.success(res.payload.message);
+        message.warning(res.payload.message);
       }
     });
   }

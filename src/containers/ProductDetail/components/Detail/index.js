@@ -77,7 +77,7 @@ class Detail extends Component {
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
-          // message.success(res.payload.message);
+          // message.warning(res.payload.message);
           getProductRate({ skucd });
         }
       });

@@ -1,4 +1,5 @@
 import React from "react";
+import { injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 
 class MainMenu extends React.Component {
@@ -8,7 +9,9 @@ class MainMenu extends React.Component {
       let indents = data.map((item, index) => (
         <li className="list-inline-item" key={index + 1000}>
           <Link to={item.link} key={index}>
-            <span>{item.menunm}</span>
+            <span>
+              {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
+            </span>
           </Link>
         </li>
       ));
@@ -20,4 +23,4 @@ class MainMenu extends React.Component {
   }
 }
 
-export default MainMenu;
+export default injectIntl(MainMenu);

@@ -243,7 +243,10 @@ class List extends React.Component {
                 <strong>
                   <span>{lang === "mn" ? item.name : item.name_en}</span>
                 </strong>
-                <p>Үнэ: {formatter.format(item.price)}₮</p>
+                <p>
+                  <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
+                  {formatter.format(item.price)}₮
+                </p>
               </Link>
               <div className="action">
                 <button
@@ -286,7 +289,9 @@ class List extends React.Component {
           <div className="more-link text-center">
             <div className="pack-price">
               <p className="text flex-this end">
-                <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="shared.sidebar.label.price" />:</span>
+                <span style={{ fontSize: "1.6rem" }}>
+                  <FormattedMessage id="shared.sidebar.label.price" />:
+                </span>
                 <strong>{formatter.format(total)}₮</strong>
               </p>
               <button
@@ -318,7 +323,7 @@ class List extends React.Component {
           <div className="row row10">
             <div className="col-md-4 col-xs-4">
               <p>
-                <Avatar size="small" src={chef} /> {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvText_en}
+                <Avatar size="small" src={chef} /> {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
               </p>
             </div>
             <div className="col-md-4 col-xs-4">
@@ -385,8 +390,9 @@ class List extends React.Component {
 
   renderSpices = () => {
     try {
-      const { recipe } = this.props;
-      return recipe.spices.map((item, index) => (
+      const { recipe, lang } = this.props;
+      const spices = lang === "mn" ? recipe.spices : recipe.spices_en;
+      return spices.map((item, index) => (
         <div className="col-md-6" key={index}>
           <p className="recipe-list-item">
             <span>#</span>
@@ -401,8 +407,9 @@ class List extends React.Component {
 
   renderIngredients = () => {
     try {
-      const { recipe } = this.props;
-      return recipe.ingredients.map((item, index) => (
+      const { recipe, lang } = this.props;
+      const ingredients = lang === "mn" ? recipe.ingredients : recipe.ingredients_en;
+      return ingredients.map((item, index) => (
         <div className="col-md-6" key={index}>
           <p className="recipe-list-item">
             <span>#</span>
