@@ -77,7 +77,6 @@ class Component extends React.Component {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
                   { validator: this.validateToNextPassword },
-                  { min: 4, message: intl.formatMessage({ id: "shared.form.newPassword.validation.min" }) },
                 ],
               })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
             </Form.Item>

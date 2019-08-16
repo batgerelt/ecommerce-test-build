@@ -38,6 +38,11 @@ class Page extends React.Component {
   componentWillMount() {
     this.props.getRecipeMenu({});
     this.props.getRecipeBanner();
+    this.props.getRecipe({
+      order: "date_desc",
+      start: 0,
+      rowcnt: 6,
+    });
   }
 
   render() {

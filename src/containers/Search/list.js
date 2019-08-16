@@ -8,7 +8,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Spin, Select, BackTop, Tree, Icon } from "antd";
+import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -298,24 +298,30 @@ class CategoryInfo extends React.Component {
                 key={one.key}
               >
                 {one.buckets.buckets &&
-                  one.buckets.buckets.map(two => (
-                    <Tree.TreeNode
-                      title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
-                      key={two.key}
-                    >
-                      {
-                        two.buckets !== undefined && two.buckets.buckets !== undefined ?
-                        two.buckets.buckets.map(three => (
-                          <Tree.TreeNode
-                            title={
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                        >
+                          {
+                          two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                          two.buckets.buckets.map(three => (
+                            three.key === 0 ? null :
+                            <Tree.TreeNode
+                              title={
                               lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
                             }
-                            key={three.key}
-                          />
-                        )) : null
-                      }
-                    </Tree.TreeNode>
-                  ))}
+                              key={three.key}
+                            />
+                          )) : null
+                        }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
               </Tree.TreeNode>
             ))}
           </Tree>
@@ -337,7 +343,12 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
 
       return (
-        <div className="col-xl-3 col-md-3 pad10">
+        <div
+          className="col-xl-3 col-md-3 pad10"
+          ref={(node) => { this.container = node;
+        }}
+        >
+          {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
             className={`left-panel-container ${
               this.state.isMobilePanel ? " show" : null
@@ -392,6 +403,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
+          {/* </Affix> */}
         </div>
       );
     } catch (error) {
@@ -561,7 +573,6 @@ class CategoryInfo extends React.Component {
           }
         });
       }
-
       return null;
     } catch (error) {
       // return console.log(error);
@@ -571,7 +582,7 @@ class CategoryInfo extends React.Component {
 
   renderProducts = () => {
     try {
-      const { products } = this.state;
+      const { products, isListViewOn } = this.state;
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>
@@ -601,7 +612,7 @@ class CategoryInfo extends React.Component {
                           style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}
@@ -620,8 +631,8 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px' }}
                                     elastic
+                                    list={isListViewOn}
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}

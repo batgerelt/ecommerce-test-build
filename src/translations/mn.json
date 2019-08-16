@@ -100,7 +100,7 @@
 	"checkout.swal.label.productsCount": "Худалдаж авсан барааны тоо",
 	"checkout.swal.label.receiver": "Хүлээн авагч",
 	"checkout.swal.label.receiverName": "Хүлээн авагчийн нэр",
-	"checkout.swal.label.sentEbarimt": "И-баримтыг таны имэйлрүү явуулсан",
+	"checkout.swal.label.sentEbarimt": "Таны захиалгын мэдээлэл бүртгүүлсэн и-мэйл хаягруу илгээгдлээ",
 	"checkout.swal.label.showOrders": "Захиалга харах",
 	"checkout.swal.label.transactionDescription": "Гүйлгээний утга",
 	"checkout.swal.label.transactionInfo": "Тооцоо хийх банкаа сонгоно уу",

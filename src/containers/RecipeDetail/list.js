@@ -38,7 +38,6 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { recipe } = this.props;
-      // const date = recipe.insymd.split("T")[0].split("-");
       return (
         <div>
           <h4 className="title">
@@ -348,11 +347,37 @@ class List extends React.Component {
           </div>
           <div className="row row10">
             <div className="col-md-6">
-              <p className="title"><FormattedMessage id="recipeDetail.recipe.title.ingredient" /></p>
+              <p className="title">
+                <span
+                  style={{
+                    textTransform: "uppercase",
+                    fontSize: "14px",
+                    textDecorationLine: "underline",
+                    textDecorationColor: "rgb(255, 182, 0)",
+                    textDecorationStyle: "solid",
+                    textDecorationSize: "5px",
+                  }}
+                >
+                  <FormattedMessage id="recipeDetail.recipe.title.ingredient" />
+                </span>
+              </p>
               <div className="row row10">{this.renderIngredients()}</div>
             </div>
             <div className="col-md-6">
-              <p className="title"><FormattedMessage id="recipeDetail.recipe.title.seasoning" /></p>
+              <p className="title">
+                <span
+                  style={{
+                    textTransform: "uppercase",
+                    fontSize: "14px",
+                    textDecorationLine: "underline",
+                    textDecorationColor: "rgb(255, 182, 0)",
+                    textDecorationStyle: "solid",
+                    textDecorationSize: "5px",
+                  }}
+                >
+                  <FormattedMessage id="recipeDetail.recipe.title.seasoning" />
+                </span>
+              </p>
               {this.renderSpices()}
             </div>
           </div>
@@ -402,8 +427,19 @@ class List extends React.Component {
       const { recipe, lang } = this.props;
       return (
         <div className="ck-editor">
-          <h4 className="title" style={{ textTransform: "uppercase" }}>
-            <span><FormattedMessage id="recipeDetail.suggestion.title" /></span>
+          <h4 className="title">
+            <span
+              style={{
+                textTransform: "uppercase",
+                fontSize: "20px",
+                textDecorationLine: "underline",
+                textDecorationColor: "rgb(255, 182, 0)",
+                textDecorationStyle: "solid",
+                textDecorationSize: "5px",
+              }}
+            >
+              <FormattedMessage id="recipeDetail.suggestion.title" />
+            </span>
           </h4>
           <div dangerouslySetInnerHTML={{
             __html: lang === "mn" ? recipe.description : recipe.description_en,
@@ -419,7 +455,6 @@ class List extends React.Component {
   renderSteps = () => {
     try {
       const { steps, lang } = this.props;
-      console.log('steps: ', steps);
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10">
@@ -438,7 +473,20 @@ class List extends React.Component {
               />
             </div>
             <div className="col-md-8">
-              <h4><FormattedMessage id="recipeDetail.label.step" /> {++index}</h4>
+              <h4 style={{ fontSize: "16px" }}>
+                <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
+                  <span
+                    style={{
+                      color: "black",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      marginLeft: "-19px",
+                    }}
+                  >
+                    <FormattedMessage id="recipeDetail.label.step" />. {++index}
+                  </span>
+                </li>
+              </h4>
               {lang === "mn" ? step.description : step.description_en}
               <p />
             </div>
@@ -454,7 +502,7 @@ class List extends React.Component {
     return (
       <div className="section">
         <div className="container pad10">
-          <div className="e-breadcrumb">{this.renderRoot()}</div>
+          <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
           <div className="product-detail-page">
             <div className="row row10">
               <div className="col-md-8 pad10">
@@ -473,7 +521,17 @@ class List extends React.Component {
                         marginBottom: "20px",
                       }}
                     >
-                      <span><FormattedMessage id="recipeDetail.instruction.title" /></span>
+                      <span
+                        style={{
+                          fontSize: "20px",
+                          textDecorationLine: "underline",
+                          textDecorationColor: "rgb(255, 182, 0)",
+                          textDecorationStyle: "solid",
+                          textDecorationSize: "5px",
+                        }}
+                      >
+                        <FormattedMessage id="recipeDetail.instruction.title" />
+                      </span>
                     </h4>
                     {this.renderSteps()}
                   </div>

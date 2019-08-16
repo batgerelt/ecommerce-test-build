@@ -75,6 +75,7 @@ class Bookmarks extends PureComponent {
   // data nemeh heseg
   loadMoreRows = () => {
     try {
+      console.log("test");
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
         if (res.payload.success) {
           this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
@@ -139,7 +140,7 @@ class Bookmarks extends PureComponent {
           title={menuNew.menunm}
           subtitle={menuNew.subtitle}
           banners={newbanner.length === 0 ? [] : newbanner.header}
-          bgColor="#bbdefb"
+          bgColor="#00A1E4"
         />
       );
     } catch (error) {
@@ -162,9 +163,7 @@ class Bookmarks extends PureComponent {
       const seq = "1,1";
       const { headerProducts } = this.state;
       const data = [];
-
       headerProducts.map(i => data.push(i._source));
-      console.log('data: ', data);
       return (
         <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
@@ -191,6 +190,13 @@ class Bookmarks extends PureComponent {
     }
   };
 
+  getBannerHeight = () => {
+    if (document.getElementsByClassName('banner-container')[0].clientHeight !== undefined) {
+      return document.getElementsByClassName('banner-container')[0].clientHeight;
+    }
+    return 0;
+  }
+
   renderFooterProduct = () => {
     try {
       const { products } = this.state;
@@ -203,12 +209,12 @@ class Bookmarks extends PureComponent {
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    products.length !== this.props.discountproduct.count,
+                    true,
                   );
                   return (
                     <InfiniteLoader
                       ref={this.infiniteLoaderRef}
-                      rowCount={rowCount === 1 ? rowCount : rowCount - 1}
+                      rowCount={rowCount}
                       isRowLoaded={({ index }) => {
                         const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                           width,
@@ -219,7 +225,6 @@ class Bookmarks extends PureComponent {
                             maxItemsPerRow,
                             products.length,
                           ).length > 0;
-
                         return !true || allItemsLoaded;
                       }}
                       loadMoreRows={this.loadMoreRows}
@@ -231,10 +236,10 @@ class Bookmarks extends PureComponent {
                               style={{ outline: 'none' }}
                               autoHeight
                               ref={registerChild}
-                              height={340}
+                              height={height}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
+                              rowCount={rowCount}
                               rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {
@@ -246,8 +251,15 @@ class Bookmarks extends PureComponent {
                                   maxItemsPerRow,
                                   products.length,
                                 ).map(itemIndex => products[itemIndex]._source);
+                                let tmp = {};
+                                let topH = style.top;
+                                tmp.top = topH - this.generateItemHeight(width) * 2 - 10;
+                                tmp.height = style.height;
+                                tmp.left = style.left;
+                                tmp.width = style.width;
+                                tmp.position = style.position;
                                 return (
-                                  <div style={style} key={key} className="jss148">
+                                  <div style={tmp} key={key} className="jss148">
                                     {
                                       rowItems.map(itemId => (
                                         <Card

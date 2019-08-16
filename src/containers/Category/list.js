@@ -276,7 +276,7 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
+      const { categoryall, lang } = this.props;
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -289,28 +289,36 @@ class CategoryInfo extends React.Component {
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
-                title={categoryall.find(i => i.id === one.key).name}
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
                 key={one.key}
               >
-                {one.buckets === undefined ? null
-                  : one.buckets.buckets.map(two => (
-                    <Tree.TreeNode
-                      title={categoryall.find(i => i.id === two.key).name}
-                      key={two.key}
-                    >
-                      {two.buckets !== undefined &&
-                        two.buckets.buckets !== undefined
-                        ? two.buckets.buckets.map(three => (
-                          <Tree.TreeNode
-                            title={
-                              categoryall.find(i => i.id === three.key).name
-                            }
-                            key={three.key}
-                          />
-                        ))
-                        : null}
-                    </Tree.TreeNode>
-                  ))}
+                {one.buckets.buckets &&
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                        >
+                          {
+                            two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                              two.buckets.buckets.map(three => (
+                                three.key === 0 ? null :
+                                <Tree.TreeNode
+                                  title={
+                                    lang === "mn"
+                                      ? categoryall.find(i => i.id === three.key).name
+                                      : categoryall.find(i => i.id === three.key).nameen
+                                  }
+                                  key={three.key}
+                                />
+                              )) : null
+                          }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
               </Tree.TreeNode>
             ))}
           </Tree>
@@ -580,7 +588,7 @@ class CategoryInfo extends React.Component {
                         <List
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}

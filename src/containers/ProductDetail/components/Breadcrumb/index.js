@@ -22,7 +22,6 @@ class Breadcrumb extends Component {
       if (parentCats.length) {
         parentCats = parentCats.reverse();
       }
-      console.log('parentCats: ', parentCats);
 
       return (
         parentCats && (

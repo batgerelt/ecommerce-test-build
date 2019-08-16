@@ -32,21 +32,21 @@ class Content extends React.Component {
                 <div className="collapse-content">
                   <ul className="list-unstyled">
                     {
-                        attribute.values.buckets.map((attributeval, ind) => (
-                          <li key={ind} style={{ display: 'flex', height: '25px' }}>
-                            <Checkbox
-                              key={ind}
-                              onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
-                              style={{ color: 'gray', width: 25, height: 25 }}
-                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
-                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
-                            />
-                            <label style={{ marginLeft: 5, lineHeight: '28px' }}>
-                              {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
-                            </label>
-                          </li>
-                          ))
-                      }
+                      attribute.values.buckets.map((attributeval, ind) => (
+                        <li key={ind} style={{ display: 'flex', height: '25px' }}>
+                          <Checkbox
+                            key={ind}
+                            onChange={e => this.props.handleChangeAttribute(e, attributeval.key, attribute.key)}
+                            style={{ color: 'gray', width: 25, height: 25 }}
+                            icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                            checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                          />
+                          <label style={{ marginLeft: 5, lineHeight: '28px' }}>
+                            {lang === "mn" ? attrvalue.find(value => value.id === attributeval.key).name : attrvalue.find(value => value.id === attributeval.key).nameen}
+                          </label>
+                        </li>
+                      ))
+                    }
                   </ul>
                 </div>
               </div>

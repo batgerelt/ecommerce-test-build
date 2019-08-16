@@ -8,7 +8,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { FormattedMessage } from 'react-intl';
-import { Spin, Select, BackTop, Tree, Icon } from "antd";
+import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -234,7 +234,7 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall } = this.props;
+      const { categoryall, lang } = this.props;
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -247,39 +247,46 @@ class CategoryInfo extends React.Component {
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
-                title={categoryall.find(i => i.id === one.key).name}
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
                 key={one.key}
               >
-                {one.buckets === undefined ? null
-                  : one.buckets.buckets.map(two => (
-                    <Tree.TreeNode
-                      title={categoryall.find(i => i.id === two.key).name}
-                      key={two.key}
-                    >
-                      {two.buckets !== undefined &&
-                        two.buckets.buckets !== undefined
-                        ? two.buckets.buckets.map(three => (
-                          <Tree.TreeNode
-                            title={
-                              categoryall.find(i => i.id === three.key).name
+                {one.buckets.buckets &&
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                        >
+                          {
+                          two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                          two.buckets.buckets.map(three => (
+                            three.key === 0 ? null :
+                            <Tree.TreeNode
+                              title={
+                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
                             }
-                            key={three.key}
-                          />
-                        ))
-                        : null}
-                    </Tree.TreeNode>
-                  ))}
+                              key={three.key}
+                            />
+                          )) : null
+                        }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
               </Tree.TreeNode>
             ))}
           </Tree>
         );
       }
+
       return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   renderLeftPanel = () => {
     try {
@@ -287,56 +294,59 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
 
       return (
+
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
-            <div className={leftPanel}>
-              <button
-                className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
-              >
-                <img
-                  src={crossImage}
-                  alt="cross"
-                  height="25px"
-                  aria-hidden="true"
-                />
-              </button>
-              <h5 className="title">
-                <strong><FormattedMessage id="search.filter.title" /></strong>
-              </h5>
-              <p className="title">
-                <span><FormattedMessage id="search.filter.category.title" /></span>
-              </p>
-              <div className="accordion" id="accordionExample">
-                <div
-                  id="collapseOne"
-                  className="collapse show"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordionExample"
+          <Affix offsetTop={150} style={{ width: '100%' }}>
+            <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+              <div className={leftPanel}>
+                <button
+                  className="button buttonBlack filter-cross"
+                  onClick={this.showLeftPanel}
                 >
-                  <div className="collapse-content">
-                    <ul className="list-unstyled">
-                      {this.renderCategoryList()}
-                    </ul>
+                  <img
+                    src={crossImage}
+                    alt="cross"
+                    height="25px"
+                    aria-hidden="true"
+                  />
+                </button>
+                <h5 className="title">
+                  <strong><FormattedMessage id="search.filter.title" /></strong>
+                </h5>
+                <p className="title">
+                  <span><FormattedMessage id="search.filter.category.title" /></span>
+                </p>
+                <div className="accordion" id="accordionExample">
+                  <div
+                    id="collapseOne"
+                    className="collapse show"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordionExample"
+                  >
+                    <div className="collapse-content">
+                      <ul className="list-unstyled">
+                        {this.renderCategoryList()}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <h5 className="title">
-                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
-                </h5>
-                <div className="left-filter">
-                  <SearchFilterSet
-                    {...this.props}
-                    {...this}
-                    data={this.state.aggregations}
-                  />
+                <div>
+                  <h5 className="title">
+                    <strong><FormattedMessage id="search.filter.filter.title" /></strong>
+                  </h5>
+                  <div className="left-filter">
+                    <SearchFilterSet
+                      {...this.props}
+                      {...this}
+                      data={this.state.aggregations}
+                    />
+                  </div>
                 </div>
-              </div>
 
+              </div>
             </div>
-          </div>
+          </Affix>
         </div>
       );
     } catch (error) {
@@ -530,7 +540,7 @@ class CategoryInfo extends React.Component {
                           style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
-                          height={340}
+                          height={height}
                           scrollTop={scrollTop}
                           width={width}
                           rowCount={rowCount}

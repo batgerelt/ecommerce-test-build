@@ -2,7 +2,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import LetterInput from "../../Input/LetterInput";
 import LatinInput from "../../Input/LatinInput";
 import NumberInput from "../../Input/NumberInput";
@@ -32,7 +32,6 @@ class RegistrationModal extends React.Component {
           if (!res.payload.success) {
             return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
-
           message.warning(intl.formatMessage({ id: res.payload.code }));
           this.handleSignup();
         });

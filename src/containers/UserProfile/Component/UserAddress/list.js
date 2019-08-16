@@ -233,7 +233,7 @@ class Component extends React.Component {
       } = this.state;
       return (
         <Form className="row row10" onSubmit={this.handleSubmit}>
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("name", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.name.validation.required" }) }],
@@ -241,7 +241,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone1", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
@@ -251,7 +251,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("phone2", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
@@ -261,7 +261,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("mainLocation", {
                 initialValue: this.checkError(this.state.params.provid),
@@ -280,7 +280,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
                 initialValue: this.checkError(this.state.params.distid),
@@ -300,7 +300,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
                 initialValue: this.checkError(this.state.params.commid),
@@ -320,7 +320,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={24}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
               {getFieldDecorator("homeaddress", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
@@ -328,7 +328,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col span={24}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
               <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
                 <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
