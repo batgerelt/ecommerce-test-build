@@ -13,7 +13,7 @@ class Delivery extends Component {
             <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
           <p className="text">
-            <span>{this.props.lang === "mn" ? detail.deliveryinfo : detail.deliveryinfo_en}</span>
+            <span>{this.props.lang === "mn" ? detail.products.deliveryinfo : detail.products.deliveryinfo_en}</span>
             {/* <span>{detail.deliveryinfo}</span> */}
           </p>
         </div>

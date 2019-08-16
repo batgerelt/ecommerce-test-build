@@ -347,7 +347,7 @@ class DeliveryInfo extends React.Component {
     this.setState({ notif: value });
   }
 
-  handlePayment = (e, item, ordData, type) => {
+  handlePayment = (e, item, ordData, type, totalQty) => {
     e.preventDefault();
     MySwal.fire({
       html: (
@@ -357,6 +357,7 @@ class DeliveryInfo extends React.Component {
           chosenBankInfo={item}
           chosenInfo={this.state.chosenInfo}
           ordData={ordData}
+          totalQty={totalQty}
           onRef={ref => (this.SwalModals = ref)}
           {...this}
           {...this.props}
@@ -429,9 +430,15 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
                 style={{ color: "#feb415" }}
               />
-              <span>
-                {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
-              </span>
+              {
+                this.checkError(chosenType.id) !== 3 ?
+                  <span>
+                    {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
+                  </span>
+                  :
+                  null
+              }
+
             </p>
           </div>
           <hr />

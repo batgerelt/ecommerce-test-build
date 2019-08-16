@@ -24,7 +24,7 @@ class ProductDetail extends React.Component {
       const { relational } = this.props;
       return <Relational relatedProducts={relational} {...this.props} />;
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
@@ -38,7 +38,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
   renderDetails = () => {
@@ -60,20 +60,18 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
   renderDeliveryInfo = () => {
     try {
       const { detail } = this.props;
-      const lang = this.props.intl.locale;
-
       return (
         <Delivery detail={detail.products} {...this.props} />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
@@ -90,7 +88,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
@@ -110,7 +108,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
@@ -125,7 +123,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 
@@ -163,7 +161,7 @@ class ProductDetail extends React.Component {
         </div>
       );
     } catch (error) {
-      return null;
+      return console.log(error);
     }
   };
 

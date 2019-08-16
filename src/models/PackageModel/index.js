@@ -16,7 +16,7 @@ class Model extends BaseModel {
     packageScroll: [],
     packageDetail: [],
     packageInfo: [],
-    packageCount: 0,
+    packageCount: 8,
     packageRowCount: 1,
     packageFetching: false,
   };
@@ -229,9 +229,9 @@ class Model extends BaseModel {
 
   pushProduct = (products) => {
     let tmp = this.initialState.packageScroll;
-    products.map((item, i) => {
-      tmp.push(item);
-    });
+    if (products.length !== 0) {
+      tmp.push(products);
+    }
     return tmp;
   }
 
@@ -256,7 +256,7 @@ class Model extends BaseModel {
           packageFetching: false,
           packageScroll: this.pushProduct(action.payload.data.products),
           packageRowCount: action.payload.data.count,
-          packageCount: state.packageCount + 20,
+          packageCount: state.packageCount + 8,
         };
       // GET PACKAGE DETAIL
       case this.model.detail.request:
