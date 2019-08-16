@@ -200,7 +200,6 @@ class Bookmarks extends PureComponent {
   renderFooterProduct = () => {
     try {
       const { products } = this.state;
-      console.log('this.getBannerHeight();: ', this.getBannerHeight());
       return (
         <div className="section">
           <div className="container pad10">

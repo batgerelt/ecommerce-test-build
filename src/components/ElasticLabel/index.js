@@ -187,7 +187,7 @@ class index extends Component {
         bottom: 35px; 
         margin: auto auto auto 500px`
         :
-        `top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '0px')};`;
+        `top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '15px')};`;
       return (
         <Style>
           {`
