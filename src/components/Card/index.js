@@ -317,7 +317,10 @@ class Card extends React.Component {
 
               {/* elastic search price tag */}
               {!item.pricetag ? null : (
-                <div className="col-md-6 no-padding-r" style={{ textAlign: "left" }} >
+                <div
+                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  style={{ textAlign: list ? 'center' : 'left' }}
+                >
                   {item.pricetag}
                 </div>
               )}
