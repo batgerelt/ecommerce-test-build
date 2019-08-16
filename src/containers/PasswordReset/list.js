@@ -10,9 +10,11 @@ class Component extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      this.props.changePassword({ key: this.props.match.params.key, password: values.password }).then((res) => {
-        this.setState({ home: true });
-      });
+      if (!err) {
+        this.props.changePassword({ key: this.props.match.params.key, password: values.password }).then((res) => {
+          this.setState({ home: true });
+        });
+      }
     });
   };
 
@@ -90,12 +92,12 @@ class Component extends React.Component {
     }
   }
   unsuccessPass() {
-    return (
+    console.log("unsuccess");
+    /* return (
       <div>
         {<Redirect to="/" />}
       </div>
-
-    );
+    ); */
   }
   checkResponse = () => {
     try {

@@ -39,3 +39,8 @@ select {
   padding-bottom: 10px !important;
 }
 
+.list-price-tag{
+  position: absolute;
+  margin-left: -50px;
+}
+

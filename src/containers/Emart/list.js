@@ -45,6 +45,7 @@ class CategoryInfo extends React.Component {
       selectedCat: null,
       aggregations: [],
       ismore: false,
+      expanded: [],
     };
   }
 
@@ -200,6 +201,8 @@ class CategoryInfo extends React.Component {
   };
 
   handleClickCategory = (cat) => {
+    // console.log('cat: ', cat);
+    // this.state.expanded.map((i, k) => (i === cat[0] ? cat.slice(k) : this.state.expanded.push(cat)));
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
 
@@ -242,7 +245,7 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             defaultExpandAll={false}
-            defaultExpandParent={false}
+            // expandedKeys={this.state.expanded
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
@@ -250,24 +253,30 @@ class CategoryInfo extends React.Component {
                 key={one.key}
               >
                 {one.buckets.buckets &&
-                  one.buckets.buckets.map(two => (
-                    <Tree.TreeNode
-                      title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
-                      key={two.key}
-                    >
-                      {
-                        two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                        >
+                          {
+                          two.buckets !== undefined && two.buckets.buckets !== undefined ?
                           two.buckets.buckets.map(three => (
+                            three.key === 0 ? null :
                             <Tree.TreeNode
                               title={
-                                lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
-                              }
+                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
+                            }
                               key={three.key}
                             />
                           )) : null
-                      }
-                    </Tree.TreeNode>
-                  ))}
+                        }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
               </Tree.TreeNode>
             ))}
           </Tree>
@@ -279,7 +288,7 @@ class CategoryInfo extends React.Component {
       // return console.log(error);
       return null;
     }
-  }
+  };
 
   renderLeftPanel = () => {
     try {

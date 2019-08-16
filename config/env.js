@@ -49,9 +49,9 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
 
         // REAL
-        //API: `http://10.0.0.53:80/mn/api`,
-        //IMAGE: `http://10.0.0.55:81/`,
-        //IMAGES: `http://10.0.0.53:8876/`,
+        // API: `http://10.0.0.53:80/mn/api`,
+        // IMAGE: `http://10.0.0.55:81/`,
+        // IMAGES: `http://10.0.0.53:8876/`,
 
         //TEST
         API: `http://10.0.0.22:8876/mn/api`,

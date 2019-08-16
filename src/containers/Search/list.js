@@ -8,7 +8,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Spin, Select, BackTop, Tree, Icon } from "antd";
+import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -343,7 +343,12 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
 
       return (
-        <div className="col-xl-3 col-md-3 pad10">
+        <div
+          className="col-xl-3 col-md-3 pad10"
+          ref={(node) => { this.container = node;
+        }}
+        >
+          {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
             className={`left-panel-container ${
               this.state.isMobilePanel ? " show" : null
@@ -398,6 +403,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
+          {/* </Affix> */}
         </div>
       );
     } catch (error) {
@@ -567,7 +573,6 @@ class CategoryInfo extends React.Component {
           }
         });
       }
-
       return null;
     } catch (error) {
       // return console.log(error);
@@ -577,7 +582,7 @@ class CategoryInfo extends React.Component {
 
   renderProducts = () => {
     try {
-      const { products } = this.state;
+      const { products, isListViewOn } = this.state;
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>
@@ -627,6 +632,7 @@ class CategoryInfo extends React.Component {
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
+                                    list={isListViewOn}
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}

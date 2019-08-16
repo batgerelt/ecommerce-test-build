@@ -3255,6 +3255,16 @@ textarea:focus {
   padding: 1px;
 }
 
+.price-tag{
+  text-align: "left";
+  font-weight: 400;
+}
+
+.price-tag-list{
+  display: flex;
+  align-items: flex-end;
+}
+
 /* .btn:hover{
   color: #fff !important;
   transition: 0.3s;
