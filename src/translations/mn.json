@@ -157,7 +157,7 @@
 	"productDetail.comment.list.title": "Сэтгэгдэл",
 	"productDetail.intro.title": "Танилцуулга",
 	"productDetail.label.discountDateWarning": "Хямдрал {days} хоногийн дараа дуусна",
-	"productDetail.label.gramPrice": "гр-н үнэ",
+	"productDetail.label.gramPrice": "-н үнэ",
 	"productDetail.label.kilogramPrice": "Кг-н үнэ",
 	"productDetail.label.price": "Үнэ",
 	"productDetail.label.totalPrice": "Дүн",

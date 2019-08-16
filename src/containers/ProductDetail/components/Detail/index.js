@@ -110,7 +110,8 @@ class Detail extends Component {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
         <p className="count-text text-right">
-          {`${intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}: ${formatter.format(detail.price)} ₮`}
+          {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
+          {`: ${formatter.format(detail.price)} ₮`}
         </p>
       );
     }

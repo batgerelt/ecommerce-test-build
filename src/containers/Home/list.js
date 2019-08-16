@@ -51,12 +51,12 @@ class Homepage extends React.Component {
           );
           break;
         case WIDGET_SLUGS.package:
-          widget.items = products.packageAll.products;
+          widget.items = products.packageAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.package.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.recipe:
-          widget.items = products.recipeAll.products;
+          widget.items = products.recipeAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.recipe.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
