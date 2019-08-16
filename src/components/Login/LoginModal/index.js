@@ -13,6 +13,7 @@ class LoginModal extends React.Component {
     isVisibleReset: false,
     isRemember: localStorage.getItem("auth") === null ? 1 : 0,
     direct: false,
+    confirm: false,
   };
 
   componentWillUnmount() {
@@ -36,11 +37,17 @@ class LoginModal extends React.Component {
     this.setState({ visible: false });
     this.props.ForgetModal.handleForgetModal();
   };
+
+  goHome() {
+    return this.state.confirm ? <Redirect to="/" /> : null;
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.props);
+    if (this.props.match.url.slice(0, 8) === "/confirm") {
+      this.setState({ direct: true });
+    }
     const { intl } = this.props;
-
     // eslint-disable-next-line consistent-return
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
@@ -54,7 +61,7 @@ class LoginModal extends React.Component {
             }
             return null;
           }
-          this.setState({ direct: true });
+          this.setState({ confirm: this.state.direct });
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
@@ -181,30 +188,34 @@ class LoginModal extends React.Component {
         <FacebookLogin />
         <GoogleLogin />
 
-        <div className="text-center">
-          <p>
-            <FormattedMessage
-              id="loginModal.linkToRegistration"
-              defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"
-              values={{
-                link: (
-                  <Link
-                    to="#"
-                    className="btn btn-link"
-                    onClick={this.handleRegistrationModal}
-                  >
-                    <strong>
-                      <FormattedMessage
-                        id="loginModal.linkToRegistration.link"
-                        defaultMessage="ЭНД ДАРЖ"
-                      />
-                    </strong>
-                  </Link>
-                ),
-              }}
-            />
-          </p>
-        </div>
+        {this.props.RegistrationModal ?
+          <div className="text-center">
+            <p>
+              <FormattedMessage
+                id="loginModal.linkToRegistration"
+                defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"
+                values={{
+                  link: (
+                    <Link
+                      to="#"
+                      className="btn btn-link"
+                      onClick={this.handleRegistrationModal}
+                    >
+                      <strong>
+                        <FormattedMessage
+                          id="loginModal.linkToRegistration.link"
+                          defaultMessage="ЭНД ДАРЖ"
+                        />
+                      </strong>
+                    </Link>
+                  ),
+                }}
+              />
+            </p>
+          </div> : null
+        }
+
+        {this.goHome()}
       </Modal>
     );
   }

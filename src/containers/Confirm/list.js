@@ -24,6 +24,10 @@ class List extends React.Component {
     );
   }
 
+  renderTimer() {
+    setTimeout(() => this.props.history.push("/"), 5000);
+  }
+
   renderSuccessFalse() {
     return <Redirect to="/" />;
   }
@@ -41,6 +45,7 @@ class List extends React.Component {
     }
   }
   render() {
+    console.log(this.props.history);
     const { confirms } = this.props;
     return (
       <div className="top-container">
@@ -66,6 +71,7 @@ class List extends React.Component {
             </div>
           </div>
         </div>
+        {this.renderTimer()}
       </div>
     );
   }
