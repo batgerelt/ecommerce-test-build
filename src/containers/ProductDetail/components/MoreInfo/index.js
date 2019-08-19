@@ -42,12 +42,12 @@ class Moreinfo extends Component {
                 {attributes.map((attr, index) => (
                   <div key={index} className="row row10">
                     <dt className="col-sm-3" style={{ maxWidth: "15%" }}>
-                      {/* {lang === "mn" ? attr.value : attr.value_en} */}
-                      {attr.value}
+                      {lang === "mn" ? attr.value : attr.value_en}
+                      {/* {attr.value} */}
                     </dt>
                     <dd className="col-sm-6">
-                      {/* {lang === "mn" ? attr.name : attr.name_en} */}
-                      {attr.name}
+                      {lang === "mn" ? attr.name : attr.name_en}
+                      {/* {attr.name} */}
                     </dd>
                   </div>
                 ))}

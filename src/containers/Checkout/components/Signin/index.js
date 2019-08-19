@@ -16,7 +16,6 @@ class Signin extends React.Component {
   }
 
   onSubmitLogin = (e) => {
-    console.log('login');
     e.preventDefault();
     const { intl } = this.props;
     this.setState({ loading: true });
