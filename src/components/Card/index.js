@@ -29,33 +29,27 @@ class Card extends React.Component {
     try {
       if (this.props.auth.isLogged) {
         if (item.skucd) {
-          this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
-            item.cd = item.skucd;
-            item.availableqty = res.payload.data.availableqty;
-            item.price = res.payload.data.price;
-            item.sprice = res.payload.data.sprice;
-            item.addminqty = res.payload.data.addminqty;
-            this.props.incrementProductRemotely({
-              skucd: item.skucd,
-              qty: item.addminqty,
-              iscart: 0,
-            }).then((result) => {
-              if (!result.payload.success) {
-                const messages = defineMessages({
-                  error: {
-                    id: result.payload.code,
-                  },
-                });
-                message.warning(intl.formatMessage(
-                  messages.error,
-                  {
-                    name: result.payload.data.values[0],
-                    qty: result.payload.data.values[1],
-                  },
-                ));
-              }
-            });
+          const result = await this.props.incrementProductRemotely({
+            skucd: item.skucd,
+            qty: item.saleminqty || 1,
+            iscart: 0,
           });
+
+          if (!result.payload.success) {
+            const messages = defineMessages({
+              error: {
+                id: result.payload.code,
+              },
+            });
+
+            message.warning(intl.formatMessage(
+              messages.error,
+              {
+                name: result.payload.data.values[0],
+                qty: result.payload.data.values[1],
+              },
+            ));
+          }
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.cd,
