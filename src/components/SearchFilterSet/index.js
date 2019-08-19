@@ -71,7 +71,7 @@ class Content extends React.Component {
       if (data.aggregations.brands.buckets.buckets.length !== 0) {
         return (
           <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.brand" })} key="8">
-            <div className="collapse show" id={moment()}>
+            <div className="collapse show">
               <div className="collapse-content">
                 <ul className="list-unstyled">
                   {data.aggregations.brands.buckets.buckets.map((brand, index) => (
@@ -140,31 +140,28 @@ class Content extends React.Component {
   };
 
   // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
+  tipFormat = value => `${formatter.format(value)}₮`
   renderFilterPrice = () => {
     try {
       const { data, intl } = this.props;
+      const min = data.aggregations.min_price.value;
+      const max = data.aggregations.max_price.value;
       const marks = {
-        [data.aggregations.min_price.value]: {
-          label: <strong>{formatter.format(data.aggregations.min_price.value)}₮</strong>,
-        },
-        [data.aggregations.max_price.value]: {
-          label: <strong>{formatter.format(data.aggregations.max_price.value)}₮</strong>,
-        },
+        [min]: { label: <strong>{formatter.format(min)}₮</strong> },
+        [max]: { label: <strong>{formatter.format(max)}₮</strong> },
       };
 
       return (
         <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.price" })} key="10">
           <Slider
             range
-            min={data.aggregations.min_price.value}
-            max={data.aggregations.max_price.value}
+            tipFormatter={this.tipFormat}
+            min={min}
+            max={max}
             marks={marks}
             onAfterChange={this.props.handleChangePrice}
             style={{ width: "90%" }}
-            defaultValue={[
-              data.aggregations.min_price.value,
-              data.aggregations.max_price.value,
-            ]}
+            // defaultValue={[min, max]}
           />
         </Collapse.Panel>
       );

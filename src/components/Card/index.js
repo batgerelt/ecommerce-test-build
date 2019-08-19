@@ -124,23 +124,27 @@ class Card extends React.Component {
         if (item.skucd) {
           item.insymd = Date.now();
           item.cd = item.skucd;
-          item.sprice = item.currentprice;
-          item.availableqty = 1000; // just for test
-          this.props.incrementProductLocally(item);
+          this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
+            item.availableqty = res.payload.data.availableqty;
+            // item.price = res.payload.data.price;
+            // item.sprice = res.payload.data.sprice;
+            // item.addminqty = res.payload.data.addminqty;
+            this.props.incrementProductLocally(item);
 
-          const updated = this.props.products.find(prod => prod.cd === item.skucd);
+            const updated = this.props.products.find(prod => prod.cd === item.skucd);
 
-          if (updated && updated.error !== undefined) {
-            const messages = defineMessages({
-              error: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(
-              messages.error,
-              { name: updated.name, qty: updated.qty },
-            ));
-          }
+            if (updated && updated.error !== undefined) {
+              const messages = defineMessages({
+                error: {
+                  id: updated.error,
+                },
+              });
+              message.warning(intl.formatMessage(
+                messages.error,
+                { name: updated.name, qty: updated.qty },
+              ));
+            }
+          });
         } else if (item.cd) {
           item.insymd = Date.now();
           this.props.incrementProductLocally(item);

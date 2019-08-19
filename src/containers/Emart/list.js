@@ -512,7 +512,7 @@ class CategoryInfo extends React.Component {
 
   renderProducts = () => {
     try {
-      const { products } = this.state;
+      const { products, isListViewOn } = this.state;
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>
@@ -561,6 +561,7 @@ class CategoryInfo extends React.Component {
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
+                                    list={isListViewOn}
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}
