@@ -3,12 +3,37 @@ import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { message, Button } from "antd";
+import logo from "../../../src/scss/assets/images/demo/logo.jpg";
 
 class List extends React.Component {
-  state = { message: [] };
+  state = {
+    message: [],
+    time: 10,
+    timer: true,
+    second: true,
+  };
 
   handleLogin = () => {
+    this.setState({ second: false });
     this.props.LoginModal.handleLoginModal();
+  }
+
+  componentWillMount() {
+    // setTimeout(() => { this.setState({ timer: true }) }, 10000);
+    setInterval(() => {
+      if (!this.props.LoginModal.state.visible) {
+        const { time } = this.state;
+        if (time === 0) {
+          this.setState({ timer: false });
+        } else {
+          this.setState({ time: this.state.time - 1 });
+        }
+      }
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval();
   }
 
   renderSuccessTrue() {
@@ -24,18 +49,14 @@ class List extends React.Component {
     );
   }
 
-  renderTimer() {
-    setTimeout(() => this.props.history.push("/"), 5000);
-  }
-
   renderSuccessFalse() {
+    console.log("gaga");
     return <Redirect to="/" />;
   }
 
   renderConfirm = () => {
     try {
       const { confirms } = this.props;
-      console.log(confirms.success);
       if (confirms.success) {
         return this.renderSuccessTrue();
       }
@@ -44,8 +65,8 @@ class List extends React.Component {
       return console.log(error);
     }
   }
+
   render() {
-    console.log(this.props.history);
     const { confirms } = this.props;
     return (
       <div className="top-container">
@@ -62,19 +83,33 @@ class List extends React.Component {
                     <img
                       style={{ width: "100%" }}
                       alt="logo"
-                      src="http://test.emart.urto.mn/Uploads/Products/emartMallLogo.png"
+                      src={logo}
                     />
                   </div>
-                  {confirms.length === 0 ? null : this.renderConfirm()}
+                  {confirms.length === 0 ? null : this.renderSuccessTrue()}
+                  {!this.state.timer ? <Redirect to="/" /> : <h1>jaja</h1>}
+                  <p>Нүүр хуудас руу үсрэхэд {this.state.time} секунд дутуу</p>
                 </center>
               </div>
             </div>
           </div>
         </div>
-        {this.renderTimer()}
       </div>
     );
   }
 }
 
 export default List;
+/* loadMoreRows = async (key) => {
+    try {
+      setTimeout(() => {
+        this.props.getPackageScroll({
+          order: "date_desc",
+          start: this.props.packageCount,
+          rowcnt: 8,
+        });
+      }, 1000);
+    } catch (error) {
+      return console.log(error);
+    }
+  }; */
