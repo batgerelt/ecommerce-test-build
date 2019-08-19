@@ -346,7 +346,7 @@ class Card extends React.Component {
               )}
 
               {/* elastic search price tag */}
-              {!item.id && !item.recipeid && item.pricetag === null ? null : (
+              {item.id || item.recipeid || !item.pricetag ? null : (
                 <div
                   className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
@@ -463,8 +463,8 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
-                  {item.tags &&
-                    item.tags.map((label, index) => (
+                  {elastic ? <ElasticLabel data={item} tags={tags} /> :
+                    item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}
                         type={LABEL_TYPES.vertical}

@@ -19,7 +19,7 @@ class MainMenu extends React.Component {
 
   render() {
     const { pathname } = this.props.location;
-    console.log("pathname", pathname);
+
     const data = this.props && this.props.dataSource;
     const lang = this.props.intl.locale;
     let indents = data.map((item, index) => (

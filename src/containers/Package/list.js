@@ -25,16 +25,24 @@ class Discount extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getPackageScroll({
-      order: "date_desc",
-      start: this.props.packageCount,
-      rowcnt: 8,
-    });
+    try {
+      this.props.getPackageScroll({
+        order: "date_desc",
+        start: this.props.packageCount,
+        rowcnt: 8,
+      });
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   componentDidMount() {
-    const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
-    this.setState({ packagebanner: selected });
+    try {
+      const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
+      this.setState({ packagebanner: selected });
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   renderMainBanner = () => {
@@ -110,11 +118,15 @@ class Discount extends React.Component {
   noRowsRenderer = () => <div>No data</div>;
 
   generateItemHeight = (item, width) => {
-    const { packageScroll } = this.props;
-    if (packageScroll[item.index].length <= 3) {
-      return 306.5;
+    try {
+      const { packageScroll } = this.props;
+      if (packageScroll[item.index].length <= 3) {
+        return 306.5;
+      }
+      return ITEM_HEIGHT;
+    } catch (error) {
+      return console.log(error);
     }
-    return ITEM_HEIGHT;
   }
 
   renderFooterProduct = () => {

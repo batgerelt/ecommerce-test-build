@@ -214,7 +214,6 @@ class LoginModal extends React.Component {
             </p>
           </div> : null
         }
-
         {this.goHome()}
       </Modal>
     );

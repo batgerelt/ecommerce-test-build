@@ -150,32 +150,32 @@ class List extends React.Component {
                       </div>
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
-                      <li className={pathname === "/profile" ? "active" : " "} >
+                      <li className={pathname === "/profile" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }} >
                         <Link to={`${match.path}`} className="flex-this">
                           <Avatar size="small" shape="square" src={profile} className="marginRight10" /><span><FormattedMessage id="header.profile.userProfile" /></span>
                         </Link>
                       </li>
-                      <li className={pathname === "/profile/history" ? "active" : " "}>
+                      <li className={pathname === "/profile/history" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                         <Link to={`${match.path}/history`} className="flex-this">
                           <Avatar size="small" shape="square" src={history} className="marginRight10" /><span><FormattedMessage id="header.profile.seenHistory" /></span>
                         </Link>
                       </li>
-                      <li className={pathname === "/profile/wish" ? "active" : " "}>
+                      <li className={pathname === "/profile/wish" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                         <Link to={`${match.path}/wish`} className="flex-this">
                           <Avatar size="small" shape="square" src={wishlist} className="marginRight10" /><span><FormattedMessage id="header.profile.savedProducts" /></span>
                         </Link>
                       </li>
-                      <li className={pathname === "/profile/delivery" ? "active" : " "} >
+                      <li className={pathname === "/profile/delivery" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                         <Link to={`${match.path}/delivery`} className="flex-this">
                           <Avatar size="small" shape="square" src={store} className="marginRight10" /><span><FormattedMessage id="header.profile.orderHistory" /></span>
                         </Link>
                       </li>
-                      <li className={pathname === "/profile/address" ? "active" : " "}>
+                      <li className={pathname === "/profile/address" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                         <Link to={`${match.path}/address`} className="flex-this">
                           <Avatar size="small" shape="square" src={location} className="marginRight10" /><span><FormattedMessage id="header.profile.deliveryAddress" /></span>
                         </Link>
                       </li>
-                      <li className={pathname === "/profile/password" ? "active" : " "}>
+                      <li className={pathname === "/profile/password" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                         <Link to={`${match.path}/password`} className="flex-this">
                           <Avatar size="small" shape="square" src={password} className="marginRight10" /><span><FormattedMessage id="header.profile.changePassword" /></span>
                         </Link>

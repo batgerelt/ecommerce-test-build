@@ -46,6 +46,7 @@ class ProductDetail extends React.Component {
       const {
         detail, categorymenu, addWishList, addRate, getProductRate, removeAddedWishColor,
       } = this.props;
+      console.log(detail);
       return (
         <Detail
           detail={detail.products === null ? {} : detail.products}
