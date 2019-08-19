@@ -125,7 +125,6 @@ class Detail extends Component {
       if (detail.issalekg && detail.sprice !== 0) {
         salePrice = detail.sprice;
       }
-      console.log(detail);
 
       priceInfo = (
         <div>
