@@ -60,7 +60,7 @@ class Comment extends Component {
                 <p className="name">
                   <strong>
                     {
-                      auth !== 0 ? `${user[0].info.customerInfo.firstname} ${user[0].info.customerInfo.lastname}`
+                      auth !== 0 ? `${user[0].info.customerInfo.firstname}`
                         : ""
                     }
                   </strong>

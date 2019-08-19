@@ -30,9 +30,9 @@ class PackageDetail extends React.Component {
   render() {
     return (
       <div>
+        <List {...this.props} {...this} />
         <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-        <List {...this.props} {...this} />
       </div>
     );
   }
