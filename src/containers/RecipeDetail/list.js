@@ -119,6 +119,45 @@ class List extends React.Component {
     }
   };
 
+  renderIcons = () => {
+    try {
+      const { recipe, lang } = this.props;
+      return (
+        <div className="block product-delivery" style={{ padding: '20px', textAlign: 'center' }}>
+          <div className="row row10">
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={chef} /><br />
+                {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
+              </p>
+            </div>
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={time} /><br />
+                {lang === "mn" ? recipe.time : recipe.time_en}
+              </p>
+            </div>
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={smile} /><br />
+                {/* {recipe.humancnt} хүний порц */}
+                <FormattedMessage
+                  id="recipeDetail.icons.foodSize"
+                  defaultMessage="{people} хүний орц"
+                  values={{
+                    people: recipe.humancnt,
+                  }}
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   handleIncrementClick = async (product) => {
     try {
       const { intl } = this.props;
@@ -321,31 +360,6 @@ class List extends React.Component {
       return (
         <div>
           <div className="row row10">
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={chef} /> {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
-              </p>
-            </div>
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={time} /> {lang === "mn" ? recipe.time : recipe.time_en}
-              </p>
-            </div>
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={smile} />
-                {/* {recipe.humancnt} хүний порц */}
-                <FormattedMessage
-                  id="recipeDetail.icons.foodSize"
-                  defaultMessage="{people} хүний орц"
-                  values={{
-                    people: recipe.humancnt,
-                  }}
-                />
-              </p>
-            </div>
-          </div>
-          <div className="row row10">
             <div className="col-md-6">
               <p className="title">
                 <span
@@ -540,6 +554,7 @@ class List extends React.Component {
               <div className="col-md-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
+                  {this.renderIcons()}
                   {this.renderProducts()}
                 </div>
               </div>
