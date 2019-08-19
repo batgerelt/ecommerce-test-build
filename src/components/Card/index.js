@@ -353,14 +353,14 @@ class Card extends React.Component {
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
                 <div
-                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`}>
                 <span className="current">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
@@ -382,14 +382,14 @@ class Card extends React.Component {
               {/* elastic search price tag */}
               {item.id || item.recipeid || !item.pricetag ? null : (
                 <div
-                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`}>
                 <span className="current">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
