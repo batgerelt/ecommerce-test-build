@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
@@ -284,7 +285,7 @@ class List extends React.Component {
                 </strong>
                 <p>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
-                  {formatter.format(item.price)}₮
+                  {formatter.format(item.sprice === 0 ? item.price : item.sprice)}₮
                 </p>
               </Link>
               <div className="action">
@@ -309,13 +310,20 @@ class List extends React.Component {
     }
   };
 
+  getTotalPrice = (products) => {
+    let sum = 0;
+    products.map((item, i) => {
+      if (item.sprice === 0) {
+        sum += item.price;
+      } else {
+        sum += item.sprice;
+      }
+    });
+    return sum;
+  }
+
   renderProducts = () => {
     const products = this.props.recipeProducts;
-
-    const total =
-      products &&
-      products.length > 0 &&
-      products.reduce((acc, cur) => acc + cur.price, 0);
     try {
       return (
         <div className="block product-suggest">
@@ -331,7 +339,7 @@ class List extends React.Component {
                 <span style={{ fontSize: "1.6rem" }}>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:
                 </span>
-                <strong>{formatter.format(total)}₮</strong>
+                <strong>{formatter.format(this.getTotalPrice(products))}₮</strong>
               </p>
               <button
                 type="button"
