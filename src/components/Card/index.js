@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-lonely-if */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
@@ -333,6 +334,35 @@ class Card extends React.Component {
               </div>
             </div>
           );
+          item.discountprice === 0 ?
+          prices = (
+            <div className="row">
+              {!!priceTitle && (
+                <div
+                  className="col-md-6 no-padding-r"
+                  style={{ textAlign: "left" }}
+                >
+                  {priceTitle}
+                </div>
+              )}
+
+              {/* elastic search price tag */}
+              {item.pricetag === null ? null : (
+                <div
+                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  style={{ textAlign: list ? 'center' : 'left' }}
+                >
+                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+                </div>
+              )}
+
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l`}>
+                <span className="current">
+                  {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+                </span>
+              </div>
+            </div>
+          ) : null;
         } else {
           prices = (
             <div className="row">

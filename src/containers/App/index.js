@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable import/first */
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
@@ -105,6 +106,8 @@ class App extends Component {
     this.props.getAllBrand();
     this.props.getAllPromotion();
     this.props.getTags();
+
+    localStorage.getItem('lang') === null ? localStorage.setItem('lang', 'mn') : null;
   }
 
   render() {
