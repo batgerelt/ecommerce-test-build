@@ -109,7 +109,7 @@ class index extends Component {
     }
   };
 
-  renderSale = (lang) => {
+  renderSale = () => {
     try {
       const { data, tags, list } = this.props;
       const style = list
@@ -246,7 +246,7 @@ class index extends Component {
                     : tags.find(tag => tag.slug === "sold_out").color
                 };
                 text-align: center;
-                font-size: ${"1.5"}rem;
+                font-size: ${"0.9"}rem;
                 color: white;
                 letter-spacing: -1px;
                 vertical-align: top;
@@ -285,11 +285,11 @@ class index extends Component {
               .text small {
                 position: relative;
                 z-index: 1;
-                font-size: ${"0.7"}rem;
+                font-size: ${"0.5"}rem;
                 display: inline-block;
-                margin-left: 2px;
-                line-height: 1.2;
-                letter-spacing: 1px;
+                margin-left: 1px;
+                line-height: 1.4;
+                letter-spacing: 0.2px;
                 bottom: ${
                   lang === "mn" || lang === null ? "6px" : "-3px"
                 };

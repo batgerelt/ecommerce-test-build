@@ -94,6 +94,8 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
+    console.log('e: ', e);
+    // e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({
       loading: !this.state.loading,
