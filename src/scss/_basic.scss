@@ -3007,7 +3007,11 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .swal2-icon::before{
-  font-size: 1.3em;
+  font-size: 1.3em !important;
+}
+
+.swal2-icon.swal2-warning::before{
+  font-size: 1.3em !important;
 }
 
 .swal2-title {

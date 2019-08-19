@@ -106,8 +106,7 @@ class App extends Component {
     this.props.getAllBrand();
     this.props.getAllPromotion();
     this.props.getTags();
-
-    localStorage.getItem('lang') === null ? localStorage.setItem('lang', 'mn') : null;
+    this.props.setLang();
   }
 
   render() {
