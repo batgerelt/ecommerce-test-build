@@ -392,7 +392,7 @@ class Model extends BaseModel {
         product.error = undefined;
       }
 
-      product.qty = 1;
+      product.qty = product.addminqty || 1;
 
       let found = products.find(prod => prod.cd === product.cd);
 

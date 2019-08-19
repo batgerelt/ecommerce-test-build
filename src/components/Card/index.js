@@ -29,27 +29,33 @@ class Card extends React.Component {
     try {
       if (this.props.auth.isLogged) {
         if (item.skucd) {
-          const result = await this.props.incrementProductRemotely({
-            skucd: item.skucd,
-            qty: item.saleminqty || 1,
-            iscart: 0,
-          });
-
-          if (!result.payload.success) {
-            const messages = defineMessages({
-              error: {
-                id: result.payload.code,
-              },
+          this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
+            item.cd = item.skucd;
+            item.availableqty = res.payload.data.availableqty;
+            item.price = res.payload.data.price;
+            item.sprice = res.payload.data.sprice;
+            item.addminqty = res.payload.data.addminqty;
+            this.props.incrementProductRemotely({
+              skucd: item.skucd,
+              qty: item.addminqty,
+              iscart: 0,
+            }).then((result) => {
+              if (!result.payload.success) {
+                const messages = defineMessages({
+                  error: {
+                    id: result.payload.code,
+                  },
+                });
+                message.warning(intl.formatMessage(
+                  messages.error,
+                  {
+                    name: result.payload.data.values[0],
+                    qty: result.payload.data.values[1],
+                  },
+                ));
+              }
             });
-
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: result.payload.data.values[0],
-                qty: result.payload.data.values[1],
-              },
-            ));
-          }
+          });
         } else if (item.cd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.cd,
@@ -126,9 +132,9 @@ class Card extends React.Component {
           item.cd = item.skucd;
           this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
             item.availableqty = res.payload.data.availableqty;
-            // item.price = res.payload.data.price;
-            // item.sprice = res.payload.data.sprice;
-            // item.addminqty = res.payload.data.addminqty;
+            item.price = res.payload.data.price;
+            item.sprice = res.payload.data.sprice;
+            item.addminqty = res.payload.data.addminqty;
             this.props.incrementProductLocally(item);
 
             const updated = this.props.products.find(prod => prod.cd === item.skucd);
@@ -322,7 +328,7 @@ class Card extends React.Component {
               {!item.pricetag ? null : (
                 <div
                   className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                  style={{ textAlign: list ? 'center' : 'left' }}
+                  style={{ textAlign: list ? 'rigth' : 'left' }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
