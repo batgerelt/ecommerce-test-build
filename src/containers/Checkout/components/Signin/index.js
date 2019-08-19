@@ -18,10 +18,10 @@ class Signin extends React.Component {
   onSubmitLogin = (e) => {
     e.preventDefault();
     const { intl } = this.props;
-    this.setState({ loading: true });
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.props.login({ body: { ...values } }).then(async (r) => {
+          this.setState({ loading: true });
           if (r.payload.success) {
             localStorage.setItem('img', r.payload.data[0].info.customerInfo.imgnm);
             localStorage.setItem('auth', JSON.stringify(r.payload));
