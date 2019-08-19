@@ -72,20 +72,20 @@ class List extends React.Component {
                 </li>
                 <li className="flex-this flex-space">
                   <span>Ипойнт оноогоор:</span>
-                  <strong className="big">0₮</strong>
+                  <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
                 </li>
-                <li className="flex-this flex-space">
+                <li className="line flex-this flex-space">
                   <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
-                <li className="line text-right">
+                <li className="text-right">
                   <strong><FormattedMessage id="shared.sidebar.label.total" />:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
-                <li className="flex-this flex-space">
+                {/* <li className="flex-this flex-space">
                   <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
                   <strong>{formatter.format(orderdetail.info.totalvatamount)}₮</strong>
-                </li>
+                </li> */}
               </ul>
             </div>
             <h5 className="title flex-this flex-space">

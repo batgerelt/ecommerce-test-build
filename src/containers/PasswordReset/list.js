@@ -66,7 +66,7 @@ class Component extends React.Component {
             </div>
             <div className="col-xl-2">
               <Form onSubmit={this.handleSubmit} className="login-form">
-                <Form.Item hasFeedback>
+                <Form.Item hasFeedback style={{ textAlign: "left" }}>
                   {getFieldDecorator("password", {
                     rules: [
                       { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
@@ -74,7 +74,7 @@ class Component extends React.Component {
                     ],
                   })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
                 </Form.Item>
-                <Form.Item hasFeedback>
+                <Form.Item hasFeedback style={{ textAlign: "left" }}>
                   {getFieldDecorator("confirm", {
                     rules: [
                       { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },
@@ -101,12 +101,11 @@ class Component extends React.Component {
     }
   }
   unsuccessPass() {
-    console.log("unsuccess");
-    /* return (
+    return (
       <div>
         {<Redirect to="/" />}
       </div>
-    ); */
+    );
   }
   checkResponse = () => {
     try {
