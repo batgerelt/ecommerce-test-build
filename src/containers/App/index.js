@@ -105,6 +105,7 @@ class App extends Component {
     this.props.getAllBrand();
     this.props.getAllPromotion();
     this.props.getTags();
+    this.props.setLang();
   }
 
   render() {

@@ -28,12 +28,15 @@ class Homepage extends React.Component {
     widgets.forEach((widget) => {
       switch (widget.slug) {
         case WIDGET_SLUGS.onlyemart:
-          widget.items = products.emartproduct;
+          widget.items = products.emartproduct.length === 0
+            ? []
+            : products.emartproduct;
           widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
           break;
         case WIDGET_SLUGS.discount:
-
-          widget.items = products.discountproduct.length === 0 ? [] : products.discountproduct.product;
+          widget.items = products.discountproduct.product.length === 0
+            ? []
+            : products.discountproduct.product;
           widget.interval = (
             <span>
               {moment()
@@ -51,17 +54,23 @@ class Homepage extends React.Component {
           );
           break;
         case WIDGET_SLUGS.package:
-          widget.items = products.packageAll;
+          widget.items = products.packageAll.length === 0
+            ? []
+            : products.packageAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.package.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.recipe:
-          widget.items = products.recipeAll;
+          widget.items = products.recipeAll.length === 0
+            ? []
+            : products.recipeAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.recipe.readMore" });
           widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.new:
-          widget.items = products.newproduct;
+          widget.items = products.newproduct.length === 0
+            ? []
+            : products.newproduct;
           widget.readMore = intl.formatMessage({ id: "home.widget.new.readMore" });
           break;
         default:
@@ -128,7 +137,6 @@ class Homepage extends React.Component {
 
       return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   }

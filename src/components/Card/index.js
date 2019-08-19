@@ -301,7 +301,7 @@ class Card extends React.Component {
           );
         }
 
-        if (item.sprice || item.discountprice !== 0) {
+        if (item.sprice || (item.discountprice && item.discountprice !== 0)) {
           prices = (
             <div className="row">
               {!!priceTitle && (
@@ -346,7 +346,7 @@ class Card extends React.Component {
               )}
 
               {/* elastic search price tag */}
-              {item.pricetag === null ? null : (
+              {!item.id && !item.recipeid && item.pricetag === null ? null : (
                 <div
                   className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
