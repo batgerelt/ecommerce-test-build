@@ -17,9 +17,9 @@ class Model extends BaseModel {
     this.persist = true;
   }
 
-  setLang = e => ({
+  setLang = (e = null) => ({
     type: 'LOCALE_SET_LANG',
-    payload: e.target.value,
+    payload: (e && e.target && e.target.value) || this.initialState.lang,
   });
 
   reducer = (state = this.initialState, action) => {

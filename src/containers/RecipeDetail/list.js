@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
@@ -118,6 +119,45 @@ class List extends React.Component {
       return null;
     }
   };
+
+  renderIcons = () => {
+    try {
+      const { recipe, lang } = this.props;
+      return (
+        <div className="block product-delivery" style={{ padding: '20px', textAlign: 'center' }}>
+          <div className="row row10">
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={chef} /><br />
+                {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
+              </p>
+            </div>
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={time} /><br />
+                {lang === "mn" ? recipe.time : recipe.time_en}
+              </p>
+            </div>
+            <div className="col-md-4 col-xs-4">
+              <p style={{ fontWeight: '600', color: 'black' }}>
+                <Avatar size="small" src={smile} /><br />
+                {/* {recipe.humancnt} хүний порц */}
+                <FormattedMessage
+                  id="recipeDetail.icons.foodSize"
+                  defaultMessage="{people} хүний орц"
+                  values={{
+                    people: recipe.humancnt,
+                  }}
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  }
 
   handleIncrementClick = async (product) => {
     try {
@@ -245,7 +285,7 @@ class List extends React.Component {
                 </strong>
                 <p>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
-                  {formatter.format(item.price)}₮
+                  {formatter.format(item.sprice === 0 ? item.price : item.sprice)}₮
                 </p>
               </Link>
               <div className="action">
@@ -270,13 +310,20 @@ class List extends React.Component {
     }
   };
 
+  getTotalPrice = (products) => {
+    let sum = 0;
+    products.map((item, i) => {
+      if (item.sprice === 0) {
+        sum += item.price;
+      } else {
+        sum += item.sprice;
+      }
+    });
+    return sum;
+  }
+
   renderProducts = () => {
     const products = this.props.recipeProducts;
-
-    const total =
-      products &&
-      products.length > 0 &&
-      products.reduce((acc, cur) => acc + cur.price, 0);
     try {
       return (
         <div className="block product-suggest">
@@ -292,7 +339,7 @@ class List extends React.Component {
                 <span style={{ fontSize: "1.6rem" }}>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:
                 </span>
-                <strong>{formatter.format(total)}₮</strong>
+                <strong>{formatter.format(this.getTotalPrice(products))}₮</strong>
               </p>
               <button
                 type="button"
@@ -320,31 +367,6 @@ class List extends React.Component {
       const { recipe, lang } = this.props;
       return (
         <div>
-          <div className="row row10">
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={chef} /> {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
-              </p>
-            </div>
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={time} /> {lang === "mn" ? recipe.time : recipe.time_en}
-              </p>
-            </div>
-            <div className="col-md-4 col-xs-4">
-              <p>
-                <Avatar size="small" src={smile} />
-                {/* {recipe.humancnt} хүний порц */}
-                <FormattedMessage
-                  id="recipeDetail.icons.foodSize"
-                  defaultMessage="{people} хүний орц"
-                  values={{
-                    people: recipe.humancnt,
-                  }}
-                />
-              </p>
-            </div>
-          </div>
           <div className="row row10">
             <div className="col-md-6">
               <p className="title">
@@ -540,6 +562,7 @@ class List extends React.Component {
               <div className="col-md-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
+                  {this.renderIcons()}
                   {this.renderProducts()}
                 </div>
               </div>

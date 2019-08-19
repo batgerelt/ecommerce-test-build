@@ -149,7 +149,7 @@ class Bookmarks extends PureComponent {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 340;
+      return 365;
     }
     if (width < 400) {
       return 340;
@@ -167,6 +167,7 @@ class Bookmarks extends PureComponent {
         <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <CardList
+              elastic
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               {...this.props}
