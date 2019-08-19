@@ -123,30 +123,9 @@ class Detail extends Component {
       let salePrice = detail.sprice;
 
       if (detail.issalekg && detail.sprice !== 0) {
-        // Хямдарсан бөгөөд кг-н бараа
-        /*  kiloPrice = (
-           <p className="count-text text-right">
-             Кг үнэ:
-             <small
-               className="sale"
-               style={{
-                 color: "#666",
-                 textDecoration: "line-through",
-                 marginLeft: "5px",
-                 marginRight: "5px",
-               }}
-             >
-               {formatter.format(price)}₮
-             </small>
-             {formatter.format(detail.kgproduct[0].kilogramprice)}
-           </p>
-         ); */
-        /* price = Math.round(
-          price / Math.round(1000 / detail.kgproduct[0].salegram),
-        );
-        salePrice = detail.kgproduct[0].salegramprice; */
         salePrice = detail.sprice;
       }
+      console.log(detail);
 
       priceInfo = (
         <div>
@@ -168,22 +147,16 @@ class Detail extends Component {
               </span>
             </div>
           </div>
-          {/* kiloPrice */}
+          {kiloPrice}
         </div>
       );
     } else {
-      // Хямдраагүй үед
-      /* if (detail.issalekg) {
-        price = detail.price;
-      } */
-
       priceInfo = (
         <div>
           <div className="count-text text-right">
-            {detail.pricetag !== null && !detail.issalekg ? `${detail.pricetag}: ` : null}
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
-              {formatter.format(price)}₮
+              {formatter.format(detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
