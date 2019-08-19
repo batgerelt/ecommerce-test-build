@@ -136,6 +136,7 @@ class Discount extends React.Component {
         <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <CardList
+              elastic
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={data}

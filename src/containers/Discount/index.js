@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   ...state.cart,
   ...state.auth,
   ...state.locale,
+  ...state.search,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
