@@ -159,6 +159,7 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
+        console.log(ordData);
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -218,7 +219,7 @@ class SwalModals extends Component {
                                 {intl.formatMessage({ id: "checkout.swal.label.amount" })}
                               </span>
                               <strong>
-                                {formatter.format(ordData.order.totalamount)}₮
+                                {formatter.format(ordData.order.payamount)}₮
                               </strong>
                             </li>
                           </ul>
