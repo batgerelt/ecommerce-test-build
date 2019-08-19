@@ -159,7 +159,6 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
-        console.log(ordData);
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -324,7 +323,7 @@ class SwalModals extends Component {
             id: "checkout.swal.info.orderPayment",
           },
         });
-
+        console.log(ordData, "test");
         return (
           <div className="wrap" >
             <div className="success-message-container">
@@ -369,7 +368,7 @@ class SwalModals extends Component {
                               {intl.formatMessage({ id: "checkout.swal.label.amount" })}:
                             </span>
                             <strong className="big">
-                              {formatter.format(ordData.order.totalamount)}₮
+                              {formatter.format(ordData.order.payamount)}₮
                             </strong>
                           </li>
                           <li className="flex-this flex-space">

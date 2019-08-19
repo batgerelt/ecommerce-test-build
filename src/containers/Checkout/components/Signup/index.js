@@ -45,7 +45,7 @@ class Signup extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const { intl } = this.props;
     if (value && value !== this.props.form.getFieldValue("password")) {
-      callback(intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }));
+      callback(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
     } else {
       callback();
     }
@@ -175,7 +175,7 @@ class Signup extends React.Component {
                     { validator: this.compareToFirstPassword },
                   ],
                 })(
-                  <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.validation.required" })} className="form-control" autoComplete="off" />,
+                  <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.placeholder" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>

@@ -98,7 +98,6 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-    console.log(detail);
     const { intl } = this.props;
     const { productQty } = this.state;
 
@@ -173,7 +172,6 @@ class Detail extends Component {
         </div>
       );
     } else {
-      console.log("hymdragvi");
       // Хямдраагүй үед
       /* if (detail.issalekg) {
         price = detail.price;
@@ -238,7 +236,7 @@ class Detail extends Component {
 
         <div className="total-price text-right">
           <span><FormattedMessage id="productDetail.label.totalPrice" />:</span>
-          <strong>{formatter.format(this.getTotalPrice())}₮</strong>
+          <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
         <div className="btn-container text-right">
@@ -326,7 +324,7 @@ class Detail extends Component {
     return price;
   };
 
-  getTotalPrice = () => this.getPrice();
+  getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();
 
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals

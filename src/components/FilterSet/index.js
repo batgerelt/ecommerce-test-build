@@ -100,7 +100,7 @@ class FilterSet extends React.Component {
             <Collapse isOpened={this.state.isOpened}>
               <Slider
                 range
-                defaultValue={[this.props.minPrice, this.props.maxPrice]}
+                // defaultValue={[this.props.minPrice, this.props.maxPrice]}
                 min={min}
                 max={max}
                 marks={marks}
