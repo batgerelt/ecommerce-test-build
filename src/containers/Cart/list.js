@@ -9,16 +9,6 @@ import { message } from 'antd';
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
-  state = { deliveryInfo: null };
-
-  async componentDidMount() {
-    const result = await this.props.getStaticInfo();
-
-    if (result.payload.success) {
-      this.setState({ deliveryInfo: result.payload.data[0].deliverytxt });
-    }
-  }
-
   changeQties = products => products.map((product) => {
     if (product.saleminqty > 1) {
       product.qty /= product.saleminqty;
@@ -105,10 +95,7 @@ class Cart extends React.Component {
     if (found) {
       found.qty = parseInt(e.target.value, 10);
 
-      // eslint-disable-next-line no-restricted-globals
-      if (isNaN(found.qty)) {
-        found.qty = found.saleminqty > 1 ? found.qty * found.saleminqty : found.saleminqty;
-      }
+      found.qty = found.saleminqty || 1;
 
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
@@ -241,7 +228,10 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, { name: updated.name, qty: updated.qty }));
+          message.warning(intl.formatMessage(messages.error, {
+            name: updated.name,
+            qty: updated.qty,
+          }));
         }
       }
     } else {
@@ -537,7 +527,7 @@ class Cart extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          value={prod.saleminqty > 1 ? prod.qty / prod.saleminqty : prod.qty}
+                          value={prod.qty}
                           name="productQty"
                           maxLength={5}
                           onChange={this.handleInputChange(prod)}
@@ -602,7 +592,8 @@ class Cart extends React.Component {
   };
 
   render() {
-    const { products } = this.props;
+    const { products, staticinfo } = this.props;
+    const lang = this.props.intl.locale;
     return (
       <div className="section">
         <div className="container pad10">
@@ -644,10 +635,11 @@ class Cart extends React.Component {
                       <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
                       <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
                     </p>
-                    {this.state.deliveryInfo && (
+                    {staticinfo && (
                       <p className="delivery">
                         <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        <span>{this.state.deliveryInfo}</span>
+                        {console.log(this.state)}
+                        <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}
                     <p className="total flex-space">

@@ -1,7 +1,9 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable radix */
 import React from "react";
+import { injectIntl } from 'react-intl';
 import {
   InfiniteLoader,
   WindowScroller,
@@ -13,29 +15,24 @@ import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
-const ITEM_HEIGHT = 340;
+const ITEM_HEIGHT = 900;
 class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
-      products: [],
       headerProducts: [],
-      rowCount: 1,
-      count: 6,
-      loading: false,
       recipebanner: [],
     };
   }
 
   renderMainBanner = () => {
     try {
-      const { recipebanner, menuRecipe } = this.props;
-
+      const { recipebanner, menuRecipe, intl } = this.props;
       return (
         <PageBanner
-          title={menuRecipe.menunm}
-          subtitle={menuRecipe.subtitle}
+          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
+          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
           banners={recipebanner.length === 0 ? [] : recipebanner.header}
           bgColor="#F2769B"
         />
@@ -45,38 +42,22 @@ class Recipe extends React.Component {
     }
   };
   componentWillMount() {
-    this.props.getRecipe({
+    this.props.getRecipeScroll({
       order: "date_desc",
-      start: 0,
+      start: this.props.recipeCount,
       rowcnt: 6,
-    }).then((res) => {
-      if (res.payload.success) {
-        this.setState({
-          headerProducts: res.payload.data.products, rowCount: res.payload.data.count,
-        });
-      }
     });
   }
 
-  // data nemeh heseg
   loadMoreRows = (key) => {
     try {
-      if (this.state.headerProducts.length + this.state.products.length < this.state.rowCount) {
-        this.setState({ loading: true });
-        this.props.getRecipe({
+      setTimeout(() => {
+        this.props.getRecipeScroll({
           order: "date_desc",
-          start: this.state.count,
-          rowcnt: 20,
-        }).then((res) => {
-          if (res.payload.success) {
-            this.setState({
-              products: this.state.products.concat(res.payload.data.products), count: this.state.count + 20, rowCount: res.payload.data.count, loading: false,
-            }, () => {
-              this.setState({ loading: false });
-            });
-          }
+          start: this.props.recipeCount,
+          rowcnt: 6,
         });
-      }
+      }, 1000);
     } catch (error) {
       return console.log(error);
     }
@@ -84,73 +65,29 @@ class Recipe extends React.Component {
 
   noRowsRenderer = () => <div>No data</div>;
 
-  isRowLoaded = (index, width) => {
-    const { products } = this.state;
-    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-    const allItemsLoaded =
-      this.generateIndexesForRow(
-        index,
-        maxItemsPerRow,
-        products.length,
-      ).length > 0;
-    return !true || allItemsLoaded;
-  }
-
-  getMaxItemsAmountPerRow = (width) => {
-    if (width > 1100) {
-      return Math.max(Math.floor(width / 353.33), 1);
-    }
-    return Math.max(Math.floor(width / 160), 1);
-  };
-
-  getRowsAmount = (width, itemsAmount, hasMore) => {
-    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
-  };
-
-  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
-    const result = [];
-    // console.log(this.state.products);
-    let startIndex = 0;
-    startIndex = rowIndex * maxItemsPerRow;
-    for (
-      let i = startIndex;
-      i < Math.min(startIndex + maxItemsPerRow, itemsAmount);
-      i++
-    ) {
-      result.push(i);
-    }
-    return result;
-  };
-
   renderHeaderProduct = () => {
     try {
-      const { headerProducts } = this.state;
-
+      const { recipeAll } = this.props;
+      let tmp = recipeAll.slice(0, 6);
       return (
         <div style={{ paddingTop: '10px' }}>
           <div className="container pad10">
-            <CardList
-              cardListType={CARD_LIST_TYPES.horizontal}
-              items={headerProducts}
-              {...this.props}
-              shape={2}
-            />
-            {/* headerProducts.length > 6 ?
+            {tmp.length >= 6 ?
               (
                 <CardList
                   cardListType={CARD_LIST_TYPES.vertical}
-                  cardsInCol={2}
-                  items={headerProducts}
+                  shape={3}
+                  items={tmp}
                   {...this.props}
                 />
               ) : (
                 <CardList
+                  shape={2}
                   cardListType={CARD_LIST_TYPES.horizontal}
-                  items={headerProducts}
+                  items={tmp}
                   {...this.props}
                 />
-              ) */}
+              )}
           </div>
         </div>
       );
@@ -158,6 +95,14 @@ class Recipe extends React.Component {
       return console.log(error);
     }
   };
+
+  generateItemHeight = (item, width) => {
+    const { recipeScroll } = this.props;
+    if (recipeScroll[item.index].length <= 3) {
+      return 306.5;
+    }
+    return ITEM_HEIGHT;
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.recipebanner.length !== prevProps.recipebanner.length) {
@@ -177,73 +122,21 @@ class Recipe extends React.Component {
     }
   };
 
-  /* renderFooterProduct = () => {
-    try {
-      let { products } = this.state;
-      console.log(products);
-      if (products.length <= 6) {
-        return null;
-      }
-
-      products = products.slice(6);
-
-      const iteration = Math.floor(products.length / 6);
-      const remainder = products.length % 6;
-
-      return (
-        <div className="section">
-          <div className="container pad10">
-            {remainder > 0 ?
-              (
-                <div>
-                  <CardList
-                    cardListType={CARD_LIST_TYPES.vertical}
-                    items={products.slice(0, iteration * 6)}
-                    {...this.props}
-                  />
-                  <CardList
-                    cardListType={CARD_LIST_TYPES.horizontal}
-                    // eslint-disable-next-line no-mixed-operators
-                    items={products.slice(iteration * 6)}
-                    cardType={CARD_TYPES.wide}
-                    showAll
-                    {...this.props}
-                  />
-                </div>
-              ) : (
-                <CardList
-                  cardListType={CARD_LIST_TYPES.vertical}
-                  items={products}
-                  {...this.props}
-                />
-              )}
-          </div>
-        </div>
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  }; */
-
   renderFooterProduct = () => {
     try {
-      const { packageAll, widgetAll } = this.props;
+      const { recipeScroll } = this.props;
       return (
         <div className="section">
           <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {
-                const { products } = this.state;
-                const rowCount = this.getRowsAmount(
-                  width,
-                  products.length,
-                  products.length !== this.state.rowCount,
-                );
                 return (
                   <InfiniteLoader
                     ref={this.infiniteLoaderRef}
-                    rowCount={rowCount === 1 ? rowCount : rowCount - 1}
-                    isRowLoaded={index => this.isRowLoaded(index, width)}
+                    rowCount={recipeScroll.length}
+                    isRowLoaded={(index) => {
+                      return !!recipeScroll[index];
+                    }}
                     loadMoreRows={this.loadMoreRows}
                   >
                     {({ onRowsRendered, registerChild }) => (
@@ -255,27 +148,28 @@ class Recipe extends React.Component {
                             height={height}
                             scrollTop={scrollTop}
                             width={width}
-                            rowCount={rowCount === 1 ? rowCount : rowCount - 1}
-                            rowHeight={ITEM_HEIGHT}
+                            rowCount={recipeScroll.length}
+                            rowHeight={index => this.generateItemHeight(index, width)}
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
-                              const { products } = this.state;
-                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                              const rowItems = this.generateIndexesForRow(
-                                index,
-                                maxItemsPerRow,
-                                products.length,
-                              ).map(itemIndex => products[itemIndex]);
                               return (
-                                <div style={style} key={key} className="jss148">
-                                  {rowItems.map(itemId => (
-                                    <Card
-                                      key={itemId.recipeid + key}
-                                      shape={2}
-                                      item={itemId}
-                                      {...this.props}
-                                    />
-                                  ))}
+                                <div style={style} key={key} className="jss149">
+                                  {recipeScroll[index].length >= 6 ?
+                                    (
+                                      <CardList
+                                        cardListType={CARD_LIST_TYPES.vertical}
+                                        shape={3}
+                                        items={recipeScroll[index]}
+                                        {...this.props}
+                                      />
+                                    ) : (
+                                      <CardList
+                                        shape={2}
+                                        cardListType={CARD_LIST_TYPES.horizontal}
+                                        items={recipeScroll[index]}
+                                        {...this.props}
+                                      />
+                                    )}
                                 </div>
                               );
                             }}
@@ -288,20 +182,11 @@ class Recipe extends React.Component {
                 );
               }}
             </AutoSizer>
-            {/*
-              <CardList
-                cardListType={CARD_LIST_TYPES.horizontal}
-                seq={widgetAll.find(i => i.slug === "package").type}
-                items={packageAll.products}
-                second
-                {...this.props}
-              /> */}
           </div>
         </div>
       );
     } catch (error) {
       return console.log(error);
-      // return null;
     }
   };
 
@@ -318,4 +203,4 @@ class Recipe extends React.Component {
   }
 }
 
-export default Recipe;
+export default injectIntl(Recipe);

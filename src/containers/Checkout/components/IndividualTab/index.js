@@ -5,9 +5,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import NumberInput from "../../../../components/Input/NumberInput";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
@@ -44,7 +45,7 @@ class IndividualTab extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue } = this.props.form;
-    const { DeliveryInfo } = this.props;
+    const { DeliveryInfo, intl } = this.props;
     const { info } = this.props.userinfo;
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -56,6 +57,9 @@ class IndividualTab extends React.Component {
             this.setState({ cardInfo: res.payload.data });
             DeliveryInfo.setIndividualData(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
+            message.warning(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+          } else {
+            message.warning(intl.formatMessage({ id: res.payload.code }));
           }
           this.setState({ loading: false });
         });
@@ -144,7 +148,14 @@ class IndividualTab extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
                           { len: 14, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="text" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
+                          <NumberInput
+                            placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                            maxLength={14}
+                            allowClear
+                            size="large"
+                            className="col-md-12"
+                            autoComplete="off"
+                          />,
                         )}
                       </Form.Item>
                       <Form.Item>
@@ -164,7 +175,8 @@ class IndividualTab extends React.Component {
               </div> :
               <div>
                 <p className="title">
-                  <strong>Ипойнт онооны үлдэгдэл</strong>
+                  {/* <strong>Ипойнт онооны үлдэгдэл</strong> */}
+                  <strong><FormattedMessage id="shared.form.epoint.title" /></strong>
                 </p>
                 <div className="row row10 checkoutFormContainer">
                   <div className="col-xl-6 pad10">

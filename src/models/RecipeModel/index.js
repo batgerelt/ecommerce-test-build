@@ -13,8 +13,9 @@ class Model extends BaseModel {
     recipeAll: [],
     recipeDetail: [],
     recipeProducts: [],
-    recipeCount: 0,
-    recipeProductCount: 1,
+    recipeScroll: [],
+    recipeCount: 6,
+    recipeRowCount: 1,
     recipe: null,
     steps: [],
     recipeFetching: false,
@@ -28,6 +29,11 @@ class Model extends BaseModel {
           request: this.buildActionName('request', data.model, 'recipeall'),
           response: this.buildActionName('response', data.model, 'recipeall'),
           error: this.buildActionName('error', data.model, 'recipeall'),
+        },
+        recipeScroll: {
+          request: this.buildActionName('request', data.model, 'recipeScroll'),
+          response: this.buildActionName('response', data.model, 'recipeScroll'),
+          error: this.buildActionName('error', data.model, 'recipeScroll'),
         },
         recipedetail: {
           request: this.buildActionName('request', data.model, 'recipedetail'),
@@ -43,14 +49,15 @@ class Model extends BaseModel {
     }
   }
   getRecipe = ({ order = `price_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeall });
+  getRecipeScroll = ({ order = `price_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeScroll });
   getRecipeDetail = ({ id }) => asyncFn({ url: `/cookrecipe/${id}`, method: 'GET', model: this.model.recipedetail });
   getRecipeProducts = ({ id }) => asyncFn({ url: `/cookrecipe/${id}/products`, method: 'GET', model: this.model.recipeproducts });
 
-  pushRecipeProduct = (products) => {
-    let tmp = this.initialState.recipeProducts;
-    products.map((item, i) => {
-      tmp.push(item);
-    });
+  pushProduct = (products) => {
+    let tmp = this.initialState.recipeScroll;
+    if (products.length !== 0) {
+      tmp.push(products);
+    }
     return tmp;
   }
 
@@ -58,11 +65,24 @@ class Model extends BaseModel {
     switch (action.type) {
       // GET BRAND
       case this.model.recipeall.request:
-        return { ...state, recipeFetching: true, current: this.requestCase(state.current, action) };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.recipeall.error:
-        return { ...state, recipeFetching: false, current: this.errorCase(state.current, action) };
+        return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeall.response:
-        return { ...state, recipeFetching: false, recipeAll: action.payload.data };
+        return { ...state, recipeAll: action.payload.data.products };
+
+      case this.model.recipeScroll.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.recipeScroll.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.recipeScroll.response:
+        return {
+          ...state,
+          recipeFetching: false,
+          recipeScroll: this.pushProduct(action.payload.data.products),
+          recipeRowCount: action.payload.data.count,
+          recipeCount: state.recipeCount + 6,
+        };
 
       // GET BRAND
       case this.model.recipedetail.request:
@@ -78,13 +98,7 @@ class Model extends BaseModel {
       case this.model.recipeproducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipeproducts.response:
-        return {
-          ...state,
-          // recipeProducts: this.pushRecipeProduct(action.payload.data.product),
-          recipeProducts: action.payload.data,
-          recipeProductCount: action.payload.data.count,
-          recipeCount: state.recipeCount + 20,
-        };
+        return { ...state, recipeProducts: action.payload.data };
 
       default:
         return state;

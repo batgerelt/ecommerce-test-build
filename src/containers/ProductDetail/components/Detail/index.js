@@ -77,7 +77,7 @@ class Detail extends Component {
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
-          // message.success(res.payload.message);
+          // message.warning(res.payload.message);
           getProductRate({ skucd });
         }
       });
@@ -110,7 +110,8 @@ class Detail extends Component {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
         <p className="count-text text-right">
-          {`${intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}: ${formatter.format(detail.price)} ₮`}
+          {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
+          {`: ${formatter.format(detail.price)} ₮`}
         </p>
       );
     }

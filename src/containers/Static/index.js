@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -23,22 +24,27 @@ class Page extends React.Component {
 
   renderContent = () => {
     try {
-      const { staticpage } = this.props;
+      const { staticpage, intl } = this.props;
 
       return (
         <div
           className="ck-editor"
           style={{
-              minHeight: "700px",
-              backgroundColor: "white",
-              borderRadius: "20px",
-              padding: "40px 20px",
-            }}
+            minHeight: "700px",
+            backgroundColor: "white",
+            borderRadius: "20px",
+            padding: "40px 20px",
+          }}
         >
           <h5 style={{ height: "50px" }}>
             <center>{staticpage.name}</center>
           </h5>
-          <div dangerouslySetInnerHTML={{ __html: staticpage.description }} />
+          <div dangerouslySetInnerHTML={{
+            __html: intl.locale === "mn"
+              ? staticpage.description
+              : staticpage.description_en,
+          }}
+          />
         </div>
       );
     } catch (error) {
@@ -57,4 +63,4 @@ class Page extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Page));

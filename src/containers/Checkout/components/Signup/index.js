@@ -60,9 +60,9 @@ class Signup extends React.Component {
           this.props.signup({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
               this.props.LoginRegisterPanel.changeTab(1);
-              message.success("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
+              message.warning("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
             } else {
-              message.warning(res.payload.message);
+              message.warning(intl.formatMessage({ id: res.payload.code }));
             }
           });
         } else {

@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/require-default-props */
 import React from "react";
+import { injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -25,7 +27,7 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
-    const { sliderData } = this.props;
+    const { sliderData, intl } = this.props;
 
     try {
       return sliderData.map((item, index) => {
@@ -40,14 +42,14 @@ class Slider extends React.Component {
                   </div>
                 )}
                 {item && item.link && (
-                  <Link to={item.link} className="btn btn-main" target="_blank">
+                  <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
                     <i className="fa fa-long-arrow-right" aria-hidden="true" />
                     <span className="text-uppercase">
                       {item.btntext && item.btntext.trim()
                         ? item.btntext
-                        : "Дэлгэрэнгүй"}
+                        : intl.formatMessage({ id: "shared.form.button.more" })}
                     </span>
-                  </Link>
+                  </a>
                 )}
               </div>
             </div>
@@ -102,4 +104,4 @@ Slider.propTypes = {
   elContainer: PropTypes.string.isRequired,
 };
 
-export default Slider;
+export default injectIntl(Slider);

@@ -14,7 +14,7 @@ import List from "./list";
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.cart,
-  ...state.static,
+  ...state.staticcontent,
   ...state.profile,
 });
 
@@ -39,6 +39,7 @@ class Page extends React.Component {
       if (this.props.isLogged) {
         this.props.getProducts(this.props.data[0].info.customerInfo.id);
         this.props.getWishByCount({ count: 5 });
+        this.props.getStaticInfo();
       }
     } catch (e) {
       console.log(e);

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable array-callback-return */
 /* eslint-disable react/no-danger */
 /* eslint-disable arrow-body-style */
@@ -57,11 +58,11 @@ class SwalModals extends Component {
   };
 
   changeTab = (e) => {
-    const { data } = this.props;
-    if (data.length !== 0) {
+    const { dataValue } = this.props;
+    if (dataValue.length !== 0) {
       // eslint-disable-next-line array-callback-return
-      data.map((item, i) => {
-        if (item.bankid === e) {
+      dataValue.map((item, i) => {
+        if (item.bankid === parseInt(e)) {
           this.setState({ chosenBank: item });
         }
       });
@@ -121,7 +122,7 @@ class SwalModals extends Component {
     try {
       const { chosenBank } = this.state;
       const {
-        checkProductZone, type, dataValue, ordData, readyBtn,
+        checkProductZone, type, dataValue, ordData, readyBtn, totalQty,
       } = this.props;
       const { mode } = this.state;
       if (type === "delete") {
@@ -158,6 +159,7 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
+        console.log(ordData);
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -217,7 +219,7 @@ class SwalModals extends Component {
                                 {intl.formatMessage({ id: "checkout.swal.label.amount" })}
                               </span>
                               <strong>
-                                {formatter.format(ordData.order.totalamount)}₮
+                                {formatter.format(ordData.order.payamount)}₮
                               </strong>
                             </li>
                           </ul>
@@ -229,7 +231,7 @@ class SwalModals extends Component {
               </Tabs>
               <div className="text-right" style={{ marginTop: "10px" }}>
                 <a
-                  onClick={e => readyBtn(e, chosenBank, ordData, type)}
+                  onClick={e => readyBtn(e, chosenBank, ordData, type, totalQty)}
                   className="btn btn-main"
                 >
                   <span className="text-uppercase">
@@ -309,7 +311,7 @@ class SwalModals extends Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData, totalQty,
+          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
         } = this.props;
         const messages = defineMessages({
           warning1: {

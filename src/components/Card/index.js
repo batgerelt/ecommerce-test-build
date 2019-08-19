@@ -125,11 +125,9 @@ class Card extends React.Component {
           item.cd = item.skucd;
           item.sprice = item.currentprice;
           item.availableqty = 1000; // just for test
-          console.log('item: ', item);
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.cd === item.skucd);
-          console.log('updated: ', updated);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
@@ -321,7 +319,7 @@ class Card extends React.Component {
                   className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
                 >
-                  {item.pricetag}
+                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
@@ -349,7 +347,10 @@ class Card extends React.Component {
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <div className={`col-md-6 no-padding-r ${list ? 'list-price-tag' : ''}`} style={{ textAlign: "left" }} >
+                <div
+                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  style={{ textAlign: list ? 'center' : 'left' }}
+                >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
@@ -634,7 +635,7 @@ class Card extends React.Component {
           return (
             <div className="single-product list-product sale-product">
               <div className="image-container">
-                <Link to={item.route ? item.route : ""}>
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
                   <span
                     className="image"
                     style={{
@@ -646,10 +647,10 @@ class Card extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <Link to={item.route ? item.route : ""} className="name">
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="name">
                   <span>{itemName}</span>
                 </Link>
-                <Link to={item.route ? item.route : ""} className="cat">
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
                   <span>{featureText}</span>
                 </Link>
                 {
@@ -662,7 +663,7 @@ class Card extends React.Component {
                     /> : ""
                 }
                 <Link
-                  to={item.route ? item.route : ""}
+                  to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
                   className="price"
                   style={{
                     padding: 0,
