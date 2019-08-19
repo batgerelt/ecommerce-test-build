@@ -110,7 +110,7 @@ class Detail extends Component {
       kiloPrice = (
         <p className="count-text text-right">
           {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
-          {`: ${formatter.format(detail.totprice)} ₮`}
+          {`: ${formatter.format(detail.totprice)} ₮`}``
         </p>
       );
     }
