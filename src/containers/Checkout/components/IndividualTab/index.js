@@ -68,6 +68,7 @@ class IndividualTab extends React.Component {
   };
 
   handleUsePoint = async (e) => {
+    e.preventDefault();
     const { intl } = this.props;
     const { cardInfo } = this.state;
     const { value: password } = await Swal.fire({
@@ -144,12 +145,12 @@ class IndividualTab extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("cardno", {
                           initialValue: "",
-                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) },
-                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
-                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
+                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardno.validation.min" }) }],
                         })(
                           <NumberInput
-                            placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                            placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
                             maxLength={14}
                             allowClear
                             size="large"
@@ -161,11 +162,11 @@ class IndividualTab extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("pincode", {
                           initialValue: "",
-                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
-                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.password.validation.pattern" }) },
-                          { len: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
+                          { len: 4, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="col-md-12" />,
+                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>

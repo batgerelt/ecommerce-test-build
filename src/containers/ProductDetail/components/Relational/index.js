@@ -90,7 +90,7 @@ class Relational extends Component {
                     <div className="info-container flex-space">
                       <Link to={prod.route ? prod.route : ""}>
                         <span>{prod.name}</span>
-                        <strong>{formatter.format(prod.price)}₮</strong>
+                        <strong><span style={{ fontWeight: 'normal', marginRight: prod.pricetag === null ? '0px' : '30px' }}>{prod.pricetag}</span><span>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span></strong>
                       </Link>
                       <div className="action">
                         <button

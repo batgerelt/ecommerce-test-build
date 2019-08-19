@@ -114,7 +114,6 @@ class Recipe extends React.Component {
   renderSubBanner = () => {
     try {
       const { recipebanner } = this.state;
-      console.log('recipebanner: ', recipebanner);
       return (
         <Banner data={recipebanner} />
       );

@@ -98,7 +98,7 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-
+    console.log(detail);
     const { intl } = this.props;
     const { productQty } = this.state;
 
@@ -111,7 +111,7 @@ class Detail extends Component {
       kiloPrice = (
         <p className="count-text text-right">
           {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
-          {`: ${formatter.format(detail.price)} ₮`}
+          {`: ${formatter.format(detail.totprice)} ₮`}
         </p>
       );
     }
@@ -173,6 +173,7 @@ class Detail extends Component {
         </div>
       );
     } else {
+      console.log("hymdragvi");
       // Хямдраагүй үед
       /* if (detail.issalekg) {
         price = detail.price;
@@ -181,6 +182,7 @@ class Detail extends Component {
       priceInfo = (
         <div>
           <div className="count-text text-right">
+            {detail.pricetag !== null && !detail.issalekg ? `${detail.pricetag}: ` : null}
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
               {formatter.format(price)}₮
@@ -324,7 +326,7 @@ class Detail extends Component {
     return price;
   };
 
-  getTotalPrice = () => this.state.productQty * this.getPrice();
+  getTotalPrice = () => this.getPrice();
 
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals
