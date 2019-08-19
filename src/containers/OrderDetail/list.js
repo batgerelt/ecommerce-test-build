@@ -57,6 +57,7 @@ class List extends React.Component {
     try {
       const { orderdetail } = this.props;
       const lang = this.props.intl.locale;
+      console.log(orderdetail);
       if (orderdetail.info !== null) {
         return (
           <div className="cart-info">
@@ -66,25 +67,29 @@ class List extends React.Component {
             <div className="block">
               <ul className="list-unstyled">
                 <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.totalPrice" /></span>
+                  <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.deliveryCost" /></span>
+                  <span>Ипойнт оноогоор:</span>
+                  <strong className="big">0₮</strong>
+                </li>
+                <li className="flex-this flex-space">
+                  <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
                 <li className="line text-right">
-                  <strong><FormattedMessage id="shared.sidebar.label.total" /></strong>
+                  <strong><FormattedMessage id="shared.sidebar.label.total" />:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.tax" /></span>
+                  <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
                   <strong>{formatter.format(orderdetail.info.totalvatamount)}₮</strong>
                 </li>
               </ul>
             </div>
             <h5 className="title flex-this flex-space">
-              <span><FormattedMessage id="shared.sidebar.title.deliveryStatus" /></span>
+              <span><FormattedMessage id="shared.sidebar.title.deliveryStatus" />:</span>
               <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
                 {lang === "mn" ? orderdetail.info.customerstatusname : orderdetail.info.customerstatusname_en}
               </strong>

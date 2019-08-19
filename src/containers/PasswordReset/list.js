@@ -24,20 +24,28 @@ class Component extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  compareToFirstPassword = (rule, value, callback) => {
+  validateToNextPassword = (rule, value, callback) => {
     const { intl } = this.props;
-    if (value && value !== this.props.form.getFieldValue("password")) {
-      callback(intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }));
+    if (value.length < 6) {
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
+    } else if (value.search(/[a-zA-Z]/) === -1) {
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
+    } else if (value.search(/[0-9]/) === -1) {
+      callback(intl.formatMessage({ id: "shared.form.password.validation.weak" }));
     } else {
       callback();
     }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
     if (value && this.state.confirmDirty) {
       this.props.form.validateFields(["confirm"], { force: true });
     }
-    callback();
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    if (value && value !== this.props.form.getFieldValue("password")) {
+      callback("Нууц үгээ зөв давтана уу");
+    } else {
+      callback();
+    }
   };
 
   renderPass = () => {
@@ -63,7 +71,6 @@ class Component extends React.Component {
                     rules: [
                       { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
                       { validator: this.validateToNextPassword },
-                      { min: 4, message: intl.formatMessage({ id: "shared.form.newPassword.validation.min" }) },
                     ],
                   })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
                 </Form.Item>
