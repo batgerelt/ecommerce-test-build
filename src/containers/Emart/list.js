@@ -34,7 +34,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "price_asc",
+      sort: "",
       isLeftPanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -333,7 +333,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong><FormattedMessage id="search.sort.label" /></strong>
+                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
