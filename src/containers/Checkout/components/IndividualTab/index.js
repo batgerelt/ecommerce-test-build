@@ -162,11 +162,17 @@ class IndividualTab extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("pincode", {
                           initialValue: "",
-                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) },
-                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
-                          { len: 4, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })} className="col-md-12" />,
+                          <NumberInput
+                            placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                            maxLength={4}
+                            allowClear
+                            type="password"
+                            size="large"
+                            className="col-md-12"
+                            autoComplete="off"
+                          />,
                         )}
                       </Form.Item>
                     </div>

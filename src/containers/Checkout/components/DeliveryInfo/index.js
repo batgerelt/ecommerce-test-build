@@ -249,7 +249,6 @@ class DeliveryInfo extends React.Component {
       // MySwal.close();
       if (res.payload.success) {
         if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
-          this.props.clearRemotely();
           data = this.props.bankInfo;
           this.openLastModal("msgBank", data, res.payload.data);
         }
@@ -348,6 +347,7 @@ class DeliveryInfo extends React.Component {
 
   handlePayment = (e, item, ordData, type, totalQty) => {
     e.preventDefault();
+    this.props.clearRemotely();
     MySwal.fire({
       html: (
         <SwalModals
@@ -466,10 +466,11 @@ class DeliveryInfo extends React.Component {
               <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
               <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
-            <p className="text flex-space">
+            {/*  <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
               <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
-            </p>
+            </p> */}
+            <br />
             <Checkbox onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
