@@ -9,6 +9,7 @@ import { Input, Form, Button, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import NumberInput from "../../../../components/Input/NumberInput";
+import SwalModals from "../../../../containers/UserProfile/Component/UserProfile/EpointModal";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
@@ -44,6 +45,34 @@ class IndividualTab extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        return MySwal.fire({
+          html: (
+            <SwalModals
+              type={"email"}
+              onRef={ref => (this.SwalModals = ref)}
+              param={values}
+              connectEpoint={this.connectEpoint}
+            />
+          ),
+          type: "warning",
+          width: "30rem",
+          animation: true,
+          button: false,
+          showCloseButton: false,
+          showCancelButton: false,
+          showConfirmButton: false,
+          focusConfirm: false,
+          allowOutsideClick: false,
+          closeOnEsc: false,
+        });
+      }
+      return null;
+    });
+  };
+
+  connectEpoint = () => {
     const { setFieldsValue } = this.props.form;
     const { DeliveryInfo, intl } = this.props;
     const { info } = this.props.userinfo;
@@ -65,7 +94,7 @@ class IndividualTab extends React.Component {
         });
       }
     });
-  };
+  }
 
   handleUsePoint = async (e) => {
     e.preventDefault();
