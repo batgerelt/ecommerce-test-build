@@ -638,7 +638,7 @@ class Cart extends React.Component {
                     {staticinfo && (
                       <p className="delivery">
                         <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        {console.log(this.state)}
+                        {/* {console.log(this.state)} */}
                         <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}
