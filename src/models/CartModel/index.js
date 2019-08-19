@@ -384,26 +384,26 @@ class Model extends BaseModel {
     shouldUpdateByQty = false,
   ) => {
     try {
-      if (typeof products === "string") {
-        products = JSON.parse(products);
+      if (typeof this.initialState.products === "string") {
+        this.initialState.products = JSON.parse(this.initialState.products);
       }
 
       if (product.error !== undefined) {
         product.error = undefined;
       }
 
-      product.qty = 1;
+      product.qty = product.addminqty || 1;
 
-      let found = products.find(prod => prod.cd === product.cd);
+      let found = this.initialState.products.find(prod => prod.cd === product.cd);
 
       if (found) {
-        const index = products.map(prod => prod.cd).indexOf(found.cd);
+        const index = this.initialState.products.map(prod => prod.cd).indexOf(found.cd);
 
         if (index !== -1) {
           if (shouldOverride) {
             if (found.isgift === 1) {
-              if (found.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty = product.qty;
@@ -413,8 +413,8 @@ class Model extends BaseModel {
                 if (found.qty > found.salemaxqty) {
                   found.qty = found.salemaxqty;
                   found.error = "202";
-                } else if (found.qty < found.saleminqty) {
-                  found.qty = found.saleminqty;
+                } else if (found.qty < found.addminqty) {
+                  found.qty = found.addminqty;
                   found.error = "204";
                 } else {
                   found.qty = product.qty;
@@ -422,8 +422,8 @@ class Model extends BaseModel {
               } else if (found.qty > found.availableqty) {
                 found.qty = found.availableqty;
                 found.error = "200";
-              } else if (found.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              } else if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty = product.qty;
@@ -433,17 +433,17 @@ class Model extends BaseModel {
             }
           } else if (shouldDecrement) {
             if (shouldUpdateByQty) {
-              if (found.qty - product.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              if (found.qty - product.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty -= product.qty;
               }
-            } else if (found.qty - found.saleminqty < found.saleminqty) {
-              found.qty = found.saleminqty;
+            } else if (found.qty - found.addminqty < found.addminqty) {
+              found.qty = found.addminqty;
               found.error = "204";
             } else {
-              found.qty -= found.saleminqty;
+              found.qty -= found.addminqty;
             }
           } else if (shouldUpdateByQty) {
             if (found.isgift === 1) {
@@ -466,39 +466,39 @@ class Model extends BaseModel {
               found.error = "200";
             }
           } else if (found.isgift === 1) {
-            found.qty += found.saleminqty;
+            found.qty += found.addminqty;
           } else if (found.availableqty > 0) {
             if (found.salemaxqty > 0) {
-              if (found.qty + found.saleminqty > found.salemaxqty) {
+              if (found.qty + found.addminqty > found.salemaxqty) {
                 found.qty = found.salemaxqty;
                 found.error = "202";
               } else {
-                found.qty += found.saleminqty;
+                found.qty += found.addminqty;
               }
-            } else if (found.qty + found.saleminqty > found.availableqty) {
+            } else if (found.qty + found.addminqty > found.availableqty) {
               found.qty = found.availableqty;
               found.error = "200";
             } else {
-              found.qty += found.saleminqty;
+              found.qty += found.addminqty;
             }
           } else {
             found.error = "200";
           }
-          products.splice(index, 1, found);
+          this.initialState.products.splice(index, 1, found);
         }
       } else {
-        if (product.saleminqty > 1) {
+        if (product.addminqty > 1) {
           product.availableqty = product.availableqty !== 0
-            ? Math.floor(product.availableqty / product.saleminqty)
+            ? Math.floor(product.availableqty / product.addminqty)
             : 0;
           product.salemaxqty = product.salemaxqty !== 0
-            ? Math.floor(product.salemaxqty / product.saleminqty)
+            ? Math.floor(product.salemaxqty / product.addminqty)
             : 0;
         }
 
         if (product.isgift) {
-          if (product.qty < product.saleminqty) {
-            product.qty = product.saleminqty;
+          if (product.qty < product.addminqty) {
+            product.qty = product.addminqty;
             product.error = "204";
           }
         } else if (product.availableqty > 0) {
@@ -584,8 +584,8 @@ class Model extends BaseModel {
 
           const found = products.find(prod => prod.cd === product.cd);
 
-          if (!found && product.qty < product.saleminqty) {
-            product.qty = product.saleminqty || 1;
+          if (!found && product.qty < product.addminqty) {
+            product.qty = product.addminqty || 1;
           }
 
           return {
@@ -618,8 +618,8 @@ class Model extends BaseModel {
 
           const found = products.find(prod => prod.cd === product.cd);
 
-          if (!found && product.qty < product.saleminqty) {
-            product.qty = product.saleminqty || 1;
+          if (!found && product.qty < product.addminqty) {
+            product.qty = product.addminqty || 1;
           }
 
           return {

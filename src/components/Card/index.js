@@ -126,9 +126,9 @@ class Card extends React.Component {
           item.cd = item.skucd;
           this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
             item.availableqty = res.payload.data.availableqty;
-            // item.price = res.payload.data.price;
-            // item.sprice = res.payload.data.sprice;
-            // item.addminqty = res.payload.data.addminqty;
+            item.price = res.payload.data.price;
+            item.sprice = res.payload.data.sprice;
+            item.addminqty = res.payload.data.addminqty;
             this.props.incrementProductLocally(item);
 
             const updated = this.props.products.find(prod => prod.cd === item.skucd);
@@ -322,7 +322,7 @@ class Card extends React.Component {
               {!item.pricetag ? null : (
                 <div
                   className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                  style={{ textAlign: list ? 'center' : 'left' }}
+                  style={{ textAlign: list ? 'rigth' : 'left' }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
