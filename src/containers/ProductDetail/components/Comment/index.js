@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
@@ -25,11 +26,11 @@ class Comment extends Component {
       addComment, product, auth,
     } = this.props;
     if (auth) {
-      let skucd = product.cd;
+      let skucd = product.skucd;
       addComment({ skucd, comm: comment }).then((res) => {
         if (res.payload.success) {
           this.setState({ comment: "" });
-          this.props.getProductComment({ skucd: product.cd });
+          this.props.getProductComment({ skucd: product.skucd });
         }
       });
     }

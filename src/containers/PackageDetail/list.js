@@ -196,7 +196,6 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { info, lang } = this.props;
-      console.log('this.props: ', this.props);
       // const date = info.insymd.split("T")[0].split("-");
       return (
         <div>
@@ -296,7 +295,6 @@ class List extends React.Component {
     try {
       const { packageDetail, lang } = this.props;
       if (packageDetail.sameproducts !== undefined) {
-        console.log('packageDetail.sameproducts: ', packageDetail.sameproducts);
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>
             <div className="single flex-this">
