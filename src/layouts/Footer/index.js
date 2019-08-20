@@ -161,7 +161,7 @@ class Footer extends React.Component {
             </li>
             <li>
               <span>
-                <Link className="text-white" to={staticinfo.website}>{staticinfo.website}</Link>
+                <a href={staticinfo.website} target="_blank " rel="noopener" className="text-white">{staticinfo.website}</a>
               </span>
             </li>
           </ul>

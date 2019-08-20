@@ -38,7 +38,7 @@ class MainMenu extends React.Component {
               <li className="active" key={ind} onClick={() => this.handleDetail(it.id)}>
                 <Link
                   to={it.route ? it.route : " "}
-                  className="list-unstyled text-muted active"
+                  className="list-unstyled active sub-category-color"
                 >
                   <span>{lang === "mn" ? it.name : it.name_en}</span>
                 </Link>

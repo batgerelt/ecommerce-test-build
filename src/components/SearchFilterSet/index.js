@@ -161,7 +161,7 @@ class Content extends React.Component {
             marks={marks}
             onAfterChange={this.props.handleChangePrice}
             style={{ width: "90%" }}
-            // defaultValue={[min, max]}
+            defaultValue={[min, max]}
           />
         </Collapse.Panel>
       );

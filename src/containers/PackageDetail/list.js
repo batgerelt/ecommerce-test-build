@@ -196,7 +196,6 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { info, lang } = this.props;
-      console.log('this.props: ', this.props);
       // const date = info.insymd.split("T")[0].split("-");
       return (
         <div>
@@ -296,7 +295,6 @@ class List extends React.Component {
     try {
       const { packageDetail, lang } = this.props;
       if (packageDetail.sameproducts !== undefined) {
-        console.log('packageDetail.sameproducts: ', packageDetail.sameproducts);
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>
             <div className="single flex-this">
@@ -547,70 +545,74 @@ class List extends React.Component {
     }
   };
   render() {
-    return (
-      <div className="section">
-        <div className="container pad10">
-          <div className="e-breadcrumb">
-            <ul className="list-unstyled">
-              <li>
-                <Link to="">
-                  <span><FormattedMessage id="packageDetail.breadcrumb.home" /></span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/package">
-                  <span><FormattedMessage id="packageDetail.breadcrumb.package" /></span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="product-detail-page">
-            <div className="row row10">
-              <div className="col-md-9 pad10">
-                {this.props.info === undefined ? null : this.renderTitleDate()}
-                {this.props.images === undefined ? null : this.renderSlider()}
-                <div style={{ height: "30px" }} />
-                {this.props.info === undefined ? null : this.renderCk()}
-                <div
-                  className="pack-product-container"
-                  style={{ marginTop: "30px" }}
-                >
-                  {this.props.packageDetail === undefined
-                    ? null
-                    : this.renderCartInfo()}
+    try {
+      return (
+        <div className="section">
+          <div className="container pad10">
+            <div className="e-breadcrumb">
+              <ul className="list-unstyled">
+                <li>
+                  <Link to="">
+                    <span><FormattedMessage id="packageDetail.breadcrumb.home" /></span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/package">
+                    <span><FormattedMessage id="packageDetail.breadcrumb.package" /></span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="product-detail-page">
+              <div className="row row10">
+                <div className="col-md-9 pad10">
+                  {this.props.info === undefined ? null : this.renderTitleDate()}
+                  {this.props.images === undefined ? null : this.renderSlider()}
+                  <div style={{ height: "30px" }} />
+                  {this.props.info === undefined ? null : this.renderCk()}
+                  <div
+                    className="pack-product-container"
+                    style={{ marginTop: "30px" }}
+                  >
+                    {this.props.packageDetail === undefined
+                      ? null
+                      : this.renderCartInfo()}
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-3 pad10">
-                <div className="product-plus">
-                  {this.props.info === undefined ? null : this.renderDelivery()}
-                  {/* <div className="block product-suggest">
-                    <p className="title">
-                      <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
-                    </p>
-                    <ul className="list-unstyled">
-                      {this.props.packageDetail === undefined
-                        ? null
-                        : this.renderSimilarProducts()}
-                    </ul>
-                  </div> */}
-                  {this.props.packageDetail === undefined
-                    ? null
-                    : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
-                      <div className="block product-suggest">
-                        <p className="title">
-                          <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
-                        </p>
-                        <ul className="list-unstyled">
-                          {this.renderSimilarProducts()}
-                        </ul>
-                      </div> : null}
+                <div className="col-md-3 pad10">
+                  <div className="product-plus">
+                    {this.props.info === undefined ? null : this.renderDelivery()}
+                    {/* <div className="block product-suggest">
+                      <p className="title">
+                        <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
+                      </p>
+                      <ul className="list-unstyled">
+                        {this.props.packageDetail === undefined
+                          ? null
+                          : this.renderSimilarProducts()}
+                      </ul>
+                    </div> */}
+                    {this.props.packageDetail === undefined
+                      ? null
+                      : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
+                        <div className="block product-suggest">
+                          <p className="title">
+                            <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
+                          </p>
+                          <ul className="list-unstyled">
+                            {this.renderSimilarProducts()}
+                          </ul>
+                        </div> : null}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } catch (error) {
+      return console.log(error);
+    }
   }
 }
 
