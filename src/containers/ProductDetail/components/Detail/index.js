@@ -100,7 +100,6 @@ class Detail extends Component {
     }
     const { intl } = this.props;
     const { productQty } = this.state;
-
     let priceInfo = null;
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
