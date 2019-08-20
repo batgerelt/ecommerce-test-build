@@ -25,11 +25,11 @@ class Comment extends Component {
       addComment, product, auth,
     } = this.props;
     if (auth) {
-      let skucd = product.cd;
+      let { skucd } = product;
       addComment({ skucd, comm: comment }).then((res) => {
         if (res.payload.success) {
           this.setState({ comment: "" });
-          this.props.getProductComment({ skucd: product.cd });
+          this.props.getProductComment({ skucd: product.skucd });
         }
       });
     }

@@ -6,7 +6,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Checkbox, Modal, Button } from "antd";
@@ -378,7 +378,8 @@ class DeliveryInfo extends React.Component {
     const {
       checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty, epointUsedPoint, useEpoint,
     } = this.state;
-    const { staticpage, state } = this.props;
+    const { staticpage, state, intl } = this.props;
+    const lang = intl.locale;
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
@@ -400,7 +401,9 @@ class DeliveryInfo extends React.Component {
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.deliveryType" /></span>
               <strong>
-                {`${this.checkError(chosenType.typenm)}`}
+                {lang === "mn"
+                  ? `${this.checkError(chosenType.typenm)}`
+                  : `${this.checkError(chosenType.typenm_en)}`}
               </strong>
             </p>
             <p className="text flex-this">
@@ -463,7 +466,7 @@ class DeliveryInfo extends React.Component {
             }
             <hr />
             <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
+              <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
               <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
             <p className="text flex-space">
@@ -507,7 +510,7 @@ class DeliveryInfo extends React.Component {
   }
 }
 
-export default connect(
+export default injectIntl(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DeliveryInfo);
+)(DeliveryInfo));

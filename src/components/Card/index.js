@@ -30,29 +30,7 @@ class Card extends React.Component {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
-            qty: item.saleminqty || 1,
-            iscart: 0,
-          });
-
-          if (!result.payload.success) {
-            const messages = defineMessages({
-              error: {
-                id: result.payload.code,
-              },
-            });
-
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: result.payload.data.values[0],
-                qty: result.payload.data.values[1],
-              },
-            ));
-          }
-        } else if (item.cd) {
-          const result = await this.props.incrementProductRemotely({
-            skucd: item.cd,
-            qty: item.saleminqty || 1,
+            qty: item.addminqty || 1,
             iscart: 0,
           });
 
@@ -119,32 +97,11 @@ class Card extends React.Component {
           //
         }
       } else {
-        // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
-          item.insymd = Date.now();
-          item.cd = item.skucd;
           item.sprice = item.currentprice;
-          item.availableqty = 1000; // just for test
           this.props.incrementProductLocally(item);
 
-          const updated = this.props.products.find(prod => prod.cd === item.skucd);
-
-          if (updated && updated.error !== undefined) {
-            const messages = defineMessages({
-              error: {
-                id: updated.error,
-              },
-            });
-            message.warning(intl.formatMessage(
-              messages.error,
-              { name: updated.name, qty: updated.qty },
-            ));
-          }
-        } else if (item.cd) {
-          item.insymd = Date.now();
-          this.props.incrementProductLocally(item);
-
-          const updated = this.props.products.find(prod => prod.cd === item.cd);
+          const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
+import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -12,7 +12,7 @@ class List extends React.Component {
   setProducts = (products) => {
     this.setState({
       products: products.map(prod => ({
-        cd: prod.cd,
+        cd: prod.skucd,
         qty: prod.qty,
       })),
     });
@@ -23,8 +23,8 @@ class List extends React.Component {
     const { intl } = this.props;
     if (this.props.isLogged) {
       const result = await this.props.incrementProductRemotely({
-        skucd: product.cd,
-        qty: product.saleminqty || 1,
+        skucd: product.skucd,
+        qty: product.addminqty || 1,
         iscart: 0,
       });
       if (!result.payload.success) {
@@ -43,7 +43,7 @@ class List extends React.Component {
       product.insymd = Date.now();
       this.props.incrementProductLocally(product);
 
-      const updated = this.props.products.find(prod => prod.cd === product.cd);
+      const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
       if (updated && updated.error !== undefined) {
         const messages = defineMessages({
@@ -62,14 +62,15 @@ class List extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleProductAddToCart = async (product) => {
+    console.log('product: ', product);
     try {
       const { intl } = this.props;
 
       if (this.props.isLogged) {
         const result = await this.props.increaseProductByQtyRemotely({
-          skucd: product.cd,
+          skucd: product.skucd,
           qty:
-            product.qty === undefined ? product.saleminqty || 1 : product.qty,
+            product.qty === undefined ? product.addminqty || 1 : product.qty,
           iscart: 0,
         });
         if (!result.payload.success) {
@@ -85,10 +86,9 @@ class List extends React.Component {
           }));
         }
       } else {
-        product.insymd = Date.now();
         this.props.increaseProductByQtyLocally(product);
 
-        const updated = this.props.products.find(prod => prod.cd === product.cd);
+        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -120,7 +120,7 @@ class List extends React.Component {
   handleInputChange = product => (e) => {
     let { products } = this.props.packageDetail;
 
-    let found = products.find(prod => prod.cd === product.cd);
+    let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
       let productQty = e.target.value;
@@ -144,8 +144,8 @@ class List extends React.Component {
 
     if (this.props.isLogged) {
       products = products.map(prod => ({
-        skucd: prod.cd,
-        qty: prod.qty !== undefined ? prod.qty : prod.saleminqty || 1,
+        skucd: prod.skucd,
+        qty: prod.qty !== undefined ? prod.qty : prod.addminqty || 1,
       }));
       const result = await this.props.increaseProductsByQtyRemotely({
         body: products,
@@ -174,8 +174,9 @@ class List extends React.Component {
       }));
       this.props.increasePackageProductsByQtyLocally(products);
 
+      console.log('products: ', products);
       products.forEach((product) => {
-        const updated = this.props.products.find(prod => prod.cd === product.cd);
+        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -196,7 +197,6 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { info, lang } = this.props;
-      console.log('this.props: ', this.props);
       // const date = info.insymd.split("T")[0].split("-");
       return (
         <div>
@@ -296,7 +296,6 @@ class List extends React.Component {
     try {
       const { packageDetail, lang } = this.props;
       if (packageDetail.sameproducts !== undefined) {
-        console.log('packageDetail.sameproducts: ', packageDetail.sameproducts);
         return packageDetail.sameproducts.map((prod, index) => (
           <li key={index}>
             <div className="single flex-this">
@@ -360,7 +359,7 @@ class List extends React.Component {
   findAndReplace = (product) => {
     const { products } = this.state;
     let tempProducts = products;
-    const i = tempProducts.map(prod => prod.cd).indexOf(product.cd);
+    const i = tempProducts.map(prod => prod.skucd).indexOf(product.skucd);
     if (i !== -1) {
       tempProducts.splice(i, 1, product);
     }
@@ -371,7 +370,6 @@ class List extends React.Component {
     try {
       const { products } = this.props.packageDetail;
       const { lang } = this.props;
-      console.log('products: ', products);
       return (
         products &&
         products.map((prod, index) => (
@@ -417,7 +415,7 @@ class List extends React.Component {
                       type="text"
                       className="form-control"
                       value={
-                        prod.qty === undefined ? prod.saleminqty || 1 : prod.qty
+                        prod.qty === undefined ? prod.addminqty || 1 : prod.qty
                       }
                       name="productQty"
                       maxLength={5}
@@ -480,7 +478,7 @@ class List extends React.Component {
         acc +
         // eslint-disable-next-line no-mixed-operators
         this.getPrice(cur) *
-        (cur.qty || cur.qty === 0 ? cur.qty : cur.saleminqty || 1),
+        (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,
     );
   };
@@ -615,4 +613,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default injectIntl(List);

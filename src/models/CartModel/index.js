@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-lonely-if */
 import _ from "lodash";
 import BaseModel from "../BaseModel";
 import { asyncFn } from "../utils";
@@ -392,18 +394,18 @@ class Model extends BaseModel {
         product.error = undefined;
       }
 
-      product.qty = 1;
+      product.insymd = new Date();
 
-      let found = products.find(prod => prod.cd === product.cd);
+      let found = products.find(prod => prod.skucd === product.skucd);
 
       if (found) {
-        const index = products.map(prod => prod.cd).indexOf(found.cd);
+        const index = products.map(prod => prod.skucd).indexOf(found.skucd);
 
         if (index !== -1) {
           if (shouldOverride) {
             if (found.isgift === 1) {
-              if (found.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty = product.qty;
@@ -413,8 +415,8 @@ class Model extends BaseModel {
                 if (found.qty > found.salemaxqty) {
                   found.qty = found.salemaxqty;
                   found.error = "202";
-                } else if (found.qty < found.saleminqty) {
-                  found.qty = found.saleminqty;
+                } else if (found.qty < found.addminqty) {
+                  found.qty = found.addminqty;
                   found.error = "204";
                 } else {
                   found.qty = product.qty;
@@ -422,8 +424,8 @@ class Model extends BaseModel {
               } else if (found.qty > found.availableqty) {
                 found.qty = found.availableqty;
                 found.error = "200";
-              } else if (found.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              } else if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty = product.qty;
@@ -433,17 +435,17 @@ class Model extends BaseModel {
             }
           } else if (shouldDecrement) {
             if (shouldUpdateByQty) {
-              if (found.qty - product.qty < found.saleminqty) {
-                found.qty = found.saleminqty;
+              if (found.qty - product.qty < found.addminqty) {
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty -= product.qty;
               }
-            } else if (found.qty - found.saleminqty < found.saleminqty) {
-              found.qty = found.saleminqty;
+            } else if (found.qty - found.addminqty < found.addminqty) {
+              found.qty = found.addminqty;
               found.error = "204";
             } else {
-              found.qty -= found.saleminqty;
+              found.qty -= found.addminqty;
             }
           } else if (shouldUpdateByQty) {
             if (found.isgift === 1) {
@@ -465,58 +467,67 @@ class Model extends BaseModel {
             } else {
               found.error = "200";
             }
-          } else if (found.isgift === 1) {
-            found.qty += found.saleminqty;
-          } else if (found.availableqty > 0) {
-            if (found.salemaxqty > 0) {
-              if (found.qty + found.saleminqty > found.salemaxqty) {
-                found.qty = found.salemaxqty;
-                found.error = "202";
-              } else {
-                found.qty += found.saleminqty;
-              }
-            } else if (found.qty + found.saleminqty > found.availableqty) {
-              found.qty = found.availableqty;
-              found.error = "200";
-            } else {
-              found.qty += found.saleminqty;
-            }
           } else {
-            found.error = "200";
-          }
-          products.splice(index, 1, found);
-        }
-      } else {
-        if (product.saleminqty > 1) {
-          product.availableqty = product.availableqty !== 0
-            ? Math.floor(product.availableqty / product.saleminqty)
-            : 0;
-          product.salemaxqty = product.salemaxqty !== 0
-            ? Math.floor(product.salemaxqty / product.saleminqty)
-            : 0;
-        }
-
-        if (product.isgift) {
-          if (product.qty < product.saleminqty) {
-            product.qty = product.saleminqty;
-            product.error = "204";
-          }
-        } else if (product.availableqty > 0) {
-          if (product.salemaxqty > 0) {
-            if (product.qty > product.salemaxqty) {
-              product.qty = product.salemaxqty;
-              product.error = "202";
+            if (found.isgift) {
+              found.qty += found.addminqty;
+            } else {
+              if (found.availableqty > 0) {
+                if (found.salemaxqty > 0) {
+                  if (found.qty + found.addminqty > found.salemaxqty) {
+                    found.qty = found.salemaxqty;
+                    found.error = "202";
+                  } else {
+                    found.qty += found.addminqty;
+                  }
+                } else if (found.qty + found.addminqty > found.availableqty) {
+                  found.qty = found.availableqty;
+                  found.error = "200";
+                } else {
+                  found.qty += found.addminqty;
+                }
+              } else {
+                found.error = "200";
+              }
             }
-          } else if (product.qty > product.availableqty) {
-            product.qty = product.availableqty;
-            product.error = "200";
+            products.splice(index, 1, found);
           }
         } else {
-          product.error = "200";
+          throw new Error("Бараа олдсонгүй");
         }
+      } else {
+        product.qty = product.addminqty || 1;
+
+        if (product.isgift) {
+          if (product.qty < product.addminqty) {
+            product.qty = product.addminqty;
+            product.error = "204";
+          } else {
+            // NOT NECESSARY
+          }
+        } else {
+          if (product.availableqty > 0) {
+            if (product.salemaxqty > 0) {
+              if (product.qty > product.salemaxqty) {
+                product.qty = product.salemaxqty;
+                product.error = "202";
+              } else {
+                // NOT NECESSARY
+              }
+            } else {
+              if (product.qty > product.availableqty) {
+                product.qty = product.availableqty;
+                product.error = "200";
+              } else {
+                // NOT NECESSARY
+              }
+            }
+          } else {
+            product.error = "200";
+          }
+        }
+
         products.push(product);
       }
-
       return products;
     } catch (error) {
       return console.log('error: ', error);
@@ -548,7 +559,6 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
-        console.log('action.payload: ', action.payload);
         let products = action.payload.success ? action.payload.data : action.payload.data.items;
         return { ...state, products };
 
@@ -582,10 +592,10 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          const found = products.find(prod => prod.cd === product.cd);
+          const found = products.find(prod => prod.skucd === product.skucd || product.skucd);
 
-          if (!found && product.qty < product.saleminqty) {
-            product.qty = product.saleminqty || 1;
+          if (!found && product.qty < product.addminqty) {
+            product.qty = product.addminqty || 1;
           }
 
           return {
@@ -616,10 +626,10 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          const found = products.find(prod => prod.cd === product.cd);
+          const found = products.find(prod => prod.skucd === product.skucd);
 
-          if (!found && product.qty < product.saleminqty) {
-            product.qty = product.saleminqty || 1;
+          if (!found && product.qty < product.addminqty) {
+            product.qty = product.addminqty || 1;
           }
 
           return {
@@ -644,13 +654,13 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          const found = products.find(prod => prod.cd === product.cd);
+          const found = products.find(prod => prod.skucd === product.skucd);
 
           if (!found) {
             throw new Error("Бараа олдсонгүй!");
           }
 
-          products = products.filter(prod => prod.cd !== found.cd);
+          products = products.filter(prod => prod.skucd !== found.skucd);
 
           return { ...state, products };
         } catch (e) {
@@ -666,13 +676,13 @@ class Model extends BaseModel {
         try {
           let { products } = state;
 
-          const found = products.find(prod => prod.cd === action.payload.data);
+          const found = products.find(prod => prod.skucd === action.payload.data);
 
           if (!found) {
             throw new Error("Бараа олдсонгүй!");
           }
 
-          products = products.filter(prod => prod.cd !== found.cd);
+          products = products.filter(prod => prod.skucd !== found.skucd);
 
           return { ...state, products };
         } catch (e) {
@@ -783,7 +793,6 @@ class Model extends BaseModel {
       case this.model.clearRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.clearRemotely.response:
-        console.log("action.payload: ", action.payload);
         return {
           ...state,
           products: action.payload.data === null ? [] : action.payload.data,

@@ -10,8 +10,8 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
   changeQties = products => products.map((product) => {
-    if (product.saleminqty > 1) {
-      product.qty /= product.saleminqty;
+    if (product.addminqty > 1) {
+      product.qty /= product.addminqty;
     }
 
     return product;
@@ -49,14 +49,16 @@ class Cart extends React.Component {
 
   handleSaveClick = (e, product) => {
     e.preventDefault();
-    this.props.addWishList({ skucd: product.cd }).then((res) => {
-      if (res.payload.success) {
-        setTimeout(() => {
-          this.props.removeAddedWishColor();
-        }, 500);
-        this.props.getWish();
-      }
-    });
+    if (this.props.isLogged) {
+      this.props.addWishList({ skucd: product.skucd || product.skucd }).then((res) => {
+        if (res.payload.success) {
+          setTimeout(() => {
+            this.props.removeAddedWishColor();
+          }, 500);
+          this.props.getWish();
+        }
+      });
+    }
   };
 
   // eslint-disable-next-line consistent-return
@@ -66,13 +68,13 @@ class Cart extends React.Component {
     const { intl } = this.props;
     let { products } = this.props;
 
-    let found = products.find(prod => prod.cd === product.cd);
+    let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
       if (this.props.isLogged) {
         const result = await this.props.removeProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
-          skucd: found.cd,
+          skucd: found.skucd,
         });
         if (!result.payload.success) {
           message.warning(intl.formatMessage({ id: result.payload.code }));
@@ -90,16 +92,16 @@ class Cart extends React.Component {
     let { intl } = this.props;
     let { products } = this.props;
 
-    let found = products.find(prod => prod.cd === product.cd);
+    let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
       found.qty = parseInt(e.target.value, 10);
 
-      found.qty = found.saleminqty || 1;
+      found.qty = found.addminqty || 1;
 
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
-          skucd: found.cd,
+          skucd: found.skucd,
           qty: found.qty,
           iscart: 1,
         });
@@ -119,7 +121,7 @@ class Cart extends React.Component {
       } else {
         this.props.updateProductByQtyLocally(found);
 
-        const updated = this.props.products.find(prod => prod.cd === found.cd);
+        const updated = this.props.products.find(prod => prod.skucd === found.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -144,12 +146,12 @@ class Cart extends React.Component {
     let { intl } = this.props;
     let { products } = this.props;
 
-    let found = products.find(prod => prod.cd === product.cd);
+    let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
-          skucd: found.cd,
-          qty: found.qty + found.saleminqty,
+          skucd: found.skucd,
+          qty: found.qty + found.addminqty,
           iscart: 1,
         });
 
@@ -168,7 +170,7 @@ class Cart extends React.Component {
       } else {
         this.props.incrementProductLocally(found);
 
-        const updated = this.props.products.find(prod => prod.cd === found.cd);
+        const updated = this.props.products.find(prod => prod.skucd === found.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -192,16 +194,16 @@ class Cart extends React.Component {
     let { intl } = this.props;
     let { products } = this.props;
 
-    let found = products.find(prod => prod.cd === product.cd);
+    let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
       if (this.props.isLogged) {
         // const productQty =
-        //   found.qty - found.saleminqty < found.saleminqty
-        //     ? found.saleminqty
-        //     : found.qty - found.saleminqty;
+        //   found.qty - found.addminqty < found.addminqty
+        //     ? found.addminqty
+        //     : found.qty - found.addminqty;
         const result = await this.props.decrementProductRemotely({
-          skucd: found.cd,
-          qty: found.qty - found.saleminqty,
+          skucd: found.skucd,
+          qty: found.qty - found.addminqty,
           iscart: 1,
         });
 
@@ -220,7 +222,7 @@ class Cart extends React.Component {
       } else {
         this.props.decrementProductLocally(found);
 
-        const updated = this.props.products.find(prod => prod.cd === found.cd);
+        const updated = this.props.products.find(prod => prod.skucd === found.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -346,7 +348,7 @@ class Cart extends React.Component {
     const { products } = this.props;
 
     return products && products.reduce((acc, cur) => (
-      acc + (cur.saleminqty > 1 ? cur.qty / cur.saleminqty : cur.qty)
+      acc + (cur.addminqty > 1 ? cur.qty / cur.addminqty : cur.qty)
     ), 0);
   };
 
@@ -638,7 +640,6 @@ class Cart extends React.Component {
                     {staticinfo && (
                       <p className="delivery">
                         <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        {console.log(this.state)}
                         <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}

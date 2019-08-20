@@ -122,7 +122,7 @@ class SwalModals extends Component {
     try {
       const { chosenBank } = this.state;
       const {
-        checkProductZone, type, dataValue, ordData, readyBtn, totalQty,
+        checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
       const { mode } = this.state;
       if (type === "delete") {
@@ -159,7 +159,6 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
-        console.log(ordData);
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -376,7 +375,7 @@ class SwalModals extends Component {
                             <span>
                               {intl.formatMessage({ id: "checkout.swal.label.paymentType" })}:
                             </span>
-                            <strong className="big">{PaymentTypePanel.state.chosenPaymentType.name}</strong>
+                            <strong className="big">{intl.locale === "mn" ? PaymentTypePanel.state.chosenPaymentType.name : PaymentTypePanel.state.chosenPaymentType.name_en}</strong>
                           </li>
                           {paymentType !== "qpay" ? (
                             <div>
@@ -384,7 +383,9 @@ class SwalModals extends Component {
                                 <span>
                                   {intl.formatMessage({ id: "checkout.swal.label.bank" })}:
                                 </span>
-                                <strong className="big">{chosenBankInfo.banknm}</strong>
+                                {console.log('intl.locale: ', intl.locale)}
+                                {console.log('chosenBankInfo: ', chosenBankInfo)}
+                                <strong className="big">{intl.locale === "mn" ? chosenBankInfo.banknm : chosenBankInfo.banknm_en}</strong>
                               </li>
                               <li className="flex-this flex-space">
                                 <span>
@@ -398,7 +399,7 @@ class SwalModals extends Component {
                                 <span>
                                   {intl.formatMessage({ id: "checkout.swal.label.receiver" })}:
                                 </span>
-                                <strong className="big">{chosenBankInfo.name}</strong>
+                                <strong className="big">{intl.locale === "mn" ? chosenBankInfo.name : chosenBankInfo.name_en}</strong>
                               </li>
                             </div>
                           ) : (
@@ -460,7 +461,7 @@ class SwalModals extends Component {
                         </p>
                       </div>
                       <div className="bottom-text text-center">
-                        <p>
+                        <div>
                           <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
                           <br />
                           {paymentType !== "qpay" ? (
@@ -475,7 +476,7 @@ class SwalModals extends Component {
                           <br />
                           <br />
                           {intl.formatMessage({ id: "checkout.swal.info.contract" })}
-                        </p>
+                        </div>
                         <strong className="text-uppercase">
                           {intl.formatMessage({ id: "checkout.swal.label.contract" })}: 7611 0101
                         </strong>

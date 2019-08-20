@@ -28,9 +28,9 @@ class Homepage extends React.Component {
     widgets.forEach((widget) => {
       switch (widget.slug) {
         case WIDGET_SLUGS.onlyemart:
-          widget.items = products.emartproduct.length === 0
+          widget.items = products.emartproduct.product.length === 0
             ? []
-            : products.emartproduct;
+            : products.emartproduct.product;
           widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
           break;
         case WIDGET_SLUGS.discount:

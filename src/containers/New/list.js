@@ -7,6 +7,7 @@
 /* eslint-disable import/first */
 /* eslint-disable radix */
 import React, { PureComponent } from "react";
+import { injectIntl } from 'react-intl';
 import { BackTop } from "antd";
 import {
   InfiniteLoader,
@@ -133,11 +134,13 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const { newbanner, menuNew, pagebanner } = this.props;
+      const {
+        newbanner, menuNew, pagebanner, intl,
+      } = this.props;
       return (
         <PageBanner
-          title={menuNew.menunm}
-          subtitle={menuNew.subtitle}
+          title={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}
+          subtitle={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en}
           banners={newbanner.length === 0 ? [] : newbanner.header}
           bgColor="#00A1E4"
         />
@@ -305,4 +308,4 @@ class Bookmarks extends PureComponent {
   }
 }
 
-export default Bookmarks;
+export default injectIntl(Bookmarks);

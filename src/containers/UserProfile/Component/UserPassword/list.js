@@ -22,7 +22,7 @@ class Component extends React.Component {
             this.props.form.resetFields();
             message.warning(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
           } else {
-            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
+            message.warning(intl.formatMessage({ id: res.payload.code }));
           }
         });
       }
