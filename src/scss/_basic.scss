@@ -344,7 +344,7 @@ button{
       padding: 40px 0;
       position: absolute;
       left: 0;
-      top: 80%;
+      top: 79%;
       width: 100%;
       background-color: $dark;
       visibility: hidden;
@@ -3311,4 +3311,8 @@ textarea:focus {
 }
 .text-end{
   text-align: end !important; 
+}
+
+.sub-category-color{
+  color: rgba(255, 255, 255, 0.6) !important;
 }
