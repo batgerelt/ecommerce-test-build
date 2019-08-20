@@ -147,8 +147,8 @@ class Content extends React.Component {
       const min = data.aggregations.min_price.value;
       const max = data.aggregations.max_price.value;
       const marks = {
-        min: { label: <strong>{formatter.format(min)}₮</strong> },
-        max: { label: <strong>{formatter.format(max)}₮</strong> },
+        [min]: { label: <strong>{formatter.format(min)}₮</strong> },
+        [max]: { label: <strong>{formatter.format(max)}₮</strong> },
       };
 
       return (
