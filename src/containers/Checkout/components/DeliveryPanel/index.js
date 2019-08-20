@@ -248,7 +248,7 @@ class DeliveryPanel extends React.Component {
             let tmp = [];
             products.map((item) => {
               let it = {
-                skucd: item.cd,
+                skucd: item.skucd,
                 qty: item.qty,
               };
               tmp.push(it);

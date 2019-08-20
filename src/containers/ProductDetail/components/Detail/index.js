@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
@@ -15,7 +16,7 @@ class Detail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+    if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
       this.setState({ productQty: nextProps.detail.products.saleminqty || 1 });
     }
   }
@@ -32,7 +33,7 @@ class Detail extends Component {
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.name : detail.name_en}</h5>
 
-          {detail.backtxt && lang === "mn" ? `(${detail.backtxt})` : `(${detail.backtxt_en})`}
+          {detail.back && lang === "mn" ? `(${detail.back})` : `(${detail.back_en})`}
 
           {selectedCat && (
             <p className="big-text">
@@ -73,7 +74,7 @@ class Detail extends Component {
       isLogged, detail, addRate, getProductRate,
     } = this.props;
     if (isLogged) {
-      let skucd = detail.products.cd;
+      let skucd = detail.products.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
@@ -275,7 +276,7 @@ class Detail extends Component {
   handleSaveClick = () => {
     const { isLogged, addWishList, detail } = this.props;
     if (isLogged) {
-      let skucd = detail.products.cd;
+      let skucd = detail.products.skucd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
           setTimeout(() => {
@@ -347,7 +348,7 @@ class Detail extends Component {
     const { intl } = this.props;
     if (this.props.isLogged) {
       const result = await this.props.increaseProductByQtyRemotely({
-        skucd: product.cd,
+        skucd: product.skucd,
         qty: this.state.productQty,
         iscart: 0,
       });
@@ -368,7 +369,7 @@ class Detail extends Component {
       product.insymd = Date.now();
       this.props.increaseProductByQtyLocally(product);
 
-      const updated = this.props.products.find(prod => prod.cd === product.cd);
+      const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
       if (updated && updated.error !== undefined) {
         const messages = defineMessages({
