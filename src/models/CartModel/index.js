@@ -384,6 +384,7 @@ class Model extends BaseModel {
     shouldUpdateByQty = false,
   ) => {
     try {
+      console.log('products: ', products);
       if (typeof this.initialState.products === "string") {
         this.initialState.products = JSON.parse(this.initialState.products);
       }
