@@ -4,7 +4,7 @@ import React from "react";
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { message } from 'antd';
+import { message, Affix } from 'antd';
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -278,7 +278,7 @@ class Cart extends React.Component {
     if (product.sprice) {
       if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
         return (
-          <p className="price">
+          <p className="price" style={{ textAlign: 'end' }}>
             <strong>
               {formatter.format(this.getUnitPrice(product).sprice)}₮
             </strong>
@@ -298,7 +298,7 @@ class Cart extends React.Component {
       }
 
       return (
-        <p className="price">
+        <p className="price" style={{ textAlign: 'end' }}>
           <strong>
             {formatter.format(this.getUnitPrice(product).sprice)}₮
           </strong>
@@ -318,7 +318,7 @@ class Cart extends React.Component {
 
     if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
       return (
-        <p className="price">
+        <p className="price" style={{ textAlign: 'end' }}>
           <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
           {product.kgproduct[0].salegram && (
             <span
@@ -336,7 +336,7 @@ class Cart extends React.Component {
     }
 
     return (
-      <p className="price">
+      <p className="price" style={{ textAlign: 'end' }}>
         <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
       </p>
     );
@@ -467,18 +467,18 @@ class Cart extends React.Component {
           <table className="table table-borderless">
             <thead className="thead-light">
               <tr>
-                <th className="column-1" style={{ width: "40%" }}>
+                <th className="column-1 cart-table-product-name">
                   <FormattedMessage id="cart.table.productName" />
                 </th>
-                <th className="column-2" style={{ width: "20%" }}>
+                <th className="column-2 cart-table-unit-price">
                   <FormattedMessage id="cart.table.unitPrice" />
                 </th>
-                <th className="column-3" style={{ width: "25%" }}>
+                <th className="column-3 cart-table-qty">
                   <FormattedMessage id="cart.table.count" />
                 </th>
                 <th className="column-4">
                   <p className="price total">
-                    <strong><FormattedMessage id="cart.table.price" /></strong>
+                    <FormattedMessage id="cart.table.price" />
                   </p>
                 </th>
               </tr>
@@ -625,44 +625,46 @@ class Cart extends React.Component {
                 </div>
               </div>
               <div className="col-xl-4 col-lg-4 pad10">
-                <div className="cart-info">
-                  <h5 className="title">
-                    <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
-                  </h5>
+                <Affix offsetTop={170}>
+                  <div className="cart-info">
+                    <h5 className="title">
+                      <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
+                    </h5>
 
-                  <div className="block cart-info-container">
-                    <p className="count">
-                      <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
-                      <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
-                    </p>
-                    {staticinfo && (
-                      <p className="delivery">
-                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        {/* {console.log(this.state)} */}
-                        <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
+                    <div className="block cart-info-container">
+                      <p className="count">
+                        <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
+                        <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
                       </p>
-                    )}
-                    <p className="total flex-space">
-                      <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
-                      <strong>
-                        {formatter.format(this.renderTotalPrice())}₮
-                      </strong>
-                    </p>
-                    <Link
-                      to="/checkout"
-                      className={`btn btn-main btn-block${
-                        products && products.length ? "" : " disabled"
-                        }`}
-                      onClick={() => this.handleConfirmClick()}
-                    >
-                      <span className="text-uppercase">
-                        <FormattedMessage id="shared.sidebar.button.proceed" />
-                      </span>
-                    </Link>
-                  </div>
+                      {staticinfo && (
+                        <p className="delivery">
+                          <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
+                          {/* {console.log(this.state)} */}
+                          <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
+                        </p>
+                      )}
+                      <p className="total flex-space">
+                        <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
+                        <strong>
+                          {formatter.format(this.renderTotalPrice())}₮
+                        </strong>
+                      </p>
+                      <Link
+                        to="/checkout"
+                        className={`btn btn-main btn-block${
+                          products && products.length ? "" : " disabled"
+                          }`}
+                        onClick={() => this.handleConfirmClick()}
+                      >
+                        <span className="text-uppercase">
+                          <FormattedMessage id="shared.sidebar.button.proceed" />
+                        </span>
+                      </Link>
+                    </div>
 
-                  {this.renderWishlistProducts()}
-                </div>
+                    {this.renderWishlistProducts()}
+                  </div>
+                </Affix>
               </div>
             </div>
           </div>

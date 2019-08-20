@@ -147,8 +147,8 @@ class Content extends React.Component {
       const min = data.aggregations.min_price.value;
       const max = data.aggregations.max_price.value;
       const marks = {
-        [min]: { label: <strong>{formatter.format(min)}₮</strong> },
-        [max]: { label: <strong>{formatter.format(max)}₮</strong> },
+        min: { label: <strong>{formatter.format(min)}₮</strong> },
+        max: { label: <strong>{formatter.format(max)}₮</strong> },
       };
 
       return (
@@ -161,7 +161,7 @@ class Content extends React.Component {
             marks={marks}
             onAfterChange={this.props.handleChangePrice}
             style={{ width: "90%" }}
-            // defaultValue={[min, max]}
+            defaultValue={[min, max]}
           />
         </Collapse.Panel>
       );

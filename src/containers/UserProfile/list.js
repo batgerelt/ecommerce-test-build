@@ -109,7 +109,11 @@ class List extends React.Component {
   }
 
   renderName(info) {
-    return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+    try {
+      return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+    } catch (error) {
+      return null;
+    }
   }
 
   render() {
