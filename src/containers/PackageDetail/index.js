@@ -27,7 +27,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class PackageDetail extends React.Component {
   componentWillMount() {
-    this.props.getDetailPackage({ id: this.props.match.params.id });
+    this.props.getDetailPackage({ id: this.props.match.params.id }).then((res) => {
+      console.log(res, "asdadasdsa");
+    });
     this.props.getInfoPackage({ id: this.props.match.params.id });
   }
 
