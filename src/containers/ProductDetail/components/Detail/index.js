@@ -57,7 +57,7 @@ class Detail extends Component {
             </p>
           </div>
           {!!attributes && !!attributes.length && (
-            <div style={{ marginTop: "20px", marginBottom: "20px", borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+            <div className="detail-attribute-container">
               <div className="product-bottom-info" style={{ marginBottom: "20px" }}>
                 {attributes.map((attr, index) => (
                   <div key={index} className="row">
@@ -74,11 +74,13 @@ class Detail extends Component {
               </div>
             </div>
           )}
-
-          {/*  <div className="gift">
-            <div className="image-container" />
-            <div className="info-container" />
-          </div> */}
+          {
+            attributes.length === 0 ?
+              <div className="gift">
+                <div className="image-container" />
+                <div className="info-container" />
+              </div> : null
+          }
 
           {this.renderCartInfo()}
         </div>
