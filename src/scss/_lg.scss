@@ -1407,7 +1407,7 @@ body {
 }
 
 .single-product .info-container a {
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.65);
   display: block;
 }
 
@@ -2228,7 +2228,7 @@ body {
 }
 
 .product-detail-page .product-info .info-container a {
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.65);
   display: block;
   font-size: 0.9rem;
 }
@@ -2306,6 +2306,7 @@ body {
   height: 40px;
   margin: auto;
   display: flex;
+  color: "rgba(0,0,0,0.65)";
   justify-content: flex-end;
   flex-direction: row;
 }
@@ -2317,12 +2318,12 @@ body {
 .product-detail-page .product-info .total-price span,
 .product-detail-page .product-info .total-price strong {
   display: inline-block;
-  vertical-align: middle;
+  // vertical-align: middle;
 }
 
 .product-detail-page .product-info .total-price span {
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.7);
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.65);
   margin-right: 10px;
 }
 
@@ -2407,7 +2408,7 @@ body {
 }
 
 .product-detail-page .product-plus .single .info-container a {
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .product-detail-page .product-plus .single .info-container .action a {
@@ -2423,7 +2424,7 @@ body {
 
 .product-detail-page .product-plus .more-link {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px 0px;
+  padding: 20px 10px;
 }
 
 .product-detail-page .product-plus .more-link .pack-price {
@@ -2835,13 +2836,15 @@ form .e-input-group .form-control {
 }
 
 form .e-input-group .count-text {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   align-items: center;
   height: 40px;
   margin: auto;
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
+  color: "rgba(0,0,0,0.65)";
+  font-weight: 500;
 }
 
 .pack-product-container .pack-total {

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, message } from "antd";
 
 class OrganizationTab extends React.Component {
   state = {
@@ -48,10 +48,14 @@ class OrganizationTab extends React.Component {
         this.props.getCompanyInfo({ regno: values.regno }).then((res) => {
           this.setState({ loading: false });
           if (res.payload.success) {
-            let value = { regno: values.regno, name: res.payload.data.name };
-            DeliveryInfo.setOrganizationData(value);
-            setFieldsValue({ regno: res.payload.data.name });
-            this.setState({ companyInfo: value, connected: true });
+            if (res.payload.data.name !== "") {
+              let value = { regno: values.regno, name: res.payload.data.name };
+              DeliveryInfo.setOrganizationData(value);
+              setFieldsValue({ regno: res.payload.data.name });
+              this.setState({ companyInfo: value, connected: true });
+            } else {
+              message.warning("Байгууллага олдсонгүй.");
+            }
           }
         });
       }
