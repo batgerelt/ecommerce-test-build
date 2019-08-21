@@ -624,46 +624,44 @@ class Cart extends React.Component {
                 </div>
               </div>
               <div className="col-xl-4 col-lg-4 pad10">
-                <Affix offsetTop={170}>
-                  <div className="cart-info">
-                    <h5 className="title">
-                      <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
-                    </h5>
-
-                    <div className="block cart-info-container">
-                      <p className="count">
-                        <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
-                        <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
+                {/* <Affix offsetTop={170}> */}
+                <div className="cart-info">
+                  <h5 className="title">
+                    <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
+                  </h5>
+                  <div className="block cart-info-container">
+                    <p className="count">
+                      <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
+                      <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
+                    </p>
+                    {staticinfo && (
+                      <p className="delivery">
+                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
+                        {/* {console.log(this.state)} */}
+                        <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
-                      {staticinfo && (
-                        <p className="delivery">
-                          <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                          {/* {console.log(this.state)} */}
-                          <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
-                        </p>
-                      )}
-                      <p className="total flex-space">
-                        <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
-                        <strong>
-                          {formatter.format(this.renderTotalPrice())}₮
-                        </strong>
-                      </p>
-                      <Link
-                        to="/checkout"
-                        className={`btn btn-main btn-block${
-                          products && products.length ? "" : " disabled"
-                          }`}
-                        onClick={() => this.handleConfirmClick()}
-                      >
-                        <span className="text-uppercase">
-                          <FormattedMessage id="shared.sidebar.button.proceed" />
-                        </span>
-                      </Link>
-                    </div>
-
-                    {this.renderWishlistProducts()}
+                    )}
+                    <p className="total flex-space">
+                      <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
+                      <strong>
+                        {formatter.format(this.renderTotalPrice())}₮
+                      </strong>
+                    </p>
+                    <Link
+                      to="/checkout"
+                      className={`btn btn-main btn-block${
+                        products && products.length ? "" : " disabled"
+                        }`}
+                      onClick={() => this.handleConfirmClick()}
+                    >
+                      <span className="text-uppercase">
+                        <FormattedMessage id="shared.sidebar.button.proceed" />
+                      </span>
+                    </Link>
                   </div>
-                </Affix>
+                  {this.renderWishlistProducts()}
+                </div>
+                {/* </Affix> */}
               </div>
             </div>
           </div>

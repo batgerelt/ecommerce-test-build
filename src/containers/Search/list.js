@@ -250,6 +250,7 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.FilterSet.resetField();
 
     const params = {
       catId: cat.length === 0 ? catid : cat[0],

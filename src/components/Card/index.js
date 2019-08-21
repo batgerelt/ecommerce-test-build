@@ -190,8 +190,8 @@ class Card extends React.Component {
       this.setState({ changeHeart: true });
       if (item.skucd !== undefined) {
         this.addWishList(item.skucd);
-      } else if (item.cd !== undefined) {
-        this.addWishList(item.cd);
+      } else if (item.skucd !== undefined) {
+        this.addWishList(item.skucd);
       } else if (item.recipeid !== undefined) {
         this.props.addWishListRecipe({ id: item.recipeid }).then((res) => {
           if (res.payload.success) {
@@ -237,7 +237,6 @@ class Card extends React.Component {
       const lang = this.props.intl.locale;
 
       let prices;
-
       if (!item) {
         return null;
       }
@@ -441,7 +440,7 @@ class Card extends React.Component {
             >
               <div className="single-product small-product sale-product timed-product">
                 <div className="image-container">
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`}>
                     <span
                       className="image"
                       style={{
@@ -508,7 +507,7 @@ class Card extends React.Component {
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
                   <Link
-                    to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
+                    to={item.route ? item.route : `/productdetail/${item.skucd}`}
                   >
                     <span
                       className="image"
@@ -534,13 +533,13 @@ class Card extends React.Component {
                   {hover}
                 </div>
                 <div className="info-container">
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="name">
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="name">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {itemName}
                     </span>
                   </Link>
 
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="cat">
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {featureText}
                     </span>
@@ -556,7 +555,7 @@ class Card extends React.Component {
                       /> : ""
                   }
                   <br />
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="price">
+                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="price">
                     {prices}
                   </Link>
                 </div>
@@ -622,7 +621,7 @@ class Card extends React.Component {
           return (
             <div className="single-product list-product sale-product">
               <div className="image-container">
-                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}>
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd}`}>
                   <span
                     className="image"
                     style={{
@@ -634,10 +633,10 @@ class Card extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="name">
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="name">
                   <span>{itemName}</span>
                 </Link>
-                <Link to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`} className="cat">
+                <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="cat">
                   <span>{featureText}</span>
                 </Link>
                 {
@@ -650,7 +649,7 @@ class Card extends React.Component {
                     /> : ""
                 }
                 <Link
-                  to={item.route ? item.route : `/productdetail/${item.skucd ? item.skucd : item.cd}`}
+                  to={item.route ? item.route : `/productdetail/${item.skucd}`}
                   className="price"
                   style={{
                     padding: 0,

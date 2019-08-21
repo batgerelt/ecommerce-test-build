@@ -4,21 +4,17 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
 // import { Collapse } from "react-collapse";
-import { Slider, Collapse, Icon } from "antd";
-import moment from "moment";
+import { Slider, Collapse, Icon, Form } from "antd";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const formatter = new Intl.NumberFormat("en-US");
 
-class FilterSet extends React.Component {
-  render() {
-    return <Content {...this.props} />;
-  }
-}
+class Component extends React.Component {
+  componentWillUnmount() { this.props.onRef(null); }
+  componentDidMount() { this.props.onRef(this); }
 
-class Content extends React.Component {
   renderAttribute = () => {
     try {
       const { attrvalue, attrall, data } = this.props;
@@ -141,28 +137,44 @@ class Content extends React.Component {
 
   // Шүүлтүүр хэсгийн үнийг харуулах хэсэг
   tipFormat = value => `${formatter.format(value)}₮`
+  resetField = () => this.props.form.resetFields();
   renderFilterPrice = () => {
     try {
-      const { data, intl } = this.props;
+      const { intl, data } = this.props;
+      const { getFieldDecorator } = this.props.form;
+
       const min = data.aggregations.min_price.value;
       const max = data.aggregations.max_price.value;
+
       const marks = {
-        min: { label: <strong>{formatter.format(min)}₮</strong> },
-        max: { label: <strong>{formatter.format(max)}₮</strong> },
+        [min]: { label: <strong>{formatter.format(min)}₮</strong> },
+        [max]: { label: <strong>{formatter.format(max)}₮</strong> },
       };
 
       return (
-        <Collapse.Panel header={intl.formatMessage({ id: "search.filter.title.price" })} key="10">
-          <Slider
-            range
-            tipFormatter={this.tipFormat}
-            min={min}
-            max={max}
-            marks={marks}
-            onAfterChange={this.props.handleChangePrice}
-            style={{ width: "90%" }}
-            defaultValue={[min, max]}
-          />
+        <Collapse.Panel
+          header={intl.formatMessage({ id: "search.filter.title.price" })}
+          key="10"
+        >
+          <Form>
+            <Form.Item>
+              {getFieldDecorator("slider", {
+                rules: [{ required: false }],
+                initialValue: [min, max],
+              })(
+                <Slider
+                  range
+                  tipFormatter={this.tipFormat}
+                  min={min}
+                  max={max}
+                  marks={marks}
+                  onAfterChange={this.props.handleChangePrice}
+                  style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
+                  // defaultValue={[min, max]}
+                />,
+              )}
+            </Form.Item>
+          </Form>
         </Collapse.Panel>
       );
     } catch (error) {
@@ -188,4 +200,4 @@ class Content extends React.Component {
   }
 }
 
-export default injectIntl(FilterSet);
+export default injectIntl(Form.create({ name: 'slider' })(Component));

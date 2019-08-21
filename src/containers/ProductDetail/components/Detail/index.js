@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
@@ -32,7 +33,7 @@ class Detail extends Component {
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.name : detail.name_en}</h5>
 
-          {detail.backtxt && lang === "mn" ? `(${detail.backtxt})` : `(${detail.backtxt_en})`}
+          {detail.back && lang === "mn" ? `(${detail.back})` : `(${detail.back_en})`}
 
           {selectedCat && (
             <p className="big-text">
@@ -73,7 +74,7 @@ class Detail extends Component {
       isLogged, detail, addRate, getProductRate,
     } = this.props;
     if (isLogged) {
-      let skucd = detail.products.cd;
+      let skucd = detail.products.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
@@ -275,7 +276,7 @@ class Detail extends Component {
   handleSaveClick = () => {
     const { isLogged, addWishList, detail } = this.props;
     if (isLogged) {
-      let skucd = detail.products.cd;
+      let skucd = detail.products.skucd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
           setTimeout(() => {

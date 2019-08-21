@@ -57,8 +57,8 @@ class Component extends React.Component {
               </div>
               <div className="info">
                 <Link to={item.route ? item.route : " "}>
-                  <p className="name">{lang === "mn" ? item.skunm : item.skunm_en}</p>
-                  <p className="text">{lang === "mn" ? item.shortnm : item.shortnm_en}</p>
+                  <p className="name">{lang === "mn" ? item.title : item.title_en}</p>
+                  <p className="text">{lang === "mn" ? item.feature : item.feature_en}</p>
                 </Link>
                 <Rate allowHalf value={item.rate / 2} disabled />
               </div>
@@ -68,7 +68,14 @@ class Component extends React.Component {
             <ul className="list-unstyled flex-this end">
               <li>
                 <div className="price-pro" style={{ paddingRight: "10px" }}>
-                  <strong>{formatter.format(item.price)}₮</strong>
+                  {
+                    item.pricetag !== null ?
+                      localStorage.getItem('lang') === "mn" ?
+                        <div>{`${item.pricetag} ${formatter.format(item.currentprice)}₮`}</div>
+                        :
+                        <div>{`${item.pricetag_en} ${formatter.format(item.currentprice)}₮`}</div>
+                      : <div>{`${formatter.format(item.currentprice)}`}₮</div>
+                  }
                 </div>
               </li>
               <li>
