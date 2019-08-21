@@ -52,16 +52,18 @@ class List extends React.Component {
         });
 
         message.warning(intl.formatMessage(messages.error, {
-          name: updated.name,
+          name: updated.title,
           qty: updated.qty,
         }));
       }
     }
   };
 
-  handleProductAddToCart = async (product) => {
+  handleProductAddToCart = async (prod) => {
     try {
       const { intl } = this.props;
+
+      let product = { ...prod };
 
       if (this.props.isLogged) {
         const result = await this.props.increaseProductByQtyRemotely({
@@ -83,6 +85,7 @@ class List extends React.Component {
           }));
         }
       } else {
+        product.insymd = Date.now();
         this.props.increaseProductByQtyLocally(product);
 
         const updated = this.props.products.find(prod => prod.skucd === product.skucd);
@@ -95,7 +98,7 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -157,7 +160,7 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: msg.value.name,
+            name: msg.value.title,
             qty: msg.value.salemaxqty,
           }));
         });
@@ -180,7 +183,7 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -363,7 +366,6 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&
@@ -383,8 +385,8 @@ class List extends React.Component {
               <div className="flex-space">
                 <p className="text col-md-5 col-sm-5">
                   <Link to={prod.route || ""} style={{ color: "#666" }}>
-                    <span>{lang === "mn" ? prod.name : prod.name_en}</span>
-                    <strong>{formatter.format(this.getPrice(prod))}₮</strong>
+                    <span>{lang === "mn" ? prod.title : prod.title_en}</span>
+                    <strong>{formatter.format(prod.currentprice)}₮</strong>
                   </Link>
                 </p>
                 <form style={{ width: "130px" }}>
@@ -472,25 +474,10 @@ class List extends React.Component {
         // eslint-disable-next-line no-mixed-operators
         acc +
         // eslint-disable-next-line no-mixed-operators
-        this.getPrice(cur) *
+        cur.currentprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,
     );
-  };
-
-  getPrice = (product) => {
-    // eslint-disable-next-line prefer-destructuring
-    let price = product.price;
-
-    if (product.issalekg && product.kgproduct[0]) {
-      price = product.kgproduct[0].salegramprice;
-    }
-
-    if (product.spercent && product.spercent !== 100 && !product.issalekg) {
-      price = product.sprice;
-    }
-
-    return price;
   };
 
   renderCartInfo = () => {
@@ -578,16 +565,6 @@ class List extends React.Component {
                 <div className="col-md-3 pad10">
                   <div className="product-plus">
                     {this.props.info === undefined ? null : this.renderDelivery()}
-                    {/* <div className="block product-suggest">
-                      <p className="title">
-                        <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
-                      </p>
-                      <ul className="list-unstyled">
-                        {this.props.packageDetail === undefined
-                          ? null
-                          : this.renderSimilarProducts()}
-                      </ul>
-                    </div> */}
                     {this.props.packageDetail === undefined
                       ? null
                       : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?

@@ -239,59 +239,33 @@ class Cart extends React.Component {
   };
 
   // eslint-disable-next-line arrow-parens
-  getUnitPrice = product => {
-    if (product.sprice) {
-      if (
-        product.issalekg &&
-        product.kgproduct &&
-        product.kgproduct[0] &&
-        product.kgproduct[0].salegramprice
-      ) {
-        // Хямдарсан бөгөөд кг-ын бараа
-        return {
-          price: product.kgproduct[0].salegramprice,
-          sprice: product.kgproduct[0].salegramprice,
-        };
-      }
-
-      // Хямдарсан бараа
-      return { price: product.price, sprice: product.sprice };
-    }
-
-    if (
-      product.issalekg &&
-      product.kgproduct &&
-      product.kgproduct[0] &&
-      product.kgproduct[0].salegramprice
-    ) {
-      // Хямдраагүй бөгөөд кг-ын бараа
-      return { price: product.kgproduct[0].salegramprice, sprice: null };
-    }
-
-    // Хямдраагүй бараа
-    return { price: product.price, sprice: null };
-  };
-
-  // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
-    if (product.sprice) {
-      if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
+    if (product.sprice || product.spercent || product.salepercent) {
+      if (product.issalekg) {
         return (
           <p className="price" style={{ textAlign: 'end' }}>
             <strong>
-              {formatter.format(this.getUnitPrice(product).sprice)}₮
+              {formatter.format(product.sprice || product.currentprice)}₮
             </strong>
-            {product.kgproduct[0].salegram && (
-              <span
-                style={{
-                  display: "block",
-                  fontSize: "0.8em",
-                  color: "#999",
-                }}
-              >
-                {product.kgproduct[0].salegram} гр-н үнэ
-              </span>
-            )}
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.8em",
+                textDecoration: "line-through",
+                color: "#999",
+              }}
+            >
+              {formatter.format(product.price)}
+            </span>
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.8em",
+                color: "#999",
+              }}
+            >
+              {product.pricetag}-н үнэ
+            </span>
           </p>
         );
       }
@@ -299,7 +273,7 @@ class Cart extends React.Component {
       return (
         <p className="price" style={{ textAlign: 'end' }}>
           <strong>
-            {formatter.format(this.getUnitPrice(product).sprice)}₮
+            {formatter.format(product.currentprice)}₮
           </strong>
           <span
             style={{
@@ -309,34 +283,32 @@ class Cart extends React.Component {
               color: "#999",
             }}
           >
-            {formatter.format(this.getUnitPrice(product).price)}
+            {formatter.format(product.price)}
           </span>
         </p>
       );
     }
 
-    if (product.issalekg && product.kgproduct && product.kgproduct[0]) {
+    if (product.issalekg) {
       return (
         <p className="price" style={{ textAlign: 'end' }}>
-          <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
-          {product.kgproduct[0].salegram && (
-            <span
-              style={{
-                display: "block",
-                fontSize: "0.8em",
-                color: "#999",
-              }}
-            >
-              {product.kgproduct[0].salegram} гр-н үнэ
-            </span>
-          )}
+          <strong>{formatter.format(product.currentprice)}₮</strong>
+          <span
+            style={{
+              display: "block",
+              fontSize: "0.8em",
+              color: "#999",
+            }}
+          >
+            {product.pricetag}-н үнэ
+          </span>
         </p>
       );
     }
 
     return (
       <p className="price" style={{ textAlign: 'end' }}>
-        <strong>{formatter.format(this.getUnitPrice(product).price)}₮</strong>
+        <strong>{formatter.format(product.price)}₮</strong>
       </p>
     );
   };
@@ -351,8 +323,7 @@ class Cart extends React.Component {
 
   renderTotalPrice = (product = null) => {
     if (product) {
-      const price =
-        this.getUnitPrice(product).sprice || this.getUnitPrice(product).price;
+      const price = product.sprice || product.currentprice || product.price;
 
       return (
         <span className="price total">
@@ -366,8 +337,7 @@ class Cart extends React.Component {
     return (
       products &&
       products.reduce((acc, cur) => {
-        const unitPrice =
-          this.getUnitPrice(cur).sprice || this.getUnitPrice(cur).price;
+        const unitPrice = cur.sprice || cur.currentprice || cur.price;
         // eslint-disable-next-line no-mixed-operators
         return acc + unitPrice * cur.qty;
       }, 0)
@@ -379,6 +349,7 @@ class Cart extends React.Component {
       return null;
     }
     const wishlistProducts = this.props.wish;
+    console.log('wishlistProducts: ', wishlistProducts);
     const lang = this.props.intl.locale;
 
     return (
@@ -407,11 +378,11 @@ class Cart extends React.Component {
                   <div className="flex-space">
                     <Link to={wishlistProd.route || ""}>
                       <div className="text">
-                        <span>{lang === "mn" ? wishlistProd.skunm : wishlistProd.skunm_en}</span>
+                        <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
                         <strong>
                           {formatter.format(
                             wishlistProd.sprice
-                              ? wishlistProd.sprice
+                              ? wishlistProd.sprice || wishlistProd.currentprice
                               : wishlistProd.price
                                 ? wishlistProd.price
                                 : 0,
@@ -445,7 +416,11 @@ class Cart extends React.Component {
       const lang = this.props.intl.locale;
 
       let content = (
-        <div style={{ textAlign: "center" }}>
+        <div style={{
+          textAlign: "center",
+          paddingTop: "50px",
+        }}
+        >
           <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
         </div>
       );
@@ -488,7 +463,7 @@ class Cart extends React.Component {
                   <td>
                     <div className="flex-this">
                       <div className="image-container default">
-                        <Link to={prod.route || ""}>
+                        <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
                           <span
                             className="image"
                             style={{

@@ -34,10 +34,11 @@ class Relational extends Component {
               id: result.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+          message.warning(intl.formatMessage(messages.warning, {
+            name: result.payload.data.values[0],
+          }));
         }
       } else {
-        product.insymd = Date.now();
         this.props.incrementProductLocally(product);
       }
     } catch (e) {

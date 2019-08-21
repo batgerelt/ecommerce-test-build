@@ -365,8 +365,8 @@ class Detail extends Component {
         }));
       }
     } else {
-      product.qty = this.state.productQty;
       product.insymd = Date.now();
+      product.qty = this.state.productQty;
       this.props.increaseProductByQtyLocally(product);
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
