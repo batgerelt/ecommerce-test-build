@@ -1,8 +1,10 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl';
-import { Divider, Rate, Spin, BackTop } from "antd";
+import { Divider, Rate, Spin, BackTop, Row, Col, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { Loader } from "../../../../components";
+import clear from "../../../../scss/assets/svg/clear.svg";
+import favorite from "../../../../scss/assets/svg/favorite.svg";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -33,8 +35,8 @@ class Component extends React.Component {
     try {
       const { wish, lang } = this.props;
       return wish.map((item, index) => (
-        <div className="single flex-space" key={index}>
-          <div className="product">
+        <Row className="single flex-space" span={24} style={{ width: "100%" }}>
+          <Col className="product" sm={12} md={12} lg={12} xl={12}>
             <div className="flex-this">
               <div className="image-container default">
                 <Link to={item.route ? item.route : " "}>
@@ -54,9 +56,9 @@ class Component extends React.Component {
                 <Rate allowHalf value={item.rate / 2} disabled />
               </div>
             </div>
-          </div>
-          <div className="action" style={{ width: "90%" }}>
-            <ul className="list-unstyled flex-this end">
+          </Col>
+          <Col className="action" xs={12} sm={6} md={6} lg={6} xl={6}>
+            <ul className="list-unstyled flex-this">
               <li>
                 <div className="price-pro" style={{ paddingRight: "10px" }}>
                   {
@@ -67,26 +69,43 @@ class Component extends React.Component {
                         <div>{`${item.pricetag_en} ${formatter.format(item.currentprice)}₮`}</div>
                       : <div>{`${formatter.format(item.currentprice)}`}₮</div>
                   }
-                  {/* <strong>{formatter.format(item.price)}₮</strong> */}
                 </div>
               </li>
+            </ul>
+          </Col>
+          <Col className="action" xs={12} sm={6} md={6} lg={6} xl={6}>
+            <ul className="list-unstyled flex-this end" >
               <li>
-                <Link to="#">
-                  <i
-                    className="fa fa-cart-plus"
-                    aria-hidden="true"
-                    onClick={() => this.handleIncrement(item)}
-                  />
+                <Link
+                  to="#"
+                  onClick={() => this.handleIncrement(item)}
+                >
+                  <i className="fa fa-cart-plus" aria-hidden="true" />
+                  <span />
                 </Link>
+                {/* <Link to="#" onClick={() => this.handleIncrement(item)}>
+                  <i className="fa fa-cart-plus" aria-hidden="true" style={{ color: "#feb413" }} />
+                </Link> */}
               </li>
               <li>
-                <Link to="#" onClick={e => this.onDelete(item)}>
+                <Link
+                  to="#"
+                  onClick={e => this.onDelete(item)}
+                  style={{
+                    fontWeight: "10",
+                  }}
+                >
                   <i className="fa fa-times" aria-hidden="true" />
                 </Link>
               </li>
+              {/* <li>
+                <Link to="#" onClick={e => this.onDelete(item)}>
+                  <Avatar size="small" shape="square" src={clear} />
+                </Link>
+              </li> */}
             </ul>
-          </div>
-        </div>
+          </Col>
+        </Row>
       ));
     } catch (error) {
       return console.log(error);
@@ -144,3 +163,56 @@ export default Component;
       </li>
     </ul>
   </div> */
+
+/* <div className="product">
+          <div className="flex-this">
+            <div className="image-container default">
+              <Link to={item.route ? item.route : " "}>
+                <span
+                  className="image"
+                  style={{
+                    backgroundImage: `url(${process.env.IMAGE + item.img})`,
+                  }}
+                />
+              </Link>
+            </div>
+            <div className="info">
+              <Link to={item.route ? item.route : " "}>
+                <p className="name">{lang === "mn" ? item.title : item.title_en}</p>
+                <p className="text">{lang === "mn" ? item.feature : item.feature_en}</p>
+              </Link>
+              <Rate allowHalf value={item.rate / 2} disabled />
+            </div>
+          </div>
+        </div>
+        <div className="action" style={{ width: "90%" }}>
+          <ul className="list-unstyled flex-this end">
+            <li>
+              <div className="price-pro" style={{ paddingRight: "10px" }}>
+                {
+                  item.pricetag !== null ?
+                    localStorage.getItem('lang') === "mn" ?
+                      <div>{`${item.pricetag} ${formatter.format(item.currentprice)}₮`}</div>
+                      :
+                      <div>{`${item.pricetag_en} ${formatter.format(item.currentprice)}₮`}</div>
+                    : <div>{`${formatter.format(item.currentprice)}`}₮</div>
+                }
+                <strong>{formatter.format(item.price)}₮</strong>
+              </div >
+            </li >
+<li>
+  <Link to="#">
+    <i
+      className="fa fa-cart-plus"
+      aria-hidden="true"
+      onClick={() => this.handleIncrement(item)}
+    />
+  </Link>
+</li>
+<li>
+  <Link to="#" onClick={e => this.onDelete(item)}>
+    <i className="fa fa-times" aria-hidden="true" />
+  </Link>
+</li>
+          </ul >
+        </div > */
