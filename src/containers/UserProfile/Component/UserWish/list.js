@@ -12,7 +12,7 @@ class Component extends React.Component {
   state = { loader: false };
   onDelete = (item) => {
     this.setState({ loader: true });
-    this.props.deleteWish({ skucd: item.cd }).then((res) => {
+    this.props.deleteWish({ skucd: item.skucd }).then((res) => {
       this.props.getWish().then((res) => {
         if (res.payload.success) {
           this.setState({ loader: false });
@@ -21,9 +21,9 @@ class Component extends React.Component {
     });
   }
   handleIncrement = (item) => {
-    if (item.cd) {
+    if (item.skucd) {
       this.props.incrementProductRemotely({
-        skucd: item.cd,
+        skucd: item.skucd,
         qty: item.addminqty || 1,
         iscart: 0,
       }).then((res) => {
@@ -35,7 +35,7 @@ class Component extends React.Component {
     try {
       const { wish, lang } = this.props;
       return wish.map((item, index) => (
-        <Row className="single flex-space" span={24} style={{ width: "100%" }}>
+        <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
           <Col className="product" sm={12} md={12} lg={12} xl={12}>
             <div className="flex-this">
               <div className="image-container default">
