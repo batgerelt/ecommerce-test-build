@@ -6,10 +6,10 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Checkbox, Modal, Button } from "antd";
+import { Checkbox, Modal, Button, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Static as StaticModel } from "../../../../models";
@@ -242,7 +242,7 @@ class DeliveryInfo extends React.Component {
   }
 
   sendPayment = (tmp) => {
-    const { PaymentTypePanel } = this.props;
+    const { PaymentTypePanel, intl } = this.props;
     let data;
     this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
       this.props.changeLoading(false);
@@ -305,6 +305,15 @@ class DeliveryInfo extends React.Component {
             console.log('error');
           }
         }
+      } else {
+        const messages = defineMessages({
+          error: {
+            id: res.payload.code,
+          },
+        });
+        message.warning(intl.formatMessage(messages.error, {
+          name: res.payload.data,
+        }));
       }
     });
   }

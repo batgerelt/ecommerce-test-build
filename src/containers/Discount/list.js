@@ -61,21 +61,21 @@ class Discount extends React.Component {
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits });
+        this.setState({ headerProducts: res.payload.data.hits.hits, rowCount: 20, startsWith: 10 });
       }
     });
   }
 
   // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
-  loadMoreRows = (key) => {
+  loadMoreRows = () => {
     try {
-      if (!this.props.discountFetching && this.state.products.length < this.props.discountproduct.count) {
-        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-          if (res.payload.success) {
-            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
-          }
-        });
-      }
+      // if (this.state.headerProducts.length !== 0) {
+      this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+        if (res.payload.success) {
+          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
+        }
+      });
+      // }
       return null;
     } catch (error) {
       return console.log(error);
@@ -160,7 +160,7 @@ class Discount extends React.Component {
   renderSubBanner = () => {
     try {
       const { discountbanner } = this.state;
-      return null;
+      // return null;
       return (
         <Banner data={discountbanner} />
       );
@@ -191,13 +191,12 @@ class Discount extends React.Component {
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    products.length !== this.props.discountproduct.count,
+                    true,
                   );
                   return (
                     <InfiniteLoader
-                      style={{ outline: 'none' }}
                       ref={this.infiniteLoaderRef}
-                      rowCount={rowCount === 1 ? rowCount : rowCount - 1}
+                      rowCount={rowCount}
                       isRowLoaded={({ index }) => {
                         const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                           width,
@@ -208,7 +207,6 @@ class Discount extends React.Component {
                             maxItemsPerRow,
                             products.length,
                           ).length > 0;
-
                         return !true || allItemsLoaded;
                       }}
                       loadMoreRows={this.loadMoreRows}
@@ -220,10 +218,10 @@ class Discount extends React.Component {
                               style={{ outline: 'none' }}
                               autoHeight
                               ref={registerChild}
-                              height={340}
+                              height={height}
                               scrollTop={scrollTop}
                               width={width}
-                              rowCount={rowCount === 1 ? rowCount : rowCount - 1}
+                              rowCount={rowCount}
                               rowHeight={this.generateItemHeight(width)}
                               onRowsRendered={onRowsRendered}
                               rowRenderer={({ index, style, key }) => {
@@ -235,8 +233,15 @@ class Discount extends React.Component {
                                   maxItemsPerRow,
                                   products.length,
                                 ).map(itemIndex => products[itemIndex]._source);
+                                let tmp = {};
+                                let topH = style.top;
+                                tmp.top = topH - this.generateItemHeight(width) * 2 - 10;
+                                tmp.height = style.height;
+                                tmp.left = style.left;
+                                tmp.width = style.width;
+                                tmp.position = style.position;
                                 return (
-                                  <div style={style} key={key} className="jss148">
+                                  <div style={tmp} key={key} className="jss148">
                                     {
                                       rowItems.map(itemId => (
                                         <Card
