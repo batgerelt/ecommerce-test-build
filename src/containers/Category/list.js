@@ -94,6 +94,8 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
+    console.log('e: ', e);
+    // e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({
       loading: !this.state.loading,
@@ -110,7 +112,7 @@ class CategoryInfo extends React.Component {
       promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
-      startsWith: this.state.count,
+      startsWith: 0,
       rowCount: 20,
       orderColumn: this.state.sort,
       highlight: false,
@@ -560,7 +562,7 @@ class CategoryInfo extends React.Component {
 
   renderProducts = () => {
     try {
-      const { products } = this.state;
+      const { products, isListViewOn } = this.state;
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>
@@ -587,6 +589,7 @@ class CategoryInfo extends React.Component {
                     <WindowScroller>
                       {({ height, scrollTop }) => (
                         <List
+                          style={{ outline: 'none' }}
                           autoHeight
                           ref={registerChild}
                           height={height}
@@ -608,8 +611,8 @@ class CategoryInfo extends React.Component {
                               <div style={style} key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
-                                    style={{ padding: '10px 10px' }}
                                     elastic
+                                    list={isListViewOn}
                                     key={index}
                                     shape={this.state.shapeType}
                                     item={itemId}

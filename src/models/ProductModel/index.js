@@ -30,6 +30,7 @@ class Model extends BaseModel {
     discountFetching: false,
     allFetched: false,
     addedWishList: false,
+    skumoreinfo: 0,
   }
 
   constructor(data = {}) {
@@ -106,6 +107,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'recipe'),
           error: this.buildActionName('error', data.model, 'recipe'),
         },
+        elasticmoreinfo: {
+          request: this.buildActionName('request', data.model, 'elasticmoreinfo'),
+          response: this.buildActionName('response', data.model, 'elasticmoreinfo'),
+          error: this.buildActionName('error', data.model, 'elasticmoreinfo'),
+        },
       };
     }
     this.addWishListModel = {
@@ -177,6 +183,8 @@ class Model extends BaseModel {
   addRate = ({ skucd, rate }) => asyncFn({ url: `/product/rate/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
+  getMoreInfoElastic = ({ skucd }) => asyncFn({ url: `/product/elastic/${skucd}`, method: 'GET', model: this.model.elasticmoreinfo });
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       // GET EMART PRODUCT
@@ -288,6 +296,7 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.categorymenu.response:
         return { ...state, categorymenu: action.payload.data };
+
       // GET PRODUCT DETAIL CATEGORYS
       case this.model.recipe.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -295,6 +304,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipe.response:
         return { ...state, recipeproduct: action.payload.data };
+
+      // GET PRODUCT SKU ELASTIC MORE INFO
+      case this.model.elasticmoreinfo.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.elasticmoreinfo.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.elasticmoreinfo.response:
+        return { ...state, elasticmoreinfo: action.payload.data };
 
       // ADD WISH LIST MODEL
       case this.addWishListModel.request:

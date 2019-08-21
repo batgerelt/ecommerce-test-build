@@ -98,21 +98,35 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-
     const { intl } = this.props;
     const { productQty } = this.state;
-
     let priceInfo = null;
-
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
     if (detail.issalekg) {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
-        <p className="count-text text-right">
-          {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
-          {`: ${formatter.format(detail.price)} ₮`}
-        </p>
+        <div className="count-text text-right">
+          <div className="price product-detail">
+            {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
+            {
+              detail.sprice !== 0 ?
+                <small
+                  className="sale"
+                  style={{
+                    color: "#666",
+                    textDecoration: "line-through",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {formatter.format(detail.volumeprice)}₮
+                </small> : ""
+            }
+            <span className="current" style={{ marginLeft: "5px" }}>
+              {formatter.format(detail.totprice)}₮
+            </span>
+          </div>
+        </div>
       );
     }
 
@@ -124,28 +138,6 @@ class Detail extends Component {
       let salePrice = detail.sprice;
 
       if (detail.issalekg && detail.sprice !== 0) {
-        // Хямдарсан бөгөөд кг-н бараа
-        /*  kiloPrice = (
-           <p className="count-text text-right">
-             Кг үнэ:
-             <small
-               className="sale"
-               style={{
-                 color: "#666",
-                 textDecoration: "line-through",
-                 marginLeft: "5px",
-                 marginRight: "5px",
-               }}
-             >
-               {formatter.format(price)}₮
-             </small>
-             {formatter.format(detail.kgproduct[0].kilogramprice)}
-           </p>
-         ); */
-        /* price = Math.round(
-          price / Math.round(1000 / detail.kgproduct[0].salegram),
-        );
-        salePrice = detail.kgproduct[0].salegramprice; */
         salePrice = detail.sprice;
       }
 
@@ -169,21 +161,16 @@ class Detail extends Component {
               </span>
             </div>
           </div>
-          {/* kiloPrice */}
+          {kiloPrice}
         </div>
       );
     } else {
-      // Хямдраагүй үед
-      /* if (detail.issalekg) {
-        price = detail.price;
-      } */
-
       priceInfo = (
         <div>
           <div className="count-text text-right">
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
-              {formatter.format(price)}₮
+              {formatter.format(detail.issalekg === 0 ? detail.volumeprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
@@ -236,7 +223,7 @@ class Detail extends Component {
 
         <div className="total-price text-right">
           <span><FormattedMessage id="productDetail.label.totalPrice" />:</span>
-          <strong>{formatter.format(this.getTotalPrice())}₮</strong>
+          <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
         <div className="btn-container text-right">
@@ -324,7 +311,7 @@ class Detail extends Component {
     return price;
   };
 
-  getTotalPrice = () => this.state.productQty * this.getPrice();
+  getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();
 
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals

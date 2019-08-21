@@ -85,7 +85,6 @@ class LoginModal extends React.Component {
             skucd: prod.skucd,
             qty: prod.qty,
           }));
-
           result = await this.props.increaseProductsByQtyRemotely({
             body: products,
           });
@@ -93,7 +92,12 @@ class LoginModal extends React.Component {
             message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
-          this.props.getProducts();
+          this.props.getProducts().then((res) => {
+            let k = res.payload.data.length - products.length;
+            if (res.payload.data.length !== 0 && k !== 0) {
+              this.props.history.push("/cart");
+            }
+          });
         } catch (e) {
           console.log(e);
         }

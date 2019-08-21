@@ -3,16 +3,23 @@ import React, { Component } from "react";
 import Style from "style-it";
 
 class index extends Component {
-  renderNew = () => {
+  renderNew = (lang) => {
     try {
       const { tags, list, data } = this.props;
-      const style = list ?
-        `
+      const style = list
+        ? `
         bottom: 35px; 
-        margin: auto auto auto ${!data.isavailable ? (data.salepercent !== 0 ? '400px' : '450px') : (data.salepercent !== 0 ? '450px' : '500px')};
+        margin: auto auto auto ${
+          !data.isavailable
+            ? data.salepercent !== 0
+              ? "400px"
+              : "450px"
+            : data.salepercent !== 0
+              ? "450px"
+              : "500px"
+        };
         `
-        :
-        `display: block;
+        : `display: block;
         position: absolute;`;
       return (
         <Style>
@@ -31,7 +38,11 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "new") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "new").color
+                };
                 text-align: center;
                 font-size: ${"1.7"}rem;
                 color: white;
@@ -45,7 +56,11 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${tags.find(tag => tag.slug === "new") === undefined ? '' : tags.find(tag => tag.slug === "new").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "new") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "new").color
+                };
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -79,7 +94,8 @@ class index extends Component {
               <span className="text">
                 <div>
                   <small>
-                    {localStorage.getItem('lang') === "mn" ? tags.find(tag => tag.slug === "new").name
+                    {lang === "mn" || lang === null
+                      ? tags.find(tag => tag.slug === "new").name
                       : tags.find(tag => tag.slug === "new").nameen}
                   </small>
                 </div>
@@ -96,12 +112,12 @@ class index extends Component {
   renderSale = () => {
     try {
       const { data, tags, list } = this.props;
-      const style = list ?
-        `
+      const style = list
+        ? `
         bottom: 35px; 
-        margin: auto auto auto ${!data.isavailable ? '450px' : '500px'};
-        ` :
-        `top: ${data.isnew ? '70px' : '15px'}`;
+        margin: auto auto auto ${!data.isavailable ? "450px" : "500px"};
+        `
+        : `top: ${data.isnew ? "70px" : "15px"}`;
 
       return (
         <Style>
@@ -120,7 +136,11 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "discount") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "discount").color
+                };
                 text-align: center;
                 font-size: ${"1.7"}rem;
                 color: white;
@@ -134,7 +154,11 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "discount") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "discount").color
+                };
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -167,7 +191,11 @@ class index extends Component {
               <span className="text">
                 <div>
                   <strong>{data.salepercent}</strong>
-                  <small>{tags.find(tag => tag.slug === "discount") === undefined ? '' : tags.find(tag => tag.slug === "discount").name}</small>
+                  <small>
+                    {tags.find(tag => tag.slug === "discount") === undefined
+                      ? ""
+                      : tags.find(tag => tag.slug === "discount").name}
+                  </small>
                 </div>
               </span>
             </Style>
@@ -179,15 +207,22 @@ class index extends Component {
     }
   };
 
-  renderSoldOut = () => {
+  renderSoldOut = (lang) => {
     try {
       const { data, tags, list } = this.props;
-      const style = list ?
-        `
+      const style = list
+        ? `
         bottom: 35px; 
         margin: auto auto auto 500px`
-        :
-        `top: ${data.isnew ? (data.salepercent !== 0 ? '127px' : '70px') : (data.salepercent !== 0 ? '70px' : '15px')};`;
+        : `top: ${
+          data.isnew
+            ? data.salepercent !== 0
+              ? "127px"
+              : "70px"
+            : data.salepercent !== 0
+              ? "70px"
+              : "15px"
+        };`;
       return (
         <Style>
           {`
@@ -205,9 +240,13 @@ class index extends Component {
                 display: block;
                 width: 46px;
                 height: 30px;
-                background-color: ${tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "sold_out") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "sold_out").color
+                };
                 text-align: center;
-                font-size: ${"1.5"}rem;
+                font-size: ${"0.9"}rem;
                 color: white;
                 letter-spacing: -1px;
                 vertical-align: top;
@@ -219,7 +258,11 @@ class index extends Component {
                 z-index: 0;
                 position: absolute;
                 content: '';
-                background-color: ${tags.find(tag => tag.slug === "sold_out") === undefined ? '' : tags.find(tag => tag.slug === "sold_out").color};
+                background-color: ${
+                  tags.find(tag => tag.slug === "sold_out") === undefined
+                    ? ""
+                    : tags.find(tag => tag.slug === "sold_out").color
+                };
                 width: 26px;
                 height: 26px;
                 top: -11px;
@@ -242,18 +285,22 @@ class index extends Component {
               .text small {
                 position: relative;
                 z-index: 1;
-                font-size: ${"0.7"}rem;
+                font-size: ${"0.5"}rem;
                 display: inline-block;
-                margin-left: 2px;
-                line-height: 1.2;
-                letter-spacing: 1px;
-                bottom: ${localStorage.getItem('lang') === "mn" ? '6px' : '-3px'};
+                margin-left: 1px;
+                line-height: 1.4;
+                letter-spacing: 0.2px;
+                bottom: ${
+                  lang === "mn" || lang === null ? "4px" : "-3px"
+                };
               }
              `}
               <span className="text">
                 <div>
                   <small>
-                    { localStorage.getItem('lang') === "mn" ? tags.find(tag => tag.slug === "sold_out").name : tags.find(tag => tag.slug === "sold_out").nameen}
+                    {lang === "mn" || lang === null
+                      ? tags.find(tag => tag.slug === "sold_out").name
+                      : tags.find(tag => tag.slug === "sold_out").nameen}
                   </small>
                 </div>
               </span>
@@ -270,9 +317,9 @@ class index extends Component {
     const { data } = this.props;
     return (
       <div style={{ padding: "15px 8px" }}>
-        {data.isnew ? this.renderNew() : null}
-        {data.salepercent !== 0 ? this.renderSale() : null}
-        {!data.isavailable ? this.renderSoldOut() : null}
+        {data.isnew ? this.renderNew(localStorage.getItem("lang")) : null}
+        {data.salepercent !== 0 ? this.renderSale(localStorage.getItem("lang")) : null}
+        {!data.isavailable ? this.renderSoldOut(localStorage.getItem("lang")) : null}
       </div>
     );
   }

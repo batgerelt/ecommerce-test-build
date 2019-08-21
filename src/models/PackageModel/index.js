@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable array-callback-return */
 /* eslint-disable indent */
 import BaseModel from "../BaseModel";
@@ -84,147 +85,129 @@ class Model extends BaseModel {
     shouldDecrement = false,
     shouldUpdateByQty = false,
   ) => {
-    if (typeof products === "string") {
-      products = JSON.parse(products);
-    }
+    try {
+      if (typeof products === "string") {
+        products = JSON.parse(products);
+      }
 
-    if (product.qty === undefined) {
-      product.qty = product.addminqty || 1;
-    }
+      if (product.error !== undefined) {
+        product.error = undefined;
+      }
 
-    let found = products.find(prod => prod.skucd === product.skucd);
+      product.insymd = new Date();
 
-    if (found) {
-      const index = products.map(prod => prod.skucd).indexOf(found.skucd);
+      let found = products.find(prod => prod.skucd === product.skucd);
 
-      if (index !== -1) {
-        if (shouldOverride) {
-          // eslint-disable-next-line no-lonely-if
-          if (found.isgift === 1) {
-            if (found.qty < found.addminqty) {
-              found.qty = 0;
-            } else {
-              found.qty = product.qty;
-            }
-          } else {
-            // eslint-disable-next-line no-lonely-if
-            if (found.salemaxqty > 0) {
-              // eslint-disable-next-line no-lonely-if
-              if (found.qty > found.salemaxqty) {
-                found.qty = found.salemaxqty;
-                found.error = "202";
-              } else if (found.qty < found.addminqty) {
-                found.qty = 0;
+      if (found) {
+        const index = products.map(prod => prod.skucd).indexOf(found.skucd);
+
+        if (index !== -1) {
+          found.qty = found.qty || found.addminqty || 1;
+
+          if (shouldOverride) {
+            const qty = product.qty || product.addminqty || 1;
+            if (found.isgift) {
+              if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
+                found.error = "204";
               } else {
-                found.qty = product.qty;
+                found.qty = qty;
               }
             } else {
-              // eslint-disable-next-line no-lonely-if
-              if (found.qty > found.availableqty) {
-                found.qty = found.availableqty;
-                found.error = "200";
-              } else if (found.qty < found.addminqty) {
-                found.qty = 0;
-              } else {
-                found.qty = product.qty;
-              }
-            }
-          }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (shouldDecrement) {
-            const productQty = shouldUpdateByQty
-              ? found.qty - product.qty < found.addminqty
-                ? 0
-                : found.qty - product.qty
-              : found.qty - found.addminqty < found.addminqty
-                ? 0
-                : found.qty - found.addminqty;
-            found.qty = productQty;
-          } else {
-            // eslint-disable-next-line no-lonely-if
-            if (shouldUpdateByQty) {
-              // eslint-disable-next-line no-lonely-if
-              if (found.isgift === 1) {
-                found.qty += product.qty;
-              } else {
-                // eslint-disable-next-line no-lonely-if
+              if (found.availableqty > 0) {
                 if (found.salemaxqty > 0) {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + product.qty > found.salemaxqty) {
+                  if (qty > found.salemaxqty) {
                     found.qty = found.salemaxqty;
                     found.error = "202";
+                  } else if (qty < found.addminqty) {
+                    found.qty = found.addminqty;
+                    found.error = "204";
                   } else {
-                    found.qty += product.qty;
+                    found.qty = qty;
                   }
+                } else if (qty > found.availableqty) {
+                  found.qty = found.availableqty;
+                  found.error = "200";
+                } else if (qty < found.addminqty) {
+                  found.qty = found.addminqty;
+                  found.error = "204";
                 } else {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + product.qty > found.availableqty) {
-                    found.qty = found.availableqty;
-                    found.error = "200";
-                  } else {
-                    found.qty += product.qty;
-                  }
+                  found.qty = qty;
                 }
+              } else {
+                found.error = "200";
+              }
+            }
+          } else if (shouldDecrement) {
+            if (shouldUpdateByQty) {
+              const qty = product.qty || product.addminqty || 1;
+              if (found.qty - qty < found.addminqty) {
+                found.qty = found.addminqty;
+                found.error = "204";
+              } else {
+                found.qty -= qty;
+              }
+            } else if (found.qty - found.addminqty < found.addminqty) {
+              found.qty = found.addminqty;
+              found.error = "204";
+            } else {
+              found.qty -= found.addminqty;
+            }
+          } else if (shouldUpdateByQty) {
+            const qty = product.qty || product.addminqty || 1;
+            if (found.isgift) {
+              found.qty += qty;
+            } else if (found.availableqty > 0) {
+              if (found.salemaxqty > 0) {
+                if (found.qty + qty > found.salemaxqty) {
+                  found.qty = found.salemaxqty;
+                  found.error = "202";
+                } else {
+                  found.qty += qty;
+                }
+              } else if (found.qty + qty > found.availableqty) {
+                found.qty = found.availableqty;
+                found.error = "200";
+              } else {
+                found.qty += qty;
               }
             } else {
-              // eslint-disable-next-line no-lonely-if
-              if (found.isgift === 1) {
-                found.qty += found.addminqty;
-              } else {
-                // eslint-disable-next-line no-lonely-if
+              found.error = "200";
+            }
+          } else {
+            if (found.isgift) {
+              found.qty += found.addminqty || 1;
+            } else {
+              if (found.availableqty > 0) {
                 if (found.salemaxqty > 0) {
-                  // eslint-disable-next-line no-lonely-if
                   if (found.qty + found.addminqty > found.salemaxqty) {
                     found.qty = found.salemaxqty;
                     found.error = "202";
                   } else {
-                    found.qty +=
-                      found.qty === 0 ? found.addminqty : found.addminqty;
+                    found.qty += found.addminqty || 1;
                   }
+                } else if (found.qty + found.addminqty > found.availableqty) {
+                  found.qty = found.availableqty;
+                  found.error = "200";
                 } else {
-                  // eslint-disable-next-line no-lonely-if
-                  if (found.qty + found.addminqty > found.availableqty) {
-                    found.qty = found.availableqty;
-                    found.error = "200";
-                  } else {
-                    console.log("found.qty: ", found.qty);
-                    found.qty +=
-                      found.qty === 0 ? found.addminqty : found.addminqty;
-                  }
+                  found.qty += found.addminqty || 1;
                 }
+              } else {
+                found.error = "200";
               }
             }
           }
-        }
-        products.splice(index, 1, found);
-      }
-    } else {
-      if (product.isgift) {
-        if (product.qty < product.addminqty) {
-          product.qty = 0;
+          products.splice(index, 1, found);
+        } else {
+          throw new Error("Бараа олдсонгүй");
         }
       } else {
-        // eslint-disable-next-line no-lonely-if
-        if (product.salemaxqty > 0) {
-          // eslint-disable-next-line no-lonely-if
-          if (product.qty > product.salemaxqty) {
-            product.qty = product.salemaxqty;
-            product.error = "202";
-          }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (product.qty > product.availableqty) {
-            product.qty = product.availableqty;
-            product.error = "200";
-          }
-        }
+        throw new Error("Бараа олдсонгүй");
       }
-
-      products.push(product);
+      return products;
+    } catch (error) {
+      return console.log('error: ', error);
     }
-
-    return products;
   };
 
   pushProduct = (products) => {
@@ -282,12 +265,14 @@ class Model extends BaseModel {
         try {
           let { products } = state.packageDetail;
           let product = action.payload;
+          console.log('product: ', product);
+          console.log('products: ', products);
 
-          const found = products.find(prod => prod.skucd === product.skucd);
+          // const found = products.find(prod => prod.skucd === product.skucd);
 
-          if (!found) {
-            product.qty = product.addminqty || 1;
-          }
+          // if (!found) {
+          //   product.qty = product.addminqty || 1;
+          // }
 
           return {
             ...state,

@@ -64,7 +64,7 @@ class Component extends React.Component {
             custid: this.props.data[0].info.customerInfo.id,
             locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
-            name: values.lastname,
+            name: values.firstname,
             phonE1: values.phone1,
             phonE2: values.phone2,
           };

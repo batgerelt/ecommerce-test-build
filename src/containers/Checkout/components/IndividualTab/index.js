@@ -9,6 +9,7 @@ import { Input, Form, Button, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import NumberInput from "../../../../components/Input/NumberInput";
+import SwalModals from "../../../../containers/UserProfile/Component/UserProfile/EpointModal";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
@@ -44,6 +45,34 @@ class IndividualTab extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        return MySwal.fire({
+          html: (
+            <SwalModals
+              type={"email"}
+              onRef={ref => (this.SwalModals = ref)}
+              param={values}
+              connectEpoint={this.connectEpoint}
+            />
+          ),
+          type: "warning",
+          width: "30rem",
+          animation: true,
+          button: false,
+          showCloseButton: false,
+          showCancelButton: false,
+          showConfirmButton: false,
+          focusConfirm: false,
+          allowOutsideClick: false,
+          closeOnEsc: false,
+        });
+      }
+      return null;
+    });
+  };
+
+  connectEpoint = () => {
     const { setFieldsValue } = this.props.form;
     const { DeliveryInfo, intl } = this.props;
     const { info } = this.props.userinfo;
@@ -65,9 +94,10 @@ class IndividualTab extends React.Component {
         });
       }
     });
-  };
+  }
 
   handleUsePoint = async (e) => {
+    e.preventDefault();
     const { intl } = this.props;
     const { cardInfo } = this.state;
     const { value: password } = await Swal.fire({
@@ -144,12 +174,12 @@ class IndividualTab extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("cardno", {
                           initialValue: "",
-                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) },
-                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardPassword.validation.pattern" }) },
-                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.min" }) }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
+                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
+                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardno.validation.min" }) }],
                         })(
                           <NumberInput
-                            placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                            placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
                             maxLength={14}
                             allowClear
                             size="large"
@@ -161,11 +191,17 @@ class IndividualTab extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("pincode", {
                           initialValue: "",
-                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
-                          { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.password.validation.pattern" }) },
-                          { len: 4, message: intl.formatMessage({ id: "shared.form.password.validation.min" }) }],
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) }],
                         })(
-                          <Input autoComplete="off" allowClear size="large" type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="col-md-12" />,
+                          <NumberInput
+                            placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                            maxLength={4}
+                            allowClear
+                            type="password"
+                            size="large"
+                            className="col-md-12"
+                            autoComplete="off"
+                          />,
                         )}
                       </Form.Item>
                     </div>
