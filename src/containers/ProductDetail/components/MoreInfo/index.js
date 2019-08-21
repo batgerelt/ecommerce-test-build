@@ -33,7 +33,7 @@ class Moreinfo extends Component {
       };
       return (
         <div className="col-md-12 col-lg-12 col-sm-12 col-xl-12 ck-editor">
-          {!!attributes && !!attributes.length && (
+          {/* !!attributes && !!attributes.length && (
             <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
                 <span className="text-uppercase">
@@ -45,17 +45,15 @@ class Moreinfo extends Component {
                   <div key={index} className="row row10">
                     <dt className="col-sm-3" style={{ maxWidth: "15%" }}>
                       {lang === "mn" ? attr.value : attr.value_en}
-                      {/* {attr.value} */}
                     </dt>
                     <dd className="col-sm-6">
                       {lang === "mn" ? attr.name : attr.name_en}
-                      {/* {attr.name} */}
                     </dd>
                   </div>
                 ))}
               </div>
             </div>
-          )}
+          ) */}
 
           {console.log(similarProducts)}
           {!!similarProducts && !!similarProducts.length && (

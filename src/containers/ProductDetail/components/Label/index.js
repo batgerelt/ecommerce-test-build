@@ -104,9 +104,11 @@ class Label extends React.Component {
               .text small {
                 position: relative;
                 z-index: 1;
-                font-size: ${data.text.length > 5 ? "0.56" : "0.7"}rem;
+                font-size: ${data.text.length > 5 ? "0.5" : "0.7"}rem;
                 display: inline-block;
+                margin-left: 1px;
                 line-height: 1.2;
+                bottom: 1px;
                 letter-spacing: 1px;
               }
             `}

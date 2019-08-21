@@ -64,13 +64,13 @@ class Relational extends Component {
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
-          <div className="product-suggest">
+          <div className="block product-delivery">
             <p className="title">
               <strong><FormattedMessage id="shared.sidebar.title.relatedProducts" /></strong>
             </p>
             <ul
               className="list-unstyled"
-              style={{ height: "261px", overflowY: "auto" }}
+              style={{ height: "254px", overflowY: "auto" }}
             >
               {data.map((prod, index) => (
                 <li key={index}>
@@ -88,10 +88,13 @@ class Relational extends Component {
                       </Link>
                     </div>
 
-                    <div className="info-container flex-space">
+                    <div className="info-container flex-space info-price-container">
                       <Link to={prod.route ? prod.route : ""}>
-                        <span>{prod.name}</span>
-                        <strong><span style={{ fontWeight: 'normal', marginRight: prod.pricetag === null ? '0px' : '30px' }}>{prod.pricetag}</span><span>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span></strong>
+                        <span>{prod.title}</span>
+                        <p>
+                          <span style={{ fontWeight: 'normal', fontSize: "0.9rem", float: "left" }}>{prod.pricetag}</span>
+                          <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span>
+                        </p>
                       </Link>
                       <div className="action">
                         <button
@@ -112,14 +115,14 @@ class Relational extends Component {
               ))}
             </ul>
             {relatedProducts.length > limit ? (
-              <div className="more-link text-center">
+              <div className="more-link text-center" style={{ background: "white" }}>
                 <Button
                   className="btn btn-border"
                   onClick={this.handleShowMoreClick}
                   disabled={isShowMoreClicked}
-                  style={{ height: "100%" }}
+                  style={{ height: "100%", width: "100%" }}
                 >
-                  <span className="text text-uppercase">
+                  <span className="text text-uppercase" style={{ fontSize: "0.82rem" }}>
                     <FormattedMessage id="shared.sidebar.button.showAllRelatedProducts" />
                   </span>
                 </Button>

@@ -279,6 +279,7 @@ class CategoryInfo extends React.Component {
     try {
       const { categoryall, intl } = this.props;
       const lang = intl.locale;
+      console.log('lang: ', lang);
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -299,7 +300,7 @@ class CategoryInfo extends React.Component {
                     if (two.key !== 0) {
                       return (
                         <Tree.TreeNode
-                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).name_en}
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
                           key={two.key}
                         >
                           {
@@ -341,7 +342,7 @@ class CategoryInfo extends React.Component {
       return (
         <div className="col-xl-3 col-md-3 pad10">
           <div
-            className={`left-panel-container ${leftPanel1}`}
+            className={`left-panel-container filter-sticky ${leftPanel1}`}
             onClick={this.showLeftPanel}
           >
             <div className={leftPanel}>

@@ -48,3 +48,8 @@ select {
   top: 18px;
 }
 
+.filter-sticky{
+  position: sticky;
+  top: 180px
+}
+
