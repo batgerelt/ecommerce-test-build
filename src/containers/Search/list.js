@@ -351,8 +351,8 @@ class CategoryInfo extends React.Component {
         >
           {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
-            className={`left-panel-container ${
-              this.state.isMobilePanel ? " show" : null
+            className={`left-panel-container filter-sticky ${
+              this.state.isMobilePanel ? "show" : null
             }`}
             onClick={this.showMobilePanel}
           >
