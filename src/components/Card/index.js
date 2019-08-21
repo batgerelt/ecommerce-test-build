@@ -24,7 +24,7 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
-    const { intl } = this.props;
+    const { intl, elastic } = this.props;
 
     try {
       if (this.props.auth.isLogged) {
@@ -100,8 +100,21 @@ class Card extends React.Component {
         }
       } else {
         if (item.skucd) {
-          this.props.incrementProductLocally(item);
+          if (elastic) { // elastic -аас явуулах боломжгүй барааны нэмэлт мэдээлэл
+            return this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
+              if (item.addminqty <= res.payload.availableqty) {
+                item.availableqty = res.payload.data.availableqty;
+                item.price = res.payload.data.price;
+                item.sprice = res.payload.data.sprice;
+                item.addminqty = res.payload.data.addminqty;
 
+                return this.props.incrementProductLocally(item);
+              }
+              return message.warning('Нөөц хүрэлцэхгүй байна ^_^ from elastic');
+            });
+          }
+
+          this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 
           if (updated && updated.error !== undefined) {
