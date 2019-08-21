@@ -22,7 +22,7 @@ class Component extends React.Component {
     if (item.cd) {
       this.props.incrementProductRemotely({
         skucd: item.cd,
-        qty: item.saleminqty || 1,
+        qty: item.addminqty || 1,
         iscart: 0,
       }).then((res) => {
         console.log(res.payload);

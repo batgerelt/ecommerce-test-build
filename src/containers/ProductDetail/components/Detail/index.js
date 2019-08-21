@@ -11,13 +11,13 @@ import { css } from "glamor";
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
   state = {
-    productQty: this.props.detail.products.saleminqty || 1,
+    productQty: this.props.detail.products.addminqty || 1,
     rate: 0,
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
-      this.setState({ productQty: nextProps.detail.products.saleminqty || 1 });
+    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+      this.setState({ productQty: nextProps.detail.products.addminqty || 1 });
     }
   }
 
@@ -317,9 +317,9 @@ class Detail extends Component {
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
-      this.setState({ productQty: product.saleminqty });
-    } else if (e.target.value < product.saleminqty) {
-      this.setState({ productQty: product.saleminqty });
+      this.setState({ productQty: product.addminqty });
+    } else if (e.target.value < product.addminqty) {
+      this.setState({ productQty: product.addminqty });
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
     } else {
@@ -329,17 +329,17 @@ class Detail extends Component {
 
   handleIncrementClick = (product) => {
     const productQty =
-      this.state.productQty + product.saleminqty > product.availableqty
+      this.state.productQty + product.addminqty > product.availableqty
         ? product.availableqty
-        : this.state.productQty + product.saleminqty;
+        : this.state.productQty + product.addminqty;
     this.setState({ productQty });
   };
 
   handleDecrementClick = (product) => {
     const productQty =
-      this.state.productQty - product.saleminqty < product.saleminqty
-        ? product.saleminqty
-        : this.state.productQty - product.saleminqty;
+      this.state.productQty - product.addminqty < product.addminqty
+        ? product.addminqty
+        : this.state.productQty - product.addminqty;
     this.setState({ productQty });
   };
 

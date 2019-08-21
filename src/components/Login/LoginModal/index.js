@@ -82,7 +82,7 @@ class LoginModal extends React.Component {
             products = this.props.cart.products;
           }
           products = products.map(prod => ({
-            skucd: prod.cd,
+            skucd: prod.skucd,
             qty: prod.qty,
           }));
           result = await this.props.increaseProductsByQtyRemotely({

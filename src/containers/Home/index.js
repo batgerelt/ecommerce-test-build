@@ -69,6 +69,12 @@ class Page extends React.Component {
       rowcnt: 20,
       order: `price_asc`,
     });
+    this.props.getEmartProduct({
+      jumcd: '99',
+      start: 0,
+      rowcnt: 20,
+      order: `price_asc`,
+    });
   }
 
   render() {

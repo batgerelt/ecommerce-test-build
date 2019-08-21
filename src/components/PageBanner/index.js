@@ -1,4 +1,5 @@
 import React from "react";
+import { injectIntl } from 'react-intl';
 
 class PageHeader extends React.Component {
   state = {
@@ -84,4 +85,4 @@ class PageHeader extends React.Component {
   }
 }
 
-export default PageHeader;
+export default injectIntl(PageHeader);

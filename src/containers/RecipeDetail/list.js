@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
@@ -28,6 +27,7 @@ class List extends React.Component {
             </Link>
           </li>
           <li>
+            {console.log('recipe: ', recipe)}
             <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </li>
         </ul>
@@ -42,7 +42,7 @@ class List extends React.Component {
       return (
         <div>
           <h4 className="title">
-            <span>{recipe.recipenm}</span>
+            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </h4>
           <p className="date">
             <FormattedMessage
@@ -166,8 +166,8 @@ class List extends React.Component {
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
-          skucd: product.cd,
-          qty: product.saleminqty || 1,
+          skucd: product.skucd,
+          qty: product.addminqty || 1,
           iscart: 0,
         });
         if (!result.payload.success) {
@@ -186,7 +186,7 @@ class List extends React.Component {
         product.insymd = Date.now();
         this.props.incrementProductLocally(product);
 
-        const updated = this.props.products.find(prod => prod.cd === product.cd);
+        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
         if (updated && updated.error !== undefined) {
           const messages = defineMessages({
@@ -240,7 +240,7 @@ class List extends React.Component {
         this.props.incrementRecipeProductsLocally(products);
 
         products.forEach((product) => {
-          const updated = this.props.products.find(prod => prod.cd === product.cd);
+          const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
@@ -265,6 +265,7 @@ class List extends React.Component {
     try {
       const { lang } = this.props;
       const products = this.props.recipeProducts;
+      console.log('products: ', products);
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -279,13 +280,20 @@ class List extends React.Component {
               </Link>
             </div>
             <div className="info-container flex-space">
-              <Link to={item.route ? item.route : ""}>
+              <Link to={item.route ? item.route : ""} style={{ width: "100%" }}>
                 <strong>
                   <span>{lang === "mn" ? item.name : item.name_en}</span>
                 </strong>
-                <p>
-                  <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
-                  {formatter.format(item.sprice === 0 ? item.price : item.sprice)}₮
+                <p className="row">
+                  {item.pricetag && (
+                    <span className="col-md-6" style={{ textAlign: "left", padding: "0" }}>
+                      {lang === "mn" ? item.pricetag : item.pricetag_en}
+                    </span>
+                  )}
+                  <span className="col-md-6" style={{ padding: "0" }}>
+                    <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
+                    {formatter.format(item.price)}₮
+                  </span>
                 </p>
               </Link>
               <div className="action">
@@ -310,20 +318,13 @@ class List extends React.Component {
     }
   };
 
-  getTotalPrice = (products) => {
-    let sum = 0;
-    products.map((item, i) => {
-      if (item.sprice === 0) {
-        sum += item.price;
-      } else {
-        sum += item.sprice;
-      }
-    });
-    return sum;
-  }
-
   renderProducts = () => {
     const products = this.props.recipeProducts;
+
+    const total =
+      products &&
+      products.length > 0 &&
+      products.reduce((acc, cur) => acc + cur.price, 0);
     try {
       return (
         <div className="block product-suggest">
@@ -339,7 +340,7 @@ class List extends React.Component {
                 <span style={{ fontSize: "1.6rem" }}>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:
                 </span>
-                <strong>{formatter.format(this.getTotalPrice(products))}₮</strong>
+                <strong>{formatter.format(total)}₮</strong>
               </p>
               <button
                 type="button"

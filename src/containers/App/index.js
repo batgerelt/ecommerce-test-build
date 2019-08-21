@@ -130,7 +130,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/discount" component={Discount} />
-                <Route path="/new" component={New} />
+                <Route path="/new" render={() => <New />} />
                 <Route path="/recipe" component={Recipe} />
                 <Route path="/package" component={Package} />
                 <Route path="/season" component={Season} />

@@ -28,6 +28,7 @@ class Slider extends React.Component {
 
   renderIndents = () => {
     const { sliderData, intl } = this.props;
+    const lang = intl.locale;
 
     try {
       return sliderData.map((item, index) => {
@@ -37,8 +38,8 @@ class Slider extends React.Component {
               <div className="slide-content text-uppercase">
                 {item && item.isshownm !== 0 && (
                   <div>
-                    <h2 className="title">{item.bannernm}</h2>
-                    <p className="text">{item.description}</p>
+                    <h2 className="title">{lang === "mn" ? item.bannernm : item.bannernm_en}</h2>
+                    <p className="text">{lang === "mn" ? item.description : item.description_en}</p>
                   </div>
                 )}
                 {item && item.link && (
@@ -46,7 +47,7 @@ class Slider extends React.Component {
                     <i className="fa fa-long-arrow-right" aria-hidden="true" />
                     <span className="text-uppercase">
                       {item.btntext && item.btntext.trim()
-                        ? item.btntext
+                        ? lang === "mn" ? item.btntext : item.btntext_en
                         : intl.formatMessage({ id: "shared.form.button.more" })}
                     </span>
                   </a>

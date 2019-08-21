@@ -5,7 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from "antd";
 import moment from "moment";
 import { PersistGate } from "redux-persist/es/integration/react";
 import "antd/dist/antd.less";
@@ -26,7 +26,7 @@ library.add(fas, far, fab);
 const { persistor, store } = configureStore();
 
 ReactDOM.hydrate(
-  <LocaleProvider locale={mnMN}>
+  <ConfigProvider locale={mnMN}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router>
@@ -34,7 +34,7 @@ ReactDOM.hydrate(
         </Router>
       </PersistGate>
     </Provider>
-  </LocaleProvider>,
+  </ConfigProvider>,
   document.getElementById("root"),
 );
 registerServiceWorker();

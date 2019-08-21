@@ -7,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Spin, Select, BackTop, Tree, Icon } from "antd";
 import {
@@ -277,7 +277,8 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall, lang } = this.props;
+      const { categoryall, intl } = this.props;
+      const lang = intl.locale;
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -298,7 +299,7 @@ class CategoryInfo extends React.Component {
                     if (two.key !== 0) {
                       return (
                         <Tree.TreeNode
-                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).name_en}
                           key={two.key}
                         >
                           {
@@ -679,14 +680,15 @@ class CategoryInfo extends React.Component {
 
   renderBreadCrumb = () => {
     try {
-      const { categoryparents } = this.props;
+      const { categoryparents, intl } = this.props;
+      const lang = intl.locale;
       return (
         <div className="e-breadcrumb">
           <ul className="list-unstyled">
             {categoryparents.map(category => (
               <li key={category.id}>
                 <Link to={category.route ? category.route : ""}>
-                  <span>{category.catnm}</span>
+                  <span>{lang === "mn" ? category.catnm : category.catnm_en}</span>
                 </Link>
               </li>
             ))}
@@ -721,4 +723,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default CategoryInfo;
+export default injectIntl(CategoryInfo);

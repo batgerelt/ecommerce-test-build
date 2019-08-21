@@ -9,6 +9,7 @@ import styles from './index.less';
 const Exception = ({
   className, linkElement = 'a', type, title, desc, img, actions, ...rest
 }) => {
+  const lang = localStorage.getItem("lang");
   const pageType = type in config ? type : '404';
   const clsString = classNames(styles.exception, className);
   return (
@@ -21,7 +22,8 @@ const Exception = ({
       </div>
       <div className={styles.content}>
         <h1>{title || config[pageType].title}</h1>
-        <div className={styles.desc}>{desc || config[pageType].desc}</div>
+        {/* <div className={styles.desc}>{desc || config[pageType].desc}</div> */}
+        <div className={styles.desc}>{desc || <FormattedMessage id="shared.404.description" />}</div>
         <div className={styles.actions}>
           {
             actions ||

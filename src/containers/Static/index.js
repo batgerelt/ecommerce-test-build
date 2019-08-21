@@ -37,7 +37,7 @@ class Page extends React.Component {
           }}
         >
           <h5 style={{ height: "50px" }}>
-            <center>{staticpage.name}</center>
+            <center>{intl.locale === "mn" ? staticpage.name : staticpage.name_en}</center>
           </h5>
           <div dangerouslySetInnerHTML={{
             __html: intl.locale === "mn"
