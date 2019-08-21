@@ -203,6 +203,7 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.FilterSet.resetField();
 
     const params = {
       catId: cat[0],
@@ -337,6 +338,7 @@ class CategoryInfo extends React.Component {
                   </h5>
                   <div className="left-filter">
                     <SearchFilterSet
+                      onRef={ref => (this.FilterSet = ref)}
                       {...this.props}
                       {...this}
                       data={this.state.aggregations}

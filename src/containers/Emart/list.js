@@ -201,10 +201,9 @@ class CategoryInfo extends React.Component {
   };
 
   handleClickCategory = (cat) => {
-    // console.log('cat: ', cat);
-    // this.state.expanded.map((i, k) => (i === cat[0] ? cat.slice(k) : this.state.expanded.push(cat)));
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.FilterSet.resetField();
 
     const params = {
       catId: cat[0],

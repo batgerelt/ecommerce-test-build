@@ -94,8 +94,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
-    console.log('e: ', e);
-    // e.preventDefault();
     const { isLogged, data } = this.props;
     this.setState({
       loading: !this.state.loading,
@@ -246,6 +244,7 @@ class CategoryInfo extends React.Component {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.props.getCategoryParents({ id: cat.length === 0 ? searchid : cat[0] });
+    this.FilterSet.resetField();
 
     const params = {
       catId: cat.length === 0 ? searchid : cat[0],
