@@ -41,7 +41,6 @@ class Component extends React.Component {
   renderProducts = () => {
     try {
       const { history, lang } = this.props;
-      console.log(history);
       return history.map((item, index) => (
         <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
           <Col className="product" sm={12} md={12} lg={12} xl={12}>

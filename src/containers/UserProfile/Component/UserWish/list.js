@@ -83,9 +83,6 @@ class Component extends React.Component {
                   <i className="fa fa-cart-plus" aria-hidden="true" />
                   <span />
                 </Link>
-                {/* <Link to="#" onClick={() => this.handleIncrement(item)}>
-                  <i className="fa fa-cart-plus" aria-hidden="true" style={{ color: "#feb413" }} />
-                </Link> */}
               </li>
               <li>
                 <Link
@@ -98,11 +95,6 @@ class Component extends React.Component {
                   <i className="fa fa-times" aria-hidden="true" />
                 </Link>
               </li>
-              {/* <li>
-                <Link to="#" onClick={e => this.onDelete(item)}>
-                  <Avatar size="small" shape="square" src={clear} />
-                </Link>
-              </li> */}
             </ul>
           </Col>
         </Row>
