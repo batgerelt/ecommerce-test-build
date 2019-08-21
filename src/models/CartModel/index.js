@@ -394,8 +394,6 @@ class Model extends BaseModel {
         product.error = undefined;
       }
 
-      product.insymd = new Date();
-
       let found = products.find(prod => prod.skucd === product.skucd);
 
       if (found) {
@@ -452,7 +450,7 @@ class Model extends BaseModel {
               found.qty -= found.addminqty;
             }
           } else if (shouldUpdateByQty) {
-            const qty = product.qty || product.addminqty || 1;
+            const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
             if (found.isgift) {
               found.qty += qty;
             } else if (found.availableqty > 0) {
@@ -501,7 +499,7 @@ class Model extends BaseModel {
         }
       } else {
         if (shouldUpdateByQty) {
-          const qty = product.qty || product.addminqty || 1;
+          const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
           if (product.isgift) {
             product.qty = qty;
           } else if (product.availableqty > 0) {
@@ -689,7 +687,7 @@ class Model extends BaseModel {
           //   throw new Error("Бараа олдсонгүй!");
           // }
 
-          // products = products.filter(prod => prod.skucd !== found.skucd);
+          products = products.filter(prod => prod.skucd !== product.skucd);
 
           return { ...state, products };
         } catch (e) {

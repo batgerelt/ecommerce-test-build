@@ -36,7 +36,9 @@ class Moreinfo extends Component {
           {/* !!attributes && !!attributes.length && (
             <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
-                <span className="text-uppercase"><FormattedMessage id="productDetail.moreInfo.title" /></span>
+                <span className="text-uppercase">
+                  <FormattedMessage id="productDetail.moreInfo.title" />
+                </span>
               </h1>
               <div className="product-bottom-info">
                 {attributes.map((attr, index) => (
@@ -53,10 +55,13 @@ class Moreinfo extends Component {
             </div>
           ) */}
 
+          {console.log(similarProducts)}
           {!!similarProducts && !!similarProducts.length && (
             <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
-                <span className="text-uppercase"><FormattedMessage id="productDetail.similarProducts.title" /></span>
+                <span className="text-uppercase">
+                  <FormattedMessage id="productDetail.similarProducts.title" />
+                </span>
               </h1>
               <div style={{ marginTop: "40px" }}>
                 <div className="row row10">
@@ -69,7 +74,9 @@ class Moreinfo extends Component {
           {product.description && (
             <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
-                <span className="text-uppercase"><FormattedMessage id="productDetail.intro.title" /></span>
+                <span className="text-uppercase">
+                  <FormattedMessage id="productDetail.intro.title" />
+                </span>
               </h1>
 
               <div
