@@ -15,6 +15,7 @@ class LoginModal extends React.Component {
     direct: false,
     confirm: false,
     goCart: false,
+    cartDirect: false,
   };
 
   componentWillUnmount() {
@@ -47,9 +48,6 @@ class LoginModal extends React.Component {
     e.preventDefault();
     if (this.props.match.url.slice(0, 8) === "/confirm") {
       this.setState({ direct: true });
-    }
-    if (this.props.match.url.slice(0, 12) === "/checkout") {
-      this.setState({ cartDirect: true });
     }
     const { intl } = this.props;
     // eslint-disable-next-line consistent-return
@@ -97,12 +95,10 @@ class LoginModal extends React.Component {
               this.props.getProducts().then((res) => {
                 let k = res.payload.data.length - products.length;
                 if (res.payload.data.length !== 0 && k !== 0) {
-                  console.log(res.payload.data.length, products.length);
-                  this.setState({ goCart: this.setState.cartDirect });
+                  this.setState({ goCart: true });
                   this.handleLoginModal();
                   this.props.form.resetFields();
                 } else {
-                  this.handleLoginModal();
                   this.props.form.resetFields();
                 }
               });
