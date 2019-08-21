@@ -34,10 +34,11 @@ class Relational extends Component {
               id: result.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.warning, { name: result.payload.data.values[0] }));
+          message.warning(intl.formatMessage(messages.warning, {
+            name: result.payload.data.values[0],
+          }));
         }
       } else {
-        product.insymd = Date.now();
         this.props.incrementProductLocally(product);
       }
     } catch (e) {
@@ -87,12 +88,12 @@ class Relational extends Component {
                       </Link>
                     </div>
 
-                    <div className="info-container flex-space">
+                    <div className="info-container flex-space info-price-container">
                       <Link to={prod.route ? prod.route : ""}>
                         <span>{prod.title}</span>
                         <p>
-                          <span style={{ fontWeight: 'normal', fontSize: "0.9rem", marginRight: prod.pricetag === null ? '0px' : '2.7rem' }}>{prod.pricetag}</span>
-                          <span style={{ fontSize: "1rem", fontWeight: "600" }}>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span>
+                          <span style={{ fontWeight: 'normal', fontSize: "0.9rem", float: "left" }}>{prod.pricetag}</span>
+                          <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span>
                         </p>
                       </Link>
                       <div className="action">

@@ -54,7 +54,6 @@ class Card extends React.Component {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
-          console.log('result: ', result);
 
           if (!result.payload.success) {
             message.warning(intl.formatMessage({ id: result.payload.code }));
@@ -100,6 +99,8 @@ class Card extends React.Component {
         }
       } else {
         if (item.skucd) {
+          item.insymd = Date.now();
+          this.props.incrementProductLocally(item);
           if (elastic) { // elastic -аас явуулах боломжгүй барааны нэмэлт мэдээлэл
             return this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
               if (item.addminqty <= res.payload.availableqty) {

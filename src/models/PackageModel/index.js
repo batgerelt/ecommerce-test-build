@@ -81,74 +81,29 @@ class Model extends BaseModel {
   updateReduxStore = (
     products,
     product,
-    shouldOverride = false,
     shouldDecrement = false,
     shouldUpdateByQty = false,
   ) => {
     try {
-      if (typeof products === "string") {
-        products = JSON.parse(products);
-      }
-
-      if (product.error !== undefined) {
-        product.error = undefined;
-      }
-
-      product.insymd = new Date();
-
       let found = products.find(prod => prod.skucd === product.skucd);
 
       if (found) {
         const index = products.map(prod => prod.skucd).indexOf(found.skucd);
 
         if (index !== -1) {
-          found.qty = found.qty || found.addminqty || 1;
+          found.qty = found.qty === 0 ? 0 : (found.qty || found.addminqty || 1);
 
-          if (shouldOverride) {
-            const qty = product.qty || product.addminqty || 1;
-            if (found.isgift) {
-              if (found.qty < found.addminqty) {
-                found.qty = found.addminqty;
-                found.error = "204";
-              } else {
-                found.qty = qty;
-              }
-            } else {
-              if (found.availableqty > 0) {
-                if (found.salemaxqty > 0) {
-                  if (qty > found.salemaxqty) {
-                    found.qty = found.salemaxqty;
-                    found.error = "202";
-                  } else if (qty < found.addminqty) {
-                    found.qty = found.addminqty;
-                    found.error = "204";
-                  } else {
-                    found.qty = qty;
-                  }
-                } else if (qty > found.availableqty) {
-                  found.qty = found.availableqty;
-                  found.error = "200";
-                } else if (qty < found.addminqty) {
-                  found.qty = found.addminqty;
-                  found.error = "204";
-                } else {
-                  found.qty = qty;
-                }
-              } else {
-                found.error = "200";
-              }
-            }
-          } else if (shouldDecrement) {
+          if (shouldDecrement) {
             if (shouldUpdateByQty) {
               const qty = product.qty || product.addminqty || 1;
               if (found.qty - qty < found.addminqty) {
-                found.qty = found.addminqty;
+                found.qty = 0;
                 found.error = "204";
               } else {
                 found.qty -= qty;
               }
             } else if (found.qty - found.addminqty < found.addminqty) {
-              found.qty = found.addminqty;
+              found.qty = 0;
               found.error = "204";
             } else {
               found.qty -= found.addminqty;
@@ -265,8 +220,6 @@ class Model extends BaseModel {
         try {
           let { products } = state.packageDetail;
           let product = action.payload;
-          console.log('product: ', product);
-          console.log('products: ', products);
 
           // const found = products.find(prod => prod.skucd === product.skucd);
 
@@ -291,17 +244,17 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
-          const found = products.find(prod => prod.skucd === product.skucd);
+          // const found = products.find(prod => prod.skucd === product.skucd);
 
-          if (!found) {
-            product.qty = product.addminqty || 1;
-          }
+          // if (!found) {
+          //   product.qty = product.addminqty || 1;
+          // }
 
           return {
             ...state,
             packageDetail: {
               ...state.packageDetail,
-              products: this.updateReduxStore(products, product, false, true),
+              products: this.updateReduxStore(products, product, true),
             },
           };
         } catch (e) {
@@ -314,17 +267,17 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
-          const found = products.find(prod => prod.skucd === product.skucd);
+          // const found = products.find(prod => prod.skucd === product.skucd);
 
-          if (!found) {
-            product.qty = product.addminqty || 1;
-          }
+          // if (!found) {
+          //   product.qty = product.addminqty || 1;
+          // }
 
           return {
             ...state,
             packageDetail: {
               ...state.packageDetail,
-              products: this.updateReduxStore(products, product, true),
+              products: this.updateReduxStore(products, product, false, true),
             },
           };
         } catch (e) {
