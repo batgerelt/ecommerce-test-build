@@ -10,23 +10,23 @@ class Component extends React.Component {
   state = { loader: false };
   onDelete = (item) => {
     this.setState({ loader: true });
-    this.props.deleteHistory({ skucd: item.cd }).then((res) => {
+    this.props.deleteHistory({ skucd: item.skucd }).then((res) => {
       this.props.getHistory().then((res) => {
         this.setState({ loader: false });
       });
     });
   }
   addHistory = (item) => {
-    this.props.addWish({ skucd: item.cd }).then((res) => {
+    this.props.addWish({ skucd: item.skucd }).then((res) => {
       if (res.payload.success) {
         message.warning(res.payload.message);
       }
     });
   }
   handleIncrement = (item) => {
-    if (item.cd) {
+    if (item.skucd) {
       this.props.incrementProductRemotely({
-        skucd: item.cd,
+        skucd: item.skucd,
         qty: item.addminqty || 1,
         iscart: 0,
       });
@@ -43,7 +43,7 @@ class Component extends React.Component {
       const { history, lang } = this.props;
       console.log(history);
       return history.map((item, index) => (
-        <Row className="single flex-space" span={24} style={{ width: "100%" }}>
+        <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
           <Col className="product" sm={12} md={12} lg={12} xl={12}>
             <div className="flex-this">
               <div className="image-container default">
