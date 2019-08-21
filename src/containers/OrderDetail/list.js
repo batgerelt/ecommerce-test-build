@@ -12,7 +12,6 @@ class List extends React.Component {
     const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
-      console.log(orderdetail);
       return orderdetail.items.map((item, index) => (
         <tr key={index}>
           <td>
