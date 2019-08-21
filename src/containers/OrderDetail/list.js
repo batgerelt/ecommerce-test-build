@@ -12,6 +12,7 @@ class List extends React.Component {
     const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
+      console.log(orderdetail);
       return orderdetail.items.map((item, index) => (
         <tr key={index}>
           <td>
@@ -25,8 +26,8 @@ class List extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <strong>{lang === "mn" ? item.name : item.name_en}</strong>
-                <span>{lang === "mn" ? item.backtxt : item.backtxt_en}</span>
+                <strong>{lang === "mn" ? item.title : item.titl_en}</strong>
+                <span>{lang === "mn" ? item.back : item.back_en}</span>
               </div>
             </div>
           </td>
