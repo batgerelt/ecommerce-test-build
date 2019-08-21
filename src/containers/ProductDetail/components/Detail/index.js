@@ -23,7 +23,7 @@ class Detail extends Component {
 
   renderDetails = () => {
     const {
-      categorymenu, rate, isLogged, intl,
+      categorymenu, rate, isLogged, intl, attributes,
     } = this.props;
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
@@ -45,23 +45,40 @@ class Detail extends Component {
             </p>
           )}
 
-          <div className="main-rating">
+          <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
             <Rate
               allowHalf
               value={isLogged ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
-
             <p className="text">
               {/* ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
               ({isLogged ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
           </div>
+          {!!attributes && !!attributes.length && (
+            <div style={{ marginTop: "20px", marginBottom: "20px", borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+              <div className="product-bottom-info" style={{ marginBottom: "20px" }}>
+                {attributes.map((attr, index) => (
+                  <div key={index} className="row">
+                    <dt className="col-sm-6">
+                      {lang === "mn" ? attr.value : attr.value_en}
+                      {/* {attr.value} */}
+                    </dt>
+                    <dd className="col-sm-6">
+                      {lang === "mn" ? attr.name : attr.name_en}
+                      {/* {attr.name} */}
+                    </dd>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-          <div className="gift">
+          {/*  <div className="gift">
             <div className="image-container" />
             <div className="info-container" />
-          </div>
+          </div> */}
 
           {this.renderCartInfo()}
         </div>
@@ -180,7 +197,7 @@ class Detail extends Component {
     }
     return (
       <form>
-        <div className="row row10">
+        <div className="row">
           <div className="col-xl-5 col-6">
             <div className="input-group">
               <div className="input-group-prepend" id="button-addon4">
