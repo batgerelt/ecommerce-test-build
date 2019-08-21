@@ -148,7 +148,7 @@ class List extends React.Component {
                         </Spin>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                      <p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p>
+                      <strong><p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p></strong>
                       <div>
                         {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
                       </div>
