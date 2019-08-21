@@ -57,7 +57,7 @@ class Bookmarks extends PureComponent {
       maxPrice: 0,
       module: 'new',
       startsWith: 0,
-      rowCount: 20,
+      rowCount: 10,
       orderColumn: 'createddate_desc',
       highlight: false,
       newbanner: [],
@@ -65,9 +65,9 @@ class Bookmarks extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.searchProduct({ body: { ...this.state, rowCount: 10 } }).then((res) => {
+    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits });
+        this.setState({ headerProducts: res.payload.data.hits.hits, startsWith: 10, rowCount: 20 });
       }
     });
   }
@@ -77,7 +77,7 @@ class Bookmarks extends PureComponent {
     try {
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
         if (res.payload.success) {
-          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
+          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
         }
       });
     } catch (error) {

@@ -61,7 +61,7 @@ class Discount extends React.Component {
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits, rowCount: this.state.rowCount + 20 });
+        this.setState({ headerProducts: res.payload.data.hits.hits, rowCount: 20, startsWith: 10 });
       }
     });
   }
@@ -72,7 +72,7 @@ class Discount extends React.Component {
       // if (this.state.headerProducts.length !== 0) {
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
         if (res.payload.success) {
-          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), rowCount: this.state.rowCount + 20 });
+          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
         }
       });
       // }
