@@ -60,7 +60,6 @@ class Bookmarks extends PureComponent {
       rowCount: 20,
       orderColumn: 'createddate_desc',
       highlight: false,
-      count: 10,
       newbanner: [],
     };
   }
