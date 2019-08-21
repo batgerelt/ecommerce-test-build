@@ -36,7 +36,7 @@ class Signin extends React.Component {
                 }
                 let { products } = this.props;
                 products = products.map(prod => ({
-                  skucd: prod.cd,
+                  skucd: prod.skucd,
                   qty: prod.qty,
                 }));
                 let result = await this.props.increaseProductsByQtyRemotely({

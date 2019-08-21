@@ -31,29 +31,7 @@ class Card extends React.Component {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
-            qty: item.saleminqty || 1,
-            iscart: 0,
-          });
-
-          if (!result.payload.success) {
-            const messages = defineMessages({
-              error: {
-                id: result.payload.code,
-              },
-            });
-
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: result.payload.data.values[0],
-                qty: result.payload.data.values[1],
-              },
-            ));
-          }
-        } else if (item.skucd) {
-          const result = await this.props.incrementProductRemotely({
-            skucd: item.skucd,
-            qty: item.saleminqty || 1,
+            qty: item.addminqty || 1,
             iscart: 0,
           });
 
@@ -76,6 +54,7 @@ class Card extends React.Component {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
+          console.log('result: ', result);
 
           if (!result.payload.success) {
             message.warning(intl.formatMessage({ id: result.payload.code }));
@@ -120,32 +99,7 @@ class Card extends React.Component {
           //
         }
       } else {
-        // eslint-disable-next-line no-lonely-if
         if (item.skucd) {
-          item.insymd = Date.now();
-          item.skucd = item.skucd;
-          this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
-            item.availableqty = res.payload.data.availableqty;
-            item.price = res.payload.data.price;
-            item.sprice = res.payload.data.sprice;
-            item.addminqty = res.payload.data.addminqty;
-            this.props.incrementProductLocally(item);
-            const updated = this.props.products.find(prod => prod.skucd === item.skucd);
-
-            if (updated && updated.error !== undefined) {
-              const messages = defineMessages({
-                error: {
-                  id: updated.error,
-                },
-              });
-              message.warning(intl.formatMessage(
-                messages.error,
-                { name: updated.name, qty: updated.qty },
-              ));
-            }
-          });
-        } else if (item.skucd) {
-          item.insymd = Date.now();
           this.props.incrementProductLocally(item);
 
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);

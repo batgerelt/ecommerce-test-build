@@ -228,6 +228,8 @@ class CategoryInfo extends React.Component {
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.FilterSet.resetField();
+
     const params = {
       catId: 0,
       custId: isLogged ? data[0].info.customerInfo.id : 0,
@@ -297,7 +299,7 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
+          <div className={`left-panel-container filter-sticky ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"

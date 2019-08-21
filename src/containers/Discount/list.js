@@ -7,6 +7,7 @@
 /* eslint-disable import/first */
 /* eslint-disable radix */
 import React from "react";
+import { injectIntl } from 'react-intl';
 import { BackTop } from "antd";
 import {
   InfiniteLoader,
@@ -110,12 +111,11 @@ class Discount extends React.Component {
 
   renderMainBanner = () => {
     try {
-      const { discountbanner, menuDiscount } = this.props;
-
+      const { discountbanner, menuDiscount, intl } = this.props;
       return (
         <PageBanner
-          title={menuDiscount.menunm}
-          subtitle={menuDiscount.subtitle}
+          title={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en}
+          subtitle={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en}
           banners={discountbanner.length === 0 ? [] : discountbanner.header}
           bgColor="#EF3340"
         />
@@ -160,6 +160,7 @@ class Discount extends React.Component {
   renderSubBanner = () => {
     try {
       const { discountbanner } = this.state;
+      return null;
       return (
         <Banner data={discountbanner} />
       );
@@ -281,4 +282,4 @@ class Discount extends React.Component {
   }
 }
 
-export default React.memo(Discount);
+export default injectIntl(React.memo(Discount));

@@ -12,7 +12,11 @@ class Component extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.changePassword({ key: this.props.match.params.key, password: values.password }).then((res) => {
+        this.props.changePassword({
+          key: this.props.match.params.key,
+          password: values.password,
+        }).then((res) => {
+          console.log('res: ', res);
           this.setState({ home: true });
         });
       }

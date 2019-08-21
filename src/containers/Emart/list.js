@@ -201,10 +201,9 @@ class CategoryInfo extends React.Component {
   };
 
   handleClickCategory = (cat) => {
-    // console.log('cat: ', cat);
-    // this.state.expanded.map((i, k) => (i === cat[0] ? cat.slice(k) : this.state.expanded.push(cat)));
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
+    this.FilterSet.resetField();
 
     const params = {
       catId: cat[0],
@@ -297,7 +296,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container filter-sticky ${leftPanel1}`} onClick={this.showLeftPanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
