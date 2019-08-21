@@ -625,7 +625,7 @@ class Cart extends React.Component {
               </div>
               <div className="col-xl-4 col-lg-4 pad10">
                 {/* <Affix offsetTop={170}> */}
-                <div className="cart-info">
+                <div className="cart-info filter-sticky">
                   <h5 className="title">
                     <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
                   </h5>
