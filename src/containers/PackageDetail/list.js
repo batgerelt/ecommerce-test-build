@@ -366,6 +366,7 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
+      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&

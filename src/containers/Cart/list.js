@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
 import React from "react";
@@ -182,7 +183,26 @@ class Cart extends React.Component {
         }
       }
     } else {
-      throw new Error("Бараа олдсонгүй!");
+      if (this.props.isLogged) {
+        const result = await this.props.incrementProductRemotely({
+          skucd: product.skucd,
+          qty: product.addminqty || 1,
+          iscart: 1,
+        });
+
+        if (!result.payload.success) {
+          const messages = defineMessages({
+            error: {
+              id: result.payload.code,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.error, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }));
+        }
+      }
     }
   };
 
@@ -255,7 +275,7 @@ class Cart extends React.Component {
                 color: "#999",
               }}
             >
-              {formatter.format(product.price)}
+              {formatter.format(product.price)}₮
             </span>
             <span
               style={{
@@ -283,7 +303,7 @@ class Cart extends React.Component {
               color: "#999",
             }}
           >
-            {formatter.format(product.price)}
+            {formatter.format(product.price)}₮
           </span>
         </p>
       );
@@ -606,8 +626,8 @@ class Cart extends React.Component {
                   </h5>
                   <div className="block cart-info-container">
                     <p className="count">
-                      <span><FormattedMessage id="shared.sidebar.label.total" />: </span>
-                      <span>{this.renderTotalQty()}<FormattedMessage id="shared.sidebar.label.unit" /></span>
+                      <span><FormattedMessage id="cart.sidebar.label.total" />: </span>
+                      <span>{this.renderTotalQty()}<FormattedMessage id="cart.sidebar.label.unit" /></span>
                     </p>
                     {staticinfo && (
                       <p className="delivery">
