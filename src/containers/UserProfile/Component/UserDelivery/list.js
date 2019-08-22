@@ -40,7 +40,7 @@ class Component extends React.Component {
           <td>#{item.ordernumber}</td>
           <td><span className="success">{this.renderDate(item.orderdate)}</span></td>
           <td style={{ textAlign: "center" }}>{this.renderType(item)}</td>
-          <td>{formatter.format(item.totalamount)}₮</td>
+          <td style={{ textAlign: "right" }}>{formatter.format(item.totalamount)}₮</td>
           <td>
             <Link
               to={`/order/${item.id}`}

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'react-intl';
@@ -366,7 +367,6 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&
@@ -477,9 +477,7 @@ class List extends React.Component {
 
     return products.reduce(
       (acc, cur) =>
-        // eslint-disable-next-line no-mixed-operators
         acc +
-        // eslint-disable-next-line no-mixed-operators
         cur.currentprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,

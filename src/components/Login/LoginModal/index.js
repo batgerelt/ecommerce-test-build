@@ -14,6 +14,8 @@ class LoginModal extends React.Component {
     isRemember: localStorage.getItem("auth") === null ? 1 : 0,
     direct: false,
     confirm: false,
+    goCart: false,
+    cartDirect: false,
   };
 
   componentWillUnmount() {
@@ -39,7 +41,7 @@ class LoginModal extends React.Component {
   };
 
   goHome() {
-    return this.state.confirm ? <Redirect to="/" /> : null;
+    return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
   }
 
   handleSubmit = (e) => {
@@ -54,10 +56,10 @@ class LoginModal extends React.Component {
         try {
           let result = await this.props.login({ body: { ...values } });
           if (result.payload.success) {
-            message.warning(intl.formatMessage({ id: "loginModal.info.success" }));
+            message.success(intl.formatMessage({ id: "loginModal.info.success" }));
           } else {
             if (result.payload.code) {
-              message.warning(intl.formatMessage({ id: result.payload.code }));
+              message.success(intl.formatMessage({ id: result.payload.code }));
             }
             return null;
           }
@@ -67,35 +69,42 @@ class LoginModal extends React.Component {
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
           localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
-          this.props.getCustomer().then((res) => {
+          this.props.getCustomer().then(async (res) => {
             if (res.payload.success) {
               localStorage.setItem('next', JSON.stringify(res.payload.data.info));
-            }
-          });
-          localStorage.removeItem(this.state.isRemember ? null : 'username');
-          this.handleLoginModal();
-          this.props.form.resetFields();
-          let products = [];
-          if (this.props.cart === undefined) {
-            products = this.props.products;
-          } else {
-            products = this.props.cart.products;
-          }
-          products = products.map(prod => ({
-            skucd: prod.skucd,
-            qty: prod.qty,
-          }));
-          result = await this.props.increaseProductsByQtyRemotely({
-            body: products,
-          });
-          if (!result.payload.success) {
-            message.warning(intl.formatMessage({ id: result.payload.code }));
-          }
+              localStorage.removeItem(this.state.isRemember ? null : 'username');
+              let products = [];
+              if (this.props.cart === undefined) {
+                products = this.props.products;
+              } else {
+                products = this.props.cart.products;
+              }
+              products = products.map(prod => ({
+                skucd: prod.skucd,
+                qty: prod.qty,
+              }));
 
-          this.props.getProducts().then((res) => {
-            let k = res.payload.data.length - products.length;
-            if (res.payload.data.length !== 0 && k !== 0) {
-              this.props.history.push("/cart");
+              let result = await this.props.increaseProductsByQtyRemotely({
+                iscart: 0,
+                body: products,
+              });
+
+              if (!result.payload.success) {
+                message.warning(intl.formatMessage({ id: result.payload.code }));
+              }
+              this.props.getProducts().then((res) => {
+                let k = res.payload.data.length - products.length;
+                if (res.payload.data.length !== 0 && k !== 0) {
+                  this.setState({ goCart: true });
+                  this.handleLoginModal();
+                  this.props.form.resetFields();
+                } else {
+                  this.handleLoginModal();
+                  this.props.form.resetFields();
+                }
+              });
+            } else {
+              console.log(res.payload);
             }
           });
         } catch (e) {

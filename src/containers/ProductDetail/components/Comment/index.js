@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate } from "antd";
+import { Rate, message } from "antd";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
 class Comment extends Component {
@@ -23,16 +23,22 @@ class Comment extends Component {
   handleCommentSend = (e) => {
     const { comment } = this.state;
     const {
-      addComment, product, auth,
+      addComment, product, auth, intl,
     } = this.props;
     if (auth) {
-      let { skucd } = product;
-      addComment({ skucd, comm: comment }).then((res) => {
-        if (res.payload.success) {
-          this.setState({ comment: "" });
-          this.props.getProductComment({ skucd: product.skucd });
-        }
-      });
+      if (comment !== "") {
+        let { skucd } = product;
+        addComment({ skucd, comm: comment }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ comment: "" });
+            this.props.getProductComment({ skucd: product.skucd });
+          } else {
+            message.warning(intl.formatMessage({ id: res.payload.code }));
+          }
+        });
+      } else {
+        message.warning("Сэтгэгдэл бичнэ үү.");
+      }
     }
   }
 
@@ -89,6 +95,7 @@ class Comment extends Component {
                 <button
                   type="button"
                   className="btn btn-dark text-uppercase"
+                  disabled={this.state.comment === ""}
                   onClick={this.handleCommentSend}
                 >
                   <FormattedMessage id="productDetail.comment.form.button" />

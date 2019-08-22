@@ -25,8 +25,8 @@ class List extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <strong>{lang === "mn" ? item.name : item.name_en}</strong>
-                <span>{lang === "mn" ? item.backtxt : item.backtxt_en}</span>
+                <strong>{lang === "mn" ? item.title : item.titl_en}</strong>
+                <span>{lang === "mn" ? item.back : item.back_en}</span>
               </div>
             </div>
           </td>
@@ -62,24 +62,30 @@ class List extends React.Component {
         return (
           <div className="cart-info">
             <h5 className="title">
-              <span><FormattedMessage id="shared.sidebar.title.orderInfo" /></span>
+              <span>Захиалгын төлбөр</span>
             </h5>
             <div className="block">
               <ul className="list-unstyled">
                 <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
+                  <span>Барааны үнэ:</span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
-                  <span>Ипойнт оноогоор:</span>
-                  <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
-                </li>
-                <li className="line flex-this flex-space">
                   <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
+                <div className="line">
+                  <li className="flex-this flex-space">
+                    <span>Ипойнт оноогоор төлсөн:</span>
+                    <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
+                  </li>
+                  <li className="flex-this flex-space">
+                    <span>Бэлнээр төлсөн:</span>
+                    <strong className="big">{formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮</strong>
+                  </li>
+                </div>
                 <li className="text-right">
-                  <strong><FormattedMessage id="shared.sidebar.label.total" />:</strong>
+                  <strong>Захиалгын нийт дүн:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 {/* <li className="flex-this flex-space">
