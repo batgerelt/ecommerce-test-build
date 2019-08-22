@@ -111,13 +111,6 @@ class Bookmarks extends PureComponent {
     return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.newbanner.length !== prevProps.newbanner.length) {
-      const selected = this.props.newbanner.footer[Math.floor(Math.random() * this.props.newbanner.footer.length)];
-      this.setState({ newbanner: selected });
-    }
-  }
-
   generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
     const result = [];
     const startIndex = rowIndex * maxItemsPerRow;
@@ -185,10 +178,11 @@ class Bookmarks extends PureComponent {
 
   renderSubBanner = () => {
     try {
-      const { newbanner } = this.state;
-      return <Banner data={newbanner} />;
+      const { newbanner } = this.props;
+      return <Banner data={newbanner.footer[Math.floor(Math.random() * newbanner.footer.length)]} />;
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   };
 
