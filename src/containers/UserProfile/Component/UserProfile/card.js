@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import SwalModals from "./EpointModal";
 import { intl } from '../../../../components/IntlGlobalProvider';
+import NumberInput from "../../../../components/Input/NumberInput";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
@@ -78,8 +79,10 @@ class Component extends React.Component {
                   rules: [
                     // { required: true, message: "Картын дугаараа оруулна уу" },
                     { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
+                    { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
+                    { len: 14, message: intl.formatMessage({ id: "shared.form.cardno.validation.min" }) },
                   ],
-                })(<Input placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="off" />)}
+                })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="off" maxLength={14} allowClear />)}
               </Form.Item>
             </Col>
 
@@ -89,14 +92,22 @@ class Component extends React.Component {
                   rules: [
                     { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                   ],
-                })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} autoComplete="off" />)}
+                })(<NumberInput
+                  placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                  maxLength={4}
+                  allowClear
+                  type="password"
+                  size="large"
+                  className="col-md-12"
+                  autoComplete="off"
+                />)}
               </Form.Item>
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
                 <div className="text-right">
-                  <Button className="btn btn-dark" style={{ width: "108.28px", background: '#343a40' }} onClick={this.handleSubmit}>
+                  <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ width: "108.28px", background: '#343a40' }} >
                     <span className="text-uppercase"><FormattedMessage id="shared.form.button.connect" /></span>
                   </Button>
                 </div>

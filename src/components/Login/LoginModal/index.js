@@ -99,6 +99,7 @@ class LoginModal extends React.Component {
                   this.handleLoginModal();
                   this.props.form.resetFields();
                 } else {
+                  this.handleLoginModal();
                   this.props.form.resetFields();
                 }
               });
