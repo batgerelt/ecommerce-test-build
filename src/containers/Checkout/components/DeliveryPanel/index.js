@@ -194,13 +194,16 @@ class DeliveryPanel extends React.Component {
   changeTab = (e) => {
     const { deliveryTypes } = this.props;
     // this.props.form.resetFields();
-    console.log("seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeet");
     let found = deliveryTypes.find(item => item.id === parseInt(e));
-    this.props.DeliveryInfo.setDeliveryType(found);
-    this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
-      this.getZoneSetting(this.state.chosenAddress);
-      this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
-    });
+    if (found.isenable === 1) {
+      this.props.DeliveryInfo.setDeliveryType(found);
+      this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
+        this.getZoneSetting(this.state.chosenAddress);
+        this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
+      });
+    } else {
+      message.warning("15 цагаас хойш шуурхай хүргэлт хийх боломжгүй.");
+    }
   };
 
   onSubmit = (e) => {
@@ -423,7 +426,8 @@ class DeliveryPanel extends React.Component {
                   </p>
                 </div>
               }
-              disabled={item.isenable === 1 ? false : true}
+              style={{ cursor: item.isenable === 1 ? 'pointer' : 'not-allowed' }}
+              // disabled={item.isenable === 1 ? false : true}
               key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">

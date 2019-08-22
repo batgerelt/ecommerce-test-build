@@ -16,7 +16,7 @@ class Detail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+    if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
       this.setState({ productQty: nextProps.detail.products.addminqty || 1 });
     }
   }
