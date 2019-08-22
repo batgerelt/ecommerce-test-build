@@ -21,6 +21,13 @@ class Detail extends Component {
     }
   }
 
+  checkError = (value) => {
+    if (value === "null" || value === null || value === undefined) {
+      return "";
+    }
+    return `(${value})`;
+  }
+
   renderDetails = () => {
     const {
       categorymenu, rate, isLogged, intl, attributes,
@@ -33,7 +40,7 @@ class Detail extends Component {
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
 
-          {detail.back && lang === "mn" ? `(${detail.back})` : `(${detail.back_en})`}
+          {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
 
           {selectedCat && (
             <p className="big-text">
@@ -315,8 +322,6 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-
-    // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
     // if (detail.issalekg && detail.kgproduct[0]) {

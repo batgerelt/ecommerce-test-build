@@ -90,7 +90,7 @@ class Relational extends Component {
 
                     <div className="info-container flex-space info-price-container">
                       <Link to={prod.route ? prod.route : ""} title={prod.title}>
-                        <span>{prod.title.length >= 17 ? `${prod.title.substring(0, 17)}...` : prod.title}</span>
+                        <span>{prod.title.length >= 17 ? `${prod.title.substring(0, 14)}...` : prod.title}</span>
                         <p>
                           <span style={{ fontWeight: 'normal', fontSize: "0.9rem", float: "left" }}>{prod.pricetag}</span>
                           <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span>

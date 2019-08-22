@@ -3344,3 +3344,7 @@ textarea:focus {
 .info-price-container a{
   width: 80%;
 }
+
+button:disabled{
+  cursor: not-allowed;
+}
