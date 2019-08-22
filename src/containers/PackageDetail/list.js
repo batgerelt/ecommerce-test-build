@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'react-intl';
@@ -308,7 +309,7 @@ class List extends React.Component {
               </div>
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
-                  <span>{lang === "mn" ? prod.skunm : prod.skunm_en}</span>
+                  <span>{lang === "mn" ? prod.title : prod.title_en}</span>
                   <strong>
                     {formatter.format(prod.sprice || prod.price)}₮
                   </strong>
@@ -366,7 +367,6 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&
@@ -387,7 +387,12 @@ class List extends React.Component {
                 <p className="text col-md-5 col-sm-5">
                   <Link to={prod.route || ""} style={{ color: "#666" }}>
                     <span>{lang === "mn" ? prod.title : prod.title_en}</span>
-                    <strong>{formatter.format(prod.currentprice)}₮</strong>
+                    <strong>
+                      {formatter.format(prod.saleminqty > 1
+                        ? prod.currentprice / prod.saleminqty
+                        : prod.currentprice,
+                      )}₮
+                    </strong>
                   </Link>
                 </p>
                 <form style={{ width: "130px" }}>
@@ -472,9 +477,7 @@ class List extends React.Component {
 
     return products.reduce(
       (acc, cur) =>
-        // eslint-disable-next-line no-mixed-operators
         acc +
-        // eslint-disable-next-line no-mixed-operators
         cur.currentprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,

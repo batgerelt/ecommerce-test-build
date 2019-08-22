@@ -16,9 +16,16 @@ class Detail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.detail.products.cd !== nextProps.detail.products.cd) {
+    if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
       this.setState({ productQty: nextProps.detail.products.addminqty || 1 });
     }
+  }
+
+  checkError = (value) => {
+    if (value === "null" || value === null || value === undefined) {
+      return "";
+    }
+    return `(${value})`;
   }
 
   renderDetails = () => {
@@ -31,15 +38,15 @@ class Detail extends Component {
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
-          <h5 className="title">{lang === "mn" ? detail.name : detail.name_en}</h5>
+          <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
 
-          {detail.back && lang === "mn" ? `(${detail.back})` : `(${detail.back_en})`}
+          {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
 
           {selectedCat && (
             <p className="big-text">
               <strong>
                 <Link to={selectedCat.route} style={{ color: "#6c757d" }}>
-                  {lang === "mn" ? selectedCat.name : selectedCat.name_en}
+                  {lang === "mn" ? selectedCat.title : selectedCat.title_en}
                 </Link>
               </strong>
             </p>
@@ -90,7 +97,7 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLogged, detail, addRate, getProductRate,
+      isLogged, detail, addRate, getProductRate, intl,
     } = this.props;
     if (isLogged) {
       let skucd = detail.products.skucd;
@@ -99,6 +106,8 @@ class Detail extends Component {
         if (res.payload.success) {
           // message.warning(res.payload.message);
           getProductRate({ skucd });
+        } else {
+          message.warning(intl.formatMessage({ id: res.payload.code }));
         }
       });
     } else {
@@ -313,8 +322,6 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-
-    // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
     // if (detail.issalekg && detail.kgproduct[0]) {
@@ -333,6 +340,11 @@ class Detail extends Component {
 
   getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();
 
+  roundToPrecision = (x, precision) => {
+    let y = +x + (precision === undefined ? 0.5 : precision / 2);
+    return y - (y % (precision === undefined ? 1 : +precision));
+  }
+
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
@@ -341,8 +353,10 @@ class Detail extends Component {
       this.setState({ productQty: product.addminqty });
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
-    } else {
+    } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
+    } else {
+      this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }
   };
 
