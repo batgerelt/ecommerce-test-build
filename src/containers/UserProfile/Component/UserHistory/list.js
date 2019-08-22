@@ -41,7 +41,6 @@ class Component extends React.Component {
   renderProducts = () => {
     try {
       const { history, lang } = this.props;
-      console.log(history);
       return history.map((item, index) => (
         <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
           <Col className="product" sm={12} md={12} lg={12} xl={12}>
@@ -65,23 +64,35 @@ class Component extends React.Component {
               </div>
             </div>
           </Col>
-          <Col className="action" xs={12} sm={6} md={6} lg={6} xl={6}>
+          <Col className="action" xs={16} sm={6} md={6} lg={6} xl={6}>
             <ul className="list-unstyled flex-this">
-              <li>
-                <div className="price-pro" style={{ paddingRight: "10px" }}>
+              <li style={{ textAlign: "left", width: "100%" }}>
+                <div className="price-pro">
                   {
                     item.pricetag !== null ?
                       localStorage.getItem('lang') === "mn" ?
-                        <div>{`${item.pricetag} ${formatter.format(item.currentprice)}₮`}</div>
+                        <div>{`${item.pricetag}`}</div>
                         :
-                        <div>{`${item.pricetag_en} ${formatter.format(item.currentprice)}₮`}</div>
+                        <div>{`${item.pricetag_en}`}</div>
+                      : null
+                  }
+                </div>
+              </li>
+              <li style={{ textAlign: "right !important" }}>
+                <div className="price-pro">
+                  {
+                    item.pricetag !== null ?
+                      localStorage.getItem('lang') === "mn" ?
+                        <div>{`${formatter.format(item.currentprice)}₮`}</div>
+                        :
+                        <div>{`${formatter.format(item.currentprice)}₮`}</div>
                       : <div>{`${formatter.format(item.currentprice)}`}₮</div>
                   }
                 </div>
               </li>
             </ul>
           </Col>
-          <Col className="action" xs={12} sm={6} md={6} lg={6} xl={6}>
+          <Col className="action" xs={8} sm={6} md={6} lg={6} xl={6}>
             <ul className="list-unstyled flex-this end" >
               <li>
                 <Link to="#">

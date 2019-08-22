@@ -68,6 +68,8 @@
 	"cart.button.clear": "Сагс хоослох",
 	"cart.info.empty": "Таны сагс хоосон байна",
 	"card.product.kg.label.priceTag": "{kg}кг",
+	"cart.sidebar.label.total": "Нийт бараа",
+	"cart.sidebar.label.unit": "ш",
 	"cart.table.button.remove": "Устгах",
 	"cart.table.button.save": "Хадгалах",
 	"cart.table.count": "Тоо ширхэг",
