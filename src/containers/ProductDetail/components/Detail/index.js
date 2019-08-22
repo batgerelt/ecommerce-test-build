@@ -340,6 +340,11 @@ class Detail extends Component {
 
   getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();
 
+  roundToPrecision = (x, precision) => {
+    let y = +x + (precision === undefined ? 0.5 : precision / 2);
+    return y - (y % (precision === undefined ? 1 : +precision));
+  }
+
   handleInputChange = product => (e) => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
@@ -348,8 +353,10 @@ class Detail extends Component {
       this.setState({ productQty: product.addminqty });
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
-    } else {
+    } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
+    } else {
+      this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }
   };
 
