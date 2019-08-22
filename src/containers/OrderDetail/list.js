@@ -70,7 +70,7 @@ class List extends React.Component {
                   <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
-                <li className="flex-this flex-space">
+                <li className="flex-this flex-space" style={{ marginTop: "5px" }}>
                   <span>Ипойнт оноогоор:</span>
                   <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
                 </li>

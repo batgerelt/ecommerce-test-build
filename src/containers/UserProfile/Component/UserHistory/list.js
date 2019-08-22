@@ -97,7 +97,7 @@ class Component extends React.Component {
               <li>
                 <Link to="#">
                   <i
-                    className="fa fa-heart"
+                    className="fa fa-heart-o"
                     aria-hidden="true"
                     onClick={() => this.addHistory(item)}
                   />
