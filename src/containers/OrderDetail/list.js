@@ -62,24 +62,30 @@ class List extends React.Component {
         return (
           <div className="cart-info">
             <h5 className="title">
-              <span><FormattedMessage id="shared.sidebar.title.orderInfo" /></span>
+              <span>Захиалгын төлбөр</span>
             </h5>
             <div className="block">
               <ul className="list-unstyled">
                 <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.totalPrice" />:</span>
+                  <span>Барааны үнэ:</span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
-                <li className="flex-this flex-space" style={{ marginTop: "5px" }}>
-                  <span>Ипойнт оноогоор:</span>
-                  <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
-                </li>
-                <li className="line flex-this flex-space">
+                <li className="flex-this flex-space">
                   <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
                 </li>
+                <div className="line">
+                  <li className="flex-this flex-space">
+                    <span>Ипойнт оноогоор төлсөн:</span>
+                    <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
+                  </li>
+                  <li className="flex-this flex-space">
+                    <span>Бэлнээр төлсөн:</span>
+                    <strong className="big">{formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮</strong>
+                  </li>
+                </div>
                 <li className="text-right">
-                  <strong><FormattedMessage id="shared.sidebar.label.total" />:</strong>
+                  <strong>Захиалгын нийт дүн:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 {/* <li className="flex-this flex-space">
