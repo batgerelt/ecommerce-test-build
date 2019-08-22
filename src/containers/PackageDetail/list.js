@@ -308,7 +308,7 @@ class List extends React.Component {
               </div>
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
-                  <span>{lang === "mn" ? prod.skunm : prod.skunm_en}</span>
+                  <span>{lang === "mn" ? prod.title : prod.title_en}</span>
                   <strong>
                     {formatter.format(prod.sprice || prod.price)}₮
                   </strong>
@@ -387,7 +387,12 @@ class List extends React.Component {
                 <p className="text col-md-5 col-sm-5">
                   <Link to={prod.route || ""} style={{ color: "#666" }}>
                     <span>{lang === "mn" ? prod.title : prod.title_en}</span>
-                    <strong>{formatter.format(prod.currentprice)}₮</strong>
+                    <strong>
+                      {formatter.format(prod.saleminqty > 1
+                        ? prod.currentprice / prod.saleminqty
+                        : prod.currentprice,
+                      )}₮
+                    </strong>
                   </Link>
                 </p>
                 <form style={{ width: "130px" }}>

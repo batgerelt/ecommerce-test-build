@@ -196,7 +196,7 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -227,7 +227,7 @@ class List extends React.Component {
             });
 
             message.warning(intl.formatMessage(messages.error, {
-              name: msg.value.name,
+              name: msg.value.title,
               qty: msg.value.salemaxqty,
             }));
           });
@@ -250,7 +250,7 @@ class List extends React.Component {
             });
 
             message.warning(intl.formatMessage(messages.error, {
-              name: updated.name,
+              name: updated.title,
               qty: updated.qty,
             }));
           }
@@ -264,6 +264,7 @@ class List extends React.Component {
   renderProd = () => {
     try {
       const { lang } = this.props;
+      console.log('this.props: ', this.props);
       const products = this.props.recipeProducts;
       console.log('products: ', products);
       return products.map((item, index) => (
@@ -282,7 +283,7 @@ class List extends React.Component {
             <div className="info-container flex-space">
               <Link to={item.route ? item.route : ""} style={{ width: "100%" }}>
                 <strong>
-                  <span>{lang === "mn" ? item.name : item.name_en}</span>
+                  <span>{lang === "mn" ? item.title : item.title_en}</span>
                 </strong>
                 <p className="row">
                   {item.pricetag && (

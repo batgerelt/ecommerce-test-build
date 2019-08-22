@@ -260,7 +260,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
-    if (product.sprice || product.spercent || product.salepercent) {
+    if (product.sprice || product.spercent !== 100 || product.salepercent) {
       if (product.issalekg) {
         return (
           <p className="price" style={{ textAlign: 'end' }}>
@@ -293,7 +293,10 @@ class Cart extends React.Component {
       return (
         <p className="price" style={{ textAlign: 'end' }}>
           <strong>
-            {formatter.format(product.currentprice)}₮
+            {formatter.format(product.saleminqty > 1
+              ? product.currentprice / product.saleminqty
+              : product.currentprice,
+            )}₮
           </strong>
           <span
             style={{
@@ -303,7 +306,10 @@ class Cart extends React.Component {
               color: "#999",
             }}
           >
-            {formatter.format(product.price)}₮
+            {formatter.format(product.saleminqty > 1
+              ? product.price / product.saleminqty
+              : product.price,
+            )}₮
           </span>
         </p>
       );
@@ -328,7 +334,12 @@ class Cart extends React.Component {
 
     return (
       <p className="price" style={{ textAlign: 'end' }}>
-        <strong>{formatter.format(product.price)}₮</strong>
+        <strong>
+          {formatter.format(product.saleminqty > 1
+            ? product.price / product.saleminqty
+            : product.price,
+          )}₮
+        </strong>
       </p>
     );
   };
@@ -499,8 +510,18 @@ class Cart extends React.Component {
                           to={prod.route || ""}
                           style={{ color: "#6c757d" }}
                         >
-                          <strong>{lang === "mn" ? prod.name || prod.title : prod.name_en || prod.title_en}</strong>
-                          <span>{lang === "mn" ? prod.featuretxt || prod.feature : prod.featuretxt_en || prod.feature_en}</span>
+                          <strong>
+                            {lang === "mn"
+                              ? prod.name || prod.title
+                              : prod.name_en || prod.title_en
+                            }
+                          </strong>
+                          <span>
+                            {lang === "mn"
+                              ? prod.featuretxt || prod.feature
+                              : prod.featuretxt_en || prod.feature_en
+                            }
+                          </span>
                         </Link>
                       </div>
                     </div>
