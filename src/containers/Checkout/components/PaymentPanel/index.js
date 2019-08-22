@@ -2,7 +2,7 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { Radio, Input, Form } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -31,10 +31,10 @@ class PaymentPanel extends React.Component {
   handleGetValue = () => { return console.log('LoginRegister'); }
 
   changeRadio = (e) => {
-    const { DeliveryInfo } = this.props;
+    const { DeliveryInfo, intl } = this.props;
     if (e.target.value === 2) {
       if (DeliveryInfo.state.useEpoint) {
-        this.errorMsg("Байгууллагаар баримт авах үед Ипойнт оноо ашиглах боломжгүй тул таны ашиглахаар тохируулсан оноо төлбөрөөс хасагдахгүйг анхаарна уу.");
+        this.errorMsg(intl.formatMessage({ id: "checkout.payment.info" }));
         let cardInfo = DeliveryInfo.state.ePointData;
         cardInfo.point = (parseFloat(cardInfo.point) + parseFloat(DeliveryInfo.state.epointUsedPoint)).toFixed(2);
         DeliveryInfo.setUseEpoint(false, cardInfo, 0);
@@ -86,4 +86,4 @@ class PaymentPanel extends React.Component {
   }
 }
 
-export default PaymentPanel;
+export default injectIntl(PaymentPanel);

@@ -97,7 +97,6 @@ class Component extends React.Component {
                   maxLength={4}
                   allowClear
                   type="password"
-                  size="large"
                   className="col-md-12"
                   autoComplete="off"
                 />)}
