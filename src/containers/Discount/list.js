@@ -150,22 +150,15 @@ class Discount extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.discountbanner.length !== prevProps.discountbanner.length) {
-      const selected = this.props.discountbanner.footer[Math.floor(Math.random() * this.props.discountbanner.footer.length)];
-      this.setState({ discountbanner: selected });
-    }
-  }
-
   renderSubBanner = () => {
     try {
-      const { discountbanner } = this.state;
-      // return null;
+      const { discountbanner } = this.props;
       return (
-        <Banner data={discountbanner} />
+        <Banner data={discountbanner.footer[Math.floor(Math.random() * discountbanner.footer.length)]} />
       );
     } catch (error) {
-      return console.log(error);
+      // return console.log(error);
+      return null;
     }
   };
 

@@ -45,7 +45,7 @@ class CategoryInfo extends React.Component {
       attributes: [],
       count: 0,
       aggregations: [],
-      nodata: false,
+      expandedCategory: [],
     };
   }
 
@@ -278,6 +278,8 @@ class CategoryInfo extends React.Component {
         });
       }
     });
+
+    return null;
   };
 
   renderCategoryList = () => {
@@ -290,8 +292,9 @@ class CategoryInfo extends React.Component {
           <Tree
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
-            defaultExpandAll={false}
-            defaultExpandParent={false}
+            // expandedKeys={this.state.expandedCategory}
+            // defaultExpandAll={false}
+            // defaultExpandAll
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
