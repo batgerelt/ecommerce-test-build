@@ -31,7 +31,7 @@ class Detail extends Component {
     return (
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
-          <h5 className="title">{lang === "mn" ? detail.name : detail.name_en}</h5>
+          <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
 
           {detail.back && lang === "mn" ? `(${detail.back})` : `(${detail.back_en})`}
 
@@ -39,7 +39,7 @@ class Detail extends Component {
             <p className="big-text">
               <strong>
                 <Link to={selectedCat.route} style={{ color: "#6c757d" }}>
-                  {lang === "mn" ? selectedCat.name : selectedCat.name_en}
+                  {lang === "mn" ? selectedCat.title : selectedCat.title_en}
                 </Link>
               </strong>
             </p>
@@ -90,7 +90,7 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLogged, detail, addRate, getProductRate,
+      isLogged, detail, addRate, getProductRate, intl,
     } = this.props;
     if (isLogged) {
       let skucd = detail.products.skucd;
@@ -99,6 +99,8 @@ class Detail extends Component {
         if (res.payload.success) {
           // message.warning(res.payload.message);
           getProductRate({ skucd });
+        } else {
+          message.warning(intl.formatMessage({ id: res.payload.code }));
         }
       });
     } else {

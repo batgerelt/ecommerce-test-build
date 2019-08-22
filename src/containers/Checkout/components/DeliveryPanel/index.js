@@ -194,6 +194,7 @@ class DeliveryPanel extends React.Component {
   changeTab = (e) => {
     const { deliveryTypes } = this.props;
     // this.props.form.resetFields();
+    console.log("seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeet");
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     this.props.DeliveryInfo.setDeliveryType(found);
     this.setState({ defaultActiveKey: e, chosenDeliveryType: found, requiredField: found.id === 3 ? false : true }, () => {
