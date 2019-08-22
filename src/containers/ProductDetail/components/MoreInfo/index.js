@@ -55,7 +55,6 @@ class Moreinfo extends Component {
             </div>
           ) */}
 
-          {console.log(similarProducts)}
           {!!similarProducts && !!similarProducts.length && (
             <div style={{ marginTop: "40px", marginBottom: "0" }}>
               <h1 className="title">
