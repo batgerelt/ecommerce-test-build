@@ -351,7 +351,10 @@ class DeliveryInfo extends React.Component {
   };
 
   handleAgreementNotif = (value) => {
-    this.setState({ notif: value });
+    this.setState({ notif: value, checkedAgreement: value });
+    if (value) {
+      this.getAgreementData();
+    }
   }
 
   handlePayment = (e, item, ordData, type, totalQty) => {
@@ -447,7 +450,9 @@ class DeliveryInfo extends React.Component {
                     {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
                   </span>
                   :
-                  null
+                  <span>
+                    Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
+                  </span>
               }
 
             </p>
@@ -483,7 +488,7 @@ class DeliveryInfo extends React.Component {
               <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
             </p> */}
             <br />
-            <Checkbox onChange={this.handleAgreement} autoFocus={this.state.notif}>
+            <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
                 <span style={{ fontWeight: "bold", color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>

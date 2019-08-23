@@ -46,6 +46,7 @@ class PaymentPanel extends React.Component {
   }
 
   handleClick = (e) => {
+    console.log(this.props);
     this.props.DeliveryInfo.handleAgreementNotif(true);
   }
 

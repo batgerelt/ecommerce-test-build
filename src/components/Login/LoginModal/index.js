@@ -59,7 +59,7 @@ class LoginModal extends React.Component {
             message.success(intl.formatMessage({ id: "loginModal.info.success" }));
           } else {
             if (result.payload.code) {
-              message.success(intl.formatMessage({ id: result.payload.code }));
+              message.warning(intl.formatMessage({ id: result.payload.code }));
             }
             return null;
           }
