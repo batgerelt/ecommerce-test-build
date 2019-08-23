@@ -63,8 +63,6 @@ class LoginModal extends React.Component {
             }
             return null;
           }
-          this.handleLoginModal();
-          this.setState({ confirm: this.state.direct });
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
@@ -80,30 +78,36 @@ class LoginModal extends React.Component {
               } else {
                 products = this.props.cart.products;
               }
-              products = products.map(prod => ({
-                skucd: prod.skucd,
-                qty: prod.qty,
-              }));
+              if (products !== undefined) {
+                products = products.map(prod => ({
+                  skucd: prod.skucd,
+                  qty: prod.qty,
+                }));
+              }
 
               let result = await this.props.increaseProductsByQtyRemotely({
                 iscart: 0,
                 body: products,
               });
 
-              if (!result.payload.success) {
-                message.warning(intl.formatMessage({ id: result.payload.code }));
-              }
-              this.props.getProducts().then((res) => {
-                let k = res.payload.data.length - products.length;
-                if (res.payload.data.length !== 0 && k !== 0) {
-                  this.setState({ goCart: true });
-                  // this.handleLoginModal();
-                  this.props.form.resetFields();
-                } else {
-                  // this.handleLoginModal();
-                  this.props.form.resetFields();
+              if (result !== undefined) {
+                if (!result.payload.success) {
+                  message.warning(intl.formatMessage({ id: result.payload.code }));
                 }
-              });
+              }
+
+              if (products !== undefined) {
+                this.props.getProducts().then((res) => {
+                  console.log("haha", res);
+                  let k = res.payload.data.length - products.length;
+                  if (res.payload.data.length !== 0 && k !== 0) {
+                    this.setState({ goCart: true });
+                    this.props.form.resetFields();
+                  } else {
+                    this.props.form.resetFields();
+                  }
+                });
+              }
             } else {
               console.log(res.payload);
             }
@@ -111,6 +115,8 @@ class LoginModal extends React.Component {
         } catch (e) {
           console.log(e);
         }
+        this.setState({ confirm: this.state.direct });
+        this.handleLoginModal();
       }
     });
   };
