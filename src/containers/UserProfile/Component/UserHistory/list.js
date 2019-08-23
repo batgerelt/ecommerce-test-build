@@ -19,9 +19,15 @@ class Component extends React.Component {
   addHistory = (item) => {
     this.props.addWish({ skucd: item.skucd }).then((res) => {
       if (res.payload.success) {
-        message.warning(res.payload.message);
+        this.removeAddedWishColorTime();
       }
     });
+  }
+  removeAddedWishColorTime() {
+    const { removeAddedWishColor } = this.props;
+    setTimeout(() => {
+      removeAddedWishColor();
+    }, 500);
   }
   handleIncrement = (item) => {
     if (item.skucd) {
@@ -126,6 +132,7 @@ class Component extends React.Component {
     }
   }
   render() {
+    console.log("this.props", this.props);
     const loaders = this.state.loader;
     const icon = <Icon type="sync" spin />;
     return (

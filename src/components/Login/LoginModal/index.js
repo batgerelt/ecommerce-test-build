@@ -63,6 +63,7 @@ class LoginModal extends React.Component {
             }
             return null;
           }
+          this.handleLoginModal();
           this.setState({ confirm: this.state.direct });
           localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
           localStorage.setItem('auth', JSON.stringify(result.payload));
@@ -96,10 +97,10 @@ class LoginModal extends React.Component {
                 let k = res.payload.data.length - products.length;
                 if (res.payload.data.length !== 0 && k !== 0) {
                   this.setState({ goCart: true });
-                  this.handleLoginModal();
+                  // this.handleLoginModal();
                   this.props.form.resetFields();
                 } else {
-                  this.handleLoginModal();
+                  // this.handleLoginModal();
                   this.props.form.resetFields();
                 }
               });
