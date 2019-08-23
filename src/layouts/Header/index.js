@@ -91,6 +91,7 @@ class AppHeader extends Component {
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
       this.props.history.push(url);
+      this.setState({ word: '' });
     }
     return null;
   }
@@ -255,7 +256,8 @@ class AppHeader extends Component {
                               style={{ margin: "0px", width: "100%" }}
                             >
                               <input
-                                required={item.id === 0 && word === ''}
+                                value={word}
+                                // required={item.id === 0 && word === ''}
                                 onInvalid={this.hadleValidate}
                                 list="cat"
                                 type="text"
