@@ -10,7 +10,7 @@ class MainMenu extends React.Component {
         parameters: [],
         minprice: 0,
         maxprice: 0,
-        ordercol: "price_asc",
+        ordercol: "currentprice_asc",
         rowcount: 0,
         startswith: 0,
       },

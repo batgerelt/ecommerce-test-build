@@ -67,7 +67,7 @@ class Bookmarks extends PureComponent {
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits, startsWith: 10, rowCount: 20 });
+        this.setState({ headerProducts: res.payload.data.hits.hits, startsWith: 10, rowCount: 50 });
       }
     });
   }
@@ -77,7 +77,7 @@ class Bookmarks extends PureComponent {
     try {
       this.props.searchProduct({ body: { ...this.state } }).then((res) => {
         if (res.payload.success) {
-          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
+          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits) });
         }
       });
     } catch (error) {
@@ -195,7 +195,8 @@ class Bookmarks extends PureComponent {
 
   renderFooterProduct = () => {
     try {
-      const { products } = this.state;
+      const { products, startsWith } = this.state;
+      console.log('startsWith: ', startsWith);
       return (
         <div className="section">
           <div className="container pad10">
@@ -294,7 +295,7 @@ class Bookmarks extends PureComponent {
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
-        {this.renderFooterProduct()}
+        {this.state.startsWith >= 10 ? this.renderFooterProduct() : null}
         <BackTop />
       </div>
     );
