@@ -139,7 +139,7 @@ class Detail extends Component {
           <div className="price product-detail">
             {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
             {
-              detail.sprice !== 0 ?
+              detail.discountprice !== 0 ?
                 <small
                   className="sale"
                   style={{
@@ -148,7 +148,7 @@ class Detail extends Component {
                     marginLeft: "5px",
                   }}
                 >
-                  {formatter.format(detail.volumeprice)}₮
+                  {formatter.format(detail.discountprice)}₮
                 </small> : ""
             }
             <span className="current" style={{ marginLeft: "5px" }}>
@@ -162,12 +162,12 @@ class Detail extends Component {
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
-    if (detail.spercent && detail.spercent !== 100) {
+    if (detail.salepercent && detail.salepercent !== 100) {
       // Хямдарсан үед
-      let salePrice = detail.sprice;
+      let salePrice = detail.discountprice;
 
-      if (detail.issalekg && detail.sprice !== 0) {
-        salePrice = detail.sprice;
+      if (detail.issalekg && detail.discountprice !== 0) {
+        salePrice = detail.discountprice;
       }
 
       priceInfo = (
@@ -199,7 +199,7 @@ class Detail extends Component {
           <div className="count-text text-right">
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
-              {formatter.format(detail.issalekg === 0 ? detail.volumeprice : detail.currentprice)}₮
+              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
@@ -328,12 +328,12 @@ class Detail extends Component {
     // if (detail.issalekg && detail.kgproduct[0]) {
     //   price = detail.kgproduct[0].salegramprice;
     // }
-    if (detail.sprice !== 0) {
-      price = detail.sprice;
+    if (detail.discountprice !== 0) {
+      price = detail.discountprice;
     }
 
-    if (detail.spercent && detail.spercent !== 100 && !detail.issalekg) {
-      price = detail.sprice;
+    if (detail.salepercent && detail.salepercent !== 100 && !detail.issalekg) {
+      price = detail.discountprice;
     }
 
     return price;
