@@ -54,13 +54,14 @@ class List extends React.Component {
   }
 
   renderProgress = (data) => {
-    const info = data;
-    let percents = 0;
+    let info = data;
+    /* let percents = 0;
     if (info !== undefined) {
-      if (info.cstatus !== null) {
-        percents = (Number(info.cstatus) + 1) * 25;
-      }
+      info = localStorage.getItem('next');
     }
+    percents = info.percent; */
+    let percents = localStorage.getItem("percent");
+    percents = (Number(percents) + 1) * 25;
     return (
       <div>
         <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />

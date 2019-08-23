@@ -28,9 +28,7 @@ class UserProfile extends React.Component {
   componentWillMount() {
     if (localStorage.getItem('auth') !== null) {
       this.props.getCustomer().then((res) => {
-        if (res.payload.success) {
-          localStorage.setItem('percent', res.payload.data.info.cstatus);
-        }
+        console.log(res);
       });
     }
   }
