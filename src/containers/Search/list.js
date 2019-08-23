@@ -457,10 +457,10 @@ class CategoryInfo extends React.Component {
                       className="form-control"
                       id="inputState"
                     >
-                      <Select.Option value="price_asc">
+                      <Select.Option value="currentprice_asc">
                         <FormattedMessage id="search.sort.values.priceAsc" />
                       </Select.Option>
-                      <Select.Option value="price_desc">
+                      <Select.Option value="currentprice_desc">
                         <FormattedMessage id="search.sort.values.priceDesc" />
                       </Select.Option>
                     </Select>

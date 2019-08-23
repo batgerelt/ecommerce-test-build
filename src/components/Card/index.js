@@ -100,21 +100,18 @@ class Card extends React.Component {
       } else {
         if (item.skucd) {
           item.insymd = Date.now();
-          this.props.incrementProductLocally(item);
           if (elastic) { // elastic -аас явуулах боломжгүй барааны нэмэлт мэдээлэл
             return this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
-              if (item.addminqty <= res.payload.availableqty) {
+              if (item.addminqty <= res.payload.data.availableqty) {
                 item.availableqty = res.payload.data.availableqty;
-                item.price = res.payload.data.price;
-                item.sprice = res.payload.data.sprice;
+                item.price = res.payload.data.unitprice;
+                item.sprice = res.payload.data.unitdiscountprice;
                 item.addminqty = res.payload.data.addminqty;
-
                 return this.props.incrementProductLocally(item);
               }
-              return message.warning('Нөөц хүрэлцэхгүй байна ^_^ from elastic');
+              return message.warning(intl.formatMessage({ id: 200 }));
             });
           }
-
           this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 
