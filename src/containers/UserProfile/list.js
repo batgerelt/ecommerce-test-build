@@ -46,6 +46,11 @@ class List extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
+
+    if (!this.props.isLogged) {
+      const { intl } = this.props;
+      message.success(intl.formatMessage({ id: "userButton.info.success" }));
+    }
   }
 
   renderProgress = (data) => {

@@ -62,7 +62,7 @@ class UserButton extends React.Component {
 
     if (!this.props.isLogged) {
       const { intl } = this.props;
-      message.warning(intl.formatMessage({ id: "userButton.info.success" }));
+      message.success(intl.formatMessage({ id: "userButton.info.success" }));
     }
   }
 
