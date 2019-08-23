@@ -164,9 +164,16 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
+    //adya end haraarau nohoi mini
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        const user = JSON.parse(localStorage.getItem('next'));
+        const user1 = JSON.parse(localStorage.getItem('next'));
+        let lucky1 = [];
+        if (user1 === null) {
+          const lucky = JSON.parse(localStorage.getItem('auth'));
+          lucky1 = lucky.data[0].info.customerInfo;
+        }
+        const user = lucky1;
         const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
         content = (
           <li className="list-inline-item user">
@@ -174,7 +181,7 @@ class UserButton extends React.Component {
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
-              <span className="">{user.firstname}</span>
+              <span className="">{user === null ? " " : user.firstname}</span>
             </Link>
             {/* large display */}
             <div className={`dropdown ${visible ? ' open' : ''}`}>
@@ -186,7 +193,7 @@ class UserButton extends React.Component {
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
                       </div>
                       <p className="name">
-                        {user.firstname}
+                        {user === null ? " " : user.firstname}
                       </p>
                     </div>
                     {this.renderProgress1()}
@@ -282,7 +289,7 @@ class UserButton extends React.Component {
                             </div>
                           </Spin>
                         </Upload>
-                        <span className="" style={{ color: "white" }}>{user.firstname}</span>
+                        <span className="" style={{ color: "white" }}>{user === null ? " " : user.firstname}</span>
                         {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "white" }}>хадгалах</p></Button> : null}
                       </div>
                       {this.renderProgress()}

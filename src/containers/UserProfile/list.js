@@ -55,12 +55,17 @@ class List extends React.Component {
 
   renderProgress = (data) => {
     const info = data;
-    let percents = (Number(info.cstatus) + 1) * 25;
+    let percents = 0;
+    if (info !== undefined) {
+      if (info.cstatus !== null) {
+        percents = (Number(info.cstatus) + 1) * 25;
+      }
+    }
     return (
       <div>
         <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
         <span className="rendername"> {percents}% / 100%</span>
-      </div>
+      </div >
     );
   }
 

@@ -86,7 +86,7 @@ class List extends React.Component {
                       src={logo}
                     />
                   </div>
-                  {confirms.length === 0 ? null : this.renderSuccessTrue()}
+                  {confirms.length === 0 ? null : this.renderConfirm()}
                   {!this.state.timer ? <Redirect to="/" /> : null}
                   <p>Нүүр хуудас руу үсрэхэд {this.state.time} секунд дутуу</p>
                 </center>
