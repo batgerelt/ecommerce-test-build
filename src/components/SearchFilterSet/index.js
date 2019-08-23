@@ -18,7 +18,6 @@ class Component extends React.Component {
   renderAttribute = () => {
     try {
       const { attrvalue, attrall, data } = this.props;
-      console.log('attrall: ', attrall);
       const lang = localStorage.getItem('lang');
 
       return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
