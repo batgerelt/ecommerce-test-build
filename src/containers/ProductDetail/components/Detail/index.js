@@ -322,6 +322,7 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
+
     let price = detail.price;
 
     // if (detail.issalekg && detail.kgproduct[0]) {

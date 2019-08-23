@@ -1,3 +1,4 @@
+const EncryptKey = "Emart1Mall2Encrypt3Key";
 
 const CARD_TYPES = {
   slim: 1,
@@ -52,4 +53,5 @@ export {
   LABEL_TYPES,
   PRODUCTS_PER_PAGE,
   SOCIAL_IDS,
+  EncryptKey,
 };

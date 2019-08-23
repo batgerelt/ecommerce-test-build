@@ -59,6 +59,7 @@ class Signup extends React.Component {
         if (values.password === values.confirmpassword) {
           this.props.signup({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
+              this.props.form.resetFields();
               this.props.LoginRegisterPanel.changeTab(1);
               message.warning("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
             } else {

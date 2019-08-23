@@ -54,6 +54,7 @@ class IndividualTab extends React.Component {
               onRef={ref => (this.SwalModals = ref)}
               param={values}
               connectEpoint={this.connectEpoint}
+              intl={this.props.intl}
             />
           ),
           type: "warning",
