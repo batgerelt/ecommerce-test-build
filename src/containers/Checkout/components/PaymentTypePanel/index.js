@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
 /* eslint-disable radix */
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */

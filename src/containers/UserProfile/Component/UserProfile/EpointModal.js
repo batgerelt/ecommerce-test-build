@@ -41,7 +41,7 @@ class SwalModals extends React.Component {
           <div className="button-container">
             <strong>
               <p style={{ fontSize: '15px' }}>
-                Та Имартын картаа 1 удаа холбосноор Ипойнт оноогоо ашиглах болон цуглуулах боломжтой. Мөн цуцлах боломжгүй тул зөв картаа холбоно уу.
+                <FormattedMessage id="profile.epoint.info" />
               </p>
             </strong>
             <button
@@ -55,7 +55,7 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase" style={{ fontWeight: "normal" }}>
-                ТИЙМ
+                <FormattedMessage id="shared.form.button.yes" />
               </span>
             </button>
             <button
@@ -69,7 +69,7 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase">
-                ҮГҮЙ
+                <FormattedMessage id="shared.form.button.no" />
               </span>
             </button>
           </div>

@@ -568,7 +568,6 @@ class Model extends BaseModel {
       case this.model.products.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.products.response:
-        console.log('action.payload: ', action.payload);
         return { ...state, products: action.payload.data };
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
@@ -611,7 +610,6 @@ class Model extends BaseModel {
       case this.model.decrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.decrementProductRemotely.response:
-        console.log('action.payload: ', action.payload);
         products = action.payload.success ? action.payload.data : action.payload.data.items;
         return { ...state, products };
 
