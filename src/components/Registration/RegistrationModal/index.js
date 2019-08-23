@@ -146,7 +146,7 @@ class RegistrationModal extends React.Component {
                 { validator: this.validateToNextPassword },
               ],
             })(
-              <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="off" />,
+              <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
             )}
           </Form.Item>
           <Form.Item>
