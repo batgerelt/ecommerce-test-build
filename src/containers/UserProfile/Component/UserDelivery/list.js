@@ -1,7 +1,9 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Avatar } from "antd";
+import CryptoJS from "crypto-js";
 import { Link } from "react-router-dom";
+import { EncryptKey } from "../../../../utils/Consts";
 import arrow from "../../../../../src/scss/assets/images/demo/arrow.png";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -32,6 +34,12 @@ class Component extends React.Component {
       return console.log(error);
     }
   };
+
+  encryptUrl = (id) => {
+    let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
+    return ciphertext.toString().replace('+', 'xMl3Jk').replace('/', 'Por21Ld').replace('=', 'Ml32');
+  }
+
   renderDelivery = () => {
     try {
       const { delivery } = this.props;
@@ -43,7 +51,7 @@ class Component extends React.Component {
           <td style={{ textAlign: "right" }}>{formatter.format(item.totalamount)}₮</td>
           <td>
             <Link
-              to={`/order/${item.id}`}
+              to={`/order/${this.encryptUrl(item.id)}`}
               style={{ color: "#feb415" }}
             // className="d-none d-lg-block d-xl-block"
             >

@@ -30,18 +30,20 @@ class SwalModals extends React.Component {
 
 
   onSubmit = () => {
+    console.log(this.props);
     this.props.connectEpoint();
     MySwal.close();
   }
 
   render() {
+    const { intl } = this.props;
     return (
       <div className="checkout-container msg-bank">
         <div className="card-content" style={{ textAlign: "center" }}>
           <div className="button-container">
             <strong>
               <p style={{ fontSize: '15px' }}>
-                <FormattedMessage id="profile.epoint.info" />
+                {intl.formatMessage({ id: "profile.epoint.info" })}
               </p>
             </strong>
             <button
@@ -55,7 +57,7 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase" style={{ fontWeight: "normal" }}>
-                <FormattedMessage id="shared.form.button.yes" />
+                {intl.formatMessage({ id: "shared.form.button.yes" })}
               </span>
             </button>
             <button
@@ -69,7 +71,7 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase">
-                <FormattedMessage id="shared.form.button.no" />
+                {intl.formatMessage({ id: "shared.form.button.no" })}
               </span>
             </button>
           </div>
