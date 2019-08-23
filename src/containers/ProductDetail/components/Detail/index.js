@@ -127,6 +127,7 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
+    console.log(detail);
     const { intl } = this.props;
     const { productQty } = this.state;
     let priceInfo = null;
@@ -164,10 +165,10 @@ class Detail extends Component {
 
     if (detail.salepercent && detail.salepercent !== 100) {
       // Хямдарсан үед
-      let salePrice = detail.discountprice;
-
-      if (detail.issalekg && detail.discountprice !== 0) {
-        salePrice = detail.discountprice;
+      let salePrice = detail.discountunitprice;
+      price = detail.unitprice;
+      if (detail.issalekg && detail.discountunitprice !== 0) {
+        salePrice = detail.discountunitprice;
       }
 
       priceInfo = (
@@ -183,7 +184,7 @@ class Detail extends Component {
                   marginLeft: "5px",
                 }}
               >
-                {formatter.format(price)}₮
+                {formatter.format(0)}₮
               </small>
               <span className="current" style={{ marginLeft: "5px" }}>
                 {formatter.format(salePrice)}₮
