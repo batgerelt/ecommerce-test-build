@@ -164,7 +164,7 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-    //adya end haraarau nohoi mini
+    // adya end haraarau nohoi mini
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user1 = JSON.parse(localStorage.getItem('next'));
