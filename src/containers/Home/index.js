@@ -67,7 +67,7 @@ class Page extends React.Component {
       jumcd: '99',
       start: 0,
       rowcnt: 20,
-      order: `price_asc`,
+      order: `date_desc`,
     });
     this.props.getEmartProduct({
       jumcd: '99',

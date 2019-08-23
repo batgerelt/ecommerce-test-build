@@ -62,6 +62,7 @@ class Relational extends Component {
       let { relatedProducts } = this.props;
       const { isShowMoreClicked } = this.state;
       let data = this.getSlicedData(limit);
+      console.log(data);
       return (
         !!data.length && (
           <div className="block product-delivery">
@@ -93,7 +94,7 @@ class Relational extends Component {
                         <span>{prod.title.length >= 17 ? `${prod.title.substring(0, 14)}...` : prod.title}</span>
                         <p>
                           <span style={{ fontWeight: 'normal', fontSize: "0.9rem", float: "left" }}>{prod.pricetag}</span>
-                          <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.sprice === 0 ? prod.price : prod.sprice)}₮</span>
+                          <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.discountprice === 0 ? prod.currentprice : prod.discountprice)}₮</span>
                         </p>
                       </Link>
                       <div className="action">
