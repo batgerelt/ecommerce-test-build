@@ -150,7 +150,7 @@ class LoginModal extends React.Component {
                 className="form-control"
                 placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                 size="large"
-                autoComplete="off"
+                autoComplete="new-email"
               />,
             )}
           </Form.Item>
@@ -159,11 +159,9 @@ class LoginModal extends React.Component {
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) }],
             })(
               <Input.Password
-                allowClear
-                className="form-control"
                 placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
-                type="password"
-                autoComplete="off"
+                autoComplete="new-password"
+                className="form-control"
               />,
             )}
           </Form.Item>

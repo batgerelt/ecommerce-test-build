@@ -444,7 +444,7 @@ class CategoryInfo extends React.Component {
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this">
+                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
                     <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleViewChange}
