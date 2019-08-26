@@ -202,6 +202,7 @@
 	"registerModal.title": "Бүртгүүлэх",
 	"registration.confirmation.body1": "Та өөрийн бүртгүүлсэн хаягаараа нэвтрэн орж худалдан авалтаа хийх боломжтой",
 	"registration.confirmation.body2": "Манай системийн хэрэглэгч болсон танд баярлалаа!",
+	"registration.confirmation.time": "Нүүр хуудас руу үсрэхэд {seconds} секунд дутуу",
 	"registration.confirmation.title": "Баталгаажуулалт амжилттай",
 	"restorePassword.subtitle": "Та нууц үгээ оруулна уу",
 	"restorePassword.title": "Нууц үг сэргээх",

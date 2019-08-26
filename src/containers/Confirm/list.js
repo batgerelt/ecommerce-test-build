@@ -50,7 +50,6 @@ class List extends React.Component {
   }
 
   renderSuccessFalse() {
-    console.log("gaga");
     return <Redirect to="/" />;
   }
 
@@ -88,7 +87,14 @@ class List extends React.Component {
                   </div>
                   {confirms.length === 0 ? null : this.renderConfirm()}
                   {!this.state.timer ? <Redirect to="/" /> : null}
-                  <p>Нүүр хуудас руу үсрэхэд {this.state.time} секунд дутуу</p>
+                  <p>
+                    <FormattedMessage
+                      id="registration.confirmation.time"
+                      values={{
+                        seconds: this.state.time,
+                      }}
+                    />
+                  </p>
                 </center>
               </div>
             </div>

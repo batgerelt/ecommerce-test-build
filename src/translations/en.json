@@ -202,6 +202,7 @@
 	"registerModal.title": "Register",
 	"registration.confirmation.body1": "You can purchase after logging in with your registered address",
 	"registration.confirmation.body2": "Thank you for joining us!",
+	"registration.confirmation.time": "{seconds} seconds left to go back home",
 	"registration.confirmation.title": "Successfully confirmed",
 	"restorePassword.subtitle": "Enter new password",
 	"restorePassword.title": "Restore password",
