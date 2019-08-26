@@ -116,9 +116,10 @@ class Signin extends React.Component {
                     },
                   ],
                 })(
-                  <Input.Password
+                  <Input
                     placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
                     autoComplete="new-password"
+                    type="password"
                     className="form-control"
                   />,
                 )}

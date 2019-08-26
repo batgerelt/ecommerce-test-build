@@ -177,7 +177,7 @@ class IndividualTab extends React.Component {
                           initialValue: "",
                           rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
-                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardno.validation.min" }) }],
+                          { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) }],
                         })(
                           <NumberInput
                             placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
