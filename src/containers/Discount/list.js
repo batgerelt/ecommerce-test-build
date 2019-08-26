@@ -66,16 +66,15 @@ class Discount extends React.Component {
     });
   }
 
-  // data nemeh heseg this.state.products.length < searchKeyWordResponse.hits.total.value
   loadMoreRows = () => {
     try {
-      // if (this.state.headerProducts.length !== 0) {
-      this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-        if (res.payload.success) {
-          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
-        }
-      });
-      // }
+      if (this.state.startsWith >= 10) {
+        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
+          }
+        });
+      }
       return null;
     } catch (error) {
       return console.log(error);

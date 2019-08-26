@@ -6,12 +6,14 @@
 import React, { Component } from "react";
 import { defineMessages } from "react-intl";
 import { connect } from "react-redux";
+import CryptoJS from "crypto-js";
 import { Collapse, Tabs, Divider, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
 
 import { intl } from '../../../../components/IntlGlobalProvider';
+import { EncryptKey } from "../../../../utils/Consts";
 
 const MySwal = withReactContent(Swal);
 const formatter = new Intl.NumberFormat("en-US");
@@ -115,6 +117,11 @@ class SwalModals extends Component {
         }
       }
     });
+  }
+
+  encryptUrl = (id) => {
+    let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
+    return ciphertext.toString().replace('+', 'xMl3Jk').replace('/', 'Por21Ld').replace('=', 'Ml32');
   }
 
   // eslint-disable-next-line consistent-return
@@ -323,7 +330,6 @@ class SwalModals extends Component {
             id: "checkout.swal.info.orderPayment",
           },
         });
-        console.log(ordData, "test");
         return (
           <div className="wrap" >
             <div className="success-message-container">
@@ -383,8 +389,6 @@ class SwalModals extends Component {
                                 <span>
                                   {intl.formatMessage({ id: "checkout.swal.label.bank" })}:
                                 </span>
-                                {console.log('intl.locale: ', intl.locale)}
-                                {console.log('chosenBankInfo: ', chosenBankInfo)}
                                 <strong className="big">{intl.locale === "mn" ? chosenBankInfo.banknm : chosenBankInfo.banknm_en}</strong>
                               </li>
                               <li className="flex-this flex-space">
@@ -443,12 +447,15 @@ class SwalModals extends Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {chosenInfo.length !== 0
-                              ? `${chosenInfo.provincenm},
+                            {
+                              ordData.delivery.deliverytype !== 3 ?
+                                chosenInfo.length !== 0
+                                  ? `${chosenInfo.provincenm},
                               ${chosenInfo.districtnm},
                               ${chosenInfo.committeenm},
                               ${chosenInfo.address}`
-                              : ""}
+                                  : "" : "Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар"
+                            }
                           </span>
                         </p>
                         <p className="text flex-this">
@@ -497,7 +504,7 @@ class SwalModals extends Component {
                           className="btn btn-dark"
                           onClick={(e) => {
                             MySwal.close();
-                            this.props.history.push(`/order/${ordData.order.id}`);
+                            this.props.history.push(`/order/${this.encryptUrl(ordData.order.id)}`);
                           }}
                         >
                           <span className="text-uppercase">

@@ -29,11 +29,18 @@ class Component extends React.Component {
       });
     });
   }
-  addHistory = async (item) => {
-    let result = await this.props.addWish({ skucd: item.skucd });
-    if (result.payload.success) {
-      this.setState({ wish: this.props.wish });
-    }
+  addHistory = (item) => {
+    this.props.addWishList({ skucd: item.skucd }).then((res) => {
+      if (res.payload.success) {
+        this.removeAddedWishColorTime();
+      }
+    });
+  }
+  removeAddedWishColorTime() {
+    const { removeAddedWishColor } = this.props;
+    setTimeout(() => {
+      removeAddedWishColor();
+    }, 500);
   }
   handleIncrement = (item) => {
     if (item.skucd) {
@@ -141,6 +148,7 @@ class Component extends React.Component {
     }
   }
   render() {
+    console.log("this.props", this.props);
     const loaders = this.state.loader;
     const icon = <Icon type="sync" spin />;
     return (
@@ -162,68 +170,3 @@ class Component extends React.Component {
 }
 
 export default Component;
-
-/* return history.map((item, index) => (
-        <div className="single flex-space" key={index}>
-          <div className="product">
-            <div className="flex-this">
-              <div className="image-container default">
-                <Link to={item.route ? item.route : " "}>
-                  <span
-                    className="image"
-                    style={{
-                      backgroundImage: `url(${process.env.IMAGE + item.img})`,
-                    }}
-                  />
-                </Link>
-              </div>
-              <div className="info">
-                <Link to={item.route ? item.route : " "}>
-                  <p className="name">{lang === "mn" ? item.title : item.title_en}</p>
-                  <p className="text">{lang === "mn" ? item.feature : item.feature_en}</p>
-                </Link>
-                <Rate allowHalf value={item.rate / 2} disabled />
-              </div>
-            </div>
-          </div>
-          <div className="action">
-            <ul className="list-unstyled flex-this end">
-              <li>
-                <div className="price-pro" style={{ paddingRight: "10px" }}>
-                  {
-                    item.pricetag !== null ?
-                      localStorage.getItem('lang') === "mn" ?
-                        <div>{`${item.pricetag} ${formatter.format(item.currentprice)}₮`}</div>
-                        :
-                        <div>{`${item.pricetag_en} ${formatter.format(item.currentprice)}₮`}</div>
-                      : <div>{`${formatter.format(item.currentprice)}`}₮</div>
-                  }
-                </div>
-              </li>
-              <li>
-                <Link to="#">
-                  <i
-                    className="fa fa-heart"
-                    aria-hidden="true"
-                    onClick={() => this.addHistory(item)}
-                  />
-                </Link>
-              </li>
-              <li>
-                <Link to="#">
-                  <i
-                    className="fa fa-cart-plus"
-                    aria-hidden="true"
-                    onClick={() => this.handleIncrement(item)}
-                  />
-                </Link>
-              </li>
-              <li>
-                <Link to="#" onClick={e => this.onDelete(item)}>
-                  <i className="fa fa-times" aria-hidden="true" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )); */

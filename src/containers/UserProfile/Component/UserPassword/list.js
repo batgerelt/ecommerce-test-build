@@ -1,9 +1,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, message, Input, Select, Icon, Spin, Col, Button } from "antd";
-import { Link } from "react-router-dom";
-
-const formatter = new Intl.NumberFormat("en-US");
+// import { Link } from "react-router-dom";
 
 class Component extends React.Component {
   state = {};
@@ -72,7 +70,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
+            <Form.Item style={{ marginBottom: '5px' }}>
               {getFieldDecorator("password", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
@@ -82,7 +80,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item hasFeedback style={{ marginBottom: '5px' }}>
+            <Form.Item style={{ marginBottom: '5px' }}>
               {getFieldDecorator("confirm", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },

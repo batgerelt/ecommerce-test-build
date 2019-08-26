@@ -21,7 +21,7 @@ class Component extends React.Component {
       const lang = localStorage.getItem('lang');
 
       return data.aggregations.attributes.groups.buckets.map((attribute, index) => {
-        if (attribute.doc_count >= data.hits.total.value) {
+        if (attribute.doc_count >= data.hits.total.value || attrall.find(i => i.id === attribute.key).isconstant === 1) {
           return (
             <Collapse.Panel header={lang === "mn" ? attrall.find(i => i.id === attribute.key).name : attrall.find(i => i.id === attribute.key).nameen} key={index}>
               <div className="collapse show">

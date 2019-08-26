@@ -46,16 +46,27 @@ class List extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
+
+    if (!this.props.isLogged) {
+      const { intl } = this.props;
+      message.success(intl.formatMessage({ id: "userButton.info.success" }));
+    }
   }
 
   renderProgress = (data) => {
-    const info = data;
-    let percents = (Number(info.cstatus) + 1) * 25;
+    let info = data;
+    /* let percents = 0;
+    if (info !== undefined) {
+      info = localStorage.getItem('next');
+    }
+    percents = info.percent; */
+    let percents = localStorage.getItem("percent");
+    percents = (Number(percents) + 1) * 25;
     return (
       <div>
         <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
         <span className="rendername"> {percents}% / 100%</span>
-      </div>
+      </div >
     );
   }
 

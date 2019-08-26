@@ -127,6 +127,7 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
+    console.log(detail);
     const { intl } = this.props;
     const { productQty } = this.state;
     let priceInfo = null;
@@ -139,7 +140,7 @@ class Detail extends Component {
           <div className="price product-detail">
             {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
             {
-              detail.saleprice ?
+              detail.discountprice !== 0 ?
                 <small
                   className="sale"
                   style={{
@@ -148,7 +149,7 @@ class Detail extends Component {
                     marginLeft: "5px",
                   }}
                 >
-                  {formatter.format(detail.volumeprice)}₮
+                  {formatter.format(detail.discountprice)}₮
                 </small> : ""
             }
             <span className="current" style={{ marginLeft: "5px" }}>
@@ -162,12 +163,12 @@ class Detail extends Component {
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
-    if (detail.salepercent && detail.saleprice) {
+    if (detail.salepercent && detail.salepercent !== 100) {
       // Хямдарсан үед
-      let salePrice = detail.saleprice;
-
-      if (detail.issalekg && detail.currentprice) {
-        salePrice = detail.currentprice;
+      let salePrice = detail.discountunitprice;
+      price = detail.unitprice;
+      if (detail.issalekg && detail.discountunitprice !== 0) {
+        salePrice = detail.discountunitprice;
       }
 
       priceInfo = (
@@ -199,7 +200,7 @@ class Detail extends Component {
           <div className="count-text text-right">
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
-              {formatter.format(detail.issalekg ? detail.volumeprice : detail.currentprice)}₮
+              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
@@ -324,17 +325,20 @@ class Detail extends Component {
       return null;
     }
 
-    let currentPrice = detail.price;
+    let price = detail.price;
 
-    if (detail.salepercent && detail.saleprice) {
-      currentPrice = detail.saleprice;
+    // if (detail.issalekg && detail.kgproduct[0]) {
+    //   price = detail.kgproduct[0].salegramprice;
+    // }
+    if (detail.discountprice !== 0) {
+      price = detail.discountprice;
     }
 
-    if (detail.issalekg && detail.currentprice) {
-      currentPrice = detail.currentprice;
+    if (detail.salepercent && detail.salepercent !== 100 && !detail.issalekg) {
+      price = detail.discountprice;
     }
 
-    return currentPrice;
+    return price;
   };
 
   getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();

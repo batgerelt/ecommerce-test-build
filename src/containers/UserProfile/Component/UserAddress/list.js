@@ -283,7 +283,7 @@ class Component extends React.Component {
           <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("subLocation", {
-                initialValue: this.checkError(this.state.params.distid),
+                /* initialValue: this.checkError(this.state.params.distid), */
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
               })(
                 <Select
@@ -303,7 +303,7 @@ class Component extends React.Component {
           <Col xs={24} sm={24} md={8} lg={8} xl={8}>
             <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
               {getFieldDecorator("commiteLocation", {
-                initialValue: this.checkError(this.state.params.commid),
+                /* initialValue: this.checkError(this.state.params.commid), */
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
               })(
                 <Select

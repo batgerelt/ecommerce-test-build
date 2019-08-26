@@ -144,7 +144,9 @@ class DeliveryPanel extends React.Component {
       this.props.form.setFieldsValue({
         phone1: info.phone1,
         phone2: info.phone2,
-        name: info.lastname,
+        name: info.firstname,
+        committeeid: [],
+        districtid: [],
       });
     } else {
       setFieldsValue({
