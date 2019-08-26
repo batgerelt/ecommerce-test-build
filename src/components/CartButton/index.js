@@ -48,7 +48,7 @@ class CartButton extends Component {
       products = JSON.parse(products);
     }
 
-    const qties = products && products.map(prod => prod.qty);
+    const qties = products && products.map(prod => (prod.qty ? prod.qty : 0));
 
     return qties && qties.length > 0
       ? qties.reduce((acc, cur) => acc + cur)
@@ -66,7 +66,7 @@ class CartButton extends Component {
       const price = prod.salepercent && prod.discountprice
         ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
         : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
-      return price * prod.qty;
+      return (prod.addminqty > 1 ? prod.currentunitprice : price) * (prod.qty ? prod.qty : 0);
     });
 
     return prices && prices.length > 0

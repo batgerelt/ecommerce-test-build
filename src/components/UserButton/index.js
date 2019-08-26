@@ -174,11 +174,9 @@ class UserButton extends React.Component {
         if (user1 === null) {
           const lucky = JSON.parse(localStorage.getItem('auth'));
           user = lucky.data[0].info.customerInfo;
-          console.log("user", user);
           localStorage.setItem('next', JSON.stringify(user));
           localStorage.setItem('img', user.imgnm);
         }
-        console.log(user);
         const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
         content = (
           <li className="list-inline-item user">
