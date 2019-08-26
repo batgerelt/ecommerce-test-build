@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-lonely-if */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable radix */
@@ -64,7 +65,6 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleRemoveClick = product => async (e) => {
-    console.log('product: ', product);
     e.preventDefault();
 
     const { intl } = this.props;
@@ -78,7 +78,6 @@ class Cart extends React.Component {
           custid: this.props.data[0].info.customerInfo.id,
           skucd: found.skucd,
         });
-        console.log('result: ', result);
         if (!result.payload.success) {
           message.warning(intl.formatMessage({ id: result.payload.code }));
         }
@@ -98,6 +97,7 @@ class Cart extends React.Component {
 
     if (found) {
       found.qty = parseInt(e.target.value, 10);
+      found.qty = isNaN(found.qty) ? found.addminqty : found.qty;
 
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
@@ -262,12 +262,12 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
-    if (product.saleprice || product.salepercent) {
+    if (product.discountprice || product.salepercent) {
       if (product.issalekg) {
         return (
           <p className="price" style={{ textAlign: 'end' }}>
             <strong>
-              {formatter.format(product.saleprice || product.currentprice)}₮
+              {formatter.format(product.discountprice || product.currentprice)}₮
             </strong>
             <span
               style={{
@@ -350,13 +350,27 @@ class Cart extends React.Component {
     const { products } = this.props;
 
     return products && products.reduce((acc, cur) => (
-      acc + (cur.addminqty > 1 ? cur.qty / cur.addminqty : cur.qty)
+      acc + cur.qty
     ), 0);
   };
 
   renderTotalPrice = (product = null) => {
     if (product) {
-      const price = product.saleprice || product.currentprice || product.price;
+      let { price } = product;
+
+      if (product.addminqty > 1) {
+        price = product.currentunitprice;
+
+        if (product.salepercent && product.discountunitprice) {
+          price = product.discountunitprice;
+        }
+      } else if (product.issalekg && product.currentprice) {
+        price = product.currentprice;
+
+        if (product.salepercent && product.discountprice) {
+          price = product.discountprice;
+        }
+      }
 
       return (
         <span className="price total">
@@ -370,9 +384,23 @@ class Cart extends React.Component {
     return (
       products &&
       products.reduce((acc, cur) => {
-        const unitPrice = cur.saleprice || cur.currentprice || cur.price;
-        // eslint-disable-next-line no-mixed-operators
-        return acc + unitPrice * cur.qty;
+        let { price } = cur;
+
+        if (cur.addminqty > 1) {
+          price = cur.currentunitprice;
+
+          if (cur.salepercent && cur.discountunitprice) {
+            price = cur.discountunitprice;
+          }
+        } else if (cur.issalekg && cur.currentprice) {
+          price = cur.currentprice;
+
+          if (cur.salepercent && cur.discountprice) {
+            price = cur.discountprice;
+          }
+        }
+
+        return acc + (price * cur.qty);
       }, 0)
     );
   };
@@ -413,8 +441,8 @@ class Cart extends React.Component {
                         <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
                         <strong>
                           {formatter.format(
-                            wishlistProd.saleprice
-                              ? wishlistProd.saleprice || wishlistProd.currentprice
+                            wishlistProd.discountprice
+                              ? wishlistProd.discountprice || wishlistProd.currentprice
                               : wishlistProd.price
                                 ? wishlistProd.price
                                 : 0,
