@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-else-return */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-lonely-if */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -25,8 +27,18 @@ class Cart extends React.Component {
       const result = await this.props.confirmCartRemotely();
       const { intl } = this.props;
 
-      if (!result.payload.success) {
-        result.payload.data.forEach(code => message.warning(intl.formatMessage({ id: code })));
+      if (result.payload.success) {
+        if (result.payload.data && result.payload.data.fail) {
+          result.payload.data.fail.forEach(
+            code => message.warning(intl.formatMessage({ id: code })),
+          );
+        }
+
+        return <Redirect to="/checkout" />;
+      } else {
+        result.payload.data.forEach(
+          code => message.warning(intl.formatMessage({ id: code })),
+        );
 
         return <Redirect to="/cart" />;
       }
@@ -60,6 +72,8 @@ class Cart extends React.Component {
           this.props.getWish();
         }
       });
+    } else {
+      this.props.LoginModal.handleLoginModal();
     }
   };
 
@@ -131,7 +145,7 @@ class Cart extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -179,7 +193,7 @@ class Cart extends React.Component {
             },
           });
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -250,7 +264,7 @@ class Cart extends React.Component {
             },
           });
           message.warning(intl.formatMessage(messages.error, {
-            name: updated.name,
+            name: updated.title,
             qty: updated.qty,
           }));
         }
@@ -350,7 +364,7 @@ class Cart extends React.Component {
     const { products } = this.props;
 
     return products && products.reduce((acc, cur) => (
-      acc + cur.qty
+      acc + (cur.qty ? cur.qty : 0)
     ), 0);
   };
 
@@ -400,7 +414,7 @@ class Cart extends React.Component {
           }
         }
 
-        return acc + (price * cur.qty);
+        return acc + (price * (cur.qty ? cur.qty : 0));
       }, 0)
     );
   };
@@ -486,6 +500,8 @@ class Cart extends React.Component {
       );
 
       if (products && products.length > 0) {
+        products = products.filter(product => product.qty);
+
         products.sort((a, b) => {
           if (typeof a.insymd === "string") {
             a.insymd = new Date(a.insymd).getTime();
@@ -541,8 +557,8 @@ class Cart extends React.Component {
                         >
                           <strong>
                             {lang === "mn"
-                              ? prod.name || prod.title
-                              : prod.name_en || prod.title_en
+                              ? prod.title || prod.title
+                              : prod.title_en || prod.title_en
                             }
                           </strong>
                           <span>

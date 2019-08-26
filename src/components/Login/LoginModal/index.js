@@ -98,7 +98,6 @@ class LoginModal extends React.Component {
 
               if (products !== undefined) {
                 this.props.getProducts().then((res) => {
-                  console.log("haha", res);
                   let k = res.payload.data.length - products.length;
                   if (res.payload.data.length !== 0 && k !== 0) {
                     this.setState({ goCart: true });
