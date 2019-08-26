@@ -64,6 +64,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleRemoveClick = product => async (e) => {
+    console.log('product: ', product);
     e.preventDefault();
 
     const { intl } = this.props;
@@ -77,6 +78,7 @@ class Cart extends React.Component {
           custid: this.props.data[0].info.customerInfo.id,
           skucd: found.skucd,
         });
+        console.log('result: ', result);
         if (!result.payload.success) {
           message.warning(intl.formatMessage({ id: result.payload.code }));
         }

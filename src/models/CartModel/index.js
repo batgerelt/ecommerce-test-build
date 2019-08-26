@@ -709,7 +709,7 @@ class Model extends BaseModel {
           //   throw new Error("Бараа олдсонгүй!");
           // }
 
-          // products = products.filter(prod => prod.skucd !== found.skucd);
+          products = products.filter(prod => prod.skucd !== action.payload.data);
 
           return { ...state, products };
         } catch (e) {
