@@ -16,7 +16,6 @@ class CardList extends React.Component {
   getCardsAccordingToSeq = (cardTypes, items) => {
     let p = 0;
     let cards = [];
-
     for (let i = 0; i < cardTypes.length; i++) {
       const cardType = parseInt(cardTypes[i]);
 
@@ -24,9 +23,8 @@ class CardList extends React.Component {
         cardType === CARD_TYPES.wide
           ? CARD_NUMS_IN_ROW.wide
           : CARD_NUMS_IN_ROW.slim;
-
       // eslint-disable-next-line comma-spacing
-      for (let j = 0; j < cardsInRow; j++, p++) {
+      for (let j = 0; j < cardsInRow; j++ , p++) {
         if (!items[p]) {
           break;
         }
@@ -64,7 +62,6 @@ class CardList extends React.Component {
     if (cardListType === CARD_LIST_TYPES.horizontal) {
       if (seq) {
         const cardTypes = seq.split(",");
-
         if (showAll) {
           let cardsLength = 0;
           cardTypes.forEach(cardType => {
@@ -73,7 +70,6 @@ class CardList extends React.Component {
                 ? CARD_NUMS_IN_ROW.slim
                 : CARD_NUMS_IN_ROW.wide;
           });
-
           for (let i = 0; i < Math.ceil(items.length % cardsLength); i++) {
             const lastIndex = i * cardsLength + cardsLength - 1;
             cardList = [

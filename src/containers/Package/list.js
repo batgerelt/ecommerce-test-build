@@ -121,8 +121,19 @@ class Discount extends React.Component {
   generateItemHeight = (item, width) => {
     try {
       const { packageScroll } = this.props;
+      console.log(width);
       if (packageScroll[item.index].length <= 3) {
         return 306.5;
+      }
+      if (width >= 300 && width < 390) {
+        return 2261.06;
+      }
+
+      if (width >= 390 && width < 480) {
+        return 2400;
+      }
+      if (width <= 752) {
+        return 2869.5;
       }
       return ITEM_HEIGHT;
     } catch (error) {
@@ -134,7 +145,7 @@ class Discount extends React.Component {
     try {
       const { packageScroll, widgetAll } = this.props;
       return (
-        <div className="section">
+        <div className="package" style={{ paddingTop: '10px' }}>
           <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {
