@@ -184,7 +184,7 @@ class Detail extends Component {
                   marginLeft: "5px",
                 }}
               >
-                {formatter.format(0)}₮
+                {formatter.format(price)}₮
               </small>
               <span className="current" style={{ marginLeft: "5px" }}>
                 {formatter.format(salePrice)}₮
