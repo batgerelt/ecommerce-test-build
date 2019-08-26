@@ -499,6 +499,7 @@ class Model extends BaseModel {
         }
       } else {
         if (shouldUpdateByQty) {
+          console.log('product: ', product);
           const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
           if (product.isgift) {
             product.qty = qty;

@@ -41,7 +41,8 @@ class SwalModals extends React.Component {
           <div className="button-container">
             <strong>
               <p style={{ fontSize: '15px' }}>
-                <FormattedMessage id="profile.epoint.info" />
+                {/* <FormattedMessage id="profile.epoint.info" /> */}
+                {intl.formatMessage({ id: "profile.epoint.info" })}
               </p>
             </strong>
             <button
@@ -55,7 +56,8 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase" style={{ fontWeight: "normal" }}>
-                <FormattedMessage id="shared.form.button.yes" />
+                {/* <FormattedMessage id="shared.form.button.yes" /> */}
+                {intl.formatMessage({ id: "shared.form.button.yes" })}
               </span>
             </button>
             <button
@@ -69,7 +71,8 @@ class SwalModals extends React.Component {
               }}
             >
               <span className="text-uppercase">
-                <FormattedMessage id="shared.form.button.no" />
+                {/* <FormattedMessage id="shared.form.button.no" /> */}
+                {intl.formatMessage({ id: "shared.form.button.no" })}
               </span>
             </button>
           </div>

@@ -139,7 +139,7 @@ class Detail extends Component {
           <div className="price product-detail">
             {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
             {
-              detail.sprice !== 0 ?
+              detail.saleprice ?
                 <small
                   className="sale"
                   style={{
@@ -162,12 +162,12 @@ class Detail extends Component {
     // eslint-disable-next-line prefer-destructuring
     let price = detail.price;
 
-    if (detail.spercent && detail.spercent !== 100) {
+    if (detail.salepercent && detail.saleprice) {
       // Хямдарсан үед
-      let salePrice = detail.sprice;
+      let salePrice = detail.saleprice;
 
-      if (detail.issalekg && detail.sprice !== 0) {
-        salePrice = detail.sprice;
+      if (detail.issalekg && detail.currentprice) {
+        salePrice = detail.currentprice;
       }
 
       priceInfo = (
@@ -199,7 +199,7 @@ class Detail extends Component {
           <div className="count-text text-right">
             {priceTitle}
             <span className="current" style={{ marginLeft: "5px" }}>
-              {formatter.format(detail.issalekg === 0 ? detail.volumeprice : detail.currentprice)}₮
+              {formatter.format(detail.issalekg ? detail.volumeprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
@@ -319,23 +319,22 @@ class Detail extends Component {
 
   getPrice = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
+
     if (!detail) {
       return null;
     }
-    let price = detail.price;
 
-    // if (detail.issalekg && detail.kgproduct[0]) {
-    //   price = detail.kgproduct[0].salegramprice;
-    // }
-    if (detail.sprice !== 0) {
-      price = detail.sprice;
+    let currentPrice = detail.price;
+
+    if (detail.salepercent && detail.saleprice) {
+      currentPrice = detail.saleprice;
     }
 
-    if (detail.spercent && detail.spercent !== 100 && !detail.issalekg) {
-      price = detail.sprice;
+    if (detail.issalekg && detail.currentprice) {
+      currentPrice = detail.currentprice;
     }
 
-    return price;
+    return currentPrice;
   };
 
   getTotalPrice = detail => (this.state.productQty / detail.addminqty) * this.getPrice();

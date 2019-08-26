@@ -8,38 +8,38 @@ import cartImage from "../../scss/assets/svg/002-shopping-cart.svg";
 const formatter = new Intl.NumberFormat("en-US");
 
 class CartButton extends Component {
-  getUnitPrice = (product) => {
-    if (product.sprice) {
-      if (
-        product.issalekg &&
-        product.kgproduct &&
-        product.kgproduct[0] &&
-        product.kgproduct[0].salegramprice
-      ) {
-        // Хямдарсан бөгөөд кг-ын бараа
-        return {
-          price: product.kgproduct[0].salegramprice,
-          sprice: product.kgproduct[0].salegramprice,
-        };
-      }
+  // getUnitPrice = (product) => {
+  //   if (product.sprice) {
+  //     if (
+  //       product.issalekg &&
+  //       product.kgproduct &&
+  //       product.kgproduct[0] &&
+  //       product.kgproduct[0].salegramprice
+  //     ) {
+  //       // Хямдарсан бөгөөд кг-ын бараа
+  //       return {
+  //         price: product.kgproduct[0].salegramprice,
+  //         sprice: product.kgproduct[0].salegramprice,
+  //       };
+  //     }
 
-      // Хямдарсан бараа
-      return { price: product.price, sprice: product.sprice };
-    }
+  //     // Хямдарсан бараа
+  //     return { price: product.price, sprice: product.sprice };
+  //   }
 
-    if (
-      product.issalekg &&
-      product.kgproduct &&
-      product.kgproduct[0] &&
-      product.kgproduct[0].salegramprice
-    ) {
-      // Хямдраагүй бөгөөд кг-ын бараа
-      return { price: product.kgproduct[0].salegramprice, sprice: null };
-    }
+  //   if (
+  //     product.issalekg &&
+  //     product.kgproduct &&
+  //     product.kgproduct[0] &&
+  //     product.kgproduct[0].salegramprice
+  //   ) {
+  //     // Хямдраагүй бөгөөд кг-ын бараа
+  //     return { price: product.kgproduct[0].salegramprice, sprice: null };
+  //   }
 
-    // Хямдраагүй бараа
-    return { price: product.price, sprice: null };
-  };
+  //   // Хямдраагүй бараа
+  //   return { price: product.price, sprice: null };
+  // };
 
   getTotalQty = () => {
     let { products } = this.props.cart;
@@ -63,7 +63,9 @@ class CartButton extends Component {
     }
 
     const prices = products && products.map((prod) => {
-      const price = this.getUnitPrice(prod).sprice || this.getUnitPrice(prod).price;
+      const price = prod.salepercent && prod.discountprice
+        ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
+        : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
       return price * prod.qty;
     });
 

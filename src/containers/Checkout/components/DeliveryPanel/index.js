@@ -192,7 +192,7 @@ class DeliveryPanel extends React.Component {
   }
 
   changeTab = (e) => {
-    const { deliveryTypes } = this.props;
+    const { deliveryTypes, intl } = this.props;
     // this.props.form.resetFields();
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     if (found.isenable === 1) {
@@ -202,7 +202,7 @@ class DeliveryPanel extends React.Component {
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
       });
     } else {
-      message.warning("15 цагаас хойш шуурхай хүргэлт хийх боломжгүй.");
+      message.warning(intl.formatMessage({ id: "checkout.expressDelivery.info" }));
     }
   };
 

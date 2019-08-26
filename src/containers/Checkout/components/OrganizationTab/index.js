@@ -41,7 +41,7 @@ class OrganizationTab extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue, validateFields } = this.props.form;
-    const { DeliveryInfo } = this.props;
+    const { DeliveryInfo, intl } = this.props;
     validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
@@ -54,7 +54,7 @@ class OrganizationTab extends React.Component {
               setFieldsValue({ regno: res.payload.data.name });
               this.setState({ companyInfo: value, connected: true });
             } else {
-              message.warning("Байгууллага олдсонгүй.");
+              message.warning(intl.formatMessage({ id: "checkout.extra.organization.info" }));
             }
           }
         });

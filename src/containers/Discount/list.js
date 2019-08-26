@@ -129,6 +129,7 @@ class Discount extends React.Component {
     try {
       const seq = "1,1";
       const { headerProducts } = this.state;
+      console.log('headerProducts: ', headerProducts);
       const data = [];
       headerProducts.map(i => data.push(i._source));
 

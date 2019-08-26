@@ -255,85 +255,55 @@ class Card extends React.Component {
         return null;
       }
 
-      if (item.sprice || item.price) {
-        let priceTitle = "";
+      let priceTitle = "";
 
-        if (item.id) {
-          priceTitle = (
-            <span style={{ fontWeight: "normal" }}>
-              <FormattedMessage id="card.package.label.price" />:
-            </span>
-          );
-        } else if (item.recipeid) {
-          priceTitle = (
-            <span style={{ fontWeight: "normal" }}>
-              <FormattedMessage id="card.recipe.label.price" />:
-            </span>
-          );
-        }
+      if (item.id) {
+        priceTitle = (
+          <span style={{ fontWeight: "normal" }}>
+            <FormattedMessage id="card.package.label.price" />:
+          </span>
+        );
+      } else if (item.recipeid) {
+        priceTitle = (
+          <span style={{ fontWeight: "normal" }}>
+            <FormattedMessage id="card.recipe.label.price" />:
+          </span>
+        );
+      }
 
-        if (item.sprice || (item.discountprice && item.discountprice !== 0)) {
-          prices = (
-            <div className="row">
-              {!!priceTitle && (
-                <div
-                  className="col-md-6 no-padding-r"
-                  style={{ textAlign: "left" }}
-                >
-                  {priceTitle}
-                </div>
-              )}
-
-              {/* elastic search price tag */}
-              {!item.pricetag ? null : (
-                <div
-                  className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                  style={{ textAlign: list ? 'rigth' : 'left' }}
-                >
-                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-                </div>
-              )}
-
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
-                <small className="sale">
-                  {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-                </small>
-                <span className="current">
-                  {isNaN(item.sprice || item.currentprice) ? 0 : formatter.format(item.sprice || item.currentprice)}₮
-                </span>
+      if (item.discountprice && item.discountprice !== 0) {
+        prices = (
+          <div className="row">
+            {!!priceTitle && (
+              <div
+                className="col-md-6 no-padding-r"
+                style={{ textAlign: "left" }}
+              >
+                {priceTitle}
               </div>
+            )}
+
+            {/* elastic search price tag */}
+            {!item.pricetag ? null : (
+              <div
+                className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
+                style={{ textAlign: list ? 'rigth' : 'left' }}
+              >
+                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+              </div>
+            )}
+
+            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
+              <small className="sale">
+                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+              </small>
+              <span className="current">
+                {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
+              </span>
             </div>
-          );
-          item.discountprice === 0 ?
-            prices = (
-              <div className="row">
-                {!!priceTitle && (
-                  <div
-                    className="col-md-6 no-padding-r"
-                    style={{ textAlign: "left" }}
-                  >
-                    {priceTitle}
-                  </div>
-                )}
-
-                {/* elastic search price tag */}
-                {item.pricetag === null ? null : (
-                  <div
-                    className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                    style={{ textAlign: list ? 'center' : 'left' }}
-                  >
-                    {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-                  </div>
-                )}
-
-                <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`}>
-                  <span className="current">
-                    {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-                  </span>
-                </div>
-              </div>
-            ) : null;
-        } else {
+          </div>
+        );
+        item.discountprice === 0 ?
           prices = (
             <div className="row">
               {!!priceTitle && (
@@ -346,23 +316,51 @@ class Card extends React.Component {
               )}
 
               {/* elastic search price tag */}
-              {item.id || item.recipeid || !item.pricetag ? null : (
+              {item.pricetag === null ? null : (
                 <div
-                  className={`col-md-6 ${list ? 'no-padding-l tp-15' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                  className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
                   style={{ textAlign: list ? 'center' : 'left' }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`}>
                 <span className="current">
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
               </div>
             </div>
-          );
-        }
+          ) : null;
+      } else {
+        prices = (
+          <div className="row">
+            {!!priceTitle && (
+              <div
+                className="col-md-6 no-padding-r"
+                style={{ textAlign: "left" }}
+              >
+                {priceTitle}
+              </div>
+            )}
+
+            {/* elastic search price tag */}
+            {item.id || item.recipeid || !item.pricetag ? null : (
+              <div
+                className={`col-md-6 ${list ? 'no-padding-l tp-15' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
+                style={{ textAlign: list ? 'center' : 'left' }}
+              >
+                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+              </div>
+            )}
+
+            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
+              <span className="current">
+                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+              </span>
+            </div>
+          </div>
+        );
       }
 
       let heartDisabled = true;

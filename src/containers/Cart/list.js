@@ -260,12 +260,12 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
-    if (product.sprice || product.spercent !== 100 || product.salepercent) {
+    if (product.saleprice || product.salepercent) {
       if (product.issalekg) {
         return (
           <p className="price" style={{ textAlign: 'end' }}>
             <strong>
-              {formatter.format(product.sprice || product.currentprice)}₮
+              {formatter.format(product.saleprice || product.currentprice)}₮
             </strong>
             <span
               style={{
@@ -354,7 +354,7 @@ class Cart extends React.Component {
 
   renderTotalPrice = (product = null) => {
     if (product) {
-      const price = product.sprice || product.currentprice || product.price;
+      const price = product.saleprice || product.currentprice || product.price;
 
       return (
         <span className="price total">
@@ -368,7 +368,7 @@ class Cart extends React.Component {
     return (
       products &&
       products.reduce((acc, cur) => {
-        const unitPrice = cur.sprice || cur.currentprice || cur.price;
+        const unitPrice = cur.saleprice || cur.currentprice || cur.price;
         // eslint-disable-next-line no-mixed-operators
         return acc + unitPrice * cur.qty;
       }, 0)
@@ -411,8 +411,8 @@ class Cart extends React.Component {
                         <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
                         <strong>
                           {formatter.format(
-                            wishlistProd.sprice
-                              ? wishlistProd.sprice || wishlistProd.currentprice
+                            wishlistProd.saleprice
+                              ? wishlistProd.saleprice || wishlistProd.currentprice
                               : wishlistProd.price
                                 ? wishlistProd.price
                                 : 0,
