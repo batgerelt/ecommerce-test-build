@@ -238,6 +238,7 @@ class DeliveryInfo extends React.Component {
         tmp.taxName = organizationData.name;
       }
       this.sendPayment(tmp);
+      this.props.clearRemotely();
     }
   }
 
