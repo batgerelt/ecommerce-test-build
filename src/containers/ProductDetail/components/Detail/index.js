@@ -127,7 +127,6 @@ class Detail extends Component {
     if (!detail) {
       return null;
     }
-    console.log(detail);
     const { intl } = this.props;
     const { productQty } = this.state;
     let priceInfo = null;
@@ -149,7 +148,7 @@ class Detail extends Component {
                     marginLeft: "5px",
                   }}
                 >
-                  {formatter.format(detail.discountprice)}₮
+                  {formatter.format(detail.volumeprice)}₮
                 </small> : ""
             }
             <span className="current" style={{ marginLeft: "5px" }}>
