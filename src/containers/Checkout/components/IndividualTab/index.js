@@ -185,7 +185,7 @@ class IndividualTab extends React.Component {
                             allowClear
                             size="large"
                             className="col-md-12"
-                            autoComplete="off"
+                            autoComplete="false"
                           />,
                         )}
                       </Form.Item>
@@ -201,7 +201,7 @@ class IndividualTab extends React.Component {
                             type="password"
                             size="large"
                             className="col-md-12"
-                            autoComplete="off"
+                            autoComplete="false"
                           />,
                         )}
                       </Form.Item>
@@ -223,7 +223,7 @@ class IndividualTab extends React.Component {
                           initialValue: formatter.format(cardInfo.point),
                           rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
                         })(
-                          <Input size="large" autoComplete="off" disabled type="text" placeholder={intl.formatMessage({ id: "shared.form.epoint.placeholder" })} style={{ marginBottom: 0 }} className="col-md-12" />,
+                          <Input size="large" autoComplete="false" disabled type="text" placeholder={intl.formatMessage({ id: "shared.form.epoint.placeholder" })} style={{ marginBottom: 0 }} className="col-md-12" />,
                         )}
                       </Form.Item>
                       {/*  <label>
