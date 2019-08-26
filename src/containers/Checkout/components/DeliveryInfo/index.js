@@ -103,13 +103,13 @@ class DeliveryInfo extends React.Component {
   };
 
   getTotalQty = (products) => {
-    let qty = 0;
-    if (products.length !== 0) {
-      products.map((item, i) => {
-        qty += item.qty;
-      });
+    if (typeof products === 'string') {
+      products = JSON.parse(products);
     }
-    return qty;
+    const qties = products && products.map(prod => (prod.qty ? prod.qty : 0));
+    return qties && qties.length > 0
+      ? qties.reduce((acc, cur) => acc + cur)
+      : 0;
   }
 
   getUnitPrice = (product) => {
@@ -149,12 +149,12 @@ class DeliveryInfo extends React.Component {
     if (typeof products === 'string') {
       products = JSON.parse(products);
     }
-
     const prices = products && products.map((prod) => {
-      const price = this.getUnitPrice(prod).sprice || this.getUnitPrice(prod).price;
-      return price * prod.qty;
+      const price = prod.salepercent && prod.discountprice
+        ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
+        : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
+      return (prod.addminqty > 1 ? prod.currentunitprice : price) * (prod.qty ? prod.qty : 0);
     });
-
     return prices && prices.length > 0
       ? prices.reduce((acc, cur) => acc + cur)
       : 0;

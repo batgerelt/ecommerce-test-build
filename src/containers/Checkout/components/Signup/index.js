@@ -131,6 +131,7 @@ class Signup extends React.Component {
                     type="text"
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"
+                    style={{ border: "none" }}
                     className="form-control"
                   />,
                 )}
@@ -163,7 +164,7 @@ class Signup extends React.Component {
                     { validator: this.validateToNextPassword },
                   ],
                 })(
-                  <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
+                  <Input type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
                 )}
               </Form.Item>
             </div>
@@ -176,7 +177,7 @@ class Signup extends React.Component {
                     { validator: this.compareToFirstPassword },
                   ],
                 })(
-                  <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.placeholder" })} className="form-control" autoComplete="off" />,
+                  <Input type="password" onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.placeholder" })} className="form-control" autoComplete="off" />,
                 )}
               </Form.Item>
             </div>
