@@ -1,4 +1,5 @@
 import React from "react";
+import { injectIntl } from 'react-intl';
 import Style from "style-it";
 import PropTypes from "prop-types";
 
@@ -6,11 +7,14 @@ import { LABEL_TYPES } from "../../../../utils/Consts";
 
 class Label extends React.Component {
   render() {
-    const { type, data, seq } = this.props;
+    const {
+      type, data, seq, intl,
+    } = this.props;
 
     if (!data) {
       return null;
     }
+    console.log('intl: ', intl);
 
     let content = null;
     if (data.isPackage) {
@@ -19,14 +23,26 @@ class Label extends React.Component {
           <span style={{ fontSize: "0.9rem" }}>
             {data.content ? data.content : ""}
           </span>
-          <span>{data.text ? data.text : ""}</span>
+          <span>
+            {
+              intl.locale === "mn"
+                ? (data.text ? data.text : "")
+                : (data.texten ? data.texten : "")
+            }
+          </span>
         </small>
       );
     } else {
       content = (
         <div>
           {data.content !== undefined ? <strong>{data.content}</strong> : ""}
-          <small>{data.text ? data.text : ""}</small>
+          <small>
+            {
+              intl.locale === "mn"
+                ? (data.text ? data.text : "")
+                : (data.texten ? data.texten : "")
+            }
+          </small>
         </div>
       );
     }
@@ -127,4 +143,4 @@ Label.propTypes = {
   seq: PropTypes.number,
 };
 
-export default Label;
+export default injectIntl(Label);

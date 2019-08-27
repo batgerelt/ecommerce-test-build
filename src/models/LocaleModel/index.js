@@ -19,7 +19,9 @@ class Model extends BaseModel {
 
   setLang = (e = null) => ({
     type: 'LOCALE_SET_LANG',
-    payload: (e && e.target && e.target.value) || this.initialState.lang,
+    payload: (e && e.target && e.target.value)
+      || localStorage.getItem("lang")
+      || this.initialState.lang,
   });
 
   reducer = (state = this.initialState, action) => {

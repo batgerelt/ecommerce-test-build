@@ -3,7 +3,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Form } from "antd";
 
 class PaymentTypePanel extends React.Component {
@@ -27,7 +27,7 @@ class PaymentTypePanel extends React.Component {
   };
 
   renderPaymentTypes = () => {
-    const { paymentTypes } = this.props;
+    const { paymentTypes, intl } = this.props;
     const { chosenPaymentType } = this.state;
     const lang = this.props.intl;
     let tmp;
@@ -55,8 +55,10 @@ class PaymentTypePanel extends React.Component {
               style={{ marginTop: "10px" }}
             />
             <p>
-              <strong>{lang === "mn" ? item.name : item.name_en}</strong>
-              <span>{lang === "mn" ? item.description : item.description_en}</span>
+              {console.log(intl)}
+              {console.log(item)}
+              <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
+              <span>{intl.locale === "mn" ? item.description : item.description_en}</span>
             </p>
           </h5>
         </label>
@@ -89,4 +91,4 @@ class PaymentTypePanel extends React.Component {
   }
 }
 
-export default PaymentTypePanel;
+export default injectIntl(PaymentTypePanel);

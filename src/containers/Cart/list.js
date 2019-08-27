@@ -25,6 +25,7 @@ class Cart extends React.Component {
   handleConfirmClick = async () => {
     if (this.props.isLogged) {
       const result = await this.props.confirmCartRemotely();
+      console.log('result: ', result);
       const { intl } = this.props;
 
       if (result.payload.success) {
@@ -32,6 +33,7 @@ class Cart extends React.Component {
           result.payload.data.fail.forEach(
             code => message.warning(intl.formatMessage({ id: code })),
           );
+          console.log('result: ', result);
         }
 
         return <Redirect to="/checkout" />;

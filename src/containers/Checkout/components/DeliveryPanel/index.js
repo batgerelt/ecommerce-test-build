@@ -432,7 +432,7 @@ class DeliveryPanel extends React.Component {
               key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <p className="text">{item.featuretxt}</p>
+                <p className="text">{intl.locale === "mn" ? item.featuretxt : item.featuretxt_en}</p>
                 <Form onSubmit={this.onSubmit}>
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (

@@ -515,7 +515,9 @@ class DeliveryInfo extends React.Component {
             <div className="scroll">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: staticpage.description,
+                  __html: intl.locale === "mn"
+                    ? staticpage.description
+                    : staticpage.description_en,
                 }}
               />
             </div>

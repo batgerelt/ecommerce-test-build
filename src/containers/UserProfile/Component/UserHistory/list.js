@@ -15,12 +15,13 @@ class Component extends React.Component {
       this.setState({ wish: result.payload.data });
     }
   }
-  async componentDidUpdate() {
-    const result = await this.props.getWish();
-    if (result.payload.success) {
-      this.setState({ wish: result.payload.data });
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('nextProps: ', nextProps);
+  //   if (this.props.wish.length === nextProps.wish.length) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
   onDelete = (item) => {
     this.setState({ loader: true });
     this.props.deleteHistory({ skucd: item.skucd }).then((res) => {
@@ -29,12 +30,11 @@ class Component extends React.Component {
       });
     });
   }
-  addHistory = (item) => {
-    this.props.addWishList({ skucd: item.skucd }).then((res) => {
-      if (res.payload.success) {
-        this.removeAddedWishColorTime();
-      }
-    });
+  addHistory = async (item) => {
+    const result = await this.props.addWishList({ skucd: item.skucd });
+    if (result.payload.success) {
+      this.removeAddedWishColorTime();
+    }
   }
   removeAddedWishColorTime() {
     const { removeAddedWishColor } = this.props;
@@ -148,7 +148,6 @@ class Component extends React.Component {
     }
   }
   render() {
-    console.log("this.props", this.props);
     const loaders = this.state.loader;
     const icon = <Icon type="sync" spin />;
     return (
