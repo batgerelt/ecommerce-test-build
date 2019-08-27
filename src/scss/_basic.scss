@@ -409,6 +409,7 @@ button{
 .banner-container {
   overflow: hidden;
   position: relative;
+  text-align: center;
 
   span {
     position: absolute;
@@ -3348,3 +3349,17 @@ textarea:focus {
 button:disabled{
   cursor: not-allowed;
 }
+
+.ant-tree-title{
+  white-space: normal;
+}
+
+.ant-tree.ant-tree-directory > li.ant-tree-treenode-selected > span.ant-tree-switcher, .ant-tree.ant-tree-directory .ant-tree-child-tree > li.ant-tree-treenode-selected > span.ant-tree-switcher{
+  color: grey;
+}
+.ant-tree.ant-tree-directory > li.ant-tree-treenode-selected > span.ant-tree-node-content-wrapper::before, .ant-tree.ant-tree-directory .ant-tree-child-tree > li.ant-tree-treenode-selected > span.ant-tree-node-content-wrapper::before{
+  background: #fff;
+}
+
+
+

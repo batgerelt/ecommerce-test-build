@@ -521,7 +521,7 @@ class CategoryInfo extends React.Component {
         return (
           <AutoSizer disableHeight>
             {({ width }) => {
-              const rowCount = this.getRowsAmount(width, products.length, true);
+              const rowCount = this.getRowsAmount(width, products.length, this.props.searchKeyWordResponse.hits.total.value !== products.length);
               return (
                 <InfiniteLoader
                   ref={this.infiniteLoaderRef}

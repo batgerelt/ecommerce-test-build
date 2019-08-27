@@ -121,9 +121,8 @@ class Discount extends React.Component {
   generateItemHeight = (item, width) => {
     try {
       const { packageScroll } = this.props;
-      console.log(width);
       if (packageScroll[item.index].length <= 3) {
-        return 306.5;
+        return 326.5;
       }
       if (width >= 300 && width < 390) {
         return 2261.06;
