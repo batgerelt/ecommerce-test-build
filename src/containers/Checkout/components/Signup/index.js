@@ -61,7 +61,7 @@ class Signup extends React.Component {
             if (res.payload.success) {
               this.props.form.resetFields();
               this.props.LoginRegisterPanel.changeTab(1);
-              message.warning("Та имэйл хаягаа шалгаж баталгаажуулалт хийнэ үү");
+              message.success(intl.formatMessage({ id: "registration.confirmation.email" }));
             } else {
               message.warning(intl.formatMessage({ id: res.payload.code }));
             }

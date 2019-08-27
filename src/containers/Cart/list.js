@@ -241,6 +241,7 @@ class Cart extends React.Component {
           qty: found.qty - found.addminqty,
           iscart: 1,
         });
+        console.log('result: ', result);
 
         if (!result.payload.success) {
           const messages = defineMessages({

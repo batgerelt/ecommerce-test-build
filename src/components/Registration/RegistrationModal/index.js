@@ -32,7 +32,7 @@ class RegistrationModal extends React.Component {
           if (!res.payload.success) {
             return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
-          message.warning(intl.formatMessage({ id: res.payload.code }));
+          message.success(intl.formatMessage({ id: res.payload.code }));
           this.handleSignup();
         });
       }

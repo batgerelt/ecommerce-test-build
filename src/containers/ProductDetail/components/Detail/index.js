@@ -75,8 +75,8 @@ class Detail extends Component {
                       {/* {attr.value} */}
                     </dt>
                     <dd className="col-sm-6">
-                      {lang === "mn" ? attr.name : attr.name_en}
-                      {/* {attr.name} */}
+                      {lang === "mn" ? attr.title : attr.title_en}
+                      {/* {attr.title} */}
                     </dd>
                   </div>
                 ))}
@@ -418,7 +418,7 @@ class Detail extends Component {
           },
         });
         message.warning(intl.formatMessage(messages.warning, {
-          name: updated.name,
+          name: updated.title,
           qty: updated.qty,
         }));
       }

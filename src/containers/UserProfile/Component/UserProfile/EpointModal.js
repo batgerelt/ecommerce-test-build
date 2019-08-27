@@ -23,20 +23,16 @@ class SwalModals extends React.Component {
 
   componentWillMount() { }
 
-
   handleChangeAddress = () => {
     MySwal.close();
   }
 
-
   onSubmit = () => {
-    console.log(this.props);
     this.props.connectEpoint();
     MySwal.close();
   }
 
   render() {
-    const { intl } = this.props;
     return (
       <div className="checkout-container msg-bank">
         <div className="card-content" style={{ textAlign: "center" }}>

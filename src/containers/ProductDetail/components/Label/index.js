@@ -14,7 +14,6 @@ class Label extends React.Component {
     if (!data) {
       return null;
     }
-    console.log('intl: ', intl);
 
     let content = null;
     if (data.isPackage) {

@@ -15,6 +15,7 @@ class PaymentTypePanel extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     const { paymentTypes } = this.props;
+    console.log('paymentTypes: ', paymentTypes);
     this.setState({ chosenPaymentType: paymentTypes[0] });
   }
 

@@ -18,7 +18,7 @@ class Component extends React.Component {
         this.props.resetPassword({ body: params }).then((res) => {
           if (res.payload.success) {
             this.props.form.resetFields();
-            message.warning(intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }));
+            message.success(intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }));
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

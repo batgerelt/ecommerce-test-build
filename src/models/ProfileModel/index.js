@@ -210,8 +210,8 @@ class Model extends BaseModel {
       method: "GET",
       model: this.model.useraddress,
     });
-  /* getCustomer = () =>
-    asyncFn({ url: `/customer`, method: "GET", model: this.model.customer }); */
+  // getCustomer = () =>
+  //   asyncFn({ url: `/customer`, method: "GET", model: this.model.customer });
   getHistory = () =>
     asyncFn({
       url: `/customer/viewlist`,
