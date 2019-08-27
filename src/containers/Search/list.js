@@ -82,6 +82,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -125,6 +126,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -163,6 +165,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -199,6 +202,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -211,6 +215,7 @@ class CategoryInfo extends React.Component {
   handleChangeAttribute = (e, value, attribute) => {
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
+    // eslint-disable-next-line react/no-string-refs
     if (e.target.checked) {
       attributes.push(`${attribute};${value}`);
     } else {
@@ -239,6 +244,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -250,6 +256,7 @@ class CategoryInfo extends React.Component {
 
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
+    this.setState({ expandedCategory: cat });
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
 
@@ -270,6 +277,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -290,9 +298,10 @@ class CategoryInfo extends React.Component {
 
       if (categories.buckets.length !== 0) {
         return (
-          <Tree
+          <Tree.DirectoryTree
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
+            showIcon={false}
           // expandedKeys={this.state.expandedCategory}
           // defaultExpandAll={false}
           // defaultExpandAll
@@ -329,7 +338,7 @@ class CategoryInfo extends React.Component {
                   })}
               </Tree.TreeNode>
             ))}
-          </Tree>
+          </Tree.DirectoryTree>
         );
       }
 
@@ -488,7 +497,6 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
-
           <div className={styles.center}>
             <Spin spinning={this.state.loading} indicator={<Loader />}>
               {this.renderProducts()}
@@ -593,7 +601,7 @@ class CategoryInfo extends React.Component {
         return (
           <AutoSizer disableHeight>
             {({ width }) => {
-              const rowCount = this.getRowsAmount(width, products.length, true);
+              const rowCount = this.getRowsAmount(width, products.length, this.props.searchKeyWordResponse.hits.total.value !== products.length);
               return (
                 <InfiniteLoader
                   ref={this.infiniteLoaderRef}
@@ -741,7 +749,7 @@ class CategoryInfo extends React.Component {
               )}
           </div>
         </div>
-        <BackTop />
+        <BackTop refs="backtop" />
       </div>
     );
   }

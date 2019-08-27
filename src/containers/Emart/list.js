@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
 /* eslint-disable react/no-unescaped-entities */
@@ -244,7 +245,7 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             defaultExpandAll={false}
-            // expandedKeys={this.state.expanded
+          // expandedKeys={this.state.expanded
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
@@ -260,17 +261,17 @@ class CategoryInfo extends React.Component {
                           key={two.key}
                         >
                           {
-                          two.buckets !== undefined && two.buckets.buckets !== undefined ?
-                          two.buckets.buckets.map(three => (
-                            three.key === 0 ? null :
-                            <Tree.TreeNode
-                              title={
-                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
-                            }
-                              key={three.key}
-                            />
-                          )) : null
-                        }
+                            two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                              two.buckets.buckets.map(three => (
+                                three.key === 0 ? null :
+                                  <Tree.TreeNode
+                                    title={
+                                      lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
+                                    }
+                                    key={three.key}
+                                  />
+                              )) : null
+                          }
                         </Tree.TreeNode>
                       );
                     }
@@ -516,7 +517,7 @@ class CategoryInfo extends React.Component {
         return (
           <AutoSizer disableHeight>
             {({ width }) => {
-              const rowCount = this.getRowsAmount(width, products.length, true);
+              const rowCount = this.getRowsAmount(width, products.length, this.props.searchKeyWordResponse.hits.total.value !== products.length);
               return (
                 <InfiniteLoader
                   ref={this.infiniteLoaderRef}
@@ -638,11 +639,11 @@ class CategoryInfo extends React.Component {
                 <h1>Барааны мэдээлэл олдсонгүй</h1>
               </div>
             ) : (
-              <div className="row row10">
-                {this.renderLeftPanel()}
-                {this.renderFilteredList()}
-              </div>
-            )}
+                <div className="row row10">
+                  {this.renderLeftPanel()}
+                  {this.renderFilteredList()}
+                </div>
+              )}
           </div>
         </div>
         <BackTop />

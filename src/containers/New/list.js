@@ -214,7 +214,7 @@ class Bookmarks extends PureComponent {
     try {
       const { products, startsWith } = this.state;
       return (
-        <div className="container pad10">
+        <div className="container pad10" style={{ paddingTop: '20px' }}>
           <div className="row row10">
             <AutoSizer disableHeight>
               {({ width }) => {

@@ -124,10 +124,6 @@ class Detail extends Component {
     return Math.round(value * inv) / inv;
   };
 
-  test = (e) => {
-    console.log(e);
-  }
-
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
     if (!detail) {
@@ -236,7 +232,7 @@ class Detail extends Component {
                 name="productQty"
                 onChange={this.handleInputChange(detail)}
                 // onKeyDown={this.handleQtyKeyDown(detail)}
-                /*  onBlur={() => this.handleQtyBlur(detail)} */
+                onBlur={e => this.handleQtyBlur(e, detail)}
                 disabled={detail.availableqty < 1}
               />
 
@@ -354,6 +350,10 @@ class Detail extends Component {
   }
 
   handleInputChange = product => (e) => {
+    this.setState({ productQty: e.target.value });
+  };
+
+  handleQtyBlur = (e, product) => {
     if (isNaN(e.target.value)) {
       this.setState({ productQty: product.addminqty });
     } else if (e.target.value < product.addminqty) {
@@ -365,7 +365,7 @@ class Detail extends Component {
     } else {
       this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }
-  };
+  }
 
   handleIncrementClick = (product) => {
     const productQty =

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
 /* eslint-disable react/no-unescaped-entities */
@@ -74,6 +75,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -117,6 +119,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -155,6 +158,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -191,6 +195,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -231,6 +236,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
+        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -279,7 +285,6 @@ class CategoryInfo extends React.Component {
     try {
       const { categoryall, intl } = this.props;
       const lang = intl.locale;
-      console.log('lang: ', lang);
       const { categories } = this.state;
 
       if (categories.buckets.length !== 0) {
@@ -307,14 +312,14 @@ class CategoryInfo extends React.Component {
                             two.buckets !== undefined && two.buckets.buckets !== undefined ?
                               two.buckets.buckets.map(three => (
                                 three.key === 0 ? null :
-                                <Tree.TreeNode
-                                  title={
-                                    lang === "mn"
-                                      ? categoryall.find(i => i.id === three.key).name
-                                      : categoryall.find(i => i.id === three.key).nameen
-                                  }
-                                  key={three.key}
-                                />
+                                  <Tree.TreeNode
+                                    title={
+                                      lang === "mn"
+                                        ? categoryall.find(i => i.id === three.key).name
+                                        : categoryall.find(i => i.id === three.key).nameen
+                                    }
+                                    key={three.key}
+                                  />
                               )) : null
                           }
                         </Tree.TreeNode>
@@ -567,7 +572,7 @@ class CategoryInfo extends React.Component {
         return (
           <AutoSizer disableHeight>
             {({ width }) => {
-              const rowCount = this.getRowsAmount(width, products.length, true);
+              const rowCount = this.getRowsAmount(width, products.length, this.props.searchKeyWordResponse.hits.total.value !== products.length);
               return (
                 <InfiniteLoader
                   ref={this.infiniteLoaderRef}
