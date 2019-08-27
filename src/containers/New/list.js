@@ -58,28 +58,45 @@ class Bookmarks extends PureComponent {
       module: 'new',
       startsWith: 0,
       rowCount: 10,
-      orderColumn: 'createddate_desc',
+      orderColumn: 'startnew_desc',
       highlight: false,
       newbanner: [],
+      total: 0,
     };
   }
 
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits, startsWith: 10, rowCount: 50 });
+        this.setState({
+          headerProducts: res.payload.data.hits.hits,
+          startsWith: 10,
+          rowCount: 50,
+          total: res.payload.data.hits.total.value,
+        });
       }
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.newbanner.length !== prevProps.newbanner.length) {
+      const selected = this.props.newbanner.footer[Math.floor(Math.random() * this.props.newbanner.footer.length)];
+      this.setState({ newbanner: selected });
+    }
   }
 
   // data nemeh heseg
   loadMoreRows = () => {
     try {
-      this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-        if (res.payload.success) {
-          this.setState({ products: this.state.products.concat(res.payload.data.hits.hits) });
-        }
-      });
+      if (!this.props.isFetchingSearch) {
+        setTimeout(() => {
+          this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+            if (res.payload.success) {
+              this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), total: res.payload.data.hits.total.value });
+            }
+          });
+        }, 1000);
+      }
     } catch (error) {
       return console.log(error);
     }
@@ -178,8 +195,8 @@ class Bookmarks extends PureComponent {
 
   renderSubBanner = () => {
     try {
-      const { newbanner } = this.props;
-      return <Banner data={newbanner.footer[Math.floor(Math.random() * newbanner.footer.length)]} />;
+      const { newbanner } = this.state;
+      return <Banner data={newbanner} />;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -196,91 +213,88 @@ class Bookmarks extends PureComponent {
   renderFooterProduct = () => {
     try {
       const { products, startsWith } = this.state;
-      console.log('startsWith: ', startsWith);
       return (
-        <div className="section">
-          <div className="container pad10">
-            <div className="row row10">
-              <AutoSizer disableHeight>
-                {({ width }) => {
-                  const rowCount = this.getRowsAmount(
-                    width,
-                    products.length,
-                    true,
-                  );
-                  return (
-                    <InfiniteLoader
-                      ref={this.infiniteLoaderRef}
-                      rowCount={rowCount}
-                      isRowLoaded={({ index }) => {
-                        const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                          width,
-                        );
-                        const allItemsLoaded =
-                          this.generateIndexesForRow(
-                            index,
-                            maxItemsPerRow,
-                            products.length,
-                          ).length > 0;
-                        return !true || allItemsLoaded;
-                      }}
-                      loadMoreRows={this.loadMoreRows}
-                    >
-                      {({ onRowsRendered, registerChild }) => (
-                        <WindowScroller>
-                          {({ height, scrollTop }) => (
-                            <List
-                              style={{ outline: 'none' }}
-                              autoHeight
-                              ref={registerChild}
-                              height={height}
-                              scrollTop={scrollTop}
-                              width={width}
-                              rowCount={rowCount}
-                              rowHeight={this.generateItemHeight(width)}
-                              onRowsRendered={onRowsRendered}
-                              rowRenderer={({ index, style, key }) => {
-                                const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                  width,
-                                );
-                                const rowItems = this.generateIndexesForRow(
-                                  index,
-                                  maxItemsPerRow,
-                                  products.length,
-                                ).map(itemIndex => products[itemIndex]._source);
-                                let tmp = {};
-                                let topH = style.top;
-                                tmp.top = topH - this.generateItemHeight(width) * 2 - 10;
-                                tmp.height = style.height;
-                                tmp.left = style.left;
-                                tmp.width = style.width;
-                                tmp.position = style.position;
-                                return (
-                                  <div style={tmp} key={key} className="jss148">
-                                    {
-                                      rowItems.map(itemId => (
-                                        <Card
-                                          elastic
-                                          key={itemId.skucd + key}
-                                          shape={CARD_TYPES.slim}
-                                          item={itemId}
-                                          {...this.props}
-                                        />
-                                      ))
-                                    }
-                                  </div>
-                                );
-                              }}
-                              noRowsRenderer={this.noRowsRenderer}
-                            />
-                          )}
-                        </WindowScroller>
-                      )}
-                    </InfiniteLoader>
-                  );
-                }}
-              </AutoSizer>
-            </div>
+        <div className="container pad10">
+          <div className="row row10">
+            <AutoSizer disableHeight>
+              {({ width }) => {
+                const rowCount = this.getRowsAmount(
+                  width,
+                  products.length,
+                  this.state.total !== products.length + this.state.headerProducts.length,
+                );
+                return (
+                  <InfiniteLoader
+                    ref={this.infiniteLoaderRef}
+                    rowCount={rowCount}
+                    isRowLoaded={({ index }) => {
+                      const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                        width,
+                      );
+                      const allItemsLoaded =
+                        this.generateIndexesForRow(
+                          index,
+                          maxItemsPerRow,
+                          products.length,
+                        ).length > 0;
+                      return !true || allItemsLoaded;
+                    }}
+                    loadMoreRows={this.loadMoreRows}
+                  >
+                    {({ onRowsRendered, registerChild }) => (
+                      <WindowScroller>
+                        {({ height, scrollTop }) => (
+                          <List
+                            style={{ outline: 'none' }}
+                            autoHeight
+                            ref={registerChild}
+                            height={height}
+                            scrollTop={scrollTop}
+                            width={width}
+                            rowCount={rowCount}
+                            rowHeight={this.generateItemHeight(width)}
+                            onRowsRendered={onRowsRendered}
+                            rowRenderer={({ index, style, key }) => {
+                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(
+                                width,
+                              );
+                              const rowItems = this.generateIndexesForRow(
+                                index,
+                                maxItemsPerRow,
+                                products.length,
+                              ).map(itemIndex => products[itemIndex]._source);
+                              let tmp = {};
+                              let topH = style.top;
+                              tmp.top = topH - this.generateItemHeight(width) * 2 - 10;
+                              tmp.height = style.height;
+                              tmp.left = style.left;
+                              tmp.width = style.width;
+                              tmp.position = style.position;
+                              return (
+                                <div style={style} key={key} className="jss148">
+                                  {
+                                    rowItems.map(itemId => (
+                                      <Card
+                                        elastic
+                                        key={itemId.skucd + key}
+                                        shape={CARD_TYPES.slim}
+                                        item={itemId}
+                                        {...this.props}
+                                      />
+                                    ))
+                                  }
+                                </div>
+                              );
+                            }}
+                            noRowsRenderer={this.noRowsRenderer}
+                          />
+                        )}
+                      </WindowScroller>
+                    )}
+                  </InfiniteLoader>
+                );
+              }}
+            </AutoSizer>
           </div>
         </div>
       );

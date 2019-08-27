@@ -21,6 +21,7 @@ import {
   CARD_LIST_TYPES,
   CARD_NUMS_IN_ROW,
 } from "../../utils/Consts";
+import { parseTwoDigitYear } from "moment";
 
 const ITEM_HEIGHT = 340;
 const RowItem = React.memo(function RowItem({ item, ...props }) {
@@ -40,6 +41,7 @@ class Discount extends React.Component {
       products: [],
       headerProducts: [],
       loading: false,
+      total: 0,
 
       catId: 0,
       custId: 0,
@@ -61,7 +63,12 @@ class Discount extends React.Component {
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ headerProducts: res.payload.data.hits.hits, rowCount: 20, startsWith: 10 });
+        this.setState({
+          headerProducts: res.payload.data.hits.hits,
+          rowCount: 20,
+          startsWith: 10,
+          total: res.payload.data.hits.total.value,
+        });
       }
     });
   }
@@ -69,11 +76,13 @@ class Discount extends React.Component {
   loadMoreRows = () => {
     try {
       if (this.state.startsWith >= 10) {
-        this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-          if (res.payload.success) {
-            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20 });
-          }
-        });
+        setTimeout(() => {
+          this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+            if (res.payload.success) {
+              this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20, total: res.payload.data.hits.total.value });
+            }
+          });
+        }, 1000);
       }
       return null;
     } catch (error) {
@@ -128,7 +137,6 @@ class Discount extends React.Component {
     try {
       const seq = "1,1";
       const { headerProducts } = this.state;
-      console.log('headerProducts: ', headerProducts);
       const data = [];
       headerProducts.map(i => data.push(i._source));
 
@@ -184,7 +192,7 @@ class Discount extends React.Component {
                   const rowCount = this.getRowsAmount(
                     width,
                     products.length,
-                    true,
+                    this.state.headerProducts.length + products.length !== this.state.total,
                   );
                   return (
                     <InfiniteLoader
@@ -234,7 +242,7 @@ class Discount extends React.Component {
                                 tmp.width = style.width;
                                 tmp.position = style.position;
                                 return (
-                                  <div style={tmp} key={key} className="jss148">
+                                  <div style={style} key={key} className="jss148">
                                     {
                                       rowItems.map(itemId => (
                                         <Card
