@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-lonely-if */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
@@ -122,6 +124,10 @@ class Detail extends Component {
     return Math.round(value * inv) / inv;
   };
 
+  test = (e) => {
+    console.log(e);
+  }
+
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
     if (!detail) {
@@ -207,7 +213,7 @@ class Detail extends Component {
       );
     }
     return (
-      <form>
+      <form onSubmit={(e) => { e.preventDefault(); }}>
         <div className="row">
           <div className="col-xl-5 col-6">
             <div className="input-group">
@@ -348,7 +354,6 @@ class Detail extends Component {
   }
 
   handleInputChange = product => (e) => {
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(e.target.value)) {
       this.setState({ productQty: product.addminqty });
     } else if (e.target.value < product.addminqty) {

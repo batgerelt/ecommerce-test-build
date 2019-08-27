@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
 /* eslint-disable react/no-unescaped-entities */
@@ -292,9 +293,9 @@ class CategoryInfo extends React.Component {
           <Tree
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
-            // expandedKeys={this.state.expandedCategory}
-            // defaultExpandAll={false}
-            // defaultExpandAll
+          // expandedKeys={this.state.expandedCategory}
+          // defaultExpandAll={false}
+          // defaultExpandAll
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
@@ -310,17 +311,17 @@ class CategoryInfo extends React.Component {
                           key={two.key}
                         >
                           {
-                          two.buckets !== undefined && two.buckets.buckets !== undefined ?
-                          two.buckets.buckets.map(three => (
-                            three.key === 0 ? null :
-                            <Tree.TreeNode
-                              title={
-                              lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
-                            }
-                              key={three.key}
-                            />
-                          )) : null
-                        }
+                            two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                              two.buckets.buckets.map(three => (
+                                three.key === 0 ? null :
+                                  <Tree.TreeNode
+                                    title={
+                                      lang === "mn" ? categoryall.find(i => i.id === three.key).name : categoryall.find(i => i.id === three.key).nameen
+                                    }
+                                    key={three.key}
+                                  />
+                              )) : null
+                          }
                         </Tree.TreeNode>
                       );
                     }
@@ -349,14 +350,15 @@ class CategoryInfo extends React.Component {
       return (
         <div
           className="col-xl-3 col-md-3 pad10"
-          ref={(node) => { this.container = node;
-        }}
+          ref={(node) => {
+            this.container = node;
+          }}
         >
           {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
             className={`left-panel-container filter-sticky ${
               this.state.isMobilePanel ? "show" : null
-            }`}
+              }`}
             onClick={this.showMobilePanel}
           >
             <div className={leftPanel}>
@@ -732,11 +734,11 @@ class CategoryInfo extends React.Component {
                 <h1>Барааны мэдээлэл олдсонгүй</h1>
               </div>
             ) : (
-              <div className="row row10">
-                {this.renderLeftPanel()}
-                {this.renderFilteredList()}
-              </div>
-            )}
+                <div className="row row10">
+                  {this.renderLeftPanel()}
+                  {this.renderFilteredList()}
+                </div>
+              )}
           </div>
         </div>
         <BackTop />
