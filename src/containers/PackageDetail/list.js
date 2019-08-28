@@ -73,6 +73,7 @@ class List extends React.Component {
             product.qty === undefined ? product.addminqty || 1 : product.qty,
           iscart: 0,
         });
+        console.log('result: ', result);
         if (!result.payload.success) {
           const messages = defineMessages({
             error: {
@@ -153,6 +154,7 @@ class List extends React.Component {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
       if (result.payload.data.fail.length > 0) {
+        console.log('result.payload: ', result.payload);
         result.payload.data.fail.forEach((msg) => {
           const messages = defineMessages({
             error: {

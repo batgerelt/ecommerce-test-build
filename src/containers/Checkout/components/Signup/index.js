@@ -139,7 +139,7 @@ class Signup extends React.Component {
             </div>
             <div className="col-xl-6 pad10">
               <Form.Item>
-                {getFieldDecorator("phonE1", {
+                {getFieldDecorator("phone1", {
                   rules: [
                     { required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                     { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },

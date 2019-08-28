@@ -155,6 +155,7 @@ class UserButton extends React.Component {
       loading,
       visible,
     } = this.state;
+    const { intl } = this.props;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
@@ -293,7 +294,7 @@ class UserButton extends React.Component {
                           </Spin>
                         </Upload>
                         <span className="" style={{ color: "white" }}>{user === null ? " " : user.firstname}</span>
-                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "white" }}>хадгалах</p></Button> : null}
+                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "white" }}>{intl.formatMessage({ id: "shared.form.button.save" })}</p></Button> : null}
                       </div>
                       {this.renderProgress()}
                     </li>

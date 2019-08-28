@@ -188,7 +188,7 @@ class SwalModals extends Component {
                               style={{ marginRight: "5px" }}
                               width="22px"
                             />
-                            <span>{item.banknm}</span>
+                            <span>{intl.locale === "mn" ? item.banknm : item.banknm_en}</span>
                           </span>
                         </li>
                       }

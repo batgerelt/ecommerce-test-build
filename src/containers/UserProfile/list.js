@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
@@ -120,8 +120,9 @@ class List extends React.Component {
   }
 
   renderName(info) {
+    const { intl } = this.props;
     try {
-      return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>Хадгалах</Button> : null}</span></strong>;
+      return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button> : null}</span></strong>;
     } catch (error) {
       return null;
     }
@@ -220,4 +221,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default injectIntl(List);

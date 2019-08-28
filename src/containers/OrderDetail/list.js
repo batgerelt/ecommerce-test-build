@@ -61,12 +61,12 @@ class List extends React.Component {
         return (
           <div className="cart-info">
             <h5 className="title">
-              <span>Захиалгын төлбөр</span>
+              <span><FormattedMessage id="shared.sidebar.title.orderMethod" /></span>
             </h5>
             <div className="block">
               <ul className="list-unstyled">
                 <li className="flex-this flex-space">
-                  <span>Барааны үнэ:</span>
+                  <span><FormattedMessage id="shared.sidebar.label.productPrice" />:</span>
                   <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
                 </li>
                 <li className="flex-this flex-space">
@@ -75,16 +75,16 @@ class List extends React.Component {
                 </li>
                 <div className="line">
                   <li className="flex-this flex-space">
-                    <span>Ипойнт оноогоор төлсөн:</span>
+                    <span><FormattedMessage id="shared.sidebar.label.paidByEpoint" />:</span>
                     <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
                   </li>
                   <li className="flex-this flex-space">
-                    <span>Бэлнээр төлсөн:</span>
+                    <span><FormattedMessage id="shared.sidebar.label.paidByCash" />:</span>
                     <strong className="big">{formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮</strong>
                   </li>
                 </div>
                 <li className="text-right">
-                  <strong>Захиалгын нийт дүн:</strong>
+                  <strong><FormattedMessage id="shared.sidebar.label.orderTotal" />:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
                 {/* <li className="flex-this flex-space">
