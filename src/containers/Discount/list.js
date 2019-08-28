@@ -139,7 +139,6 @@ class Discount extends React.Component {
       const { headerProducts } = this.state;
       const data = [];
       headerProducts.map(i => data.push(i._source));
-      console.log(data);
       return (
         <div style={{ paddingTop: '20px' }}>
           <div className="container pad10">
