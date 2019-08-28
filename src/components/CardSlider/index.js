@@ -19,7 +19,7 @@ class CardSlider extends React.Component {
 
     return (
       items.length && (
-        <Swiper {...params} shouldSwiperUpdate rebuildOnUpdate style={{ paddingTop: "1px" }}>
+        <Swiper {...params} shouldSwiperUpdate style={{ paddingTop: "1px" }}>
           {items}
         </Swiper>
       )
