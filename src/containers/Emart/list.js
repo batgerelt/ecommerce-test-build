@@ -241,9 +241,10 @@ class CategoryInfo extends React.Component {
 
       if (categories.buckets.length !== 0) {
         return (
-          <Tree
+          <Tree.DirectoryTree
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
+            showIcon={false}
             defaultExpandAll={false}
           // expandedKeys={this.state.expanded
           >
@@ -279,7 +280,7 @@ class CategoryInfo extends React.Component {
                   })}
               </Tree.TreeNode>
             ))}
-          </Tree>
+          </Tree.DirectoryTree>
         );
       }
 

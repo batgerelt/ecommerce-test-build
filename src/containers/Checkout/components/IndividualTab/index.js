@@ -185,7 +185,7 @@ class IndividualTab extends React.Component {
                             allowClear
                             size="large"
                             className="col-md-12"
-                            autoComplete="false"
+                            autoComplete="new-password"
                           />,
                         )}
                       </Form.Item>
@@ -201,7 +201,7 @@ class IndividualTab extends React.Component {
                             type="password"
                             size="large"
                             className="col-md-12"
-                            autoComplete="false"
+                            autoComplete="new-password"
                           />,
                         )}
                       </Form.Item>
