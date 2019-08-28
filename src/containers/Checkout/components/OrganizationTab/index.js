@@ -3,6 +3,8 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
+import LatinInput from "../../../../components/Input/LatinInput";
+import KrillInput from "../../../../components/Input/KrillInput";
 
 class OrganizationTab extends React.Component {
   state = {
@@ -48,7 +50,6 @@ class OrganizationTab extends React.Component {
         this.props.getCompanyInfo({ regno: values.regno }).then((res) => {
           this.setState({ loading: false });
           if (res.payload.success) {
-            console.log('res.payload: ', res.payload);
             if (res.payload.data.name !== "") {
               let value = { regno: values.regno, name: res.payload.data.name };
               DeliveryInfo.setOrganizationData(value);
@@ -77,7 +78,15 @@ class OrganizationTab extends React.Component {
                   {getFieldDecorator("regno", {
                     rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
                   })(
-                    <Input size="large" autoComplete="off" type="text" placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })} disabled={connected} className="col-md-12" />,
+                    <KrillInput
+                      size="large"
+                      uppercase
+                      autoComplete="new-password"
+                      type="text"
+                      placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })}
+                      disabled={connected}
+                      className="col-md-12"
+                    />,
                   )}
                 </Form.Item>
               </div>

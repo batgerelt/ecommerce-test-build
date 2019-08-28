@@ -20,9 +20,14 @@ function formatNumber(value) {
 class LetterInput extends React.Component {
   onChange = (e) => {
     const { value } = e.target;
+    const { uppercase } = this.props;
     const reg = /^-?(0|[Ө ө Ү ү A-Z a-z А-Я а-я-][Ө ө Ү ү A-Z a-z А-Я а-я-]*)(\.[Ө ө Ү ү A-Z a-z А-Я а-я-]*)?$/;
     if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value === '-') {
-      this.props.onChange(value);
+      if (uppercase) {
+        this.props.onChange(value.toUpperCase());
+      } else {
+        this.props.onChange(value);
+      }
     }
   };
 
