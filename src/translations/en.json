@@ -27,7 +27,7 @@
 	"420": "There is no active/registered card",
 	"422": "The card has already linked",
 	"423": "You have already registered another card",
-	"424": "Card information is incorrect",
+	"424": "Card number or password is incorrect",
 	"425": "It is not possible to confirm",
 	"426": "Email is missing",
 	"427": "Email has been registered",
