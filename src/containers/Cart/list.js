@@ -118,7 +118,7 @@ class Cart extends React.Component {
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.skucd,
-          qty: found.qty,
+          qty: found.addminqty > 1 ? Math.round(found.qty / found.addminqty) * found.addminqty : found.qty,
           iscart: 1,
         });
 
@@ -372,6 +372,7 @@ class Cart extends React.Component {
   };
 
   renderTotalPrice = (product = null) => {
+    console.log('product: ', product);
     if (product) {
       let { price } = product;
 
@@ -387,6 +388,8 @@ class Cart extends React.Component {
         if (product.salepercent && product.discountprice) {
           price = product.discountprice;
         }
+      } else if (product.salepercent && product.discountprice) {
+        price = product.discountprice;
       }
 
       return (
@@ -415,6 +418,8 @@ class Cart extends React.Component {
           if (cur.salepercent && cur.discountprice) {
             price = cur.discountprice;
           }
+        } else if (cur.salepercent && cur.discountprice) {
+          price = cur.discountprice;
         }
 
         return acc + (price * (cur.qty ? cur.qty : 0));

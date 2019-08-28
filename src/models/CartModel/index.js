@@ -401,7 +401,10 @@ class Model extends BaseModel {
 
         if (index !== -1) {
           if (shouldOverride) {
-            const qty = product.qty || product.addminqty || 1;
+            let qty = product.qty || product.addminqty || 1;
+            qty = product.addminqty > 1
+              ? Math.round(qty / product.addminqty) * product.addminqty
+              : qty;
             if (found.isgift) {
               if (found.qty < found.addminqty) {
                 found.qty = found.addminqty;
