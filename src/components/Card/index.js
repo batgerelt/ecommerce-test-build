@@ -195,7 +195,6 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem("auth") === null) {
-      console.log('this.props: ', this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -245,7 +244,6 @@ class Card extends React.Component {
       const {
         shape, item, isLastInRow, className, elastic, tags, list,
       } = this.props;
-
       const lang = this.props.intl.locale;
 
       let prices;

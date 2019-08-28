@@ -73,15 +73,19 @@ class PageHeader extends React.Component {
   }
 
   render() {
-    const { bgColor } = this.props;
-    return (
-      <div
-        className="whole-page-title"
-        style={{ padding: "0", backgroundColor: `${bgColor}` }}
-      >
-        {this.renderContent()}
-      </div>
-    );
+    try {
+      const { bgColor } = this.props;
+      return (
+        <div
+          className="whole-page-title"
+          style={{ padding: "0", backgroundColor: `${bgColor}` }}
+        >
+          {this.renderContent()}
+        </div>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
   }
 }
 

@@ -104,13 +104,20 @@ class Discount extends React.Component {
 
   loadMoreRows = async (key) => {
     try {
-      setTimeout(() => {
+      if (!this.props.packageFetching) {
         this.props.getPackageScroll({
           order: "date_desc",
           start: this.props.packageCount,
           rowcnt: 8,
         });
-      }, 1000);
+      }
+      /* setTimeout(() => {
+        this.props.getPackageScroll({
+          order: "date_desc",
+          start: this.props.packageCount,
+          rowcnt: 8,
+        });
+      }, 1000); */
     } catch (error) {
       return console.log(error);
     }
