@@ -218,7 +218,6 @@ class Discount extends React.Component {
                             autoHeight
                             ref={registerChild}
                             height={height}
-                            overscanRowCount={1}
                             scrollTop={scrollTop}
                             width={width}
                             rowCount={rowCount}
