@@ -31,6 +31,7 @@ class Component extends React.Component {
       commid: "",
     };
     this.props.getCustomer().then((res) => {
+      console.log('res: ', res);
       if (res.payload.success) {
         localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         localStorage.setItem('percent', res.payload.data.info.cstatus);
@@ -123,7 +124,7 @@ class Component extends React.Component {
             });
           }
         }
-        message.warning(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+        message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
       }
     });
   }

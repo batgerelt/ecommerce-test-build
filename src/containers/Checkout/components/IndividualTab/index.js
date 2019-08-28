@@ -87,7 +87,7 @@ class IndividualTab extends React.Component {
             this.setState({ cardInfo: res.payload.data });
             DeliveryInfo.setIndividualData(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
-            message.warning(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+            message.success(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

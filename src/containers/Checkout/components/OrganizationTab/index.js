@@ -48,6 +48,7 @@ class OrganizationTab extends React.Component {
         this.props.getCompanyInfo({ regno: values.regno }).then((res) => {
           this.setState({ loading: false });
           if (res.payload.success) {
+            console.log('res.payload: ', res.payload);
             if (res.payload.data.name !== "") {
               let value = { regno: values.regno, name: res.payload.data.name };
               DeliveryInfo.setOrganizationData(value);

@@ -62,7 +62,6 @@ class Relational extends Component {
       let { relatedProducts } = this.props;
       const { isShowMoreClicked } = this.state;
       let data = this.getSlicedData(limit);
-      console.log(data);
       return (
         !!data.length && (
           <div className="block product-delivery">

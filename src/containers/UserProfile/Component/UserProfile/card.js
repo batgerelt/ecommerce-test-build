@@ -53,7 +53,7 @@ class Component extends React.Component {
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
-            message.warning(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+            message.success(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }
@@ -80,8 +80,8 @@ class Component extends React.Component {
                 rules: [
                   // { required: true, message: "Картын дугаараа оруулна уу" },
                   { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
-                  { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
-                  { len: 14, message: intl.formatMessage({ id: "shared.form.cardno.validation.min" }) },
+                  { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
+                  { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
               })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="false" maxLength={14} allowClear />)}
             </Form.Item>
