@@ -405,6 +405,7 @@ class Model extends BaseModel {
             qty = product.addminqty > 1
               ? Math.round(qty / product.addminqty) * product.addminqty
               : qty;
+
             if (found.isgift) {
               if (found.qty < found.addminqty) {
                 found.qty = found.addminqty;
@@ -502,51 +503,57 @@ class Model extends BaseModel {
         }
       } else {
         if (shouldUpdateByQty) {
-          const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
-          if (product.isgift) {
-            product.qty = qty;
-          } else if (product.availableqty > 0) {
-            if (product.salemaxqty > 0) {
-              if (qty > product.salemaxqty) {
-                product.qty = product.salemaxqty;
-                product.error = "202";
-              } else {
-                product.qty = qty;
-              }
-            } else if (qty > product.availableqty) {
-              product.qty = product.availableqty;
-              product.error = "200";
-            } else {
-              product.qty = qty;
-            }
-          } else {
-            product.error = "200";
-          }
-        } else {
-          product.qty = product.addminqty || 1;
+          const qty = product.qty === 0
+            ? 0
+            : (product.qty || product.addminqty || 1);
 
           if (product.isgift) {
-            if (product.qty < product.addminqty) {
-              product.qty = product.addminqty;
-              product.error = "204";
-            } else {
-              // NOT NECESSARY
-            }
+            product.qty = qty;
           } else {
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
-                if (product.qty > product.salemaxqty) {
+                if (qty > product.salemaxqty) {
                   product.qty = product.salemaxqty;
                   product.error = "202";
                 } else {
-                  // NOT NECESSARY
+                  product.qty = qty;
                 }
               } else {
-                if (product.qty > product.availableqty) {
+                if (qty > product.availableqty) {
                   product.qty = product.availableqty;
                   product.error = "200";
                 } else {
-                  // NOT NECESSARY
+                  product.qty = qty;
+                }
+              }
+            } else {
+              product.error = "200";
+            }
+          }
+        } else {
+          if (!product.isgift) {
+            if (product.availableqty > 0) {
+              if (product.salemaxqty > 0) {
+                if (product.qty) {
+                  if (product.qty > product.salemaxqty) {
+                    product.qty = product.salemaxqty;
+                    product.error = "202";
+                  } else {
+                    // NOT NECESSARY
+                  }
+                } else {
+                  product.qty = product.addminqty || 1;
+                }
+              } else {
+                if (product.qty) {
+                  if (product.qty > product.availableqty) {
+                    product.qty = product.availableqty;
+                    product.error = "200";
+                  } else {
+                    // NOT NECESSARY
+                  }
+                } else {
+                  product.qty = product.addminqty || 1;
                 }
               }
             } else {
@@ -554,7 +561,6 @@ class Model extends BaseModel {
             }
           }
         }
-
 
         products.push(product);
       }

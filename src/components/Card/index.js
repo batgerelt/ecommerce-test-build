@@ -59,18 +59,14 @@ class Card extends React.Component {
             message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
-          if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach((msg) => {
-              const messages = defineMessages({
-                error: {
-                  id: msg.code,
-                },
-              });
-              message.warning(intl.formatMessage(
-                messages.error,
-                { name: msg.value.name, qty: msg.value.salemaxqty },
-              ));
-            });
+          if (result.payload.data.names.length > 0) {
+            message.warning(intl.formatMessage(
+              { id: result.payload.code },
+              {
+                names: result.payload.data.names.join(", "),
+                qty: result.payload.data.qty,
+              },
+            ));
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -81,18 +77,14 @@ class Card extends React.Component {
             message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
-          if (result.payload.data.fail.length > 0) {
-            result.payload.data.fail.forEach((msg) => {
-              const messages = defineMessages({
-                error: {
-                  id: msg.code,
-                },
-              });
-              message.warning(intl.formatMessage(
-                messages.error,
-                { name: msg.value.name, qty: msg.value.qty },
-              ));
-            });
+          if (result.payload.data.names.length > 0) {
+            message.warning(intl.formatMessage(
+              { id: result.payload.code },
+              {
+                names: result.payload.data.names.join(", "),
+                qty: result.payload.data.qty,
+              },
+            ));
           }
         } else {
           //
