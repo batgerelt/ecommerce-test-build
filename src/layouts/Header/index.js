@@ -396,7 +396,6 @@ class AppHeader extends Component {
           }
         });
       });
-
       const dropdown = (
         <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ backgroundColor: '#262a32', marginTop: '-5px' }}>
           <div className="container pad10" style={{ padding: '30px 30px 30px 30px' }}>
@@ -404,7 +403,6 @@ class AppHeader extends Component {
           </div>
         </div>
       );
-
       return (
         <div className="main-nav">
           <div className="container container-laptop pad10">
@@ -426,7 +424,7 @@ class AppHeader extends Component {
                   </Link>
                 </Dropdown>
               </li>
-              <MainMenu dataSource={mainmenu} />
+              <MainMenu dataSource={mainmenu} history={this.props.history} />
             </ul>
           </div>
         </div>

@@ -49,6 +49,11 @@ class Page extends React.Component {
       start: 0,
       rowcnt: 8,
     });
+    this.props.getPackageScroll({
+      order: "date_desc",
+      start: this.props.packageCount,
+      rowcnt: 8,
+    });
     this.props.getPackageBanner();
     this.props.getPackageMenu({});
     this.props.getWidget().then((res) => {

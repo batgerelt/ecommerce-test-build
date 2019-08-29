@@ -9,18 +9,18 @@ class MainMenu extends React.Component {
   }
 
   handleMenu = (index) => {
-    this.setState({ selected: index + 1000 });
+    // this.setState({ selected: index + 1000 });
   }
 
   render() {
     try {
-      const { selected } = this.state;
       const data = this.props && this.props.dataSource;
+      const { pathname } = this.props.history.location;
       let indents = data.map((item, index) => {
         return (
-          <li className="list-inline-item" key={index + 1000} onClick={e => this.handleMenu(index)}>
+          <li className="list-inline-item" key={index + 1000}>
             <Link to={item.link} key={index}>
-              <span style={{ color: selected === index + 1000 ? "#feb415" : "#fff" }}>
+              <span style={{ color: pathname === item.link ? "#feb415" : "#fff" }}>
                 {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
               </span>
             </Link>
