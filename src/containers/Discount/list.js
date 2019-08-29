@@ -183,8 +183,8 @@ class Discount extends React.Component {
     try {
       const { products } = this.state;
       return (
-        <div style={{ paddingTop: '20px' }}>
-          <div className="container pad10">
+        <div className="container pad10" style={{ paddingTop: '20px' }}>
+          <div className="row row10">
             <AutoSizer disableHeight>
               {({ width }) => {
                 const rowCount = this.getRowsAmount(
@@ -278,7 +278,7 @@ class Discount extends React.Component {
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
-        {this.renderFooterProduct()}
+        {this.state.startsWith >= 10 ? this.renderFooterProduct() : null}
         <BackTop />
       </div>
     );

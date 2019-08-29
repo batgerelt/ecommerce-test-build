@@ -238,7 +238,6 @@ class DeliveryInfo extends React.Component {
         tmp.taxName = organizationData.name;
       }
       this.sendPayment(tmp);
-      this.props.clearRemotely();
     }
   }
 
@@ -255,7 +254,6 @@ class DeliveryInfo extends React.Component {
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
-          this.props.clearRemotely();
           this.openLastModal("qpay", [], res.payload.data);
         }
 
