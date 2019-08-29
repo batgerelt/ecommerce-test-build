@@ -83,7 +83,7 @@ class Component extends React.Component {
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="false" maxLength={14} allowClear />)}
+              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
             </Form.Item>
           </Col>
 
@@ -98,7 +98,7 @@ class Component extends React.Component {
                 maxLength={4}
                 allowClear
                 type="password"
-                autoComplete="false"
+                autoComplete="new-password"
               />)}
             </Form.Item>
           </Col>

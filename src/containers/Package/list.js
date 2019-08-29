@@ -25,18 +25,6 @@ class Discount extends React.Component {
     };
   }
 
-  componentWillMount() {
-    try {
-      this.props.getPackageScroll({
-        order: "date_desc",
-        start: this.props.packageCount,
-        rowcnt: 8,
-      });
-    } catch (error) {
-      return console.log(error);
-    }
-  }
-
   componentDidMount() {
     try {
       const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
@@ -105,19 +93,14 @@ class Discount extends React.Component {
   loadMoreRows = async (key) => {
     try {
       if (!this.props.packageFetching) {
-        this.props.getPackageScroll({
-          order: "date_desc",
-          start: this.props.packageCount,
-          rowcnt: 8,
-        });
+        setTimeout(() => {
+          this.props.getPackageScroll({
+            order: "date_desc",
+            start: this.props.packageCount,
+            rowcnt: 8,
+          });
+        }, 1000);
       }
-      /* setTimeout(() => {
-        this.props.getPackageScroll({
-          order: "date_desc",
-          start: this.props.packageCount,
-          rowcnt: 8,
-        });
-      }, 1000); */
     } catch (error) {
       return console.log(error);
     }

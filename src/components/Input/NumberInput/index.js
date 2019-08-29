@@ -42,8 +42,7 @@ class NumberInput extends React.Component {
       <Input
         {...this.props}
         onChange={this.onChange}
-        // onBlur={this.onBlur}
-        autoComplete="off"
+      // onBlur={this.onBlur}
       />
     );
   }
