@@ -75,7 +75,7 @@ class Detail extends Component {
                       {/* {attr.value} */}
                     </dt>
                     <dd className="col-sm-6">
-                      {lang === "mn" ? attr.title : attr.title_en}
+                      {lang === "mn" ? attr.name : attr.name_en}
                       {/* {attr.title} */}
                     </dd>
                   </div>

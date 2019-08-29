@@ -140,15 +140,26 @@ class Discount extends React.Component {
       const data = [];
       headerProducts.map(i => data.push(i._source));
       return (
-        <div style={{ paddingTop: '20px' }}>
-          <div className="container pad10">
-            <CardList
+        <div className="container pad10" style={{ paddingTop: '20px' }}>
+          <div className="row row10">
+            {
+              headerProducts.map((item, i) => (
+                <Card
+                  elastic
+                  key={i}
+                  shape={CARD_TYPES.slim}
+                  item={item._source}
+                  {...this.props}
+                />
+              ))
+            }
+            {/* <CardList
               elastic
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               items={data}
               {...this.props}
-            />
+            /> */}
           </div>
         </div>
       );
