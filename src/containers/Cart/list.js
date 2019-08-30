@@ -13,6 +13,10 @@ import { message, Affix } from 'antd';
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
+  state = {
+    proceedRoute: "/checkout",
+  };
+
   changeQties = products => products.map((product) => {
     if (product.addminqty > 1) {
       product.qty /= product.addminqty;
@@ -24,28 +28,20 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
     if (this.props.isLogged) {
-      const result = await this.props.confirmCartRemotely();
-      console.log('result: ', result);
+      let result = await this.props.confirmCartRemotely();
       const { intl } = this.props;
 
-      if (result.payload.success) {
-        if (result.payload.data && result.payload.data.fail) {
-          result.payload.data.fail.forEach(
-            code => message.warning(intl.formatMessage({ id: code })),
-          );
-          console.log('result: ', result);
+      if (result.payload.data.length > 0) {
+        if (result.payload.data[0].data.values.length > 0) {
+          result.payload.data.forEach(msg => (
+            message.warning(intl.formatMessage(
+              { id: msg.code },
+              { names: msg.data.values.join(", ") },
+            ))
+          ));
+          this.setState({ proceedRoute: "/cart" });
         }
-
-        return <Redirect to="/checkout" />;
-      } else {
-        result.payload.data.forEach(
-          code => message.warning(intl.formatMessage({ id: code })),
-        );
-
-        return <Redirect to="/cart" />;
       }
-    } else {
-      return <Redirect to={{ pathname: "/checkout" }} push />;
     }
   };
 
@@ -715,7 +711,7 @@ class Cart extends React.Component {
                       </strong>
                     </p>
                     <Link
-                      to="/checkout"
+                      to={this.state.proceedRoute}
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                         }`}

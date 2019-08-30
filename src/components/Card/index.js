@@ -101,11 +101,12 @@ class Card extends React.Component {
                 item.addminqty = res.payload.data.addminqty;
                 return this.props.incrementProductLocally(item);
               }
-              return message.warning(intl.formatMessage({ id: 200 }));
+              return message.warning(intl.formatMessage({ id: 200 }, { name: item.name, qty: item.qty }));
             });
           }
           this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
+          console.log('updated: ', updated);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
