@@ -360,12 +360,20 @@ class Detail extends Component {
   handleQtyBlur = (e, product) => {
     if (isNaN(e.target.value)) {
       this.setState({ productQty: product.addminqty });
+      console.log("1");
     } else if (e.target.value < product.addminqty) {
       this.setState({ productQty: product.addminqty });
+      console.log("2");
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
+      console.log("3");
+      message.warning("Барааны нөөц хүрэлцэхгүй байна.");
     } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
+      console.log("4");
+    } else if (e.target.value <= product.salemaxqty) {
+      this.setState({ productQty: e.target.value });
+      console.log("5");
     } else {
       this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }
