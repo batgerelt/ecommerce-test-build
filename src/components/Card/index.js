@@ -266,7 +266,7 @@ class Card extends React.Component {
             {!!priceTitle && (
               <div
                 className="col-md-6 no-padding-r"
-                style={{ textAlign: "left" }}
+                style={{ textAlign: "left", width: "40%" }}
               >
                 {priceTitle}
               </div>
@@ -276,13 +276,13 @@ class Card extends React.Component {
             {!item.pricetag ? null : (
               <div
                 className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                style={{ textAlign: list ? 'rigth' : 'left' }}
+                style={{ textAlign: list ? 'rigth' : 'left', width: "40%" }}
               >
                 {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
               </div>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
+            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
               <small className="sale">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </small>
@@ -298,7 +298,7 @@ class Card extends React.Component {
               {!!priceTitle && (
                 <div
                   className="col-md-6 no-padding-r"
-                  style={{ textAlign: "left" }}
+                  style={{ textAlign: "left", width: "40%" }}
                 >
                   {priceTitle}
                 </div>
@@ -308,14 +308,14 @@ class Card extends React.Component {
               {item.pricetag === null ? null : (
                 <div
                   className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                  style={{ textAlign: list ? 'center' : 'left' }}
+                  style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
                 >
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
                 </div>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`}>
-                <span className="current">
+              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
+                <span className="current" >
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </span>
               </div>
@@ -327,7 +327,7 @@ class Card extends React.Component {
             {!!priceTitle && (
               <div
                 className="col-md-6 no-padding-r"
-                style={{ textAlign: "left" }}
+                style={{ textAlign: "left", width: "40%" }}
               >
                 {priceTitle}
               </div>
@@ -337,13 +337,13 @@ class Card extends React.Component {
             {item.id || item.recipeid || !item.pricetag ? null : (
               <div
                 className={`col-md-6 ${list ? 'no-padding-l tp-15' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                style={{ textAlign: list ? 'center' : 'left' }}
+                style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
               >
                 {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
               </div>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`}>
+            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
               <span className="current">
                 {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
               </span>
@@ -430,7 +430,7 @@ class Card extends React.Component {
           featureText = item.feature;
         }
       }
-
+      console.log(shape);
       switch (shape) {
         case CARD_TYPES.slim:
           return (
@@ -635,10 +635,10 @@ class Card extends React.Component {
               </div>
               <div className="info-container">
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="name">
-                  <span>{itemName}</span>
+                  <span style={{ width: list ? "70%" : '100%' }}>{itemName}</span>
                 </Link>
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="cat">
-                  <span>{featureText}</span>
+                  <span style={{ width: list ? "70%" : '100%' }}>{featureText}</span>
                 </Link>
                 {
                   item.id === undefined && item.recipeid === undefined ?

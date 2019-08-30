@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unreachable */
 import React, { Component } from "react";
 import Style from "style-it";
@@ -10,13 +11,13 @@ class index extends Component {
         ? `
         bottom: 35px; 
         margin: auto auto auto ${
-          !data.isavailable
-            ? data.salepercent !== 0
-              ? "400px"
-              : "450px"
-            : data.salepercent !== 0
-              ? "450px"
-              : "500px"
+        !data.isavailable
+          ? data.salepercent !== 0
+            ? "400px"
+            : "450px"
+          : data.salepercent !== 0
+            ? "450px"
+            : "500px"
         };
         `
         : `display: block;
@@ -39,9 +40,9 @@ class index extends Component {
                 width: 46px;
                 height: 30px;
                 background-color: ${
-                  tags.find(tag => tag.slug === "new") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "new").color
+                tags.find(tag => tag.slug === "new") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "new").color
                 };
                 text-align: center;
                 font-size: ${"1.7"}rem;
@@ -57,9 +58,9 @@ class index extends Component {
                 position: absolute;
                 content: '';
                 background-color: ${
-                  tags.find(tag => tag.slug === "new") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "new").color
+                tags.find(tag => tag.slug === "new") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "new").color
                 };
                 width: 26px;
                 height: 26px;
@@ -128,7 +129,7 @@ class index extends Component {
                 ${style}
               }
           `}
-          <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
+          <div className="label medium-image-magnify" style={{ zIndex: 100, top: list ? "70px" : "" }}>
             <Style>
               {`
               .text {
@@ -137,9 +138,9 @@ class index extends Component {
                 width: 46px;
                 height: 30px;
                 background-color: ${
-                  tags.find(tag => tag.slug === "discount") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "discount").color
+                tags.find(tag => tag.slug === "discount") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "discount").color
                 };
                 text-align: center;
                 font-size: ${"1.7"}rem;
@@ -155,9 +156,9 @@ class index extends Component {
                 position: absolute;
                 content: '';
                 background-color: ${
-                  tags.find(tag => tag.slug === "discount") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "discount").color
+                tags.find(tag => tag.slug === "discount") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "discount").color
                 };
                 width: 26px;
                 height: 26px;
@@ -188,7 +189,7 @@ class index extends Component {
                 letter-spacing: 1px;
               }
             `}
-              <span className="text">
+              <span className="text" style={{ top: list ? "55px" : "" }}>
                 <div>
                   <strong>{data.salepercent}</strong>
                   <small>
@@ -215,13 +216,13 @@ class index extends Component {
         bottom: 35px; 
         margin: auto auto auto 500px`
         : `top: ${
-          data.isnew
-            ? data.salepercent !== 0
-              ? "127px"
-              : "70px"
-            : data.salepercent !== 0
-              ? "70px"
-              : "15px"
+        data.isnew
+          ? data.salepercent !== 0
+            ? "127px"
+            : "70px"
+          : data.salepercent !== 0
+            ? "70px"
+            : "15px"
         };`;
       return (
         <Style>
@@ -232,7 +233,7 @@ class index extends Component {
                 ${style}
               }
             `}
-          <div className="label medium-image-magnify" style={{ zIndex: 100 }}>
+          <div className="label medium-image-magnify" style={{ zIndex: 100, top: list ? "125px" : "" }}>
             <Style>
               {`
               .text {
@@ -241,9 +242,9 @@ class index extends Component {
                 width: 46px;
                 height: 30px;
                 background-color: ${
-                  tags.find(tag => tag.slug === "sold_out") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "sold_out").color
+                tags.find(tag => tag.slug === "sold_out") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "sold_out").color
                 };
                 text-align: center;
                 font-size: ${"0.9"}rem;
@@ -259,9 +260,9 @@ class index extends Component {
                 position: absolute;
                 content: '';
                 background-color: ${
-                  tags.find(tag => tag.slug === "sold_out") === undefined
-                    ? ""
-                    : tags.find(tag => tag.slug === "sold_out").color
+                tags.find(tag => tag.slug === "sold_out") === undefined
+                  ? ""
+                  : tags.find(tag => tag.slug === "sold_out").color
                 };
                 width: 26px;
                 height: 26px;
@@ -291,11 +292,11 @@ class index extends Component {
                 line-height: 1.4;
                 letter-spacing: 0.2px;
                 bottom: ${
-                  lang === "mn" || lang === null ? "4px" : "-3px"
+                lang === "mn" || lang === null ? "4px" : "-3px"
                 };
               }
              `}
-              <span className="text">
+              <span className="text" style={{ top: list ? "110px" : "" }}>
                 <div>
                   <small>
                     {lang === "mn" || lang === null
