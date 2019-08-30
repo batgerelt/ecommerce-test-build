@@ -154,43 +154,35 @@ class List extends React.Component {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
       if (result.payload.data.fail.length > 0) {
-        console.log('result.payload: ', result.payload);
-        result.payload.data.fail.forEach((msg) => {
-          const messages = defineMessages({
-            error: {
-              id: msg.code,
-            },
-          });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: msg.value.title,
-            qty: msg.value.salemaxqty,
-          }));
-        });
+        const titles = result.payload.data.fail.map(err => err.values[0]);
+        message.warning(intl.formatMessage(
+          { id: "205" },
+          {
+            names: titles.join(", "),
+            qty: result.payload.data.items.length,
+          },
+        ));
       }
     } else {
       products = products.map(prod => ({
         ...prod,
         insymd: Date.now(),
       }));
+
       this.props.increasePackageProductsByQtyLocally(products);
 
-      products.forEach((product) => {
-        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
+      const errors = this.props.errors.filter(prod => prod.id === parseInt(this.props.match.params.id, 10));
 
-        if (updated && updated.error !== undefined) {
-          const messages = defineMessages({
-            error: {
-              id: updated.error,
-            },
-          });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
-        }
-      });
+      if (errors.length > 0) {
+        const titles = errors.map(err => err.title);
+        message.warning(intl.formatMessage(
+          { id: "205" },
+          {
+            names: titles.join(", "),
+            qty: products.length - errors.length,
+          },
+        ));
+      }
     }
   };
 

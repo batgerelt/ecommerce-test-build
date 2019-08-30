@@ -106,7 +106,6 @@ class Card extends React.Component {
           }
           this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
-          console.log('updated: ', updated);
 
           if (updated && updated.error !== undefined) {
             const messages = defineMessages({
@@ -137,17 +136,16 @@ class Card extends React.Component {
 
           const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
 
-          errors.forEach((updated) => {
-            const messages = defineMessages({
-              error: {
-                id: updated.error,
-              },
-            });
+          if (errors.length > 0) {
+            const titles = errors.map(err => err.title);
             message.warning(intl.formatMessage(
-              messages.error,
-              { name: updated.name, qty: updated.qty },
+              { id: "206" },
+              {
+                names: titles.join(", "),
+                qty: products.length - errors.length,
+              },
             ));
-          });
+          }
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
             id: item.id,
@@ -166,17 +164,16 @@ class Card extends React.Component {
 
           const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
 
-          errors.forEach((updated) => {
-            const messages = defineMessages({
-              error: {
-                id: updated.error,
-              },
-            });
+          if (errors.length > 0) {
+            const titles = errors.map(err => err.title);
             message.warning(intl.formatMessage(
-              messages.error,
-              { name: updated.name, qty: updated.qty },
+              { id: "205" },
+              {
+                names: titles.join(", "),
+                qty: products.length - errors.length,
+              },
             ));
-          });
+          }
         } else {
           //
         }
