@@ -238,7 +238,6 @@ class CategoryInfo extends React.Component {
     try {
       const { categoryall, lang } = this.props;
       const { categories } = this.state;
-
       if (categories.buckets.length !== 0) {
         return (
           <Tree.DirectoryTree

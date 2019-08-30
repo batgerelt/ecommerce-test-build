@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   ...state.search,
   ...state.brand,
   ...state.attribute,
+  ...state.locale,
 });
 
 const mapDispatchToProps = dispatch => ({

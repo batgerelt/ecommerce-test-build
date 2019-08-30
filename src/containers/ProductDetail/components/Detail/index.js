@@ -75,7 +75,7 @@ class Detail extends Component {
                       {/* {attr.value} */}
                     </dt>
                     <dd className="col-sm-6">
-                      {lang === "mn" ? attr.title : attr.title_en}
+                      {lang === "mn" ? attr.name : attr.name_en}
                       {/* {attr.title} */}
                     </dd>
                   </div>
@@ -139,7 +139,9 @@ class Detail extends Component {
       kiloPrice = (
         <div className="count-text text-right">
           <div className="price product-detail">
-            {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
+            <span style={{ fontSize: "16px" }}>
+              {intl.formatMessage({ id: "productDetail.label.kilogramPrice" })}
+            </span>
             {
               detail.discountprice !== 0 ?
                 <small
@@ -153,7 +155,7 @@ class Detail extends Component {
                   {formatter.format(detail.volumeprice)}₮
                 </small> : ""
             }
-            <span className="current" style={{ marginLeft: "5px" }}>
+            <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
               {formatter.format(detail.totprice)}₮
             </span>
           </div>
@@ -175,7 +177,9 @@ class Detail extends Component {
       priceInfo = (
         <div>
           <div className="count-text text-right">
-            {priceTitle}
+            <span style={{ fontSize: "16px" }}>
+              {priceTitle}
+            </span>
             <div className="price product-detail">
               <small
                 className="sale"
@@ -187,7 +191,7 @@ class Detail extends Component {
               >
                 {formatter.format(price)}₮
               </small>
-              <span className="current" style={{ marginLeft: "5px" }}>
+              <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
                 {formatter.format(salePrice)}₮
               </span>
             </div>
@@ -200,7 +204,7 @@ class Detail extends Component {
         <div>
           <div className="count-text text-right">
             {priceTitle}
-            <span className="current" style={{ marginLeft: "5px" }}>
+            <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
               {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
           </div>

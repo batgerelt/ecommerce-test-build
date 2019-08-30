@@ -16,7 +16,7 @@ import {
   AutoSizer,
 } from "react-virtualized";
 
-import { Card, Loader, SearchFilterSet, PageBanner } from "../../components";
+import { Card, Loader, SearchFilterSet, PageBanner, Widget } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
 
@@ -365,7 +365,7 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-xl-9 col-lg-9 col-md-8 pad10">
+        <div className="col-xl-9 col-lg-9 col-md-9 pad10">
           <div className="list-filter">
             <div className="row row10">
               <div className="col-lg-6 pad10">
@@ -445,16 +445,26 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
+    console.log(width);
+    console.log(!this.state.isListViewOn);
     if (!this.state.isListViewOn) {
-      if (width < 400) {
+      if (width >= 300 && width <= 400) {
+        tmp = 370;
+      } else if (width < 400) {
         tmp = 350;
+      } else if (width > 400 && width < 520) {
+        tmp = 365;
       } else {
-        tmp = 300.98;
+        tmp = 305.98;
       }
-    } else if (width < 400) {
-      tmp = 197;
-    } else {
-      tmp = 120;
+    } else if (this.state.isListViewOn) {
+      if (width >= 300 && width <= 400) {
+        tmp = 230;
+      } else if (width < 400) {
+        tmp = 197;
+      } else {
+        tmp = 120;
+      }
     }
     return tmp;
   };
@@ -474,7 +484,11 @@ class CategoryInfo extends React.Component {
 
   getMaxItemsAmountPerRow = (width) => {
     screenWidth = width;
+    console.log(this.state.shapeType);
     if (this.state.shapeType === 2) {
+      if (width >= 520 && width <= 700) {
+        return Math.max(Math.floor(width / 230), 1);
+      }
       return Math.max(Math.floor(width / 264.98), 1);
     }
     return Math.max(Math.floor(width / 835), 1);

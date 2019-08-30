@@ -173,18 +173,29 @@ class Bookmarks extends PureComponent {
     try {
       const seq = "1,1";
       const { headerProducts } = this.state;
-      const data = [];
-      headerProducts.map(i => data.push(i._source));
+      /* const data = [];
+      headerProducts.map(i => data.push(i._source)); */
       return (
-        <div style={{ paddingTop: '10px' }}>
-          <div className="container pad10">
-            <CardList
+        <div className="container pad10" style={{ paddingTop: '20px' }}>
+          <div className="row row10">
+            {
+              headerProducts.map((item, i) => (
+                <Card
+                  elastic
+                  key={i}
+                  shape={CARD_TYPES.slim}
+                  item={item._source}
+                  {...this.props}
+                />
+              ))
+            }
+            {/* <CardList
               elastic
               cardListType={CARD_LIST_TYPES.horizontal}
               seq={seq}
               {...this.props}
               items={data}
-            />
+            /> */}
           </div>
         </div>
       );
