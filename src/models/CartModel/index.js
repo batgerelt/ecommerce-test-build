@@ -381,6 +381,7 @@ class Model extends BaseModel {
   updateReduxStore = (
     products,
     product,
+    from = "",
     shouldOverride = false,
     shouldDecrement = false,
     shouldUpdateByQty = false,
@@ -427,7 +428,11 @@ class Model extends BaseModel {
                   }
                 } else if (qty > found.availableqty) {
                   found.qty = found.availableqty;
-                  found.error = "200";
+                  found.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
                 } else if (qty < found.addminqty) {
                   found.qty = found.addminqty;
                   found.error = "204";
@@ -435,7 +440,11 @@ class Model extends BaseModel {
                   found.qty = qty;
                 }
               } else {
-                found.error = "200";
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
               }
             }
           } else if (shouldDecrement) {
@@ -467,12 +476,20 @@ class Model extends BaseModel {
                 }
               } else if (found.qty + qty > found.availableqty) {
                 found.qty = found.availableqty;
-                found.error = "200";
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
               } else {
                 found.qty += qty;
               }
             } else {
-              found.error = "200";
+              found.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
             }
           } else {
             if (found.isgift) {
@@ -488,12 +505,20 @@ class Model extends BaseModel {
                   }
                 } else if (found.qty + found.addminqty > found.availableqty) {
                   found.qty = found.availableqty;
-                  found.error = "200";
+                  found.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
                 } else {
                   found.qty += found.addminqty || 1;
                 }
               } else {
-                found.error = "200";
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
               }
             }
           }
@@ -521,13 +546,21 @@ class Model extends BaseModel {
               } else {
                 if (qty > product.availableqty) {
                   product.qty = product.availableqty;
-                  product.error = "200";
+                  product.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
                 } else {
                   product.qty = qty;
                 }
               }
             } else {
-              product.error = "200";
+              product.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
             }
           }
         } else {
@@ -548,7 +581,11 @@ class Model extends BaseModel {
                 if (product.qty) {
                   if (product.qty > product.availableqty) {
                     product.qty = product.availableqty;
-                    product.error = "200";
+                    product.error = from === "package"
+                      ? "205"
+                      : from === "recipe"
+                        ? "206"
+                        : "200";
                   } else {
                     // NOT NECESSARY
                   }
@@ -557,7 +594,11 @@ class Model extends BaseModel {
                 }
               }
             } else {
-              product.error = "200";
+              product.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
             }
           }
         }
@@ -744,7 +785,7 @@ class Model extends BaseModel {
           let { products } = state;
 
           action.payload.forEach((prod) => {
-            products = this.updateReduxStore(products, prod);
+            products = this.updateReduxStore(products, prod, "recipe");
           });
 
           const errors = products.filter(prod => prod.error !== undefined);
@@ -778,7 +819,7 @@ class Model extends BaseModel {
           let { products } = state;
 
           action.payload.forEach((prod) => {
-            products = this.updateReduxStore(products, prod);
+            products = this.updateReduxStore(products, prod, "package");
           });
 
           const errors = products.filter(prod => prod.error !== undefined);
@@ -814,7 +855,13 @@ class Model extends BaseModel {
             );
           });
 
-          return { ...state, products };
+          const errors = products.filter(prod => prod.error !== undefined);
+
+          return {
+            ...state,
+            products: products.filter(prod => prod.error === undefined),
+            errors: errors.length > 0 ? errors : [],
+          };
         } catch (e) {
           console.log(e);
         }
