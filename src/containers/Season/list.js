@@ -52,7 +52,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: '',
+      orderColumn: 'updateddate_desc',
       highlight: false,
     };
   }
@@ -395,7 +395,6 @@ class CategoryInfo extends React.Component {
                       <FormattedMessage id="search.sort.label" />:
                     </label>
                     <Select
-                      defaultValue={this.state.orderColumn}
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
@@ -445,8 +444,8 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-    console.log(width);
-    console.log(!this.state.isListViewOn);
+    /* console.log(width);
+    console.log(!this.state.isListViewOn); */
     if (!this.state.isListViewOn) {
       if (width >= 300 && width <= 400) {
         tmp = 370;
@@ -484,7 +483,7 @@ class CategoryInfo extends React.Component {
 
   getMaxItemsAmountPerRow = (width) => {
     screenWidth = width;
-    console.log(this.state.shapeType);
+    /* console.log(this.state.shapeType); */
     if (this.state.shapeType === 2) {
       if (width >= 520 && width <= 700) {
         return Math.max(Math.floor(width / 230), 1);
@@ -499,6 +498,7 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
       if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
         const { isLogged, data } = this.props;
+        console.log(this.state.sort);
         const params = {
           catId: 0,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
@@ -531,6 +531,7 @@ class CategoryInfo extends React.Component {
   renderProducts = () => {
     try {
       const { products, isListViewOn } = this.state;
+      console.log('isListViewOn: ', isListViewOn);
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>
