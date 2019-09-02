@@ -646,6 +646,7 @@ class Model extends BaseModel {
             products: this.updateReduxStore(
               state.products,
               action.payload,
+              "",
               false,
               true,
             ),
@@ -679,6 +680,7 @@ class Model extends BaseModel {
             products: this.updateReduxStore(
               products,
               product,
+              "",
               false,
               false,
               true,
@@ -710,7 +712,7 @@ class Model extends BaseModel {
 
           return {
             ...state,
-            products: this.updateReduxStore(products, product, true),
+            products: this.updateReduxStore(products, product, "", true),
           };
         } catch (e) {
           console.log(e);
@@ -771,7 +773,7 @@ class Model extends BaseModel {
       case this.model.increaseProductsByQtyRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.increaseProductsByQtyRemotely.response:
-        return { ...state, products: action.payload.data.success };
+        return { ...state, products: action.payload.data.items };
 
       case this.model.recipeProducts.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -805,7 +807,7 @@ class Model extends BaseModel {
       case this.model.incrementRecipeProductsRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementRecipeProductsRemotely.response:
-        return { ...state, products: action.payload.data.success };
+        return { ...state, products: action.payload.data.items };
 
       case this.model.packageProducts.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -839,7 +841,7 @@ class Model extends BaseModel {
       case this.model.incrementPackageProductsRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementPackageProductsRemotely.response:
-        return { ...state, products: action.payload.data.success };
+        return { ...state, products: action.payload.data.items };
 
       case "CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY":
         try {
@@ -849,6 +851,7 @@ class Model extends BaseModel {
             products = this.updateReduxStore(
               products,
               prod,
+              "package",
               false,
               false,
               true,
