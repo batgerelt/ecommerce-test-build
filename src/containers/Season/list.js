@@ -368,7 +368,7 @@ class CategoryInfo extends React.Component {
         <div className="col-xl-9 col-lg-9 col-md-9 pad10">
           <div className="list-filter">
             <div className="row row10">
-              <div className="col-lg-6 pad10">
+              <div className="col-lg-6 col-md-6 pad10">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
@@ -376,7 +376,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 pad10">
+              <div className="col-lg-6 col-md-6 pad10">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -387,7 +387,7 @@ class CategoryInfo extends React.Component {
                       <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
-                  <div className="form-group my-select flex-this">
+                  <div className="form-group my-select flex-this" style={{ width: "100%" }}>
                     <label
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
@@ -398,12 +398,13 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
+                      style={{ width: "100%" }}
                     >
                       <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
+                  <div className="form-group flex-this searchGridList" style={{ marginLeft: '15px' }}>
                     <div
                       className={this.state.isListViewOn ? "btn active" : "btn"}
                       onClick={this.handleViewChange}
@@ -444,8 +445,6 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-    /* console.log(width);
-    console.log(!this.state.isListViewOn); */
     if (!this.state.isListViewOn) {
       if (width >= 300 && width <= 400) {
         tmp = 370;
@@ -498,7 +497,6 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
       if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
         const { isLogged, data } = this.props;
-        console.log(this.state.sort);
         const params = {
           catId: 0,
           custId: isLogged ? data[0].info.customerInfo.id : 0,
@@ -531,7 +529,6 @@ class CategoryInfo extends React.Component {
   renderProducts = () => {
     try {
       const { products, isListViewOn } = this.state;
-      console.log('isListViewOn: ', isListViewOn);
       if (products.length !== 0) {
         return (
           <AutoSizer disableHeight>

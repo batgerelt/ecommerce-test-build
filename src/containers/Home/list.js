@@ -38,7 +38,7 @@ class Homepage extends React.Component {
             ? []
             : products.discountproduct.product;
           widget.interval = (
-            <span>
+            <span className="widget-interval">
               {moment()
                 .startOf("month")
                 .format("MM/DD")}{" "}

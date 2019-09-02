@@ -34,6 +34,9 @@
 }
 
 @media (max-width: 1024px) {
+    .searchGridList{
+        display: none;
+    }
 
     .top-container-responsive {
         padding-top: initial !important;
@@ -1101,6 +1104,21 @@
             right: 10px !important;
             left: initial !important;
         }
+
+        .listLabelNew {
+            right: 10px !important;
+            left: initial !important;
+        }
+
+        .listLabelSale {
+            right: 10px !important;
+            left: initial !important;
+        }
+
+        .listLabelSoldOut {
+            right: 10px !important;
+            left: initial !important;
+        }
     }
 
     .back-to-home {
@@ -1371,6 +1389,10 @@
         margin-top: 95px;
     }
 
+    .searchGridList{
+        display: none;
+    }
+
     .image-magnify{
         img {
           // height: 259.25px !important;
@@ -1399,6 +1421,10 @@
 @media (max-width: 532px) {
     .checkout-addbtn-container{
         display: contents;
+    }
+
+    .searchGridList{
+        display: none;
     }
 
     .checkout-address-container{
