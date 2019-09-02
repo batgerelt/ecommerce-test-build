@@ -20,7 +20,7 @@ class MainMenu extends React.Component {
         return (
           <li className="list-inline-item" key={index + 1000}>
             <Link to={item.link} key={index}>
-              <span style={{ color: pathname === item.link ? "#feb415" : "#fff" }}>
+              <span style={{ color: pathname === item.link ? "#feb415" : "#fffff" }}>
                 {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
               </span>
             </Link>

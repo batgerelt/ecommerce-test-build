@@ -318,8 +318,10 @@ class DeliveryInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.products.length !== this.props.products.length) {
-      this.setState({ totalPrice: this.getTotalPrice(this.props.products), totalQty: this.getTotalQty(this.props.products) });
+    if (this.props.products !== undefined && prevProps.products !== undefined) {
+      if (prevProps.products.length !== this.props.products.length) {
+        this.setState({ totalPrice: this.getTotalPrice(this.props.products), totalQty: this.getTotalQty(this.props.products) });
+      }
     }
   }
 

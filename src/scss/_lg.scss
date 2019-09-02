@@ -191,7 +191,7 @@ a:hover {
 .btn-border span,
 .btn-border .fa {
   line-height: 20px;
-  color: black;
+  color: #63666A;
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: 1px;
@@ -257,6 +257,7 @@ h1.title:after {
 h1.title .text {
   margin-top: 10px;
   font-size: 1rem;
+  color: #63666A;
 }
 
 h1.title .text .fa {
@@ -1407,8 +1408,10 @@ body {
 }
 
 .single-product .info-container a {
-  color: rgba(0, 0, 0, 0.65);
+  // color: rgba(0, 0, 0, 0.65);
+  color: #63666A;
   display: block;
+  text-transform: uppercase;
 }
 
 .single-product .info-container a span {
@@ -1424,7 +1427,8 @@ body {
 }
 
 .single-product .info-container .cat span {
-  color: rgba(0, 0, 0, 0.5);
+  // color: rgba(0, 0, 0, 0.5);
+  color: #63666A;
 }
 
 .single-product .info-container .name span,
@@ -1445,7 +1449,8 @@ body {
 
 .single-product .info-container .price small {
   text-decoration: line-through;
-  color: rgba(0, 0, 0, 0.5);
+  // color: rgba(0, 0, 0, 0.5);
+  color: #63666A;
   margin-right: 5px;
 }
 
