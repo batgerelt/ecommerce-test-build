@@ -40,7 +40,7 @@ const request = ({
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
-        // localStorage.clear();
+        localStorage.clear();
       }
       if (!response.ok) {
         throw new Error(response.statusText);

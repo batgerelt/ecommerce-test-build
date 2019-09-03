@@ -137,7 +137,7 @@ class ProductDetail extends React.Component {
             className="list-inline"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           >
-            <li className="list-inline-item">
+            <li className="list-inline-item share-text upper-first">
               <span><FormattedMessage id="shared.share" />:</span>
             </li>
             <li className="list-inline-item" style={{ cursor: "pointer" }}>

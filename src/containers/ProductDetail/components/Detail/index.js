@@ -41,9 +41,9 @@ class Detail extends Component {
       <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
-
-          {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
-
+          <span className="small-title">
+            {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
+          </span>
           {selectedCat && (
             <p className="big-text">
               <strong>
@@ -60,7 +60,7 @@ class Detail extends Component {
               value={isLogged ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
-            <p className="text">
+            <p className="text upper-first">
               {/* ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
               ({isLogged ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
@@ -144,14 +144,7 @@ class Detail extends Component {
             </span>
             {
               detail.discountprice !== 0 ?
-                <small
-                  className="sale"
-                  style={{
-                    color: "#666",
-                    textDecoration: "line-through",
-                    marginLeft: "5px",
-                  }}
-                >
+                <small className="sale">
                   {formatter.format(detail.volumeprice)}₮
                 </small> : ""
             }
@@ -177,18 +170,11 @@ class Detail extends Component {
       priceInfo = (
         <div>
           <div className="count-text text-right">
-            <span style={{ fontSize: "16px" }}>
+            <span className="price-text upper-first">
               {priceTitle}
             </span>
             <div className="price product-detail">
-              <small
-                className="sale"
-                style={{
-                  color: "#666",
-                  textDecoration: "line-through",
-                  marginLeft: "5px",
-                }}
-              >
+              <small className="sale">
                 {formatter.format(price)}₮
               </small>
               <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
@@ -203,7 +189,9 @@ class Detail extends Component {
       priceInfo = (
         <div>
           <div className="count-text text-right">
-            {priceTitle}
+            <span className="price-text upper-first">
+              {priceTitle}
+            </span>
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
               {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
