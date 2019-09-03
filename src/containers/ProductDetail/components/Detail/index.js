@@ -245,7 +245,7 @@ class Detail extends Component {
         </div>
 
         <div className="total-price text-right">
-          <span><FormattedMessage id="productDetail.label.totalPrice" />:</span>
+          <span className="upper-first"><FormattedMessage id="productDetail.label.totalPrice" />:</span>
           <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
@@ -271,7 +271,7 @@ class Detail extends Component {
           </button>
 
           {detail.sdate !== null && detail.edate !== null && (
-            <p className="text text-right">
+            <p className="text text-right upper-first">
               <FormattedMessage
                 id="productDetail.label.discountDateWarning"
                 defaultMessage="Хямдрал {days} хоногийн дараа дуусна"

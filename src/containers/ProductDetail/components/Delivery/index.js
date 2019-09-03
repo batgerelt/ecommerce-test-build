@@ -8,11 +8,11 @@ class Delivery extends Component {
       const { detail } = this.props;
       return (
         <div className="block product-delivery">
-          <p className="title">
+          <p className="title upper-first">
             {/* <strong>Хүргэлтийн мэдээлэл</strong> */}
             <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
           </p>
-          <p className="text">
+          <p className="text upper-first">
             <span>{this.props.lang === "mn" ? detail.products.deliveryinfo : detail.products.deliveryinfo_en}</span>
             {/* <span>{detail.deliveryinfo}</span> */}
           </p>

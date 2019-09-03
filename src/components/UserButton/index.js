@@ -255,7 +255,7 @@ class UserButton extends React.Component {
                     </li>
                     <li className="list-inline-item language">
                       <form>
-                        <select className="custom-select" defaultValue="0">
+                        <select className="custom-select" defaultValue="0" style={{ color: "red" }}>
                           <option value="0">МОН</option>
                           <option value="1">ENG</option>
                         </select>
