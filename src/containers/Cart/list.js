@@ -706,9 +706,9 @@ class Cart extends React.Component {
                     )}
                     <p className="total flex-space">
                       <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
-                      <strong>
+                      <span style={{ fontWeight: 500 }}>
                         {formatter.format(this.renderTotalPrice())}₮
-                      </strong>
+                      </span>
                     </p>
                     <Link
                       to={this.state.proceedRoute}

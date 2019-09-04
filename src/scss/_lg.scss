@@ -1039,7 +1039,7 @@ body {
 .top-main .action p span {
   line-height: 1;
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .top-main .action strong {
@@ -2407,7 +2407,7 @@ body {
 
 .product-detail-page .product-info .total-price strong {
   color: #FFB81C;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
@@ -2696,6 +2696,7 @@ body {
 .cart-container h5.title {
   margin: 10px auto 30px;
   color: #63666A;
+  font-weight: normal;
 }
 
 .cart-container .cart-info p.title {
@@ -2774,14 +2775,14 @@ body {
   color: #A7A8AA;
   //color: rgba(0, 0, 0, 0.5);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 .cart-container .cart-info .cart-info-container p span + span {
   // color: rgba(0, 0, 0, 0.9);
   color: #63666A;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: normal;
   display: inline-block;
 }
 
