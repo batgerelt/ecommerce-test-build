@@ -381,7 +381,8 @@ h5 {
   padding: 5px 20px 5px 50px;
   margin-bottom: 10px;
   color: white;
-  font-weight: 300;
+  text-transform: uppercase;
+  font-weight: bold;
   font-size: 0.7rem;
   letter-spacing: 1px;
   line-height: 28px;
@@ -1433,7 +1434,7 @@ body {
   color: #63666A;
 }
 
-.single-product .info-container a {
+.single-product .info-container .name {
   // color: rgba(0, 0, 0, 0.65);
   color: #63666A;
   display: block;
@@ -1455,6 +1456,10 @@ body {
 .single-product .info-container .cat span {
   // color: rgba(0, 0, 0, 0.5);
   color: #63666A;
+}
+
+.single-product .info-container .cat span:first-letter{
+  text-transform: uppercase;
 }
 
 .single-product .info-container .name span,

@@ -98,6 +98,9 @@ class Recipe extends React.Component {
 
   generateItemHeight = (item, width) => {
     const { recipeScroll } = this.props;
+    if (width >= 340 && width < 500) {
+      return 2650;
+    }
     if (recipeScroll[item.index].length <= 3) {
       return 306.5;
     }
