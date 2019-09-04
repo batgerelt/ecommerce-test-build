@@ -182,7 +182,7 @@ class LoginModal extends React.Component {
           <Form.Item>
             <Col span={12}>
               <Checkbox
-                className="btn"
+                className="btn color-new-grey"
                 onChange={this.onRemember}
                 checked={isRemember}
               >
@@ -192,7 +192,7 @@ class LoginModal extends React.Component {
             <Col span={12} style={{ textAlign: "right" }}>
               <Link
                 to=""
-                className="btn btn-link"
+                className="btn btn-link color-new-grey"
                 style={{ fontSize: "14px" }}
                 onClick={this.handleResetVisible}
               >
@@ -207,7 +207,7 @@ class LoginModal extends React.Component {
 
         {this.props.RegistrationModal ?
           <div className="text-center">
-            <p>
+            <p className="color-new-grey upper-first">
               <FormattedMessage
                 id="loginModal.linkToRegistration"
                 defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"

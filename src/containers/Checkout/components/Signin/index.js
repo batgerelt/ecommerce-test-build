@@ -135,8 +135,7 @@ class Signin extends React.Component {
               <label className="checkout-hover" style={{ float: "right" }}>
                 <Link
                   to=""
-                  className="btn btn-link"
-                  style={{ fontSize: "14px" }}
+                  className="btn btn-link upper-first forgot-password"
                   onClick={this.handleResetPassword}
                 >
                   <FormattedMessage id="shared.form.label.forgotPassword" />

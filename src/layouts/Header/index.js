@@ -126,9 +126,9 @@ class AppHeader extends Component {
                 </ul>
               </div>
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
-                <ul className="list-inline right-panel text-right" style={{ boxShadow: 'none' }}>
+                <ul className="list-inline right-panel text-right color-new-grey" style={{ boxShadow: 'none' }}>
                   <li className="list-inline-item">
-                    <select onChange={this.handleLangChange} className="classic" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none' }}>
+                    <select onChange={this.handleLangChange} className="classic color-new-grey" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none', color: "#63666A" }}>
                       <option value="mn" style={{ boxShadow: 'none' }}>МОН</option>
                       <option value="en" style={{ boxShadow: 'none' }}>ENG</option>
                     </select>
@@ -340,17 +340,17 @@ class AppHeader extends Component {
                                 height={"25px"}
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
-                              <p className="header-text">
-                                <small><FormattedMessage id="header.wishlist.part1" /></small>
-                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
+                              <p className="header-text header-wish-text">
+                                <small className="upper-first"><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           ) : (
                             <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
-                              <p className="header-text">
-                                <small><FormattedMessage id="header.wishlist.part1" /></small>
-                                <span className="text-uppercase"><FormattedMessage id="header.wishlist.part2" /></span>
+                              <p className="header-text header-wish-text">
+                                <small className="upper-first"><FormattedMessage id="header.wishlist.part1" /></small>
+                                <span><FormattedMessage id="header.wishlist.part2" /></span>
                               </p>
                             </Link>
                           )

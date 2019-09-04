@@ -625,6 +625,7 @@ class Cart extends React.Component {
                         <li>
                           <Link
                             to=""
+                            className="upper-first"
                             onClick={e => this.handleSaveClick(e, prod)}
                           >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
@@ -667,18 +668,18 @@ class Cart extends React.Component {
               <div className="col-xl-8 col-lg-8 pad10">
                 <div className="row">
                   <div className="col">
-                    <h5 className="title">
+                    <h5 className="title upper-first">
                       <span><FormattedMessage id="cart.table.title" /></span>
                     </h5>
                   </div>
                   <div className="col">
                     <button
-                      className="btn btn-link pull-right"
+                      className="btn btn-link pull-right upper-first"
                       style={{ marginTop: "15px" }}
                       onClick={this.handleClearClick}
                     >
                       <i className="fa fa-trash" aria-hidden="true" />{" "}
-                      <span className="text-uppercase"><FormattedMessage id="cart.button.clear" /></span>
+                      <span className="basket-clear"><FormattedMessage id="cart.button.clear" /></span>
                     </button>
                   </div>
                 </div>
@@ -716,7 +717,7 @@ class Cart extends React.Component {
                         }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase">
+                      <span className="text-uppercase" style={{ color: "#63666A" }}>
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>
                     </Link>

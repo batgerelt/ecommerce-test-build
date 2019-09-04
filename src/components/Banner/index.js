@@ -6,19 +6,27 @@ import { test } from "../../scss/assets/images/demo/1.jpg";
 
 class Banner extends React.Component {
   getImageBorderColor = (url, x, y) => {
-    let img = new Image();
-    img.src = test;
+    /* let img = new Image();
+    img.src = url;
     let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-    console.log(context);
+    let context = canvas.getContext('2d');
+    // context.drawImage(img, 0, 0, img.width, img.height);
+    console.log(img, url); */
+    // return context.getImageData(x, y, 1, 1).data;
+  }
+
+  componentDidMount() {
+    /* let img = document.getElementById("banner-image-id");
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+    console.log(context.getImageData(10, 10, 1, 1).data); */
   }
 
   render() {
     try {
       const { data } = this.props;
       const selected = data.length === undefined ? data : data[Math.floor(Math.random() * data.length)];
-      // this.getImageBorderColor(process.env.IMAGE + selected.imgnm, 1, 1);
-      // console.log(this.getImageBorderColor(process.env.IMAGE + selected.imgnm, 1, 1), "test");
       return (
         <div className="banner-container">
           <span style={{ backgroundImage: `url(${process.env.IMAGE + selected.imgnm})` }} />

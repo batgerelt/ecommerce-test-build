@@ -72,7 +72,7 @@ class Checkout extends React.Component {
   deliveryInfo = () => (
     <div className="title-container flex-space">
       <h5 className="title">
-        <a className="flex-this">
+        <a className="flex-this upper-first checkout-panel-title">
           <i className="fa fa-truck" aria-hidden="true" />
           <span><FormattedMessage id="checkout.deliveryType.title" /></span>
         </a>
@@ -83,7 +83,7 @@ class Checkout extends React.Component {
   customerTab = () => (
     <div className="title-container flex-space">
       <h5 className="title">
-        <a className="flex-this">
+        <a className="flex-this upper-first checkout-panel-title">
           <i className="fa fa-user" aria-hidden="true" />
           <span><FormattedMessage id="checkout.registerAsUser.title" /></span>
         </a>
@@ -104,7 +104,7 @@ class Checkout extends React.Component {
   paymentType = () => (
     <div className="title-container flex-space">
       <h5 className="title">
-        <a className="flex-this">
+        <a className="flex-this upper-first checkout-panel-title">
           <i className="fa fa-credit-card" aria-hidden="true" />
           <span><FormattedMessage id="checkout.paymentType.title" /></span>
         </a>
@@ -115,7 +115,7 @@ class Checkout extends React.Component {
   optionType = () => (
     <div className="title-container flex-space">
       <h5 className="title">
-        <a className="flex-this">
+        <a className="flex-this upper-first checkout-panel-title">
           <i className="fa fa-plus-square" aria-hidden="true" />
           <span><FormattedMessage id="checkout.extra.title" /></span>
         </a>

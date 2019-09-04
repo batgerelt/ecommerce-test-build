@@ -28,7 +28,7 @@ class Page extends React.Component {
 
       return (
         <div
-          className="ck-editor"
+          className="ck-editor static-page"
           style={{
             minHeight: "700px",
             backgroundColor: "white",
