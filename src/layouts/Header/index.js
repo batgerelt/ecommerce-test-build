@@ -180,7 +180,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row">
-              <div className="col-xl-9 col-lg-9 col-md-6 col-5 pad10">
+              <div className="col-xl-9 col-lg-8 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -313,7 +313,7 @@ class AppHeader extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-3 col-lg-3 col-md-6 col-7 pad10">
+              <div className="col-xl-3 col-lg-4 col-md-6 col-7 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item">

@@ -108,8 +108,8 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
-      // found.qty = parseInt(e.target.value, 10);
-      // found.qty = isNaN(found.qty) ? found.addminqty : found.qty;
+      const qty = isNaN(e.target.value) ? found.addminqty : found.qty;
+      found.qty = parseInt(qty, 10);
 
       if (this.props.isLogged) {
         const result = await this.props.updateProductByQtyRemotely({

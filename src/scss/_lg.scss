@@ -4054,6 +4054,12 @@ form .e-input-group .count-text {
   }
 }
 
+@media (max-width: 1200px) {
+  .top-main .search li:last-child {
+    width: 120px;
+  }
+}
+
 @media (max-width: 991.97px) {
   .food-post {
     padding: 5px;
@@ -4644,26 +4650,26 @@ form .e-input-group .count-text {
     transform: translateX(0);
   }
 
-  .list-product .info-container {
-    width: calc(100% - 120px);
-    width: -o-calc(100% - 120px);
-    width: -ms-calc(100% - 120px);
-    width: -moz-calc(100% - 120px);
-    width: -webkit-calc(100% - 120px);
-  }
+  // .list-product .info-container {
+  //   width: calc(100% - 120px);
+  //   width: -o-calc(100% - 120px);
+  //   width: -ms-calc(100% - 120px);
+  //   width: -moz-calc(100% - 120px);
+  //   width: -webkit-calc(100% - 120px);
+  // }
 
-  .list-product .info-container .price {
-    top: auto;
-    bottom: 10px;
-  }
+  // .list-product .info-container .price {
+  //   top: auto;
+  //   bottom: 10px;
+  // }
 
-  .list-product .info-container .price .current {
-    display: inline-block;
-  }
+  // .list-product .info-container .price .current {
+  //   display: inline-block;
+  // }
 
-  .cart-table table {
-    min-width: 600px;
-  }
+  // .cart-table table {
+  //   min-width: 600px;
+  // }
 }
 
 .brands-list .swiper-slide {
