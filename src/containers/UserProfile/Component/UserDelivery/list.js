@@ -101,7 +101,7 @@ class Component extends React.Component {
             overflow: "auto",
           }}
         >
-          {this.props.delivery.length !== 0 ? this.renderTable() : null}
+          {this.props.delivery !== null ? this.renderTable() : null}
         </div>
       </div>
     );
