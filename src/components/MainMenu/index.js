@@ -4,22 +4,14 @@ import { injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 
 class MainMenu extends React.Component {
-  state = {
-    pathname: this.props.history.location.pathname,
-  }
-
-  handleMenu = () => {
-    this.setState({ pathname: this.props.history.location.pathname });
-  }
-
   renderMenus = () => {
     const data = this.props && this.props.dataSource;
-    const { pathname } = this.state;
+    const { pathname } = this.props.history.location;
     let tmp = data.map((item, index) => {
       return (
-        <li className="list-inline-item" key={index} onClick={this.handleMenu}>
+        <li className="list-inline-item" key={index} style={{ textTransform: "uppercase" }}>
           <Link to={item.link}>
-            <span style={{ color: pathname === item.link ? "#fffff" : "#fffff" }}>
+            <span style={{ color: pathname === item.link ? "#FFB81C" : "#FFFFFF" }}>
               {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
             </span>
           </Link>

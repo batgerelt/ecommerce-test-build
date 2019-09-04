@@ -700,7 +700,7 @@ class Cart extends React.Component {
                     </p>
                     {staticinfo && (
                       <p className="delivery">
-                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
+                        <span style={{ color: "#000000" }}><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
                         <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}
@@ -717,7 +717,7 @@ class Cart extends React.Component {
                         }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase" style={{ color: "#63666A" }}>
+                      <span className="text-uppercase">
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>
                     </Link>
