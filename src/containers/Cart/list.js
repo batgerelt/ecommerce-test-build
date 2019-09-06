@@ -702,15 +702,15 @@ class Cart extends React.Component {
                     </p>
                     {staticinfo && (
                       <p className="delivery">
-                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
+                        <span style={{ color: "#000000" }}><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
                         <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}
                     <p className="total flex-space">
                       <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
-                      <strong>
+                      <span style={{ fontWeight: 500 }}>
                         {formatter.format(this.renderTotalPrice())}₮
-                      </strong>
+                      </span>
                     </p>
                     <Link
                       to={this.state.proceedRoute}
@@ -719,7 +719,7 @@ class Cart extends React.Component {
                         }`}
                       onClick={() => this.handleConfirmClick()}
                     >
-                      <span className="text-uppercase" style={{ color: "#63666A" }}>
+                      <span className="text-uppercase">
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>
                     </Link>
