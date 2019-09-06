@@ -73,10 +73,20 @@ class Component extends React.Component {
                 <Form.Item hasFeedback style={{ textAlign: "left" }}>
                   {getFieldDecorator("password", {
                     rules: [
-                      { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
+                      {
+                        required: true,
+                        message: intl.formatMessage({
+                          id: "shared.form.newPassword.validation.required",
+                        }),
+                      },
                       { validator: this.validateToNextPassword },
                     ],
-                  })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
+                  })(
+                    <Input.Password placeholder={intl.formatMessage({
+                      id: "shared.form.newPassword.placeholder",
+                    })}
+                    />,
+                  )}
                 </Form.Item>
                 <Form.Item hasFeedback style={{ textAlign: "left" }}>
                   {getFieldDecorator("confirm", {
@@ -84,18 +94,27 @@ class Component extends React.Component {
                       { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },
                       { validator: this.compareToFirstPassword },
                     ],
-                  })(<Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />)}
+                  })(
+                    <Input.Password
+                      onBlur={this.handleConfirmBlur}
+                      placeholder={intl.formatMessage({
+                        id: "shared.form.newPasswordAgain.placeholder",
+                      })}
+                    />,
+                  )}
                 </Form.Item>
+                <div>
+                  <button
+                    type="submit"
+                    className="btn btn-dark"
+                    style={{ width: "100%" }}
+                  >
+                    <span className="text-uppercase">
+                      <FormattedMessage id="shared.form.button.save" />
+                    </span>
+                  </button>
+                </div>
               </Form>
-              <div>
-                <button
-                  className="btn btn-dark"
-                  style={{ width: "100%" }}
-                  onClick={this.handleSubmit}
-                >
-                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                </button>
-              </div>
             </div>
           </center>
         </div>

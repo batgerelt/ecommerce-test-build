@@ -248,6 +248,7 @@ class CategoryInfo extends React.Component {
             defaultExpandAll={false}
           // expandedKeys={this.state.expanded
           >
+            {console.log(categoryall)}
             {categories.buckets.map(one => (
               <Tree.TreeNode
                 title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
