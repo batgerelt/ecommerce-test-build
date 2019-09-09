@@ -298,7 +298,7 @@ class CategoryInfo extends React.Component {
       return (
         <div className="col-xl-3 col-md-3 pad10">
           {/* <Affix offsetTop={150} style={{ width: '100%' }}> */}
-          <div className={`left-panel-container filter-sticky ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"

@@ -245,10 +245,10 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             showIcon={false}
-            defaultExpandAll={false}
-          // expandedKeys={this.state.expanded
+          // expandedKeys={this.state.expandedCategory}
+          // defaultExpandAll={false}
+          // defaultExpandAll
           >
-            {console.log(categoryall)}
             {categories.buckets.map(one => (
               <Tree.TreeNode
                 title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
@@ -299,7 +299,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container filter-sticky ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"

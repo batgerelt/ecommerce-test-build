@@ -299,7 +299,7 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container filter-sticky ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"

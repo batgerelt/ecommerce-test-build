@@ -348,7 +348,7 @@ class CategoryInfo extends React.Component {
       return (
         <div className="col-xl-3 col-md-3 pad10">
           <div
-            className={`left-panel-container filter-sticky ${leftPanel1}`}
+            className={`left-panel-container ${leftPanel1}`}
             onClick={this.showLeftPanel}
           >
             <div className={leftPanel}>
