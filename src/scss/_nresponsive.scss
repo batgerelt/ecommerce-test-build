@@ -1176,10 +1176,17 @@
 .rendername {
     font-size: 12px !important;
 }
+@media only screen and (max-device-width: 1024px) {
+    .progress-text {
+        margin-right: 18px !important;
+    }
+}
+@media only screen and (max-device-width: 768px) {
+    .progress-text {
+        margin-right: 40px !important;
+    }
+}
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-    /* .column-center {
-        display: none !important;
-    } */
     .column-std {
         width: 30% !important;
     }
@@ -1285,7 +1292,7 @@
         font-size: 13px !important;
     }
     .renderprogress {
-        width: 67% !important;
+        width: 80% !important;
         font-size: 14px !important;
     }
 }

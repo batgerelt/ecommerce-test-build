@@ -188,10 +188,10 @@ class UserButton extends React.Component {
               <span className="">{user === null ? " " : user.firstname}</span>
             </Link>
             {/* large display */}
-            <div className={`dropdown ${visible ? ' open' : ''}`}>
+            <div className={`dropdown ${visible ? ' open' : ''}`} >
               <div className="drop-content">
-                <div className="profile-menu">
-                  <div className="menu-header">
+                <div className="profile-menu" >
+                  {/* <div className="menu-header">
                     <div className="flex-this">
                       <div className="image-container default">
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
@@ -201,7 +201,7 @@ class UserButton extends React.Component {
                       </p>
                     </div>
                     {this.renderProgress1()}
-                  </div>
+                  </div> */}
                   <ul className="list-unstyled">
                     <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">
@@ -235,7 +235,7 @@ class UserButton extends React.Component {
                     </li>
                   </ul>
                   <div className="text-right" onClick={this.handleLogoutClick}>
-                    <button className="btn btn-gray">
+                    <button className="btn btn-gray" style={{ width: "100%" }}>
                       <span className="text-uppercase"><FormattedMessage id="header.profile.logout" /> <IconFont type="icon-tuichu" /></span>
                     </button>
                   </div>

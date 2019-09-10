@@ -64,8 +64,8 @@ class List extends React.Component {
     percents = (Number(percents) + 1) * 25;
     return (
       <div>
-        <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ width: "75%", fontSize: "16px" }} />
-        <span className="rendername"> {percents}% / 100%</span>
+        <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px" }} />
+        <span className="rendername"> {percents}%</span>
       </div >
     );
   }
@@ -121,8 +121,30 @@ class List extends React.Component {
 
   renderName(info) {
     const { intl } = this.props;
+    let percents = localStorage.getItem("percent");
+    percents = (Number(percents) + 1) * 25;
     try {
-      return <strong><span style={{ marginLeft: "15px", marginTop: "15px", position: 'absolute' }}>{info.firstname}{this.state.showButton ? <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button> : null}</span></strong>;
+      return (
+        <strong>
+          <span
+            style={{
+              width: "75%",
+              marginLeft: "15px",
+              marginTop: "0px",
+              position: 'absolute',
+            }}
+          >
+            {info.firstname}
+            {this.state.showButton ?
+              <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
+              :
+              null}
+            <p className="text text-right progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
+            <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "90%" }} />
+            <span className="rendername"> {percents}%</span>
+          </span>
+        </strong>
+      );
     } catch (error) {
       return null;
     }
@@ -160,10 +182,10 @@ class List extends React.Component {
                         </Spin>
                       </Upload>
                       {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                      <strong><p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p></strong>
-                      <div>
+                      {/* <strong><p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p></strong> */}
+                      {/* <div>
                         {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
-                      </div>
+                      </div> */}
                     </div>
                     <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                       <li className={pathname === "/profile" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }} >

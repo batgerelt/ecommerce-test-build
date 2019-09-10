@@ -39,6 +39,16 @@ class List extends React.Component {
   renderSuccessTrue() {
     return (
       <div>
+        <div
+          className="logo"
+          style={{ width: "15%", marginBottom: "50px" }}
+        >
+          <img
+            style={{ width: "100%" }}
+            alt="logo"
+            src={logo}
+          />
+        </div>
         <h3><FormattedMessage id="registration.confirmation.title" /></h3>
         <p><FormattedMessage id="registration.confirmation.body1" /></p>
         <p><FormattedMessage id="registration.confirmation.body2" /></p>
@@ -75,16 +85,6 @@ class List extends React.Component {
             <div className="section">
               <div className="col-md-12">
                 <center>
-                  <div
-                    className="logo"
-                    style={{ width: "15%", marginBottom: "50px" }}
-                  >
-                    <img
-                      style={{ width: "100%" }}
-                      alt="logo"
-                      src={logo}
-                    />
-                  </div>
                   {confirms.length === 0 ? null : this.renderConfirm()}
                   {!this.state.timer ? <Redirect to="/" /> : null}
                   <p>
