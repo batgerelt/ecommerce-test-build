@@ -444,7 +444,7 @@ h5 {
 
 .e-breadcrumb {
   font-size: 0.8rem;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .e-breadcrumb li {
@@ -1835,9 +1835,10 @@ body {
 }
 
 .list-filter {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
+  padding-bottom: 10px; 
 }
 
 .list-filter .total-result p {

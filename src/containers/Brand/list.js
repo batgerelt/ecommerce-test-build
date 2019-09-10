@@ -363,7 +363,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
-          <div className="list-filter">
+          <div className="list-filter pad10">
             <div className="row row10">
               <div className="col-lg-6 pad10">
                 <div className="total-result">
@@ -384,7 +384,7 @@ class CategoryInfo extends React.Component {
                       <span className="text-uppercase"><FormattedMessage id="search.filter.filter.title" /></span>
                     </a>
                   </div>
-                  <div className="form-group my-select flex-this">
+                  <div className="form-group my-select flex-this pr-1">
                     <label
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
@@ -400,15 +400,15 @@ class CategoryInfo extends React.Component {
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
+                  <div className="form-group flex-this pl-2">
                     <div
-                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      className={this.state.isListViewOn ? "btn active p-1" : "btn p-1"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
                     </div>
                     <div
-                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
@@ -445,7 +445,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 300.98;
+        tmp = 305.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -558,7 +558,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
