@@ -56,7 +56,7 @@ class Moreinfo extends Component {
           ) */}
 
           {!!similarProducts && !!similarProducts.length && (
-            <div style={{ marginTop: "40px", marginBottom: "0" }}>
+            <div className="similar-products">
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.similarProducts.title" />
@@ -71,7 +71,7 @@ class Moreinfo extends Component {
           )}
 
           {product.description && (
-            <div style={{ marginTop: "40px", marginBottom: "0" }}>
+            <div className="intro">
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.intro.title" />
@@ -81,7 +81,9 @@ class Moreinfo extends Component {
               <div
                 style={{ textAlign: 'center' }}
                 dangerouslySetInnerHTML={{
-                  __html: lang === "mn" ? product.description : product.description_en,
+                  __html: lang === "mn"
+                    ? product.description
+                    : product.description_en,
                 }}
               />
             </div>
