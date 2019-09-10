@@ -14,7 +14,7 @@ import {
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
-let ITEM_HEIGHT = 660;
+let ITEM_HEIGHT = 590;
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -23,15 +23,6 @@ class Discount extends React.Component {
       headerProducts: [],
       packagebanner: [],
     };
-  }
-
-  componentDidMount() {
-    try {
-      const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
-      this.setState({ packagebanner: selected });
-    } catch (error) {
-      return console.log(error);
-    }
   }
 
   renderMainBanner = () => {
@@ -54,7 +45,7 @@ class Discount extends React.Component {
     try {
       const { widgetAll } = this.props;
       return (
-        <div className="package" style={{ paddingTop: '10px' }}>
+        <div className="package" style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             {
               <CardList
@@ -134,7 +125,7 @@ class Discount extends React.Component {
     try {
       const { packageScroll, widgetAll } = this.props;
       return (
-        <div className="package" style={{ paddingTop: '10px' }}>
+        <div className="package" style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {

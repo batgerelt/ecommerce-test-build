@@ -15,7 +15,7 @@ import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
-const ITEM_HEIGHT = 900;
+const ITEM_HEIGHT = 860;
 class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -70,7 +70,7 @@ class Recipe extends React.Component {
       const { recipeAll } = this.props;
       let tmp = recipeAll.slice(0, 6);
       return (
-        <div style={{ paddingTop: '10px' }}>
+        <div style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             {tmp.length >= 6 ?
               (
@@ -121,7 +121,7 @@ class Recipe extends React.Component {
         <Banner data={recipebanner} />
       );
     } catch (error) {
-      return console.log(error);
+      return console.log('renderSubBanner error');
     }
   };
 
