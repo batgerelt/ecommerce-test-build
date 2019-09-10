@@ -6,7 +6,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
-import React from "react";
+import React, { Fragment } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -259,93 +259,69 @@ class Card extends React.Component {
 
       if (item.discountprice && item.discountprice !== 0) {
         prices = (
-          <div className="row">
+          <Fragment>
             {!!priceTitle && (
-              <div
-                className="col-md-6 no-padding-r"
-                style={{ textAlign: "left", width: "40%" }}
-              >
+              <Fragment>
                 {priceTitle}
-              </div>
+              </Fragment>
             )}
 
             {/* elastic search price tag */}
             {!item.pricetag ? null : (
-              <div
-                className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                style={{ textAlign: list ? 'rigth' : 'left', width: "40%" }}
-              >
+              <Fragment>
                 {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-              </div>
+              </Fragment>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-              <small className="sale">
-                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-              </small>
-              <span className="current">
-                {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
-              </span>
-            </div>
-          </div>
+            <small className="sale">
+              {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+            </small>
+            <span className="current">
+              {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
+            </span>
+          </Fragment>
         );
         item.discountprice === 0 ?
           prices = (
-            <div className="row">
+            <Fragment>
               {!!priceTitle && (
-                <div
-                  className="col-md-6 no-padding-r"
-                  style={{ textAlign: "left", width: "40%" }}
-                >
+                <Fragment>
                   {priceTitle}
-                </div>
+                </Fragment>
               )}
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <div
-                  className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                  style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
-                >
+                <Fragment>
                   {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-                </div>
+                </Fragment>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-                <span className="current" >
-                  {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-                </span>
-              </div>
-            </div>
+              <span className="current" >
+                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+              </span>
+            </Fragment>
           ) : null;
       } else {
         prices = (
-          <div className="row">
+          <Fragment>
             {!!priceTitle && (
-              <div
-                className="col-md-6 no-padding-r"
-                style={{ textAlign: "left", width: "40%" }}
-              >
+              <Fragment>
                 {priceTitle}
-              </div>
+              </Fragment>
             )}
 
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
-              <div
-                className={`col-md-6 ${list ? 'no-padding-l tp-15' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
-              >
+              <Fragment>
                 {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-              </div>
+              </Fragment>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-              <span className="current">
-                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-              </span>
-            </div>
-          </div>
+            <span className="current">
+              {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+            </span>
+          </Fragment>
         );
       }
 
@@ -427,7 +403,6 @@ class Card extends React.Component {
           featureText = item.feature;
         }
       }
-      // console.log(shape);
       switch (shape) {
         case CARD_TYPES.slim:
           return (
@@ -491,7 +466,6 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <br />
                   <Link to={item.route ? item.route : ""} className="price">
                     {prices}
                   </Link>
@@ -552,7 +526,6 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <br />
                   <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="price">
                     {prices}
                   </Link>
@@ -608,7 +581,6 @@ class Card extends React.Component {
                     {featureText}
                   </span>
                 </Link>
-                <br />
                 <Link to={item.route ? item.route : ""} className="price">
                   {prices}
                 </Link>

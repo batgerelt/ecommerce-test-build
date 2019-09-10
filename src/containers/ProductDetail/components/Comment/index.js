@@ -106,14 +106,19 @@ class Comment extends Component {
           {comments.length !== 0 && (
             <div style={{ marginTop: "40px" }}>
               <h1 className="title">
-                <span className="text-uppercase"><FormattedMessage id="productDetail.comment.list.title" /></span>
+                <span className="text-uppercase">
+                  <FormattedMessage id="productDetail.comment.list.title" />
+                </span>
               </h1>
 
               <div className="comments-list">
                 <div className="main-rating">
                   <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">
-                    ({rate_user_cnt === null ? 0 : rate_user_cnt} <FormattedMessage id="productDetail.comment.list.rate" />)
+                    (
+                    {rate_user_cnt === null ? 0 : rate_user_cnt}{" "}
+                    <FormattedMessage id="productDetail.comment.list.rate" />
+                    )
                   </p>
                 </div>
 

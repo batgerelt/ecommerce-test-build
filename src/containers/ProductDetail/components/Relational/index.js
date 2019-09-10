@@ -64,7 +64,7 @@ class Relational extends Component {
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
-          <div className="block product-delivery">
+          <div className="block related-products">
             <p className="title">
               <strong><FormattedMessage id="shared.sidebar.title.relatedProducts" /></strong>
             </p>
@@ -90,11 +90,17 @@ class Relational extends Component {
 
                     <div className="info-container flex-space info-price-container">
                       <Link to={prod.route ? prod.route : ""} title={prod.title}>
-                        <span className="related-product-title">{prod.title.length >= 17 ? `${prod.title.substring(0, 14)}...` : prod.title}</span>
-                        <p>
-                          <span style={{ fontWeight: 'normal', fontSize: "16px", float: "left" }}>{prod.pricetag}</span>
-                          <span style={{ fontSize: "1rem", fontWeight: "600", float: "right" }}>{formatter.format(prod.discountprice === 0 ? prod.currentprice : prod.discountprice)}₮</span>
-                        </p>
+                        <span className="related-product-title">
+                          {prod.title}
+                        </span>
+                        <span className="related-product-price">
+                          <span>
+                            {formatter.format(prod.discountprice === 0 ? prod.currentprice : prod.discountprice)}₮
+                          </span>
+                          <span>
+                            {prod.pricetag}
+                          </span>
+                        </span>
                       </Link>
                       <div className="action">
                         <button
@@ -105,7 +111,6 @@ class Relational extends Component {
                           <i
                             className="fa fa-cart-plus"
                             aria-hidden="true"
-                            style={{ fontSize: "1.2rem" }}
                           />
                         </button>
                       </div>

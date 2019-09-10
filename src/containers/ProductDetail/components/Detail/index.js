@@ -168,7 +168,7 @@ class Detail extends Component {
       }
 
       priceInfo = (
-        <div>
+        <div className="unit-price">
           <div className="count-text text-right">
             <span className="price-text upper-first">
               {priceTitle}
@@ -187,7 +187,7 @@ class Detail extends Component {
       );
     } else {
       priceInfo = (
-        <div>
+        <div className="unit-price">
           <div className="count-text text-right">
             <span className="price-text upper-first">
               {priceTitle}
@@ -203,7 +203,7 @@ class Detail extends Component {
     return (
       <form onSubmit={(e) => { e.preventDefault(); }}>
         <div className="row">
-          <div className="col-xl-5 col-6">
+          <div className="col-xl-5 col-8">
             <div className="input-group">
               <div className="input-group-prepend" id="button-addon4">
                 <button
@@ -245,7 +245,9 @@ class Detail extends Component {
         </div>
 
         <div className="total-price text-right">
-          <span className="upper-first"><FormattedMessage id="productDetail.label.totalPrice" />:</span>
+          <span className="upper-first">
+            <FormattedMessage id="productDetail.label.totalPrice" />:
+          </span>
           <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
@@ -256,7 +258,9 @@ class Detail extends Component {
             style={{ marginRight: "10px" }}
             onClick={this.handleSaveClick}
           >
-            <span><FormattedMessage id="productDetail.button.save" /></span>
+            <span>
+              <FormattedMessage id="productDetail.button.save" />
+            </span>
           </button>
 
           <button
@@ -267,21 +271,22 @@ class Detail extends Component {
             onClick={() => this.handleAddToCart(detail)}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
-            <span><FormattedMessage id="productDetail.button.addToCart" /></span>
+            <span>
+              <FormattedMessage id="productDetail.button.addToCart" />
+            </span>
           </button>
-
-          {detail.sdate !== null && detail.edate !== null && (
-            <p className="text text-right upper-first">
-              <FormattedMessage
-                id="productDetail.label.discountDateWarning"
-                defaultMessage="Хямдрал {days} хоногийн дараа дуусна"
-                values={{
-                  days: this.generateDate(detail),
-                }}
-              />
-            </p>
-          )}
         </div>
+        {detail.sdate !== null && detail.edate !== null && (
+          <p className="text text-right upper-first">
+            <FormattedMessage
+              id="productDetail.label.discountDateWarning"
+              defaultMessage="Хямдрал {days} хоногийн дараа дуусна"
+              values={{
+                days: this.generateDate(detail),
+              }}
+            />
+          </p>
+        )}
       </form>
     );
   };
