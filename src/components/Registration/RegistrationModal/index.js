@@ -32,7 +32,7 @@ class RegistrationModal extends React.Component {
           if (!res.payload.success) {
             return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          message.success(intl.formatMessage({ id: res.payload.code }), 5);
           this.handleSignup();
         });
       }
@@ -146,7 +146,7 @@ class RegistrationModal extends React.Component {
                 { validator: this.validateToNextPassword },
               ],
             })(
-              <Input.Password placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
+              <Input type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
             )}
           </Form.Item>
           <Form.Item>
@@ -156,7 +156,7 @@ class RegistrationModal extends React.Component {
                 { validator: this.compareToFirstPassword },
               ],
             })(
-              <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.placeholder" })} className="form-control" autoComplete="off" />,
+              <Input type="password" onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.passwordAgain.placeholder" })} className="form-control" autoComplete="off" />,
             )}
           </Form.Item>
 
