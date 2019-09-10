@@ -86,7 +86,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -130,7 +130,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -169,7 +169,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -183,7 +183,7 @@ class CategoryInfo extends React.Component {
     } else {
       brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null));
     }
-    this.setState({ loading: !this.state.loading, brands });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: this.state.catid,
@@ -206,13 +206,15 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          brands,
         });
       }
     });
   };
 
   handleChangeAttribute = (e, value, attribute) => {
+    this.setState({ loading: !this.state.loading });
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
     // eslint-disable-next-line react/no-string-refs
@@ -225,7 +227,6 @@ class CategoryInfo extends React.Component {
           : null),
       );
     }
-    this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
       catId: this.state.catid,
@@ -244,11 +245,12 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          attributes,
         });
       }
     });
@@ -256,7 +258,6 @@ class CategoryInfo extends React.Component {
 
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
-    this.setState({ expandedCategory: cat });
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
 
@@ -281,7 +282,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
           catid: cat[0],
           aggregations: res.payload.data,
         });
@@ -365,7 +366,7 @@ class CategoryInfo extends React.Component {
         >
           {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
-            className={`left-panel-container filter-sticky ${
+            className={`left-panel-container ${
               this.state.isMobilePanel ? "show" : null
               }`}
             onClick={this.showMobilePanel}
@@ -512,7 +513,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -560,7 +561,7 @@ class CategoryInfo extends React.Component {
     try {
       const { searchKeyWordResponse } = this.props;
 
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value || !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,

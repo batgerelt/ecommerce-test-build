@@ -74,7 +74,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -109,7 +109,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -138,7 +138,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -167,7 +167,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -196,7 +196,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -226,7 +226,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
           ggregations: res.payload.data,
           catid: cat[0],
         });
@@ -236,8 +236,9 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { categoryall, lang } = this.props;
+      const { categoryall } = this.props;
       const { categories } = this.state;
+      const lang = localStorage.getItem('lang');
 
       if (categories.buckets.length !== 0) {
         return (
@@ -245,10 +246,10 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             showIcon={false}
-            defaultExpandAll={false}
-          // expandedKeys={this.state.expanded
+          // expandedKeys={this.state.expandedCategory}
+          // defaultExpandAll={false}
+          // defaultExpandAll
           >
-            {console.log(categoryall)}
             {categories.buckets.map(one => (
               <Tree.TreeNode
                 title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
@@ -299,7 +300,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container filter-sticky ${leftPanel1}`} onClick={this.showLeftPanel}>
+          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
@@ -433,7 +434,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -481,7 +482,7 @@ class CategoryInfo extends React.Component {
     try {
       const { searchKeyWordResponse } = this.props;
 
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,

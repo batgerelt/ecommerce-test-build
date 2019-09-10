@@ -55,7 +55,7 @@ function getClientEnvironment(publicUrl) {
 
         //TEST
         API: `http://10.0.0.22:8876/mn/api`,
-        IMAGE: `http://www.cdn.emartmall.mn/`,
+        IMAGE: `http://10.0.0.22:8877/`,
         IMAGES: `http://10.0.0.22:8876/`,
 
         /* TEST URL */

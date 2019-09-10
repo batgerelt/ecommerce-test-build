@@ -102,7 +102,7 @@ class Bookmarks extends PureComponent {
     }
   };
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   isRowLoaded = (index, width) => {
     const { products } = this.state;

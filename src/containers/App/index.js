@@ -127,30 +127,32 @@ class App extends Component {
               <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
 
               {/** Үндсэн root болон nested root-үүд доор байрлана */}
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/discount" component={Discount} />
-                <Route path="/new" render={() => <New />} />
-                <Route path="/recipe" component={Recipe} />
-                <Route path="/package" component={Package} />
-                <Route path="/season" component={Season} />
-                <Route path="/productdetail/:id" component={ProductDetail} />
-                <Route path="/checkout" component={Checkout} />
-                <Route path="/info/:id" component={Static} />
-                <Route path="/category/:id" component={Category} />
-                <Route path="/brand/:id" component={Brand} />
-                <Route path="/recipedetail/:id" component={RecipeDetail} />
-                <Route path="/cart" component={Cart} />
-                <Route path="/packagedetail/:id" component={PackageDetail} />
-                <Route path="/emart" component={Emart} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/search/:cat/:word/:time" component={Search} />
-                <Route path="/search/:cat/:time" component={Search} />
-                <Route path="/ResetPassword/:key" component={PassReset} />
-                <Route path="/confirm/:key" component={Confirm} />
-                <Route path="/order/:id" component={Order} />
-                <Route path="*" component={Notfound} />
-              </Switch>
+              <div>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/discount" component={Discount} />
+                  <Route path="/new" render={() => <New />} />
+                  <Route path="/recipe" component={Recipe} />
+                  <Route path="/package" component={Package} />
+                  <Route path="/season" component={Season} />
+                  <Route path="/productdetail/:id" component={ProductDetail} />
+                  <Route path="/checkout" component={Checkout} />
+                  <Route path="/info/:id" component={Static} />
+                  <Route path="/category/:id" component={Category} />
+                  <Route path="/brand/:id" component={Brand} />
+                  <Route path="/recipedetail/:id" component={RecipeDetail} />
+                  <Route path="/cart" component={Cart} />
+                  <Route path="/packagedetail/:id" component={PackageDetail} />
+                  <Route path="/emart" component={Emart} />
+                  <Route path="/profile" component={Profile} />
+                  <Route path="/search/:cat/:word/:time" component={Search} />
+                  <Route path="/search/:cat/:time" component={Search} />
+                  <Route path="/ResetPassword/:key" component={PassReset} />
+                  <Route path="/confirm/:key" component={Confirm} />
+                  <Route path="/order/:id" component={Order} />
+                  <Route path="*" component={Notfound} />
+                </Switch>
+              </div>
 
               {/** fixed footer */}
               <Footer {...this.props} />

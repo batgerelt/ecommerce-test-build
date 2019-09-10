@@ -221,7 +221,7 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container" >
         {this.renderMainBanner()}
         {this.renderBlocks()}
 
