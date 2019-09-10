@@ -427,7 +427,7 @@ class Card extends React.Component {
           featureText = item.feature;
         }
       }
-      console.log(shape);
+      // console.log(shape);
       switch (shape) {
         case CARD_TYPES.slim:
           return (

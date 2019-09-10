@@ -433,7 +433,9 @@ class Cart extends React.Component {
       wishlistProducts.length > 0 && (
         <div className="block fav-products">
           <p className="title">
-            <strong><FormattedMessage id="shared.sidebar.title.wishlist" /></strong>
+            <strong>
+              <FormattedMessage id="shared.sidebar.title.wishlist" />
+            </strong>
           </p>
           <ul className="list-unstyled">
             {wishlistProducts.map((wishlistProd, index) => (
@@ -479,7 +481,9 @@ class Cart extends React.Component {
             ))}
           </ul>
           <Link to="/profile/wish" className="btn btn-gray btn-block">
-            <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.showAll" /></span>
+            <span className="text-uppercase">
+              <FormattedMessage id="shared.sidebar.button.showAll" />
+            </span>
           </Link>
         </div>
       )
@@ -545,9 +549,7 @@ class Cart extends React.Component {
                           <span
                             className="image"
                             style={{
-                              backgroundImage: `url(${
-                                process.env.IMAGE
-                                }${prod.img || prod.imgnm || prod.url || ""})`,
+                              backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -683,7 +685,7 @@ class Cart extends React.Component {
                     </button>
                   </div>
                 </div>
-                <div className="cart-table table-responsive">
+                <div className="cart-table table-responsive" id="cart-table-wrapper">
                   {this.renderContent()}
                 </div>
               </div>

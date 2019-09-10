@@ -106,7 +106,7 @@ class Discount extends React.Component {
     }
   };
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   generateItemHeight = (item, width) => {
     try {

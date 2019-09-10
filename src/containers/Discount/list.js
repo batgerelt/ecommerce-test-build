@@ -90,7 +90,7 @@ class Discount extends React.Component {
     }
   };
 
-  noRowsRenderer = () => <div style={{ textAlign: "center" }}>No data</div>;
+  noRowsRenderer = () => null;
 
   getMaxItemsAmountPerRow = (width) => {
     if (width > 1100) {

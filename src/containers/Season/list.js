@@ -78,7 +78,7 @@ class CategoryInfo extends React.Component {
 
   handleChangeOrder = (e) => {
     const { isLogged, data } = this.props;
-    this.setState({ loading: !this.state.loading, sort: e });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: 0,
@@ -97,7 +97,12 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 20,
+          sort: e,
+        });
       }
     });
   };
@@ -132,7 +137,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -161,7 +166,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -190,7 +195,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -220,7 +225,7 @@ class CategoryInfo extends React.Component {
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -299,7 +304,7 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container filter-sticky ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
@@ -436,7 +441,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null;
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -495,7 +500,7 @@ class CategoryInfo extends React.Component {
   loadMoreRows = () => {
     try {
       const { searchKeyWordResponse } = this.props;
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: 0,
