@@ -292,7 +292,7 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                          <Link
+                          {/* <Link
                             to="#"
                             className="btn mobile-search-cross"
                             onClick={this.toggleSearch}
@@ -308,7 +308,7 @@ class AppHeader extends Component {
                             >
                               Хаах
                             </span>
-                          </Link>
+                          </Link> */}
                         </li>
                       </ul>
                     </Form>
