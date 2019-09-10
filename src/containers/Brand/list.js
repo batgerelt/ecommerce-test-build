@@ -74,7 +74,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -109,7 +109,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -138,7 +138,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -167,7 +167,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -196,7 +196,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -226,7 +226,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
           catid: cat[0],
           aggregations: res.payload.data,
         });
@@ -432,7 +432,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -480,7 +480,7 @@ class CategoryInfo extends React.Component {
     try {
       const { searchKeyWordResponse } = this.props;
 
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,
