@@ -942,11 +942,17 @@ button{
   }
 }
 .list-filter {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border-bottom: 1px solid $black1;
   font-size: 0.9rem;
 
   .total-result {
+    // color: #A7A8AA;
+
+    strong {
+      color: #63666A;
+    }
+
     p {
       line-height: 40px;
       margin: auto;
@@ -3400,4 +3406,9 @@ button:disabled{
 
 .color-new-grey{
   color: #63666A;
+}
+
+// tur ingev
+.buttonBlack{
+  display: none !important;
 }

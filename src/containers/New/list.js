@@ -161,7 +161,7 @@ class Bookmarks extends PureComponent {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 365;
+      return 350;
     }
     if (width < 400) {
       return 340;

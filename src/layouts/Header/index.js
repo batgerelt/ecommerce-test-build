@@ -22,7 +22,7 @@ class AppHeader extends Component {
       lang: this.props.intl.locale,
       isDropdownOpen: false,
       isSearchDropdownOpen: false,
-      item: { id: 0, name: "" },
+      item: { id: 0, name: "", name_en: '' },
       suggestion: [],
       word: "",
       keywordid: null,
@@ -214,8 +214,10 @@ class AppHeader extends Component {
                               style={{ boxShadow: 'none' }}
                             >
                               {
-                                this.state.item.name
-                                  ? this.state.item.name
+                                this.state.item.id !== 0
+                                  ? (
+                                    lang === "mn" ? this.state.item.name : this.state.item.name_en
+                                  )
                                   : <FormattedMessage id="header.category.label.allProducts" />
                               }
                             </button>
@@ -290,7 +292,7 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                          <Link
+                          {/* <Link
                             to="#"
                             className="btn mobile-search-cross"
                             onClick={this.toggleSearch}
@@ -306,7 +308,7 @@ class AppHeader extends Component {
                             >
                               Хаах
                             </span>
-                          </Link>
+                          </Link> */}
                         </li>
                       </ul>
                     </Form>
