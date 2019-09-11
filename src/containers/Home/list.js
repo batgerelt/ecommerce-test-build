@@ -4,7 +4,7 @@ import moment from "moment";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
 import { BackTop } from "antd";
-import { isMobile } from 'react-device-detect';
+import { isMobileOnly } from 'react-device-detect';
 
 import { Slider, Widget, Banner } from "../../components";
 import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
@@ -147,7 +147,7 @@ class Homepage extends React.Component {
       const { brand } = this.props;
 
       const brandParams = {
-        slidesPerView: isMobile ? 3 : 5,
+        slidesPerView: isMobileOnly ? 3 : 5,
         spaceBetween: 10,
         loop: true,
         autoplay: {
@@ -183,7 +183,7 @@ class Homepage extends React.Component {
       };
 
       return (
-        <div className="main-slide brands-list">
+        <div className="brands-list">
           <div className="container pad10">
             <Slider
               sliderData={brand}

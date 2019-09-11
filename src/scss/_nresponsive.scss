@@ -61,8 +61,33 @@
 //     font-size: 12px !important;
 // }
 
-// lg
-@media (max-width: 1200px) {
+// for all viewports
+.section {
+    margin-bottom: 20px;
+    padding: 0px !important;
+}
+
+.section:last-of-type {
+    margin-bottom: 0px;
+}
+
+h1.title {
+    margin: 20px auto 20px;
+}
+
+.top-nav {
+    .e-phone {
+        margin-top: 9px;
+        padding: 0px;
+    }
+}
+
+.main-slide {
+    margin: 20px 0px;
+}
+
+// lg (< 1200px)
+@media (max-width: 1199px) {
     .rendername {
         font-size: 13px !important;
     }
@@ -895,10 +920,6 @@
         }
     }
 
-    .season.section {
-        padding: 10px;
-    }
-
     .list-product {
         position: relative;
         display: flex;
@@ -1052,22 +1073,142 @@
     }
 }
 
-// md
-@media (max-width: 992px) {
+// md (< 992px)
+@media (max-width: 991px) {
+    body {
+        margin-top: 155px;
+    }
 
+    .top-main {
+        .logo {
+            img {
+                max-width: 90px;
+            }
+        }
+
+        .action {
+            padding: 0;
+
+            li {
+                height: 37px;
+            }
+
+            li:last-child {
+                a {
+                    padding: 5px !important;
+                }
+            }
+
+            .list-inline-item {
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .e-breadcrumb {
+        margin: 20px 0px;
+
+        li:first-child {
+            padding-left: 10px;
+        }
+    }
+
+    .main-slide {
+        margin-top: -21px;
+    }
+
+    .ant-rate {
+        display: block;
+        margin-top: 5px;
+        font-size: 13px;
+    }
+
+    .big-product,
+    .small-product {
+        .info-container {
+            .price {
+                position: static;
+                display: flex;
+                justify-content: space-between;
+                padding-top: 5px;
+                text-align: unset;
+
+                .row {
+                    margin-left: 0px;
+                    margin-right: 0px;
+                }
+
+                .sale {
+                    margin-top: 3px;
+                }
+            }
+        }
+    }
+
+    .product-detail-page {
+        h1.title {
+            margin-top: 0px;
+            margin-bottom: 20px;
+        }
+
+        .product-info {
+            h5.title {
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+
+            p.text {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            p.big-text {
+                margin: 0px;
+            }
+
+            .main-rating {
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+
+            .input-group {
+                margin-bottom: 20px;
+            }
+
+            .total-price {
+                margin-top: 0px;
+            }
+        }
+
+        .product-plus {
+            margin-top: 10px;
+        }
+
+        .comments-container {
+            margin-top: 0px;
+            width: 100%;
+
+            .write-comment {
+                margin-bottom: 0px;
+
+                .form-group {
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
 }
 
-// xs
-@media (max-width: 768px) {
+// xs (< 768px)
+@media (max-width: 767px) {
     .dropdown {
         display: none !important;
     }
+
     .rendername {
         font-size: 10px !important;
-    }
-
-    body {
-        margin-top: 95px;
     }
 
     .searchGridList{
@@ -1086,6 +1227,7 @@
 
             li {
                 height: 37px;
+                margin: 0px;
 
                 strong {
                     display: none;
@@ -1136,13 +1278,10 @@
     }
 }
 
-@media (max-width: 576px) {
+// xs (< 576px)
+@media (max-width: 575px) {
     body {
-        margin-top: 82px;
-    }
-
-    .section {
-        padding-bottom: 30px !important;
+        margin-top: 100px;
     }
 
     .product-detail-page {
@@ -1163,10 +1302,6 @@
         .product-info {
             form {
                 .btn-container {
-                    margin-top: 20px;
-                }
-
-                .unit-price {
                     margin-top: 20px;
                 }
             }
@@ -1226,6 +1361,10 @@
             }
         }
 
+        .similar-products {
+            margin-top: 0px;
+        }
+
         .food-recipe-detail {
             .title {
                 text-transform: uppercase;
@@ -1251,60 +1390,32 @@
                 }
             }
         }
+
+        .product-info {
+            h5.title {
+                margin-top: 20px;
+            }
+
+            form {
+                margin-top: 15px;
+                
+                .total-price {
+                    margin-top: 0px;
+                }
+            }
+        }
+
+        .product-plus {
+            .info-container {
+                .action {
+                    button {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
     }    
-    
-    .e-breadcrumb {
-        li {
-            margin-bottom: 10px;
-        }
-
-        li:first-child {
-            padding-left: 10px;
-        }
-    }
-
-    .big-product,
-    .small-product {
-        .info-container {
-            .price {
-                position: static;
-                display: flex;
-                justify-content: space-between;
-                padding-top: 20px;
-                text-align: unset;
-
-                .row {
-                    margin-left: 0px;
-                    margin-right: 0px;
-                }
-            }
-        }
-    }
-
-    .ant-rate {
-        display: block;
-        font-size: 12px;
-    }
-
-    .top-main {
-        .logo {
-            img {
-                max-width: 90px;
-            }
-        }
-
-        .action {
-            padding: 0;
-
-            li {
-                height: 37px;
-
-                strong {
-                    display: none;
-                }
-            }
-        }
-    }
 
     .gift{
         margin-top: 0 !important;
@@ -1340,50 +1451,9 @@
         width: 100%;
         margin-bottom: 7px;
     }
-
-    .product-detail-page {
-        .product-info {
-            h5.title {
-                margin-top: 20px;
-            }
-
-            form {
-                margin-top: 15px;
-                
-                .total-price {
-                    margin-top: 0px;
-                }
-            }
-        }
-
-        .product-plus {
-            .info-container {
-                .action {
-                    button {
-                        width: 30px;
-                        height: 30px;
-                    }
-                }
-            }
-        }
-
-        .intro,
-        .similar-products {
-            margin-top: 20px;
-        }
-    }
 }
 
-@media (min-device-width: 768px) {
-    .fixed-left-side {
-        display: none !important;
-    }
-    
-    .mobile-menu-container {
-        display: none !important;
-    }
-}
-
+// (>= 1200px)
 @media (min-device-width: 1200px) {
     .column-center {
         width: 35%;
@@ -1404,7 +1474,24 @@
     }
 }
 
-@media (min-device-width: 768px) and (max-device-width: 1200px) {
+// (>= 768px)
+@media (min-device-width: 768px) {
+    .fixed-left-side {
+        display: none !important;
+    }
+    
+    .mobile-menu-container {
+        display: none !important;
+    }
+}
+
+// (768px <= viewport < 1200px)
+@media (min-device-width: 768px) and (max-device-width: 1199px) {
+    h1.title:before,
+    h1.title:after {
+        width: 20%;
+    }
+
     .top-container-responsive {
         padding-top: initial !important;
     }
@@ -1472,10 +1559,6 @@
 
     .banner-pad {
         margin-top: 149px;
-    }
-    
-    .section {
-        margin-top: 150px;
     }
 
     .top-main .search {

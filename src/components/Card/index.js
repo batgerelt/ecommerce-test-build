@@ -245,13 +245,13 @@ class Card extends React.Component {
 
       if (item.id) {
         priceTitle = (
-          <span style={{ fontWeight: "normal" }}>
+          <span>
             <FormattedMessage id="card.package.label.price" />:
           </span>
         );
       } else if (item.recipeid) {
         priceTitle = (
-          <span style={{ fontWeight: "normal" }}>
+          <span>
             <FormattedMessage id="card.recipe.label.price" />:
           </span>
         );
@@ -260,16 +260,22 @@ class Card extends React.Component {
       if (item.discountprice && item.discountprice !== 0) {
         prices = (
           <Fragment>
-            {!!priceTitle && (
-              <Fragment>
-                {priceTitle}
-              </Fragment>
-            )}
+            {priceTitle
+              ? item.id
+                ? <span>{priceTitle}</span>
+                : <Fragment>{priceTitle}</Fragment>
+              : null
+            }
 
             {/* elastic search price tag */}
             {!item.pricetag ? null : (
               <Fragment>
-                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+                {lang === "mn"
+                  ? item.pricetag
+                  : item.pricetag_en === null
+                    ? item.pricetag
+                    : item.pricetag_en
+                }
               </Fragment>
             )}
 
@@ -293,7 +299,12 @@ class Card extends React.Component {
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
                 <Fragment>
-                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+                  {lang === "mn"
+                    ? item.pricetag
+                    : item.pricetag_en === null
+                      ? item.pricetag
+                      : item.pricetag_en
+                  }
                 </Fragment>
               )}
 
@@ -314,7 +325,12 @@ class Card extends React.Component {
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
               <Fragment>
-                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
+                {lang === "mn"
+                  ? item.pricetag
+                  : item.pricetag_en === null
+                    ? item.pricetag
+                    : item.pricetag_en
+                }
               </Fragment>
             )}
 
@@ -466,16 +482,16 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <Link to={item.route ? item.route : ""} className="price">
+                  <div className="price">
                     {prices}
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
           );
         case CARD_TYPES.wide:
           return (
-            <div className="col-md-4 pad10">
+            <div className="col-sm-4 pad10">
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
                   <Link
@@ -526,9 +542,9 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="price">
+                  <div className="price">
                     {prices}
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -581,9 +597,9 @@ class Card extends React.Component {
                     {featureText}
                   </span>
                 </Link>
-                <Link to={item.route ? item.route : ""} className="price">
+                <div className="price">
                   {prices}
-                </Link>
+                </div>
               </div>
             </div>
           );
