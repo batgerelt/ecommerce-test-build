@@ -3412,3 +3412,19 @@ button:disabled{
 .buttonBlack{
   display: none !important;
 }
+// 
+
+.ant-tree-title{
+  white-space: nowrap; 
+  width: 50px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.ant-tree li ul{
+  padding: 0 0 0 10px;
+}
+
+.left-panel .collapse-content{
+  padding: 5px 0px !important;
+}

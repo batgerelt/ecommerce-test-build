@@ -59,9 +59,9 @@ function getClientEnvironment(publicUrl) {
         IMAGES: `http://10.0.0.22:8876/`,
 
         /* TEST URL */
-        TEST_API: `http://10.0.0.22:8876/mn`,
-        TEST_IMAGE: `http://www.cdn.emartmall.mn/`,
-        TEST_IMAGES: `http://10.0.0.22:8876/`,
+        // TEST_API: `http://10.0.0.22:8876/mn`,
+        // TEST_IMAGE: `http://www.cdn.emartmall.mn/`,
+        // TEST_IMAGES: `http://10.0.0.22:8876/`,
       },
     );
 
