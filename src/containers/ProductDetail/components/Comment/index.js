@@ -51,10 +51,7 @@ class Comment extends Component {
       const { rate, rate_user_cnt } = product;
       const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
       return (
-        <div
-          className="comments-container"
-          style={{ marginTop: "30px", width: "100%" }}
-        >
+        <div className="comments-container">
           {auth && (
             <div className="write-comment">
               <div className="author">

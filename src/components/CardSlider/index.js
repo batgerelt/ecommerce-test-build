@@ -11,7 +11,7 @@ class CardSlider extends React.Component {
     let items = similarProducts.map((item, index) => (
       <div
         key={index}
-        className={`related-product col-four pad10 col-md-3 col-12`}
+        className={`related-product`}
       >
         <Card key={index} item={item} shape={CARD_TYPES.slim} {...this.props} />
       </div>

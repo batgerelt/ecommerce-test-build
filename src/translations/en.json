@@ -10,6 +10,7 @@
 	"204": "Product {name} cannot be purchased less than {qty}",
 	"205": "{qty} products are added. But products {names} in the package couldn't be added, because those are out of stock",
 	"206": "{qty} products are added. But products {names} in the recipe couldn't be added, because those are out of stock",
+	"207": "Product {name} cannot be purchased less than {qty}",
 	"400": "The user has already registered",
 	"401": "The phone number has already registered",
 	"402": "Incorrect email",

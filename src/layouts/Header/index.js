@@ -114,14 +114,14 @@ class AppHeader extends Component {
               <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <div className="e-phone">
+                    <span className="e-phone">
                       <Icon
                         type="phone"
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
                       <strong> {staticinfo.phone} </strong>
-                    </div>
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -317,17 +317,16 @@ class AppHeader extends Component {
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item">
-                      <span
-                        className="flex-this search-mobile-btn d-flex d-lg-none row10"
+                      <Link
+                        to=""
                         onClick={this.toggleSearch}
-                        style={{ padding: 5 }}
                       >
                         <img src={searchImage} alt="search" height="25px" />
                         <p>
                           <small>Хайлт</small>
                           <span className="text-uppercase">хийх</span>
                         </p>
-                      </span>
+                      </Link>
                     </li>
                     <li className="list-inline-item">
                       {
@@ -337,20 +336,28 @@ class AppHeader extends Component {
                               <img
                                 src={addedWishList ? heartImageColor : heartImage}
                                 alt="wishlist"
-                                height={"25px"}
+                                height="25px"
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
-                              <p className="header-text header-wish-text">
-                                <span className="upper-first"><FormattedMessage id="header.wishlist.part1" /></span>
-                                <span><FormattedMessage id="header.wishlist.part2" /></span>
-                              </p>
+                              <span>
+                                <span className="upper-first">
+                                  <FormattedMessage id="header.wishlist.part1" />
+                                </span>
+                                <span>
+                                  <FormattedMessage id="header.wishlist.part2" />
+                                </span>
+                              </span>
                             </Link>
                           ) : (
                             <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text header-wish-text">
-                                <span className="upper-first"><FormattedMessage id="header.wishlist.part1" /></span>
-                                <span><FormattedMessage id="header.wishlist.part2" /></span>
+                                <span className="upper-first">
+                                  <FormattedMessage id="header.wishlist.part1" />
+                                </span>
+                                <span>
+                                  <FormattedMessage id="header.wishlist.part2" />
+                                </span>
                               </p>
                             </Link>
                           )
