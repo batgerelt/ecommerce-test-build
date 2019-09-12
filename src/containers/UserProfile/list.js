@@ -125,25 +125,23 @@ class List extends React.Component {
     percents = (Number(percents) + 1) * 25;
     try {
       return (
-        <strong>
-          <span
-            style={{
-              width: "75%",
-              marginLeft: "15px",
-              marginTop: "0px",
-              position: 'absolute',
-            }}
-          >
-            {info.firstname}
-            {this.state.showButton ?
-              <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
-              :
-              null}
-            <p className="text text-right progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
-            <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "90%" }} />
-            <span className="rendername"> {percents}%</span>
-          </span>
-        </strong>
+        <span
+          style={{
+            width: "70%",
+            marginLeft: "15px",
+            marginTop: "5px",
+            position: 'absolute',
+          }}
+        >
+          <strong style={{ marginBottom: "-10px" }}>{info.firstname}</strong>
+          {this.state.showButton ?
+            <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
+            :
+            null}
+          <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
+          <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "85%" }} />
+          <span className="rendername"> {percents}%</span>
+        </span>
       );
     } catch (error) {
       return null;
@@ -161,7 +159,7 @@ class List extends React.Component {
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }}>
-                <Col className="pad10" xs={0} sm={0} md={8} lg={8} xl={8}>
+                <Col className="pad10" xs={0} sm={0} md={7} lg={7} xl={7}>
                   <div className="profile-menu">
                     <div className="menu-header">
                       <Upload
@@ -224,7 +222,7 @@ class List extends React.Component {
                     <i className="fa fa-chevron-left" /><span><FormattedMessage id="header.profile.logout" /></span>
                   </Link>
                 </Col>
-                <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+                <Col xs={24} sm={24} md={17} lg={17} xl={17}>
                   <Switch>
                     <Route exact path={match.path} component={UserProfile} {...this} />
                     <Route path={`${match.path}/history`} component={UserHistory} {...this} />
