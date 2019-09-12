@@ -433,7 +433,7 @@ class DeliveryPanel extends React.Component {
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <p className="text">{intl.locale === "mn" ? item.featuretxt : item.featuretxt_en}</p>
-                <Form onSubmit={this.onSubmit}>
+                <Form onSubmit={this.onSubmit} onKeyPress={e => (e.key === 'Enter' ? this.onSubmit(e) : null)}>
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (
                       <div className="col-xl-12 col-md-12 checkout-addbtn-container">
@@ -482,7 +482,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.districtid),
                             rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                           })(
-                            <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
                             </Select>,
                           )}
