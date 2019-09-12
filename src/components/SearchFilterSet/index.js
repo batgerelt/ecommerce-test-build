@@ -167,10 +167,10 @@ class Component extends React.Component {
                   tipFormatter={this.tipFormat}
                   min={min}
                   max={max}
+                  disabled={min === max}
                   marks={marks}
                   onAfterChange={this.props.handleChangePrice}
                   style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
-                  // defaultValue={[min, max]}
                 />,
               )}
             </Form.Item>

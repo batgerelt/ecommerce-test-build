@@ -27,21 +27,27 @@ class AppHeader extends Component {
       word: "",
       keywordid: null,
       isSearch: false,
-      pro: false,
       categoryDropdown: false,
     };
   }
 
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
+  componentWillUnmount() {
+    this.props.onRef(null);
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  componentDidMount() {
+    this.props.onRef(this);
+    window.addEventListener('scroll', this.handleScroll);
+  }
 
   handleLangChange = (e) => {
     this.props.setLang(e);
-    // this.props.getMenu();
-    // this.props.getCategoryMenu();
-    // this.props.getStaticPages();
-    // this.props.getStaticInfo();
   };
+
+  handleScroll = () => {
+    this.state.categoryDropdown ? this.setState({ categoryDropdown: false }) : null;
+  }
 
   handleChangeSearchWord = (e) => {
     this.setState({ word: e.target.value });
@@ -382,8 +388,6 @@ class AppHeader extends Component {
 
   handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
 
-  handleScroll = e => console.log('e: ', e);
-
   renderMainNavigation = () => {
     try {
       const { mainmenu } = this.props.menu;
@@ -406,8 +410,8 @@ class AppHeader extends Component {
         });
       });
       const dropdown = (
-        <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ backgroundColor: '#262a32', marginTop: '-5px' }}>
-          <div className="container pad10" style={{ padding: '30px 30px 30px 30px' }}>
+        <div className="drop-container" onClick={this.handleCategoryDropdown}>
+          <div className="container pad10">
             <Category dataSource={root} {...this.props} />
           </div>
         </div>
@@ -426,7 +430,7 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
+                <Dropdown placement="bottomLeft" visible={categoryDropdown} overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
                   <Link to="#" onClick={this.handleCategoryDropdown}>
                     <span><FormattedMessage id="search.filter.category.title" /></span>
                     <Icon type="left" style={{ color: '#feb415', transition: '0.1s' }} rotate={categoryDropdown ? -90 : 0} />

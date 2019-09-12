@@ -41,6 +41,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = {
     loading: true,
+    banner: { header: [], footer: [] },
   }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
@@ -54,7 +55,17 @@ class Page extends React.Component {
       start: this.props.packageCount,
       rowcnt: 8,
     });
-    this.props.getPackageBanner();
+    // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
+    this.props.getPackageBanner().then((res) => {
+      if (res.payload.success) {
+        const { banner } = this.state;
+
+        banner.header = res.payload.data.header;
+        banner.footer = res.payload.data.footer[Math.floor(Math.random() * res.payload.data.footer.length)];
+
+        this.setState({ banner });
+      }
+    });
     this.props.getPackageMenu({});
     this.props.getWidget().then((res) => {
       this.setState({ loading: false });
@@ -69,7 +80,7 @@ class Page extends React.Component {
             ? ""
             :
             <div>
-              <List {...this.props} {...this} />
+              <List {...this.props} {...this} {...this.state} />
               <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
             </div>
         }

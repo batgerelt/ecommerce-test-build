@@ -1071,12 +1071,39 @@ h1.title {
     .price {
         font-size: 15px;
     }
-}
 
-// md (< 992px)
-@media (max-width: 991px) {
+    // ~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>
+    
     body {
-        margin-top: 155px;
+        margin-top: 152px;
+    }
+
+    .top-container {
+        .main-slide {
+            margin-top: -21px;
+        }
+    }
+
+    .whole-page-title {
+        margin-top: -20px;
+
+        h2 {
+            margin: 0px;
+        }
+    }
+
+    .banner-container {
+        margin-bottom: 20px;
+    }
+
+    .drop-container {
+        background-color: #262a32;
+        margin-top: -5px;
+        margin-left: -34px;
+
+        div.container {
+            padding: 30px;
+        }
     }
 
     .top-main {
@@ -1115,10 +1142,6 @@ h1.title {
         }
     }
 
-    .main-slide {
-        margin-top: -21px;
-    }
-
     .ant-rate {
         display: block;
         margin-top: 5px;
@@ -1151,6 +1174,62 @@ h1.title {
         h1.title {
             margin-top: 0px;
             margin-bottom: 20px;
+        }
+
+        h4.title {
+            margin-top: 0px;
+        }
+
+        .food-recipe-detail {
+            hr {
+                margin-top: 0px;
+            }
+
+            .recipes-container,
+            .ck-editor {
+                align-items: initial;
+
+                .recipes,
+                .seasons {
+                    margin-bottom: 0px;
+                }
+            }
+
+            .image-container {
+                padding-left: 5px;
+                margin-bottom: 20px;
+            }
+
+            .image-container + div {
+                h4.step-title {
+                    margin: 0px auto;
+                    font-size: 16px;
+                }
+            }
+
+            .title {
+                text-transform: uppercase;
+                font-size: 20px;
+                border-bottom: 3px solid rgb(255, 182, 0);
+                display: inline-block;
+                line-height: 0.65;
+            }
+
+            .recipes,
+            .seasons {
+                .title {
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+    
+                ul {
+                    list-style-type: none;
+    
+                    li {
+                        margin: 0 0 10px -25px;
+                    }
+                }
+            }
         }
 
         .product-info {
@@ -1198,11 +1277,34 @@ h1.title {
                 }
             }
         }
+
+        .icons {
+            padding: 20px;
+            text-align: center;
+        }
+    }
+}
+
+// md (< 992px)
+@media (max-width: 991px) {
+    .section-footer {
+        .logo-container:first-child {
+            display: inline;
+            align-items: initial;
+        }
     }
 }
 
 // xs (< 768px)
 @media (max-width: 767px) {
+    .product-detail-page {
+        .food-recipe-detail {
+            .image-container {
+                margin-bottom: 0px;
+            }
+        }
+    }
+
     .dropdown {
         display: none !important;
     }
@@ -1363,32 +1465,6 @@ h1.title {
 
         .similar-products {
             margin-top: 0px;
-        }
-
-        .food-recipe-detail {
-            .title {
-                text-transform: uppercase;
-                font-size: 20px;
-                border-bottom: 3px solid rgb(255, 182, 0);
-                display: inline-block;
-                line-height: 0.65;
-            }
-
-            .recipes,
-            .seasons {
-                .title {
-                    font-weight: bold;
-                    font-size: 14px;
-                }
-    
-                ul {
-                    list-style-type: none;
-    
-                    li {
-                        margin: 0 0 10px -25px;
-                    }
-                }
-            }
         }
 
         .product-info {

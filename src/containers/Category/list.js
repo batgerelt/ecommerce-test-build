@@ -252,6 +252,19 @@ class CategoryInfo extends React.Component {
   };
 
   handleClickCategory = (cat) => {
+    const { categoryall } = this.props;
+    let isChangeCategory = false;
+    try {
+      const lvl = JSON.parse(`{"${
+        decodeURI(this.props.history.location.search)
+          .replace(/"/g, '\\"')
+          .replace(/&/g, '","')
+          .replace(/[/?]/g, '')
+          .replace(/=/g, '":"')}"}`).lvl;
+      isChangeCategory = categoryall.find(i => i.id.toString() === cat[0].toString()).lvl < lvl;
+    } catch (error) {
+      console.log('error: ', error);
+    }
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.props.getCategoryParents({ id: cat.length === 0 ? searchid : cat[0] });
@@ -281,6 +294,7 @@ class CategoryInfo extends React.Component {
           count: 20,
           catid: cat[0],
           aggregations: res.payload.data,
+          categories: isChangeCategory ? res.payload.data.aggregations.categories : this.state.categories,
         });
       }
     });
@@ -298,7 +312,7 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             showIcon={false}
-          // defaultExpandAll={false}
+            defaultExpandAll
           // defaultExpandParent={false}
           >
             {categories.buckets.map(one => (

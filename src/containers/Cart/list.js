@@ -103,12 +103,15 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
+    console.log('product: ', product);
+    console.log('e: ', e);
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
       const qty = isNaN(e.target.value) ? found.addminqty : found.qty;
+      console.log('qty: ', qty);
       found.qty = parseInt(qty, 10);
 
       if (this.props.isLogged) {
@@ -131,6 +134,7 @@ class Cart extends React.Component {
           }));
         }
       } else {
+        console.log('found: ', found);
         this.props.updateProductByQtyLocally(found);
 
         const updated = this.props.products.find(prod => prod.skucd === found.skucd);
