@@ -31,7 +31,6 @@ class Component extends React.Component {
       commid: "",
     };
     this.props.getCustomer().then((res) => {
-      console.log('res: ', res);
       if (res.payload.success) {
         localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         localStorage.setItem('percent', res.payload.data.info.cstatus);
@@ -200,18 +199,23 @@ class Component extends React.Component {
   };
 
   renderCard(card) {
+    const { intl } = this.props;
     return (
       <Col span={24}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Form.Item>
-            <Input value={card.cardno} className="profile-custom-input" disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Form.Item>
-            <Input value="0000" type="password" className="profile-custom-input" disabled style={{ backgroundColor: "rgb(235, 235, 228)", width: "98%" }} />
-          </Form.Item>
-        </Col>
+        <Form>
+          <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <Form.Item>
+              <Input className="profile-custom-input" value={card.cardno} disabled style={{ backgroundColor: "white", color: "rgba(0, 0, 0, 0.5)" }} />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
+            <Form.Item>
+              <Input className="profile-custom-input" value="0000" type="password" disabled style={{ backgroundColor: "white", color: "rgba(0, 0, 0, 0.5);" }} />
+            </Form.Item>
+          </Col>
+        </Form>
       </Col>
     );
   }
@@ -303,7 +307,7 @@ class Component extends React.Component {
     const { userInfo } = this.props;
     return (
       <Col span={24}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("mainLocation", {
@@ -323,7 +327,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("subLocation", {
@@ -344,7 +348,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("commiteLocation", {
@@ -365,7 +369,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
           <Form.Item >
             {getFieldDecorator("address", {
@@ -405,7 +409,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
               <Form.Item>
                 {getFieldDecorator("email", {
@@ -414,8 +418,8 @@ class Component extends React.Component {
                 })(<LatinInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
               </Form.Item>
             </Col>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-              <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+            <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ paddingRight: "10px" }}>
                 <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
                 <Form.Item>
                   {getFieldDecorator("phone1", {
@@ -434,8 +438,7 @@ class Component extends React.Component {
                   })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
                 </Form.Item>
               </Col>
-              <Col xs={0} sm={0} md={2} lg={2} xl={2} />
-              <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2</span>
                 <Form.Item>
                   {getFieldDecorator("phone2", {
@@ -444,28 +447,32 @@ class Component extends React.Component {
                       { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                       { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
                     ],
-                  })(<NumberInput style={{ height: "40px" }} placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
+                  })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
                 </Form.Item>
               </Col>
             </Col>
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
-            <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: "-25px" }}>
-              <Form.Item className="text text-right padd10">
-                <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40' }}>
-                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                </Button>
-              </Form.Item>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" style={{ textAlign: "right" }}>
+              <Col xs={12} sm={12} md={18} lg={18} xl={18} />
+              <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+                <Form.Item className="text">
+                  <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                    <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Col>
+
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <Divider />
+              </Col>
             </Col>
           </Form>
-          <Col span={24} className="padd10">
-            <Divider />
-            <p><FormattedMessage id="profile.userProfile.form.label.emart" /></p>
-          </Col>
-
           {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
-        </div>
+        </div >
       );
     } catch (error) {
       return console.log(error);
@@ -477,7 +484,7 @@ class Component extends React.Component {
         <p className="title">
           <span><FormattedMessage id="profile.userProfile.form.title" /></span>
         </p>
-        <div className="user-profile-contain">
+        <div className="user-profile-container">
           {this.props.userInfo === undefined ? null : this.renderProfile()}
         </div>
       </div>

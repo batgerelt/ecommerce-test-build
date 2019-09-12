@@ -92,7 +92,7 @@ class List extends React.Component {
             <h5 className="title flex-this flex-space">
               <span><FormattedMessage id="shared.sidebar.title.deliveryStatus" />:</span>
               <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
-                {lang === "mn" ? orderdetail.info.customerstatusname : orderdetail.info.customerstatusname_en}
+                {lang === "mn" ? orderdetail.info.status : orderdetail.info.status_en}
               </strong>
             </h5>
             <div className="block">

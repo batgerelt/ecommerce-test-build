@@ -69,10 +69,6 @@ class Component extends React.Component {
     const { loader } = this.state;
     return (
       <Col span={24}>
-        {/* <Spin
-          spinning={loader}
-          indicator={<Loader />}
-        > */}
         <Form>
           <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
             <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
@@ -84,7 +80,7 @@ class Component extends React.Component {
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput style={{ height: "40px" }} placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
+              })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
             </Form.Item>
           </Col>
 
@@ -96,7 +92,7 @@ class Component extends React.Component {
                   { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                 ],
               })(<NumberInput
-                style={{ height: "40px" }}
+                className="profile-custom-input"
                 placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
                 maxLength={4}
                 allowClear
@@ -105,18 +101,18 @@ class Component extends React.Component {
               />)}
             </Form.Item>
           </Col>
-
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item>
-              <div className="text-right">
-                <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ width: "108.28px", background: '#343a40' }} >
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" style={{ textAlign: "right" }}>
+            <Col xs={12} sm={12} md={18} lg={18} xl={18} />
+            <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Form.Item className="text">
+                <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
                   <span className="text-uppercase"><FormattedMessage id="shared.form.button.connect" /></span>
                 </Button>
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </Col>
           </Col>
+
         </Form>
-        {/* </Spin> */}
       </Col>
     );
   }

@@ -10,7 +10,8 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = { loader: false };
-  onDelete = (item) => {
+  onDelete = item => async (e) => {
+    e.preventDefault();
     this.setState({ loader: true });
     this.props.deleteWish({ skucd: item.skucd }).then((res) => {
       this.props.getWish().then((res) => {
@@ -99,7 +100,7 @@ class Component extends React.Component {
               <li>
                 <Link
                   to="#"
-                  onClick={e => this.onDelete(item)}
+                  onClick={this.onDelete(item)}
                   style={{
                     fontWeight: "10",
                   }}
