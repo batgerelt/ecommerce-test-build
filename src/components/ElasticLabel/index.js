@@ -7,7 +7,6 @@ class index extends Component {
   renderNew = (lang) => {
     try {
       const { tags, list, data } = this.props;
-      console.log('tags: ', tags);
       const style = list
         ? `
         bottom: 35px; 

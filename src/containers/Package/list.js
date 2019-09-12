@@ -19,20 +19,17 @@ class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
-    this.state = {
-      headerProducts: [],
-      packagebanner: [],
-    };
+    this.state = { headerProducts: [] };
   }
 
   renderMainBanner = () => {
     try {
-      const { packagebanner, menuPackage, intl } = this.props;
+      const { banner, menuPackage, intl } = this.props;
       return (
         <PageBanner
           title={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}
           subtitle={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en}
-          banners={packagebanner.length === 0 ? [] : packagebanner.header}
+          banners={banner.length === 0 ? [] : banner.header}
           bgColor="#8CBD3F"
         />
       );
@@ -63,21 +60,11 @@ class Discount extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.packagebanner.length !== prevProps.packagebanner.length) {
-      const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
-      this.setState({ packagebanner: selected });
-    }
-  }
-
   renderSubBanner = () => {
     try {
-      const { packagebanner } = this.state;
-      return (
-        <Banner data={packagebanner} />
-      );
+      return (<Banner data={this.props.banner.footer} />);
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
