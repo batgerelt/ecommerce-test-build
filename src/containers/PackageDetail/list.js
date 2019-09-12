@@ -390,7 +390,7 @@ class List extends React.Component {
                     </strong>
                   </Link>
                 </p>
-                <form style={{ width: "130px" }}>
+                <form>
                   <div className="input-group e-input-group">
                     <div className="input-group-prepend" id="button-addon4">
                       <button
@@ -449,7 +449,6 @@ class List extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      style={{ fontSize: "1.6rem" }}
                     />
                   </button>
                 </div>
@@ -505,7 +504,6 @@ class List extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      style={{ fontSize: "1.2rem" }}
                     />{" "}
                     <span className="text-uppercase"><FormattedMessage id="packageDetail.button.addToCart" /></span>
                   </button>
@@ -550,7 +548,6 @@ class List extends React.Component {
                 <div className="col-md-9 pad10">
                   {this.props.info === undefined ? null : this.renderTitleDate()}
                   {this.props.images === undefined ? null : this.renderSlider()}
-                  <div style={{ height: "30px" }} />
                   {this.props.info === undefined ? null : this.renderCk()}
                   <div className="pack-product-container">
                     {this.props.packageDetail === undefined
