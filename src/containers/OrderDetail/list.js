@@ -87,10 +87,6 @@ class List extends React.Component {
                   <strong><FormattedMessage id="shared.sidebar.label.orderTotal" />:</strong>
                   <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
                 </li>
-                {/* <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
-                  <strong>{formatter.format(orderdetail.info.totalvatamount)}₮</strong>
-                </li> */}
               </ul>
             </div>
             <h5 className="title flex-this flex-space">

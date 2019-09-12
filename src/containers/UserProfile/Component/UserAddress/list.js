@@ -233,36 +233,40 @@ class Component extends React.Component {
       } = this.state;
       return (
         <Form className="row row10" onSubmit={this.handleSubmit}>
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.name.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("name", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.name.validation.required" }) }],
-              })(<LetterInput placeholder={intl.formatMessage({ id: "shared.form.name.placeholder" })} onChange={this.onChangeName} />)}
+              })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.name.placeholder" })} onChange={this.onChangeName} />)}
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("phone1", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                 { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                 { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
+              })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.phone2.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("phone2", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
                 { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                 { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
+              })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("mainLocation", {
                 initialValue: this.checkError(this.state.params.provid),
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
@@ -280,8 +284,9 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("subLocation", {
                 /* initialValue: this.checkError(this.state.params.distid), */
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
@@ -300,8 +305,9 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("commiteLocation", {
                 /* initialValue: this.checkError(this.state.params.commid), */
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
@@ -320,22 +326,23 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("homeaddress", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
-              })(<Input placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} autoComplete="off" />)}
+              })(<Input className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} autoComplete="off" />)}
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+            <Form.Item className="text-right">
               <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
                 <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
               </Button>
             </Form.Item>
           </Col>
-          <Col span={24} className="delivery-address" style={{ width: '98.5%', marginBottom: '5px' }}>
+          <Col span={24} className="delivery-address">
             <p className="title">
               <span><FormattedMessage id="profile.deliveryAddress.table.title" /></span>
             </p>
