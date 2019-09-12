@@ -258,9 +258,7 @@ class List extends React.Component {
   renderProd = () => {
     try {
       const { lang } = this.props;
-      console.log('this.props: ', this.props);
       const products = this.props.recipeProducts;
-      console.log('products: ', products);
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -361,7 +359,7 @@ class List extends React.Component {
       const { recipe, lang } = this.props;
       return (
         <div>
-          <div className="row row10">
+          <div className="row row10 recipes-container">
             <div className="col-md-6 recipes">
               <p className="title">
                 <FormattedMessage id="recipeDetail.recipe.title.ingredient" />
@@ -441,8 +439,8 @@ class List extends React.Component {
       const { steps, lang } = this.props;
       return steps.map((step, index) => (
         <div key={index}>
-          <div className="row row10">
-            <div className="col-md-4">
+          <div className="row row10" style={{ alignItems: "initial" }}>
+            <div className="col-sm-4 image-container">
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,
@@ -452,12 +450,11 @@ class List extends React.Component {
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center center",
                   borderRadius: "10px",
-                  marginBottom: "20px",
                 }}
               />
             </div>
-            <div className="col-md-8">
-              <h4 style={{ fontSize: "16px" }}>
+            <div className="col-sm-8">
+              <h4 className="step-title">
                 <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
                   <span
                     style={{
@@ -489,7 +486,7 @@ class List extends React.Component {
           <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
           <div className="product-detail-page">
             <div className="row row10">
-              <div className="col-md-8 pad10">
+              <div className="col-lg-8 pad10">
                 {this.renderTitleDate()}
                 <div className="food-recipe-detail">
                   {this.renderSlider()}
@@ -504,7 +501,7 @@ class List extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 pad10">
+              <div className="col-lg-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
                   {this.renderIcons()}

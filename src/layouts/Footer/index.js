@@ -16,7 +16,7 @@ class Footer extends React.Component {
       const { staticinfo } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-12 col-md-6 col-lg-3 pad10">
+        <div className="col-sm-12 col-md-6 col-lg-3 pad10 logo-container">
           <Link to="/" className="logo">
             <img alt="logo" src={process.env.IMAGE + staticinfo.logopath2} />
           </Link>
