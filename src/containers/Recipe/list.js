@@ -20,27 +20,9 @@ class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
-    this.state = {
-      headerProducts: [],
-      recipebanner: [],
-    };
+    this.state = { headerProducts: [] };
   }
 
-  renderMainBanner = () => {
-    try {
-      const { recipebanner, menuRecipe, intl } = this.props;
-      return (
-        <PageBanner
-          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
-          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
-          banners={recipebanner.length === 0 ? [] : recipebanner.header}
-          bgColor="#F2769B"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
   componentWillMount() {
     this.props.getRecipeScroll({
       order: "date_desc",
@@ -48,6 +30,30 @@ class Recipe extends React.Component {
       rowcnt: 6,
     });
   }
+
+  renderMainBanner = () => {
+    try {
+      const { banner, menuRecipe, intl } = this.props;
+      return (
+        <PageBanner
+          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
+          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
+          banners={banner.length === 0 ? [] : banner.header}
+          bgColor="#F2769B"
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
+  renderSubBanner = () => {
+    try {
+      return (<Banner data={this.props.banner.footer} />);
+    } catch (error) {
+      return null;
+    }
+  };
 
   loadMoreRows = (key) => {
     try {
@@ -106,24 +112,6 @@ class Recipe extends React.Component {
     }
     return ITEM_HEIGHT;
   }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.recipebanner.length !== prevProps.recipebanner.length) {
-      const selected = this.props.recipebanner.footer[Math.floor(Math.random() * this.props.recipebanner.footer.length)];
-      this.setState({ recipebanner: selected });
-    }
-  }
-
-  renderSubBanner = () => {
-    try {
-      const { recipebanner } = this.state;
-      return (
-        <Banner data={recipebanner} />
-      );
-    } catch (error) {
-      return console.log('renderSubBanner error');
-    }
-  };
 
   renderFooterProduct = () => {
     try {

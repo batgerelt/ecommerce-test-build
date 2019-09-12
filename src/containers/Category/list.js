@@ -312,7 +312,7 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             showIcon={false}
-          // defaultExpandAll={false}
+            defaultExpandAll
           // defaultExpandParent={false}
           >
             {categories.buckets.map(one => (

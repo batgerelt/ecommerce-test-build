@@ -61,9 +61,9 @@ class CategoryInfo extends React.Component {
     try {
       return this.props.searchProduct({
         body: { ...this.state },
-      }).then;
-      window.scrollTo(0, 0); ((res) => {
+      }).then((res) => {
         if (res.payload.success && res.payload.data) {
+          window.scrollTo(0, 0);
           this.setState({
             products: res.payload.data.hits.hits,
             startsWith: 20,
@@ -365,7 +365,7 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
+      // console.log(error);
       return null;
     }
   }
