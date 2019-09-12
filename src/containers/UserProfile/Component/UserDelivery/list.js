@@ -76,7 +76,7 @@ class Component extends React.Component {
             <tr>
               <th className="column-std"><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
               <th className="column-std"><FormattedMessage id="profile.orderHistory.table.date" /></th>
-              <th className="column-center"><FormattedMessage id="profile.orderHistory.table.status" /></th>
+              <th className="column-center" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
               <th className="column-std"><FormattedMessage id="profile.orderHistory.table.price" /></th>
               <th className="column-std-more-header"><span className="column-std-more"><FormattedMessage id="profile.orderHistory.table.link" /></span></th>
             </tr>

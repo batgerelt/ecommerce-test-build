@@ -410,8 +410,8 @@ class AppHeader extends Component {
         });
       });
       const dropdown = (
-        <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ backgroundColor: '#262a32', marginTop: '-5px' }}>
-          <div className="container pad10" style={{ padding: '30px 30px 30px 30px' }}>
+        <div className="drop-container" onClick={this.handleCategoryDropdown}>
+          <div className="container pad10">
             <Category dataSource={root} {...this.props} />
           </div>
         </div>

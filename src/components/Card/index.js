@@ -115,7 +115,7 @@ class Card extends React.Component {
             });
             message.warning(intl.formatMessage(
               messages.error,
-              { name: updated.name, qty: updated.qty },
+              { name: updated.title, qty: updated.qty },
             ));
           }
         } else if (item.recipeid) {

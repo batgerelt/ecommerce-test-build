@@ -622,6 +622,7 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
+          console.log('state.products: ', state.products);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
@@ -716,7 +717,14 @@ class Model extends BaseModel {
 
           return {
             ...state,
-            products: this.updateReduxStore(products, product, "", true),
+            products: this.updateReduxStore(
+              products,
+              product,
+              "",
+              true,
+              false,
+              true,
+            ),
           };
         } catch (e) {
           console.log(e);
