@@ -532,30 +532,32 @@ h1.title {
         width: 50%;
     }
 
+    .info-container {
+        .action {
+            button {
+                i {
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 1rem !important;
+                    border-radius: 50%;
+                    background: #feb413;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
     .pack-product-container {
         .pack-list {
             .info-container {
                 .text {
                     padding: 0px 5px;
                 }
-
-                .action {
-                    button {
-                        i {
-                            width: 30px;
-                            height: 30px;
-                            line-height: 30px;
-                            font-size: 1rem !important;
-                            border-radius: 50%;
-                            background: #feb413;
-                            color: #fff;
-                        }
-                    }
-                }
             }
 
             .info-container form {
-                width: 200px !important;
+                width: 150px !important;
                 margin-right: 10px;
 
                 .form-control {
@@ -565,10 +567,6 @@ h1.title {
                 .btn {
                     width: 20px !important;
                 }
-            }
-
-            .list {
-                li {}
             }
         }
     }
@@ -588,21 +586,6 @@ h1.title {
         img {
             width: 100% !important;
             height: auto !important;
-        }
-    }
-
-    .single.flex-this {
-        .action {
-            button {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background: #feb413;
-
-                i {
-                    color: #fff;
-                }
-            }
         }
     }
 
@@ -1283,6 +1266,28 @@ h1.title {
             text-align: center;
         }
     }
+
+    .related-products,
+    .similar-products {
+        .related-product-title,
+        .similar-product-title {
+            display: inline-block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+        }
+        .related-product-price,
+        .similar-product-price {
+            display: flex;
+            font-weight: bold;
+
+            span {
+                justify-content: space-between;
+            }
+        }
+    }
 }
 
 // md (< 992px)
@@ -1441,25 +1446,6 @@ h1.title {
             .pack-list,
             .info-container {
                 margin-bottom: 20px;
-            }
-        }
-
-        .related-products {
-            .related-product-title {
-                display: inline-block;
-                width: 100%;
-                white-space: nowrap;
-                overflow: hidden !important;
-                text-overflow: ellipsis;
-                text-transform: uppercase;
-            }
-            .related-product-price {
-                display: flex;
-                font-weight: bold;
-
-                span {
-                    justify-content: space-between;
-                }
             }
         }
 
