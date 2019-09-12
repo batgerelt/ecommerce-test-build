@@ -74,8 +74,9 @@ class Component extends React.Component {
           indicator={<Loader />}
         > */}
         <Form>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("cardno", {
                 rules: [
                   // { required: true, message: "Картын дугаараа оруулна уу" },
@@ -83,17 +84,19 @@ class Component extends React.Component {
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
+              })(<NumberInput style={{ height: "40px" }} placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <Form.Item style={{ width: '97%', marginBottom: '5px' }}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("password", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) },
                 ],
               })(<NumberInput
+                style={{ height: "40px" }}
                 placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
                 maxLength={4}
                 allowClear
@@ -104,7 +107,7 @@ class Component extends React.Component {
           </Col>
 
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
+            <Form.Item>
               <div className="text-right">
                 <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ width: "108.28px", background: '#343a40' }} >
                   <span className="text-uppercase"><FormattedMessage id="shared.form.button.connect" /></span>

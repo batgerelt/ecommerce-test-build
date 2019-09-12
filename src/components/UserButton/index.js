@@ -191,7 +191,7 @@ class UserButton extends React.Component {
             <div className={`dropdown ${visible ? ' open' : ''}`} >
               <div className="drop-content">
                 <div className="profile-menu" >
-                  {/* <div className="menu-header">
+                  <div className="menu-header" style={{ display: "none" }}>
                     <div className="flex-this">
                       <div className="image-container default">
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
@@ -201,7 +201,7 @@ class UserButton extends React.Component {
                       </p>
                     </div>
                     {this.renderProgress1()}
-                  </div> */}
+                  </div>
                   <ul className="list-unstyled">
                     <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">

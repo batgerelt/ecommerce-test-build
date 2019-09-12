@@ -303,10 +303,10 @@ class List extends React.Component {
               </div>
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
-                  <span className="package-product-title">
+                  <span className="similar-product-title">
                     {lang === "mn" ? prod.title : prod.title_en}
                   </span>
-                  <span className="package-product-price">
+                  <span className="similar-product-price">
                     {formatter.format(prod.sprice || prod.price)}₮
                   </span>
                 </Link>
@@ -561,7 +561,7 @@ class List extends React.Component {
                     {this.props.packageDetail === undefined
                       ? null
                       : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
-                        <div className="block product-suggest">
+                        <div className="block product-suggest similar-products">
                           <p className="title">
                             <FormattedMessage id="shared.sidebar.title.similarProducts" />
                           </p>

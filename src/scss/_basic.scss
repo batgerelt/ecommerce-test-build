@@ -2455,7 +2455,7 @@ form {
     li a {
       color: $black5;
       display: block;
-      padding: 10px 20px 10px 10px;
+      padding: 10px 20px 10px 5px;
       /* border-left: 2px solid transparent; */
       font-size: 0.8rem;
 
@@ -3411,6 +3411,30 @@ button:disabled{
 // tur ingev
 .buttonBlack{
   display: none !important;
+}
+// pprofile custom input
+.top-text {
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    top: -8px;
+    left: 12px;
+    padding: 0px 5px 0px 5px;
+    color: grey;
+}
+.ant-select-selection--single {
+    height: 40px !important;
+}
+.ant-select-selection__rendered {
+    line-height: 40px !important;
+}
+.padd10 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.profile-custom-input {
+  height: 40px;
 }
 // 
 

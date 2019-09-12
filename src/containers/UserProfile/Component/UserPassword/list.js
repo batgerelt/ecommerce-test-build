@@ -62,36 +62,39 @@ class Component extends React.Component {
       const { getFieldDecorator } = this.props.form;
       return (
         <Form className="row row10">
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("oldPassword", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.oldPassword.validation.required" }) }],
-              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
+              })(<Input.Password className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.newPassword.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("password", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
                   { validator: this.validateToNextPassword },
                 ],
-              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
+              })(<Input.Password className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("confirm", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },
                   { validator: this.compareToFirstPassword },
                 ],
               })(
-                <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />,
+                <Input.Password className="profile-custom-input" onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />,
               )}
             </Form.Item>
           </Col>
-          <Col span={24}>
+          <Col span={24} className="padd10">
             <Form.Item className="text-right" style={{ marginBottom: '5px' }}>
               <Button htmlType="submit" style={{ background: '#343a40' }} className="btn btn-dark" onClick={this.handleSubmit}>
                 <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>

@@ -93,7 +93,7 @@ h1.title {
     }
     
     .renderprogress {
-        width: 67% !important;
+        width: 50% !important;
         font-size: 14px !important;
     }
 
@@ -1266,6 +1266,28 @@ h1.title {
             text-align: center;
         }
     }
+
+    .related-products,
+    .similar-products {
+        .related-product-title,
+        .similar-product-title {
+            display: inline-block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+        }
+        .related-product-price,
+        .similar-product-price {
+            display: flex;
+            font-weight: bold;
+
+            span {
+                justify-content: space-between;
+            }
+        }
+    }
 }
 
 // md (< 992px)
@@ -1424,25 +1446,6 @@ h1.title {
             .pack-list,
             .info-container {
                 margin-bottom: 20px;
-            }
-        }
-
-        .related-products {
-            .related-product-title {
-                display: inline-block;
-                width: 100%;
-                white-space: nowrap;
-                overflow: hidden !important;
-                text-overflow: ellipsis;
-                text-transform: uppercase;
-            }
-            .related-product-price {
-                display: flex;
-                font-weight: bold;
-
-                span {
-                    justify-content: space-between;
-                }
             }
         }
 
