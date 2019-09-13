@@ -1189,7 +1189,9 @@ body {
 .section {
   padding: 60px 0;
 }
-
+.section-gray {
+  background-color: rgba(73, 75, 87, 0.1);
+}
 .section.section-gray {
   background-color: rgba(73, 75, 87, 0.1);
 }
@@ -3783,7 +3785,7 @@ form .e-input-group .count-text {
 }
 
 .user-section .user-profile-container {
-  padding: 30px;
+  padding: 35px 20px 10px 20px;
 }
 
 .user-section .user-profile-container .form-group {

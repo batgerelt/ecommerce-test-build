@@ -3412,7 +3412,7 @@ button:disabled{
 .buttonBlack{
   display: none !important;
 }
-// pprofile custom input
+// profile custom input
 .top-text {
     font-size: 11px;
     position: absolute;
@@ -3435,6 +3435,13 @@ button:disabled{
 }
 .profile-custom-input {
   height: 40px;
+}
+.profile-section {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+.ant-divider-horizontal {
+  margin-top: 0px;
 }
 // 
 

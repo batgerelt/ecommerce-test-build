@@ -187,7 +187,7 @@ class UserButton extends React.Component {
               </div>
               <span className="">{user === null ? " " : user.firstname}</span>
             </Link>
-            {/* large display */}
+            {/* Desktop */}
             <div className={`dropdown ${visible ? ' open' : ''}`} >
               <div className="drop-content">
                 <div className="profile-menu" >
@@ -242,7 +242,7 @@ class UserButton extends React.Component {
                 </div>
               </div>
             </div>
-            {/* small display */}
+            {/* Mobile left panel */}
             <div className={`mobile-menu-container ${visible ? ' activated' : ''}`}>
               <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
                 <div className="d-none single">

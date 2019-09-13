@@ -20,10 +20,11 @@ class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
-    this.state = { headerProducts: [] };
+    this.state = { headerProducts: [], loading: false };
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0);
     this.props.getRecipeScroll({
       order: "date_desc",
       start: this.props.recipeCount,
@@ -57,13 +58,14 @@ class Recipe extends React.Component {
 
   loadMoreRows = (key) => {
     try {
-      setTimeout(() => {
+      if (!this.state.loading) {
+        this.setState({ loading: !this.state.loading });
         this.props.getRecipeScroll({
           order: "date_desc",
           start: this.props.recipeCount,
           rowcnt: 6,
-        });
-      }, 1000);
+        }).then(res => this.setState({ loading: !this.state.loading }));
+      }
     } catch (error) {
       return console.log(error);
     }
