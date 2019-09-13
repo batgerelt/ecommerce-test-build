@@ -141,8 +141,7 @@ class Checkout extends React.Component {
       >
         <div className="section section-gray">
           <div className="container pad10">
-            {/* Түр margin авсан */}
-            <div className="checkout-container" style={{ marginTop: '190px' }}>
+            <div className="checkout-container" >
               <div className="row row10">
                 <div className="col-lg-8 pad10">
                   <div className="accordion" id="accordionExample">
