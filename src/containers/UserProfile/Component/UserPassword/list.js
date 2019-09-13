@@ -94,12 +94,16 @@ class Component extends React.Component {
               )}
             </Form.Item>
           </Col>
-          <Col span={24} className="padd10">
-            <Form.Item className="text-right" style={{ marginBottom: '5px' }}>
-              <Button htmlType="submit" style={{ background: '#343a40' }} className="btn btn-dark" onClick={this.handleSubmit}>
-                <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-              </Button>
-            </Form.Item>
+
+          <Col span={24} className="padd10" style={{ textAlign: "right" }}>
+            <Col xs={12} sm={12} md={18} lg={18} xl={18} />
+            <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Form.Item className="text">
+                <Button className="btn btn-dark" onClick={this.handleSubmit} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
+                </Button>
+              </Form.Item>
+            </Col>
           </Col>
         </Form>
       );
@@ -109,11 +113,11 @@ class Component extends React.Component {
   };
   render() {
     return (
-      <div className="user-menu-content">
+      <div className="user-menu-content" style={{ margin: "0px !important" }}>
         <p className="title">
-          <span><FormattedMessage id="profile.changePassword.title" /></span>
+          <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
-        <div className="user-profile-contain">
+        <div className="user-profile-container">
           {this.renderPassword()}
         </div>
       </div>

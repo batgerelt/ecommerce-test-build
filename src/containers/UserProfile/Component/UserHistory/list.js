@@ -22,7 +22,8 @@ class Component extends React.Component {
   //   }
   //   return true;
   // }
-  onDelete = (item) => {
+  onDelete = item => async (e) => {
+    e.preventDefault();
     this.setState({ loader: true });
     this.props.deleteHistory({ skucd: item.skucd }).then((res) => {
       this.props.getHistory().then((res) => {
@@ -140,7 +141,7 @@ class Component extends React.Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" onClick={e => this.onDelete(item)}>
+                  <Link to="#" onClick={this.onDelete(item)}>
                     <i className="fa fa-times" aria-hidden="true" />
                   </Link>
                 </li>

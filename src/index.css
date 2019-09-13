@@ -53,3 +53,26 @@ select {
   top: 180px
 }
 
+.ant-dropdown-placement-bottomLeft{
+  /* left: 306px !important; */
+}
+
+.search-not-found{
+  justify-content: center;
+  -ms-flex-pack: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+}
+
+.search-not-found span{
+  line-height: 5px;
+  font-size: 20px;
+  color: #63666A
+}
+
+.search-not-found img{
+  margin: 20px;
+}

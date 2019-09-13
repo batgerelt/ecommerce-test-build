@@ -22,6 +22,7 @@ import Confirm from "./Confirm";
 import Order from "./OrderDetail";
 import Emart from "./Emart";
 import Brand from "./Brand";
+import SearchNotFound from "./Exception/SearchNotFound";
 
 export {
   App,
@@ -48,4 +49,5 @@ export {
   Order,
   Emart,
   Brand,
+  SearchNotFound,
 };

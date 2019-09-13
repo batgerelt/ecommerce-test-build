@@ -154,12 +154,12 @@ class List extends React.Component {
     const { imageUrl, showButton, loading } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
-      <div className="section section-gray">
+      <div className="section-gray profile-section">
         <div className="container">
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }}>
-                <Col className="pad10" xs={0} sm={0} md={7} lg={7} xl={7}>
+                <Col xs={0} sm={0} md={7} lg={7} xl={7} style={{ paddingRight: "20px" }}>
                   <div className="profile-menu">
                     <div className="menu-header">
                       <Upload
@@ -222,7 +222,7 @@ class List extends React.Component {
                     <i className="fa fa-chevron-left" /><span><FormattedMessage id="header.profile.logout" /></span>
                   </Link>
                 </Col>
-                <Col xs={24} sm={24} md={17} lg={17} xl={17}>
+                <Col xs={24} sm={24} md={17} lg={17} xl={17} style={{ padding: "0px !important" }}>
                   <Switch>
                     <Route exact path={match.path} component={UserProfile} {...this} />
                     <Route path={`${match.path}/history`} component={UserHistory} {...this} />
