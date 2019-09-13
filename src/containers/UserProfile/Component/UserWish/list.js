@@ -21,7 +21,8 @@ class Component extends React.Component {
       });
     });
   }
-  handleIncrement = (item) => {
+  handleIncrement = item => async (e) => {
+    e.preventDefault();
     if (item.skucd) {
       this.props.incrementProductRemotely({
         skucd: item.skucd,
@@ -91,10 +92,9 @@ class Component extends React.Component {
               <li>
                 <Link
                   to="#"
-                  onClick={() => this.handleIncrement(item)}
+                  onClick={this.handleIncrement(item)}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                  <span />
                 </Link>
               </li>
               <li>
