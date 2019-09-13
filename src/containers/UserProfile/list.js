@@ -140,7 +140,7 @@ class List extends React.Component {
             null}
           <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
           <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "85%" }} />
-          <span className="rendername"> {percents}%</span>
+          <span className="rendername" style={{ fontSize: "13px" }}> {percents}%</span>
         </span>
       );
     } catch (error) {

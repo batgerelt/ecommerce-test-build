@@ -389,24 +389,26 @@ class Component extends React.Component {
       return (
         <div className="row row10">
           <Form>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-              <span className="top-text">{intl.formatMessage({ id: "shared.form.lastname.placeholder" })}</span>
-              <Form.Item>
-                {getFieldDecorator("lastname", {
-                  initialValue: userInfo.info.lastname,
-                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.lastname.validation.required" }) }],
-                })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
-              </Form.Item>
-            </Col>
+            <Col span={24}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                <span className="top-text">{intl.formatMessage({ id: "shared.form.lastname.placeholder" })}</span>
+                <Form.Item>
+                  {getFieldDecorator("lastname", {
+                    initialValue: userInfo.info.lastname,
+                    rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.lastname.validation.required" }) }],
+                  })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.lastname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ lastname: value }))} />)}
+                </Form.Item>
+              </Col>
 
-            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-              <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
-              <Form.Item>
-                {getFieldDecorator("firstname", {
-                  initialValue: userInfo.info.firstname,
-                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.firstname.validation.required" }) }],
-                })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ firstname: value }))} />)}
-              </Form.Item>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
+                <Form.Item>
+                  {getFieldDecorator("firstname", {
+                    initialValue: userInfo.info.firstname,
+                    rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.firstname.validation.required" }) }],
+                  })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.firstname.placeholder" })} onChange={value => (this.props.form.setFieldsValue({ firstname: value }))} />)}
+                </Form.Item>
+              </Col>
             </Col>
 
             <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
@@ -418,41 +420,38 @@ class Component extends React.Component {
                 })(<LatinInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
               </Form.Item>
             </Col>
-            <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
-              <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ paddingRight: "10px" }}>
-                <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
-                <Form.Item>
-                  {getFieldDecorator("phone1", {
-                    initialValue: userInfo.info.phone1,
-                    rules: [
-                      {
-                        required: true,
-                        pattern: new RegExp("^[0-9]*$"),
-                        message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }),
-                      },
-                      {
-                        min: 8,
-                        message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }),
-                      },
-                    ],
-                  })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
-                </Form.Item>
-              </Col>
-              <Col xs={0} sm={0} md={2} lg={2} xl={2} />
-              <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                <span className="top-text">
-                  {intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2
-                </span>
-                <Form.Item>
-                  {getFieldDecorator("phone2", {
-                    initialValue: userInfo.info.phone2,
-                    rules: [
-                      { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                      { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
-                    ],
-                  })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
-                </Form.Item>
-              </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
+              <Form.Item>
+                {getFieldDecorator("phone1", {
+                  initialValue: userInfo.info.phone1,
+                  rules: [
+                    {
+                      required: true,
+                      pattern: new RegExp("^[0-9]*$"),
+                      message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }),
+                    },
+                    {
+                      min: 8,
+                      message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }),
+                    },
+                  ],
+                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">
+                {intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2
+              </span>
+              <Form.Item>
+                {getFieldDecorator("phone2", {
+                  initialValue: userInfo.info.phone2,
+                  rules: [
+                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                    { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
+                  ],
+                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
+              </Form.Item>
             </Col>
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
