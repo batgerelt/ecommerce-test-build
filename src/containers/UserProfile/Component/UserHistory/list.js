@@ -31,7 +31,8 @@ class Component extends React.Component {
       });
     });
   }
-  addHistory = async (item) => {
+  addHistory = item => async (e) => {
+    e.preventDefault();
     const result = await this.props.addWishList({ skucd: item.skucd });
     if (result.payload.success) {
       this.removeAddedWishColorTime();
@@ -43,7 +44,8 @@ class Component extends React.Component {
       removeAddedWishColor();
     }, 500);
   }
-  handleIncrement = (item) => {
+  handleIncrement = item => async (e) => {
+    e.preventDefault();
     if (item.skucd) {
       this.props.incrementProductRemotely({
         skucd: item.skucd,
@@ -127,7 +129,7 @@ class Component extends React.Component {
                     <i
                       className={`fa fa-heart${isSaved ? '' : '-o'}`}
                       aria-hidden="true"
-                      onClick={() => this.addHistory(item)}
+                      onClick={this.addHistory(item)}
                     />
                   </Link>
                 </li>
@@ -136,7 +138,7 @@ class Component extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      onClick={() => this.handleIncrement(item)}
+                      onClick={this.handleIncrement(item)}
                     />
                   </Link>
                 </li>
