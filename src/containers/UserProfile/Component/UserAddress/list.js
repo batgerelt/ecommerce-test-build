@@ -181,23 +181,28 @@ class Component extends React.Component {
     try {
       const address = addrs;
       return address.map((item, index) => (
-        <tr key={index} style={{ width: "100%", padding: "70px" }}>
-          <td>{item.ismain === 1 ? <strong>{item.name}</strong> : <p>{item.name}</p>}</td>
-          <td>
-            {item.ismain === 1 ? <strong>{item.phone1},<br />{item.phone2}</strong> : <p>{item.phone1},<br />{item.phone2}</p>}
+        <tr
+          key={index}
+          style={{
+            width: "100%", padding: "0px", margin: "0px", fontSize: "12px",
+          }}
+        >
+          <td style={{ margin: "0px" }}>{item.ismain === 1 ? <strong style={{ margin: "0px" }}>{item.name}</strong> : <p style={{ margin: "0px" }}>{item.name}</p>}</td>
+          <td style={{ margin: "0px" }}>
+            {item.ismain === 1 ? <strong style={{ margin: "0px" }}>{item.phone1},<br />{item.phone2}</strong> : <p style={{ margin: "0px" }}>{item.phone1},<br />{item.phone2}</p>}
           </td>
-          <td>{item.ismain === 1 ? <strong>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</strong> : <p>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</p>}</td>
+          <td style={{ margin: "0px" }}>{item.ismain === 1 ? <strong style={{ margin: "0px" }}>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</strong> : <p style={{ margin: "0px" }}>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</p>}</td>
           {/* <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.districtnm}</strong> : <p>{item.districtnm}</p>}</td>
           <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.committeenm}</strong> : <p>{item.committeenm}</p>}</td> */}
           <td
             style={{
-              width: "35%", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
+              width: "40%", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all", margin: "0px",
             }}
           >
-            {item.ismain === 1 ? <strong>{item.address}</strong> : <p>{item.address}</p>}
+            {item.ismain === 1 ? <strong style={{ margin: "0px" }}>{item.address}</strong> : <p style={{ margin: "0px" }}>{item.address}</p>}
           </td>
           {item.ismain !== 1 ?
-            <td onClick={e => this.onDelete(e, item)}>
+            <td onClick={e => this.onDelete(e, item)} style={{ margin: "0px" }}>
               <Link to="#" disabled={loader}>
                 <i
                   className="fa fa-times"
@@ -352,15 +357,15 @@ class Component extends React.Component {
                 indicator={<Loader />}
               >
                 <div className="cart-table table-responsive">
-                  <table className="table table-borderless">
+                  <table className="table table-borderless" style={{ borderBottom: "1px solid #dee2e6", fontSize: "12px !important" }}>
                     <thead className="thead-light" hidden>
                       <tr>
-                        <th className="column-1"><FormattedMessage id="shared.form.name.placeholder" /></th>
-                        <th className="column-2"><FormattedMessage id="shared.form.phone1.placeholder" /></th>
-                        <th className="column-3"><FormattedMessage id="shared.form.city.placeholder" /></th>
-                        <th className="column-3"><FormattedMessage id="shared.form.district.placeholder" /></th>
-                        <th className="column-3"><FormattedMessage id="shared.form.address.placeholder" /></th>
-                        <th className="column-3"> </th>
+                        <th className="column-1" style={{ fontSize: "12px !important" }}><FormattedMessage id="shared.form.name.placeholder" /></th>
+                        <th className="column-2" style={{ fontSize: "12px !important" }}><FormattedMessage id="shared.form.phone1.placeholder" /></th>
+                        <th className="column-3" style={{ fontSize: "12px !important" }}><FormattedMessage id="shared.form.city.placeholder" /></th>
+                        <th className="column-3" style={{ fontSize: "12px !important" }}><FormattedMessage id="shared.form.district.placeholder" /></th>
+                        <th className="column-3" style={{ fontSize: "12px !important" }}><FormattedMessage id="shared.form.address.placeholder" /></th>
+                        <th className="column-3" style={{ fontSize: "12px !important" }}> </th>
                       </tr>
                     </thead>
                     <tbody>
