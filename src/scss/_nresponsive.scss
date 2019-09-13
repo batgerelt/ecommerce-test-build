@@ -86,6 +86,20 @@ h1.title {
     margin: 20px 0px;
 }
 
+.user-section {
+    .user-profile-contain {
+        padding: 20px 20px 0px 20px;
+    }
+
+    .ant-form-item {
+        margin-bottom: 20px;
+    }
+
+    .ant-divider-horizontal {
+        margin: 20px 0px;
+    }
+}
+
 // lg (< 1200px)
 @media (max-width: 1199px) {
     .rendername {
@@ -149,7 +163,7 @@ h1.title {
 
         .search {
             .search-mobile {
-                top: 98px;
+                top: 94px;
             }
         }
     }
@@ -509,6 +523,11 @@ h1.title {
                 padding-bottom: 0;
             }
         }
+
+        .logo-container:first-child {
+            display: inline;
+            align-items: initial;
+        }
     }
 
     .whole-page-title {
@@ -557,12 +576,8 @@ h1.title {
             }
 
             .info-container form {
-                width: 150px !important;
+                width: 180px !important;
                 margin-right: 10px;
-
-                .form-control {
-                    width: 30px !important;
-                }
 
                 .btn {
                     width: 20px !important;
@@ -869,37 +884,6 @@ h1.title {
             font-size: 13px;
             letter-spacing: 0;
             padding: 10px 10px;
-        }
-    }
-
-    .product-list-history {
-        .single {
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-            border-bottom: solid 1px #ededed;
-
-            &>div {
-                width: 50%;
-            }
-
-            .product {
-                width: 100% !important;
-            }
-
-            .action ul li a {
-                text-align: center;
-                padding: 5px !important;
-            }
-
-            .action ul li a i {
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                background: #feb413;
-                color: #fff;
-                line-height: 30px;
-                font-size: 16px;
-            }
         }
     }
 
@@ -1288,24 +1272,99 @@ h1.title {
             }
         }
     }
+
+    .section-gray {
+        margin-top: -5px;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
 }
 
 // md (< 992px)
 @media (max-width: 991px) {
-    .section-footer {
-        .logo-container:first-child {
-            display: inline;
-            align-items: initial;
-        }
+    .section-gray {
+        margin-top: -17px;
     }
 }
 
 // xs (< 768px)
 @media (max-width: 767px) {
+    .user-section {
+        .product-list-history {
+            .single {
+                width: 100%;
+                padding: 10px;
+
+                .product {
+                    width: 65%;
+
+                    .flex-this {
+                        align-items: stretch;
+                    }
+    
+                    .info {
+                        padding-left: 10px;
+    
+                        p {
+                            font-size: 14px;
+                        }
+                    }                    
+                }
+
+                .action {
+                    width: 35%;
+
+                    ul {
+                        text-align: right;
+                    }
+
+                    i {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }    
+
     .product-detail-page {
+        .product-info {
+            .main-rating {
+                margin-bottom: 0px;
+            }
+
+            .detail-attribute-container {
+                margin-top: 0px;
+
+                .product-bottom-info {
+                    padding-bottom: 0px;
+
+                    dt, dd {
+                        padding-left: 0px;
+                    }
+                }
+            }
+
+            .row {
+                display: block;
+                width: 100%;
+            }
+        }
+
         .food-recipe-detail {
             .image-container {
                 margin-bottom: 0px;
+            }
+        }
+
+        .product-gallery {
+            .thumbs {
+                margin-bottom: 0px;
+            }
+        }
+
+        .detail-attribute-container {
+            .product-bottom-info {
+                padding: 10px;
             }
         }
     }
@@ -1392,10 +1451,6 @@ h1.title {
     }
 
     .product-detail-page {
-        .date {
-            text-align: right;
-        }
-
         .product-plus {
             .icons {
                 padding: 10px;
@@ -1455,7 +1510,7 @@ h1.title {
 
         .product-info {
             h5.title {
-                margin-top: 20px;
+                margin-top: 10px;
             }
 
             form {
@@ -1512,6 +1567,10 @@ h1.title {
         margin-left: 0px;
         width: 100%;
         margin-bottom: 7px;
+    }
+
+    .product-list-history {
+
     }
 }
 
@@ -1624,7 +1683,7 @@ h1.title {
     }
 
     .top-main .search {
-        z-index: 2;
+        z-index: 999;
     }
     
     .btn.mobile-search-cross {
@@ -1654,5 +1713,11 @@ h1.title {
 
     .filter-cross {
         display: none;
+    }
+
+    .user-section {
+        .top-text {
+            font-size: 10px;
+        }
     }
 }

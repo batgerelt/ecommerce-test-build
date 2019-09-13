@@ -63,8 +63,8 @@ class Component extends React.Component {
       return history.map((item, index) => {
         const isSaved = this.state.wish.find(w => w.skucd === item.skucd);
         return (
-          <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
-            <Col className="product" sm={12} md={12} lg={12} xl={12}>
+          <Row className="single" key={index}>
+            <Col className="product">
               <div className="flex-this">
                 <div className="image-container default">
                   <Link to={item.route ? item.route : " "}>
@@ -85,36 +85,42 @@ class Component extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col className="action" xs={16} sm={6} md={6} lg={6} xl={6}>
+            <Col className="action">
               <ul className="list-unstyled flex-this">
-                <li style={{ textAlign: "left", width: "100%" }}>
-                  <div className="price-pro">
+                {
+                  item.pricetag !== null
+                    ? localStorage.getItem('lang') === "mn"
+                      ? (
+                        <li style={{ textAlign: "left", width: "100%" }}>
+                          <span className="price-pro">
+                            <span>{`${item.pricetag}`}</span>
+                          </span>
+                        </li>
+                      )
+                      : (
+                        <li style={{ textAlign: "left", width: "100%" }}>
+                          <span className="price-pro">
+                            <span>{`${item.pricetag_en}`}</span>
+                          </span>
+                        </li>
+                      )
+                    : null
+                }
+                <li>
+                  <span className="price-pro">
                     {
-                      item.pricetag !== null ?
-                        localStorage.getItem('lang') === "mn" ?
-                          <div>{`${item.pricetag}`}</div>
-                          :
-                          <div>{`${item.pricetag_en}`}</div>
-                        : null
+                      item.pricetag !== null
+                        ? localStorage.getItem('lang') === "mn"
+                          ? <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                          : <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                        : <span>{`${formatter.format(item.currentprice)}₮`}</span>
                     }
-                  </div>
-                </li>
-                <li style={{ textAlign: "right !important" }}>
-                  <div className="price-pro">
-                    {
-                      item.pricetag !== null ?
-                        localStorage.getItem('lang') === "mn" ?
-                          <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                          :
-                          <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                        : <div>{`${formatter.format(item.currentprice)}`}₮</div>
-                    }
-                  </div>
+                  </span>
                 </li>
               </ul>
             </Col>
-            <Col className="action" xs={8} sm={6} md={6} lg={6} xl={6}>
-              <ul className="list-unstyled flex-this end" >
+            <Col className="action">
+              <ul className="list-unstyled flex-this end">
                 <li>
                   <Link to="#">
                     <i

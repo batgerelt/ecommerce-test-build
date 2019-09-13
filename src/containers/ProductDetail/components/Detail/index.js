@@ -67,17 +67,21 @@ class Detail extends Component {
           </div>
           {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
-              <div className="product-bottom-info" style={{ marginBottom: "20px" }}>
+              <div className="product-bottom-info">
                 {attributes.map((attr, index) => (
                   <div key={index} className="row">
-                    <dt className="col-sm-6">
-                      {lang === "mn" ? attr.value : attr.value_en}
-                      {/* {attr.value} */}
-                    </dt>
-                    <dd className="col-sm-6">
-                      {lang === "mn" ? attr.name : attr.name_en}
-                      {/* {attr.title} */}
-                    </dd>
+                    <div className="col col-sm-6">
+                      <dt>
+                        {lang === "mn" ? attr.value : attr.value_en}
+                        {/* {attr.value} */}
+                      </dt>
+                    </div>
+                    <div className="col col-sm-6">
+                      <dd>
+                        {lang === "mn" ? attr.name : attr.name_en}
+                        {/* {attr.title} */}
+                      </dd>
+                    </div>
                   </div>
                 ))}
               </div>

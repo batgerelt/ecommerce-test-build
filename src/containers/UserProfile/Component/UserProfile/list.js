@@ -436,7 +436,9 @@ class Component extends React.Component {
               </Col>
               <Col xs={0} sm={0} md={2} lg={2} xl={2} />
               <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2</span>
+                <span className="top-text">
+                  {intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2
+                </span>
                 <Form.Item>
                   {getFieldDecorator("phone2", {
                     initialValue: userInfo.info.phone2,
