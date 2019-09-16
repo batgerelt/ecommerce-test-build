@@ -15,7 +15,7 @@ import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
-const ITEM_HEIGHT = 860;
+const ITEM_HEIGHT = 870;
 class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -104,7 +104,7 @@ class Recipe extends React.Component {
   generateItemHeight = (item, width) => {
     const { recipeScroll } = this.props;
     if (width >= 340 && width < 500) {
-      return 2650;
+      return 2475;
     }
     if (recipeScroll[item.index].length <= 3) {
       return 306.5;

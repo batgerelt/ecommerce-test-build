@@ -23,7 +23,7 @@ import {
 } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
-const ITEM_HEIGHT = 340;
+const ITEM_HEIGHT = 360;
 
 const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
   return (
@@ -151,7 +151,7 @@ class Bookmarks extends PureComponent {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 350;
+      return 375;
     }
     if (width < 400) {
       return 340;

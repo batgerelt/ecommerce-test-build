@@ -27,21 +27,25 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
-    if (this.props.isLogged) {
-      let result = await this.props.confirmCartRemotely();
-      const { intl } = this.props;
+    try {
+      if (this.props.isLogged) {
+        let result = await this.props.confirmCartRemotely();
+        const { intl } = this.props;
 
-      if (result.payload.data && result.payload.data.length > 0) {
-        if (result.payload.data[0].data.values.length > 0) {
-          result.payload.data.forEach(msg => (
-            message.warning(intl.formatMessage(
-              { id: msg.code },
-              { names: msg.data.values.join(", ") },
-            ))
-          ));
-          this.setState({ proceedRoute: "/cart" });
+        if (result.payload && result.payload.data && result.payload.data.length > 0) {
+          if (result.payload.data[0].data.values.length > 0) {
+            result.payload.data.forEach(msg => (
+              message.warning(intl.formatMessage(
+                { id: msg.code },
+                { names: msg.data.values.join(", ") },
+              ))
+            ));
+            this.setState({ proceedRoute: "/cart" });
+          }
         }
       }
+    } catch (error) {
+      console.log('error: ', error);
     }
   };
 
