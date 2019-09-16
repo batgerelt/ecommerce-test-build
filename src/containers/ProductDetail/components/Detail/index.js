@@ -42,7 +42,8 @@ class Detail extends Component {
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
           <span className="small-title">
-            {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
+            {console.log(detail)}
+            {detail.feature && lang === "mn" ? `${this.checkError(detail.feature)}` : `${this.checkError(detail.feature_en)}`}
           </span>
           {selectedCat && (
             <p className="big-text">
