@@ -411,13 +411,13 @@ class DeliveryInfo extends React.Component {
             {/* <p className="title">
               <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
             </p> */}
-            <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.deliveryType" /></span>
-              <strong>
+            <p className="text flex-this">
+              <span><i className="fa fa-truck" style={{ color: "#feb415" }} /></span>
+              <span>
                 {lang === "mn"
                   ? `${this.checkError(chosenType.typenm)}`
                   : `${this.checkError(chosenType.typenm_en)}`}
-              </strong>
+              </span>
             </p>
             <p className="text flex-this">
               <i
@@ -461,10 +461,14 @@ class DeliveryInfo extends React.Component {
             </div>
           </div>
           <hr />
-          <div className="content">
+          <div className="content" style={{ paddingBottom: '0px' }}>
             <p className="title">
               <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
             </p>
+          </div>
+          <hr />
+
+          <div className="content">
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.products" /> ({totalQty}):</span>
               <strong>{formatter.format(totalPrice)}₮</strong>
@@ -494,7 +498,7 @@ class DeliveryInfo extends React.Component {
             <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold", color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+                <span style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
