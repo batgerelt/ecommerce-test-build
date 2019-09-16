@@ -11,6 +11,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Component extends React.Component {
   state = {};
   renderDate = (dateString) => {
+    console.log(dateString);
     const dateParts = dateString.split("T")[0].split("-");
     return <span>{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>;
   };
@@ -19,16 +20,21 @@ class Component extends React.Component {
       const { lang } = this.props;
       const prod = item;
       return (
-        <span
+        <p
           style={{
             backgroundColor: item.customerstatuscolor,
-            padding: "5px 10px",
+            paddingTop: "5px",
+            paddingBottom: "5px",
+            textAlign: "center",
+            borderRadius: "5px",
             color: "white",
-            borderRadius: "15px",
+            width: "150px",
+            margin: "0px !important",
+            fontSize: "10px",
           }}
         >
           {lang === "mn" ? prod.statusnm : prod.statusnm_en}
-        </span>
+        </p>
       );
     } catch (error) {
       return console.log(error);
@@ -45,22 +51,15 @@ class Component extends React.Component {
       const { delivery } = this.props;
       return delivery.map((item, index) => (
         <tr key={index} className="order-table-responsive">
-          <td>#{item.ordernumber}</td>
-          <td><span className="success">{this.renderDate(item.orderdate)}</span></td>
-          <td style={{ textAlign: "center" }}>{this.renderType(item)}</td>
-          <td style={{ textAlign: "right" }}>{formatter.format(item.totalamount)}₮</td>
-          <td>
-            <Link
-              to={`/order/${this.encryptUrl(item.id)}`}
-              style={{ color: "#feb415" }}
-            // className="d-none d-lg-block d-xl-block"
-            >
-              <span><FormattedMessage id="profile.orderHistory.table.showMore" /></span>
+          <td style={{ color: "blue", textAlign: "left", verticalAlign: "inherit !important" }}>
+            <Link to={`/order/${this.encryptUrl(item.id)}`}>
+              <span>#{item.ordernumber}</span>
             </Link>
-            {/* <Link to={`/order/${item.id}`} style={{ color: "#feb415" }} className="d-lg-none d-xl-none">
-              <Avatar size="small" src={arrow} />
-            </Link> */}
           </td>
+          <td style={{ textAlign: "left", verticalAlign: "inherit !important" }}>{this.renderDate(item.orderdate)}</td>
+          <th />
+          <td style={{ textAlign: "right", verticalAlign: "inherit !important" }}>{formatter.format(item.totalamount)}₮</td>
+          <td style={{ width: "150px", verticalAlign: "inherit !important" }}>{this.renderType(item)}</td>
         </tr>
       ));
     } catch (error) {
@@ -70,18 +69,30 @@ class Component extends React.Component {
 
   renderTable() {
     return (
-      <div className="cart-table table-responsive">
-        <table className="table table-borderless">
-          <thead className="thead-light">
+      <div className="cart-table table-responsive" >
+        <table className="table" style={{ fontSize: "12px" }}>
+          <thead className="thead-light" >
             <tr>
-              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.orderNo" /></th>
-              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.date" /></th>
-              <th className="column-center" style={{ textAlign: "center" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
-              <th className="column-std"><FormattedMessage id="profile.orderHistory.table.price" /></th>
-              <th className="column-std-more-header"><span className="column-std-more"><FormattedMessage id="profile.orderHistory.table.link" /></span></th>
+              <th
+                style={{
+                  fontWeight: "100", textAlign: "left", width: "100px", verticalAlign: "inherit !important",
+                }}
+              >
+                <FormattedMessage id="profile.orderHistory.table.orderNo" />
+              </th>
+              <th style={{ fontWeight: "100", width: "100px", verticalAlign: "inherit !important" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
+              <th />
+              <th
+                style={{
+                  fontWeight: "100", textAlign: "right", width: "100px", verticAlalign: "inherit !important",
+                }}
+              >
+                <FormattedMessage id="profile.orderHistory.table.price" />
+              </th>
+              <th style={{ fontWeight: "100", width: "150px", verticalAlign: "inherit !important" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
             </tr>
           </thead>
-          <tbody>{this.renderDelivery()}</tbody>
+          <tbody style={{ fontSize: "12px" }}>{this.renderDelivery()}</tbody>
         </table>
       </div>
     );
@@ -90,15 +101,17 @@ class Component extends React.Component {
   render() {
     return (
       <div className="user-menu-content">
-        <p className="title">
-          <span><FormattedMessage id="profile.orderHistory.title" /></span>
+        <p className="title" style={{ textTransform: "uppercase" }}>
+          <span style={{ textTransform: "uppercase" }}><FormattedMessage id="profile.orderHistory.title" /></span>
         </p>
         <div
           className=""
           style={{
-            width: "100%",
+            width: "99%",
             maxHeight: "600px",
             overflow: "auto",
+            textAlign: "center",
+            margin: "auto",
           }}
         >
           {this.props.delivery !== null ? this.renderTable() : null}

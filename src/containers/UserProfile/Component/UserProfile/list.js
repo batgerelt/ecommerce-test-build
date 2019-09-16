@@ -227,7 +227,7 @@ class Component extends React.Component {
     const { userInfo } = this.props;
     return (
       <Col span={24}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("mainLocation", {
@@ -247,7 +247,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("subLocation", {
@@ -267,7 +267,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("commiteLocation", {
@@ -287,7 +287,7 @@ class Component extends React.Component {
           </Form.Item>
         </Col>
 
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
           <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
           <Form.Item >
             {getFieldDecorator("address", {
@@ -467,8 +467,8 @@ class Component extends React.Component {
               </Col>
             </Col>
 
-            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" style={{ marginBottom: "20px" }}>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24} >
                 <Divider />
               </Col>
             </Col>
@@ -483,9 +483,10 @@ class Component extends React.Component {
   render() {
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
-        <p className="title">
-          <span><FormattedMessage id="profile.userProfile.form.title" /></span>
+        <p className="title" style={{ textTransform: "uppercase" }}>
+          <span ><FormattedMessage id="profile.userProfile.form.title" /></span>
         </p>
+        <Divider />
         <div className="user-profile-container">
           {this.props.userInfo === undefined ? null : this.renderProfile()}
         </div>
