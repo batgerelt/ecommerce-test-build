@@ -377,10 +377,10 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-xl-9 col-lg-9 col-md-9 pad10">
+        <div className="col-md-9 pad10">
           <div className="list-filter pad10">
-            <div className="row row10">
-              <div className="col-lg-6 col-md-6 pad10">
+            <div className="row">
+              <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
@@ -388,7 +388,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-6 pad10">
+              <div className="col-md-8">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -402,7 +402,7 @@ class CategoryInfo extends React.Component {
                   <div className="form-group my-select flex-this pr-1">
                     <label
                       htmlFor="inputState"
-                      style={{ marginTop: "7px", marginRight: "5px" }}
+                      style={{ marginTop: "10px", marginRight: "5px" }}
                     >
                       <FormattedMessage id="search.sort.label" />:
                     </label>
@@ -410,7 +410,6 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
-                      style={{ width: "100%" }}
                     >
                       <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
