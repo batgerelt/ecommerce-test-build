@@ -89,9 +89,9 @@ class CartButton extends Component {
         />
         <img src={cartImage} alt="cart" height="25px" />
         <p className="header-text header-wish-text">
-          <small className="upper-first">
+          <span className="upper-first">
             <FormattedMessage id="header.myCart.part1" />
-          </small>
+          </span>
           <span>
             <FormattedMessage id="header.myCart.part2" />
           </span>

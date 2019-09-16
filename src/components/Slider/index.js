@@ -65,7 +65,6 @@ class Slider extends React.Component {
                 <Link
                   to={`/brand/${item.brandid}`}
                   onClick={() => this.handleDetail(item.brandid)}
-                  style={{ padding: '100%' }}
                 >
                   {container}
                 </Link>
