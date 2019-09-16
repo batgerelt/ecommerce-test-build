@@ -183,17 +183,18 @@ h1.title {
     .pack-product-container {
         .pack-list {
             margin-bottom: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            // border: 1px solid rgba(0, 0, 0, 0.1);
 
             .info-container {
                 .text {
                     padding: 0px 5px;
+                    width: 100px;
                 }
             }
 
             .info-container form {
                 .input-group {
-                    width: 150px;
+                    width: 100px;
                 }
             }
 
@@ -1423,7 +1424,8 @@ h1.title {
 // xs (< 768px)
 @media (max-width: 767px) {
     .list-filter {
-        label {
+        label,
+        .pl-2 {
             display: none;
         }
     }
@@ -1596,6 +1598,19 @@ h1.title {
 @media (max-width: 575px) {
     body {
         margin-top: 100px;
+    }
+
+    .list-filter {
+        .total-result {
+            p.text {
+                line-height: 1em;
+                margin-bottom: 20px;
+            } 
+        }
+    }
+
+    .e-breadcrumb {
+        margin-bottom: 0px;
     }
 
     .product-detail-page {
