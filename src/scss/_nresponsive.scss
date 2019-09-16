@@ -130,6 +130,19 @@ h1.title {
 }
 
 .product-detail-page {
+    .comments-container {
+        margin-top: 0px;
+        width: 100%;
+
+        .write-comment {
+            margin-bottom: 0px;
+
+            .form-group {
+                margin-bottom: 0px;
+            }
+        }
+    }
+
     .pack-product-container {
         .pack-list {
             margin-bottom: 10px;
@@ -265,6 +278,28 @@ h1.title {
                 border-radius: 50%;
                 background: #feb413;
                 color: #fff;
+            }
+        }
+    }
+}
+
+.big-product,
+.small-product {
+    .info-container {
+        .price {
+            position: static;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 5px;
+            text-align: unset;
+
+            .row {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+
+            .sale {
+                margin-top: 3px;
             }
         }
     }
@@ -1237,28 +1272,6 @@ h1.title {
         font-size: 13px;
     }
 
-    .big-product,
-    .small-product {
-        .info-container {
-            .price {
-                position: static;
-                display: flex;
-                justify-content: space-between;
-                padding-top: 5px;
-                text-align: unset;
-
-                .row {
-                    margin-left: 0px;
-                    margin-right: 0px;
-                }
-
-                .sale {
-                    margin-top: 3px;
-                }
-            }
-        }
-    }
-
     .product-detail-page {
         h1.title {
             margin-top: 0px;
@@ -1300,19 +1313,6 @@ h1.title {
 
         .product-plus {
             margin-top: 10px;
-        }
-
-        .comments-container {
-            margin-top: 0px;
-            width: 100%;
-
-            .write-comment {
-                margin-bottom: 0px;
-
-                .form-group {
-                    margin-bottom: 0px;
-                }
-            }
         }
     }
 
@@ -1687,6 +1687,8 @@ h1.title {
     }
 
     .section-footer {
+        margin-top: 20px;
+
         .row {
             div {
                 padding-top: 20px;
