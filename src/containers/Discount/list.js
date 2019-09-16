@@ -172,10 +172,10 @@ class Discount extends React.Component {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 350;
+      return 375;
     }
     if (width < 400) {
-      return 380;
+      return 320;
     }
     return 400;
   }
