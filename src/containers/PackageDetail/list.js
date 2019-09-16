@@ -485,12 +485,12 @@ class List extends React.Component {
         <div className="pack-product-container">
           <div className="pack-list">
             <div className="row row10">
-              <div className="col-xl-8 pad10">
+              <div className="col-lg-8 pad10">
                 <ul className="list-unstyled">
                   {packageDetail === undefined ? null : this.renderProducts()}
                 </ul>
               </div>
-              <div className="col-xl-4 pad10">
+              <div className="col-lg-4 pad10">
                 <div className="pack-price">
                   <p className="text flex-this end">
                     <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="packageDetail.label.price" />:</span>

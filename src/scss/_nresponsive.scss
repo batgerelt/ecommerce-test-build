@@ -62,6 +62,27 @@
 // }
 
 // for all viewports
+#main-header {
+    .top-container {
+        .top-nav {
+            .container {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+        }
+    }
+}
+
+.drop-container {
+    background-color: #262a32;
+    margin-top: -5px;
+    margin-left: -40px;
+
+    div.container {
+        padding: 30px;
+    }
+}
+
 .section {
     margin-bottom: 20px;
     padding: 0px !important;
@@ -97,6 +118,155 @@ h1.title {
 
     .ant-divider-horizontal {
         margin: 20px 0px;
+    }
+}
+
+.small-product {
+    .info-container {
+        .price {
+            position: initial;
+        }
+    }
+}
+
+.product-detail-page {
+    .pack-product-container {
+        .pack-list {
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+
+            .info-container {
+                .text {
+                    padding: 0px 5px;
+                }
+            }
+
+            .info-container form {
+                .input-group {
+                    width: 150px;
+                }
+            }
+
+            .row > div {
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            ul.list-unstyled {
+                li {
+                    border: none;
+                }
+            }
+        }
+
+        .info-container {
+            margin-bottom: 10px;
+        }
+    }
+
+    .product-plus {
+        .pack-price {
+            padding: 10px;
+    
+            p.text {
+                padding: 0px;
+            }
+        }
+    
+        .product-suggest {
+            .more-link {
+                padding: 10px 0px;
+            }
+        }
+    }
+
+    .ck-editor {
+        text-align: justify;
+        line-height: 24px;
+
+        img {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: inherit !important;
+            min-width: 100% !important;
+        }
+
+        table {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
+    .icons {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .food-recipe-detail {
+        hr {
+            margin-top: 0px;
+        }
+
+        .recipes-container,
+        .ck-editor {
+            align-items: initial;
+
+            .recipes,
+            .seasons {
+                margin-bottom: 0px;
+            }
+        }
+
+        .image-container {
+            padding-left: 5px;
+            margin-bottom: 20px;
+        }
+
+        .image-container + div {
+            h4.step-title {
+                margin: 0px auto;
+                font-size: 16px;
+            }
+        }
+
+        .title {
+            text-transform: uppercase;
+            font-size: 20px;
+            border-bottom: 3px solid rgb(255, 182, 0);
+            display: inline-block;
+            line-height: 0.65;
+        }
+
+        .recipes,
+        .seasons {
+            .title {
+                font-weight: bold;
+                font-size: 14px;
+            }
+
+            ul {
+                list-style-type: none;
+
+                li {
+                    margin: 0 0 10px -25px;
+                }
+            }
+        }
+    }
+}
+
+.info-container {
+    .action {
+        button {
+            i {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 1rem !important;
+                border-radius: 50%;
+                background: #feb413;
+                color: #fff;
+            }
+        }
     }
 }
 
@@ -165,7 +335,7 @@ h1.title {
             .search-mobile {
                 top: 94px;
             }
-        }
+        }        
     }
 
     .homerenderblocks {
@@ -258,6 +428,7 @@ h1.title {
 
         .logo {
             position: relative;
+            margin-top: 8px;
             z-index: 1;
 
             img {
@@ -275,10 +446,7 @@ h1.title {
         .action {
             li {
                 padding: 0px 10px;
-                margin: 0 !important;
-                border: solid 1px #ededed;
-                border-radius: 3px;
-                margin-left: 3px !important;
+                margin: 8px 0px 0px 3px !important;
 
                 a {
                     padding: 5px !important;
@@ -383,14 +551,6 @@ h1.title {
         .label {
             z-index: 4 !important;
             opacity: 0.7;
-        }
-    }
-
-    .main-slide {
-        .slide-content {
-            a {
-                display: none;
-            }
         }
     }
 
@@ -551,40 +711,24 @@ h1.title {
         width: 50%;
     }
 
-    .info-container {
-        .action {
-            button {
-                i {
-                    width: 30px;
-                    height: 30px;
-                    line-height: 30px;
-                    font-size: 1rem !important;
-                    border-radius: 50%;
-                    background: #feb413;
-                    color: #fff;
-                }
-            }
-        }
-    }
+    // .pack-product-container {
+    //     .pack-list {
+    //         .info-container {
+    //             .text {
+    //                 padding: 0px 5px;
+    //             }
+    //         }
 
-    .pack-product-container {
-        .pack-list {
-            .info-container {
-                .text {
-                    padding: 0px 5px;
-                }
-            }
+    //         .info-container form {
+    //             width: 180px !important;
+    //             margin-right: 10px;
 
-            .info-container form {
-                width: 180px !important;
-                margin-right: 10px;
-
-                .btn {
-                    width: 20px !important;
-                }
-            }
-        }
-    }
+    //             .btn {
+    //                 width: 20px !important;
+    //             }
+    //         }
+    //     }
+    // }
 
     .product-detail-page .product-info .total-price span {
         font-size: 20px;
@@ -634,23 +778,6 @@ h1.title {
 
         .image {
             border: solid 1px #ededed;
-        }
-
-        .ck-editor {
-            text-align: justify;
-            line-height: 24px;
-
-            img {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: inherit !important;
-                min-width: 100% !important;
-            }
-
-            table {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
         }
 
         .product-info {
@@ -1064,13 +1191,8 @@ h1.title {
     }
 
     .drop-container {
-        background-color: #262a32;
         margin-top: -5px;
         margin-left: -34px;
-
-        div.container {
-            padding: 30px;
-        }
     }
 
     .top-main {
@@ -1147,58 +1269,6 @@ h1.title {
             margin-top: 0px;
         }
 
-        .food-recipe-detail {
-            hr {
-                margin-top: 0px;
-            }
-
-            .recipes-container,
-            .ck-editor {
-                align-items: initial;
-
-                .recipes,
-                .seasons {
-                    margin-bottom: 0px;
-                }
-            }
-
-            .image-container {
-                padding-left: 5px;
-                margin-bottom: 20px;
-            }
-
-            .image-container + div {
-                h4.step-title {
-                    margin: 0px auto;
-                    font-size: 16px;
-                }
-            }
-
-            .title {
-                text-transform: uppercase;
-                font-size: 20px;
-                border-bottom: 3px solid rgb(255, 182, 0);
-                display: inline-block;
-                line-height: 0.65;
-            }
-
-            .recipes,
-            .seasons {
-                .title {
-                    font-weight: bold;
-                    font-size: 14px;
-                }
-    
-                ul {
-                    list-style-type: none;
-    
-                    li {
-                        margin: 0 0 10px -25px;
-                    }
-                }
-            }
-        }
-
         .product-info {
             h5.title {
                 margin-top: 0px;
@@ -1244,11 +1314,6 @@ h1.title {
                 }
             }
         }
-
-        .icons {
-            padding: 20px;
-            text-align: center;
-        }
     }
 
     .related-products,
@@ -1284,6 +1349,10 @@ h1.title {
 @media (max-width: 991px) {
     .section-gray {
         margin-top: -17px;
+    }
+
+    .main-slide .swiper-container {
+        height: 200px;
     }
 }
 
@@ -1344,11 +1413,6 @@ h1.title {
                     }
                 }
             }
-
-            .row {
-                display: block;
-                width: 100%;
-            }
         }
 
         .food-recipe-detail {
@@ -1384,6 +1448,8 @@ h1.title {
 
     .top-main {
         .logo {
+            margin: 0px !important;
+
             img {
                 max-width: 90px;
             }
@@ -1393,11 +1459,22 @@ h1.title {
             padding: 0;
 
             li {
+                margin: 0px !important;
                 height: 37px;
                 margin: 0px;
 
                 strong {
                     display: none;
+                }
+            }
+        }
+    }
+
+    .section-footer {
+        .container {
+            .row {
+                div {
+                    padding-right: 10px;
                 }
             }
         }
@@ -1452,16 +1529,6 @@ h1.title {
     }
 
     .product-detail-page {
-        .product-plus {
-            .icons {
-                padding: 10px;
-
-                .col {
-                    text-align: center;
-                }
-            }
-        }
-
         .product-info {
             form {
                 .btn-container {
@@ -1546,7 +1613,7 @@ h1.title {
     .top-main {
         .search {
             .search-mobile {
-                top: 85px;
+                top: 84px;
             }
         }
     }
@@ -1577,6 +1644,30 @@ h1.title {
 
 // (>= 1200px)
 @media (min-device-width: 1200px) {
+    .main-slide {
+        margin-top: -4px;
+    }
+
+    .top-main {
+        .action {
+            .search-icon {
+                display: none;
+            }
+
+            img {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .whole-page-title {
+        margin-top: -2px;
+    }
+
+    .e-breadcrumb {
+        padding-top: 10px;
+    }
+
     .column-center {
         width: 35%;
     }
@@ -1593,6 +1684,32 @@ h1.title {
         margin-top: 20px !important;
         width: 30% !important;
         max-width: 30% !important;
+    }
+
+    .section-footer {
+        .row {
+            div {
+                padding-top: 20px;
+            }
+        }
+    }
+
+    .brands-list {
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        .swiper-slide {
+            height: 112px !important;
+        }
+    }
+
+    .product-detail-page {
+        .product-info {
+            .btn-container {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
     }
 }
 

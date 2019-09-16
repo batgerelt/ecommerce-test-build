@@ -115,9 +115,9 @@ class AppHeader extends Component {
       const { staticinfo } = this.props.staticcontent;
       return (
         <div className="top-nav">
-          <div className="container container-laptop pad10">
+          <div className="container container-laptop">
             <div className="row row10">
-              <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
+              <div className="col-lg-6 col-md-6 d-none d-md-block">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
                     <span className="e-phone">
@@ -131,7 +131,7 @@ class AppHeader extends Component {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
+              <div className="col-lg-6 col-md-6 d-none d-md-block">
                 <ul className="list-inline right-panel text-right color-new-grey" style={{ boxShadow: 'none' }}>
                   <li className="list-inline-item">
                     <select onChange={this.handleLangChange} className="classic color-new-grey" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none', color: "#63666A" }}>
@@ -186,7 +186,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row">
-              <div className="col-xl-9 col-lg-8 col-md-6 col-5 pad10">
+              <div className="col-lg-8 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -321,10 +321,10 @@ class AppHeader extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-7 pad10">
+              <div className="col-lg-4 col-md-6 col-7 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
-                    <li className="list-inline-item">
+                    <li className="list-inline-item search-icon">
                       <Link
                         to=""
                         onClick={this.toggleSearch}
