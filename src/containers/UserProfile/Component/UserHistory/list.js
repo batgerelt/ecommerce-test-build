@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import React from "react";
-import { Rate, message, Spin, BackTop, Icon, Col, Row } from "antd";
+import { Rate, Spin, Icon, Col, Row, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Loader } from "../../../../components";
@@ -161,9 +161,10 @@ class Component extends React.Component {
     const icon = <Icon type="sync" spin />;
     return (
       <div className="user-menu-content">
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.seenHistory.title" /></span>
         </p>
+        <Divider />
         <Spin
           spinning={loaders}
           indicator={<Loader />}

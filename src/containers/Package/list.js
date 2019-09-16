@@ -14,13 +14,15 @@ import {
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
-let ITEM_HEIGHT = 590;
+let ITEM_HEIGHT = 610;
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = { headerProducts: [] };
   }
+
+  componentWillMount() { window.scrollTo(0, 0); }
 
   renderMainBanner = () => {
     try {
@@ -70,15 +72,11 @@ class Discount extends React.Component {
 
   loadMoreRows = async (key) => {
     try {
-      if (!this.props.packageFetching) {
-        setTimeout(() => {
-          this.props.getPackageScroll({
-            order: "date_desc",
-            start: this.props.packageCount,
-            rowcnt: 8,
-          });
-        }, 1000);
-      }
+      this.props.getPackageScroll({
+        order: "date_desc",
+        start: this.props.packageCount,
+        rowcnt: 8,
+      });
     } catch (error) {
       return console.log(error);
     }

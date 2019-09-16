@@ -131,6 +131,8 @@ class SwalModals extends Component {
       const {
         checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
+      console.log('checkProductZone: ', checkProductZone);
+      console.log('type: ', type);
       const { mode } = this.state;
       if (type === "delete") {
         const messages = defineMessages({
@@ -142,7 +144,7 @@ class SwalModals extends Component {
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content" style={{ textAlign: "center" }}>
-              <div dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning, { productName: `<p>${checkProductZone.message}</p>` }) }} />
+              <div dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning, { productName: `<p><strong>${checkProductZone.message}</strong></p>` }) }} />
 
               <div className="button-container">
                 <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>

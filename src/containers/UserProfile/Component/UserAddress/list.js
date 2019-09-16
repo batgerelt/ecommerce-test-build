@@ -386,9 +386,10 @@ class Component extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
+        <Divider />
         <div className="user-profile-container" >
           {this.props.useraddress === undefined ? null : this.renderAddress()}
         </div>

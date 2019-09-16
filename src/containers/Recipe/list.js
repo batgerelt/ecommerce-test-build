@@ -58,14 +58,11 @@ class Recipe extends React.Component {
 
   loadMoreRows = (key) => {
     try {
-      if (!this.state.loading) {
-        this.setState({ loading: !this.state.loading });
-        this.props.getRecipeScroll({
-          order: "date_desc",
-          start: this.props.recipeCount,
-          rowcnt: 6,
-        }).then(res => this.setState({ loading: !this.state.loading }));
-      }
+      this.props.getRecipeScroll({
+        order: "date_desc",
+        start: this.props.recipeCount,
+        rowcnt: 6,
+      });
     } catch (error) {
       return console.log(error);
     }
