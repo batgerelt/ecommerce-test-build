@@ -347,22 +347,22 @@ class AppHeader extends Component {
                                 height="25px"
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
-                              <span>
-                                <span className="upper-first">
+                              <p className="header-text header-wish-text">
+                                <small className="upper-first">
                                   <FormattedMessage id="header.wishlist.part1" />
-                                </span>
+                                </small>
                                 <span>
                                   <FormattedMessage id="header.wishlist.part2" />
                                 </span>
-                              </span>
+                              </p>
                             </Link>
                           ) : (
                             <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text header-wish-text">
-                                <span className="upper-first">
+                                <small className="upper-first">
                                   <FormattedMessage id="header.wishlist.part1" />
-                                </span>
+                                </small>
                                 <span>
                                   <FormattedMessage id="header.wishlist.part2" />
                                 </span>

@@ -31,7 +31,7 @@ class Cart extends React.Component {
       let result = await this.props.confirmCartRemotely();
       const { intl } = this.props;
 
-      if (result.payload.data.length > 0) {
+      if (result.payload.data && result.payload.data.length > 0) {
         if (result.payload.data[0].data.values.length > 0) {
           result.payload.data.forEach(msg => (
             message.warning(intl.formatMessage(

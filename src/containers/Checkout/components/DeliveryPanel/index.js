@@ -443,7 +443,7 @@ class DeliveryPanel extends React.Component {
                               initialValue: this.checkError(chosenAddress.id),
                               rules: [{ required: false, message: "Хаяг оруулна уу" }],
                             })(
-                              <Select onChange={this.onChangeLoc} showSearch className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
+                              <Select onChange={this.onChangeLoc} className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
                                 {this.renderAddrsOption()}
                               </Select>,
                             )}

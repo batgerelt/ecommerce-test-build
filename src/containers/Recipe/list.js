@@ -50,7 +50,7 @@ class Recipe extends React.Component {
 
   renderSubBanner = () => {
     try {
-      return (<Banner data={this.props.banner.footer} />);
+      return (<Banner data={this.props.banner.footer} style={{ marginBottom: '20px' }} />);
     } catch (error) {
       return null;
     }

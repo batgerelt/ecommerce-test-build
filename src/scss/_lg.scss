@@ -2780,7 +2780,7 @@ body {
 .cart-container .cart-info .cart-info-container p span + span {
   // color: rgba(0, 0, 0, 0.9);
   color: #63666A;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   font-weight: normal;
   display: inline-block;
 }
@@ -3127,7 +3127,7 @@ form .e-input-group .count-text {
 }
 
 .checkout-container .title-container {
-  padding: 5px 10px;
+  padding: 4px 10px;
 }
 
 .checkout-container h5 {
@@ -3533,7 +3533,7 @@ form .e-input-group .count-text {
 }
 
 .checkout-container .right-panel .content {
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
 }
 
 .checkout-container .right-panel .content .fa {

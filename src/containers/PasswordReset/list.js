@@ -1,7 +1,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Divider, Rate, message, Form, Input } from "antd";
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -12,12 +12,16 @@ class Component extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { intl, history } = this.props;
         this.props.changePassword({
           key: this.props.match.params.key,
           password: values.password,
         }).then((res) => {
-          console.log('res: ', res);
-          this.setState({ home: true });
+          if (!res.payload.success) {
+            return message.warning(intl.formatMessage({ id: res.payload.code }));
+          }
+          message.success(intl.formatMessage({ id: res.payload.code }));
+          return history.push('/');
         });
       }
     });
@@ -155,4 +159,4 @@ class Component extends React.Component {
   }
 }
 
-export default injectIntl(Form.create({ name: "component" })(Component));
+export default withRouter(injectIntl(Form.create({ name: "component" })(Component)));

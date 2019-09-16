@@ -76,3 +76,15 @@ select {
 .search-not-found img{
   margin: 20px;
 }
+
+button:hover{
+  /* background-color: transparent; */
+}
+
+.checkout-container .ant-collapse > .ant-collapse-item > .ant-collapse-header{
+  padding: 0px 16px;
+}
+
+.checkout-container .content .result-price strong{
+  font-size: 20px;
+}

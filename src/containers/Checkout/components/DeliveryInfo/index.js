@@ -396,21 +396,21 @@ class DeliveryInfo extends React.Component {
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
-          {" "}
           <p className="title">
             <strong>
-              {
+              <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
+              {/* {
                 this.props.userinfo !== undefined && this.props.userinfo !== null && this.props.userinfo.length !== 0 ?
                   `${this.props.userinfo.info.lastname} ${this.props.userinfo.info.firstname}`
                   : ""
-              }
+              } */}
             </strong>
           </p>
           <hr />
           <div className="content">
-            <p className="title">
+            {/* <p className="title">
               <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
-            </p>
+            </p> */}
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.deliveryType" /></span>
               <strong>
@@ -439,13 +439,14 @@ class DeliveryInfo extends React.Component {
                 {`${this.checkError(chosenInfo.phonE1)} ${this.checkError(chosenInfo.phonE2)}`}
               </span>
             </p>
-            <p className="text flex-this">
+            <div className="d-flex">
               <i
                 className="fa fa-map-marker"
                 aria-hidden="true"
                 style={{ color: "#feb415" }}
               />
-              {
+              <p className="text flex-this">
+                {
                 this.checkError(chosenType.id) !== 3 ?
                   <span>
                     {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
@@ -456,7 +457,8 @@ class DeliveryInfo extends React.Component {
                   </span>
               }
 
-            </p>
+              </p>
+            </div>
           </div>
           <hr />
           <div className="content">
@@ -480,7 +482,7 @@ class DeliveryInfo extends React.Component {
                 </p> : ""
             }
             <hr />
-            <p className="text flex-space">
+            <p className="text flex-space result-price">
               <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
               <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
