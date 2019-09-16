@@ -14,7 +14,7 @@ import {
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
-let ITEM_HEIGHT = 610;
+let ITEM_HEIGHT = 620;
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -91,7 +91,7 @@ class Discount extends React.Component {
         return 326.5;
       }
       if (width >= 300 && width < 390) {
-        return 2261.06;
+        return 1870.06;
       }
 
       if (width >= 390 && width < 480) {

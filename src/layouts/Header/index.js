@@ -326,7 +326,7 @@ class AppHeader extends Component {
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">
                       <Link
-                        to=""
+                        to="#"
                         onClick={this.toggleSearch}
                       >
                         <img src={searchImage} alt="search" height="25px" />
@@ -446,7 +446,7 @@ class AppHeader extends Component {
       return console.log(error);
     }
   }
-
+  // мммхан ингээд өнгөрсөндөө үлдээд өнгөрсөнөөрөө амьдраад өнгөрсөн зүйлд харамсаад байж болохгүй байхаа
   render() {
     const { mainmenu } = this.props.menu;
     const { staticinfo } = this.props.staticcontent;

@@ -16,7 +16,7 @@ class Footer extends React.Component {
       const { staticinfo } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-12 col-md-6 col-lg-3 pad10 logo-container">
+        <div className="col-sm-6 col-lg-3 pad10 logo-container">
           <Link to="/" className="logo">
             <img alt="logo" src={process.env.IMAGE + staticinfo.logopath2} />
           </Link>
@@ -90,7 +90,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-12 col-md-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10">
           <ul className="list-unstyled">
             {staticpages.map((item, index) => {
               if (item.pagetype === 1) {
@@ -118,7 +118,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-12 col-md-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10">
           <ul className="list-unstyled">
             {staticpages.map((item, index) => {
               if (item.pagetype === 2) {
@@ -145,7 +145,7 @@ class Footer extends React.Component {
       const { lang } = this.props.locale;
       const { staticinfo } = this.props.staticcontent;
       return (
-        <div className="col-sm-12 col-md-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10">
           <ul className="list-unstyled address upper-first">
             <li>
               <strong><FormattedMessage id="footer.contract.title" /></strong>

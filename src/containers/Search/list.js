@@ -437,7 +437,7 @@ class CategoryInfo extends React.Component {
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
           <div className="list-filter pad10">
             <div className="row row10">
-              <div className="col-lg-6 pad10">
+              <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>
@@ -447,7 +447,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 pad10">
+              <div className="col-md-8">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -737,7 +737,7 @@ class CategoryInfo extends React.Component {
 
     return (
       <div className="top-container">
-        <div className="section">
+        <div className="section search-result">
           <div className="container pad10">
             {this.state.nodata ? (
               <SearchNotFound />
