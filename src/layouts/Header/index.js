@@ -326,7 +326,7 @@ class AppHeader extends Component {
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">
                       <Link
-                        to=""
+                        to="#"
                         onClick={this.toggleSearch}
                       >
                         <img src={searchImage} alt="search" height="25px" />
