@@ -154,7 +154,7 @@ class Bookmarks extends PureComponent {
       return 375;
     }
     if (width < 400) {
-      return 340;
+      return 320;
     }
     return 400;
   }

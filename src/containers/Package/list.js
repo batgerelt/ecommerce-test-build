@@ -91,7 +91,7 @@ class Discount extends React.Component {
         return 326.5;
       }
       if (width >= 300 && width < 390) {
-        return 1850.06;
+        return 1870.06;
       }
 
       if (width >= 390 && width < 480) {
