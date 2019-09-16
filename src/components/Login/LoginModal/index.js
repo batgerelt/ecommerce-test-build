@@ -4,7 +4,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link, Redirect } from "react-router-dom";
-
+import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
 
 class LoginModal extends React.Component {
@@ -138,36 +138,27 @@ class LoginModal extends React.Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator("email", {
-              initialValue:
-                localStorage.getItem("username") === null
-                  ? ""
-                  : localStorage.getItem("username"),
-              rules: [
-                {
-                  required: true,
-                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                  type: "email",
-                },
-              ],
+              rules: [{
+                required: true,
+                type: "email",
+                pattern: new RegExp("[A-Za-z]"),
+                message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+              }],
             })(
-              <Input
-                allowClear
-                className="form-control"
+              <LatinInput
                 placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                size="large"
-                autoComplete="new-email"
+                className="form-control"
+                autoComplete="off"
               />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("password", {
-              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) }],
+              rules: [
+                { validator: this.validateToNextPassword },
+              ],
             })(
-              <Input.Password
-                placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
-                autoComplete="new-password"
-                className="form-control"
-              />,
+              <Input type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
             )}
           </Form.Item>
           <Form.Item>

@@ -247,7 +247,7 @@
 	"shared.form.button.save": "Save",
 	"shared.form.button.use": "Use",
 	"shared.form.button.yes": "Yes",
-	"shared.form.cardNumber.placeholder": "Card number",
+	"shared.form.cardNumber.placeholder": "E-point card number",
 	"shared.form.cardNumber.validation.min": "Card number must have 14 digits",
 	"shared.form.cardNumber.validation.pattern": "Card number must have 14 digits",
 	"shared.form.cardNumber.validation.required": "Please enter your card number",

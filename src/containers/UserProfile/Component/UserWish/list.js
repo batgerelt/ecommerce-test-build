@@ -119,9 +119,10 @@ class Component extends React.Component {
   render() {
     return (
       <div className="user-menu-content">
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.wishlist.title" /></span>
         </p>
+        <Divider />
         <Spin
           spinning={this.state.loader}
           indicator={<Loader />}

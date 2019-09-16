@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, message, Input, Select, Icon, Spin, Col, Button } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Col, Button, Divider } from "antd";
 // import { Link } from "react-router-dom";
 
 class Component extends React.Component {
@@ -114,9 +114,10 @@ class Component extends React.Component {
   render() {
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
+        <Divider />
         <div className="user-profile-container">
           {this.renderPassword()}
         </div>
