@@ -3446,6 +3446,17 @@ button:disabled{
   padding-bottom: 40px !important;
 
 }
+.table thead th {
+  background-color: #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table td, table th {
+  vertical-align: middle !important;
+}
+.user-section .user-menu-content {
+  border: 0px solid #E9E9E9 !important;
+}
 /* .user-menu-content .ant-divider-horizontal {
   margin-top: 0px;
 } */
