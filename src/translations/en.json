@@ -318,7 +318,7 @@
 	"shared.sidebar.label.deliveryCost": "Delivery price",
 	"shared.sidebar.label.deliveryType": "Delivery method",
 	"shared.sidebar.label.epoint": "Epoint",
-	"shared.sidebar.label.payment": "Total",
+	"shared.sidebar.label.payment": "Payment information",
 	"shared.sidebar.label.orderTotal": "Total price",
 	"shared.sidebar.label.paidByCash": "Paid by cash",
 	"shared.sidebar.label.paidByEpoint": "Paid by epoint",
