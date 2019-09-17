@@ -404,7 +404,7 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
-    console.log('systemlocation: ', systemlocation);
+
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -467,7 +467,7 @@ class DeliveryPanel extends React.Component {
                       <div className="col-xl-4 col-md-4">
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
-                            initialValue: this.checkError(chosenAddress.provinceid),
+                            initialValue: `${systemlocation.find(i => i.gbn === 'U') === undefined ? [] : systemlocation.find(i => i.gbn === 'U').id}`,
                             rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
                           })(
                             <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
