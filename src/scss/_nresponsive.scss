@@ -62,6 +62,26 @@
 // }
 
 // for all viewports
+.order-history {
+    th, td {
+        padding: 0.5em;
+
+        p.status {
+            padding: 5px 0px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 10px;
+            color: white;
+            margin: 0px;
+        }
+
+        .date {
+            font-style: italic;
+            font-size: 11px;
+        }
+    }
+}
+
 .cart-container {
     padding-top: 10px;
 
@@ -1283,7 +1303,7 @@ h1.title {
     // ~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>
     
     body {
-        margin-top: 152px;
+        margin-top: 142px;
     }
 
     .top-container {
@@ -1436,6 +1456,62 @@ h1.title {
 
 // xs (< 768px)
 @media (max-width: 767px) {
+    .profile-section {
+        .user-section {
+            .delivery-address {
+                margin-top: 0px;
+                font-size: 10px;
+
+                .title {
+                    padding-top: 0px;
+                    padding-bottom: 0px;
+                    font-size: 14px;
+                }
+
+                table {
+                    th, td {
+                        vertical-align: top !important;
+                        padding: 5px;
+                    }
+                }
+            }
+
+            .product-list-history {
+                .single {
+                    display: grid;
+                    grid-template-columns: 3fr 2fr;
+
+                    .product {
+                        grid-column-start: 1;
+                        grid-column-end: 3;
+                        grid-row-start: 1;
+                        grid-row-end: 2;
+                        width: 100%;
+                    }
+
+                    .icons {
+                        grid-column-start: 1;
+                        grid-column-end: 2;
+                        grid-row-start: 2;
+                        grid-row-end: 3;
+                    }
+
+                    .price {
+                        grid-column-start: 2;
+                        grid-column-end: 3;
+                        grid-row-start: 2;
+                        grid-row-end: 3;
+                        padding-right: 10px;
+                    }
+
+                    .action {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
     .cart-container {
         h1 {
             margin-top: 0px;
@@ -1707,7 +1783,7 @@ h1.title {
 // xs (< 576px)
 @media (max-width: 575px) {
     body {
-        margin-top: 100px;
+        margin-top: 90px;
     }
 
     .list-filter {

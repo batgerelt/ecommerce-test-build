@@ -37,8 +37,8 @@ class Component extends React.Component {
     try {
       const { wish, lang } = this.props;
       return wish.map((item, index) => (
-        <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
-          <Col className="product" sm={12} md={12} lg={12} xl={12}>
+        <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }} key={index}>
+          <Col className="product">
             <div className="flex-this">
               <div className="image-container default">
                 <Link to={item.route ? item.route : " "}>
@@ -59,7 +59,7 @@ class Component extends React.Component {
               </div>
             </div>
           </Col>
-          <Col className="action" xs={18} sm={6} md={6} lg={6} xl={6} >
+          <Col className="action price">
             <ul className="list-unstyled flex-this">
               <li style={{ textAlign: "left", width: "100%" }}>
                 <div className="price-pro">
@@ -87,8 +87,8 @@ class Component extends React.Component {
               </li>
             </ul>
           </Col>
-          <Col className="action" xs={6} sm={6} md={6} lg={6} xl={6}>
-            <ul className="list-unstyled flex-this end" >
+          <Col className="action icons">
+            <ul className="list-unstyled flex-this">
               <li>
                 <Link
                   to="#"
