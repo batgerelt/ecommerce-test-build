@@ -525,7 +525,6 @@ class CategoryInfo extends React.Component {
         };
 
         this.props.searchProduct({ body: { ...params } }).then((res) => {
-          window.scrollTo(0, 0);
           if (res.payload.success) {
             this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
           }
