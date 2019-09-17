@@ -62,6 +62,33 @@
 // }
 
 // for all viewports
+.profile-section {
+    .user-section {
+        .delivery-address {
+            margin-top: 0px;            
+
+            .title {
+                padding-top: 0px;
+                padding-bottom: 10px;
+            }
+
+            table {
+                font-size: 12px;
+                width: 100%;
+
+                tr {
+                    border-top: 1px solid #cecece;
+                }
+
+                th, td {
+                    vertical-align: top !important;
+                    padding: 5px;
+                }
+            }
+        }
+    }
+}
+
 .order-history {
     th, td {
         padding: 0.5em;
@@ -1459,20 +1486,8 @@ h1.title {
     .profile-section {
         .user-section {
             .delivery-address {
-                margin-top: 0px;
-                font-size: 10px;
-
-                .title {
-                    padding-top: 0px;
-                    padding-bottom: 0px;
-                    font-size: 14px;
-                }
-
                 table {
-                    th, td {
-                        vertical-align: top !important;
-                        padding: 5px;
-                    }
+                    font-size: 11px;
                 }
             }
 
