@@ -873,12 +873,14 @@ body {
 }
 
 .top-main .search li:first-child {
-  width: 29%;
+  width: 40%;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
 }
 
 .top-main .search li:first-child .btn {
-  width: 100%;
+  width: 20%;
   color: #63666A;
   font-size: 0.9rem;
   text-transform: uppercase;
