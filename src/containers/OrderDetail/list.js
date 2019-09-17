@@ -191,7 +191,7 @@ class List extends React.Component {
                           <th className="column-4">
                             <span style={{ float: "right" }}>
                               <p className="price total">
-                                <strong><FormattedMessage id="orderDetail.table.col.totalPrice" /></strong>
+                                <FormattedMessage id="orderDetail.table.col.totalPrice" />
                               </p>
                             </span>
                           </th>
