@@ -610,7 +610,7 @@ class Cart extends React.Component {
                       </div>
                     </form>
                   </td>
-                  <td className="column-4" style={{ textAlign: "center" }}>
+                  <td className="column-4">
                     {this.renderTotalPrice(prod)}
                   </td>
                 </tr>

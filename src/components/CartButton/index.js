@@ -76,8 +76,8 @@ class CartButton extends Component {
 
   render() {
     const notifStyle = {
-      top: "-15px",
-      right: "-20px",
+      top: "-5px",
+      right: "-10px",
     };
 
     return (
