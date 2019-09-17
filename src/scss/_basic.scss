@@ -837,49 +837,49 @@ button{
     }
   }
 }
-.list-product {
-  position: relative;
+// .list-product {
+//   position: relative;
 
-  .image-container {
-    float: left;
-    position: static;
+//   .image-container {
+//     float: left;
+//     position: static;
 
-    a {
-      height: 120px;
-      position: relative;
-      width: 120px;
-    }
-    &:after {
-      display: none;
-    }
-    .percent {
-      top: 40px;
-      right: 170px;
-      left: auto;
-    }
-  }
-  .info-container {
-    float: left;
-    @include calc(width, "100% - 350px");
-    padding: 20px;
+//     a {
+//       height: 120px;
+//       position: relative;
+//       width: 120px;
+//     }
+//     &:after {
+//       display: none;
+//     }
+//     .percent {
+//       top: 40px;
+//       right: 170px;
+//       left: auto;
+//     }
+//   }
+//   .info-container {
+//     float: left;
+//     @include calc(width, "100% - 350px");
+//     padding: 20px;
 
-    .price {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 20px 20px 0 0;
+//     .price {
+//       position: absolute;
+//       top: 0;
+//       right: 0;
+//       padding: 20px 20px 0 0;
 
-      .current {
-        display: block;
-      }
-    }
-  }
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-}
+//       .current {
+//         display: block;
+//       }
+//     }
+//   }
+//   &:after {
+//     content: "";
+//     clear: both;
+//     display: table;
+//   }
+// }
 .section-footer {
   background-color: $dark;
 
@@ -2802,23 +2802,23 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   width: 100px;
 }
 
-.list-product .info-container {
-  .cart-container {
-    position: absolute;
-    display: block;
-  }
+// .list-product .info-container {
+//   .cart-container {
+//     position: absolute;
+//     display: block;
+//   }
 
-  .cart-container {
-    top: 70px;
-    right: 13px;
-    left: auto;
+//   .cart-container {
+//     top: 70px;
+//     right: 13px;
+//     left: auto;
 
-    a {
-      display: inline;
-      margin-right: 10px;
-    }
-  }
-}
+//     a {
+//       display: inline;
+//       margin-right: 10px;
+//     }
+//   }
+// }
 
 .ant-select-selection--single {
   width: 100%;
@@ -3184,8 +3184,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .jss148{
-  .list-product{
+  .list-product {
     width: 99%;
+    margin-left: 1px;
   }
 }
 

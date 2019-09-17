@@ -318,7 +318,7 @@ class index extends Component {
     const { data, tags } = this.props;
     if (tags.length !== 0) {
       return (
-        <div style={{ padding: "15px 8px" }}>
+        <div className="label-wrapper">
           {data.isnew ? this.renderNew(localStorage.getItem("lang")) : null}
           {data.salepercent !== 0 ? this.renderSale(localStorage.getItem("lang")) : null}
           {!data.isavailable ? this.renderSoldOut(localStorage.getItem("lang")) : null}

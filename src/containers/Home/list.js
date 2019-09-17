@@ -147,7 +147,7 @@ class Homepage extends React.Component {
       const { brand } = this.props;
 
       const brandParams = {
-        slidesPerView: isMobileOnly ? 3 : 5,
+        slidesPerView: isMobileOnly ? 2 : 5,
         spaceBetween: 10,
         loop: true,
         autoplay: {
