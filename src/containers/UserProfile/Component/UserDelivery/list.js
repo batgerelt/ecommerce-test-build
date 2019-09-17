@@ -29,8 +29,8 @@ class Component extends React.Component {
             borderRadius: "5px",
             color: "white",
             width: "150px",
-            margin: "0px !important",
             fontSize: "10px",
+            margin: "0px",
           }}
         >
           {lang === "mn" ? prod.statusnm : prod.statusnm_en}
@@ -51,15 +51,15 @@ class Component extends React.Component {
       const { delivery } = this.props;
       return delivery.map((item, index) => (
         <tr key={index} className="order-table-responsive">
-          <td style={{ color: "blue", textAlign: "left", verticalAlign: "inherit !important" }}>
+          <td style={{ color: "1890ff", textAlign: "left" }}>
             <Link to={`/order/${this.encryptUrl(item.id)}`}>
               <span>#{item.ordernumber}</span>
             </Link>
           </td>
-          <td style={{ textAlign: "left", verticalAlign: "inherit !important" }}>{this.renderDate(item.orderdate)}</td>
+          <td style={{ textAlign: "center" }}>{this.renderDate(item.orderdate)}</td>
           <th />
-          <td style={{ textAlign: "right", verticalAlign: "inherit !important" }}>{formatter.format(item.totalamount)}₮</td>
-          <td style={{ width: "150px", verticalAlign: "inherit !important" }}>{this.renderType(item)}</td>
+          <td style={{ textAlign: "right" }}>{formatter.format(item.totalamount)}₮</td>
+          <td style={{ width: "150px" }}>{this.renderType(item)}</td>
         </tr>
       ));
     } catch (error) {
@@ -69,30 +69,30 @@ class Component extends React.Component {
 
   renderTable() {
     return (
-      <div className="cart-table table-responsive" >
+      <div>
         <table className="table" style={{ fontSize: "12px" }}>
-          <thead className="thead-light" >
+          <thead>
             <tr>
               <th
                 style={{
-                  fontWeight: "100", textAlign: "left", width: "100px", verticalAlign: "inherit !important",
+                  textAlign: "left", width: "100px", color: "#1890ff", fontWeight: "unset",
                 }}
               >
                 <FormattedMessage id="profile.orderHistory.table.orderNo" />
               </th>
-              <th style={{ fontWeight: "100", width: "100px", verticalAlign: "inherit !important" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
+              <th style={{ width: "100px", fontWeight: "unset" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
               <th />
               <th
                 style={{
-                  fontWeight: "100", textAlign: "right", width: "100px", verticAlalign: "inherit !important",
+                  textAlign: "right", width: "100px", fontWeight: "unset",
                 }}
               >
                 <FormattedMessage id="profile.orderHistory.table.price" />
               </th>
-              <th style={{ fontWeight: "100", width: "150px", verticalAlign: "inherit !important" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
+              <th style={{ width: "150px", fontWeight: "unset" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
             </tr>
           </thead>
-          <tbody style={{ fontSize: "12px" }}>{this.renderDelivery()}</tbody>
+          <tbody style={{ fontSize: "12px", fontWeight: "unset" }}>{this.renderDelivery()}</tbody>
         </table>
       </div>
     );

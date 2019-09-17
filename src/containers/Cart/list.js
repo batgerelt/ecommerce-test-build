@@ -502,11 +502,7 @@ class Cart extends React.Component {
       const lang = this.props.intl.locale;
 
       let content = (
-        <div style={{
-          textAlign: "center",
-          paddingTop: "50px",
-        }}
-        >
+        <div className="empty-cart">
           <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
         </div>
       );
@@ -614,13 +610,7 @@ class Cart extends React.Component {
                       </div>
                     </form>
                   </td>
-                  <td
-                    className="column-4"
-                    style={{
-                      paddingRight: "20px",
-                      textAlign: "right",
-                    }}
-                  >
+                  <td className="column-4">
                     {this.renderTotalPrice(prod)}
                   </td>
                 </tr>
@@ -628,7 +618,7 @@ class Cart extends React.Component {
                   <td colSpan="2" style={{ fontSize: "0.8em" }}>
                     {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
                   </td>
-                  <td colSpan="2" style={{ paddinRight: "30px" }}>
+                  <td colSpan="2">
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>

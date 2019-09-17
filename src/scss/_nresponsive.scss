@@ -89,6 +89,19 @@
         .column-3 {
             width: 30%;
         }
+
+        .column-4 {
+            text-align: center;
+        }
+    }
+
+    .empty-cart {
+        margin: 10px 0 10px;
+        text-align: center;
+        border: 1px solid #ff4d4d;
+        background-color: #ffcccc;
+        border-radius: 5px;
+        padding: 10px;
     }
 }
 
@@ -1423,6 +1436,103 @@ h1.title {
 
 // xs (< 768px)
 @media (max-width: 767px) {
+    .cart-container {
+        h1 {
+            margin-top: 0px;
+        }
+
+        #cart-table-wrapper {
+            tr {
+                display: grid;
+                grid-template-columns: 3fr 2fr;
+            }
+
+            th {
+                display: none;
+            }
+
+            td {
+                width: 100%;
+                border: none;
+                padding: 0px;
+            }
+
+            .image-container {
+                width: 100px;
+            }
+
+            .info-container {
+                padding-left: 0px;
+            }
+
+            .column-1,
+            .column-2,
+            .column-3,
+            .column-4 {
+                padding: 5px;
+            }
+
+            .column-1 {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 1;
+                grid-row-end: 3;
+
+                .flex-this {
+                    align-items: stretch;
+                }
+            }
+
+            .column-2 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 1;
+                grid-row-end: 2;
+                
+                .price {
+                    font-size: 1rem;
+                }
+            }
+
+            .column-3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 3;
+            }
+
+            .column-4 {
+                grid-column-start: 1;
+                grid-column-end: 3;
+                grid-row-start: 3;
+                grid-row-end: 4;
+                text-align: right;
+            }
+
+            tr.table-action {
+                padding-bottom: 10px;
+                border: none;
+
+                td {
+                    a {
+                        padding: 0px 0px 0px 5px;
+                    }
+                }
+            }
+
+            tr:not(.table-action) {
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-top: 3px solid rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+
+            tbody {
+                border: none;
+            }
+        }
+    }
+
     .list-filter {
         label,
         .pl-2 {
