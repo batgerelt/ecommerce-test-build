@@ -11,6 +11,7 @@ import wishlist from "../../../src/scss/assets/images/demo/wishlist.png";
 import location from "../../../src/scss/assets/images/demo/location.png";
 import password from "../../../src/scss/assets/images/demo/password.png";
 import store from "../../../src/scss/assets/images/demo/store.png";
+import logout from "../../../src/scss/assets/svg/sign-out.svg";
 import {
   UserProfile,
   UserHistory,
@@ -220,7 +221,7 @@ class List extends React.Component {
                         <hr />
                         <li style={{ marginTop: "5px", marginBottom: "5px" }}>
                           <Link to="#" onClick={this.handleLogout}>
-                            <span><FormattedMessage id="header.profile.logout" /></span>
+                            <Avatar size="small" shape="square" src={logout} className="marginRight10" /><span><FormattedMessage id="header.profile.logout" /></span>
                           </Link>
                         </li>
                       </ul>
