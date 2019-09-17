@@ -160,7 +160,7 @@ class List extends React.Component {
             <div>
               <Row style={{ width: "100%" }} >
                 <Col xs={0} sm={0} md={7} lg={7} xl={7}>
-                  <div style={{ backgroundColor: "white", borderRadius: "20px", marginRight: "10px" }}>
+                  <div style={{ backgroundColor: "white", borderRadius: "10px", marginRight: "10px" }}>
                     <div className="profile-menu" style={{ padding: "10px" }}>
                       <div className="menu-header">
                         <Upload
