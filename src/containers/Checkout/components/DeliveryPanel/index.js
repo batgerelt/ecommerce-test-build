@@ -404,6 +404,7 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
+    console.log('systemlocation: ', systemlocation);
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -437,18 +438,21 @@ class DeliveryPanel extends React.Component {
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (
                       <div className="col-xl-12 col-md-12 checkout-addbtn-container">
-                        <div className="col-xl-8 col-md-8 checkout-address-container">
-                          <Form.Item>
-                            {getFieldDecorator("id", {
-                              initialValue: this.checkError(chosenAddress.id),
-                              rules: [{ required: false, message: "Хаяг оруулна уу" }],
-                            })(
-                              <Select onChange={this.onChangeLoc} className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
-                                {this.renderAddrsOption()}
-                              </Select>,
-                            )}
-                          </Form.Item>
-                        </div>
+                        {
+                          main !== null ?
+                            <div className="col-xl-8 col-md-8 checkout-address-container">
+                              <Form.Item>
+                                {getFieldDecorator("id", {
+                                  initialValue: this.checkError(chosenAddress.id),
+                                  rules: [{ required: false, message: "Хаяг оруулна уу" }],
+                                })(
+                                  <Select onChange={this.onChangeLoc} className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
+                                    {this.renderAddrsOption()}
+                                  </Select>,
+                                )}
+                              </Form.Item>
+                            </div> : null
+                        }
                         {
                           main !== null ?
                             <div className="col-xl-4 col-md-4">
@@ -466,7 +470,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.provinceid),
                             rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
                           })(
-                            <Select placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
+                            <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
                             </Select>,
                           )}

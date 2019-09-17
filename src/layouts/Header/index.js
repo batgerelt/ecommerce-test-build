@@ -446,7 +446,7 @@ class AppHeader extends Component {
       return console.log(error);
     }
   }
-  // мммхан ингээд өнгөрсөндөө үлдээд өнгөрсөнөөрөө амьдраад өнгөрсөн зүйлд харамсаад байж болохгүй байхаа
+
   render() {
     const { mainmenu } = this.props.menu;
     const { staticinfo } = this.props.staticcontent;
