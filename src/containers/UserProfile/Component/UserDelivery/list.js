@@ -11,28 +11,15 @@ const formatter = new Intl.NumberFormat("en-US");
 class Component extends React.Component {
   state = {};
   renderDate = (dateString) => {
-    console.log(dateString);
     const dateParts = dateString.split("T")[0].split("-");
-    return <span>{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>;
+    return <span className="date">{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>;
   };
   renderType = (item) => {
     try {
       const { lang } = this.props;
       const prod = item;
       return (
-        <p
-          style={{
-            backgroundColor: item.customerstatuscolor,
-            paddingTop: "5px",
-            paddingBottom: "5px",
-            textAlign: "center",
-            borderRadius: "5px",
-            color: "white",
-            width: "150px",
-            fontSize: "10px",
-            margin: "0px",
-          }}
-        >
+        <p className="status" style={{ backgroundColor: item.customerstatuscolor }}>
           {lang === "mn" ? prod.statusnm : prod.statusnm_en}
         </p>
       );
@@ -51,15 +38,15 @@ class Component extends React.Component {
       const { delivery } = this.props;
       return delivery.map((item, index) => (
         <tr key={index} className="order-table-responsive">
-          <td style={{ color: "1890ff", textAlign: "left" }}>
+          <td>
             <Link to={`/order/${this.encryptUrl(item.id)}`}>
               <span>#{item.ordernumber}</span>
             </Link>
+            <br />
+            {this.renderDate(item.orderdate)}
           </td>
-          <td style={{ textAlign: "center" }}>{this.renderDate(item.orderdate)}</td>
-          <th />
-          <td style={{ textAlign: "right" }}>{formatter.format(item.totalamount)}₮</td>
-          <td style={{ width: "150px" }}>{this.renderType(item)}</td>
+          <td>{formatter.format(item.totalamount)}₮</td>
+          <td>{this.renderType(item)}</td>
         </tr>
       ));
     } catch (error) {
@@ -70,29 +57,23 @@ class Component extends React.Component {
   renderTable() {
     return (
       <div>
-        <table className="table" style={{ fontSize: "12px" }}>
+        <table className="table order-history">
           <thead>
             <tr>
-              <th
-                style={{
-                  textAlign: "left", width: "100px", color: "#1890ff", fontWeight: "unset",
-                }}
-              >
+              <th>
                 <FormattedMessage id="profile.orderHistory.table.orderNo" />
+                <br />
+                <FormattedMessage id="profile.orderHistory.table.date" />
               </th>
-              <th style={{ width: "100px", fontWeight: "unset" }}><FormattedMessage id="profile.orderHistory.table.date" /></th>
-              <th />
-              <th
-                style={{
-                  textAlign: "right", width: "100px", fontWeight: "unset",
-                }}
-              >
+              <th>
                 <FormattedMessage id="profile.orderHistory.table.price" />
               </th>
-              <th style={{ width: "150px", fontWeight: "unset" }}><FormattedMessage id="profile.orderHistory.table.status" /></th>
+              <th>
+                <FormattedMessage id="profile.orderHistory.table.status" />
+              </th>
             </tr>
           </thead>
-          <tbody style={{ fontSize: "12px", fontWeight: "unset" }}>{this.renderDelivery()}</tbody>
+          <tbody>{this.renderDelivery()}</tbody>
         </table>
       </div>
     );

@@ -66,7 +66,7 @@ class Component extends React.Component {
       return history.map((item, index) => {
         const isSaved = this.state.wish.find(w => w.skucd === item.skucd);
         return (
-          <Row className="single" key={index}>
+          <Row className="single flex-this flex-space" key={index}>
             <Col className="product">
               <div className="flex-this">
                 <div className="image-container default">
@@ -88,8 +88,8 @@ class Component extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col className="action">
-              <ul className="list-unstyled flex-this">
+            <Col className="action price">
+              <ul className="list-unstyled">
                 {
                   item.pricetag !== null
                     ? localStorage.getItem('lang') === "mn"
@@ -122,8 +122,8 @@ class Component extends React.Component {
                 </li>
               </ul>
             </Col>
-            <Col className="action">
-              <ul className="list-unstyled flex-this end">
+            <Col className="action icons">
+              <ul className="list-unstyled flex-this">
                 <li>
                   <Link to="#">
                     <i
