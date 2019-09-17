@@ -272,7 +272,7 @@ class List extends React.Component {
                 />
               </Link>
             </div>
-            <div className="info-container flex-space info-price-container">
+            <div className="info-container flex-space info-price-container recipe-products">
               <Link to={item.route ? item.route : ""}>
                 <span className="recipe-product-title">
                   {lang === "mn" ? item.title : item.title_en}
