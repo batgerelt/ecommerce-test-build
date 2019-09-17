@@ -45,16 +45,8 @@ class Page extends React.Component {
   }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getPackage({
-      order: "date_desc",
-      start: 0,
-      rowcnt: 8,
-    });
-    this.props.getPackageScroll({
-      order: "date_desc",
-      start: this.props.packageCount,
-      rowcnt: 8,
-    });
+    this.props.getPackage({ order: "date_desc", start: 0, rowcnt: 8 });
+
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
     this.props.getPackageBanner().then((res) => {
       if (res.payload.success) {
@@ -66,24 +58,16 @@ class Page extends React.Component {
         this.setState({ banner });
       }
     });
+
     this.props.getPackageMenu({});
-    this.props.getWidget().then((res) => {
-      this.setState({ loading: false });
-    });
+    this.props.getWidget();
   }
 
   render() {
     return (
       <div>
-        {
-          this.state.loading
-            ? ""
-            :
-            <div>
-              <List {...this.props} {...this} {...this.state} />
-              <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-            </div>
-        }
+        <List {...this.props} {...this} {...this.state} />
+        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );
   }

@@ -288,11 +288,17 @@ class DeliveryInfo extends React.Component {
           lang_ind.name = "lang_ind";
           lang_ind.value = res.payload.data.url.lang_ind;
 
+          let signature = document.createElement("input");
+          signature.type = "hidden";
+          signature.name = "signature";
+          signature.value = res.payload.data.url.signature;
+
           mapForm.appendChild(keyNumber);
           mapForm.appendChild(transNumber);
           mapForm.appendChild(trans_amount);
           mapForm.appendChild(time);
           mapForm.appendChild(lang_ind);
+          mapForm.appendChild(signature);
 
           document.body.appendChild(mapForm);
 
