@@ -3463,6 +3463,26 @@ button:disabled{
 .cart-container h5 .title {
   margin-bottom: 0px !important;
 }
+
+.ant-progress-inner {
+  background-color: rgba(0, 0, 0, 0.10) !important;
+}
+
+.ant-input-affix-wrapper {
+  border: 1px !important;
+}
+
+.ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 40px !important;
+}
+
+.btn-reverse:hover {
+  color: black !important;
+}
+.ant-input-affix-wrapper .ant-input-prefix {
+  left: 10px !important;
+  top: 45% !important;
+}
 /* .user-menu-content .ant-divider-horizontal {
   margin-top: 0px;
 } */
