@@ -398,7 +398,6 @@ class DeliveryInfo extends React.Component {
       checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty, epointUsedPoint, useEpoint,
     } = this.state;
     const { staticpage, state, intl } = this.props;
-    console.log('this.props: ', this.props);
     const lang = intl.locale;
     return (
       <div className="col-lg-4 pad10">
