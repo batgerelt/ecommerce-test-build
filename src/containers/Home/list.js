@@ -87,7 +87,7 @@ class Homepage extends React.Component {
   renderBlocks = () => {
     try {
       const {
-        homepagebanner,
+        banner,
         widgetAll,
         emartproduct,
         discountproduct,
@@ -106,7 +106,7 @@ class Homepage extends React.Component {
         },
         blocks: {
           widget: widgetAll,
-          banner: homepagebanner,
+          banner,
         },
       };
 
