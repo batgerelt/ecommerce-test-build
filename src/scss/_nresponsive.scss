@@ -1685,6 +1685,30 @@ h1.title {
     }    
 
     .product-detail-page {
+        .swiper-slide {
+            padding: 14px;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next,
+        .swiper-button-prev.swiper-button-disabled,
+        .swiper-button-next.swiper-button-disabled {
+            background-size: 14px;
+            font-size: 14px;
+            background-color: transparent;
+            border: none;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-prev.swiper-button-disabled {
+            left: -7px;
+        }
+
+        .swiper-button-next,
+        .swiper-button-next.swiper-button-disabled {
+            right: -7px;
+        }
+
         .product-info {
             .main-rating {
                 margin-bottom: 0px;
@@ -1844,7 +1868,6 @@ h1.title {
                 a {
                     display: inline-block;
                     width: 100%;
-                    white-space: nowrap;
                     overflow: hidden !important;
                     text-overflow: ellipsis;
                 }
@@ -1868,9 +1891,20 @@ h1.title {
         .pack-product-container {
             margin-top: 20px;
 
-            .pack-list,
-            .info-container {
-                margin-bottom: 20px;
+            .pack-list {
+                .image-container {
+                    width: 80px;
+                }
+
+                .info-container {
+                    margin-bottom: 0px;
+                    padding-left: 3px;
+                    width: 100%;
+                }
+    
+                li {
+                    padding: 5px;
+                }
             }
         }
 
@@ -2020,6 +2054,10 @@ h1.title {
 
 // (>= 768px)
 @media (min-device-width: 768px) {
+    .emart-page {
+        padding-top: 10px;
+    }
+
     .fixed-left-side {
         display: none !important;
     }
