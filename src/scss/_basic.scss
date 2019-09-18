@@ -3275,6 +3275,10 @@ textarea:focus {
   padding-right: 11px;
 }
 
+.checkout-container .right-panel i{
+  color: #feb415;
+}
+
 .infinite-scroll-component {
   height: initial !important;
   overflow: initial !important;
@@ -3459,6 +3463,10 @@ button:disabled{
 }
 .user-section .user-menu-content {
   border: 0px solid #E9E9E9 !important;
+}
+
+.cart-container h5 .title {
+  margin-bottom: 0px !important;
 }
 /* .user-menu-content .ant-divider-horizontal {
   margin-top: 0px;

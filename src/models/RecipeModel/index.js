@@ -48,8 +48,8 @@ class Model extends BaseModel {
       };
     }
   }
-  getRecipe = ({ order = `price_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeall });
-  getRecipeScroll = ({ order = `price_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeScroll });
+  getRecipe = ({ order = `date_desc`, start = 0, rowcnt = 20 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeall });
+  getRecipeScroll = ({ order = `date_desc`, start = 0, rowcnt = 6 }) => asyncFn({ url: `/cookrecipe/${order}/${start}/${rowcnt}`, method: 'GET', model: this.model.recipeScroll });
   getRecipeDetail = ({ id }) => asyncFn({ url: `/cookrecipe/${id}`, method: 'GET', model: this.model.recipedetail });
   getRecipeProducts = ({ id }) => asyncFn({ url: `/cookrecipe/${id}/products`, method: 'GET', model: this.model.recipeproducts });
 
@@ -63,7 +63,7 @@ class Model extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
-      // GET BRAND
+      // GET RECIPEALL
       case this.model.recipeall.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.recipeall.error:

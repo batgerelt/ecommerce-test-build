@@ -32,6 +32,7 @@ class Component extends React.Component {
     };
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
+        console.log(res.payload.data.info);
         localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         localStorage.setItem('percent', res.payload.data.info.cstatus);
         if (res.payload.data.main) {
@@ -88,11 +89,6 @@ class Component extends React.Component {
             address: values.address,
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
-          this.props.updateMain({ body: param }).then((res) => {
-            if (res.payload.success) {
-              this.getdata();
-            }
-          });
           if (this.props.userInfo.info.email !== param.email) {
             return MySwal.fire({
               html: (

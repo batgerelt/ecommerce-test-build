@@ -15,6 +15,8 @@ import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
 let ITEM_HEIGHT = 620;
+let count = 8;
+
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -22,7 +24,10 @@ class Discount extends React.Component {
     this.state = { headerProducts: [] };
   }
 
-  componentWillMount() { window.scrollTo(0, 0); }
+  componentWillMount() {
+    this.props.getPackageScroll({ order: "date_desc", start: count, rowcnt: 8 });
+    window.scrollTo(0, 0);
+  }
 
   renderMainBanner = () => {
     try {
@@ -70,16 +75,9 @@ class Discount extends React.Component {
     }
   };
 
-  loadMoreRows = async (key) => {
-    try {
-      this.props.getPackageScroll({
-        order: "date_desc",
-        start: this.props.packageCount,
-        rowcnt: 8,
-      });
-    } catch (error) {
-      return console.log(error);
-    }
+  loadMoreRows = async () => {
+    count += 8;
+    await this.props.getPackageScroll({ order: "date_desc", start: count, rowcnt: 8 });
   };
 
   noRowsRenderer = () => null

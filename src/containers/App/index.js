@@ -118,10 +118,10 @@ class App extends Component {
           <Router>
             <ScrollToTop>
               {/** Global буюу веб-ийн хаанаас ч хандах боломжтой components */}
+              <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} {...this} />
               <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
               <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
               <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
-              <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} {...this} />
 
               {/** fixed header */}
               <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />

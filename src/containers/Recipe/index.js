@@ -37,7 +37,10 @@ class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
+    // banner - аас өмнөх 6 картын бараа
+    this.props.getRecipe({ order: "date_desc", start: 0, rowcnt: 6 });
     this.props.getRecipeMenu({});
+
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
     this.props.getRecipeBanner().then((res) => {
       if (res.payload.success) {
@@ -48,11 +51,6 @@ class Page extends React.Component {
 
         this.setState({ banner });
       }
-    });
-    this.props.getRecipe({
-      order: "date_desc",
-      start: 0,
-      rowcnt: 6,
     });
   }
 

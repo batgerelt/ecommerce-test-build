@@ -2856,7 +2856,7 @@ body {
 }
 
 .cart-container.after-order .content span {
-  font-weight: 500;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -3536,16 +3536,17 @@ form .e-input-group .count-text {
 }
 
 .checkout-container .right-panel .content {
-  padding: 0px 20px 20px 20px;
+  padding: 0px 20px 0px 20px;
 }
 
 .checkout-container .right-panel .content .fa {
   width: 30px !important;
   font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.5);
-  text-align: left;
+  color: #feb415;
+  text-align: center;
   flex-shrink: 0;
-  display: block;
+  display: flex;
+  justify-content: center;
 }
 
 .checkout-container .right-panel .content .text {
@@ -3557,15 +3558,11 @@ form .e-input-group .count-text {
   margin: 20px auto;
 }
 
-.checkout-container .right-panel .content p.title {
-  padding: 0;
-}
-
 .checkout-container .right-panel p.title {
   font-size: 0.9rem;
-  padding: 20px 0 0 20px;
+  padding: 15px 1rem;
   color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 10px;
+  margin: 0%;
 }
 
 .checkout-container .right-panel hr {

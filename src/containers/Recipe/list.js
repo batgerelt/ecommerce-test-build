@@ -16,20 +16,15 @@ import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
 const ITEM_HEIGHT = 870;
+let count = 6;
+
 class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
-  constructor(props) {
-    super(props);
-    this.state = { headerProducts: [], loading: false };
-  }
+  state = { headerProducts: [], loading: false, data: [] };
 
   componentWillMount() {
+    this.props.getRecipeScroll({ order: "date_desc", start: count, rowcnt: 6 });
     window.scrollTo(0, 0);
-    this.props.getRecipeScroll({
-      order: "date_desc",
-      start: this.props.recipeCount,
-      rowcnt: 6,
-    });
   }
 
   renderMainBanner = () => {
@@ -56,16 +51,9 @@ class Recipe extends React.Component {
     }
   };
 
-  loadMoreRows = (key) => {
-    try {
-      this.props.getRecipeScroll({
-        order: "date_desc",
-        start: this.props.recipeCount,
-        rowcnt: 6,
-      });
-    } catch (error) {
-      return console.log(error);
-    }
+  loadMoreRows = async () => {
+    count += 6;
+    await this.props.getRecipeScroll({ order: "date_desc", start: count, rowcnt: 6 });
   };
 
   noRowsRenderer = () => null
