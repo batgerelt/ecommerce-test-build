@@ -2781,9 +2781,12 @@ body {
 .cart-container .cart-info .cart-info-container p span + span {
   // color: rgba(0, 0, 0, 0.9);
   color: #63666A;
-  text-transform: uppercase;
   font-weight: normal;
   display: inline-block;
+}
+
+.cart-container .cart-info .cart-info-container p span + span:first-letter{
+  text-transform: uppercase;
 }
 
 .cart-container .cart-info .cart-info-container p strong {

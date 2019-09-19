@@ -700,8 +700,8 @@ class Cart extends React.Component {
                     </p>
                     {staticinfo && (
                       <p className="delivery">
-                        <span style={{ color: "#000000" }}><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        <span>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
+                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
+                        <span style={{ color: "#000000" }}>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
                       </p>
                     )}
                     <p className="total flex-space">

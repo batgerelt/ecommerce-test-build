@@ -435,7 +435,7 @@ class DeliveryPanel extends React.Component {
                 <p className="text">{intl.locale === "mn" ? item.featuretxt : item.featuretxt_en}</p>
                 <Form onSubmit={this.onSubmit}>
                   <div className="row row10 checkoutFormContainer">
-                    {item.id !== 3 ? (
+                    {item.id !== 3 && main !== null ? (
                       <div className="col-xl-12 col-md-12 checkout-addbtn-container">
                         <div className="col-xl-8 col-md-8 checkout-address-container">
                           <Form.Item>
@@ -449,12 +449,9 @@ class DeliveryPanel extends React.Component {
                             )}
                           </Form.Item>
                         </div>
-                        {
-                          main !== null ?
-                            <div className="col-xl-4 col-md-4">
-                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}><FormattedMessage id="shared.form.button.newAddress" /></button>
-                            </div> : null
-                        }
+                        <div className="col-xl-4 col-md-4">
+                          <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}><FormattedMessage id="shared.form.button.newAddress" /></button>
+                        </div>
                       </div>
                     ) : (
                         ""
