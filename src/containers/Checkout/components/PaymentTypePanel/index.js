@@ -15,7 +15,6 @@ class PaymentTypePanel extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     const { paymentTypes } = this.props;
-    console.log('paymentTypes: ', paymentTypes);
     this.setState({ chosenPaymentType: paymentTypes[0] });
   }
 
@@ -56,8 +55,6 @@ class PaymentTypePanel extends React.Component {
               style={{ marginTop: "10px" }}
             />
             <p>
-              {console.log(intl)}
-              {console.log(item)}
               <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
               <span>{intl.locale === "mn" ? item.description : item.description_en}</span>
             </p>
