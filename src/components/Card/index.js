@@ -613,18 +613,21 @@ class Card extends React.Component {
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
-                      backgroundSize: "contain",
-                      height: '100px',
+                      backgroundSize: "100%",
+                      margin: "0px",
+                      paddin: "0px",
+                      height: "85px",
+                      width: "85px",
                     }}
                   />
                 </Link>
               </div>
               <div className="info-container">
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="name">
-                  <span style={{ width: list ? "70%" : '100%' }}>{itemName}</span>
+                  <span>{itemName}</span>
                 </Link>
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="cat">
-                  <span style={{ width: list ? "70%" : '100%' }}>{featureText}</span>
+                  <span>{featureText}</span>
                 </Link>
                 {
                   item.id === undefined && item.recipeid === undefined ?
@@ -638,14 +641,6 @@ class Card extends React.Component {
                 <Link
                   to={item.route ? item.route : `/productdetail/${item.skucd}`}
                   className="price"
-                  style={{
-                    padding: 0,
-                    top: "auto",
-                    bottom: "55px",
-                    right: "20px",
-                    left: "auto",
-                    fontSize: "1rem",
-                  }}
                 >
                   {prices}
                 </Link>
@@ -659,14 +654,8 @@ class Card extends React.Component {
                       lang={this.props.intl.locale}
                     />
                   ))}
-                <div className="cart-container d-flex">
-                  <a
-                    className="wishlist"
-                    style={{
-                      fontSize: "1.1rem",
-                    }}
-                    onClick={this.handleSaveClick}
-                  >
+                <span className="cart-container">
+                  <a className="wishlist" onClick={this.handleSaveClick}>
                     <i
                       className={
                         this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
@@ -674,16 +663,11 @@ class Card extends React.Component {
                       aria-hidden="true"
                     />
                   </a>
-                  <a
-                    onClick={() => this.handleIncrement(item)}
-                    style={{
-                      fontSize: "1.1rem",
-                    }}
-                  >
+                  <a onClick={() => this.handleIncrement(item)}>
                     <i className="fa fa-cart-plus" aria-hidden="true" />
                     <span />
                   </a>
-                </div>
+                </span>
               </div>
             </div >
           );

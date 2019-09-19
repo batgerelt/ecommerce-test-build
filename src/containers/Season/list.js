@@ -584,7 +584,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className="jss148">
+                              <div key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic

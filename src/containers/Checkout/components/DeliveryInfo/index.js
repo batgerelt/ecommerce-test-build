@@ -402,23 +402,14 @@ class DeliveryInfo extends React.Component {
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
-          <p className="title">
-            <strong>
-              <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
-              {/* {
-                this.props.userinfo !== undefined && this.props.userinfo !== null && this.props.userinfo.length !== 0 ?
-                  `${this.props.userinfo.info.lastname} ${this.props.userinfo.info.firstname}`
-                  : ""
-              } */}
-            </strong>
+          <p className="title font-weight-bold">
+            <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
           </p>
           <hr />
+
           <div className="content">
-            {/* <p className="title">
-              <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
-            </p> */}
             <p className="text flex-this">
-              <span><i className="fa fa-truck" style={{ color: "#feb415" }} /></span>
+              <i className="fa fa-truck" />
               <span>
                 {lang === "mn"
                   ? `${this.checkError(chosenType.typenm)}`
@@ -429,7 +420,6 @@ class DeliveryInfo extends React.Component {
               <i
                 className="fa fa-user"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
               <span>
                 {this.checkError(chosenInfo.name)}
@@ -439,42 +429,47 @@ class DeliveryInfo extends React.Component {
               <i
                 className="fa fa-phone"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
               <span>
                 {`${this.checkError(chosenInfo.phonE1)} ${this.checkError(chosenInfo.phonE2)}`}
               </span>
             </p>
-            <div className="d-flex">
+            <div className="d-flex mb-2">
               <i
                 className="fa fa-map-marker"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
               <p className="text flex-this">
                 {
-                this.checkError(chosenType.id) !== 3 ?
-                  <span>
-                    {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
-                  </span>
-                  :
-                  <span>
-                    Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
-                  </span>
-              }
-
+                  this.checkError(chosenType.id) !== 3 ?
+                    <span>
+                      {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
+                    </span>
+                    :
+                    <span>
+                      Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
+                    </span>
+                }
               </p>
             </div>
+            <div className="text d-flex">
+              <i
+                className="fa fa-info"
+                aria-hidden="true"
+              />
+              <p className="text flex-this">{lang === 'mn' ? this.checkError(chosenType.featuretxt) : this.checkError(chosenType.featuretxt_en)}</p>
+            </div>
+
           </div>
           <hr />
-          <div className="content" style={{ paddingBottom: '0px' }}>
-            <p className="title">
+          <div className="content px-3">
+            <p className="title pb-2">
               <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
             </p>
           </div>
           <hr />
 
-          <div className="content">
+          <div className="content pb-2">
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.products" /> ({totalQty}):</span>
               <strong>{formatter.format(totalPrice)}₮</strong>
