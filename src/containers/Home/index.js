@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -46,11 +47,19 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
+  state = { banner: { header: [], middle: [], footer: [] } }
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.props.getCategoryMenu();
     this.props.getBrand();
-    this.props.getHomePageBanner();
+    this.props.getHomePageBanner().then(res => {
+      const { banner } = this.state;
+      const response = res.payload.data;
+      banner.header.push(response.header[Math.floor(Math.random() * response.header.length)]);
+      banner.middle.push(response.middle[Math.floor(Math.random() * response.middle.length)]);
+      banner.footer.push(response.footer[Math.floor(Math.random() * response.footer.length)]);
+      return this.setState({ banner });
+    });
     this.props.getWidget();
     this.props.getPackage({
       order: 'date_desc',
@@ -80,7 +89,7 @@ class Page extends React.Component {
   render() {
     return (
       <div>
-        <List {...this.props} {...this} />
+        <List {...this.props} {...this} {...this.state} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );

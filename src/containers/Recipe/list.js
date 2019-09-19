@@ -15,25 +15,26 @@ import { BackTop } from "antd";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
-const ITEM_HEIGHT = 900;
+const ITEM_HEIGHT = 870;
+let count = 6;
+
 class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
-  constructor(props) {
-    super(props);
-    this.state = {
-      headerProducts: [],
-      recipebanner: [],
-    };
+  state = { headerProducts: [], loading: false, data: [] };
+
+  componentWillMount() {
+    this.props.getRecipeScroll({ order: "date_desc", start: count, rowcnt: 6 });
+    window.scrollTo(0, 0);
   }
 
   renderMainBanner = () => {
     try {
-      const { recipebanner, menuRecipe, intl } = this.props;
+      const { banner, menuRecipe, intl } = this.props;
       return (
         <PageBanner
           title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
           subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
-          banners={recipebanner.length === 0 ? [] : recipebanner.header}
+          banners={banner.length === 0 ? [] : banner.header}
           bgColor="#F2769B"
         />
       );
@@ -41,36 +42,28 @@ class Recipe extends React.Component {
       return console.log(error);
     }
   };
-  componentWillMount() {
-    this.props.getRecipeScroll({
-      order: "date_desc",
-      start: this.props.recipeCount,
-      rowcnt: 6,
-    });
-  }
 
-  loadMoreRows = (key) => {
+  renderSubBanner = () => {
     try {
-      setTimeout(() => {
-        this.props.getRecipeScroll({
-          order: "date_desc",
-          start: this.props.recipeCount,
-          rowcnt: 6,
-        });
-      }, 1000);
+      return (<Banner data={this.props.banner.footer} style={{ marginBottom: '20px' }} />);
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
-  noRowsRenderer = () => <div>No data</div>;
+  loadMoreRows = async () => {
+    count += 6;
+    await this.props.getRecipeScroll({ order: "date_desc", start: count, rowcnt: 6 });
+  };
+
+  noRowsRenderer = () => null
 
   renderHeaderProduct = () => {
     try {
       const { recipeAll } = this.props;
       let tmp = recipeAll.slice(0, 6);
       return (
-        <div style={{ paddingTop: '10px' }}>
+        <div style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             {tmp.length >= 6 ?
               (
@@ -99,31 +92,13 @@ class Recipe extends React.Component {
   generateItemHeight = (item, width) => {
     const { recipeScroll } = this.props;
     if (width >= 340 && width < 500) {
-      return 2650;
+      return 2475;
     }
     if (recipeScroll[item.index].length <= 3) {
       return 306.5;
     }
     return ITEM_HEIGHT;
   }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.recipebanner.length !== prevProps.recipebanner.length) {
-      const selected = this.props.recipebanner.footer[Math.floor(Math.random() * this.props.recipebanner.footer.length)];
-      this.setState({ recipebanner: selected });
-    }
-  }
-
-  renderSubBanner = () => {
-    try {
-      const { recipebanner } = this.state;
-      return (
-        <Banner data={recipebanner} />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
 
   renderFooterProduct = () => {
     try {

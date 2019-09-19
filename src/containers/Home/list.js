@@ -4,6 +4,7 @@ import moment from "moment";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
 import { BackTop } from "antd";
+import { isMobileOnly } from 'react-device-detect';
 
 import { Slider, Widget, Banner } from "../../components";
 import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
@@ -86,7 +87,7 @@ class Homepage extends React.Component {
   renderBlocks = () => {
     try {
       const {
-        homepagebanner,
+        banner,
         widgetAll,
         emartproduct,
         discountproduct,
@@ -105,7 +106,7 @@ class Homepage extends React.Component {
         },
         blocks: {
           widget: widgetAll,
-          banner: homepagebanner,
+          banner,
         },
       };
 
@@ -146,7 +147,7 @@ class Homepage extends React.Component {
       const { brand } = this.props;
 
       const brandParams = {
-        slidesPerView: 5,
+        slidesPerView: isMobileOnly ? 2 : 5,
         spaceBetween: 10,
         loop: true,
         autoplay: {
@@ -182,7 +183,7 @@ class Homepage extends React.Component {
       };
 
       return (
-        <div className="main-slide brands-list">
+        <div className="brands-list">
           <div className="container pad10">
             <Slider
               sliderData={brand}
@@ -220,7 +221,7 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container" >
         {this.renderMainBanner()}
         {this.renderBlocks()}
 

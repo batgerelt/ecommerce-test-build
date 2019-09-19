@@ -837,49 +837,49 @@ button{
     }
   }
 }
-.list-product {
-  position: relative;
+// .list-product {
+//   position: relative;
 
-  .image-container {
-    float: left;
-    position: static;
+//   .image-container {
+//     float: left;
+//     position: static;
 
-    a {
-      height: 120px;
-      position: relative;
-      width: 120px;
-    }
-    &:after {
-      display: none;
-    }
-    .percent {
-      top: 40px;
-      right: 170px;
-      left: auto;
-    }
-  }
-  .info-container {
-    float: left;
-    @include calc(width, "100% - 350px");
-    padding: 20px;
+//     a {
+//       height: 120px;
+//       position: relative;
+//       width: 120px;
+//     }
+//     &:after {
+//       display: none;
+//     }
+//     .percent {
+//       top: 40px;
+//       right: 170px;
+//       left: auto;
+//     }
+//   }
+//   .info-container {
+//     float: left;
+//     @include calc(width, "100% - 350px");
+//     padding: 20px;
 
-    .price {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 20px 20px 0 0;
+//     .price {
+//       position: absolute;
+//       top: 0;
+//       right: 0;
+//       padding: 20px 20px 0 0;
 
-      .current {
-        display: block;
-      }
-    }
-  }
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-}
+//       .current {
+//         display: block;
+//       }
+//     }
+//   }
+//   &:after {
+//     content: "";
+//     clear: both;
+//     display: table;
+//   }
+// }
 .section-footer {
   background-color: $dark;
 
@@ -942,11 +942,17 @@ button{
   }
 }
 .list-filter {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border-bottom: 1px solid $black1;
   font-size: 0.9rem;
 
   .total-result {
+    // color: #A7A8AA;
+
+    strong {
+      color: #63666A;
+    }
+
     p {
       line-height: 40px;
       margin: auto;
@@ -1209,7 +1215,7 @@ button{
     h5.title {
       font-size: 1.5rem;
       color: $black7;
-      margin: 10px auto 20px;
+      margin: 10px auto 0px;
     }
     .big-text {
       margin-bottom: 10px;
@@ -1672,15 +1678,15 @@ button{
   .cart-info {
     p.title {
       font-size: 0.9rem;
-      color: $black5;
+      color: $black;
       border-bottom: 1px solid $black1;
-      margin-bottom: 5px;
-      padding-bottom: 10px;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
     }
     .block {
       padding: 20px;
       border-radius: 5px;
-      @include box-shadow(inset 0 0 0 2px $black1);
+      @include box-shadow(inset 0 0 0 1px $black1);
     }
     .block + .block {
       margin-top: 20px;
@@ -1909,7 +1915,7 @@ form {
   .pack-list {
     margin-bottom: 30px;
     border-radius: 5px;
-    @include box-shadow(inset 0 0 0 2px $black1);
+    @include box-shadow(inset 0 0 0 1px $black1);
     overflow: hidden;
 
     li {
@@ -2449,7 +2455,7 @@ form {
     li a {
       color: $black5;
       display: block;
-      padding: 10px 20px 10px 10px;
+      padding: 10px 20px 10px 5px;
       /* border-left: 2px solid transparent; */
       font-size: 0.8rem;
 
@@ -2466,7 +2472,7 @@ form {
     }
   }
   .user-menu-content {
-    @include box-shadow(inset 0 0 0 2px $black1);
+    /* @include box-shadow(inset 0 0 0 2px $black1); */
     background-color: $white;
     border-radius: 10px;
     overflow: hidden;
@@ -2773,12 +2779,14 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   overflow: hidden;
 }
 
-.cart-table .column-2 {
-  width: 15%;
-}
+.cart-table {
+  th:not(.column-2) {
+    text-align: center;
+  }
 
-.cart-table .column-3 {
-  width: 21%;
+  th.column-2 {
+    text-align: right;
+  }
 }
 
 .swiper-container {
@@ -2794,23 +2802,23 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   width: 100px;
 }
 
-.list-product .info-container {
-  .cart-container {
-    position: absolute;
-    display: block;
-  }
+// .list-product .info-container {
+//   .cart-container {
+//     position: absolute;
+//     display: block;
+//   }
 
-  .cart-container {
-    top: 70px;
-    right: 13px;
-    left: auto;
+//   .cart-container {
+//     top: 70px;
+//     right: 13px;
+//     left: auto;
 
-    a {
-      display: inline;
-      margin-right: 10px;
-    }
-  }
-}
+//     a {
+//       display: inline;
+//       margin-right: 10px;
+//     }
+//   }
+// }
 
 .ant-select-selection--single {
   width: 100%;
@@ -3176,8 +3184,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .jss148{
-  .list-product{
+  .list-product {
     width: 99%;
+    margin-left: 1px;
   }
 }
 
@@ -3311,24 +3320,24 @@ textarea:focus {
 
 
 // My cart's table css
-.cart-table-product-name{
-  width: 35% !important;
-  padding-right: 0% !important;
-}
+// .cart-table-product-name{
+//   width: 35% !important;
+//   padding-right: 0% !important;
+// }
 
-.cart-table-unit-price{
-  width: 18% !important;
-  text-align: end !important;
-  padding-left: 0% !important;
-  padding-right: 0% !important;
-}
+// .cart-table-unit-price{
+//   width: 18% !important;
+//   text-align: end !important;
+//   padding-left: 0% !important;
+//   padding-right: 0% !important;
+// }
 
-.cart-table-qty{
-  width: 25% !important;
-  text-align: center !important;
-  padding-left: 0% !important;
-  padding-right: 0% !important;
-}
+// .cart-table-qty{
+//   width: 25% !important;
+//   text-align: center !important;
+//   padding-left: 0% !important;
+//   padding-right: 0% !important;
+// }
 
 .text-end{
   text-align: end !important; 
@@ -3379,6 +3388,7 @@ button:disabled{
 
 .checkout-panel-title span{
   color: #63666A;
+  font-size: 18px;
 }
 
 .checkout-hover .forgot-password{
@@ -3400,4 +3410,96 @@ button:disabled{
 
 .color-new-grey{
   color: #63666A;
+}
+.user-section .ant-divider-horizontal {
+  margin: 0 !important;
+}
+
+// tur ingev
+.buttonBlack{
+  display: none !important;
+}
+// profile custom input
+.top-text {
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    top: -8px;
+    left: 12px;
+    padding: 0px 5px 0px 5px;
+    color: grey;
+}
+.ant-select-selection--single {
+    height: 40px !important;
+}
+.ant-select-selection__rendered {
+    line-height: 40px !important;
+}
+.padd10 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.profile-custom-input {
+  height: 40px;
+}
+.profile-section {
+  background-color: #ffffff;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+
+}
+.table thead th {
+  background-color: #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table td, table th {
+  vertical-align: middle !important;
+}
+.user-section .user-menu-content {
+  border: 0px solid #E9E9E9 !important;
+}
+
+.cart-container h5 .title {
+  margin-bottom: 0px !important;
+}
+
+.ant-progress-inner {
+  background-color: rgba(0, 0, 0, 0.10) !important;
+}
+
+.ant-input-affix-wrapper {
+  border: 1px !important;
+}
+
+.ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 40px !important;
+}
+
+.btn-reverse:hover {
+  color: black !important;
+}
+.ant-input-affix-wrapper .ant-input-prefix {
+  left: 10px !important;
+  top: 45% !important;
+}
+/* .user-menu-content .ant-divider-horizontal {
+  margin-top: 0px;
+} */
+// 
+
+.ant-tree-title{
+  white-space: nowrap; 
+  width: 50px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.ant-tree li ul{
+  padding: 0 0 0 10px;
+}
+
+.left-panel .collapse-content{
+  padding: 5px 0px !important;
 }

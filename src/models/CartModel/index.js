@@ -622,6 +622,7 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
+          console.log('state.products: ', state.products);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
@@ -636,7 +637,9 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
-        let products = action.payload.success ? action.payload.data : action.payload.data.items;
+        let products = action.payload.success
+          ? action.payload.data
+          : action.payload.data.items;
         return { ...state, products };
 
       case "CART_DECREMENT_PRODUCT_LOCALLY":
@@ -661,7 +664,9 @@ class Model extends BaseModel {
       case this.model.decrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.decrementProductRemotely.response:
-        products = action.payload.success ? action.payload.data : action.payload.data.items;
+        products = action.payload.success
+          ? action.payload.data
+          : action.payload.data.items;
         return { ...state, products };
 
       case "CART_INCREASE_PRODUCT_BY_QTY_LOCALLY":
@@ -712,7 +717,14 @@ class Model extends BaseModel {
 
           return {
             ...state,
-            products: this.updateReduxStore(products, product, "", true),
+            products: this.updateReduxStore(
+              products,
+              product,
+              "",
+              true,
+              false,
+              true,
+            ),
           };
         } catch (e) {
           console.log(e);

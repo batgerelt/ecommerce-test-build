@@ -22,26 +22,32 @@ class AppHeader extends Component {
       lang: this.props.intl.locale,
       isDropdownOpen: false,
       isSearchDropdownOpen: false,
-      item: { id: 0, name: "" },
+      item: { id: 0, name: "", name_en: '' },
       suggestion: [],
       word: "",
       keywordid: null,
       isSearch: false,
-      pro: false,
       categoryDropdown: false,
     };
   }
 
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
+  componentWillUnmount() {
+    this.props.onRef(null);
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  componentDidMount() {
+    this.props.onRef(this);
+    window.addEventListener('scroll', this.handleScroll);
+  }
 
   handleLangChange = (e) => {
     this.props.setLang(e);
-    // this.props.getMenu();
-    // this.props.getCategoryMenu();
-    // this.props.getStaticPages();
-    // this.props.getStaticInfo();
   };
+
+  handleScroll = () => {
+    this.state.categoryDropdown ? this.setState({ categoryDropdown: false }) : null;
+  }
 
   handleChangeSearchWord = (e) => {
     this.setState({ word: e.target.value });
@@ -109,23 +115,23 @@ class AppHeader extends Component {
       const { staticinfo } = this.props.staticcontent;
       return (
         <div className="top-nav">
-          <div className="container container-laptop pad10">
+          <div className="container container-laptop">
             <div className="row row10">
-              <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
+              <div className="col-lg-6 col-md-6 d-none d-md-block">
                 <ul className="list-inline left-panel">
                   <li className="list-inline-item">
-                    <div className="e-phone">
+                    <span className="e-phone">
                       <Icon
                         type="phone"
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
                       <strong> {staticinfo.phone} </strong>
-                    </div>
+                    </span>
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-6 col-md-6 d-none d-md-block pad10">
+              <div className="col-lg-6 col-md-6 d-none d-md-block">
                 <ul className="list-inline right-panel text-right color-new-grey" style={{ boxShadow: 'none' }}>
                   <li className="list-inline-item">
                     <select onChange={this.handleLangChange} className="classic color-new-grey" defaultValue={this.props.locale.lang} style={{ boxShadow: 'none', color: "#63666A" }}>
@@ -180,7 +186,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row">
-              <div className="col-xl-9 col-lg-8 col-md-6 col-5 pad10">
+              <div className="col-lg-8 col-md-6 col-5 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -214,8 +220,10 @@ class AppHeader extends Component {
                               style={{ boxShadow: 'none' }}
                             >
                               {
-                                this.state.item.name
-                                  ? this.state.item.name
+                                this.state.item.id !== 0
+                                  ? (
+                                    lang === "mn" ? this.state.item.name : this.state.item.name_en
+                                  )
                                   : <FormattedMessage id="header.category.label.allProducts" />
                               }
                             </button>
@@ -290,7 +298,7 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                          <Link
+                          {/* <Link
                             to="#"
                             className="btn mobile-search-cross"
                             onClick={this.toggleSearch}
@@ -306,28 +314,27 @@ class AppHeader extends Component {
                             >
                               Хаах
                             </span>
-                          </Link>
+                          </Link> */}
                         </li>
                       </ul>
                     </Form>
                   </div>
                 </div>
               </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-7 pad10">
+              <div className="col-lg-4 col-md-6 col-7 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
-                    <li className="list-inline-item">
-                      <span
-                        className="flex-this search-mobile-btn d-flex d-lg-none row10"
+                    <li className="list-inline-item search-icon">
+                      <Link
+                        to="#"
                         onClick={this.toggleSearch}
-                        style={{ padding: 5 }}
                       >
                         <img src={searchImage} alt="search" height="25px" />
                         <p>
                           <small>Хайлт</small>
                           <span className="text-uppercase">хийх</span>
                         </p>
-                      </span>
+                      </Link>
                     </li>
                     <li className="list-inline-item">
                       {
@@ -337,20 +344,28 @@ class AppHeader extends Component {
                               <img
                                 src={addedWishList ? heartImageColor : heartImage}
                                 alt="wishlist"
-                                height={"25px"}
+                                height="25px"
                                 style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
                               />
                               <p className="header-text header-wish-text">
-                                <span className="upper-first"><FormattedMessage id="header.wishlist.part1" /></span>
-                                <span><FormattedMessage id="header.wishlist.part2" /></span>
+                                <small className="upper-first">
+                                  <FormattedMessage id="header.wishlist.part1" />
+                                </small>
+                                <span>
+                                  <FormattedMessage id="header.wishlist.part2" />
+                                </span>
                               </p>
                             </Link>
                           ) : (
                             <Link to="#" className="row10" onClick={this.handleLogin}>
                               <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
                               <p className="header-text header-wish-text">
-                                <span className="upper-first"><FormattedMessage id="header.wishlist.part1" /></span>
-                                <span><FormattedMessage id="header.wishlist.part2" /></span>
+                                <small className="upper-first">
+                                  <FormattedMessage id="header.wishlist.part1" />
+                                </small>
+                                <span>
+                                  <FormattedMessage id="header.wishlist.part2" />
+                                </span>
                               </p>
                             </Link>
                           )
@@ -372,8 +387,6 @@ class AppHeader extends Component {
   }
 
   handleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown })
-
-  handleScroll = e => console.log('e: ', e);
 
   renderMainNavigation = () => {
     try {
@@ -397,8 +410,8 @@ class AppHeader extends Component {
         });
       });
       const dropdown = (
-        <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ backgroundColor: '#262a32', marginTop: '-5px' }}>
-          <div className="container pad10" style={{ padding: '30px 30px 30px 30px' }}>
+        <div className="drop-container" onClick={this.handleCategoryDropdown}>
+          <div className="container pad10">
             <Category dataSource={root} {...this.props} />
           </div>
         </div>
@@ -417,7 +430,7 @@ class AppHeader extends Component {
                 </Link>
               </li>
               <li className="list-inline-item has-drop">
-                <Dropdown overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
+                <Dropdown placement="bottomLeft" visible={categoryDropdown} overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>
                   <Link to="#" onClick={this.handleCategoryDropdown}>
                     <span><FormattedMessage id="search.filter.category.title" /></span>
                     <Icon type="left" style={{ color: '#feb415', transition: '0.1s' }} rotate={categoryDropdown ? -90 : 0} />

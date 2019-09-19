@@ -79,7 +79,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -123,7 +123,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -139,7 +139,7 @@ class CategoryInfo extends React.Component {
         (i === e.target.value ? colors.splice(index, 1) : null),
       );
     }
-    this.setState({ loading: !this.state.loading, colors });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: this.state.catid,
@@ -162,7 +162,8 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          colors,
         });
       }
     });
@@ -176,7 +177,7 @@ class CategoryInfo extends React.Component {
     } else {
       brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null));
     }
-    this.setState({ loading: !this.state.loading, brands });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: this.state.catid,
@@ -193,19 +194,22 @@ class CategoryInfo extends React.Component {
       orderColumn: this.state.sort,
       highlight: false,
     };
+
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
         window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          brands,
         });
       }
     });
   };
 
   handleChangeAttribute = (e, value, attribute) => {
+    this.setState({ loading: !this.state.loading });
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
     if (e.target.checked) {
@@ -217,7 +221,6 @@ class CategoryInfo extends React.Component {
           : null),
       );
     }
-    this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
       catId: this.state.catid,
@@ -236,17 +239,32 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          attributes,
         });
+
+        window.scrollTo(0, 0);
       }
     });
   };
 
   handleClickCategory = (cat) => {
+    const { categoryall } = this.props;
+    let isChangeCategory = false;
+    try {
+      const lvl = JSON.parse(`{"${
+        decodeURI(this.props.history.location.search)
+          .replace(/"/g, '\\"')
+          .replace(/&/g, '","')
+          .replace(/[/?]/g, '')
+          .replace(/=/g, '":"')}"}`).lvl;
+      isChangeCategory = categoryall.find(i => i.id.toString() === cat[0].toString()).lvl < lvl;
+    } catch (error) {
+      console.log('error: ', error);
+    }
     const { isLogged, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.props.getCategoryParents({ id: cat.length === 0 ? searchid : cat[0] });
@@ -273,9 +291,10 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
           catid: cat[0],
           aggregations: res.payload.data,
+          categories: isChangeCategory ? res.payload.data.aggregations.categories : this.state.categories,
         });
       }
     });
@@ -293,7 +312,7 @@ class CategoryInfo extends React.Component {
             switcherIcon={<Icon type="down" />}
             onSelect={this.handleClickCategory}
             showIcon={false}
-          // defaultExpandAll={false}
+            defaultExpandAll
           // defaultExpandParent={false}
           >
             {categories.buckets.map(one => (
@@ -348,7 +367,7 @@ class CategoryInfo extends React.Component {
       return (
         <div className="col-xl-3 col-md-3 pad10">
           <div
-            className={`left-panel-container filter-sticky ${leftPanel1}`}
+            className={`left-panel-container ${leftPanel1}`}
             onClick={this.showLeftPanel}
           >
             <div className={leftPanel}>
@@ -413,7 +432,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
-          <div className="list-filter">
+          <div className="list-filter pad10">
             <div className="row row10">
               <div className="col-lg-6 pad10">
                 <div className="total-result">
@@ -434,7 +453,7 @@ class CategoryInfo extends React.Component {
                       <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
-                  <div className="form-group my-select flex-this">
+                  <div className="form-group my-select flex-this pr-1">
                     <label
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
@@ -450,15 +469,15 @@ class CategoryInfo extends React.Component {
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this" style={{ marginLeft: '15px' }}>
+                  <div className="form-group flex-this pl-2">
                     <div
-                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      className={this.state.isListViewOn ? "btn active  p-1" : "btn  p-1"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
                     </div>
                     <div
-                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
@@ -484,7 +503,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -497,7 +516,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 300.98;
+        tmp = 305.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -532,7 +551,7 @@ class CategoryInfo extends React.Component {
     try {
       const { searchKeyWordResponse } = this.props;
 
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid === null ? searchid : this.state.catid,
@@ -614,7 +633,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
@@ -715,7 +734,7 @@ class CategoryInfo extends React.Component {
 
     return (
       <div className="top-container">
-        <div className="section">
+        <div className="section category-search">
           <div className="container pad10">
             {this.renderBreadCrumb()}
             <div className="row row10">

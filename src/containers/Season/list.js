@@ -63,6 +63,7 @@ class CategoryInfo extends React.Component {
         body: { ...this.state },
       }).then((res) => {
         if (res.payload.success && res.payload.data) {
+          window.scrollTo(0, 0);
           this.setState({
             products: res.payload.data.hits.hits,
             startsWith: 20,
@@ -78,7 +79,7 @@ class CategoryInfo extends React.Component {
 
   handleChangeOrder = (e) => {
     const { isLogged, data } = this.props;
-    this.setState({ loading: !this.state.loading, sort: e });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: 0,
@@ -96,8 +97,14 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({
+          products: res.payload.data.hits.hits,
+          loading: !this.state.loading,
+          count: 20,
+          sort: e,
+        });
       }
     });
   };
@@ -131,8 +138,9 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -160,8 +168,9 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -189,8 +198,9 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   }
@@ -219,8 +229,9 @@ class CategoryInfo extends React.Component {
     };
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
-        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 0 });
+        this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
     });
   };
@@ -246,6 +257,7 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
+      window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -299,7 +311,7 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
         <div className="col-xl-3 col-md-3 pad10">
-          <div className={`left-panel-container filter-sticky ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
@@ -353,7 +365,7 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
+      // console.log(error);
       return null;
     }
   }
@@ -365,10 +377,10 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-xl-9 col-lg-9 col-md-9 pad10">
-          <div className="list-filter">
-            <div className="row row10">
-              <div className="col-lg-6 col-md-6 pad10">
+        <div className="col-md-9 pad10">
+          <div className="list-filter pad10">
+            <div className="row">
+              <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
@@ -376,7 +388,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-6 pad10">
+              <div className="col-md-8">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -387,10 +399,10 @@ class CategoryInfo extends React.Component {
                       <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
-                  <div className="form-group my-select flex-this" style={{ width: "100%" }}>
+                  <div className="form-group my-select flex-this pr-1">
                     <label
                       htmlFor="inputState"
-                      style={{ marginTop: "7px", marginRight: "5px" }}
+                      style={{ marginTop: "10px", marginRight: "5px" }}
                     >
                       <FormattedMessage id="search.sort.label" />:
                     </label>
@@ -398,21 +410,20 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
-                      style={{ width: "100%" }}
                     >
                       <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
-                  <div className="form-group flex-this searchGridList" style={{ marginLeft: '15px' }}>
+                  <div className="form-group flex-this searchGridList pl-2">
                     <div
-                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      className={this.state.isListViewOn ? "btn active p-1" : "btn p-1"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
                     </div>
                     <div
-                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
@@ -436,7 +447,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null;
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -495,7 +506,7 @@ class CategoryInfo extends React.Component {
   loadMoreRows = () => {
     try {
       const { searchKeyWordResponse } = this.props;
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: 0,
@@ -573,7 +584,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className="jss148">
+                              <div key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic

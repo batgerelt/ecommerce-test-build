@@ -181,37 +181,48 @@ class Component extends React.Component {
     try {
       const address = addrs;
       return address.map((item, index) => (
-        <tr key={index} style={{ width: "100%", padding: "70px" }}>
-          <td style={{ width: "5%" }}>{item.ismain === 1 ? <strong>{item.name}</strong> : <p>{item.name}</p>}</td>
-          <td
-            style={{
-              width: "15%", overflowWrap: "break-word", wordWrap: "break-word",
-            }}
-          >
-            {item.ismain === 1 ? <strong>{item.phone1}, {item.phone2}</strong> : <p>{item.phone1}, {item.phone2}</p>}
+        <tr key={index}>
+          <td>
+            {
+              item.ismain === 1
+                ? <strong>{item.name}</strong>
+                : <p>{item.name}</p>
+            }
           </td>
-          <td style={{ width: "15%" }}>{item.ismain === 1 ? <strong>{item.provincenm}</strong> : <p>{item.provincenm}</p>}</td>
-          <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.districtnm}</strong> : <p>{item.districtnm}</p>}</td>
-          <td style={{ width: "10%" }}>{item.ismain === 1 ? <strong>{item.committeenm}</strong> : <p>{item.committeenm}</p>}</td>
-          <td
-            style={{
-              width: "15%", overflowWrap: "break-word", wordWrap: "break-word", wordBreak: "break-all",
-            }}
-          >
-            {item.ismain === 1 ? <strong>{item.address}</strong> : <p>{item.address}</p>}
+          <td>
+            {
+              item.ismain === 1
+                ? <strong>{item.phone1},<br />{item.phone2}</strong>
+                : <p>{item.phone1},<br />{item.phone2}</p>
+            }
           </td>
-          {item.ismain !== 1 ?
-            <td style={{ width: "5%" }} onClick={e => this.onDelete(e, item)}>
-              <Link to="#" disabled={loader}>
-                <i
-                  className="fa fa-times"
-                  aria-hidden="true"
-                  style={{ color: "black" }}
-                />
-              </Link>
-            </td>
-            :
-            <td style={{ width: "5%" }} />
+          <td>
+            {
+              item.ismain === 1
+                ? <strong>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</strong>
+                : <p>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</p>
+            }
+          </td>
+          <td>
+            {
+              item.ismain === 1
+                ? <strong>{item.address}</strong>
+                : <p>{item.address}</p>
+            }
+          </td>
+          {
+            item.ismain !== 1
+              ? (
+                <td onClick={e => this.onDelete(e, item)}>
+                  <Link to="#" disabled={loader}>
+                    <i
+                      className="fa fa-times"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </td>
+              )
+              : <td />
           }
         </tr>
       ));
@@ -232,137 +243,164 @@ class Component extends React.Component {
         load,
       } = this.state;
       return (
-        <Form className="row row10" onSubmit={this.handleSubmit}>
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("name", {
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.name.validation.required" }) }],
-              })(<LetterInput placeholder={intl.formatMessage({ id: "shared.form.name.placeholder" })} onChange={this.onChangeName} />)}
-            </Form.Item>
-          </Col>
+        <div className="row row10">
+          <Form onSubmit={this.handleSubmit}>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.name.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("name", {
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.name.validation.required" }) }],
+                })(<LetterInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.name.placeholder" })} onChange={this.onChangeName} />)}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("phone1", {
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
-                { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("phone1", {
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                  { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                  { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} autoComplete="off" />)}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("phone2", {
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
-                { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-              })(<NumberInput placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.phone2.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("phone2", {
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                  { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                  { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("mainLocation", {
-                initialValue: this.checkError(this.state.params.provid),
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
-              })(
-                <Select
-                  showSearch
-                  placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
-                  onChange={this.onMainLocation}
-                  disabled={loader}
-                  loading={loader}
-                >
-                  {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
-                </Select>,
-              )}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("mainLocation", {
+                  initialValue: this.checkError(this.state.params.provid),
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
+                })(
+                  <Select
+                    showSearch
+                    placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
+                    onChange={this.onMainLocation}
+                    disabled={loader}
+                    loading={loader}
+                  >
+                    {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
+                  </Select>,
+                )}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("subLocation", {
-                /* initialValue: this.checkError(this.state.params.distid), */
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
-              })(
-                <Select
-                  showSearch
-                  placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })}
-                  optionFilterProp="children"
-                  onChange={this.onSubLocation}
-                  disabled={loader}
-                  loading={loader}
-                >
-                  {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
-                </Select>,
-              )}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("subLocation", {
+                  /* initialValue: this.checkError(this.state.params.distid), */
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
+                })(
+                  <Select
+                    showSearch
+                    placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })}
+                    optionFilterProp="children"
+                    onChange={this.onSubLocation}
+                    disabled={loader}
+                    loading={loader}
+                  >
+                    {this.props.districtlocation === undefined ? null : this.renderLocation(this.props.districtlocation)}
+                  </Select>,
+                )}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-            <Form.Item style={{ width: '96%', marginBottom: '5px' }}>
-              {getFieldDecorator("commiteLocation", {
-                /* initialValue: this.checkError(this.state.params.commid), */
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
-              })(
-                <Select
-                  showSearch
-                  placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}
-                  optionFilterProp="children"
-                  onChange={this.onchangesyscom}
-                  disabled={loader}
-                  loading={loader}
-                >
-                  {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
-                </Select>,
-              )}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("commiteLocation", {
+                  /* initialValue: this.checkError(this.state.params.commid), */
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
+                })(
+                  <Select
+                    showSearch
+                    placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}
+                    optionFilterProp="children"
+                    onChange={this.onchangesyscom}
+                    disabled={loader}
+                    loading={loader}
+                  >
+                    {this.props.committelocation === undefined ? null : this.renderCommit(this.props.committelocation)}
+                  </Select>,
+                )}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item style={{ width: '98.5%', marginBottom: '5px' }}>
-              {getFieldDecorator("homeaddress", {
-                rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
-              })(<Input placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} autoComplete="off" />)}
-            </Form.Item>
-          </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+              <Form.Item>
+                {getFieldDecorator("homeaddress", {
+                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                })(<Input className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} autoComplete="off" />)}
+              </Form.Item>
+            </Col>
 
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item className="text-right" style={{ width: '98.5%', marginBottom: '5px' }}>
-              <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40' }}>
-                <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-              </Button>
-            </Form.Item>
-          </Col>
-          <Col span={24} className="delivery-address" style={{ width: '98.5%', marginBottom: '5px' }}>
-            <p className="title">
-              <span><FormattedMessage id="profile.deliveryAddress.table.title" /></span>
-            </p>
-            <Spin
-              spinning={loader}
-              indicator={<Loader />}
-            >
-              <div className="cart-table table-responsive">
-                <table className="table table-borderless">
-                  <thead className="thead-light" hidden>
-                    <tr>
-                      <th className="column-1"><FormattedMessage id="shared.form.name.placeholder" /></th>
-                      <th className="column-2"><FormattedMessage id="shared.form.phone1.placeholder" /></th>
-                      <th className="column-3"><FormattedMessage id="shared.form.city.placeholder" /></th>
-                      <th className="column-3"><FormattedMessage id="shared.form.district.placeholder" /></th>
-                      <th className="column-3"><FormattedMessage id="shared.form.address.placeholder" /></th>
-                      <th className="column-3"> </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.props.addrs === undefined ? null : this.renderDeliveryAddress(this.props.addrs)}
-                  </tbody>
-                </table>
-              </div>
-            </Spin>
-          </Col>
-        </Form>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" style={{ textAlign: "right" }}>
+              <Col xs={12} sm={12} md={18} lg={18} xl={18} />
+              <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+                <Form.Item className="text">
+                  <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                    <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Col>
+
+            <Col span={24} className="delivery-address">
+              <p className="title">
+                <span><FormattedMessage id="profile.deliveryAddress.table.title" /></span>
+              </p>
+              <Spin
+                spinning={loader}
+                indicator={<Loader />}
+              >
+                <div className="cart-table table-responsive">
+                  <table>
+                    <thead className="thead-light" hidden>
+                      <tr>
+                        <th className="column-1">
+                          <FormattedMessage id="shared.form.name.placeholder" />
+                        </th>
+                        <th className="column-2">
+                          <FormattedMessage id="shared.form.phone1.placeholder" />
+                        </th>
+                        <th className="column-3">
+                          <FormattedMessage id="shared.form.city.placeholder" />
+                        </th>
+                        <th className="column-3">
+                          <FormattedMessage id="shared.form.district.placeholder" />
+                        </th>
+                        <th className="column-3">
+                          <FormattedMessage id="shared.form.address.placeholder" />
+                        </th>
+                        <th className="column-3" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.props.addrs === undefined
+                          ? null
+                          : this.renderDeliveryAddress(this.props.addrs)
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </Spin>
+            </Col>
+          </Form>
+        </div>
       );
     } catch (error) {
       return console.log(error);
@@ -375,7 +413,8 @@ class Component extends React.Component {
         <p className="title">
           <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
-        <div className="user-profile-contain">
+        <Divider />
+        <div className="user-profile-container" >
           {this.props.useraddress === undefined ? null : this.renderAddress()}
         </div>
       </div>

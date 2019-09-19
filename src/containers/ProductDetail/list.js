@@ -133,10 +133,7 @@ class ProductDetail extends React.Component {
       const { detail } = this.props;
       return (
         <div className="social-buttons">
-          <ul
-            className="list-inline"
-            style={{ display: "inline-block", verticalAlign: "middle" }}
-          >
+          <ul className="list-inline">
             <li className="list-inline-item share-text upper-first">
               <span><FormattedMessage id="shared.share" />:</span>
             </li>

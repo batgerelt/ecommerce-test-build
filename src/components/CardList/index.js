@@ -151,7 +151,7 @@ class CardList extends React.Component {
 
         if ((i + 1) % cardsInColCalculated === 0 || i === cardsCount - 1) {
           cardList.push(
-            <div className="col-md-4 pad10" key={i}>
+            <div className="col-sm-4 pad10" key={i}>
               {cardsTemp}
             </div>,
           );

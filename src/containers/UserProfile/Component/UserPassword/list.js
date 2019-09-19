@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, message, Input, Select, Icon, Spin, Col, Button } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Col, Button, Divider } from "antd";
 // import { Link } from "react-router-dom";
 
 class Component extends React.Component {
@@ -62,41 +62,48 @@ class Component extends React.Component {
       const { getFieldDecorator } = this.props.form;
       return (
         <Form className="row row10">
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("oldPassword", {
                 rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.oldPassword.validation.required" }) }],
-              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
+              })(<Input.Password className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.oldPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.newPassword.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("password", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPassword.validation.required" }) },
                   { validator: this.validateToNextPassword },
                 ],
-              })(<Input.Password placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
+              })(<Input.Password className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.newPassword.placeholder" })} />)}
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <Form.Item style={{ marginBottom: '5px' }}>
+          <Col span={24} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })}</span>
+            <Form.Item>
               {getFieldDecorator("confirm", {
                 rules: [
                   { required: true, message: intl.formatMessage({ id: "shared.form.newPasswordAgain.validation.required" }) },
                   { validator: this.compareToFirstPassword },
                 ],
               })(
-                <Input.Password onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />,
+                <Input.Password className="profile-custom-input" onBlur={this.handleConfirmBlur} placeholder={intl.formatMessage({ id: "shared.form.newPasswordAgain.placeholder" })} />,
               )}
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <Form.Item className="text-right" style={{ marginBottom: '5px' }}>
-              <Button htmlType="submit" style={{ background: '#343a40' }} className="btn btn-dark" onClick={this.handleSubmit}>
-                <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-              </Button>
-            </Form.Item>
+
+          <Col span={24} className="padd10" style={{ textAlign: "right" }}>
+            <Col xs={12} sm={12} md={18} lg={18} xl={18} />
+            <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Form.Item className="text">
+                <Button className="btn btn-dark" onClick={this.handleSubmit} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
+                </Button>
+              </Form.Item>
+            </Col>
           </Col>
         </Form>
       );
@@ -106,11 +113,12 @@ class Component extends React.Component {
   };
   render() {
     return (
-      <div className="user-menu-content">
-        <p className="title">
-          <span><FormattedMessage id="profile.changePassword.title" /></span>
+      <div className="user-menu-content" style={{ margin: "0px !important" }}>
+        <p className="title" style={{ textTransform: "uppercase" }}>
+          <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
-        <div className="user-profile-contain">
+        <Divider />
+        <div className="user-profile-container">
           {this.renderPassword()}
         </div>
       </div>

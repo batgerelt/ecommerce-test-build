@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import React from "react";
-import { Rate, message, Spin, BackTop, Icon, Col, Row } from "antd";
+import { Rate, Spin, Icon, Col, Row, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Loader } from "../../../../components";
@@ -22,7 +22,8 @@ class Component extends React.Component {
   //   }
   //   return true;
   // }
-  onDelete = (item) => {
+  onDelete = item => async (e) => {
+    e.preventDefault();
     this.setState({ loader: true });
     this.props.deleteHistory({ skucd: item.skucd }).then((res) => {
       this.props.getHistory().then((res) => {
@@ -30,7 +31,8 @@ class Component extends React.Component {
       });
     });
   }
-  addHistory = async (item) => {
+  addHistory = item => async (e) => {
+    e.preventDefault();
     const result = await this.props.addWishList({ skucd: item.skucd });
     if (result.payload.success) {
       this.removeAddedWishColorTime();
@@ -42,7 +44,8 @@ class Component extends React.Component {
       removeAddedWishColor();
     }, 500);
   }
-  handleIncrement = (item) => {
+  handleIncrement = item => async (e) => {
+    e.preventDefault();
     if (item.skucd) {
       this.props.incrementProductRemotely({
         skucd: item.skucd,
@@ -63,8 +66,8 @@ class Component extends React.Component {
       return history.map((item, index) => {
         const isSaved = this.state.wish.find(w => w.skucd === item.skucd);
         return (
-          <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
-            <Col className="product" sm={12} md={12} lg={12} xl={12}>
+          <Row className="single flex-this flex-space" key={index}>
+            <Col className="product">
               <div className="flex-this">
                 <div className="image-container default">
                   <Link to={item.route ? item.route : " "}>
@@ -85,42 +88,48 @@ class Component extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col className="action" xs={16} sm={6} md={6} lg={6} xl={6}>
-              <ul className="list-unstyled flex-this">
-                <li style={{ textAlign: "left", width: "100%" }}>
-                  <div className="price-pro">
+            <Col className="action price">
+              <ul className="list-unstyled">
+                {
+                  item.pricetag !== null
+                    ? localStorage.getItem('lang') === "mn"
+                      ? (
+                        <li style={{ textAlign: "left", width: "100%" }}>
+                          <span className="price-pro">
+                            <span>{`${item.pricetag}`}</span>
+                          </span>
+                        </li>
+                      )
+                      : (
+                        <li style={{ textAlign: "left", width: "100%" }}>
+                          <span className="price-pro">
+                            <span>{`${item.pricetag_en}`}</span>
+                          </span>
+                        </li>
+                      )
+                    : null
+                }
+                <li>
+                  <span className="price-pro">
                     {
-                      item.pricetag !== null ?
-                        localStorage.getItem('lang') === "mn" ?
-                          <div>{`${item.pricetag}`}</div>
-                          :
-                          <div>{`${item.pricetag_en}`}</div>
-                        : null
+                      item.pricetag !== null
+                        ? localStorage.getItem('lang') === "mn"
+                          ? <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                          : <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                        : <span>{`${formatter.format(item.currentprice)}₮`}</span>
                     }
-                  </div>
-                </li>
-                <li style={{ textAlign: "right !important" }}>
-                  <div className="price-pro">
-                    {
-                      item.pricetag !== null ?
-                        localStorage.getItem('lang') === "mn" ?
-                          <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                          :
-                          <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                        : <div>{`${formatter.format(item.currentprice)}`}₮</div>
-                    }
-                  </div>
+                  </span>
                 </li>
               </ul>
             </Col>
-            <Col className="action" xs={8} sm={6} md={6} lg={6} xl={6}>
-              <ul className="list-unstyled flex-this end" >
+            <Col className="action icons">
+              <ul className="list-unstyled flex-this">
                 <li>
                   <Link to="#">
                     <i
                       className={`fa fa-heart${isSaved ? '' : '-o'}`}
                       aria-hidden="true"
-                      onClick={() => this.addHistory(item)}
+                      onClick={this.addHistory(item)}
                     />
                   </Link>
                 </li>
@@ -129,12 +138,12 @@ class Component extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      onClick={() => this.handleIncrement(item)}
+                      onClick={this.handleIncrement(item)}
                     />
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" onClick={e => this.onDelete(item)}>
+                  <Link to="#" onClick={this.onDelete(item)}>
                     <i className="fa fa-times" aria-hidden="true" />
                   </Link>
                 </li>
@@ -152,9 +161,10 @@ class Component extends React.Component {
     const icon = <Icon type="sync" spin />;
     return (
       <div className="user-menu-content">
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.seenHistory.title" /></span>
         </p>
+        <Divider />
         <Spin
           spinning={loaders}
           indicator={<Loader />}

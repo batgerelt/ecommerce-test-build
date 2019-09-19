@@ -27,21 +27,25 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
-    if (this.props.isLogged) {
-      let result = await this.props.confirmCartRemotely();
-      const { intl } = this.props;
+    try {
+      if (this.props.isLogged) {
+        let result = await this.props.confirmCartRemotely();
+        const { intl } = this.props;
 
-      if (result.payload.data.length > 0) {
-        if (result.payload.data[0].data.values.length > 0) {
-          result.payload.data.forEach(msg => (
-            message.warning(intl.formatMessage(
-              { id: msg.code },
-              { names: msg.data.values.join(", ") },
-            ))
-          ));
-          this.setState({ proceedRoute: "/cart" });
+        if (result.payload && result.payload.data && result.payload.data.length > 0) {
+          if (result.payload.data[0].data.values.length > 0) {
+            result.payload.data.forEach(msg => (
+              message.warning(intl.formatMessage(
+                { id: msg.code },
+                { names: msg.data.values.join(", ") },
+              ))
+            ));
+            this.setState({ proceedRoute: "/cart" });
+          }
         }
       }
+    } catch (error) {
+      console.log('error: ', error);
     }
   };
 
@@ -103,12 +107,15 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
+    console.log('product: ', product);
+    console.log('e: ', e);
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
       const qty = isNaN(e.target.value) ? found.addminqty : found.qty;
+      console.log('qty: ', qty);
       found.qty = parseInt(qty, 10);
 
       if (this.props.isLogged) {
@@ -131,6 +138,7 @@ class Cart extends React.Component {
           }));
         }
       } else {
+        console.log('found: ', found);
         this.props.updateProductByQtyLocally(found);
 
         const updated = this.props.products.find(prod => prod.skucd === found.skucd);
@@ -278,9 +286,9 @@ class Cart extends React.Component {
       if (product.issalekg) {
         return (
           <p className="price" style={{ textAlign: 'end' }}>
-            <strong>
+            <span>
               {formatter.format(product.discountprice || product.currentprice)}₮
-            </strong>
+            </span>
             <span
               style={{
                 display: "block",
@@ -306,12 +314,12 @@ class Cart extends React.Component {
 
       return (
         <p className="price" style={{ textAlign: 'end' }}>
-          <strong>
+          <span>
             {formatter.format(product.saleminqty > 1
               ? product.currentprice / product.saleminqty
               : product.currentprice,
             )}₮
-          </strong>
+          </span>
           <span
             style={{
               display: "block",
@@ -332,7 +340,7 @@ class Cart extends React.Component {
     if (product.issalekg) {
       return (
         <p className="price" style={{ textAlign: 'end' }}>
-          <strong>{formatter.format(product.currentprice)}₮</strong>
+          <span>{formatter.format(product.currentprice)}₮</span>
           <span
             style={{
               display: "block",
@@ -348,12 +356,12 @@ class Cart extends React.Component {
 
     return (
       <p className="price" style={{ textAlign: 'end' }}>
-        <strong>
+        <span>
           {formatter.format(product.saleminqty > 1
             ? product.price / product.saleminqty
             : product.price,
           )}₮
-        </strong>
+        </span>
       </p>
     );
   };
@@ -433,7 +441,7 @@ class Cart extends React.Component {
       wishlistProducts.length > 0 && (
         <div className="block fav-products">
           <p className="title">
-            <strong><FormattedMessage id="shared.sidebar.title.wishlist" /></strong>
+            <FormattedMessage id="shared.sidebar.title.wishlist" />
           </p>
           <ul className="list-unstyled">
             {wishlistProducts.map((wishlistProd, index) => (
@@ -479,7 +487,9 @@ class Cart extends React.Component {
             ))}
           </ul>
           <Link to="/profile/wish" className="btn btn-gray btn-block">
-            <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.showAll" /></span>
+            <span className="text-uppercase">
+              <FormattedMessage id="shared.sidebar.button.showAll" />
+            </span>
           </Link>
         </div>
       )
@@ -492,11 +502,7 @@ class Cart extends React.Component {
       const lang = this.props.intl.locale;
 
       let content = (
-        <div style={{
-          textAlign: "center",
-          paddingTop: "50px",
-        }}
-        >
+        <div className="empty-cart">
           <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
         </div>
       );
@@ -519,13 +525,13 @@ class Cart extends React.Component {
           <table className="table table-borderless">
             <thead className="thead-light">
               <tr>
-                <th className="column-1 cart-table-product-name">
+                <th className="column-1">
                   <FormattedMessage id="cart.table.productName" />
                 </th>
-                <th className="column-2 cart-table-unit-price">
+                <th className="column-2">
                   <FormattedMessage id="cart.table.unitPrice" />
                 </th>
-                <th className="column-3 cart-table-qty">
+                <th className="column-3">
                   <FormattedMessage id="cart.table.count" />
                 </th>
                 <th className="column-4">
@@ -538,16 +544,14 @@ class Cart extends React.Component {
             {products.map((prod, index) => (
               <tbody key={index}>
                 <tr>
-                  <td>
+                  <td className="column-1">
                     <div className="flex-this">
                       <div className="image-container default">
                         <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
                           <span
                             className="image"
                             style={{
-                              backgroundImage: `url(${
-                                process.env.IMAGE
-                                }${prod.img || prod.imgnm || prod.url || ""})`,
+                              backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
                             }}
                           />
                         </Link>
@@ -573,8 +577,8 @@ class Cart extends React.Component {
                       </div>
                     </div>
                   </td>
-                  <td>{this.renderUnitPrice(prod)}</td>
-                  <td>
+                  <td className="column-2">{this.renderUnitPrice(prod)}</td>
+                  <td className="column-3">
                     <form>
                       <div className="input-group e-input-group">
                         <div className="input-group-prepend" id="button-addon4">
@@ -606,12 +610,7 @@ class Cart extends React.Component {
                       </div>
                     </form>
                   </td>
-                  <td
-                    style={{
-                      paddingRight: "20px",
-                      textAlign: "right",
-                    }}
-                  >
+                  <td className="column-4">
                     {this.renderTotalPrice(prod)}
                   </td>
                 </tr>
@@ -619,7 +618,7 @@ class Cart extends React.Component {
                   <td colSpan="2" style={{ fontSize: "0.8em" }}>
                     {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
                   </td>
-                  <td colSpan="2" style={{ paddinRight: "30px" }}>
+                  <td colSpan="2">
                     <div className="text-right single-action">
                       <ul className="list-unstyled">
                         <li>
@@ -668,14 +667,8 @@ class Cart extends React.Component {
               <div className="col-xl-8 col-lg-8 pad10">
                 <div className="row">
                   <div className="col">
-                    <h5 className="title upper-first">
-                      <span><FormattedMessage id="cart.table.title" /></span>
-                    </h5>
-                  </div>
-                  <div className="col">
                     <button
-                      className="btn btn-link pull-right upper-first"
-                      style={{ marginTop: "15px" }}
+                      className="btn btn-link pull-right upper-first btn-clear"
                       onClick={this.handleClearClick}
                     >
                       <i className="fa fa-trash" aria-hidden="true" />{" "}
@@ -683,33 +676,42 @@ class Cart extends React.Component {
                     </button>
                   </div>
                 </div>
-                <div className="cart-table table-responsive">
+                <div className="cart-table table-responsive" id="cart-table-wrapper">
                   {this.renderContent()}
                 </div>
               </div>
               <div className="col-xl-4 col-lg-4 pad10">
                 {/* <Affix offsetTop={170}> */}
                 <div className="cart-info filter-sticky">
-                  <h5 className="title">
-                    <span><FormattedMessage id="shared.sidebar.title.payment" /></span>
-                  </h5>
                   <div className="block cart-info-container">
-                    <p className="count">
-                      <span><FormattedMessage id="cart.sidebar.label.total" />: </span>
-                      <span>{this.renderTotalQty()}<FormattedMessage id="cart.sidebar.label.unit" /></span>
-                    </p>
                     {staticinfo && (
                       <p className="delivery">
-                        <span><FormattedMessage id="shared.sidebar.title.deliveryInfo" />: </span>
-                        <span style={{ color: "#000000" }}>{lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}</span>
+                        <p className="title">
+                          <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
+                        </p>
+                        <span>
+                          {lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}
+                        </span>
                       </p>
                     )}
-                    <p className="total flex-space">
-                      <span><FormattedMessage id="shared.sidebar.label.totalPrice" />: </span>
-                      <span style={{ fontWeight: 500 }}>
-                        {formatter.format(this.renderTotalPrice())}₮
-                      </span>
-                    </p>
+                    <div className="total">
+                      <p className="flex-space count">
+                        <span>
+                          <FormattedMessage id="cart.sidebar.label.total" />:{" "}
+                        </span>
+                        <span>
+                          {this.renderTotalQty()}<FormattedMessage id="cart.sidebar.label.unit" />
+                        </span>
+                      </p>
+                      <p className="flex-space">
+                        <span>
+                          <FormattedMessage id="shared.sidebar.label.totalPrice" />:{" "}
+                        </span>
+                        <span>
+                          {formatter.format(this.renderTotalPrice())}₮
+                        </span>
+                      </p>
+                    </div>
                     <Link
                       to={this.state.proceedRoute}
                       className={`btn btn-main btn-block${

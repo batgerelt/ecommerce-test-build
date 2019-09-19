@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import { FormattedMessage } from 'react-intl';
 import { CardSlider } from "../../../../components";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 
 class Moreinfo extends Component {
   renderMoreInfo = () => {
@@ -12,7 +12,7 @@ class Moreinfo extends Component {
       let {
         product, attributes, similarProducts, lang,
       } = this.props;
-      const similarProductsLimit = isMobile ? 1 : 4;
+      const similarProductsLimit = isMobileOnly ? 1 : 4;
       const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {
         slidesPerView: similarProductsLimit,
@@ -56,13 +56,13 @@ class Moreinfo extends Component {
           ) */}
 
           {!!similarProducts && !!similarProducts.length && (
-            <div style={{ marginTop: "40px", marginBottom: "0" }}>
+            <div className="similar-products">
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.similarProducts.title" />
                 </span>
               </h1>
-              <div style={{ marginTop: "40px" }}>
+              <div>
                 <div className="row row10">
                   <CardSlider params={params} similarProducts={similarProducts} {...this.props} />
                 </div>
@@ -71,7 +71,7 @@ class Moreinfo extends Component {
           )}
 
           {product.description && (
-            <div style={{ marginTop: "40px", marginBottom: "0" }}>
+            <div className="intro">
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.intro.title" />
@@ -81,7 +81,9 @@ class Moreinfo extends Component {
               <div
                 style={{ textAlign: 'center' }}
                 dangerouslySetInnerHTML={{
-                  __html: lang === "mn" ? product.description : product.description_en,
+                  __html: lang === "mn"
+                    ? product.description
+                    : product.description_en,
                 }}
               />
             </div>

@@ -14,34 +14,29 @@ import {
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
-let ITEM_HEIGHT = 660;
+let ITEM_HEIGHT = 620;
+let count = 8;
+
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
-    this.state = {
-      headerProducts: [],
-      packagebanner: [],
-    };
+    this.state = { headerProducts: [] };
   }
 
-  componentDidMount() {
-    try {
-      const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
-      this.setState({ packagebanner: selected });
-    } catch (error) {
-      return console.log(error);
-    }
+  componentWillMount() {
+    this.props.getPackageScroll({ order: "date_desc", start: count, rowcnt: 8 });
+    window.scrollTo(0, 0);
   }
 
   renderMainBanner = () => {
     try {
-      const { packagebanner, menuPackage, intl } = this.props;
+      const { banner, menuPackage, intl } = this.props;
       return (
         <PageBanner
           title={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}
           subtitle={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en}
-          banners={packagebanner.length === 0 ? [] : packagebanner.header}
+          banners={banner.length === 0 ? [] : banner.header}
           bgColor="#8CBD3F"
         />
       );
@@ -54,7 +49,7 @@ class Discount extends React.Component {
     try {
       const { widgetAll } = this.props;
       return (
-        <div className="package" style={{ paddingTop: '10px' }}>
+        <div className="package" style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             {
               <CardList
@@ -72,41 +67,20 @@ class Discount extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.packagebanner.length !== prevProps.packagebanner.length) {
-      const selected = this.props.packagebanner.footer[Math.floor(Math.random() * this.props.packagebanner.footer.length)];
-      this.setState({ packagebanner: selected });
-    }
-  }
-
   renderSubBanner = () => {
     try {
-      const { packagebanner } = this.state;
-      return (
-        <Banner data={packagebanner} />
-      );
+      return (<Banner data={this.props.banner.footer} />);
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
-  loadMoreRows = async (key) => {
-    try {
-      if (!this.props.packageFetching) {
-        setTimeout(() => {
-          this.props.getPackageScroll({
-            order: "date_desc",
-            start: this.props.packageCount,
-            rowcnt: 8,
-          });
-        }, 1000);
-      }
-    } catch (error) {
-      return console.log(error);
-    }
+  loadMoreRows = async () => {
+    count += 8;
+    await this.props.getPackageScroll({ order: "date_desc", start: count, rowcnt: 8 });
   };
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   generateItemHeight = (item, width) => {
     try {
@@ -115,7 +89,7 @@ class Discount extends React.Component {
         return 326.5;
       }
       if (width >= 300 && width < 390) {
-        return 2261.06;
+        return 1870.06;
       }
 
       if (width >= 390 && width < 480) {
@@ -134,7 +108,7 @@ class Discount extends React.Component {
     try {
       const { packageScroll, widgetAll } = this.props;
       return (
-        <div className="package" style={{ paddingTop: '10px' }}>
+        <div className="package" style={{ paddingTop: '20px' }}>
           <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {

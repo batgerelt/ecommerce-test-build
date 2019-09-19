@@ -75,19 +75,23 @@ class CartButton extends Component {
   };
 
   render() {
+    const notifStyle = {
+      top: "-5px",
+      right: "-10px",
+    };
+
     return (
       <Link to="/cart" className="row10">
         <NotificationBadge
           count={this.getTotalQty()}
           effect={Effect.SCALE}
-          style={{
-            top: "-11px",
-            right: "-11px",
-          }}
+          style={notifStyle}
         />
         <img src={cartImage} alt="cart" height="25px" />
         <p className="header-text header-wish-text">
-          <span className="upper-first"><FormattedMessage id="header.myCart.part1" /></span>
+          <small className="upper-first">
+            <FormattedMessage id="header.myCart.part1" />
+          </small>
           <span>
             <FormattedMessage id="header.myCart.part2" />
           </span>

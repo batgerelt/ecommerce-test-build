@@ -303,10 +303,12 @@ class List extends React.Component {
               </div>
               <div className="info-container flex-space">
                 <Link to={prod.route || ""}>
-                  <span>{lang === "mn" ? prod.title : prod.title_en}</span>
-                  <strong>
+                  <span className="similar-product-title">
+                    {lang === "mn" ? prod.title : prod.title_en}
+                  </span>
+                  <span className="similar-product-price">
                     {formatter.format(prod.sprice || prod.price)}₮
-                  </strong>
+                  </span>
                 </Link>
                 <div className="action">
                   <button
@@ -317,7 +319,6 @@ class List extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      style={{ fontSize: "1.2rem" }}
                     />
                   </button>
                 </div>
@@ -389,7 +390,7 @@ class List extends React.Component {
                     </strong>
                   </Link>
                 </p>
-                <form style={{ width: "130px" }}>
+                <form>
                   <div className="input-group e-input-group">
                     <div className="input-group-prepend" id="button-addon4">
                       <button
@@ -448,7 +449,6 @@ class List extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      style={{ fontSize: "1.6rem" }}
                     />
                   </button>
                 </div>
@@ -482,15 +482,15 @@ class List extends React.Component {
     try {
       const { packageDetail } = this.props;
       return (
-        <div className="pack-product-container" style={{ marginTop: "30px" }}>
+        <div className="pack-product-container">
           <div className="pack-list">
             <div className="row row10">
-              <div className="col-xl-8 pad10">
+              <div className="col-lg-8 pad10">
                 <ul className="list-unstyled">
                   {packageDetail === undefined ? null : this.renderProducts()}
                 </ul>
               </div>
-              <div className="col-xl-4 pad10">
+              <div className="col-lg-4 pad10">
                 <div className="pack-price">
                   <p className="text flex-this end">
                     <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="packageDetail.label.price" />:</span>
@@ -504,7 +504,6 @@ class List extends React.Component {
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
-                      style={{ fontSize: "1.2rem" }}
                     />{" "}
                     <span className="text-uppercase"><FormattedMessage id="packageDetail.button.addToCart" /></span>
                   </button>
@@ -512,7 +511,7 @@ class List extends React.Component {
               </div>
             </div>
           </div>
-          <div className="info-container" style={{ float: "right" }}>
+          <div className="info-container">
             <span>
               <i>
                 <FormattedMessage id="packageDetail.info" />
@@ -549,12 +548,8 @@ class List extends React.Component {
                 <div className="col-md-9 pad10">
                   {this.props.info === undefined ? null : this.renderTitleDate()}
                   {this.props.images === undefined ? null : this.renderSlider()}
-                  <div style={{ height: "30px" }} />
                   {this.props.info === undefined ? null : this.renderCk()}
-                  <div
-                    className="pack-product-container"
-                    style={{ marginTop: "30px" }}
-                  >
+                  <div className="pack-product-container">
                     {this.props.packageDetail === undefined
                       ? null
                       : this.renderCartInfo()}
@@ -566,9 +561,9 @@ class List extends React.Component {
                     {this.props.packageDetail === undefined
                       ? null
                       : this.props.packageDetail.sameproducts !== undefined && this.props.packageDetail.sameproducts.length !== 0 ?
-                        <div className="block product-suggest">
+                        <div className="block product-suggest similar-products">
                           <p className="title">
-                            <strong><FormattedMessage id="shared.sidebar.title.similarProducts" /></strong>
+                            <FormattedMessage id="shared.sidebar.title.similarProducts" />
                           </p>
                           <ul className="list-unstyled">
                             {this.renderSimilarProducts()}

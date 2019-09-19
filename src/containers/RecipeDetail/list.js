@@ -14,6 +14,7 @@ class List extends React.Component {
   renderRoot = () => {
     try {
       const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
         <ul className="list-unstyled">
           <li>
@@ -28,7 +29,7 @@ class List extends React.Component {
           </li>
           <li>
             {console.log('recipe: ', recipe)}
-            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
+            <span>{lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </li>
         </ul>
       );
@@ -39,10 +40,11 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
         <div>
           <h4 className="title">
-            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
+            <span>{lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </h4>
           <p className="date">
             <FormattedMessage
@@ -101,7 +103,8 @@ class List extends React.Component {
 
   renderDelivery = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
         <div className="block product-delivery">
           <p className="title">
@@ -122,34 +125,29 @@ class List extends React.Component {
 
   renderIcons = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
-        <div className="block product-delivery" style={{ padding: '20px', textAlign: 'center' }}>
+        <div className="block product-delivery icons">
           <div className="row row10">
-            <div className="col-md-4 col-xs-4">
-              <p style={{ fontWeight: '600', color: 'black' }}>
-                <Avatar size="small" src={chef} /><br />
-                {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
-              </p>
+            <div className="col">
+              <Avatar size="small" src={chef} />
+              <br />
+              {lang === "mn" ? recipe.madeoflvlText : recipe.madeoflvlText_en}
             </div>
-            <div className="col-md-4 col-xs-4">
-              <p style={{ fontWeight: '600', color: 'black' }}>
-                <Avatar size="small" src={time} /><br />
-                {lang === "mn" ? recipe.time : recipe.time_en}
-              </p>
+            <div className="col">
+              <Avatar size="small" src={time} /><br />
+              {lang === "mn" ? recipe.time : recipe.time_en}
             </div>
-            <div className="col-md-4 col-xs-4">
-              <p style={{ fontWeight: '600', color: 'black' }}>
-                <Avatar size="small" src={smile} /><br />
-                {/* {recipe.humancnt} хүний порц */}
-                <FormattedMessage
-                  id="recipeDetail.icons.foodSize"
-                  defaultMessage="{people} хүний орц"
-                  values={{
-                    people: recipe.humancnt,
-                  }}
-                />
-              </p>
+            <div className="col">
+              <Avatar size="small" src={smile} /><br />
+              <FormattedMessage
+                id="recipeDetail.icons.foodSize"
+                defaultMessage="{people} хүний орц"
+                values={{
+                  people: recipe.humancnt,
+                }}
+              />
             </div>
           </div>
         </div>
@@ -263,10 +261,8 @@ class List extends React.Component {
 
   renderProd = () => {
     try {
-      const { lang } = this.props;
-      console.log('this.props: ', this.props);
+      const lang = this.props.intl;
       const products = this.props.recipeProducts;
-      console.log('products: ', products);
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -280,22 +276,21 @@ class List extends React.Component {
                 />
               </Link>
             </div>
-            <div className="info-container flex-space">
-              <Link to={item.route ? item.route : ""} style={{ width: "100%" }}>
-                <strong>
-                  <span>{lang === "mn" ? item.title : item.title_en}</span>
-                </strong>
-                <p className="row">
+            <div className="info-container flex-space info-price-container recipe-products">
+              <Link to={item.route ? item.route : ""}>
+                <span className="recipe-product-title">
+                  {lang === "mn" ? item.title : item.title_en}
+                </span>
+                <span className="recipe-product-price">
                   {item.pricetag && (
-                    <span className="col-md-6" style={{ textAlign: "left", padding: "0" }}>
+                    <span>
                       {lang === "mn" ? item.pricetag : item.pricetag_en}
                     </span>
                   )}
-                  <span className="col-md-6" style={{ padding: "0" }}>
-                    <FormattedMessage id="recipeDetail.recipe.product.label.price" />:{" "}
+                  <span>
                     {formatter.format(item.price)}₮
                   </span>
-                </p>
+                </span>
               </Link>
               <div className="action">
                 <button
@@ -306,7 +301,6 @@ class List extends React.Component {
                   <i
                     className="fa fa-cart-plus"
                     aria-hidden="true"
-                    style={{ fontSize: "1.2rem" }}
                   />
                 </button>
               </div>
@@ -366,43 +360,25 @@ class List extends React.Component {
 
   renderRecipe = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
         <div>
-          <div className="row row10">
-            <div className="col-md-6">
+          <div className="row row10 recipes-container">
+            <div className="col-md-6 recipes">
               <p className="title">
-                <span
-                  style={{
-                    textTransform: "uppercase",
-                    fontSize: "14px",
-                    textDecorationLine: "underline",
-                    textDecorationColor: "rgb(255, 182, 0)",
-                    textDecorationStyle: "solid",
-                    textDecorationSize: "5px",
-                  }}
-                >
-                  <FormattedMessage id="recipeDetail.recipe.title.ingredient" />
-                </span>
+                <FormattedMessage id="recipeDetail.recipe.title.ingredient" />
               </p>
-              <div className="row row10">{this.renderIngredients()}</div>
+              <ul>{this.renderIngredients()}</ul>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 seasons">
               <p className="title">
-                <span
-                  style={{
-                    textTransform: "uppercase",
-                    fontSize: "14px",
-                    textDecorationLine: "underline",
-                    textDecorationColor: "rgb(255, 182, 0)",
-                    textDecorationStyle: "solid",
-                    textDecorationSize: "5px",
-                  }}
-                >
+                <span>
                   <FormattedMessage id="recipeDetail.recipe.title.seasoning" />
                 </span>
               </p>
-              {this.renderSpices()}
+
+              <ul>{this.renderSpices()}</ul>
             </div>
           </div>
         </div>
@@ -414,15 +390,14 @@ class List extends React.Component {
 
   renderSpices = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       const spices = lang === "mn" ? recipe.spices : recipe.spices_en;
       return spices.map((item, index) => (
-        <div className="col-md-6" key={index}>
-          <p className="recipe-list-item">
-            <span>#</span>
-            {item}
-          </p>
-        </div>
+        <li className="recipe-list-item" key={index}>
+          <span>#</span>
+          {item}
+        </li>
       ));
     } catch (error) {
       return null;
@@ -431,15 +406,14 @@ class List extends React.Component {
 
   renderIngredients = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       const ingredients = lang === "mn" ? recipe.ingredients : recipe.ingredients_en;
       return ingredients.map((item, index) => (
-        <div className="col-md-6" key={index}>
-          <p className="recipe-list-item">
-            <span>#</span>
-            {item}
-          </p>
-        </div>
+        <li className="recipe-list-item" key={index}>
+          <span>#</span>
+          {item}
+        </li>
       ));
     } catch (error) {
       return null;
@@ -448,26 +422,18 @@ class List extends React.Component {
 
   renderCk = () => {
     try {
-      const { recipe, lang } = this.props;
+      const { recipe } = this.props;
+      const lang = this.props.intl;
       return (
         <div className="ck-editor">
           <h4 className="title">
-            <span
-              style={{
-                textTransform: "uppercase",
-                fontSize: "20px",
-                textDecorationLine: "underline",
-                textDecorationColor: "rgb(255, 182, 0)",
-                textDecorationStyle: "solid",
-                textDecorationSize: "5px",
-              }}
-            >
-              <FormattedMessage id="recipeDetail.suggestion.title" />
-            </span>
+            <FormattedMessage id="recipeDetail.suggestion.title" />
           </h4>
-          <div dangerouslySetInnerHTML={{
-            __html: lang === "mn" ? recipe.description : recipe.description_en,
-          }}
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{
+              __html: lang === "mn" ? recipe.description : recipe.description_en,
+            }}
           />
         </div>
       );
@@ -478,26 +444,26 @@ class List extends React.Component {
 
   renderSteps = () => {
     try {
-      const { steps, lang } = this.props;
+      const { steps } = this.props;
+      const lang = this.props.intl;
       return steps.map((step, index) => (
         <div key={index}>
-          <div className="row row10">
-            <div className="col-md-4">
+          <div className="row row10" style={{ alignItems: "initial" }}>
+            <div className="col-sm-4 image-container">
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,
-                  backgroundSize: "cover",
+                  backgroundSize: "100%",
                   width: "100%",
                   height: "200px",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center center",
                   borderRadius: "10px",
-                  marginBottom: "20px",
                 }}
               />
             </div>
-            <div className="col-md-8">
-              <h4 style={{ fontSize: "16px" }}>
+            <div className="col-sm-8">
+              <h4 className="step-title">
                 <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
                   <span
                     style={{
@@ -525,43 +491,26 @@ class List extends React.Component {
   render() {
     return (
       <div className="section">
-        <div className="container pad10">
+        <div className="container">
           <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
           <div className="product-detail-page">
             <div className="row row10">
-              <div className="col-md-8 pad10">
+              <div className="col-lg-8 pad10">
                 {this.renderTitleDate()}
                 <div className="food-recipe-detail">
                   {this.renderSlider()}
                   {this.renderRecipe()}
                   <hr />
                   {this.renderCk()}
-                  <br />
                   <div>
-                    <h4
-                      className="title"
-                      style={{
-                        textTransform: "uppercase",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "20px",
-                          textDecorationLine: "underline",
-                          textDecorationColor: "rgb(255, 182, 0)",
-                          textDecorationStyle: "solid",
-                          textDecorationSize: "5px",
-                        }}
-                      >
-                        <FormattedMessage id="recipeDetail.instruction.title" />
-                      </span>
+                    <h4 className="title">
+                      <FormattedMessage id="recipeDetail.instruction.title" />
                     </h4>
                     {this.renderSteps()}
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 pad10">
+              <div className="col-lg-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
                   {this.renderIcons()}

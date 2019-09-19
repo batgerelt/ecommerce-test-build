@@ -90,7 +90,7 @@ class Discount extends React.Component {
     }
   };
 
-  noRowsRenderer = () => <div style={{ textAlign: "center" }}>No data</div>;
+  noRowsRenderer = () => null;
 
   getMaxItemsAmountPerRow = (width) => {
     if (width > 1100) {
@@ -119,12 +119,12 @@ class Discount extends React.Component {
 
   renderMainBanner = () => {
     try {
-      const { discountbanner, menuDiscount, intl } = this.props;
+      const { banner, menuDiscount, intl } = this.props;
       return (
         <PageBanner
           title={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en}
           subtitle={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en}
-          banners={discountbanner.length === 0 ? [] : discountbanner.header}
+          banners={banner.length === 0 ? [] : banner.header}
           bgColor="#EF3340"
         />
       );
@@ -135,9 +135,9 @@ class Discount extends React.Component {
 
   renderHeaderProduct = () => {
     try {
-      const seq = "1,1";
       const { headerProducts } = this.state;
       const data = [];
+
       headerProducts.map(i => data.push(i._source));
       return (
         <div className="container pad10" style={{ paddingTop: '20px' }}>
@@ -153,13 +153,6 @@ class Discount extends React.Component {
                 />
               ))
             }
-            {/* <CardList
-              elastic
-              cardListType={CARD_LIST_TYPES.horizontal}
-              seq={seq}
-              items={data}
-              {...this.props}
-            /> */}
           </div>
         </div>
       );
@@ -170,10 +163,7 @@ class Discount extends React.Component {
 
   renderSubBanner = () => {
     try {
-      const { discountbanner } = this.props;
-      return (
-        <Banner data={discountbanner.footer[Math.floor(Math.random() * discountbanner.footer.length)]} />
-      );
+      return <Banner data={this.props.banner.footer} />;
     } catch (error) {
       // return console.log(error);
       return null;
@@ -182,10 +172,10 @@ class Discount extends React.Component {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 365;
+      return 375;
     }
     if (width < 400) {
-      return 380;
+      return 320;
     }
     return 400;
   }

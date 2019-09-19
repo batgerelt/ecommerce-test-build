@@ -23,7 +23,7 @@ import {
 } from "../../utils/Consts";
 // import 'react-virtualized/styles.css';
 
-const ITEM_HEIGHT = 340;
+const ITEM_HEIGHT = 360;
 
 const RowItem = React.memo(function RowItem({ item, LoginModal, addWishList }) {
   return (
@@ -60,7 +60,6 @@ class Bookmarks extends PureComponent {
       rowCount: 10,
       orderColumn: 'startnew_desc, endnew_asc',
       highlight: false,
-      newbanner: [],
       total: 0,
     };
   }
@@ -76,13 +75,6 @@ class Bookmarks extends PureComponent {
         });
       }
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.newbanner.length !== prevProps.newbanner.length) {
-      const selected = this.props.newbanner.footer[Math.floor(Math.random() * this.props.newbanner.footer.length)];
-      this.setState({ newbanner: selected });
-    }
   }
 
   // data nemeh heseg
@@ -102,7 +94,7 @@ class Bookmarks extends PureComponent {
     }
   };
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   isRowLoaded = (index, width) => {
     const { products } = this.state;
@@ -143,14 +135,12 @@ class Bookmarks extends PureComponent {
 
   renderMainBanner = () => {
     try {
-      const {
-        newbanner, menuNew, pagebanner, intl,
-      } = this.props;
+      const { banner, menuNew, intl } = this.props;
       return (
         <PageBanner
           title={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}
           subtitle={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en}
-          banners={newbanner.length === 0 ? [] : newbanner.header}
+          banners={banner.length === 0 ? [] : banner.header}
           bgColor="#00A1E4"
         />
       );
@@ -161,20 +151,18 @@ class Bookmarks extends PureComponent {
 
   generateItemHeight = (width) => {
     if (width >= 700 && width < 960 || width > 1000) {
-      return 365;
+      return 375;
     }
     if (width < 400) {
-      return 340;
+      return 320;
     }
     return 400;
   }
 
   renderHeaderProduct = () => {
     try {
-      const seq = "1,1";
       const { headerProducts } = this.state;
-      /* const data = [];
-      headerProducts.map(i => data.push(i._source)); */
+
       return (
         <div className="container pad10" style={{ paddingTop: '20px' }}>
           <div className="row row10">
@@ -189,13 +177,6 @@ class Bookmarks extends PureComponent {
                 />
               ))
             }
-            {/* <CardList
-              elastic
-              cardListType={CARD_LIST_TYPES.horizontal}
-              seq={seq}
-              {...this.props}
-              items={data}
-            /> */}
           </div>
         </div>
       );
@@ -206,8 +187,7 @@ class Bookmarks extends PureComponent {
 
   renderSubBanner = () => {
     try {
-      const { newbanner } = this.state;
-      return <Banner data={newbanner} />;
+      return <Banner data={this.props.banner.footer} />;
     } catch (error) {
       // return console.log(error);
       return null;

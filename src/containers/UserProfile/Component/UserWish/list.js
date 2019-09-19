@@ -10,7 +10,8 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = { loader: false };
-  onDelete = (item) => {
+  onDelete = item => async (e) => {
+    e.preventDefault();
     this.setState({ loader: true });
     this.props.deleteWish({ skucd: item.skucd }).then((res) => {
       this.props.getWish().then((res) => {
@@ -20,7 +21,8 @@ class Component extends React.Component {
       });
     });
   }
-  handleIncrement = (item) => {
+  handleIncrement = item => async (e) => {
+    e.preventDefault();
     if (item.skucd) {
       this.props.incrementProductRemotely({
         skucd: item.skucd,
@@ -35,8 +37,8 @@ class Component extends React.Component {
     try {
       const { wish, lang } = this.props;
       return wish.map((item, index) => (
-        <Row className="single flex-space" span={24} style={{ width: "100%" }} key={index}>
-          <Col className="product" sm={12} md={12} lg={12} xl={12}>
+        <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }} key={index}>
+          <Col className="product">
             <div className="flex-this">
               <div className="image-container default">
                 <Link to={item.route ? item.route : " "}>
@@ -57,7 +59,7 @@ class Component extends React.Component {
               </div>
             </div>
           </Col>
-          <Col className="action" xs={18} sm={6} md={6} lg={6} xl={6} >
+          <Col className="action price">
             <ul className="list-unstyled flex-this">
               <li style={{ textAlign: "left", width: "100%" }}>
                 <div className="price-pro">
@@ -85,21 +87,20 @@ class Component extends React.Component {
               </li>
             </ul>
           </Col>
-          <Col className="action" xs={6} sm={6} md={6} lg={6} xl={6}>
-            <ul className="list-unstyled flex-this end" >
+          <Col className="action icons">
+            <ul className="list-unstyled flex-this">
               <li>
                 <Link
                   to="#"
-                  onClick={() => this.handleIncrement(item)}
+                  onClick={this.handleIncrement(item)}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                  <span />
                 </Link>
               </li>
               <li>
                 <Link
                   to="#"
-                  onClick={e => this.onDelete(item)}
+                  onClick={this.onDelete(item)}
                   style={{
                     fontWeight: "10",
                   }}
@@ -118,9 +119,10 @@ class Component extends React.Component {
   render() {
     return (
       <div className="user-menu-content">
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.wishlist.title" /></span>
         </p>
+        <Divider />
         <Spin
           spinning={this.state.loader}
           indicator={<Loader />}

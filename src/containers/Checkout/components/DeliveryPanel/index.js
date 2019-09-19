@@ -404,6 +404,7 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
+
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -414,6 +415,7 @@ class DeliveryPanel extends React.Component {
           }
           return (
             <TabPane
+              key={item.id}
               tab={
                 <div className="flex-this center" style={{ cursor: item.isenable === 1 ? 'pointer' : 'not-allowed' }}>
                   <img
@@ -428,30 +430,35 @@ class DeliveryPanel extends React.Component {
                   </p>
                 </div>
               }
-              // disabled={item.isenable === 1 ? false : true}
-              key={item.id}
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <p className="text">{intl.locale === "mn" ? item.featuretxt : item.featuretxt_en}</p>
-                <Form onSubmit={this.onSubmit}>
+                <Form onSubmit={this.onSubmit} onKeyPress={e => (e.key === 'Enter' ? this.onSubmit(e) : null)}>
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 && main !== null ? (
                       <div className="col-xl-12 col-md-12 checkout-addbtn-container">
-                        <div className="col-xl-8 col-md-8 checkout-address-container">
-                          <Form.Item>
-                            {getFieldDecorator("id", {
-                              initialValue: this.checkError(chosenAddress.id),
-                              rules: [{ required: false, message: "Хаяг оруулна уу" }],
-                            })(
-                              <Select onChange={this.onChangeLoc} showSearch className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
-                                {this.renderAddrsOption()}
-                              </Select>,
-                            )}
-                          </Form.Item>
-                        </div>
-                        <div className="col-xl-4 col-md-4">
-                          <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}><FormattedMessage id="shared.form.button.newAddress" /></button>
-                        </div>
+                        {
+                          main !== null ?
+                            <div className="col-xl-8 col-md-8 checkout-address-container">
+                              <Form.Item>
+                                {getFieldDecorator("id", {
+                                  initialValue: this.checkError(chosenAddress.id),
+                                  rules: [{ required: false, message: "Хаяг оруулна уу" }],
+                                })(
+                                  <Select onChange={this.onChangeLoc} className="addr" disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
+                                    {this.renderAddrsOption()}
+                                  </Select>,
+                                )}
+                              </Form.Item>
+                            </div> : null
+                        }
+                        {
+                          main !== null ?
+                            <div className="col-xl-4 col-md-4">
+                              <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>
+                                <FormattedMessage id="shared.form.button.newAddress" />
+                              </button>
+                            </div> : null
+                        }
                       </div>
                     ) : (
                         ""
@@ -460,10 +467,10 @@ class DeliveryPanel extends React.Component {
                       <div className="col-xl-4 col-md-4">
                         <Form.Item>
                           {getFieldDecorator("provinceid", {
-                            initialValue: this.checkError(chosenAddress.provinceid),
+                            initialValue: `${systemlocation.find(i => i.gbn === 'U') === undefined ? [] : systemlocation.find(i => i.gbn === 'U').id}`,
                             rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
                           })(
-                            <Select placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
+                            <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
                               {this.renderLocation(systemlocation)}
                             </Select>,
                           )}
@@ -479,7 +486,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.districtid),
                             rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                           })(
-                            <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Select showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                               {this.renderLocation(districtLocation)}
                             </Select>,
                           )}
@@ -512,7 +519,7 @@ class DeliveryPanel extends React.Component {
                             initialValue: this.checkError(chosenAddress.address),
                             rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                           })(
-                            <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
+                            <Input size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                           )}
                         </Form.Item>
                       </div>
@@ -525,7 +532,7 @@ class DeliveryPanel extends React.Component {
                           initialValue: this.checkError(chosenAddress.name),
                           rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
                         })(
-                          <LetterInput autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
+                          <LetterInput size="large" autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
                         )}
                       </Form.Item>
                     </div>
@@ -543,6 +550,7 @@ class DeliveryPanel extends React.Component {
                             allowClear
                             className="col-md-12"
                             autoComplete="off"
+                            size="large"
                           />,
                         )}
                       </Form.Item>
@@ -555,19 +563,21 @@ class DeliveryPanel extends React.Component {
                           { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                           { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                         })(
-                          <Input autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} className="col-md-12" />,
+                          <Input size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} className="col-md-12" />,
                         )}
                       </Form.Item>
                     </div>
                   </div>
-                  <hr />
-                  <div className="text-left">
-                    <span style={{ marginLeft: "10px", color: "rgba(0, 0, 0, 0.5)", fontWeight: "bold" }}>
+                  <hr className="m-2" />
+
+                  <div className="text-left mt-3">
+                    <span style={{ marginLeft: "10px" }}>
                       <FormattedMessage id="shared.form.label.deliveryDate" />
                     </span>
 
                     <DatePicker
                       style={{ marginLeft: "10px" }}
+                      size="large"
                       format="YYYY-MM-DD"
                       showTime={false}
                       placeholder="Огноо сонгох"

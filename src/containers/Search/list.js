@@ -17,6 +17,7 @@ import {
   AutoSizer,
 } from "react-virtualized";
 
+import { SearchNotFound } from "../";
 import { Card, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
@@ -86,7 +87,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -130,7 +131,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -169,7 +170,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
         });
       }
     });
@@ -183,7 +184,7 @@ class CategoryInfo extends React.Component {
     } else {
       brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null));
     }
-    this.setState({ loading: !this.state.loading, brands });
+    this.setState({ loading: !this.state.loading });
 
     const params = {
       catId: this.state.catid,
@@ -206,13 +207,15 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          brands,
         });
       }
     });
   };
 
   handleChangeAttribute = (e, value, attribute) => {
+    this.setState({ loading: !this.state.loading });
     const { isLogged, data } = this.props;
     const { attributes } = this.state;
     // eslint-disable-next-line react/no-string-refs
@@ -225,7 +228,6 @@ class CategoryInfo extends React.Component {
           : null),
       );
     }
-    this.setState({ loading: !this.state.loading, attributes });
 
     const params = {
       catId: this.state.catid,
@@ -244,11 +246,12 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
+          attributes,
         });
       }
     });
@@ -256,7 +259,6 @@ class CategoryInfo extends React.Component {
 
   handleClickCategory = (cat) => {
     const { isLogged, data } = this.props;
-    this.setState({ expandedCategory: cat });
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
 
@@ -281,7 +283,7 @@ class CategoryInfo extends React.Component {
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
-          count: 0,
+          count: 20,
           catid: cat[0],
           aggregations: res.payload.data,
         });
@@ -365,7 +367,7 @@ class CategoryInfo extends React.Component {
         >
           {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
-            className={`left-panel-container filter-sticky ${
+            className={`left-panel-container ${
               this.state.isMobilePanel ? "show" : null
               }`}
             onClick={this.showMobilePanel}
@@ -433,9 +435,9 @@ class CategoryInfo extends React.Component {
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
-          <div className="list-filter">
+          <div className="list-filter pad10">
             <div className="row row10">
-              <div className="col-lg-6 pad10">
+              <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>
@@ -445,7 +447,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 pad10">
+              <div className="col-md-8">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -456,7 +458,7 @@ class CategoryInfo extends React.Component {
                       <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
-                  <div className="form-group my-select flex-this">
+                  <div className="form-group my-select flex-this pr-1">
                     <label
                       htmlFor="inputState"
                       style={{ marginTop: "7px", marginRight: "5px" }}
@@ -475,19 +477,22 @@ class CategoryInfo extends React.Component {
                         <FormattedMessage id="search.sort.values.priceDesc" />
                       </Select.Option>
                     </Select>
+                    {/* <select className="form-control border" onChange={e => this.handleChangeOrder(e.target.value)}>
+                      <option value="currentprice_asc"> dasdsa </option>
+                      <option value="currentprice_desc"> <FormattedMessage id="search.sort.values.priceDesc" /> </option>
+                    </select> */}
                   </div>
                   <div
-                    className="form-group flex-this"
-                    style={{ marginLeft: "15px" }}
+                    className="form-group flex-this pl-2"
                   >
                     <div
-                      className={this.state.isListViewOn ? "btn active" : "btn"}
+                      className={this.state.isListViewOn ? "btn active p-1" : "btn p-1"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th-list" aria-hidden="true" />
                     </div>
                     <div
-                      className={this.state.isListViewOn ? "btn" : "btn active"}
+                      className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
                       onClick={this.handleViewChange}
                     >
                       <i className="fa fa-th" aria-hidden="true" />
@@ -512,7 +517,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <div>No data</div>;
+  noRowsRenderer = () => null
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -525,7 +530,7 @@ class CategoryInfo extends React.Component {
       if (width < 400) {
         tmp = 350;
       } else {
-        tmp = 300.98;
+        tmp = 305.98;
       }
     } else if (width < 400) {
       tmp = 197;
@@ -560,7 +565,7 @@ class CategoryInfo extends React.Component {
     try {
       const { searchKeyWordResponse } = this.props;
 
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value) {
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value || !this.state.loading) {
         const { isLogged, data } = this.props;
         const params = {
           catId: this.state.catid,
@@ -642,7 +647,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
@@ -732,15 +737,10 @@ class CategoryInfo extends React.Component {
 
     return (
       <div className="top-container">
-        <div className="section">
+        <div className="section search-result">
           <div className="container pad10">
             {this.state.nodata ? (
-              <div
-                style={{ minHeight: window.innerHeight / 3 }}
-                className="row row10"
-              >
-                <h1>Барааны мэдээлэл олдсонгүй</h1>
-              </div>
+              <SearchNotFound />
             ) : (
                 <div className="row row10">
                   {this.renderLeftPanel()}

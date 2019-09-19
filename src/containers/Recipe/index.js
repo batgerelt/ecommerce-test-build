@@ -34,21 +34,30 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
+  state = { banner: { header: [], footer: [] } }
   /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
+    // banner - аас өмнөх 6 картын бараа
+    this.props.getRecipe({ order: "date_desc", start: 0, rowcnt: 6 });
     this.props.getRecipeMenu({});
-    this.props.getRecipeBanner();
-    this.props.getRecipe({
-      order: "date_desc",
-      start: 0,
-      rowcnt: 6,
+
+    // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
+    this.props.getRecipeBanner().then((res) => {
+      if (res.payload.success) {
+        const { banner } = this.state;
+
+        banner.header = res.payload.data.header;
+        banner.footer = res.payload.data.footer[Math.floor(Math.random() * res.payload.data.footer.length)];
+
+        this.setState({ banner });
+      }
     });
   }
 
   render() {
     return (
       <div>
-        <List {...this.props} {...this} />
+        <List {...this.props} {...this} {...this.state} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );

@@ -4,9 +4,7 @@ import React from "react";
 import { injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import Swiper from '@eredessil/react-id-swiper';
-import styles from "./styles.less";
 
 class Slider extends React.Component {
   renderRepice = () => {
@@ -56,7 +54,7 @@ class Slider extends React.Component {
             </div>
           </div>
         );
-        // style={{ background: `url(${process.env.IMAGE + item.imgnm})` }}
+
         return (
           <div key={index}>
             <div
@@ -67,7 +65,6 @@ class Slider extends React.Component {
                 <Link
                   to={`/brand/${item.brandid}`}
                   onClick={() => this.handleDetail(item.brandid)}
-                  style={{ padding: '100%' }}
                 >
                   {container}
                 </Link>

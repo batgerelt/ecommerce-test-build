@@ -4,7 +4,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
 import { Link, Redirect } from "react-router-dom";
-
+import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
 
 class LoginModal extends React.Component {
@@ -35,14 +35,40 @@ class LoginModal extends React.Component {
     this.props.RegistrationModal.handleSignup();
   };
 
+  handleForgetModal = () => {
+    this.setState({ isVisibleReset: !this.state.isVisibleReset });
+  }
+
   handleResetVisible = () => {
+    console.log(this.props);
+    console.log("handleResetVisible");
     this.setState({ visible: false });
-    this.props.ForgetModal.handleForgetModal();
-  };
+    this.setState({ isVisibleReset: !this.state.isVisibleReset });
+    /* this.props.ForgetModal.handleForgetModal(); */
+  }
 
   goHome() {
     return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
   }
+
+  handleSubmitForget = (e) => {
+    e.preventDefault();
+    const { intl } = this.props;
+    this.props.form.validateFields(async (err, values) => {
+      if (!err) {
+        // eslint-disable-next-line consistent-return
+        this.props.reset({ mail: values.email }).then((res) => {
+          if (!res.payload.success) {
+            return message.warning(intl.formatMessage({ id: res.payload.code }));
+          }
+
+          message.success(intl.formatMessage({ id: res.payload.code }));
+          this.props.form.resetFields();
+          this.handleForgetModal();
+        });
+      }
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -129,110 +155,147 @@ class LoginModal extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { isRemember } = this.state;
     return (
-      <Modal
-        title={intl.formatMessage({ id: "loginModal.title" })}
-        visible={this.state.visible}
-        onCancel={this.handleLoginModal}
-        footer={null}
-      >
-        <Form onSubmit={this.handleSubmit} className="login-form">
-          <Form.Item>
-            {getFieldDecorator("email", {
-              initialValue:
-                localStorage.getItem("username") === null
-                  ? ""
-                  : localStorage.getItem("username"),
-              rules: [
-                {
+      <div>
+        <Modal
+          title={intl.formatMessage({ id: "loginModal.title" })}
+          visible={this.state.visible}
+          onCancel={this.handleLoginModal}
+          footer={null}
+        >
+          <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form.Item>
+              {getFieldDecorator("email", {
+                rules: [{
                   required: true,
-                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   type: "email",
-                },
-              ],
-            })(
-              <Input
-                allowClear
-                className="form-control"
-                placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                size="large"
-                autoComplete="new-email"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator("password", {
-              rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.password.validation.required" }) }],
-            })(
-              <Input.Password
-                placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
-                autoComplete="new-password"
-                className="form-control"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="btn btn-block btn-login text-uppercase"
-            >
-              <FormattedMessage id="shared.form.button.login" />
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Col span={12}>
-              <Checkbox
-                className="btn color-new-grey"
-                onChange={this.onRemember}
-                checked={isRemember}
+                  pattern: new RegExp("[A-Za-z]"),
+                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                }],
+              })(
+                <LatinInput
+                  prefix={<Icon type="user" style={{ color: '#FFB81C', fontSize: "20px" }} />}
+                  placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                  className="form-control"
+                  autoComplete="off"
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator("password", {
+                rules: [
+                  { validator: this.validateToNextPassword },
+                ],
+              })(
+                <Input
+                  prefix={<Icon
+                    type="lock"
+                    style={{ color: '#FFB81C', fontSize: "20px" }}
+                  />}
+                  type="password"
+                  placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
+                  className="form-control"
+                  autoComplete="new-password"
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="btn btn-block btn-login text-uppercase"
               >
-                <FormattedMessage id="shared.form.label.rememberMe" />
-              </Checkbox>
-            </Col>
-            <Col span={12} style={{ textAlign: "right" }}>
-              <Link
-                to=""
-                className="btn btn-link color-new-grey"
-                style={{ fontSize: "14px" }}
-                onClick={this.handleResetVisible}
+                <FormattedMessage id="shared.form.button.login" />
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Col span={12}>
+                <Checkbox
+                  className="btn color-new-grey"
+                  onChange={this.onRemember}
+                  checked={isRemember}
+                >
+                  <FormattedMessage id="shared.form.label.rememberMe" />
+                </Checkbox>
+              </Col>
+              <Col span={12} style={{ textAlign: "right" }}>
+                <Link
+                  to=""
+                  className="btn btn-link color-new-grey"
+                  style={{ fontSize: "14px" }}
+                  onClick={this.handleResetVisible}
+                >
+                  <FormattedMessage id="shared.form.label.forgotPassword" />
+                </Link>
+              </Col>
+            </Form.Item>
+          </Form>
+
+          <FacebookLogin {...this.props} />
+          <GoogleLogin />
+
+          {this.props.RegistrationModal ?
+            <div className="text-center">
+              <p className="color-new-grey upper-first">
+                <FormattedMessage
+                  id="loginModal.linkToRegistration"
+                  defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"
+                  values={{
+                    link: (
+                      <Link
+                        to="#"
+                        className="btn btn-link"
+                        onClick={this.handleRegistrationModal}
+                      >
+                        <strong>
+                          <FormattedMessage
+                            id="loginModal.linkToRegistration.link"
+                            defaultMessage="ЭНД ДАРЖ"
+                          />
+                        </strong>
+                      </Link>
+                    ),
+                  }}
+                />
+              </p>
+            </div> : null
+          }
+          {this.goHome()}
+        </Modal>
+        <Modal
+          title={intl.formatMessage({ id: "forgottenPasswordModal.title" })}
+          visible={this.state.isVisibleReset}
+          onCancel={this.handleForgetModal}
+          footer={null}
+        >
+          <Form onSubmit={this.handleSubmitForget} className="login-form">
+            <Form.Item>
+              {getFieldDecorator("email", {
+                rules: [{
+                  required: true,
+                  type: "email",
+                  pattern: new RegExp("[A-Za-z]"),
+                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                }],
+              })(
+                <LatinInput
+                  placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                  className="form-control"
+                  autoComplete="off"
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="btn btn-block btn-login text-uppercase"
               >
-                <FormattedMessage id="shared.form.label.forgotPassword" />
-              </Link>
-            </Col>
-          </Form.Item>
-        </Form>
-
-        <FacebookLogin />
-        <GoogleLogin />
-
-        {this.props.RegistrationModal ?
-          <div className="text-center">
-            <p className="color-new-grey upper-first">
-              <FormattedMessage
-                id="loginModal.linkToRegistration"
-                defaultMessage="Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү"
-                values={{
-                  link: (
-                    <Link
-                      to="#"
-                      className="btn btn-link"
-                      onClick={this.handleRegistrationModal}
-                    >
-                      <strong>
-                        <FormattedMessage
-                          id="loginModal.linkToRegistration.link"
-                          defaultMessage="ЭНД ДАРЖ"
-                        />
-                      </strong>
-                    </Link>
-                  ),
-                }}
-              />
-            </p>
-          </div> : null
-        }
-        {this.goHome()}
-      </Modal>
+                <FormattedMessage id="shared.form.button.next" />
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     );
   }
 }

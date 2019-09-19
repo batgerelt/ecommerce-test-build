@@ -32,14 +32,12 @@ class List extends React.Component {
           </td>
           <td>
             <p className="price" style={{ float: "right" }}>
-              <strong>
-                {formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮
-              </strong>
+              {formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮
             </p>
           </td>
           <td>
             <p className="price total" style={{ float: "right" }}>
-              <strong>{item.orderquantity}</strong>
+              {item.orderquantity}
             </p>
           </td>
           <td>
@@ -59,78 +57,74 @@ class List extends React.Component {
       const lang = this.props.intl.locale;
       if (orderdetail.info !== null) {
         return (
-          <div className="cart-info">
-            <h5 className="title">
-              <span><FormattedMessage id="shared.sidebar.title.orderMethod" /></span>
-            </h5>
+          <div className="cart-info filter-sticky" style={{ fontSize: "13px" }}>
             <div className="block">
-              <ul className="list-unstyled">
-                <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.productPrice" />:</span>
-                  <strong className="big">{formatter.format(orderdetail.info.itemamount)}₮</strong>
-                </li>
-                <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
-                  <strong className="big">{formatter.format(orderdetail.info.deliveryamount)}₮</strong>
-                </li>
-                <div className="line">
-                  <li className="flex-this flex-space">
-                    <span><FormattedMessage id="shared.sidebar.label.paidByEpoint" />:</span>
-                    <strong className="big">{formatter.format(orderdetail.info.outpoint)}₮</strong>
-                  </li>
-                  <li className="flex-this flex-space">
-                    <span><FormattedMessage id="shared.sidebar.label.paidByCash" />:</span>
-                    <strong className="big">{formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮</strong>
-                  </li>
-                </div>
-                <li className="text-right">
-                  <strong><FormattedMessage id="shared.sidebar.label.orderTotal" />:</strong>
-                  <strong className="big">{formatter.format(orderdetail.info.totalamount)}₮</strong>
-                </li>
-                {/* <li className="flex-this flex-space">
-                  <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
-                  <strong>{formatter.format(orderdetail.info.totalvatamount)}₮</strong>
-                </li> */}
-              </ul>
+              <p className="title">
+                <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
+              </p>
+              <p className="flex-space count">
+                <span><FormattedMessage id="shared.sidebar.label.productPrice" />:</span>
+                <strong><span>{formatter.format(orderdetail.info.itemamount)}₮</span></strong>
+              </p>
+              <p className="flex-space count">
+                <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
+                <strong><span>{formatter.format(orderdetail.info.deliveryamount)}₮</span></strong>
+              </p>
+              <div className="line">
+                <p className="flex-space count">
+                  <span><FormattedMessage id="shared.sidebar.label.paidByEpoint" />:</span>
+                  <strong><span>{formatter.format(orderdetail.info.outpoint)}₮</span></strong>
+                </p>
+                <p className="flex-space count">
+                  <span><FormattedMessage id="shared.sidebar.label.paidByCash" />:</span>
+                  <strong><span>{formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮</span></strong>
+                </p>
+              </div>
+              <p className="flex-space count">
+                <span><FormattedMessage id="shared.sidebar.label.orderTotal" />:</span>
+                <strong className="big" style={{ fontSize: "20px" }}>{formatter.format(orderdetail.info.totalamount)}₮</strong>
+              </p>
             </div>
-            <h5 className="title flex-this flex-space">
-              <span><FormattedMessage id="shared.sidebar.title.deliveryStatus" />:</span>
-              <strong style={{ backgroundColor: orderdetail.info.customerstatuscolor }}>
-                {lang === "mn" ? orderdetail.info.customerstatusname : orderdetail.info.customerstatusname_en}
-              </strong>
-            </h5>
             <div className="block">
+              <p className="title">
+                <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
+              </p>
               <div className="content">
-                <p className="text flex-this">
-                  <i
-                    className="fa fa-user"
-                    aria-hidden="true"
-                    style={{ color: "#feb415" }}
-                  />
+                <h5 className="title flex-this flex-space">
+                  <span style={{ fontSize: "14px" }}><FormattedMessage id="shared.sidebar.title.deliveryStatus" />:</span>
+                  <p style={{
+                    backgroundColor: orderdetail.info.customerstatuscolor,
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    color: "white",
+                    width: "150px",
+                    fontSize: "10px",
+                    margin: "0px",
+                  }}
+                  >
+                    {lang === "mn" ? orderdetail.info.status : orderdetail.info.status_en}
+                  </p>
+                </h5>
+                <p className="text flex-this" style={{ marginTop: "-10px" }}>
+                  <i className="fa fa-truck" style={{ color: "#feb415" }} />
+                  <span>{lang === "mn" ? orderdetail.info.deliveryname : orderdetail.info.deliveryname_en}</span>
+                </p>
+                <p className="flex-this">
+                  <i className="fa fa-user" aria-hidden="true" style={{ color: "#feb415" }} />
                   <span>{orderdetail.info.custname}</span>
                 </p>
                 <p className="text flex-this">
-                  <i
-                    className="fa fa-phone"
-                    aria-hidden="true"
-                    style={{ color: "#feb415" }}
-                  />
+                  <i className="fa fa-phone" aria-hidden="true" style={{ color: "#feb415" }} />
                   <span>{orderdetail.info.phone1}, {orderdetail.info.phone2}</span>
                 </p>
                 <p className="text flex-this">
-                  <i
-                    className="fa fa-map-marker"
-                    aria-hidden="true"
-                    style={{ color: "#feb415" }}
-                  />
+                  <i className="fa fa-map-marker" aria-hidden="true" style={{ color: "#feb415" }} />
                   <span>{orderdetail.info.address}</span>
                 </p>
                 <p className="text flex-this">
-                  <i
-                    className="fa fa-calendar"
-                    aria-hidden="true"
-                    style={{ color: "#feb415" }}
-                  />
+                  <i className="fa fa-calendar" aria-hidden="true" style={{ color: "#feb415" }} />
                   <span>{orderdetail.info.deliverydate.slice(0, 10)}</span>
                 </p>
               </div>
@@ -174,18 +168,12 @@ class List extends React.Component {
                 <div className="col-xl-8 pad10">
                   <div className="row">
                     <div className="col">
-                      <h5 className="title">
-                        <span><FormattedMessage id="orderDetail.table.title" /></span>
-                      </h5>
-                    </div>
-                    <div className="col">
                       <Link
                         to="/profile/delivery"
                         className="btn btn-link pull-right"
-                        style={{ marginTop: "15px" }}
                       >
                         <Avatar size="small" shape="square" src={store} />
-                        <span className="text-uppercase"> <FormattedMessage id="orderDetail.button.showOrderList" /></span>
+                        <span style={{ fontSize: "14.4px" }}> <FormattedMessage id="orderDetail.button.showOrderList" /></span>
                       </Link>
                     </div>
                   </div>
@@ -203,7 +191,7 @@ class List extends React.Component {
                           <th className="column-4">
                             <span style={{ float: "right" }}>
                               <p className="price total">
-                                <strong><FormattedMessage id="orderDetail.table.col.totalPrice" /></strong>
+                                <FormattedMessage id="orderDetail.table.col.totalPrice" />
                               </p>
                             </span>
                           </th>

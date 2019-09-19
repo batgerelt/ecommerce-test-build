@@ -18,6 +18,7 @@ import wishlist1 from "../../scss/assets/svg/wishlist.svg";
 import store1 from "../../scss/assets/svg/store.svg";
 import location1 from "../../scss/assets/svg/location.svg";
 import password1 from "../../scss/assets/svg/password.svg";
+import logout from "../../scss/assets/svg/sign-out.svg";
 
 
 const IconFont = Icon.createFromIconfontCN({
@@ -57,6 +58,7 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
+    this.showpro();
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
 
@@ -132,6 +134,7 @@ class UserButton extends React.Component {
   }
 
   handleLogout = () => {
+    this.showpro();
     this.props.logout();
     this.props.clearLocally();
   }
@@ -187,11 +190,11 @@ class UserButton extends React.Component {
               </div>
               <span className="">{user === null ? " " : user.firstname}</span>
             </Link>
-            {/* large display */}
-            <div className={`dropdown ${visible ? ' open' : ''}`}>
+            {/* Desktop */}
+            <div className={`dropdown ${visible ? ' open' : ''}`} >
               <div className="drop-content">
-                <div className="profile-menu">
-                  <div className="menu-header">
+                <div className="profile-menu" >
+                  <div className="menu-header" style={{ display: "none" }}>
                     <div className="flex-this">
                       <div className="image-container default">
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
@@ -235,14 +238,14 @@ class UserButton extends React.Component {
                     </li>
                   </ul>
                   <div className="text-right" onClick={this.handleLogoutClick}>
-                    <button className="btn btn-gray">
-                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" /> <IconFont type="icon-tuichu" /></span>
+                    <button className="btn btn-gray" style={{ width: "100%" }}>
+                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" />{/* <Avatar size="small" shape="square" src={logout} style={{ transform: "rotate(180deg)" }} /> */}</span>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            {/* small display */}
+            {/* Mobile left panel */}
             <div className={`mobile-menu-container ${visible ? ' activated' : ''}`}>
               <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
                 <div className="d-none single">

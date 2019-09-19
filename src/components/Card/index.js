@@ -6,7 +6,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
-import React from "react";
+import React, { Fragment } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -115,7 +115,7 @@ class Card extends React.Component {
             });
             message.warning(intl.formatMessage(
               messages.error,
-              { name: updated.name, qty: updated.qty },
+              { name: updated.title, qty: updated.qty },
             ));
           }
         } else if (item.recipeid) {
@@ -185,6 +185,7 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem("auth") === null) {
+      console.log("login Modal", this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -245,13 +246,13 @@ class Card extends React.Component {
 
       if (item.id) {
         priceTitle = (
-          <span style={{ fontWeight: "normal" }}>
+          <span>
             <FormattedMessage id="card.package.label.price" />:
           </span>
         );
       } else if (item.recipeid) {
         priceTitle = (
-          <span style={{ fontWeight: "normal" }}>
+          <span>
             <FormattedMessage id="card.recipe.label.price" />:
           </span>
         );
@@ -259,93 +260,85 @@ class Card extends React.Component {
 
       if (item.discountprice && item.discountprice !== 0) {
         prices = (
-          <div className="row">
-            {!!priceTitle && (
-              <div
-                className="col-md-6 no-padding-r"
-                style={{ textAlign: "left", width: "40%" }}
-              >
-                {priceTitle}
-              </div>
-            )}
+          <Fragment>
+            {priceTitle
+              ? item.id
+                ? <span>{priceTitle}</span>
+                : <Fragment>{priceTitle}</Fragment>
+              : null
+            }
 
             {/* elastic search price tag */}
             {!item.pricetag ? null : (
-              <div
-                className={`col-md-6 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list tp-15' : ''}`}
-                style={{ textAlign: list ? 'rigth' : 'left', width: "40%" }}
-              >
-                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-              </div>
+              <Fragment>
+                {lang === "mn"
+                  ? item.pricetag
+                  : item.pricetag_en === null
+                    ? item.pricetag
+                    : item.pricetag_en
+                }
+              </Fragment>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-              <small className="sale">
-                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-              </small>
-              <span className="current">
-                {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
-              </span>
-            </div>
-          </div>
+            <small className="sale">
+              {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+            </small>
+            <span className="current">
+              {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
+            </span>
+          </Fragment>
         );
         item.discountprice === 0 ?
           prices = (
-            <div className="row">
+            <Fragment>
               {!!priceTitle && (
-                <div
-                  className="col-md-6 no-padding-r"
-                  style={{ textAlign: "left", width: "40%" }}
-                >
+                <Fragment>
                   {priceTitle}
-                </div>
+                </Fragment>
               )}
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <div
-                  className={`col-md-6 tp-15 ${list ? 'no-padding-l' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                  style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
-                >
-                  {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-                </div>
+                <Fragment>
+                  {lang === "mn"
+                    ? item.pricetag
+                    : item.pricetag_en === null
+                      ? item.pricetag
+                      : item.pricetag_en
+                  }
+                </Fragment>
               )}
 
-              <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l tp-15`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-                <span className="current" >
-                  {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-                </span>
-              </div>
-            </div>
+              <span className="current" >
+                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+              </span>
+            </Fragment>
           ) : null;
       } else {
         prices = (
-          <div className="row">
+          <Fragment>
             {!!priceTitle && (
-              <div
-                className="col-md-6 no-padding-r"
-                style={{ textAlign: "left", width: "40%" }}
-              >
+              <Fragment>
                 {priceTitle}
-              </div>
+              </Fragment>
             )}
 
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
-              <div
-                className={`col-md-6 ${list ? 'no-padding-l tp-15' : 'no-padding-r'} price-tag ${list ? 'price-tag-list' : ''}`}
-                style={{ textAlign: list ? 'center' : 'left', width: "40%" }}
-              >
-                {lang === "mn" ? item.pricetag : item.pricetag_en === null ? item.pricetag : item.pricetag_en}
-              </div>
+              <Fragment>
+                {lang === "mn"
+                  ? item.pricetag
+                  : item.pricetag_en === null
+                    ? item.pricetag
+                    : item.pricetag_en
+                }
+              </Fragment>
             )}
 
-            <div className={`col-md-${priceTitle || item.pricetag !== null ? "6" : "12"} no-padding-l ${list ? 'tp-15' : null}`} style={{ width: item.pricetag ? "60%" : !priceTitle ? "100%" : "60%" }}>
-              <span className="current">
-                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-              </span>
-            </div>
-          </div>
+            <span className="current">
+              {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+            </span>
+          </Fragment>
         );
       }
 
@@ -427,7 +420,6 @@ class Card extends React.Component {
           featureText = item.feature;
         }
       }
-      console.log(shape);
       switch (shape) {
         case CARD_TYPES.slim:
           return (
@@ -491,17 +483,16 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <br />
-                  <Link to={item.route ? item.route : ""} className="price">
+                  <div className="price">
                     {prices}
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
           );
         case CARD_TYPES.wide:
           return (
-            <div className="col-md-4 pad10">
+            <div className="col-sm-4 pad10">
               <div className="single-product big-product sale-product timed-product">
                 <div className="image-container">
                   <Link
@@ -552,10 +543,9 @@ class Card extends React.Component {
                         value={item.rate / 2}
                       /> : ""
                   }
-                  <br />
-                  <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="price">
+                  <div className="price">
                     {prices}
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -608,10 +598,9 @@ class Card extends React.Component {
                     {featureText}
                   </span>
                 </Link>
-                <br />
-                <Link to={item.route ? item.route : ""} className="price">
+                <div className="price">
                   {prices}
-                </Link>
+                </div>
               </div>
             </div>
           );
@@ -624,18 +613,21 @@ class Card extends React.Component {
                     className="image"
                     style={{
                       backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
-                      backgroundSize: "contain",
-                      height: '100px',
+                      backgroundSize: "100%",
+                      margin: "0px",
+                      paddin: "0px",
+                      height: "85px",
+                      width: "85px",
                     }}
                   />
                 </Link>
               </div>
               <div className="info-container">
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="name">
-                  <span style={{ width: list ? "70%" : '100%' }}>{itemName}</span>
+                  <span>{itemName}</span>
                 </Link>
                 <Link to={item.route ? item.route : `/productdetail/${item.skucd}`} className="cat">
-                  <span style={{ width: list ? "70%" : '100%' }}>{featureText}</span>
+                  <span>{featureText}</span>
                 </Link>
                 {
                   item.id === undefined && item.recipeid === undefined ?
@@ -649,14 +641,6 @@ class Card extends React.Component {
                 <Link
                   to={item.route ? item.route : `/productdetail/${item.skucd}`}
                   className="price"
-                  style={{
-                    padding: 0,
-                    top: "auto",
-                    bottom: "55px",
-                    right: "20px",
-                    left: "auto",
-                    fontSize: "1rem",
-                  }}
                 >
                   {prices}
                 </Link>
@@ -670,14 +654,8 @@ class Card extends React.Component {
                       lang={this.props.intl.locale}
                     />
                   ))}
-                <div className="cart-container d-flex">
-                  <a
-                    className="wishlist"
-                    style={{
-                      fontSize: "1.1rem",
-                    }}
-                    onClick={this.handleSaveClick}
-                  >
+                <span className="cart-container">
+                  <a className="wishlist" onClick={this.handleSaveClick}>
                     <i
                       className={
                         this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
@@ -685,16 +663,11 @@ class Card extends React.Component {
                       aria-hidden="true"
                     />
                   </a>
-                  <a
-                    onClick={() => this.handleIncrement(item)}
-                    style={{
-                      fontSize: "1.1rem",
-                    }}
-                  >
+                  <a onClick={() => this.handleIncrement(item)}>
                     <i className="fa fa-cart-plus" aria-hidden="true" />
                     <span />
                   </a>
-                </div>
+                </span>
               </div>
             </div >
           );

@@ -288,11 +288,17 @@ class DeliveryInfo extends React.Component {
           lang_ind.name = "lang_ind";
           lang_ind.value = res.payload.data.url.lang_ind;
 
+          let signature = document.createElement("input");
+          signature.type = "hidden";
+          signature.name = "signature";
+          signature.value = res.payload.data.url.signature;
+
           mapForm.appendChild(keyNumber);
           mapForm.appendChild(transNumber);
           mapForm.appendChild(trans_amount);
           mapForm.appendChild(time);
           mapForm.appendChild(lang_ind);
+          mapForm.appendChild(signature);
 
           document.body.appendChild(mapForm);
 
@@ -396,34 +402,24 @@ class DeliveryInfo extends React.Component {
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
-          {" "}
-          <p className="title">
-            <strong>
-              {
-                this.props.userinfo !== undefined && this.props.userinfo !== null && this.props.userinfo.length !== 0 ?
-                  `${this.props.userinfo.info.lastname} ${this.props.userinfo.info.firstname}`
-                  : ""
-              }
-            </strong>
+          <p className="title font-weight-bold">
+            <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
           </p>
           <hr />
+
           <div className="content">
-            <p className="title">
-              <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
-            </p>
-            <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.deliveryType" /></span>
-              <strong>
+            <p className="text flex-this">
+              <i className="fa fa-truck" />
+              <span>
                 {lang === "mn"
                   ? `${this.checkError(chosenType.typenm)}`
                   : `${this.checkError(chosenType.typenm_en)}`}
-              </strong>
+              </span>
             </p>
             <p className="text flex-this">
               <i
                 className="fa fa-user"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
               <span>
                 {this.checkError(chosenInfo.name)}
@@ -433,36 +429,47 @@ class DeliveryInfo extends React.Component {
               <i
                 className="fa fa-phone"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
               <span>
                 {`${this.checkError(chosenInfo.phonE1)} ${this.checkError(chosenInfo.phonE2)}`}
               </span>
             </p>
-            <p className="text flex-this">
+            <div className="d-flex mb-2">
               <i
                 className="fa fa-map-marker"
                 aria-hidden="true"
-                style={{ color: "#feb415" }}
               />
-              {
-                this.checkError(chosenType.id) !== 3 ?
-                  <span>
-                    {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
-                  </span>
-                  :
-                  <span>
-                    Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
-                  </span>
-              }
+              <p className="text flex-this">
+                {
+                  this.checkError(chosenType.id) !== 3 ?
+                    <span>
+                      {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
+                    </span>
+                    :
+                    <span>
+                      Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
+                    </span>
+                }
+              </p>
+            </div>
+            <div className="text d-flex">
+              <i
+                className="fa fa-info"
+                aria-hidden="true"
+              />
+              <p className="text flex-this">{lang === 'mn' ? this.checkError(chosenType.featuretxt) : this.checkError(chosenType.featuretxt_en)}</p>
+            </div>
 
+          </div>
+          <hr />
+          <div className="content px-3">
+            <p className="title pb-2">
+              <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
             </p>
           </div>
           <hr />
-          <div className="content">
-            <p className="title">
-              <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
-            </p>
+
+          <div className="content pb-2">
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.products" /> ({totalQty}):</span>
               <strong>{formatter.format(totalPrice)}₮</strong>
@@ -480,7 +487,7 @@ class DeliveryInfo extends React.Component {
                 </p> : ""
             }
             <hr />
-            <p className="text flex-space">
+            <p className="text flex-space result-price">
               <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
               <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
             </p>
@@ -492,7 +499,7 @@ class DeliveryInfo extends React.Component {
             <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif}>
               {" "}
               <a>
-                <span style={{ fontWeight: "bold", color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+                <span style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
               </a>
             </Checkbox>
             <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
