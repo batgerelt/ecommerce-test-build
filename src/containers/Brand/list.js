@@ -636,7 +636,7 @@ class CategoryInfo extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container brand-page">
         <div className="section">
           <div className="container pad10">
             <div className="row row10">
