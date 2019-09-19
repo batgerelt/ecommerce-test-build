@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col } from "antd";
+import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col, Divider } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -101,6 +101,7 @@ class List extends React.Component {
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('next', JSON.stringify(res.payload.data.info));
+            localStorage.setItem('percent', res.payload.data.info.cstatus);
             this.setState({ showButton: false });
           }
         });
@@ -140,7 +141,7 @@ class List extends React.Component {
             :
             null}
           <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
-          <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "85%" }} />
+          <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "75%" }} />
           <span className="rendername" style={{ fontSize: "13px" }}> {percents}%</span>
         </span>
       );
@@ -218,7 +219,7 @@ class List extends React.Component {
                             <Avatar size="small" shape="square" src={password} className="marginRight10" /><span><FormattedMessage id="header.profile.changePassword" /></span>
                           </Link>
                         </li>
-                        <hr />
+                        <Divider />
                         <li style={{ marginTop: "5px", marginBottom: "5px" }}>
                           <Link to="#" onClick={this.handleLogout}>
                             <Avatar size="small" shape="square" src={logout} className="marginRight10" /><span><FormattedMessage id="header.profile.logout" /></span>

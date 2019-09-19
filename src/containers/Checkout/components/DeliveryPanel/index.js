@@ -434,7 +434,7 @@ class DeliveryPanel extends React.Component {
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <Form onSubmit={this.onSubmit} onKeyPress={e => (e.key === 'Enter' ? this.onSubmit(e) : null)}>
                   <div className="row row10 checkoutFormContainer">
-                    {item.id !== 3 ? (
+                    {item.id !== 3 && main !== null ? (
                       <div className="col-xl-12 col-md-12 checkout-addbtn-container">
                         {
                           main !== null ?
