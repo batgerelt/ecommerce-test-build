@@ -115,27 +115,28 @@ class Homepage extends React.Component {
       );
 
       let blocksToRender = [];
-
       blocksToRender.push(this.getBlocks(widgets.slice(0, 2), items.products));
       if (items.blocks.banner.middle.length) {
-        blocksToRender.push(
-          <Banner
-            key={items.blocks.banner.middle[0].id}
-            data={items.blocks.banner.middle}
-          />,
-        );
+        if (items.blocks.banner.middle[0]) {
+          blocksToRender.push(
+            <Banner
+              key={items.blocks.banner.middle[0].id}
+              data={items.blocks.banner.middle}
+            />,
+          );
+        }
       }
-
       blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
       if (items.blocks.banner.footer.length) {
-        blocksToRender.push(
-          <Banner
-            key={items.blocks.banner.footer[0].id}
-            data={items.blocks.banner.footer}
-          />,
-        );
+        if (items.blocks.banner.footer[0]) {
+          blocksToRender.push(
+            <Banner
+              key={items.blocks.banner.footer[0].id}
+              data={items.blocks.banner.footer}
+            />,
+          );
+        }
       }
-
       return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
       return null;
