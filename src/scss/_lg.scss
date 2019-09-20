@@ -3632,7 +3632,7 @@ form .e-input-group .count-text {
 }
 
 .checkout-container.msg-bank .card-content .menu-content li + li {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .checkout-container.msg-bank .card-content .menu-content span,
@@ -3641,7 +3641,8 @@ form .e-input-group .count-text {
 }
 
 .checkout-container.msg-bank .card-content .menu-content span {
-  font-weight: 500;
+  // font-weight: 500;
+  font-weight: bolder;
   color: rgba(0, 0, 0, 0.5);
 }
 
@@ -4791,4 +4792,36 @@ form .e-input-group .count-text {
   background-color: #555555;
 }
 
+.delivery-info-message{
+  padding-top: 10px !important;
+  background-color: rgba(254, 180, 21, 0.2);
+}
+
+.chosen-bank-message-container{
+  padding: 10px !important;
+  background-color: rgba(254, 180, 21, 0.2);
+  margin-bottom: 10px !important;
+}
+
+.chosen-bank-message-container .fa{
+  width: 30px !important;
+  font-size: 1.2rem;
+  color: #feb415;
+  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.chosen-bank-message-container .text{
+  padding-left: 0px !important;
+}
+
+.pad-bot-0{
+  padding-bottom: 0px !important;
+}
+
+.ant-input-lg{
+  font-size: 15px !important;
+}
 /*# sourceMappingURL=wrap.css.map */

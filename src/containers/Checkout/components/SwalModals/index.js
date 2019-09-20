@@ -131,8 +131,6 @@ class SwalModals extends Component {
       const {
         checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
-      console.log('checkProductZone: ', checkProductZone);
-      console.log('type: ', type);
       const { mode } = this.state;
       if (type === "delete") {
         const messages = defineMessages({
@@ -168,6 +166,15 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
+        const { paymentType } = this.props;
+        const messages = defineMessages({
+          warning2: {
+            id: "checkout.swal.info.orderCancellation",
+          },
+          warning3: {
+            id: "checkout.swal.info.orderPayment",
+          },
+        });
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -202,6 +209,17 @@ class SwalModals extends Component {
                             {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
                           </strong>
                         </p>
+                        {paymentType !== "qpay" ? (
+                          <div className="text d-flex chosen-bank-message-container">
+                            <i
+                              className="fa fa-info"
+                              aria-hidden="true"
+                            />
+                            <p className="text flex-this">{intl.formatMessage(messages.warning3, { orderNumber: ordData.order.ordernumber })}</p>
+                          </div>
+                        ) : (
+                            ""
+                          )}
                         <div className="menu-content text-left">
                           <ul className="list-unstyled">
                             <li>
@@ -231,6 +249,13 @@ class SwalModals extends Component {
                               </strong>
                             </li>
                           </ul>
+                        </div>
+                        <div className="text d-flex chosen-bank-message-container pad-bot-0" style={{ marginTop: "10px" }}>
+                          <i
+                            className="fa fa-info"
+                            aria-hidden="true"
+                          />
+                          <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
                         </div>
                       </div>
                     </TabPane>
@@ -471,17 +496,6 @@ class SwalModals extends Component {
                       </div>
                       <div className="bottom-text text-center">
                         <div>
-                          <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
-                          <br />
-                          {paymentType !== "qpay" ? (
-                            <div>
-                              <b>
-                                {intl.formatMessage(messages.warning3, { orderNumber: ordData.order.ordernumber })}
-                              </b>
-                            </div>
-                          ) : (
-                              ""
-                            )}
                           <br />
                           <br />
                           {intl.formatMessage({ id: "checkout.swal.info.contract" })}
