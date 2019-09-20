@@ -26,6 +26,7 @@ class Model extends BaseModel {
     checkProductZone: [],
     basketNewProducts: [],
     sendOrder: [],
+    golomtMerchant: '',
   }
 
   constructor(data = {}) {
@@ -82,6 +83,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'sendOrder'),
           error: this.buildActionName('error', data.model, 'sendOrder'),
         },
+        golomtMerchant: {
+          request: this.buildActionName('request', data.model, 'golomtMerchant'),
+          response: this.buildActionName('response', data.model, 'golomtMerchant'),
+          error: this.buildActionName('error', data.model, 'golomtMerchant'),
+        },
       };
     }
     this.checkEpointPinModel = {
@@ -98,6 +104,9 @@ class Model extends BaseModel {
   connectEpointCard = ({ cardno, pincode } = {}) => asyncFn({ url: `/customer/card/${cardno}/${pincode}`, method: 'POST', model: this.model.connectEpoint });
   getEpointCardInfo = () => asyncFn({ url: `/customer/card`, method: 'GET', model: this.model.epointCardInfo });
   checkEpointPin = ({ cardno, pincode } = {}) => asyncFn({ url: `/customer/card/pin/${cardno}/${pincode}`, method: 'POST', model: this.checkEpointPinModel });
+  checkGolomtMerchant = ({ body } = {}) => asyncFn({
+    body, url: `/bank/golomturl`, method: 'POST', model: this.model.golomtMerchant,
+  });
   getZoneSettings = ({ locid, deliverytype } = {}) => asyncFn({ url: `/checkout/deliverydate/${locid}/${deliverytype}`, method: 'GET', model: this.model.zoneSettingDate });
   getCheckProductZone = ({ body, locid } = {}) => asyncFn({
     body, url: `/checkout/checkproductszone/${locid}`, method: 'POST', model: this.model.checkProductZone,
@@ -189,6 +198,14 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.sendOrder.response:
         return { ...state, sendOrder: action.payload };
+
+      // CHECKT GOLOMT MERCHANT
+      case this.model.golomtMerchant.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.golomtMerchant.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.golomtMerchant.response:
+        return { ...state, golomtMerchant: action.payload };
 
       // CHECK EPOINT PIN MODEL
       case this.checkEpointPinModel.request:
