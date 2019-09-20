@@ -96,7 +96,7 @@
 	"checkout.swal.button.removeFromCartAndProceed": "Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх",
 	"checkout.swal.info.contract": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар холбогдоно уу. Баярлалаа.",
 	"checkout.swal.info.orderCancellation": "Та төлбөрөө {hours} цагийн дотор төлснөөр таны захиалга баталгаажиж идэвхжинэ. Тус хугацаанд төлбөр төлөгдөөгүй тохиолдолд захиалгыг автоматаар цуцлах болохыг анхаарна уу.",
-	"checkout.swal.info.orderPayment": "Төлбөрийг дээрх дансанд шилжүүлэх ба захиалгын {orderNumber} дугаарыг гүйлгээний утга дээр заавал бичнэ үү.",
+	"checkout.swal.info.orderPayment": "Төлбөрийг доорх дансанд шилжүүлэх ба захиалгын {orderNumber} дугаарыг гүйлгээний утга дээр заавал бичнэ үү.",
 	"checkout.swal.info.success": "Таны захиалга амжилттай бүртгэгдлээ",
 	"checkout.swal.label.account": "Данс",
 	"checkout.swal.label.accountNumber": "Дансны дугаар",

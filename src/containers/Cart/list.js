@@ -435,7 +435,6 @@ class Cart extends React.Component {
     }
     const wishlistProducts = this.props.wish;
     const lang = this.props.intl.locale;
-
     return (
       wishlistProducts &&
       wishlistProducts.length > 0 && (
