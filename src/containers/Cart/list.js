@@ -285,27 +285,14 @@ class Cart extends React.Component {
     if (product.discountprice || product.salepercent) {
       if (product.issalekg) {
         return (
-          <p className="price" style={{ textAlign: 'end' }}>
-            <span>
+          <p className="price">
+            <span className="discount">
               {formatter.format(product.discountprice || product.currentprice)}₮
             </span>
-            <span
-              style={{
-                display: "block",
-                fontSize: "0.8em",
-                textDecoration: "line-through",
-                color: "#999",
-              }}
-            >
+            <span className="current">
               {formatter.format(product.price)}₮
             </span>
-            <span
-              style={{
-                display: "block",
-                fontSize: "0.8em",
-                color: "#999",
-              }}
-            >
+            <span className="pricetag">
               {product.pricetag}-н үнэ
             </span>
           </p>
@@ -313,21 +300,14 @@ class Cart extends React.Component {
       }
 
       return (
-        <p className="price" style={{ textAlign: 'end' }}>
-          <span>
+        <p className="price">
+          <span className="discount">
             {formatter.format(product.saleminqty > 1
               ? product.currentprice / product.saleminqty
               : product.currentprice,
             )}₮
           </span>
-          <span
-            style={{
-              display: "block",
-              fontSize: "0.8em",
-              textDecoration: "line-through",
-              color: "#999",
-            }}
-          >
+          <span className="current">
             {formatter.format(product.saleminqty > 1
               ? product.price / product.saleminqty
               : product.price,
@@ -339,15 +319,9 @@ class Cart extends React.Component {
 
     if (product.issalekg) {
       return (
-        <p className="price" style={{ textAlign: 'end' }}>
+        <p className="price">
           <span>{formatter.format(product.currentprice)}₮</span>
-          <span
-            style={{
-              display: "block",
-              fontSize: "0.8em",
-              color: "#999",
-            }}
-          >
+          <span>
             {product.pricetag}-н үнэ
           </span>
         </p>
@@ -355,7 +329,7 @@ class Cart extends React.Component {
     }
 
     return (
-      <p className="price" style={{ textAlign: 'end' }}>
+      <p className="price">
         <span>
           {formatter.format(product.saleminqty > 1
             ? product.price / product.saleminqty
@@ -615,7 +589,7 @@ class Cart extends React.Component {
                   </td>
                 </tr>
                 <tr className="table-action">
-                  <td colSpan="2" style={{ fontSize: "0.8em" }}>
+                  <td colSpan="2">
                     {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
                   </td>
                   <td colSpan="2">
