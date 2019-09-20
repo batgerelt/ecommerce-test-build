@@ -167,18 +167,18 @@ class ProductDetail extends React.Component {
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">
-          <div className="container">
+          <div className="container pad10">
             {this.renderBreadCrumb()}
             <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
               <div className="row row10">
-                <div className="col-sm-9 col-md-9 col-lg-9 row" style={{ paddingLeft: "5px" }}>
-                  <div className="col-xl-5 col-lg-5 col-md-5" style={{ paddingLeft: "5px" }}>
+                <div className="col-sm-9 col-md-9 col-lg-9 row">
+                  <div className="col-xl-5 col-lg-5 col-md-5 gallery-wrapper">
                     {this.renderGallery()}
                     {this.renderSocialButtons()}
                   </div>
                   {this.renderDetails()}
                 </div>
-                <div className="col-xl-3 col-lg-3 col-sm-3 col-md-3">
+                <div className="col-xl-3 col-lg-3 col-sm-3 col-md-3 product-plus-wrapper">
                   <div className="product-plus">
                     {this.renderDeliveryInfo()}
                     {this.renderRealational()}

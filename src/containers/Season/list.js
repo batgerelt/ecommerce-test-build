@@ -396,7 +396,9 @@ class CategoryInfo extends React.Component {
                       onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">Шүүлтүүр</span>
+                      <span className="text-uppercase">
+                        <FormattedMessage id="search.filter.filter.title" />
+                      </span>
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
