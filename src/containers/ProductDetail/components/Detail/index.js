@@ -38,7 +38,7 @@ class Detail extends Component {
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
     return (
-      <div className="col-xl-7 col-lg-7 col-md-7">
+      <div className="col-xl-7 col-lg-7 col-md-7 product-info-wrapper">
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
           <span className="small-title">

@@ -46,7 +46,7 @@ class AppHeader extends Component {
   };
 
   handleScroll = () => {
-    this.state.categoryDropdown ? this.setState({ categoryDropdown: false }) : null;
+    // this.state.categoryDropdown ? this.setState({ categoryDropdown: false }) : null;
   }
 
   handleChangeSearchWord = (e) => {
@@ -410,7 +410,7 @@ class AppHeader extends Component {
         });
       });
       const dropdown = (
-        <div className="drop-container" onClick={this.handleCategoryDropdown}>
+        <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ zIndex: -5 }}>
           <div className="container pad10">
             <Category dataSource={root} {...this.props} />
           </div>
@@ -452,7 +452,7 @@ class AppHeader extends Component {
     const { staticinfo } = this.props.staticcontent;
     const { categorymenu } = this.props.category;
     return (
-      <div className="wrap" id="main-header" onClick={this.handleDropDownClose}>
+      <div className="wrap" id="main-header" onClick={this.handleDropDownClose} style={{ zIndex: 100000000 }}>
         {
           mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
             <div className="top-container">

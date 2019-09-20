@@ -16,6 +16,7 @@ import { Loader } from "../../components";
 
 const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
+
 class Checkout extends React.Component {
   state = {
     activeKey: ["1"],

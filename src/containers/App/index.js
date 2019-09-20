@@ -15,6 +15,7 @@ import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
 import { ForgetModal } from "../../components/ForgetModal";
 import Notfound from "../Exception/404";
+import style from "./style.less";
 import {
   Locale as LocaleModel,
   Category as CategoryModel,
@@ -128,7 +129,7 @@ class App extends Component {
               <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
 
               {/** Үндсэн root болон nested root-үүд доор байрлана */}
-              <div>
+              <div className={style.appcontainer}>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/discount" component={Discount} />

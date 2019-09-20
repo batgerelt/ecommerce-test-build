@@ -78,6 +78,7 @@ export default class FacebookLogin1 extends React.Component {
   };
 
   render() {
+    const { intl } = this.props;
     let fbContent;
 
     if (this.state.isLoggedIn) {
@@ -91,6 +92,7 @@ export default class FacebookLogin1 extends React.Component {
           cssClass="btn btn-block btn-social btn-facebook"
           onClick={this.componentClicked}
           callback={this.responseFacebook}
+          textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
         />
       );
     }

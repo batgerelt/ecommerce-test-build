@@ -491,11 +491,11 @@ class List extends React.Component {
   render() {
     return (
       <div className="section">
-        <div className="container">
+        <div className="container pad10">
           <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
           <div className="product-detail-page">
-            <div className="row row10">
-              <div className="col-lg-8 pad10">
+            <div className="row">
+              <div className="col-lg-8">
                 {this.renderTitleDate()}
                 <div className="food-recipe-detail">
                   {this.renderSlider()}
@@ -510,7 +510,7 @@ class List extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-4 pad10">
+              <div className="col-lg-4">
                 <div className="product-plus">
                   {this.renderDelivery()}
                   {this.renderIcons()}
