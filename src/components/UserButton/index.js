@@ -168,7 +168,6 @@ class UserButton extends React.Component {
         </div>
       </li>
     );
-    // adya end haraarau nohoi mini
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         const user1 = JSON.parse(localStorage.getItem('next'));
@@ -357,90 +356,3 @@ class UserButton extends React.Component {
 }
 
 export default injectIntl(UserButton);
-
-/* <div className={`dropdown ${profilemenu}`}>
-              <div className="drop-content">
-                <div className="profile-menu">
-                  <div className="menu-header">
-                    <div className="flex-this">
-                      <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
-                      </div>
-                      <p className="name">
-                        {user.firstname}
-                      </p>
-                    </div>
-                    {this.renderProgress()}
-                  </div>
-                  <ul className="list-unstyled">
-                    <li>
-                      <Link to="/profile" className="flex-this">
-                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span>Профайл хуудас</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/history" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span>Үзсэн барааны түүх</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/wish" className="flex-this">
-                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span>Хадгалсан бараа</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span>Захиалгын түүх</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/address" className="flex-this">
-                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span>Хүргэлтийн хаяг</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/password" className="flex-this">
-                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span>Нууц үгээ солих</span>
-                      </Link>
-                    </li>
-                  </ul>
-                  <div className="text-right" onClick={this.handleLogoutClick}>
-                    <button className="btn btn-gray">
-                      <span className="text-uppercase">Гарах <IconFont type="icon-tuichu" /></span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ul className="list-unstyled">
-                    <li>
-                      <Link to="/profile" className="flex-this">
-                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Профайл хуудас</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/history" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Үзсэн барааны түүх</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/wish" className="flex-this">
-                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Хадгалсан бараа</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Захиалгын түүх</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/address" className="flex-this">
-                        <Avatar size="small" shape="square" src={location} style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Хүргэлтийн хаяг</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/profile/password" className="flex-this">
-                        <Avatar size="small" shape="square" src={password} style={{ width: "35px", color: "white" }} /><span style={{ color: "white" }}>Нууц үгээ солих</span>
-                      </Link>
-                    </li>
-                  </ul> */

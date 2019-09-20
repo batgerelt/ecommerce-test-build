@@ -116,7 +116,25 @@ class Component extends React.Component {
       return console.log(error);
     }
   }
+
+  renderNULL() {
+    return (
+      <div>
+        {/* <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }}>
+          <Col className="product" span={24} style={{ backgroundColor: "yellow" }}>
+            Энд зураг
+          </Col>
+        </Row> */}
+        <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }}>
+          <Col className="product" span={24} >
+            Таны Хадгалсан бараа жагсаалт хоосон байна.
+          </Col>
+        </Row>
+      </div>
+    );
+  }
   render() {
+    console.log("Хүслийн жагсаалт", this.props.wish.length);
     return (
       <div className="user-menu-content">
         <p className="title" style={{ textTransform: "uppercase" }}>
@@ -128,7 +146,7 @@ class Component extends React.Component {
           indicator={<Loader />}
         >
           <div className="product-list-history" style={{ minHeight: "30em" }}>
-            {this.renderProducts()}
+            {this.props.wish.length !== 0 ? this.renderProducts() : this.renderNULL()}
           </div>
         </Spin>
       </div>

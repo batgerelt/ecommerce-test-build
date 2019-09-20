@@ -230,9 +230,9 @@ class Model extends BaseModel {
       method: "GET",
       model: this.model.wish,
     });
-  getDelivery = ({ custid }) =>
+  getDelivery = () =>
     asyncFn({
-      url: `/order/all/${custid}`,
+      url: `/order/all`,
       method: "GET",
       model: this.model.delivery,
     });
