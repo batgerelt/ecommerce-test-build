@@ -37,8 +37,3 @@ class GoogleLogin extends React.Component {
 }
 
 export default GoogleLogin;
-
-// export default connect(
-//   null,
-//   { setUser },
-// )(GoogleLogin);

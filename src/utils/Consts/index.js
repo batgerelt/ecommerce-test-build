@@ -40,7 +40,7 @@ const PRODUCTS_PER_PAGE = 20;
 
 const SOCIAL_IDS = {
   google:
-    "385681945952-cuekq38feemk8gk2elbtctbpanregnnj.apps.googleusercontent.com",
+    "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com",
   facebook: "387987568555669",
 };
 Object.freeze(SOCIAL_IDS);
