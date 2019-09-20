@@ -2070,6 +2070,21 @@ h1.title {
 
 // (>= 768px)
 @media (min-device-width: 768px) {
+    .cart-table {
+        .price {
+            display: grid;
+            grid-template-columns: auto;
+
+            .discount {
+                grid-row: 2 / 3;
+            }
+
+            .current {
+                grid-row: 1 / 2;
+            }
+        }
+    }
+
     .emart-page,
     .brand-page {
         padding-top: 10px;
