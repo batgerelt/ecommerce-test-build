@@ -205,11 +205,11 @@ class SwalModals extends Component {
                       key={item.bankid}
                     >
                       <div className="col-md-12 pad10">
-                        <p className="title">
+                        {/* <p className="title">
                           <strong>
                             {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
                           </strong>
-                        </p>
+                        </p> */}
                         {/* paymentType !== "qpay" ? (
                           <div className="text d-flex chosen-bank-message-container">
                             <i
@@ -271,14 +271,14 @@ class SwalModals extends Component {
                             className="fa fa-info"
                             aria-hidden="true"
                           />
-                          <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
+                          <p style={{ fontSize: "13px" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">2</b>` }) }} />
                         </div>
                       </div>
                     </TabPane>
                   );
                 })}
               </Tabs>
-              <div className="text-right" style={{ marginTop: "10px" }}>
+              <div className="text-right" style={{ marginTop: "10px", paddingRight: "10px" }}>
                 <a
                   onClick={e => readyBtn(e, chosenBank, ordData, type, totalQty)}
                   className="btn btn-main"
