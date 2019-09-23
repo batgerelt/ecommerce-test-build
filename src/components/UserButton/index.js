@@ -110,7 +110,7 @@ class UserButton extends React.Component {
   renderProgress() {
     let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
     return (
-      <div style={{ width: "230px" }}>
+      <div /* style={{ width: "230px" }} */>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
         <p className="text text-center">
           <strong style={{ color: "white" }}>Таны мэдээлэл</strong>
