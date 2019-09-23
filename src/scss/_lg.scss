@@ -4824,4 +4824,7 @@ form .e-input-group .count-text {
 .ant-input-lg{
   font-size: 15px !important;
 }
-/*# sourceMappingURL=wrap.css.map */
+
+.ant-message, .ant-modal-wrap, .container_9tizg4, .swal2-container{
+  z-index: 999999999 !important;
+}

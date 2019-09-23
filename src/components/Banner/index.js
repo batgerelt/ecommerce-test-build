@@ -28,8 +28,7 @@ class Banner extends React.Component {
     try {
       const { data } = this.props;
       const selected = data.length === undefined ? data : data[Math.floor(Math.random() * data.length)];
-      this.getImageColor(process.env.IMAGE + selected.imgnm);
-      console.log(process.env.IMAGE + selected.imgnm);
+      // this.getImageColor(process.env.IMAGE + selected.imgnm);
       return (
         <div className="banner-container">
           <span style={{ backgroundImage: `url(${process.env.IMAGE + selected.imgnm})` }} />
