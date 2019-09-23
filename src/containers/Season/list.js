@@ -7,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
 import {
   InfiniteLoader,
@@ -347,7 +347,9 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
+                  <strong>
+                    <FormattedMessage id="search.filter.filter.title" />
+                  </strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -374,7 +376,7 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { searchKeyWordResponse } = this.props;
+      const { intl, searchKeyWordResponse } = this.props;
 
       return (
         <div className="col-md-9 pad10">
@@ -412,9 +414,14 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
+                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
                     >
-                      <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
-                      <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
+                      <Select.Option value="currentprice_desc">
+                        <FormattedMessage id="search.sort.values.priceDesc" />
+                      </Select.Option>
+                      <Select.Option value="currentprice_asc">
+                        <FormattedMessage id="search.sort.values.priceAsc" />
+                      </Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this searchGridList pl-2">
@@ -655,4 +662,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default CategoryInfo;
+export default injectIntl(CategoryInfo);

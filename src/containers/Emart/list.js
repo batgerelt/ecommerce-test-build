@@ -47,6 +47,7 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       ismore: false,
       expanded: [],
+      isMobilePanel: false,
     };
   }
 
@@ -292,12 +293,18 @@ class CategoryInfo extends React.Component {
         );
       }
 
-      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
+      return (
+        <div className="block">
+          <FormattedMessage id="search.filter.filter.noCategory" />
+        </div>
+      );
     } catch (error) {
       // return console.log(error);
       return null;
     }
   };
+
+  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
 
   renderLeftPanel = () => {
     try {
@@ -323,7 +330,9 @@ class CategoryInfo extends React.Component {
                 <strong><FormattedMessage id="search.filter.title" /></strong>
               </h5>
               <p className="title">
-                <span><FormattedMessage id="search.filter.category.title" /></span>
+                <span>
+                  <FormattedMessage id="search.filter.category.title" />
+                </span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -341,8 +350,13 @@ class CategoryInfo extends React.Component {
               </div>
 
               <div>
-                <h5 className="title">
-                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
+                <h5
+                  className="title"
+                  onClick={this.showMobilePanel}
+                >
+                  <strong>
+                    <FormattedMessage id="search.filter.filter.title" />
+                  </strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet

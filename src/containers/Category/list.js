@@ -428,7 +428,7 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { searchKeyWordResponse } = this.props;
+      const { intl, searchKeyWordResponse } = this.props;
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
@@ -466,6 +466,7 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
+                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
                     >
                       <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
                       <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
