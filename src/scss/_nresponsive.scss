@@ -1503,6 +1503,10 @@ h1.title {
 
 // md (< 992px)
 @media (max-width: 991px) {
+    .cart-container {
+        padding-bottom: 10px;
+    }
+
     .section-gray {
         margin-top: -17px;
     }
@@ -1528,19 +1532,26 @@ h1.title {
 
     .e-breadcrumb {
         ul {
+            padding: 0px;
+            margin: 0px;           
+
             li {
                 display: inline;
-                float: none;                
+                float: none;
+                padding: 0px 0px 0px 10px;
+                margin: 0px 10px 0px 5px;
 
                 a {
                     display: inline;
                 }
-            }
-        }
-    }
+            } 
 
-    .e-breadcrumb li:first-child {
-        padding-right: 10px;
+            li:first-child {
+                display: inline;
+                padding: 0px;
+                margin: 0px 10px 0px 0px;
+            }           
+        }
     }
 
     .profile-section {
@@ -1593,7 +1604,8 @@ h1.title {
             }
 
             tr {
-                display: grid;              
+                display: grid;
+                padding: 5px;          
             }
 
             tr:not(.table-action) {
@@ -1723,6 +1735,32 @@ h1.title {
         }
     }    
 
+    .recipe-detail,
+    .package-detail {
+        .swiper-button-prev,
+        .swiper-button-next,
+        .swiper-button-prev.swiper-button-disabled,
+        .swiper-button-next.swiper-button-disabled {
+            background-size: 12px;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-prev.swiper-button-disabled {
+            margin-left: -18px;
+        }
+
+        .swiper-button-next,
+        .swiper-button-next.swiper-button-disabled {
+            margin-right: -18px;
+        }
+
+        .swiper-button-prev.swiper-button-disabled,
+        .swiper-button-next.swiper-button-disabled {
+            background-color: transparent;
+            border: none;
+        }
+    }  
+
     .product-detail-page {
         .gallery-wrapper,
         .product-info-wrapper,
@@ -1734,15 +1772,7 @@ h1.title {
 
         .comments-container {
             padding: 20px 0px 0px 0px;
-        }
-
-        .swiper-button-prev.swiper-button-disabled,
-        .swiper-button-next.swiper-button-disabled {
-            font-size: 1rem;
-            background-color: transparent;
-            border: none;
-        }
-        
+        }      
 
         .product-info {
             .main-rating {
@@ -1874,6 +1904,7 @@ h1.title {
 @media (max-width: 575px) {
     .e-breadcrumb {
         padding: 10px 0px 0px 0px;
+        margin-bottom: 0px;
     }
 
     body {
@@ -1881,6 +1912,8 @@ h1.title {
     }
 
     .product-detail-page {
+        margin-top: 20px;
+
         .product-info {
             form {
                 .btn-container {
@@ -1890,16 +1923,6 @@ h1.title {
         }
 
         .product-suggest {
-            .info-container {
-                a {
-                    display: inline-block;
-                    width: 100%;
-                    white-space: nowrap;
-                    overflow: hidden !important;
-                    text-overflow: ellipsis;
-                }
-            }
-
             .recipe-product-title,
             .package-product-title {                
                 text-transform: uppercase;
@@ -1918,9 +1941,16 @@ h1.title {
         .pack-product-container {
             margin-top: 20px;
 
-            .pack-list,
-            .info-container {
+            .pack-list {                
                 margin-bottom: 20px;
+            }
+
+            li {
+                padding: 5px;
+                
+                .info-container {
+                    vertical-align: middle;
+                }
             }
         }
 
@@ -2074,9 +2104,10 @@ h1.title {
         .price {
             display: grid;
             grid-template-columns: auto;
+            text-align: right;
 
             .discount {
-                grid-row: 2 / 3;
+                grid-row: 2 / 3;                
             }
 
             .current {

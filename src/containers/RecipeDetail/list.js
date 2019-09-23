@@ -492,8 +492,10 @@ class List extends React.Component {
     return (
       <div className="section">
         <div className="container pad10">
-          <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
-          <div className="product-detail-page">
+          <div className="e-breadcrumb">
+            {this.props.recipe === null ? null : this.renderRoot()}
+          </div>
+          <div className="product-detail-page recipe-detail">
             <div className="row">
               <div className="col-lg-8">
                 {this.renderTitleDate()}

@@ -223,7 +223,7 @@
 	"search.filter.title.color": "Color",
 	"search.filter.title.price": "Price",
 	"search.searchResult.label.found": "found",
-	"search.sort.label": "Arrange",
+	"search.sort.label": "Sort",
 	"search.sort.values.priceAsc": "Lowest first",
 	"search.sort.values.priceDesc": "Highest first",
 	"shared.404.button.backHome": "Go to homepage",
