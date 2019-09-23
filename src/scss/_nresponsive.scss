@@ -1,4 +1,11 @@
 // for all viewports
+.static-page.ck-editor {
+    img {
+        height: 100% !important;
+        width: 100% !important;
+    }
+}
+
 .label-wrapper {
     padding: 15px 8px;
 }
