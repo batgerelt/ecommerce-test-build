@@ -1762,6 +1762,12 @@ h1.title {
     }  
 
     .product-detail-page {
+        .product-plus {
+            .block {
+                margin-bottom: 0px;
+            }
+        }
+
         .gallery-wrapper,
         .product-info-wrapper,
         .product-plus-wrapper,
@@ -1849,6 +1855,8 @@ h1.title {
     }
 
     .section-footer {
+        margin-top: 10px;
+
         .container {
             .row {
                 div {
