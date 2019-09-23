@@ -4,9 +4,8 @@ import React from "react";
 const formatter = new Intl.NumberFormat("en-US");
 class GolomtMerchant extends React.Component {
   render() {
-    console.log(this.props);
-    if (this.props.loading) {
-      const { data } = this.props.container.data;
+    const { golomtMerchant } = this.props;
+    if (golomtMerchant.success) {
       return (
         <div className="section section-gray">
           <div className="container pad10">
@@ -26,26 +25,26 @@ class GolomtMerchant extends React.Component {
                       <div className="message">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Захиалга <strong>{data.order.ordernumber}</strong>
+                            Захиалга <strong>{golomtMerchant.data.order.ordernumber}</strong>
                           </span>
                         </h5>
                         <ul className="list-unstyled class">
                           <li className="flex-this flex-space">
                             <span>Худалдаж авсан барааны тоо:</span>
                             <strong className="big">
-                              {data.order.orderquantity}
+                              {golomtMerchant.data.order.orderquantity}
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
                             <span>Мөнгөн дүн:</span>
                             <strong className="big">
-                              {formatter.format(data.order.totalamount)}₮
+                              {formatter.format(golomtMerchant.data.order.totalamount)}₮
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
                             <span>Төлбөрийн төрөл:</span>
                             <strong className="big">
-                              {data.order.paymenttype}
+                              {golomtMerchant.data.order.paymenttype}
                             </strong>
                           </li>
                         </ul>
@@ -62,7 +61,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span> {data.delivery.custname}</span>
+                          <span> {golomtMerchant.data.delivery.custname}</span>
                         </p>
                         <p className="text flex-this">
                           <i
@@ -71,7 +70,7 @@ class GolomtMerchant extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {`${data.delivery.phonE1}, ${data.delivery.phonE2}`}
+                            {`${golomtMerchant.data.delivery.phonE1}, ${golomtMerchant.data.delivery.phonE2}`}
                           </span>
                         </p>
                         <p className="text flex-this">
@@ -80,7 +79,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{data.delivery.address}</span>
+                          <span>{golomtMerchant.data.delivery.address}</span>
                         </p>
                         <p className="text flex-this">
                           <i
@@ -88,7 +87,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{data.delivery.insymd}</span>
+                          <span>{golomtMerchant.data.delivery.insymd}</span>
                         </p>
                       </div>
                       <div className="bottom-text text-center">
@@ -114,7 +113,7 @@ class GolomtMerchant extends React.Component {
                         <a
                           className="btn btn-dark"
                           onClick={() =>
-                            this.props.history.push(`/order/${data.order.id}`)
+                            this.props.history.push(`/order/${golomtMerchant.data.order.id}`)
                           }
                         >
                           <span className="text-uppercase">Захиалга харах</span>
@@ -132,7 +131,7 @@ class GolomtMerchant extends React.Component {
     return (
       <div className="section section-gray">
         <div className="container pad10">
-          <div className="success-message-container">
+          <div className="success-message-container" style={{ padding: "100px 0" }}>
             <div className="container pad10">
               <div className="row row10">
                 <div className="offset-md-3 col-md-6 pad10">
@@ -150,7 +149,7 @@ class GolomtMerchant extends React.Component {
                       </h4>
                     </div>
                     <div className="bottom-text text-center">
-                      <p>{this.props.container.data.message}</p>
+                      <p>{golomtMerchant.message}</p>
                     </div>
                   </div>
                 </div>

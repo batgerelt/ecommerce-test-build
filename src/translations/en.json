@@ -118,6 +118,7 @@
 	"checkout.swal.label.showOrders": "Show orders",
 	"checkout.swal.label.transactionDescription": "Transaction description",
 	"checkout.swal.label.transactionInfo": "Transaction information",
+	"checkout.swal.label.qpayTransactionInfo": "Transaction information",
 	"checkout.swal.label.transactionMethods": "Transaction methods",
 	"footer.contract.title": "Contact info",
 	"footer.copyright.text": "Copyright © 2016-2019 emart. all rights reserved.",

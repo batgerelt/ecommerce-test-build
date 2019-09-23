@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import { defineMessages } from "react-intl";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { Collapse, Tabs, Divider, Button } from "antd";
 import Swal from "sweetalert2";
@@ -209,7 +210,7 @@ class SwalModals extends Component {
                             {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
                           </strong>
                         </p>
-                        {paymentType !== "qpay" ? (
+                        {/* paymentType !== "qpay" ? (
                           <div className="text d-flex chosen-bank-message-container">
                             <i
                               className="fa fa-info"
@@ -219,36 +220,51 @@ class SwalModals extends Component {
                           </div>
                         ) : (
                             ""
-                          )}
-                        <div className="menu-content text-left">
-                          <ul className="list-unstyled">
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.account" })}
-                              </span>
-                              <strong>{item.account}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
-                              </span>
-                              <strong>{ordData.order.ordernumber}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
-                              </span>
-                              <strong>{item.name}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.amount" })}
-                              </span>
-                              <strong>
-                                {formatter.format(ordData.order.payamount)}₮
-                              </strong>
-                            </li>
-                          </ul>
+                          ) */}
+                        {
+                          paymentType !== "qpay" ? (
+                            <div style={{ fontWeight: 'bold' }}>
+                              <p className="text" style={{ paddingLeft: '0px' }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }} />
+                            </div>
+                          ) : (
+                              ""
+                            )
+                        }
+                        <div className="menu-content text-left" style={{ display: "flex" }}>
+                          <div className="col-md-6">
+                            <ul className="list-unstyled">
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.account" })}
+                                </span>
+                                <strong>{item.account}</strong>
+                              </li>
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
+                                </span>
+                                <strong>{ordData.order.ordernumber}</strong>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="col-md-6">
+                            <ul className="list-unstyled">
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
+                                </span>
+                                <strong>{item.name}</strong>
+                              </li>
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.amount" })}
+                                </span>
+                                <strong>
+                                  {formatter.format(ordData.order.payamount)}₮
+                                </strong>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                         <div className="text d-flex chosen-bank-message-container pad-bot-0" style={{ marginTop: "10px" }}>
                           <i
@@ -284,7 +300,7 @@ class SwalModals extends Component {
               <div className="col-md-12 pad10">
                 <p className="title">
                   <strong>
-                    {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
+                    {intl.formatMessage({ id: "checkout.swal.label.qpayTransactionInfo" })}
                   </strong>
                 </p>
                 <div className="menu-content" style={{ display: "flex" }}>
@@ -469,6 +485,16 @@ class SwalModals extends Component {
                         </p>
                         <p className="text flex-this">
                           <i
+                            className="fa fa-envelope"
+                            aria-hidden="true"
+                            style={{ color: "#feb415" }}
+                          />
+                          <span>
+                            {ordData.mail}
+                          </span>
+                        </p>
+                        <p className="text flex-this">
+                          <i
                             className="fa fa-map-marker "
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
@@ -496,8 +522,6 @@ class SwalModals extends Component {
                       </div>
                       <div className="bottom-text text-center">
                         <div>
-                          <br />
-                          <br />
                           {intl.formatMessage({ id: "checkout.swal.info.contract" })}
                         </div>
                         <strong className="text-uppercase">

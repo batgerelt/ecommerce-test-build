@@ -24,7 +24,7 @@ class MerchantReturn extends React.Component {
     // eslint-disable-next-line no-useless-escape
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     let regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
-    let results = regex.exec(props.location.pathname);
+    let results = regex.exec(props.location.search);
     return results === null
       ? ""
       : decodeURIComponent(results[1].replace(/\+/g, " "));
@@ -39,11 +39,9 @@ class MerchantReturn extends React.Component {
       card_number: this.getUrlParams(this.props, "card_number"),
       signature: this.getUrlParams(this.props, "signature"),
     };
-    console.log(tmp);
     this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
-      console.log(res);
+      this.setState({ loading: false });
     });
-    console.log(this.props);
   }
 
   render() {
