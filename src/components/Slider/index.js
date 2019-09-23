@@ -28,7 +28,6 @@ class Slider extends React.Component {
   renderIndents = () => {
     const { sliderData, intl, windowWidth } = this.props;
     const lang = intl.locale;
-    const sliderHeight = Math.round(windowWidth / 3.7);
 
     try {
       return sliderData.map((item, index) => {
@@ -61,7 +60,15 @@ class Slider extends React.Component {
           </div>
         );
 
-        const styles = this.props.main
+        let sliderHeight;
+
+        if (this.props.main) {
+          sliderHeight = Math.round(windowWidth / 3.7);
+        } else if (this.props.recipe || this.props.package) {
+          sliderHeight = Math.round((windowWidth - 50) / 3) * 2;
+        }
+
+        const styles = sliderHeight
           ? {
             backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
             height: sliderHeight,
