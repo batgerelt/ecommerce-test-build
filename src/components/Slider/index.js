@@ -61,14 +61,20 @@ class Slider extends React.Component {
           </div>
         );
 
+        const styles = this.props.main
+          ? {
+            backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
+            height: sliderHeight,
+          }
+          : {
+            backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
+          };
+
         return (
           <div key={index}>
             <div
               className={this.props.contain ? "background-contain" : "background-cover"}
-              style={{
-                backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
-                height: sliderHeight,
-              }}
+              style={styles}
             >
               {
                 item.brandid ? (

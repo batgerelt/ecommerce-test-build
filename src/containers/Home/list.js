@@ -207,6 +207,7 @@ class Homepage extends React.Component {
         return (
           <div className="main-slide">
             <Slider
+              main
               sliderData={homepagebanner.header === undefined ? [] : homepagebanner.header}
               params={sliderParams}
               elContainer={"banner"}
