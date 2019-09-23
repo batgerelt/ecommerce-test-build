@@ -2531,7 +2531,7 @@ form {
   }
 }
 .success-message-container {
-  // padding: 60px 0;
+  padding: 0px 0;
 
   h4.title {
     font-size: 1.4rem;
@@ -2954,6 +2954,10 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
   background-color: grey !important;
+}
+
+.mobile-menu-container.activated {
+  z-index: 999999999 !important;
 }
 /* .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
   text-align: left;
@@ -3506,4 +3510,12 @@ button:disabled{
 
 .left-panel .collapse-content{
   padding: 5px 0px !important;
+}
+
+.color-red{
+  color: rgb(212, 19, 13);
+}
+
+.fontBold{
+  font-weight: bold;
 }

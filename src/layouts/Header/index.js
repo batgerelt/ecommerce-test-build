@@ -409,6 +409,7 @@ class AppHeader extends Component {
           }
         });
       });
+
       const dropdown = (
         <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ zIndex: -5 }}>
           <div className="container pad10">
