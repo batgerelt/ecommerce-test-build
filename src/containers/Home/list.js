@@ -231,7 +231,7 @@ class Homepage extends React.Component {
             {this.renderBrandSlider()}
 
             <MessengerCustomerChat
-              pageId="169275059877520"
+              pageId="1438714326447694"
               appId={SOCIAL_IDS.facebook}
               htmlRef={window.location.pathname}
             />
