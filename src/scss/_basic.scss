@@ -2535,7 +2535,7 @@ form {
   }
 }
 .success-message-container {
-  // padding: 60px 0;
+  padding: 0px 0;
 
   h4.title {
     font-size: 1.4rem;
@@ -2686,7 +2686,7 @@ form {
 .swiper-button-next,
 .swiper-container-rtl,
 .swiper-button-prev {
-  background-size: 10px;
+  background-size: 20px;
 }
 
 .food-recipe-detail {
@@ -3514,4 +3514,8 @@ button:disabled{
 
 .left-panel .collapse-content{
   padding: 5px 0px !important;
+}
+
+.color-red{
+  color: red;
 }

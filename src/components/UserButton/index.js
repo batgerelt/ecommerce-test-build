@@ -1,4 +1,5 @@
 import React from "react";
+import * as jwtDecode from 'jwt-decode';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress, Icon, Button, Upload, Spin, message } from "antd";
@@ -19,7 +20,6 @@ import store1 from "../../scss/assets/svg/store.svg";
 import location1 from "../../scss/assets/svg/location.svg";
 import password1 from "../../scss/assets/svg/password.svg";
 import logout from "../../scss/assets/svg/sign-out.svg";
-
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
@@ -83,6 +83,15 @@ class UserButton extends React.Component {
       );
     }
   };
+
+  componentDidUpdate() {
+    if (localStorage.getItem("auth") !== null) {
+      let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
+      if (jwtDecode(token).exp < Date.now() / 1000) {
+        localStorage.clear();
+      }
+    }
+  }
 
   uploadPick = () => {
     const { file } = this.state;

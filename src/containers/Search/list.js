@@ -8,7 +8,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
 import {
   InfiniteLoader,
@@ -431,7 +431,7 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { searchKeyWordResponse } = this.props;
+      const { intl, searchKeyWordResponse } = this.props;
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
@@ -471,6 +471,7 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
+                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
                     >
                       <Select.Option value="currentprice_asc">
                         <FormattedMessage id="search.sort.values.priceAsc" />
@@ -757,4 +758,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default CategoryInfo;
+export default injectIntl(CategoryInfo);
