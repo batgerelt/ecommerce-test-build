@@ -102,23 +102,8 @@ class MobileMenu extends React.Component {
   renderMenu = () => {
     try {
       const lang = this.props.intl;
-      const { categorymenu } = this.props.category;
-      const root = [];
-
-      categorymenu.forEach((entry) => {
-        if (entry.parentid === 0) {
-          entry.children = [];
-          root.push(entry);
-        }
-
-        root.forEach((ent) => {
-          if (ent.id === entry.parentid) {
-            ent.children.push(entry);
-          }
-        });
-      });
-
-      let toggleCategory = root.map((item, index) => (
+      const { categoryRootMenu } = this.props.category;
+      let toggleCategory = categoryRootMenu.map((item, index) => (
         <Menu.SubMenu
           key={index}
           title={
@@ -159,8 +144,8 @@ class MobileMenu extends React.Component {
       <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} >
         <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
           {this.renderHeader()}
-          {this.renderContent()}
-          {this.renderMenu()}
+          {this.props.categorymenu === null ? null : this.renderContent()}
+          {this.props.categorymenu === null ? null : this.renderMenu()}
         </div>
         <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%" }} onClick={this.handleClose} />
       </div>
