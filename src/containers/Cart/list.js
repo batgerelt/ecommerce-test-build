@@ -601,7 +601,9 @@ class Cart extends React.Component {
                             onClick={e => this.handleSaveClick(e, prod)}
                           >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
-                            <span><FormattedMessage id="cart.table.button.save" /></span>
+                            <span>
+                              <FormattedMessage id="cart.table.button.save" />
+                            </span>
                           </Link>
                         </li>
                         <li>

@@ -449,7 +449,7 @@ class List extends React.Component {
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10" style={{ alignItems: "initial" }}>
-            <div className="col-sm-4 image-container">
+            <div className="col-sm-6 col-md-4 image-container">
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,
@@ -462,7 +462,7 @@ class List extends React.Component {
                 }}
               />
             </div>
-            <div className="col-sm-8">
+            <div className="col-sm-6 col-md-8">
               <h4 className="step-title">
                 <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
                   <span

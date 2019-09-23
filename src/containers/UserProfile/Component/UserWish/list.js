@@ -81,7 +81,7 @@ class Component extends React.Component {
                         <div>{`${formatter.format(item.currentprice)}₮`}</div>
                         :
                         <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                      : <div>{`${formatter.format(item.currentprice)}`}₮</div>
+                      : <div>{`${formatter.format(item.currentprice)}₮`}</div>
                   }
                 </div>
               </li>
@@ -90,23 +90,20 @@ class Component extends React.Component {
           <Col className="action icons">
             <ul className="list-unstyled flex-this">
               <li>
-                <Link
-                  to="#"
+                <button
+                  className="action btn btn-link"
                   onClick={this.handleIncrement(item)}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  to="#"
+                <button
+                  className="action btn btn-link"
                   onClick={this.onDelete(item)}
-                  style={{
-                    fontWeight: "10",
-                  }}
                 >
                   <i className="fa fa-times" aria-hidden="true" />
-                </Link>
+                </button>
               </li>
             </ul>
           </Col>

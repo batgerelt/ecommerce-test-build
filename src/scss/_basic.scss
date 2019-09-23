@@ -1,7 +1,7 @@
 body {
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.1px;
-  margin-top: 149px;
+  margin-top: 154px;
 }
 
 html{
@@ -442,18 +442,14 @@ button{
     background-size: 184px !important;
     border: solid 1px #ededed;
   }
-  .swiper-wrapper,
-  .swiper-container {
-    height: 120px !important;
-  }
 }
 .main-slide {
   position: relative;
   z-index: 1;
 
-  .swiper-container {
-    height: 500px;
-  }
+  // .swiper-container {
+  //   height: 500px;
+  // }
   .swiper-slide {
     background-size: 100%;
     background-position: center center;
