@@ -7,8 +7,17 @@ import { toast } from "react-toastify";
 import { SOCIAL_IDS } from "../../../utils/Consts";
 
 class GoogleLogin extends React.Component {
-  handleGoogleLoginResponse = (res) => {
-    console.log(res);
+  handleGoogleLoginResponse = (response) => {
+    if (response && response.profileObj) {
+      const user = {
+        id: response.profileObj.googleId,
+        email: response.profileObj.email,
+        firstname: response.profileObj.name,
+        lastname: response.profileObj.name,
+        picture: response.profileObj.imageUrl,
+      };
+      console.log("user", user);
+    }
   };
 
   handleGoogleLoginFailure = (err) => {
