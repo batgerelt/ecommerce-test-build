@@ -132,7 +132,7 @@ class App extends Component {
                   {/*  */}
 
                   {/** Үндсэн root болон nested root-үүд доор байрлана */}
-                  <Layout.Content style={{ paddingTop: '150px' }}>
+                  <Layout.Content>
                     <div className={style.appcontainer}>
                       <Switch>
                         <Route exact path="/" component={Home} />
