@@ -92,6 +92,7 @@ class List extends React.Component {
               params={sliderParams}
               elContainer={"images"}
               contain
+              recipe
             />
           </div>
         </div>
@@ -347,7 +348,9 @@ class List extends React.Component {
                   aria-hidden="true"
                   style={{ fontSize: "1.2rem" }}
                 />{" "}
-                <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.addToCart" /></span>
+                <span className="text-uppercase">
+                  <FormattedMessage id="shared.sidebar.button.addToCart" />
+                </span>
               </button>
             </div>
           </div>

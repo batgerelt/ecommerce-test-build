@@ -241,6 +241,7 @@ class List extends React.Component {
               params={sliderParams}
               elContainer={"images"}
               contain
+              package
             />
           </div>
         </div>

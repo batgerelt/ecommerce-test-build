@@ -9,6 +9,7 @@ import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { message, Affix } from 'antd';
+import { isMobile } from "react-device-detect";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -601,15 +602,29 @@ class Cart extends React.Component {
                             onClick={e => this.handleSaveClick(e, prod)}
                           >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
-                            <span>
-                              <FormattedMessage id="cart.table.button.save" />
-                            </span>
+                            {
+                              !isMobile
+                                ? (
+                                  <span>
+                                    <FormattedMessage id="cart.table.button.save" />
+                                  </span>
+                                )
+                                : ""
+                            }
                           </Link>
                         </li>
                         <li>
                           <Link to="" onClick={this.handleRemoveClick(prod)}>
                             <i className="fa fa-times" aria-hidden="true" />{" "}
-                            <span><FormattedMessage id="cart.table.button.remove" /></span>
+                            {
+                              !isMobile
+                                ? (
+                                  <span>
+                                    <FormattedMessage id="cart.table.button.remove" />
+                                  </span>
+                                )
+                                : ""
+                            }
                           </Link>
                         </li>
                       </ul>
