@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Divider, Rate, message, Form, Input, Row, Col, Button } from "antd";
+import { Divider, Rate, message, Form, Input } from "antd";
 import { Redirect, withRouter } from 'react-router-dom';
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -61,17 +61,19 @@ class Component extends React.Component {
       const { getFieldDecorator } = this.props.form;
       const { changePass, intl } = this.props;
       return (
-        <Row span={24}>
-          <Col xs={0} sm={0} md={0} lg={9} xl={9} />
-          <Col xs={24} sm={24} md={24} lg={6} xl={6} style={{ textAlign: "center" }}>
+        <div className="col-md-12">
+          <center>
             <div className="content">
-              <Form onSubmit={this.handleSubmit} className="login-form" style={{ marginTop: "100px", marginBottom: "100px" }}>
-                <div className="text-center">
-                  <h4 className="title" style={{ fontSize: "20px", color: "#000000" }}>
-                    <span className="text-uppercase"><FormattedMessage id="restorePassword.title" /></span>
-                  </h4>
-                  <p><FormattedMessage id="restorePassword.subtitle" /></p>
-                </div>
+              <div className="text-center">
+                {/* <img src={process.env.IMAGE + staticInfo.logopath} width="150px" /> */}
+                <h4 className="title">
+                  <span className="text-uppercase"><FormattedMessage id="restorePassword.title" /></span>
+                </h4>
+                <p><FormattedMessage id="restorePassword.subtitle" /></p>
+              </div>
+            </div>
+            <div className="col-xl-2">
+              <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item hasFeedback style={{ textAlign: "left" }}>
                   {getFieldDecorator("password", {
                     rules: [
@@ -84,12 +86,9 @@ class Component extends React.Component {
                       { validator: this.validateToNextPassword },
                     ],
                   })(
-                    <Input.Password
-                      className="form-control"
-                      autoComplete="new-password"
-                      placeholder={intl.formatMessage({
-                        id: "shared.form.newPassword.placeholder",
-                      })}
+                    <Input.Password placeholder={intl.formatMessage({
+                      id: "shared.form.newPassword.placeholder",
+                    })}
                     />,
                   )}
                 </Form.Item>
@@ -102,28 +101,27 @@ class Component extends React.Component {
                   })(
                     <Input.Password
                       onBlur={this.handleConfirmBlur}
-                      className="form-control"
                       placeholder={intl.formatMessage({
                         id: "shared.form.newPasswordAgain.placeholder",
                       })}
                     />,
                   )}
                 </Form.Item>
-                <Button
-                  type="submit"
-                  className="btn btn-reverse"
-                  style={{ width: "100%", backgroundColor: "#FFB81C" }}
-                >
-                  <span className="text-uppercase" style={{ color: "#000000" }}>
-                    <FormattedMessage id="shared.form.button.save" />
-                  </span>
-                </Button>
+                <div>
+                  <button
+                    type="submit"
+                    className="btn btn-dark"
+                    style={{ width: "100%" }}
+                  >
+                    <span className="text-uppercase">
+                      <FormattedMessage id="shared.form.button.save" />
+                    </span>
+                  </button>
+                </div>
               </Form>
             </div>
-          </Col>
-          <Col xs={0} sm={0} md={0} lg={9} xl={9} />
-        </Row>
-
+          </center>
+        </div>
       );
     } catch (error) {
       return console.log(error);
@@ -151,8 +149,8 @@ class Component extends React.Component {
 
   render() {
     return (
-      <div className="user-menu-content">
-        <div className="section" style={{ textAlign: "center" }}>
+      <div className="top-container">
+        <div className="section">
           {this.props.checkKeys.length === 0 ? null : this.checkResponse()}
           {this.state.home ? <Redirect to="/" /> : null}
         </div>

@@ -252,7 +252,7 @@
 	"shared.form.button.save": "Хадгалах",
 	"shared.form.button.use": "Ашиглах",
 	"shared.form.button.yes": "Тийм",
-	"shared.form.cardNumber.placeholder": "Ипойнт картын дугаар",
+	"shared.form.cardNumber.placeholder": "Имарт картын дугаар",
 	"shared.form.cardNumber.validation.min": "Картын дугаар 14 тэмдэгттэй байх ёстой",
 	"shared.form.cardNumber.validation.pattern": "Картын дугаар 14 тэмдэгттэй байх ёстой",
 	"shared.form.cardNumber.validation.required": "Картын дугаараа оруулна уу",

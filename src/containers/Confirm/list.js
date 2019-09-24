@@ -2,13 +2,13 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
-import { message, Button, Row, Col } from "antd";
+import { message, Button } from "antd";
 import logo from "../../../src/scss/assets/images/demo/logo.jpg";
 
 class List extends React.Component {
   state = {
     message: [],
-    time: 20,
+    time: 10,
     timer: true,
     second: true,
   };
@@ -38,20 +38,22 @@ class List extends React.Component {
 
   renderSuccessTrue() {
     return (
-      <div style={{ marginTop: "100px", marginBottom: "100px" }}>
+      <div>
+        <div
+          className="logo"
+          style={{ width: "15%", marginBottom: "50px" }}
+        >
+          <img
+            style={{ width: "100%" }}
+            alt="logo"
+            src={logo}
+          />
+        </div>
         <h3><FormattedMessage id="registration.confirmation.title" /></h3>
         <p><FormattedMessage id="registration.confirmation.body1" /></p>
         <p><FormattedMessage id="registration.confirmation.body2" /></p>
-        <p><FormattedMessage id="registration.confirmation.time" values={{ seconds: this.state.time }} /></p>
-        <Button
-          type="submit"
-          className="btn btn-reverse"
-          style={{ width: "50%", backgroundColor: "#FFB81C" }}
-          onClick={this.handleLogin}
-        >
-          <span className="text-uppercase" style={{ color: "#000000" }}>
-            <FormattedMessage id="shared.form.button.login" />
-          </span>
+        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>
+          <FormattedMessage id="shared.form.button.login" />
         </Button>
       </div>
     );
@@ -81,14 +83,20 @@ class List extends React.Component {
           <div className="container pad10" />
           <div className="top-container">
             <div className="section">
-              <Row>
-                <Col xs={0} sm={0} md={0} lg={8} xl={8} />
-                <Col xs={24} sm={24} md={24} lg={8} xl={8} style={{ textAlign: "center" }} >
+              <div className="col-md-12">
+                <center>
                   {confirms.length === 0 ? null : this.renderConfirm()}
                   {!this.state.timer ? <Redirect to="/" /> : null}
-                </Col>
-                <Col xs={0} sm={0} md={0} lg={8} xl={8} />
-              </Row>
+                  <p>
+                    <FormattedMessage
+                      id="registration.confirmation.time"
+                      values={{
+                        seconds: this.state.time,
+                      }}
+                    />
+                  </p>
+                </center>
+              </div>
             </div>
           </div>
         </div>
