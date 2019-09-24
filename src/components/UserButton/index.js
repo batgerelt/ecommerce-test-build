@@ -88,7 +88,8 @@ class UserButton extends React.Component {
     if (localStorage.getItem("auth") !== null) {
       let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
       if (jwtDecode(token).exp < Date.now() / 1000) {
-        localStorage.clear();
+        // localStorage.clear();
+        this.handleLogout();
       }
     }
   }
@@ -143,7 +144,7 @@ class UserButton extends React.Component {
   }
 
   handleLogout = () => {
-    this.showpro();
+    this.setState({ visible: false });
     this.props.logout();
     this.props.clearLocally();
   }
