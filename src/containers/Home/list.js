@@ -115,27 +115,28 @@ class Homepage extends React.Component {
       );
 
       let blocksToRender = [];
-
       blocksToRender.push(this.getBlocks(widgets.slice(0, 2), items.products));
       if (items.blocks.banner.middle.length) {
-        blocksToRender.push(
-          <Banner
-            key={items.blocks.banner.middle[0].id}
-            data={items.blocks.banner.middle}
-          />,
-        );
+        if (items.blocks.banner.middle[0]) {
+          blocksToRender.push(
+            <Banner
+              key={items.blocks.banner.middle[0].id}
+              data={items.blocks.banner.middle}
+            />,
+          );
+        }
       }
-
       blocksToRender.push(this.getBlocks(widgets.slice(2, 4), items.products));
       if (items.blocks.banner.footer.length) {
-        blocksToRender.push(
-          <Banner
-            key={items.blocks.banner.footer[0].id}
-            data={items.blocks.banner.footer}
-          />,
-        );
+        if (items.blocks.banner.footer[0]) {
+          blocksToRender.push(
+            <Banner
+              key={items.blocks.banner.footer[0].id}
+              data={items.blocks.banner.footer}
+            />,
+          );
+        }
       }
-
       return <div className="homerenderblocks">{blocksToRender}</div>;
     } catch (error) {
       return null;
@@ -186,6 +187,7 @@ class Homepage extends React.Component {
         <div className="brands-list">
           <div className="container pad10">
             <Slider
+              ratio={`${isMobileOnly ? 2 : 5}:3x2`}
               sliderData={brand}
               params={brand.length <= 5 ? brandParams1 : brandParams}
               elContainer={"brands"}
@@ -206,6 +208,8 @@ class Homepage extends React.Component {
         return (
           <div className="main-slide">
             <Slider
+              isMain
+              ratio="1:3.7x1"
               sliderData={homepagebanner.header === undefined ? [] : homepagebanner.header}
               params={sliderParams}
               elContainer={"banner"}
@@ -221,16 +225,16 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div className="top-container" >
+      <div className="top-container">
         {this.renderMainBanner()}
         {this.renderBlocks()}
 
-        <div className="main-slide brands-list">
+        <div className="main-slide">
           <div className="container pad10">
             {this.renderBrandSlider()}
 
             <MessengerCustomerChat
-              pageId="169275059877520"
+              pageId="1438714326447694"
               appId={SOCIAL_IDS.facebook}
               htmlRef={window.location.pathname}
             />

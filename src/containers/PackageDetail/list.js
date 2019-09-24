@@ -237,6 +237,7 @@ class List extends React.Component {
         <div className="content">
           <div className="main-slide">
             <Slider
+              ratio="1:3x2"
               sliderData={images}
               params={sliderParams}
               elContainer={"images"}
@@ -493,7 +494,9 @@ class List extends React.Component {
               <div className="col-lg-4 pad10">
                 <div className="pack-price">
                   <p className="text flex-this end">
-                    <span style={{ fontSize: "1.6rem" }}><FormattedMessage id="packageDetail.label.price" />:</span>
+                    <span style={{ fontSize: "1.6rem" }}>
+                      <FormattedMessage id="packageDetail.label.price" />:{" "}
+                    </span>
                     <strong>{formatter.format(this.getTotal())}₮</strong>
                   </p>
                   <button
@@ -505,7 +508,9 @@ class List extends React.Component {
                       className="fa fa-cart-plus"
                       aria-hidden="true"
                     />{" "}
-                    <span className="text-uppercase"><FormattedMessage id="packageDetail.button.addToCart" /></span>
+                    <span className="text-uppercase">
+                      <FormattedMessage id="packageDetail.button.addToCart" />
+                    </span>
                   </button>
                 </div>
               </div>
@@ -543,7 +548,7 @@ class List extends React.Component {
                 </li>
               </ul>
             </div>
-            <div className="product-detail-page">
+            <div className="product-detail-page package-detail">
               <div className="row row10">
                 <div className="col-md-9 pad10">
                   {this.props.info === undefined ? null : this.renderTitleDate()}

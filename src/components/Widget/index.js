@@ -11,7 +11,6 @@ class Widget extends React.Component {
   render() {
     const { widgetData } = this.props;
     const lang = this.props.intl.locale;
-
     if (!widgetData) {
       return null;
     }

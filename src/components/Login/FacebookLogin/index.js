@@ -1,44 +1,53 @@
-import React from "react";
+import React, { Component } from 'react';
+import FacebookLogin from 'react-facebook-login';
 import { injectIntl } from 'react-intl';
-import ReactFacebookLogin from "react-facebook-login";
-import { toast } from "react-toastify";
-
 import { SOCIAL_IDS } from "../../../utils/Consts";
-import LoginModal from "../LoginModal";
 
-class FacebookLogin extends React.Component {
-  handleResponse = (res) => {
-    if (res && res.userID) {
+export default class FacebookLogin1 extends React.Component {
+  state = {
+    isLoggedIn: false,
+    userID: '',
+    name: '',
+    email: '',
+    picture: '',
+  }
+
+  componentClicked = () => console.log('clicked');
+
+  responseFacebook = (response) => {
+    if (response && response.userID) {
       const user = {
-        id: res.userID,
-        email: res.email,
-        firstname: res.name.split(" ")[0],
-        lastname: res.name.split(" ").length > 1 ? res.name.split(" ")[1] : "",
-        picture: res.picture,
+        id: response.userID,
+        email: response.email,
+        firstname: response.name.split(" ")[0],
+        lastname: response.name.split(" ").length > 1 ? response.name.split(" ")[1] : "",
+        picture: response.picture,
       };
-
-      this.props.onSuccess(user);
-    } else {
-      this.notify("Холбогдох үед алдаа гарлаа");
+      console.log("user", user);
     }
   };
 
-  notify = message => toast(message, { autoClose: 5000 });
-
   render() {
     const { intl } = this.props;
+    let fbContent;
 
+    if (this.state.isLoggedIn) {
+      fbContent = null;
+    } else {
+      fbContent = (
+        <FacebookLogin
+          appId={SOCIAL_IDS.facebook}
+          autoLoad
+          fields="name,email,picture"
+          cssClass="btn btn-block btn-social btn-facebook"
+          onClick={this.componentClicked}
+          callback={this.responseFacebook}
+          textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
+        />
+      );
+    }
     return (
-      <ReactFacebookLogin
-        appId={SOCIAL_IDS.facebook}
-        // autoLoad
-        fields="name,email,picture"
-        callback={this.handleResponse}
-        cssClass="btn btn-block btn-social btn-facebook"
-        textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
-      />
+      <div>{fbContent}</div>
     );
   }
 }
-
-export default injectIntl(FacebookLogin);

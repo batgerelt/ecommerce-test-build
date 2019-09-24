@@ -397,7 +397,7 @@ h5 {
   height: 32px;
   left: 3px;
   top: 3px;
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -983,7 +983,7 @@ body {
   -ms-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   -o-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  max-height: 400px;
+  // max-height: 400px;
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
@@ -1210,7 +1210,7 @@ body {
   height: 100%;
   display: block;
   overflow: hidden;
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
   width: 100%;
   z-index: 0;
@@ -1233,11 +1233,11 @@ body {
 }
 
 .main-slide .swiper-container {
-  height: 400px;
+  // height: 400px;
 }
 
 .main-slide .swiper-slide {
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -1300,7 +1300,7 @@ body {
   width: 100%;
   height: 100%;
   background-position: center center;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
@@ -2214,7 +2214,7 @@ body {
   width: 100%;
   height: 100%;
   background-position: center center;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
@@ -2468,7 +2468,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -2560,7 +2560,7 @@ body {
   top: 0;
   left: 0;
   background-position: center center;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
@@ -2877,7 +2877,7 @@ body {
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
 }
 
@@ -3441,6 +3441,7 @@ form .e-input-group .count-text {
   padding-left: 10px;
   color: rgba(0, 0, 0, 0.7);
   font-size: 0.9rem;
+  text-align: initial;
 }
 
 .checkout-container .text strong {
@@ -3620,7 +3621,7 @@ form .e-input-group .count-text {
 
 .checkout-container.msg-bank .card-content .menu-content {
   background-color: rgba(0, 0, 0, 0.05);
-  padding: 20px;
+  padding: 15px;
 }
 
 .checkout-container.msg-bank .card-content .menu-content li {
@@ -3628,7 +3629,7 @@ form .e-input-group .count-text {
 }
 
 .checkout-container.msg-bank .card-content .menu-content li + li {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .checkout-container.msg-bank .card-content .menu-content span,
@@ -3637,7 +3638,8 @@ form .e-input-group .count-text {
 }
 
 .checkout-container.msg-bank .card-content .menu-content span {
-  font-weight: 500;
+  // font-weight: 500;
+  font-weight: bolder;
   color: rgba(0, 0, 0, 0.5);
 }
 
@@ -3827,7 +3829,7 @@ form .e-input-group .count-text {
 .success-message-container .message,
 .success-message-container .user-detail {
   background-color: rgba(0, 0, 0, 0.05);
-  padding: 20px;
+  padding: 10px;
 }
 
 .success-message-container .message {
@@ -3853,7 +3855,7 @@ form .e-input-group .count-text {
 
 .success-message-container .user-detail {
   padding-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .success-message-container .user-detail h5.title {
@@ -3889,7 +3891,7 @@ form .e-input-group .count-text {
 .success-message-container .bottom-text strong {
   font-size: 1rem;
   display: block;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .success-message-container .btn-container {
@@ -4262,10 +4264,6 @@ form .e-input-group .count-text {
     display: none;
   }
 
-  .food-recipe-detail {
-    padding: 0 10px;
-  }
-
   .top-main {
     -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
@@ -4630,9 +4628,9 @@ form .e-input-group .count-text {
     padding: 30px 0;
   }
 
-  .main-slide .swiper-container {
-    height: 200px;
-  }
+  // .main-slide .swiper-container {
+  //   height: 200px;
+  // }
 
   .main-slide .swiper-container .slide-content .title {
     font-size: 1.5rem;
@@ -4752,9 +4750,9 @@ form .e-input-group .count-text {
 }
 
 @media (max-width: 767.97px) {
-  .main-slide .swiper-container {
-    height: 200px !important;
-  }
+  // .main-slide .swiper-container {
+  //   height: 200px !important;
+  // }
   .fixed-mobile-menu {
     display: block;
   }
@@ -4791,4 +4789,39 @@ form .e-input-group .count-text {
   background-color: #555555;
 }
 
-/*# sourceMappingURL=wrap.css.map */
+.delivery-info-message{
+  padding-top: 10px !important;
+  background-color: rgba(254, 180, 21, 0.2);
+}
+
+.chosen-bank-message-container{
+  padding: 10px !important;
+  background-color: rgba(254, 180, 21, 0.2);
+  margin-bottom: 10px !important;
+}
+
+.chosen-bank-message-container .fa{
+  width: 30px !important;
+  font-size: 1.2rem;
+  color: #feb415;
+  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.chosen-bank-message-container .text{
+  padding-left: 0px !important;
+}
+
+.pad-bot-0{
+  padding-bottom: 0px !important;
+}
+
+.ant-input-lg{
+  font-size: 15px !important;
+}
+
+.ant-message, .ant-modal-wrap, .container_9tizg4, .swal2-container{
+  z-index: 999999999 !important;
+}

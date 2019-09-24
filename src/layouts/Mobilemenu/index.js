@@ -82,7 +82,7 @@ class MobileMenu extends React.Component {
           <ul className="list-unstyled flex-this flex-wrap">
             {
               mainmenu.map((item, index) => (
-                <li key={index}>
+                <li key={index} onClick={this.handleClose}>
                   <Link to={item.link}>
                     <span>{item.menunm}</span>
                   </Link>
@@ -99,41 +99,25 @@ class MobileMenu extends React.Component {
 
   renderMenu = () => {
     try {
-      const { categorymenu } = this.props.category;
-      const root = [];
-
-      categorymenu.forEach((entry) => {
-        if (entry.parentid === 0) {
-          entry.children = [];
-          root.push(entry);
-        }
-
-        root.forEach((ent) => {
-          if (ent.id === entry.parentid) {
-            ent.children.push(entry);
-          }
-        });
-      });
-
-      let toggleCategory = root.map((item, index) => (
+      const lang = this.props.intl;
+      const { categoryRootMenu } = this.props.category;
+      let toggleCategory = categoryRootMenu.map((item, index) => (
         <Menu.SubMenu
           key={index}
           title={
-            <Link to={item.route} style={{ color: "#999" }}>
-              <span>{item.name}</span>
+            <Link to={item.route} style={{ color: "#999" }} onClick={this.handleClose}>
+              {lang === "mn" ? item.name : item.name_en}
             </Link>
           }
         >
           {item.children &&
-            item.children.map(function (it, ind) {
-              return (
-                <Menu.Item key={ind} style={{ color: "white" }}>
-                  <Link to={it.route} onClick={() => this.togglePopup}>
-                    {it.name}
-                  </Link>
-                </Menu.Item>
-              );
-            })}
+            item.children.map((it, ind) => (
+              <Menu.Item key={ind} style={{ color: "white" }}>
+                <Link to={it.route} onClick={this.handleClose}>
+                  {lang === "mn" ? it.name : it.name_en}
+                </Link>
+              </Menu.Item>
+            ))}
         </Menu.SubMenu>
       ));
 
@@ -154,14 +138,14 @@ class MobileMenu extends React.Component {
   }
   render() {
     const { visible } = this.state;
-
     return (
-      <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} onClick={this.handleClose} >
+      <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} >
         <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
           {this.renderHeader()}
-          {this.renderContent()}
-          {this.renderMenu()}
+          {this.props.categorymenu === null ? null : this.renderContent()}
+          {this.props.categorymenu === null ? null : this.renderMenu()}
         </div>
+        <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%" }} onClick={this.handleClose} />
       </div>
     );
   }
