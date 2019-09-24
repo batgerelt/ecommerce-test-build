@@ -1,9 +1,11 @@
 /* eslint-disable react/no-danger */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { message, Button, Row, Col } from "antd";
 import logo from "../../../src/scss/assets/images/demo/logo.jpg";
+
+import { intl } from '../../components/IntlGlobalProvider';
 
 class List extends React.Component {
   state = {
@@ -19,6 +21,9 @@ class List extends React.Component {
   }
 
   componentWillMount() {
+    this.props.confirm({ key: this.props.match.params.key }).then((res) => {
+      message.success(intl.formatMessage({ id: res.payload.code }));
+    });
     // setTimeout(() => { this.setState({ timer: true }) }, 10000);
     setInterval(() => {
       if (!this.props.LoginModal.state.visible) {
