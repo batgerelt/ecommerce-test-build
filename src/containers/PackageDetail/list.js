@@ -237,11 +237,11 @@ class List extends React.Component {
         <div className="content">
           <div className="main-slide">
             <Slider
+              ratio="1:3x2"
               sliderData={images}
               params={sliderParams}
               elContainer={"images"}
               contain
-              package
             />
           </div>
         </div>

@@ -88,11 +88,11 @@ class List extends React.Component {
         <div className="content">
           <div className="main-slide">
             <Slider
+              ratio="1:3x2"
               sliderData={recipe.images}
               params={sliderParams}
               elContainer={"images"}
               contain
-              recipe
             />
           </div>
         </div>

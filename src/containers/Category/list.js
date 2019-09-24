@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
@@ -17,6 +18,7 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
+import windowSize from 'react-window-size';
 
 import { Card, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
@@ -515,17 +517,33 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-    if (!this.state.isListViewOn) {
-      if (width < 400) {
-        tmp = 350;
-      } else {
-        tmp = 305.98;
-      }
-    } else if (width < 400) {
-      tmp = 197;
+    const windowWidth = this.props.windowWidth;
+    const isList = this.state.isListViewOn;
+
+    if (windowWidth < 576) {
+      tmp = 335;
+    } else if (windowWidth < 768) {
+      tmp = 240;
+    } else if (windowWidth < 992) {
+      tmp = isList ? 120 : 230;
+    } else if (windowWidth < 1200) {
+      tmp = isList ? 120 : 275;
     } else {
-      tmp = 120;
+      tmp = isList ? 120 : 305;
     }
+
+    // if (!this.state.isListViewOn) {
+    //   if (width < 400) {
+    //     tmp = 350;
+    //   } else {
+    //     tmp = 305.98;
+    //   }
+    // } else if (width < 400) {
+    //   tmp = 197;
+    // } else {
+    //   tmp = 120;
+    // }
+
     return tmp;
   };
 
@@ -543,11 +561,30 @@ class CategoryInfo extends React.Component {
   };
 
   getMaxItemsAmountPerRow = (width) => {
-    screenWidth = width;
-    if (this.state.shapeType === 2) {
-      return Math.max(Math.floor(width / 264.98), 1);
+    // screenWidth = width;
+    // if (this.state.shapeType === 2) {
+    //   return Math.max(Math.floor(width / 264.98), 1);
+    // }
+    // return Math.max(Math.floor(width / 835), 1);
+
+    const windowWidth = this.props.windowWidth;
+    const isList = this.state.isListViewOn;
+
+    if (isList) {
+      return 1;
     }
-    return Math.max(Math.floor(width / 835), 1);
+
+    if (windowWidth < 576) {
+      return 1;
+    } else if (windowWidth < 768) {
+      return 3;
+    } else if (windowWidth < 992) {
+      return 3;
+    } else if (windowWidth < 1200) {
+      return 3;
+    } else {
+      return 3;
+    }
   };
 
   loadMoreRows = () => {
@@ -752,4 +789,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default injectIntl(CategoryInfo);
+export default windowSize(injectIntl(CategoryInfo));
