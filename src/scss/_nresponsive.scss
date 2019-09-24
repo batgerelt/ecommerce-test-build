@@ -1409,10 +1409,9 @@ h1.title {
     //     margin-top: 142px;
     // }
 
-    .top-container {
-        .main-slide {
-            margin-top: -21px;
-        }
+    .main-slide {
+        margin-top: -20px;
+        padding-bottom: 20px;
     }
 
     .whole-page-title {
@@ -1538,7 +1537,7 @@ h1.title {
 // xs (< 768px)
 @media (max-width: 767px) {
     body {
-        margin-top: 106px;
+        margin-top: 105px;
     }
 
     .whole-page-title {
@@ -2119,9 +2118,9 @@ h1.title {
         margin-top: 20px;
         margin-bottom: 20px;
 
-        .swiper-slide {
-            height: 112px !important;
-        }
+        // .swiper-slide {
+        //     height: 112px !important;
+        // }
     }
 
     .product-detail-page {

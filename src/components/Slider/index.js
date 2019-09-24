@@ -26,8 +26,16 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
-    const { sliderData, intl, windowWidth } = this.props;
+    const {
+      sliderData, intl, windowWidth, ratio,
+    } = this.props;
     const lang = intl.locale;
+
+    const slideCount = ratio.split(":")[0];
+    const slideRatio = ratio.split(":")[1];
+    const widthRatio = slideRatio.split("x")[0];
+    const heightRatio = slideRatio.split("x")[1];
+    const sliderHeight = Math.round((((windowWidth - 20) / slideCount) / widthRatio) * heightRatio);
 
     try {
       return sliderData.map((item, index) => {
@@ -60,28 +68,14 @@ class Slider extends React.Component {
           </div>
         );
 
-        let sliderHeight;
-
-        if (this.props.main) {
-          sliderHeight = Math.round(windowWidth / 3.7);
-        } else if (this.props.recipe || this.props.package) {
-          sliderHeight = Math.round((windowWidth - 50) / 3) * 2;
-        }
-
-        const styles = sliderHeight
-          ? {
-            backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
-            height: sliderHeight,
-          }
-          : {
-            backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
-          };
-
         return (
           <div key={index}>
             <div
               className={this.props.contain ? "background-contain" : "background-cover"}
-              style={styles}
+              style={{
+                backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
+                height: sliderHeight,
+              }}
             >
               {
                 item.brandid ? (

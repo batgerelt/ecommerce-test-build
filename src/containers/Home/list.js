@@ -187,6 +187,7 @@ class Homepage extends React.Component {
         <div className="brands-list">
           <div className="container pad10">
             <Slider
+              ratio={`${isMobileOnly ? 2 : 5}:3x2`}
               sliderData={brand}
               params={brand.length <= 5 ? brandParams1 : brandParams}
               elContainer={"brands"}
@@ -207,7 +208,7 @@ class Homepage extends React.Component {
         return (
           <div className="main-slide">
             <Slider
-              main
+              ratio="1:3.7x1"
               sliderData={homepagebanner.header === undefined ? [] : homepagebanner.header}
               params={sliderParams}
               elContainer={"banner"}
@@ -227,7 +228,7 @@ class Homepage extends React.Component {
         {this.renderMainBanner()}
         {this.renderBlocks()}
 
-        <div className="main-slide brands-list">
+        <div className="main-slide">
           <div className="container pad10">
             {this.renderBrandSlider()}
 

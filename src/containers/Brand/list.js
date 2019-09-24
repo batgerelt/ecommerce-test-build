@@ -289,7 +289,11 @@ class CategoryInfo extends React.Component {
         );
       }
 
-      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
+      return (
+        <div className="block">
+          <FormattedMessage id="search.filter.filter.noCategory" />
+        </div>
+      );
     } catch (error) {
       // return console.log(error);
       return null;
@@ -340,7 +344,9 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
+                  <strong>
+                    <FormattedMessage id="search.filter.filter.title" />
+                  </strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -374,7 +380,9 @@ class CategoryInfo extends React.Component {
               <div className="col-lg-6 pad10">
                 <div className="total-result">
                   <p className="text">
-                    <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
+                    <strong style={{ marginRight: 5 }}>
+                      {searchKeyWordResponse.hits.total.value}
+                    </strong>
                     <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>
