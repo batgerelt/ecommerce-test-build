@@ -37,32 +37,23 @@ class Detail extends Component {
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
-    console.log(selectedCat);
     return (
-      <div className="col-xl-7 col-lg-7 col-md-7 product-info-wrapper">
+      <div className="col-xl-7 col-lg-7 col-md-7">
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
           <span className="small-title">
-            {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
+            {console.log(detail)}
+            {detail.feature && lang === "mn" ? `${this.checkError(detail.feature)}` : `${this.checkError(detail.feature_en)}`}
           </span>
-          {/* selectedCat && (
+          {selectedCat && (
             <p className="big-text">
               <strong>
                 <Link to={selectedCat.route} style={{ color: "#6c757d" }}>
-                  {lang === "mn" ? selectedCat.name : selectedCat.name_en}
+                  {lang === "mn" ? selectedCat.title : selectedCat.title_en}
                 </Link>
               </strong>
             </p>
-          ) */}
-          {
-            detail.feature && (
-              <p className="big-text">
-                <strong>
-                  {lang === "mn" ? detail.feature : detail.feature_en}
-                </strong>
-              </p>
-            )
-          }
+          )}
 
           <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
             <Rate

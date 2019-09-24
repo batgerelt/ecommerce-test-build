@@ -1,4 +1,3 @@
-/* eslint-disable no-else-return */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
 /* eslint-disable react/no-unescaped-entities */
@@ -8,7 +7,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
 import {
   InfiniteLoader,
@@ -16,7 +15,6 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import windowSize from 'react-window-size';
 
 import { Card, Loader, SearchFilterSet, PageBanner, Widget } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
@@ -349,9 +347,7 @@ class CategoryInfo extends React.Component {
 
               <div>
                 <h5 className="title">
-                  <strong>
-                    <FormattedMessage id="search.filter.filter.title" />
-                  </strong>
+                  <strong><FormattedMessage id="search.filter.filter.title" /></strong>
                 </h5>
                 <div className="left-filter">
                   <SearchFilterSet
@@ -378,7 +374,7 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { intl, searchKeyWordResponse } = this.props;
+      const { searchKeyWordResponse } = this.props;
 
       return (
         <div className="col-md-9 pad10">
@@ -400,9 +396,7 @@ class CategoryInfo extends React.Component {
                       onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">
-                        <FormattedMessage id="search.filter.filter.title" />
-                      </span>
+                      <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
@@ -416,14 +410,9 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
-                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
                     >
-                      <Select.Option value="currentprice_desc">
-                        <FormattedMessage id="search.sort.values.priceDesc" />
-                      </Select.Option>
-                      <Select.Option value="currentprice_asc">
-                        <FormattedMessage id="search.sort.values.priceAsc" />
-                      </Select.Option>
+                      <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                      <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
                     </Select>
                   </div>
                   <div className="form-group flex-this searchGridList pl-2">
@@ -467,42 +456,25 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-    const windowWidth = this.props.windowWidth;
-    const isList = this.state.isListViewOn;
-
-    if (windowWidth < 576) {
-      tmp = 335;
-    } else if (windowWidth < 768) {
-      tmp = 240;
-    } else if (windowWidth < 992) {
-      tmp = isList ? 120 : 240;
-    } else if (windowWidth < 1200) {
-      tmp = isList ? 120 : 275;
-    } else {
-      tmp = isList ? 120 : 305;
+    if (!this.state.isListViewOn) {
+      if (width >= 300 && width <= 400) {
+        tmp = 370;
+      } else if (width < 400) {
+        tmp = 350;
+      } else if (width > 400 && width < 520) {
+        tmp = 365;
+      } else {
+        tmp = 305.98;
+      }
+    } else if (this.state.isListViewOn) {
+      if (width >= 300 && width <= 400) {
+        tmp = 230;
+      } else if (width < 400) {
+        tmp = 197;
+      } else {
+        tmp = 120;
+      }
     }
-
-
-    // if (!this.state.isListViewOn) {
-    //   if (width >= 300 && width <= 400) {
-    //     tmp = 370;
-    //   } else if (width < 400) {
-    //     tmp = 350;
-    //   } else if (width > 400 && width < 520) {
-    //     tmp = 365;
-    //   } else {
-    //     tmp = 305.98;
-    //   }
-    // } else if (this.state.isListViewOn) {
-    //   if (width >= 300 && width <= 400) {
-    //     tmp = 230;
-    //   } else if (width < 400) {
-    //     tmp = 197;
-    //   } else {
-    //     tmp = 120;
-    //   }
-    // }
-
     return tmp;
   };
 
@@ -519,36 +491,16 @@ class CategoryInfo extends React.Component {
     return result;
   };
 
-  // eslint-disable-next-line arrow-body-style
   getMaxItemsAmountPerRow = (width) => {
-    // screenWidth = width;
-    // /* console.log(this.state.shapeType); */
-    // if (this.state.shapeType === 2) {
-    //   if (width >= 520 && width <= 700) {
-    //     return Math.max(Math.floor(width / 230), 1);
-    //   }
-    //   return Math.max(Math.floor(width / 264.98), 1);
-    // }
-    // return Math.max(Math.floor(width / 835), 1);
-
-    const windowWidth = this.props.windowWidth;
-    const isList = this.state.isListViewOn;
-
-    if (isList) {
-      return 1;
+    screenWidth = width;
+    /* console.log(this.state.shapeType); */
+    if (this.state.shapeType === 2) {
+      if (width >= 520 && width <= 700) {
+        return Math.max(Math.floor(width / 230), 1);
+      }
+      return Math.max(Math.floor(width / 264.98), 1);
     }
-
-    if (windowWidth < 576) {
-      return 1;
-    } else if (windowWidth < 768) {
-      return 3;
-    } else if (windowWidth < 992) {
-      return 3;
-    } else if (windowWidth < 1200) {
-      return 3;
-    } else {
-      return 3;
-    }
+    return Math.max(Math.floor(width / 835), 1);
   };
 
   loadMoreRows = () => {
@@ -632,7 +584,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
+                              <div key={key} className="jss148">
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
@@ -701,4 +653,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(CategoryInfo));
+export default CategoryInfo;

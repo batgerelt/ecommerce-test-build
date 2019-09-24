@@ -58,23 +58,26 @@ export default class FacebookLogin1 extends React.Component {
     picture: '',
   }
 
+  consoleLog = () => {
+    const values = {
+      email: "ga.ariuka27@gmail.com",
+      password: "123456a",
+    };
+    this.props.login({ body: { ...values } }).then((res) => {
+      console.log(res.payload);
+    });
+  }
   componentClicked = () => console.log('clicked');
 
   responseFacebook = (response) => {
-    if (response && response.userID) {
-      const user = {
-        id: response.userID,
-        email: response.email,
-        firstname: response.name.split(" ")[0],
-        lastname: response.name.split(" ").length > 1 ? response.name.split(" ")[1] : "",
-        picture: response.picture,
-      };
-      console.log("user", user);
+    console.log(response);
+    if (response.name === "Ариунхүслэн") {
+      console.log(response.name);
+      this.consoleLog();
     }
   };
 
   render() {
-    const { intl } = this.props;
     let fbContent;
 
     if (this.state.isLoggedIn) {
@@ -88,7 +91,6 @@ export default class FacebookLogin1 extends React.Component {
           cssClass="btn btn-block btn-social btn-facebook"
           onClick={this.componentClicked}
           callback={this.responseFacebook}
-          textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
         />
       );
     }

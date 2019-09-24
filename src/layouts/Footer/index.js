@@ -176,7 +176,7 @@ class Footer extends React.Component {
     const { staticinfo, staticpages } = this.props.staticcontent;
     return (
       <div className="top-container">
-        <div className="section-footer">
+        <div className="section section-footer">
           <div className="container pad10">
             {
               staticinfo === null || staticpages.length === 0 ? null : (

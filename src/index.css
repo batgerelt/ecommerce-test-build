@@ -63,8 +63,8 @@ select {
   -ms-flex-line-pack: center;
   align-content: center;
 
-  /* margin-top: 10rem; */
-  /* margin-bottom: 15rem; */
+  margin-top: 15rem;
+  margin-bottom: 15rem;
 }
 
 .search-not-found span{

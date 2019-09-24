@@ -11,7 +11,6 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import windowSize from 'react-window-size';
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
@@ -84,51 +83,33 @@ class Discount extends React.Component {
   noRowsRenderer = () => null
 
   generateItemHeight = (item, width) => {
-    // try {
-    //   const { packageScroll } = this.props;
-    //   if (packageScroll[item.index].length <= 3) {
-    //     return 326.5;
-    //   }
-    //   if (width >= 300 && width < 390) {
-    //     return 1870.06;
-    //   }
+    try {
+      const { packageScroll } = this.props;
+      if (packageScroll[item.index].length <= 3) {
+        return 326.5;
+      }
+      if (width >= 300 && width < 390) {
+        return 1870.06;
+      }
 
-    //   if (width >= 390 && width < 480) {
-    //     return 2400;
-    //   }
-    //   if (width <= 752) {
-    //     return 2869.5;
-    //   }
-    //   return ITEM_HEIGHT;
-    // } catch (error) {
-    //   return console.log(error);
-    // }
-
-    let tmp;
-
-    const { windowWidth } = this.props;
-
-    if (windowWidth < 576) {
-      tmp = 1885;
-    } else if (windowWidth < 768) {
-      tmp = 1535;
-    } else if (windowWidth < 992) {
-      tmp = 1310;
-    } else if (windowWidth < 1200) {
-      tmp = 590;
-    } else {
-      tmp = 610;
+      if (width >= 390 && width < 480) {
+        return 2400;
+      }
+      if (width <= 752) {
+        return 2869.5;
+      }
+      return ITEM_HEIGHT;
+    } catch (error) {
+      return console.log(error);
     }
-
-    return tmp;
   }
 
   renderFooterProduct = () => {
     try {
       const { packageScroll, widgetAll } = this.props;
       return (
-        <div className="package">
-          <div className="container pad10 package-list">
+        <div className="package" style={{ paddingTop: '20px' }}>
+          <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {
                 return (
@@ -195,4 +176,4 @@ class Discount extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(Discount));
+export default injectIntl(Discount);

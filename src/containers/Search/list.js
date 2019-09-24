@@ -1,4 +1,3 @@
-/* eslint-disable no-else-return */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
@@ -9,7 +8,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
 import {
   InfiniteLoader,
@@ -17,7 +16,6 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import windowSize from 'react-window-size';
 
 import { SearchNotFound } from "../";
 import { Card, Loader, SearchFilterSet } from "../../components";
@@ -433,7 +431,7 @@ class CategoryInfo extends React.Component {
 
   renderFilteredList = () => {
     try {
-      const { intl, searchKeyWordResponse } = this.props;
+      const { searchKeyWordResponse } = this.props;
 
       return (
         <div className="col-xl-9 col-lg-9 col-md-8 pad10">
@@ -457,9 +455,7 @@ class CategoryInfo extends React.Component {
                       onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">
-                        <FormattedMessage id="search.filter.filter.title" />
-                      </span>
+                      <span className="text-uppercase">Шүүлтүүр</span>
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
@@ -473,7 +469,6 @@ class CategoryInfo extends React.Component {
                       onChange={this.handleChangeOrder}
                       className="form-control"
                       id="inputState"
-                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
                     >
                       <Select.Option value="currentprice_asc">
                         <FormattedMessage id="search.sort.values.priceAsc" />
@@ -531,34 +526,17 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-
-    const windowWidth = this.props.windowWidth;
-    const isList = this.state.isListViewOn;
-
-    if (windowWidth < 576) {
-      tmp = 335;
-    } else if (windowWidth < 768) {
-      tmp = 240;
-    } else if (windowWidth < 992) {
-      tmp = isList ? 120 : 230;
-    } else if (windowWidth < 1200) {
-      tmp = isList ? 120 : 275;
+    if (!this.state.isListViewOn) {
+      if (width < 400) {
+        tmp = 350;
+      } else {
+        tmp = 305.98;
+      }
+    } else if (width < 400) {
+      tmp = 197;
     } else {
-      tmp = isList ? 120 : 305;
+      tmp = 120;
     }
-
-    // if (!this.state.isListViewOn) {
-    //   if (width < 400) {
-    //     tmp = 350;
-    //   } else {
-    //     tmp = 305.98;
-    //   }
-    // } else if (width < 400) {
-    //   tmp = 197;
-    // } else {
-    //   tmp = 120;
-    // }
-
     return tmp;
   };
 
@@ -576,30 +554,11 @@ class CategoryInfo extends React.Component {
   };
 
   getMaxItemsAmountPerRow = (width) => {
-    // screenWidth = width;
-    // if (this.state.shapeType === 2) {
-    //   return Math.max(Math.floor(width / 264.98), 1);
-    // }
-    // return Math.max(Math.floor(width / 835), 1);
-
-    const windowWidth = this.props.windowWidth;
-    const isList = this.state.isListViewOn;
-
-    if (isList) {
-      return 1;
+    screenWidth = width;
+    if (this.state.shapeType === 2) {
+      return Math.max(Math.floor(width / 264.98), 1);
     }
-
-    if (windowWidth < 576) {
-      return 1;
-    } else if (windowWidth < 768) {
-      return 3;
-    } else if (windowWidth < 992) {
-      return 3;
-    } else if (windowWidth < 1200) {
-      return 3;
-    } else {
-      return 3;
-    }
+    return Math.max(Math.floor(width / 835), 1);
   };
 
   loadMoreRows = () => {
@@ -635,6 +594,7 @@ class CategoryInfo extends React.Component {
       }
       return null;
     } catch (error) {
+      // return console.log(error);
       return null;
     }
   };
@@ -795,4 +755,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(CategoryInfo));
+export default CategoryInfo;

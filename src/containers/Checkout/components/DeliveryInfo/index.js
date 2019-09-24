@@ -452,7 +452,7 @@ class DeliveryInfo extends React.Component {
                 }
               </p>
             </div>
-            <div className="text d-flex delivery-info-message">
+            <div className="text d-flex">
               <i
                 className="fa fa-info"
                 aria-hidden="true"

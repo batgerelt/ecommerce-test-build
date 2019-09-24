@@ -52,7 +52,7 @@ class PageHeader extends React.Component {
               })`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right",
-            backgroundSize: "50% 100%",
+            backgroundSize: "50% 115px",
             backgroundColor: `${bgColor}`,
           }}
           onClick={this.changeLocation}

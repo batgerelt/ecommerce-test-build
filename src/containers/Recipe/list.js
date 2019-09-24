@@ -12,7 +12,6 @@ import {
 } from "react-virtualized";
 // import InfiniteScroll from 'react-infinite-scroller';
 import { BackTop } from "antd";
-import windowSize from 'react-window-size';
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
@@ -91,32 +90,14 @@ class Recipe extends React.Component {
   };
 
   generateItemHeight = (item, width) => {
-    // const { recipeScroll } = this.props;
-    // if (width >= 340 && width < 500) {
-    //   return 2475;
-    // }
-    // if (recipeScroll[item.index].length <= 3) {
-    //   return 306.5;
-    // }
-    // return ITEM_HEIGHT;
-
-    let tmp;
-
-    const { windowWidth } = this.props;
-
-    if (windowWidth < 576) {
-      tmp = 2445;
-    } else if (windowWidth < 768) {
-      tmp = 535;
-    } else if (windowWidth < 992) {
-      tmp = 600;
-    } else if (windowWidth < 1200) {
-      tmp = 750;
-    } else {
-      tmp = 860;
+    const { recipeScroll } = this.props;
+    if (width >= 340 && width < 500) {
+      return 2475;
     }
-
-    return tmp;
+    if (recipeScroll[item.index].length <= 3) {
+      return 306.5;
+    }
+    return ITEM_HEIGHT;
   }
 
   renderFooterProduct = () => {
@@ -124,7 +105,7 @@ class Recipe extends React.Component {
       const { recipeScroll } = this.props;
       return (
         <div className="section">
-          <div className="container pad10 recipe-list">
+          <div className="container pad10">
             <AutoSizer disableHeight>
               {({ width }) => {
                 return (
@@ -200,4 +181,4 @@ class Recipe extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(Recipe));
+export default injectIntl(Recipe);

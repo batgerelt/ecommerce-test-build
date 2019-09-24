@@ -37,10 +37,10 @@ const LABEL_TYPES = {
 Object.freeze(CARD_LIST_TYPES);
 
 const PRODUCTS_PER_PAGE = 20;
-/* Here is your client ID: O23leWRUHkvqDWiHcThRXtCl */
+
 const SOCIAL_IDS = {
   google:
-    "885941849583-p0voh45lmja4ng0lmft9jba9npgob1qe.apps.googleusercontent.com",
+    "385681945952-cuekq38feemk8gk2elbtctbpanregnnj.apps.googleusercontent.com",
   facebook: "387987568555669",
 };
 Object.freeze(SOCIAL_IDS);

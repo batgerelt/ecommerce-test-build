@@ -9,7 +9,6 @@ import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { message, Affix } from 'antd';
-import { isMobile } from "react-device-detect";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -286,14 +285,27 @@ class Cart extends React.Component {
     if (product.discountprice || product.salepercent) {
       if (product.issalekg) {
         return (
-          <p className="price">
-            <span className="discount">
+          <p className="price" style={{ textAlign: 'end' }}>
+            <span>
               {formatter.format(product.discountprice || product.currentprice)}₮
             </span>
-            <span className="current">
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.8em",
+                textDecoration: "line-through",
+                color: "#999",
+              }}
+            >
               {formatter.format(product.price)}₮
             </span>
-            <span className="pricetag">
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.8em",
+                color: "#999",
+              }}
+            >
               {product.pricetag}-н үнэ
             </span>
           </p>
@@ -301,14 +313,21 @@ class Cart extends React.Component {
       }
 
       return (
-        <p className="price">
-          <span className="discount">
+        <p className="price" style={{ textAlign: 'end' }}>
+          <span>
             {formatter.format(product.saleminqty > 1
               ? product.currentprice / product.saleminqty
               : product.currentprice,
             )}₮
           </span>
-          <span className="current">
+          <span
+            style={{
+              display: "block",
+              fontSize: "0.8em",
+              textDecoration: "line-through",
+              color: "#999",
+            }}
+          >
             {formatter.format(product.saleminqty > 1
               ? product.price / product.saleminqty
               : product.price,
@@ -320,9 +339,15 @@ class Cart extends React.Component {
 
     if (product.issalekg) {
       return (
-        <p className="price">
+        <p className="price" style={{ textAlign: 'end' }}>
           <span>{formatter.format(product.currentprice)}₮</span>
-          <span>
+          <span
+            style={{
+              display: "block",
+              fontSize: "0.8em",
+              color: "#999",
+            }}
+          >
             {product.pricetag}-н үнэ
           </span>
         </p>
@@ -330,7 +355,7 @@ class Cart extends React.Component {
     }
 
     return (
-      <p className="price">
+      <p className="price" style={{ textAlign: 'end' }}>
         <span>
           {formatter.format(product.saleminqty > 1
             ? product.price / product.saleminqty
@@ -410,6 +435,7 @@ class Cart extends React.Component {
     }
     const wishlistProducts = this.props.wish;
     const lang = this.props.intl.locale;
+
     return (
       wishlistProducts &&
       wishlistProducts.length > 0 && (
@@ -589,7 +615,7 @@ class Cart extends React.Component {
                   </td>
                 </tr>
                 <tr className="table-action">
-                  <td colSpan="2">
+                  <td colSpan="2" style={{ fontSize: "0.8em" }}>
                     {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
                   </td>
                   <td colSpan="2">
@@ -602,29 +628,13 @@ class Cart extends React.Component {
                             onClick={e => this.handleSaveClick(e, prod)}
                           >
                             <i className="fa fa-heart" aria-hidden="true" />{" "}
-                            {
-                              !isMobile
-                                ? (
-                                  <span>
-                                    <FormattedMessage id="cart.table.button.save" />
-                                  </span>
-                                )
-                                : ""
-                            }
+                            <span><FormattedMessage id="cart.table.button.save" /></span>
                           </Link>
                         </li>
                         <li>
                           <Link to="" onClick={this.handleRemoveClick(prod)}>
                             <i className="fa fa-times" aria-hidden="true" />{" "}
-                            {
-                              !isMobile
-                                ? (
-                                  <span>
-                                    <FormattedMessage id="cart.table.button.remove" />
-                                  </span>
-                                )
-                                : ""
-                            }
+                            <span><FormattedMessage id="cart.table.button.remove" /></span>
                           </Link>
                         </li>
                       </ul>

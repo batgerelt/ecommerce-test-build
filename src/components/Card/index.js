@@ -246,13 +246,13 @@ class Card extends React.Component {
 
       if (item.id) {
         priceTitle = (
-          <span className="price-title">
+          <span>
             <FormattedMessage id="card.package.label.price" />:
           </span>
         );
       } else if (item.recipeid) {
         priceTitle = (
-          <span className="price-title">
+          <span>
             <FormattedMessage id="card.recipe.label.price" />:
           </span>
         );

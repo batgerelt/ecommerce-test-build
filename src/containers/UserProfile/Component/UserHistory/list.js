@@ -125,37 +125,27 @@ class Component extends React.Component {
             <Col className="action icons">
               <ul className="list-unstyled flex-this">
                 <li>
-                  <button
-                    className="action btn btn-link"
-                    onClick={this.addHistory(item)}
-                  >
+                  <Link to="#">
                     <i
                       className={`fa fa-heart${isSaved ? '' : '-o'}`}
                       aria-hidden="true"
+                      onClick={this.addHistory(item)}
                     />
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    className="action btn btn-link"
-                    onClick={this.handleIncrement(item)}
-                  >
+                  <Link to="#">
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"
+                      onClick={this.handleIncrement(item)}
                     />
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    className="action btn btn-link"
-                    onClick={this.onDelete(item)}
-                  >
-                    <i
-                      className="fa fa-times"
-                      aria-hidden="true"
-                    />
-                  </button>
+                  <Link to="#" onClick={this.onDelete(item)}>
+                    <i className="fa fa-times" aria-hidden="true" />
+                  </Link>
                 </li>
               </ul>
             </Col>

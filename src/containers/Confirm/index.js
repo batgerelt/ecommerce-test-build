@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { message } from 'antd';
 import {
   Profile as ProfileModel,
   Auth as AuthModel,
@@ -46,7 +45,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class PackageDetail extends React.Component {
   componentWillMount() {
-    this.props.confirm({ key: this.props.match.params.key });
+    this.props.confirm({ key: this.props.match.params.key }).then((res) => {
+    });
   }
 
   render() {

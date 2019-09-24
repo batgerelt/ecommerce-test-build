@@ -88,7 +88,6 @@ class List extends React.Component {
         <div className="content">
           <div className="main-slide">
             <Slider
-              ratio="1:3x2"
               sliderData={recipe.images}
               params={sliderParams}
               elContainer={"images"}
@@ -348,9 +347,7 @@ class List extends React.Component {
                   aria-hidden="true"
                   style={{ fontSize: "1.2rem" }}
                 />{" "}
-                <span className="text-uppercase">
-                  <FormattedMessage id="shared.sidebar.button.addToCart" />
-                </span>
+                <span className="text-uppercase"><FormattedMessage id="shared.sidebar.button.addToCart" /></span>
               </button>
             </div>
           </div>
@@ -452,7 +449,7 @@ class List extends React.Component {
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10" style={{ alignItems: "initial" }}>
-            <div className="col-sm-6 col-md-4 image-container">
+            <div className="col-sm-4 image-container">
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,
@@ -465,7 +462,7 @@ class List extends React.Component {
                 }}
               />
             </div>
-            <div className="col-sm-6 col-md-8">
+            <div className="col-sm-8">
               <h4 className="step-title">
                 <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
                   <span
@@ -494,13 +491,11 @@ class List extends React.Component {
   render() {
     return (
       <div className="section">
-        <div className="container pad10">
-          <div className="e-breadcrumb">
-            {this.props.recipe === null ? null : this.renderRoot()}
-          </div>
-          <div className="product-detail-page recipe-detail">
-            <div className="row">
-              <div className="col-lg-8">
+        <div className="container">
+          <div className="e-breadcrumb">{this.props.recipe === null ? null : this.renderRoot()}</div>
+          <div className="product-detail-page">
+            <div className="row row10">
+              <div className="col-lg-8 pad10">
                 {this.renderTitleDate()}
                 <div className="food-recipe-detail">
                   {this.renderSlider()}
@@ -515,7 +510,7 @@ class List extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-4">
+              <div className="col-lg-4 pad10">
                 <div className="product-plus">
                   {this.renderDelivery()}
                   {this.renderIcons()}

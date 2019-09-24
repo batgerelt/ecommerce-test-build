@@ -82,19 +82,7 @@ class Model extends BaseModel {
       case this.model.categorymenu.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.categorymenu.response:
-        const root = [];
-        action.payload.data.forEach((entry, index) => {
-          if (entry.parentid === 0) {
-            entry.children = [];
-            root.push(entry);
-          }
-          root.forEach((ent) => {
-            if (ent.id === entry.parentid) {
-              ent.children.push(entry);
-            }
-          });
-        });
-        return { ...state, categorymenu: action.payload.data, categoryRootMenu: root };
+        return { ...state, categorymenu: action.payload.data };
 
       // GET CATEGORY PRODUCTS
       case this.model.categoryproducts.request:
