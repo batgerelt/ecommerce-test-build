@@ -1974,6 +1974,13 @@ h1.title {
             }
         }
     }
+
+    .discount-list,
+    .new-list,
+    .recipe-list,
+    .package-list {
+        margin-top: 20px;
+    }
 }
 
 // (>= 768px)
