@@ -35,7 +35,7 @@ class Slider extends React.Component {
     const slideRatio = ratio.split(":")[1];
     const widthRatio = slideRatio.split("x")[0];
     const heightRatio = slideRatio.split("x")[1];
-    const sliderHeight = Math.round((((windowWidth - 20) / slideCount) / widthRatio) * heightRatio);
+    const sliderHeight = Math.round((((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) / widthRatio) * heightRatio);
 
     try {
       return sliderData.map((item, index) => {
