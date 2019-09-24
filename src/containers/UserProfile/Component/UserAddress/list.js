@@ -196,14 +196,22 @@ class Component extends React.Component {
                 : <p>{item.phone1},<br />{item.phone2}</p>
             }
           </td>
-          <td>
+          <td className="column-3">
             {
               item.ismain === 1
-                ? <strong>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</strong>
-                : <p>{item.provincenm}<br />{item.districtnm}<br />{item.committeenm}</p>
+                ? (
+                  <strong>
+                    {item.provincenm}, {item.districtnm}, {item.committeenm}
+                  </strong>
+                )
+                : (
+                  <p>
+                    {item.provincenm}, {item.districtnm}, {item.committeenm}
+                  </p>
+                )
             }
           </td>
-          <td>
+          <td className="column-4">
             {
               item.ismain === 1
                 ? <strong>{item.address}</strong>
@@ -360,32 +368,39 @@ class Component extends React.Component {
 
             <Col span={24} className="delivery-address">
               <p className="title">
-                <span><FormattedMessage id="profile.deliveryAddress.table.title" /></span>
+                <span>
+                  <FormattedMessage id="profile.deliveryAddress.table.title" />
+                </span>
               </p>
               <Spin
                 spinning={loader}
                 indicator={<Loader />}
               >
-                <div className="cart-table table-responsive">
+                <div className="address-table table-responsive">
                   <table>
                     <thead className="thead-light" hidden>
                       <tr>
-                        <th className="column-1">
-                          <FormattedMessage id="shared.form.name.placeholder" />
+                        <th>
+                          <FormattedMessage
+                            id="shared.form.name.placeholder"
+                          />
                         </th>
-                        <th className="column-2">
-                          <FormattedMessage id="shared.form.phone1.placeholder" />
+                        <th>
+                          <FormattedMessage
+                            id="shared.form.phone1.placeholder"
+                          />
                         </th>
-                        <th className="column-3">
-                          <FormattedMessage id="shared.form.city.placeholder" />
+                        <th>
+                          <FormattedMessage
+                            id="shared.form.address1.placeholder"
+                          />
                         </th>
-                        <th className="column-3">
-                          <FormattedMessage id="shared.form.district.placeholder" />
+                        <th>
+                          <FormattedMessage
+                            id="shared.form.address2.placeholder"
+                          />
                         </th>
-                        <th className="column-3">
-                          <FormattedMessage id="shared.form.address.placeholder" />
-                        </th>
-                        <th className="column-3" />
+                        <th />
                       </tr>
                     </thead>
                     <tbody>

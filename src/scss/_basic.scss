@@ -1,7 +1,8 @@
 body {
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.1px;
-  margin-top: 149px;
+  height: auto;
+  // margin-top: 154px;
 }
 
 html{
@@ -421,8 +422,7 @@ button{
     height: 100%;
     display: block;
     overflow: hidden;
-    background-size: cover;
-    background-position: center center;
+    background-size: 100%;
     width: 100%;
     z-index: 0;
     @include filter(blur(50px));
@@ -437,26 +437,22 @@ button{
   margin: 40px 0px;
   .swiper-slide {
     height: 20%;
-    // background-size: cover;
+    // background-size: 100%;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 184px !important;
     border: solid 1px #ededed;
-  }
-  .swiper-wrapper,
-  .swiper-container {
-    height: 120px !important;
   }
 }
 .main-slide {
   position: relative;
   z-index: 1;
 
-  .swiper-container {
-    height: 500px;
-  }
+  // .swiper-container {
+  //   height: 500px;
+  // }
   .swiper-slide {
-    background-size: cover;
+    background-size: 100%;
     background-position: center center;
     background-repeat: no-repeat;
   }
@@ -507,7 +503,7 @@ button{
       width: 100%;
       height: 100%;
       background-position: center center;
-      background-size: cover;
+      background-size: 100%;
       background-repeat: no-repeat;
     }
     .percent {
@@ -1255,7 +1251,7 @@ button{
         width: 100%;
         height: 100%;
         background-position: center center;
-        background-size: cover;
+        background-size: 100%;
         background-repeat: no-repeat;
       }
       .percent {
@@ -1464,7 +1460,7 @@ button{
           top: 0;
           width: 100%;
           height: 100%;
-          background-size: cover;
+          background-size: 100%;
           background-repeat: no-repeat;
           background-position: center center;
         }
@@ -1544,7 +1540,7 @@ button{
         top: 0;
         left: 0;
         background-position: center center;
-        background-size: cover;
+        background-size: 100%;
         background-repeat: no-repeat;
       }
     }
@@ -1829,7 +1825,7 @@ button{
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
     background-position: center center;
   }
 }
@@ -2010,6 +2006,7 @@ form {
   -o-filter: blur(50px);
   filter: blur(50px);
 }
+
 .whole-page-title {
   padding: 20px 0;
 
@@ -2536,7 +2533,7 @@ form {
   }
 }
 .success-message-container {
-  // padding: 60px 0;
+  padding: 0px 0;
 
   h4.title {
     font-size: 1.4rem;
@@ -2687,7 +2684,7 @@ form {
 .swiper-button-next,
 .swiper-container-rtl,
 .swiper-button-prev {
-  background-size: 10px;
+  background-size: 20px;
 }
 
 .food-recipe-detail {
@@ -2951,6 +2948,19 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 .ant-tabs-ink-bar {
   background-color: #feb415 !important;
 }
+
+.ant-menu-dark .ant-menu-sub{
+  background: transparent !important;
+  box-shadow: 0px 0px 0px black inset!important;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: grey !important;
+}
+
+.mobile-menu-container.activated {
+  z-index: 999999999 !important;
+}
 /* .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
   text-align: left;
 }
@@ -3204,7 +3214,7 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .background-cover{
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
   background-repeat: no-repeat;
   height: 100%;
@@ -3484,6 +3494,12 @@ button:disabled{
   left: 10px !important;
   top: 45% !important;
 }
+
+.ant-layout-header {
+  height: 0px !important;
+  padding: 0px !important;
+  line-height: 0px !important;
+}
 /* .user-menu-content .ant-divider-horizontal {
   margin-top: 0px;
 } */
@@ -3502,4 +3518,12 @@ button:disabled{
 
 .left-panel .collapse-content{
   padding: 5px 0px !important;
+}
+
+.color-red{
+  color: rgb(212, 19, 13);
+}
+
+.fontBold{
+  font-weight: bold;
 }

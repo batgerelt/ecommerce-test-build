@@ -5,6 +5,7 @@ import { injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swiper from '@eredessil/react-id-swiper';
+import windowSize from 'react-window-size';
 
 class Slider extends React.Component {
   renderRepice = () => {
@@ -25,8 +26,16 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
-    const { sliderData, intl } = this.props;
+    const {
+      sliderData, intl, windowWidth, ratio,
+    } = this.props;
     const lang = intl.locale;
+
+    const slideCount = ratio.split(":")[0];
+    const slideRatio = ratio.split(":")[1];
+    const widthRatio = slideRatio.split("x")[0];
+    const heightRatio = slideRatio.split("x")[1];
+    const sliderHeight = Math.round((((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) / widthRatio) * heightRatio);
 
     try {
       return sliderData.map((item, index) => {
@@ -36,8 +45,12 @@ class Slider extends React.Component {
               <div className="slide-content text-uppercase">
                 {item && item.isshownm !== 0 && (
                   <div>
-                    <h2 className="title">{lang === "mn" ? item.bannernm : item.bannernm_en}</h2>
-                    <p className="text">{lang === "mn" ? item.description : item.description_en}</p>
+                    <h2 className="title">
+                      {lang === "mn" ? item.bannernm : item.bannernm_en}
+                    </h2>
+                    <p className="text">
+                      {lang === "mn" ? item.description : item.description_en}
+                    </p>
                   </div>
                 )}
                 {item && item.link && (
@@ -59,18 +72,23 @@ class Slider extends React.Component {
           <div key={index}>
             <div
               className={this.props.contain ? "background-contain" : "background-cover"}
-              style={{ backgroundImage: `url(${process.env.IMAGE + item.imgnm})` }}
+              style={{
+                backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
+                height: sliderHeight,
+              }}
             >
-              {item.brandid ? (
-                <Link
-                  to={`/brand/${item.brandid}`}
-                  onClick={() => this.handleDetail(item.brandid)}
-                >
-                  {container}
-                </Link>
-              ) : (
-                  container
-                )}
+              {
+                item.brandid ? (
+                  <Link
+                    to={`/brand/${item.brandid}`}
+                    onClick={() => this.handleDetail(item.brandid)}
+                  >
+                    {container}
+                  </Link>
+                ) : (
+                    container
+                  )
+              }
             </div>
           </div>
         );
@@ -102,4 +120,4 @@ Slider.propTypes = {
   elContainer: PropTypes.string.isRequired,
 };
 
-export default injectIntl(Slider);
+export default windowSize(injectIntl(Slider));

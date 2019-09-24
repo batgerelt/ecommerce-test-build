@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Avatar } from "antd";
 import CryptoJS from "crypto-js";
 import { Link } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 import { EncryptKey } from "../../../../utils/Consts";
 import arrow from "../../../../../src/scss/assets/images/demo/arrow.png";
 
@@ -42,9 +43,26 @@ class Component extends React.Component {
             <Link to={`/order/${this.encryptUrl(item.id)}`}>
               <span>#{item.ordernumber}</span>
             </Link>
-            <br />
-            {this.renderDate(item.orderdate)}
+            {
+              isMobile
+                ? (
+                  <React.Fragment>
+                    <br />
+                    {this.renderDate(item.orderdate)}
+                  </React.Fragment>
+                )
+                : ""
+            }
           </td>
+          {
+            !isMobile
+              ? (
+                <td>
+                  {this.renderDate(item.orderdate)}
+                </td>
+              )
+              : ""
+          }
           <td>{formatter.format(item.totalamount)}₮</td>
           <td>{this.renderType(item)}</td>
         </tr>
@@ -62,9 +80,26 @@ class Component extends React.Component {
             <tr>
               <th>
                 <FormattedMessage id="profile.orderHistory.table.orderNo" />
-                <br />
-                <FormattedMessage id="profile.orderHistory.table.date" />
+                {
+                  isMobile
+                    ? (
+                      <React.Fragment>
+                        <br />
+                        <FormattedMessage id="profile.orderHistory.table.date" />
+                      </React.Fragment>
+                    )
+                    : ""
+                }
               </th>
+              {
+                !isMobile
+                  ? (
+                    <th>
+                      <FormattedMessage id="profile.orderHistory.table.date" />
+                    </th>
+                  )
+                  : ""
+              }
               <th>
                 <FormattedMessage id="profile.orderHistory.table.price" />
               </th>

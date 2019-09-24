@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import { defineMessages } from "react-intl";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { Collapse, Tabs, Divider, Button } from "antd";
 import Swal from "sweetalert2";
@@ -131,8 +132,6 @@ class SwalModals extends Component {
       const {
         checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
-      console.log('checkProductZone: ', checkProductZone);
-      console.log('type: ', type);
       const { mode } = this.state;
       if (type === "delete") {
         const messages = defineMessages({
@@ -168,6 +167,15 @@ class SwalModals extends Component {
         );
       }
       if (type === "msgBank") {
+        const { paymentType } = this.props;
+        const messages = defineMessages({
+          warning2: {
+            id: "checkout.swal.info.orderCancellation",
+          },
+          warning3: {
+            id: "checkout.swal.info.orderPayment",
+          },
+        });
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -197,47 +205,80 @@ class SwalModals extends Component {
                       key={item.bankid}
                     >
                       <div className="col-md-12 pad10">
-                        <p className="title">
+                        {/* <p className="title">
                           <strong>
                             {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
                           </strong>
-                        </p>
-                        <div className="menu-content text-left">
-                          <ul className="list-unstyled">
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.account" })}
-                              </span>
-                              <strong>{item.account}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
-                              </span>
-                              <strong>{ordData.order.ordernumber}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
-                              </span>
-                              <strong>{item.name}</strong>
-                            </li>
-                            <li>
-                              <span>
-                                {intl.formatMessage({ id: "checkout.swal.label.amount" })}
-                              </span>
-                              <strong>
-                                {formatter.format(ordData.order.payamount)}₮
-                              </strong>
-                            </li>
-                          </ul>
+                        </p> */}
+                        {/* paymentType !== "qpay" ? (
+                          <div className="text d-flex chosen-bank-message-container">
+                            <i
+                              className="fa fa-info"
+                              aria-hidden="true"
+                            />
+                            <p className="text flex-this">{intl.formatMessage(messages.warning3, { orderNumber: ordData.order.ordernumber })}</p>
+                          </div>
+                        ) : (
+                            ""
+                          ) */}
+                        {
+                          paymentType !== "qpay" ? (
+                            <div style={{ fontWeight: 'bold' }}>
+                              <p className="text" style={{ paddingLeft: '0px' }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }} />
+                            </div>
+                          ) : (
+                              ""
+                            )
+                        }
+                        <div className="menu-content text-left" style={{ display: "flex" }}>
+                          <div className="col-md-6">
+                            <ul className="list-unstyled">
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.account" })}
+                                </span>
+                                <strong>{item.account}</strong>
+                              </li>
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
+                                </span>
+                                <strong>{ordData.order.ordernumber}</strong>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="col-md-6">
+                            <ul className="list-unstyled">
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
+                                </span>
+                                <strong>{item.name}</strong>
+                              </li>
+                              <li>
+                                <span>
+                                  {intl.formatMessage({ id: "checkout.swal.label.amount" })}
+                                </span>
+                                <strong>
+                                  {formatter.format(ordData.order.payamount)}₮
+                                </strong>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className="text d-flex chosen-bank-message-container pad-bot-0" style={{ marginTop: "10px" }}>
+                          <i
+                            className="fa fa-info"
+                            aria-hidden="true"
+                          />
+                          <p style={{ fontSize: "13px" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">2</b>` }) }} />
                         </div>
                       </div>
                     </TabPane>
                   );
                 })}
               </Tabs>
-              <div className="text-right" style={{ marginTop: "10px" }}>
+              <div className="text-right" style={{ marginTop: "10px", paddingRight: "10px" }}>
                 <a
                   onClick={e => readyBtn(e, chosenBank, ordData, type, totalQty)}
                   className="btn btn-main"
@@ -259,7 +300,7 @@ class SwalModals extends Component {
               <div className="col-md-12 pad10">
                 <p className="title">
                   <strong>
-                    {intl.formatMessage({ id: "checkout.swal.label.transactionInfo" })}
+                    {intl.formatMessage({ id: "checkout.swal.label.qpayTransactionInfo" })}
                   </strong>
                 </p>
                 <div className="menu-content" style={{ display: "flex" }}>
@@ -444,6 +485,16 @@ class SwalModals extends Component {
                         </p>
                         <p className="text flex-this">
                           <i
+                            className="fa fa-envelope"
+                            aria-hidden="true"
+                            style={{ color: "#feb415" }}
+                          />
+                          <span>
+                            {ordData.mail}
+                          </span>
+                        </p>
+                        <p className="text flex-this">
+                          <i
                             className="fa fa-map-marker "
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
@@ -471,19 +522,6 @@ class SwalModals extends Component {
                       </div>
                       <div className="bottom-text text-center">
                         <div>
-                          <p dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: "<b>2</b>" }) }} />
-                          <br />
-                          {paymentType !== "qpay" ? (
-                            <div>
-                              <b>
-                                {intl.formatMessage(messages.warning3, { orderNumber: ordData.order.ordernumber })}
-                              </b>
-                            </div>
-                          ) : (
-                              ""
-                            )}
-                          <br />
-                          <br />
                           {intl.formatMessage({ id: "checkout.swal.info.contract" })}
                         </div>
                         <strong className="text-uppercase">

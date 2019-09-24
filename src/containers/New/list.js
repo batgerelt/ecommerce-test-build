@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
@@ -21,6 +22,7 @@ import {
   CARD_TYPES,
   CARD_NUMS_IN_ROW,
 } from "../../utils/Consts";
+import windowSize from 'react-window-size';
 // import 'react-virtualized/styles.css';
 
 const ITEM_HEIGHT = 360;
@@ -109,10 +111,19 @@ class Bookmarks extends PureComponent {
   }
 
   getMaxItemsAmountPerRow = (width) => {
-    if (width > 1100) {
-      return Math.max(Math.floor(width / 207.99), 1);
+    const { windowWidth } = this.props;
+
+    if (windowWidth < 576) {
+      return 2;
+    } else if (windowWidth < 768) {
+      return 2;
+    } else if (windowWidth < 992) {
+      return 4;
+    } else if (windowWidth < 1200) {
+      return 4;
+    } else {
+      return 5;
     }
-    return Math.max(Math.floor(width / 160), 1);
   };
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
@@ -150,13 +161,23 @@ class Bookmarks extends PureComponent {
   };
 
   generateItemHeight = (width) => {
-    if (width >= 700 && width < 960 || width > 1000) {
-      return 375;
+    let tmp;
+
+    const { windowWidth } = this.props;
+
+    if (windowWidth < 576) {
+      tmp = 320;
+    } else if (windowWidth < 768) {
+      tmp = 405;
+    } else if (windowWidth < 992) {
+      tmp = 320;
+    } else if (windowWidth < 1200) {
+      tmp = 375;
+    } else {
+      tmp = 370;
     }
-    if (width < 400) {
-      return 320;
-    }
-    return 400;
+
+    return tmp;
   }
 
   renderHeaderProduct = () => {
@@ -205,7 +226,7 @@ class Bookmarks extends PureComponent {
     try {
       const { products, startsWith } = this.state;
       return (
-        <div className="container pad10" style={{ paddingTop: '20px' }}>
+        <div className="container pad10 new-list">
           <div className="row row10">
             <AutoSizer disableHeight>
               {({ width }) => {
@@ -307,4 +328,4 @@ class Bookmarks extends PureComponent {
   }
 }
 
-export default injectIntl(Bookmarks);
+export default windowSize(injectIntl(Bookmarks));
