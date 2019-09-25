@@ -1402,6 +1402,11 @@ h1.title {
 
 // xs (< 768px)
 @media (max-width: 767px) {
+
+    .layout-content {
+        margin-top: 102px;
+    }
+    
     #root {
         margin-top: 102px;
     }
