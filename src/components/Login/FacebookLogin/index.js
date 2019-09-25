@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from "react";
+import { connect } from "react-redux";
 import FacebookLogin from 'react-facebook-login';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { SOCIAL_IDS } from "../../../utils/Consts";
 
-export default class FacebookLogin1 extends React.Component {
+class FacebookLogin1 extends React.Component {
   state = {
     isLoggedIn: false,
     userID: '',
@@ -51,3 +52,4 @@ export default class FacebookLogin1 extends React.Component {
     );
   }
 }
+export default injectIntl(FacebookLogin1);
