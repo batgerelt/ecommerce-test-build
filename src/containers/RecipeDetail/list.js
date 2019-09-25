@@ -87,6 +87,7 @@ class List extends React.Component {
           <div className="main-slide">
             <Slider
               ratio="1:3x2"
+              isRecipeDetail
               sliderData={recipe.images}
               params={sliderParams}
               elContainer={"images"}

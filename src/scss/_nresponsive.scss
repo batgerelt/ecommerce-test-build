@@ -506,7 +506,7 @@ h1.title {
 // lg (< 1200px)
 @media (max-width: 1199px) {
     #root {
-        margin-top: 167px;
+        margin-top: 167px !important;
     }
 
     .cart-container {
@@ -1384,7 +1384,7 @@ h1.title {
 // md (< 992px)
 @media (max-width: 991px) {
     #root {
-        margin-top: 163px;
+        margin-top: 163px !important;
     }
 
     .cart-container {
@@ -1408,7 +1408,7 @@ h1.title {
     }
     
     #root {
-        margin-top: 102px;
+        margin-top: 102px !important;
     }
 
     .list-filter {
@@ -1822,7 +1822,7 @@ h1.title {
 // xs (< 576px)
 @media (max-width: 575px) {
     #root {
-        margin-top: 101px;
+        margin-top: 101px !important;
     }
     
     .e-breadcrumb {
@@ -1934,7 +1934,7 @@ h1.title {
 // (>= 1200px)
 @media (min-device-width: 1200px) {
     #root {
-        margin-top: 152px;
+        margin-top: 152px !important;
     }
 
     .whole-page-title {
@@ -2042,14 +2042,14 @@ h1.title {
 // (768px <= viewport < 991px)
 @media (min-device-width: 768px) and (max-device-width: 991px) {
     #root {
-        margin-top: 159px;
+        margin-top: 159px !important;
     }
 }
 
 // (992px <= viewport < 1200px)
 @media (min-device-width: 992px) and (max-device-width: 1199px) {
     #root {
-        margin-top: 164px;
+        margin-top: 164px !important;
     }
 
     h1.title:before,
