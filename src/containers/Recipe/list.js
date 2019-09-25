@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-mixed-operators */
@@ -104,16 +105,29 @@ class Recipe extends React.Component {
 
     const { windowWidth } = this.props;
 
-    if (windowWidth < 576) {
-      tmp = 2445;
+    // iPhone 5/SE
+    if (windowWidth < 321) {
+      tmp = 2360;
+    }
+    // iPhone 6/7/8
+    else if (windowWidth < 376) {
+      tmp = 2655;
+    }
+    // iPhone 6/7/8 Plus
+    else if (windowWidth < 415) {
+      tmp = 2865;
+    }
+    // mobile (horizontal)
+    else if (windowWidth < 576) {
+      tmp = 3700;
     } else if (windowWidth < 768) {
       tmp = 535;
     } else if (windowWidth < 992) {
-      tmp = 600;
+      tmp = 645;
     } else if (windowWidth < 1200) {
-      tmp = 750;
+      tmp = 795;
     } else {
-      tmp = 860;
+      tmp = 900;
     }
 
     return tmp;

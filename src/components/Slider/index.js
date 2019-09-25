@@ -27,7 +27,7 @@ class Slider extends React.Component {
 
   renderIndents = () => {
     const {
-      sliderData, intl, windowWidth, ratio,
+      sliderData, intl, windowWidth, ratio, isRecipeDetail, isPackageDetail,
     } = this.props;
     const lang = intl.locale;
 
@@ -35,7 +35,16 @@ class Slider extends React.Component {
     const slideRatio = ratio.split(":")[1];
     const widthRatio = slideRatio.split("x")[0];
     const heightRatio = slideRatio.split("x")[1];
-    const sliderHeight = Math.round((((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) / widthRatio) * heightRatio);
+
+    let sliderHeight;
+
+    if (windowWidth >= 1200 && isPackageDetail) {
+      sliderHeight = Math.round(((((windowWidth * (3 / 4)) - 20) / slideCount) / widthRatio) * heightRatio);
+    } else if (windowWidth >= 992 && isRecipeDetail) {
+      sliderHeight = Math.round(((((windowWidth * (2 / 3)) - 20) / slideCount) / widthRatio) * heightRatio);
+    } else {
+      sliderHeight = Math.round((((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) / widthRatio) * heightRatio);
+    }
 
     try {
       return sliderData.map((item, index) => {

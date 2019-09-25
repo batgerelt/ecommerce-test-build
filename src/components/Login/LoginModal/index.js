@@ -173,7 +173,6 @@ class LoginModal extends React.Component {
                 }],
               })(
                 <LatinInput
-                  prefix={<Icon type="user" style={{ color: '#FFB81C', fontSize: "20px" }} />}
                   placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                   className="form-control"
                   autoComplete="off"
@@ -186,16 +185,7 @@ class LoginModal extends React.Component {
                   { validator: this.validateToNextPassword },
                 ],
               })(
-                <Input
-                  prefix={<Icon
-                    type="lock"
-                    style={{ color: '#FFB81C', fontSize: "20px" }}
-                  />}
-                  type="password"
-                  placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })}
-                  className="form-control"
-                  autoComplete="new-password"
-                />,
+                <Input type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
               )}
             </Form.Item>
             <Form.Item>
@@ -230,7 +220,7 @@ class LoginModal extends React.Component {
             </Form.Item>
           </Form>
 
-          <FacebookLogin {...this.props} />
+          <FacebookLogin />
           <GoogleLogin />
 
           {this.props.RegistrationModal ?
@@ -270,16 +260,19 @@ class LoginModal extends React.Component {
           <Form onSubmit={this.handleSubmitForget} className="login-form">
             <Form.Item>
               {getFieldDecorator("email", {
-                rules: [{
-                  required: true,
-                  type: "email",
-                  pattern: new RegExp("[A-Za-z]"),
-                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                    type: "email",
+                  },
+                ],
               })(
-                <LatinInput
-                  placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                <Input
+                  allowClear
                   className="form-control"
+                  placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                  size="large"
                   autoComplete="off"
                 />,
               )}

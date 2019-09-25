@@ -1,10 +1,15 @@
 body {
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.1px;
-  height: auto;
-  // margin-top: 154px;
 }
 
+main {
+  background-color: white;
+}
+
+#root {
+  margin: 0px !important;
+}
 html{
   --antd-wave-shadow-color: #ffb200 !important;
 }
@@ -3500,6 +3505,7 @@ button:disabled{
   padding: 0px !important;
   line-height: 0px !important;
 }
+
 /* .user-menu-content .ant-divider-horizontal {
   margin-top: 0px;
 } */

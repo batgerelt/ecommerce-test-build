@@ -467,20 +467,31 @@ h1.title {
     .info-container {
         .price {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: min-content min-content 1fr;
+            align-items: center;
             width: 100%;
-            text-align: left;
 
-            * {
+            .price-title {
+                grid-column: 1 / 4;
+                text-align: right;
+            }
+
+            .pricetag {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                text-align: left;
+            }
+
+            .sale {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
                 text-align: right;
             }
 
             .current {
                 grid-column: 3 / 4;
-            }
-
-            .sale {
-                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                text-align: right;
             }
         }
     }
@@ -495,7 +506,7 @@ h1.title {
 // lg (< 1200px)
 @media (max-width: 1199px) {
     #root {
-        margin-top: 167px;
+        margin-top: 167px !important;
     }
 
     .cart-container {
@@ -1373,7 +1384,7 @@ h1.title {
 // md (< 992px)
 @media (max-width: 991px) {
     #root {
-        margin-top: 163px;
+        margin-top: 163px !important;
     }
 
     .cart-container {
@@ -1383,12 +1394,17 @@ h1.title {
     .section-gray {
         margin-top: -17px;
     }
+
+    .left-panel {
+        transform: translateX(0px);
+    }
 }
 
 // xs (< 768px)
 @media (max-width: 767px) {
+    
     #root {
-        margin-top: 102px;
+        margin-top: 102px !important;
     }
 
     .list-filter {
@@ -1688,6 +1704,23 @@ h1.title {
         }
     }
 
+    .season,
+    .search-result,
+    .category-search {
+        .total-result {
+            text-align: right;
+        }
+
+        .list-filter .flex-this.end .btn {
+            margin-left: 0px;
+            padding-left: 0px;
+            
+            i {
+                font-size: 16px !important;
+            }
+        }
+    }
+
     .dropdown {
         display: none !important;
     }
@@ -1776,12 +1809,16 @@ h1.title {
             content: attr(data-title); 
         }
     }
+
+    .left-panel {
+        transform: translateX(-280px);
+    }
 }
 
 // xs (< 576px)
 @media (max-width: 575px) {
     #root {
-        margin-top: 101px;
+        margin-top: 101px !important;
     }
     
     .e-breadcrumb {
@@ -1888,29 +1925,12 @@ h1.title {
         width: 100%;
         margin-bottom: 7px;
     }
-
-    .season,
-    .search-result,
-    .category-search {
-        .total-result {
-            text-align: right;
-        }
-
-        .list-filter .flex-this.end .btn {
-            margin-left: 0px;
-            padding-left: 0px;
-            
-            i {
-                font-size: 16px !important;
-            }
-        }
-    }
 }
 
 // (>= 1200px)
 @media (min-device-width: 1200px) {
     #root {
-        margin-top: 152px;
+        margin-top: 152px !important;
     }
 
     .whole-page-title {
@@ -2018,14 +2038,14 @@ h1.title {
 // (768px <= viewport < 991px)
 @media (min-device-width: 768px) and (max-device-width: 991px) {
     #root {
-        margin-top: 159px;
+        margin-top: 159px !important;
     }
 }
 
 // (992px <= viewport < 1200px)
 @media (min-device-width: 992px) and (max-device-width: 1199px) {
     #root {
-        margin-top: 164px;
+        margin-top: 164px !important;
     }
 
     h1.title:before,
@@ -2092,10 +2112,6 @@ h1.title {
         width: 30% !important;
     }
 
-    .banner-pad {
-        margin-top: 149px;
-    }
-
     .top-main .search {
         z-index: 999;
     }
@@ -2155,3 +2171,4 @@ h1.title {
         }
     }
 }
+

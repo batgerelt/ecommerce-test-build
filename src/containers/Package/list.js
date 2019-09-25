@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable consistent-return */
@@ -108,16 +109,29 @@ class Discount extends React.Component {
 
     const { windowWidth } = this.props;
 
-    if (windowWidth < 576) {
-      tmp = 1885;
+    // iPhone 5/SE
+    if (windowWidth < 321) {
+      tmp = 1825;
+    }
+    // iPhone 6/7/8
+    else if (windowWidth < 376) {
+      tmp = 2025;
+    }
+    // iPhone 6/7/8 Plus
+    else if (windowWidth < 415) {
+      tmp = 2170;
+    }
+    // mobile (horizontal)
+    else if (windowWidth < 576) {
+      tmp = 2735;
     } else if (windowWidth < 768) {
-      tmp = 1535;
+      tmp = 1600;
     } else if (windowWidth < 992) {
-      tmp = 1310;
+      tmp = 1350;
     } else if (windowWidth < 1200) {
-      tmp = 590;
+      tmp = 1060;
     } else {
-      tmp = 610;
+      tmp = 655;
     }
 
     return tmp;

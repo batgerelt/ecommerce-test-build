@@ -133,7 +133,7 @@ class App extends Component {
 
                   {/** Үндсэн root болон nested root-үүд доор байрлана */}
                   <Layout.Content>
-                    <div className={style.appcontainer}>
+                    <div>
                       <Switch>
                         <Route exact path="/" component={Home} />
                         <Route path="/discount" component={Discount} />

@@ -238,6 +238,7 @@ class List extends React.Component {
           <div className="main-slide">
             <Slider
               ratio="1:3x2"
+              isPackageDetail
               sliderData={images}
               params={sliderParams}
               elContainer={"images"}
@@ -538,12 +539,16 @@ class List extends React.Component {
               <ul className="list-unstyled">
                 <li>
                   <Link to="">
-                    <span><FormattedMessage id="packageDetail.breadcrumb.home" /></span>
+                    <span>
+                      <FormattedMessage id="packageDetail.breadcrumb.home" />
+                    </span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/package">
-                    <span><FormattedMessage id="packageDetail.breadcrumb.package" /></span>
+                    <span>
+                      <FormattedMessage id="packageDetail.breadcrumb.package" />
+                    </span>
                   </Link>
                 </li>
               </ul>

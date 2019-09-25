@@ -166,7 +166,7 @@ class Bookmarks extends PureComponent {
     const { windowWidth } = this.props;
 
     if (windowWidth < 576) {
-      tmp = 320;
+      tmp = 315;
     } else if (windowWidth < 768) {
       tmp = 405;
     } else if (windowWidth < 992) {

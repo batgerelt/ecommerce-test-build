@@ -652,7 +652,7 @@ class CategoryInfo extends React.Component {
 
   render() {
     return (
-      <div className="top-container emart-page">
+      <div className="top-container">
         <div className="section">
           <div className="container pad10">
             {this.state.nodata ? (
