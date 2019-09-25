@@ -105,15 +105,15 @@ class Recipe extends React.Component {
     const { windowWidth } = this.props;
 
     if (windowWidth < 576) {
-      tmp = 2445;
+      tmp = 2575;
     } else if (windowWidth < 768) {
       tmp = 535;
     } else if (windowWidth < 992) {
-      tmp = 600;
+      tmp = 645;
     } else if (windowWidth < 1200) {
-      tmp = 750;
+      tmp = 795;
     } else {
-      tmp = 860;
+      tmp = 900;
     }
 
     return tmp;

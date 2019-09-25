@@ -117,7 +117,7 @@ class Discount extends React.Component {
     } else if (windowWidth < 1200) {
       tmp = 590;
     } else {
-      tmp = 610;
+      tmp = 655;
     }
 
     return tmp;

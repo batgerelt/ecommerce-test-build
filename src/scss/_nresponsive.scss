@@ -1703,6 +1703,23 @@ h1.title {
         }
     }
 
+    .season,
+    .search-result,
+    .category-search {
+        .total-result {
+            text-align: right;
+        }
+
+        .list-filter .flex-this.end .btn {
+            margin-left: 0px;
+            padding-left: 0px;
+            
+            i {
+                font-size: 16px !important;
+            }
+        }
+    }
+
     .dropdown {
         display: none !important;
     }
@@ -1907,23 +1924,6 @@ h1.title {
         width: 100%;
         margin-bottom: 7px;
     }
-
-    .season,
-    .search-result,
-    .category-search {
-        .total-result {
-            text-align: right;
-        }
-
-        .list-filter .flex-this.end .btn {
-            margin-left: 0px;
-            padding-left: 0px;
-            
-            i {
-                font-size: 16px !important;
-            }
-        }
-    }
 }
 
 // (>= 1200px)
@@ -2109,10 +2109,6 @@ h1.title {
 
     .column-std {
         width: 30% !important;
-    }
-
-    .banner-pad {
-        margin-top: 149px;
     }
 
     .top-main .search {
