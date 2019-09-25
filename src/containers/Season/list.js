@@ -276,7 +276,7 @@ class CategoryInfo extends React.Component {
     try {
       const { promotionall } = this.props;
       const { promotions } = this.state;
-      const lang = localStorage.getItem("lang");
+      const lang = this.props.intl;
 
       if (promotions) {
         return (
@@ -312,7 +312,7 @@ class CategoryInfo extends React.Component {
     try {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
-        <div className="col-xl-3 col-md-3 pad10">
+        <div className="col-md-3 pad10">
           <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
@@ -327,10 +327,14 @@ class CategoryInfo extends React.Component {
                 />
               </button>
               <h5 className="title">
-                <strong><FormattedMessage id="search.filter.title" /></strong>
+                <strong>
+                  <FormattedMessage id="search.filter.title" />
+                </strong>
               </h5>
               <p className="title">
-                <span><FormattedMessage id="search.filter.category.title" /></span>
+                <span>
+                  <FormattedMessage id="search.filter.category.title" />
+                </span>
               </p>
               <div className="accordion" id="accordionExample">
                 <div
@@ -374,7 +378,9 @@ class CategoryInfo extends React.Component {
     }
   }
 
-  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
+  showMobilePanel = () => this.setState({
+    isMobilePanel: !this.state.isMobilePanel,
+  })
 
   renderFilteredList = () => {
     try {
@@ -406,12 +412,6 @@ class CategoryInfo extends React.Component {
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
-                    <label
-                      htmlFor="inputState"
-                      style={{ marginTop: "10px", marginRight: "5px" }}
-                    >
-                      <FormattedMessage id="search.sort.label" />:
-                    </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
@@ -482,27 +482,6 @@ class CategoryInfo extends React.Component {
       tmp = isList ? 120 : 305;
     }
 
-
-    // if (!this.state.isListViewOn) {
-    //   if (width >= 300 && width <= 400) {
-    //     tmp = 370;
-    //   } else if (width < 400) {
-    //     tmp = 350;
-    //   } else if (width > 400 && width < 520) {
-    //     tmp = 365;
-    //   } else {
-    //     tmp = 305.98;
-    //   }
-    // } else if (this.state.isListViewOn) {
-    //   if (width >= 300 && width <= 400) {
-    //     tmp = 230;
-    //   } else if (width < 400) {
-    //     tmp = 197;
-    //   } else {
-    //     tmp = 120;
-    //   }
-    // }
-
     return tmp;
   };
 
@@ -521,16 +500,6 @@ class CategoryInfo extends React.Component {
 
   // eslint-disable-next-line arrow-body-style
   getMaxItemsAmountPerRow = (width) => {
-    // screenWidth = width;
-    // /* console.log(this.state.shapeType); */
-    // if (this.state.shapeType === 2) {
-    //   if (width >= 520 && width <= 700) {
-    //     return Math.max(Math.floor(width / 230), 1);
-    //   }
-    //   return Math.max(Math.floor(width / 264.98), 1);
-    // }
-    // return Math.max(Math.floor(width / 835), 1);
-
     const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 

@@ -467,20 +467,31 @@ h1.title {
     .info-container {
         .price {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: min-content min-content 1fr;
+            align-items: center;
             width: 100%;
-            text-align: left;
 
-            * {
+            .price-title {
+                grid-column: 1 / 4;
+                text-align: right;
+            }
+
+            .pricetag {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                text-align: left;
+            }
+
+            .sale {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
                 text-align: right;
             }
 
             .current {
                 grid-column: 3 / 4;
-            }
-
-            .sale {
-                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                text-align: right;
             }
         }
     }
@@ -1383,6 +1394,10 @@ h1.title {
     .section-gray {
         margin-top: -17px;
     }
+
+    .left-panel {
+        transform: translateX(0px);
+    }
 }
 
 // xs (< 768px)
@@ -1775,6 +1790,10 @@ h1.title {
         td:before { 
             content: attr(data-title); 
         }
+    }
+
+    .left-panel {
+        transform: translateX(-280px);
     }
 }
 

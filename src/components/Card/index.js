@@ -270,14 +270,14 @@ class Card extends React.Component {
 
             {/* elastic search price tag */}
             {!item.pricetag ? null : (
-              <Fragment>
+              <span className="pricetag">
                 {lang === "mn"
                   ? item.pricetag
                   : item.pricetag_en === null
                     ? item.pricetag
                     : item.pricetag_en
                 }
-              </Fragment>
+              </span>
             )}
 
             <small className="sale">
@@ -299,14 +299,14 @@ class Card extends React.Component {
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <Fragment>
+                <span className="pricetag">
                   {lang === "mn"
                     ? item.pricetag
                     : item.pricetag_en === null
                       ? item.pricetag
                       : item.pricetag_en
                   }
-                </Fragment>
+                </span>
               )}
 
               <span className="current" >
@@ -325,14 +325,14 @@ class Card extends React.Component {
 
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
-              <Fragment>
+              <span className="pricetag">
                 {lang === "mn"
                   ? item.pricetag
                   : item.pricetag_en === null
                     ? item.pricetag
                     : item.pricetag_en
                 }
-              </Fragment>
+              </span>
             )}
 
             <span className="current">

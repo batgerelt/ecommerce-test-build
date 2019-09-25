@@ -482,10 +482,6 @@ class CategoryInfo extends React.Component {
                         <FormattedMessage id="search.sort.values.priceDesc" />
                       </Select.Option>
                     </Select>
-                    {/* <select className="form-control border" onChange={e => this.handleChangeOrder(e.target.value)}>
-                      <option value="currentprice_asc"> dasdsa </option>
-                      <option value="currentprice_desc"> <FormattedMessage id="search.sort.values.priceDesc" /> </option>
-                    </select> */}
                   </div>
                   <div
                     className="form-group flex-this pl-2"
@@ -547,18 +543,6 @@ class CategoryInfo extends React.Component {
       tmp = isList ? 120 : 305;
     }
 
-    // if (!this.state.isListViewOn) {
-    //   if (width < 400) {
-    //     tmp = 350;
-    //   } else {
-    //     tmp = 305.98;
-    //   }
-    // } else if (width < 400) {
-    //   tmp = 197;
-    // } else {
-    //   tmp = 120;
-    // }
-
     return tmp;
   };
 
@@ -576,12 +560,6 @@ class CategoryInfo extends React.Component {
   };
 
   getMaxItemsAmountPerRow = (width) => {
-    // screenWidth = width;
-    // if (this.state.shapeType === 2) {
-    //   return Math.max(Math.floor(width / 264.98), 1);
-    // }
-    // return Math.max(Math.floor(width / 835), 1);
-
     const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 
