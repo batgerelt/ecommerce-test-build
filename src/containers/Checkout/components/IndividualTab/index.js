@@ -26,6 +26,7 @@ class IndividualTab extends React.Component {
     this.props.onRef(this);
     const { userinfo } = this.props;
     const { setFieldsValue } = this.props.form;
+    console.log(userinfo);
     if (userinfo.card !== undefined) {
       // setFieldsValue({ cardPoint: userinfo.card.point });
       this.setState({ cardInfo: userinfo.card });
@@ -33,7 +34,8 @@ class IndividualTab extends React.Component {
   }
 
   errorMsg = (txt) => {
-    MySwal.hideLoading();
+    // MySwal.hideLoading();
+    MySwal.close();
     MySwal.fire({
       type: "error",
       text: txt,
@@ -117,8 +119,10 @@ class IndividualTab extends React.Component {
       },
     });
     if (password) {
+      console.log(password);
       let cardno = cardInfo.cardno;
       this.props.checkEpointPin({ cardno, pincode: password }).then((res) => {
+        console.log(res);
         if (res.payload.success) {
           const { DeliveryInfo } = this.props;
           let chosenType = DeliveryInfo.state.chosenType;

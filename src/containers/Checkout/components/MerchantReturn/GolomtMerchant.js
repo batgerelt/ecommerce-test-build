@@ -1,8 +1,15 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
+import CryptoJS from "crypto-js";
+import { EncryptKey } from "../../../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
 class GolomtMerchant extends React.Component {
+  encryptUrl = (id) => {
+    let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
+    return ciphertext.toString().replace('+', 'xMl3Jk').replace('/', 'Por21Ld').replace('=', 'Ml32');
+  }
+
   render() {
     const { golomtMerchant } = this.props;
     if (golomtMerchant.success) {
@@ -113,7 +120,7 @@ class GolomtMerchant extends React.Component {
                         <a
                           className="btn btn-dark"
                           onClick={() =>
-                            this.props.history.push(`/order/${golomtMerchant.data.order.id}`)
+                            this.props.history.push(`/order/${this.encryptUrl(golomtMerchant.data.order.id)}`)
                           }
                         >
                           <span className="text-uppercase">Захиалга харах</span>
