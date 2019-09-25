@@ -19,7 +19,6 @@ import wishlist1 from "../../scss/assets/svg/wishlist.svg";
 import store1 from "../../scss/assets/svg/store.svg";
 import location1 from "../../scss/assets/svg/location.svg";
 import password1 from "../../scss/assets/svg/password.svg";
-import logout from "../../scss/assets/svg/sign-out.svg";
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
@@ -58,7 +57,6 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
-    this.showpro();
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
 
@@ -248,7 +246,7 @@ class UserButton extends React.Component {
                   </ul>
                   <div className="text-right" onClick={this.handleLogoutClick}>
                     <button className="btn btn-gray" style={{ width: "100%" }}>
-                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" />{/* <Avatar size="small" shape="square" src={logout} style={{ transform: "rotate(180deg)" }} /> */}</span>
+                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" /> <IconFont type="icon-tuichu" /></span>
                     </button>
                   </div>
                 </div>

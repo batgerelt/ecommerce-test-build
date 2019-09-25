@@ -5,7 +5,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Icon, Form, Dropdown } from "antd";
+import { Icon, Form, Dropdown, Layout } from "antd";
 import moment from "moment";
 
 import { Category, MainMenu, UserButton, CartButton } from "../../components";
@@ -418,6 +418,7 @@ class AppHeader extends Component {
         </div>
       );
       return (
+
         <div className="main-nav">
           <div className="container container-laptop pad10">
             <ul className="list-inline">

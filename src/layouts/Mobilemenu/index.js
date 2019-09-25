@@ -2,7 +2,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
-import { injectIntl } from 'react-intl';
 
 import crossImage from "../../scss/assets/svg/error.svg";
 
@@ -76,7 +75,6 @@ class MobileMenu extends React.Component {
 
   renderContent = () => {
     try {
-      const lang = this.props.intl;
       const { mainmenu } = this.props.menu;
 
       return (
@@ -86,7 +84,7 @@ class MobileMenu extends React.Component {
               mainmenu.map((item, index) => (
                 <li key={index} onClick={this.handleClose}>
                   <Link to={item.link}>
-                    <span>{lang === "mn" ? item.menunm : item.menunm_en}</span>
+                    <span>{item.menunm}</span>
                   </Link>
                 </li>
               ))
@@ -153,5 +151,5 @@ class MobileMenu extends React.Component {
   }
 }
 
-export default injectIntl(MobileMenu);
+export default MobileMenu;
 

@@ -14,7 +14,6 @@ class List extends React.Component {
   renderRoot = () => {
     try {
       const { recipe } = this.props;
-      const lang = this.props.intl;
       return (
         <ul className="list-unstyled">
           <li>
@@ -29,7 +28,7 @@ class List extends React.Component {
           </li>
           <li>
             {console.log('recipe: ', recipe)}
-            <span>{lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
+            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </li>
         </ul>
       );
@@ -40,11 +39,10 @@ class List extends React.Component {
   renderTitleDate = () => {
     try {
       const { recipe } = this.props;
-      const lang = this.props.intl;
       return (
         <div>
           <h4 className="title">
-            <span>{lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
+            <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </h4>
           <p className="date">
             <FormattedMessage
@@ -104,8 +102,7 @@ class List extends React.Component {
 
   renderDelivery = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       return (
         <div className="block product-delivery">
           <p className="title">
@@ -126,8 +123,7 @@ class List extends React.Component {
 
   renderIcons = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       return (
         <div className="block product-delivery icons">
           <div className="row row10">
@@ -262,7 +258,7 @@ class List extends React.Component {
 
   renderProd = () => {
     try {
-      const lang = this.props.intl;
+      const { lang } = this.props;
       const products = this.props.recipeProducts;
       return products.map((item, index) => (
         <li key={index}>
@@ -363,8 +359,7 @@ class List extends React.Component {
 
   renderRecipe = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       return (
         <div>
           <div className="row row10 recipes-container">
@@ -393,8 +388,7 @@ class List extends React.Component {
 
   renderSpices = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       const spices = lang === "mn" ? recipe.spices : recipe.spices_en;
       return spices.map((item, index) => (
         <li className="recipe-list-item" key={index}>
@@ -409,8 +403,7 @@ class List extends React.Component {
 
   renderIngredients = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       const ingredients = lang === "mn" ? recipe.ingredients : recipe.ingredients_en;
       return ingredients.map((item, index) => (
         <li className="recipe-list-item" key={index}>
@@ -425,8 +418,7 @@ class List extends React.Component {
 
   renderCk = () => {
     try {
-      const { recipe } = this.props;
-      const lang = this.props.intl;
+      const { recipe, lang } = this.props;
       return (
         <div className="ck-editor">
           <h4 className="title">
@@ -447,8 +439,7 @@ class List extends React.Component {
 
   renderSteps = () => {
     try {
-      const { steps } = this.props;
-      const lang = this.props.intl;
+      const { steps, lang } = this.props;
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10" style={{ alignItems: "initial" }}>
@@ -456,7 +447,7 @@ class List extends React.Component {
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,
-                  backgroundSize: "100%",
+                  backgroundSize: "cover",
                   width: "100%",
                   height: "200px",
                   backgroundRepeat: "no-repeat",
