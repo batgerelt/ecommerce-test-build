@@ -1278,7 +1278,7 @@ h1.title {
     // ~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>
     
     .main-slide {
-        margin-top: -18px;
+        margin-top: -20px;
         padding-bottom: 20px;
     }
 
@@ -1402,10 +1402,6 @@ h1.title {
 
 // xs (< 768px)
 @media (max-width: 767px) {
-
-    .layout-content {
-        margin-top: 102px;
-    }
     
     #root {
         margin-top: 102px !important;
@@ -1942,7 +1938,7 @@ h1.title {
     }
 
     .main-slide {
-        margin-top: -11px;
+        margin-top: -7px;
     }
 
     .top-main {
@@ -2176,9 +2172,3 @@ h1.title {
     }
 }
 
-// (main-banner tohiruulaw)
-@media (min-device-width: 1024px) {
-    .main-slide {
-        margin-top: -13px;
-    }
-}

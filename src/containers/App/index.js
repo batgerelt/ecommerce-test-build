@@ -132,7 +132,7 @@ class App extends Component {
                   {/*  */}
 
                   {/** Үндсэн root болон nested root-үүд доор байрлана */}
-                  <Layout.Content className="layout-content">
+                  <Layout.Content>
                     <div>
                       <Switch>
                         <Route exact path="/" component={Home} />
