@@ -233,11 +233,11 @@ class Homepage extends React.Component {
           <div className="container pad10">
             {this.renderBrandSlider()}
 
-            <MessengerCustomerChat
+            {/* <MessengerCustomerChat
               pageId="122186685842490"
               appId="424697635063811"
               htmlRef={window.location.pathname}
-            />
+            /> */}
           </div>
         </div>
         <BackTop />
