@@ -1278,7 +1278,7 @@ h1.title {
     // ~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>
     
     .main-slide {
-        margin-top: -20px;
+        margin-top: -18px;
         padding-bottom: 20px;
     }
 
@@ -1942,7 +1942,7 @@ h1.title {
     }
 
     .main-slide {
-        margin-top: -7px;
+        margin-top: -11px;
     }
 
     .top-main {
@@ -2173,5 +2173,12 @@ h1.title {
                 margin-bottom: 0px;
             }
         }
+    }
+}
+
+// (main-banner tohiruulaw)
+@media (min-device-width: 1024px) {
+    .main-slide {
+        margin-top: -13px;
     }
 }
