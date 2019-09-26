@@ -308,7 +308,7 @@ class CategoryInfo extends React.Component {
       const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
 
       return (
-        <div className="col-xl-3 col-md-3 pad10">
+        <div className="col-lg-3 col-md-4 pad10">
           {/* <Affix offsetTop={150} style={{ width: '100%' }}> */}
           <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
             <div className={leftPanel}>
@@ -376,10 +376,10 @@ class CategoryInfo extends React.Component {
       const { intl, searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-xl-9 col-lg-9 col-md-8 pad10">
+        <div className="col-lg-9 col-md-8 pad10">
           <div className="list-filter pad10">
             <div className="row row10">
-              <div className="col-lg-6 pad10">
+              <div className="col-md-4 pad10">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>
@@ -389,7 +389,7 @@ class CategoryInfo extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 pad10">
+              <div className="col-md-8 pad10">
                 <form className="flex-this end">
                   <div className="text-right d-block d-md-none">
                     <a
@@ -401,12 +401,6 @@ class CategoryInfo extends React.Component {
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
-                    <label
-                      htmlFor="inputState"
-                      style={{ marginTop: "7px", marginRight: "5px" }}
-                    >
-                      <FormattedMessage id="search.sort.label" />:
-                    </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
