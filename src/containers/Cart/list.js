@@ -108,15 +108,14 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
-    console.log('product: ', product);
-    console.log('e: ', e);
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
-      const qty = isNaN(e.target.value) ? found.addminqty : found.qty;
-      console.log('qty: ', qty);
+      const qty = isNaN(e.target.value)
+        ? found.addminqty
+        : parseInt(e.target.value);
       found.qty = parseInt(qty, 10);
 
       if (this.props.isLogged) {
@@ -302,13 +301,13 @@ class Cart extends React.Component {
 
       return (
         <p className="price">
-          <span className="discount">
+          <span className="current">
             {formatter.format(product.saleminqty > 1
               ? product.currentprice / product.saleminqty
               : product.currentprice,
             )}₮
           </span>
-          <span className="current">
+          <span className="discount">
             {formatter.format(product.saleminqty > 1
               ? product.price / product.saleminqty
               : product.price,
@@ -497,6 +496,7 @@ class Cart extends React.Component {
 
           return b.insymd - a.insymd;
         });
+
         content = (
           <table className="table table-borderless">
             <thead className="thead-light">
@@ -664,7 +664,9 @@ class Cart extends React.Component {
                       onClick={this.handleClearClick}
                     >
                       <i className="fa fa-trash" aria-hidden="true" />{" "}
-                      <span className="basket-clear"><FormattedMessage id="cart.button.clear" /></span>
+                      <span className="basket-clear">
+                        <FormattedMessage id="cart.button.clear" />
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -678,9 +680,9 @@ class Cart extends React.Component {
                   <div className="block cart-info-container">
                     {staticinfo && (
                       <p className="delivery">
-                        <p className="title">
+                        <span className="title">
                           <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
-                        </p>
+                        </span>
                         <span>
                           {lang === "mn" ? staticinfo.deliverytxt : staticinfo.deliverytxt_en}
                         </span>
