@@ -241,6 +241,12 @@ class DeliveryInfo extends React.Component {
     }
   }
 
+  continueCheckout = () => {
+    this.setState({ epointUsedPoint: 0, useEpoint: false }, () => {
+      this.handleSubmit();
+    });
+  }
+
   sendPayment = (tmp) => {
     const { PaymentTypePanel, intl } = this.props;
     let data;
@@ -311,14 +317,39 @@ class DeliveryInfo extends React.Component {
           }
         }
       } else {
-        const messages = defineMessages({
-          error: {
-            id: res.payload.code,
-          },
-        });
-        message.warning(intl.formatMessage(messages.error, {
-          name: res.payload.data,
-        }));
+        // eslint-disable-next-line no-lonely-if
+        if (res.payload.code === "621") {
+          MySwal.fire({
+            html: (
+              <SwalModals
+                type={"continueOrder"}
+                msgId={res.payload.code}
+                onSubmit={this.continueCheckout}
+                onRef={ref => (this.SwalModals = ref)}
+                {...this}
+                {...this.props}
+              />
+            ),
+            type: "warning",
+            animation: true,
+            button: false,
+            showCloseButton: false,
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            closeOnEsc: false,
+          });
+        } else {
+          const messages = defineMessages({
+            error: {
+              id: res.payload.code,
+            },
+          });
+          message.warning(intl.formatMessage(messages.error, {
+            name: res.payload.data,
+          }));
+        }
       }
     });
   }
