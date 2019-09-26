@@ -555,7 +555,7 @@ class List extends React.Component {
             </div>
             <div className="product-detail-page package-detail">
               <div className="row row10">
-                <div className="col-md-9 pad10">
+                <div className="col-lg-9 pad10">
                   {this.props.info === undefined ? null : this.renderTitleDate()}
                   {this.props.images === undefined ? null : this.renderSlider()}
                   {this.props.info === undefined ? null : this.renderCk()}
@@ -565,7 +565,7 @@ class List extends React.Component {
                       : this.renderCartInfo()}
                   </div>
                 </div>
-                <div className="col-md-3 pad10">
+                <div className="col-lg-3 pad10">
                   <div className="product-plus">
                     {this.props.info === undefined ? null : this.renderDelivery()}
                     {this.props.packageDetail === undefined

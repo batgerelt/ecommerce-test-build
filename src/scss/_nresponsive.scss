@@ -23,7 +23,8 @@
     }
 }
 
-.static-page.ck-editor {
+.static-page.ck-editor,
+.package-detail .htmlcontainer {
     img {
         height: 100% !important;
         width: 100% !important;
@@ -1407,6 +1408,10 @@ h1.title {
 
     .left-panel {
         transform: translateX(0px);
+    }
+
+    .e-breadcrumb {
+        padding: 0px 0px 10px 0px;
     }
 }
 

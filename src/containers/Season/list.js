@@ -312,7 +312,7 @@ class CategoryInfo extends React.Component {
     try {
       const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
       return (
-        <div className="col-md-3 pad10">
+        <div className="col-lg-3 col-md-4 pad10">
           <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
             <div className={leftPanel}>
               <button
@@ -387,7 +387,7 @@ class CategoryInfo extends React.Component {
       const { intl, searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-md-9 pad10">
+        <div className="col-lg-9 col-md-8 pad10">
           <div className="list-filter pad10">
             <div className="row">
               <div className="col-md-4">

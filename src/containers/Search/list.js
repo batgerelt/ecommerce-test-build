@@ -362,7 +362,7 @@ class CategoryInfo extends React.Component {
 
       return (
         <div
-          className="col-xl-3 col-md-3 pad10"
+          className="col-lg-3 col-md-4 pad10"
           ref={(node) => {
             this.container = node;
           }}
@@ -436,7 +436,7 @@ class CategoryInfo extends React.Component {
       const { intl, searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-xl-9 col-lg-9 col-md-8 pad10">
+        <div className="col-lg-9 col-md-8 pad10">
           <div className="list-filter pad10">
             <div className="row row10">
               <div className="col-md-4">
@@ -463,12 +463,6 @@ class CategoryInfo extends React.Component {
                     </a>
                   </div>
                   <div className="form-group my-select flex-this pr-1">
-                    <label
-                      htmlFor="inputState"
-                      style={{ marginTop: "7px", marginRight: "5px" }}
-                    >
-                      <FormattedMessage id="search.sort.label" />:
-                    </label>
                     <Select
                       onChange={this.handleChangeOrder}
                       className="form-control"
