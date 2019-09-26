@@ -133,6 +133,36 @@ class SwalModals extends Component {
         checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
       const { mode } = this.state;
+      if (type === "continueOrder") {
+        const { msgId, onSubmit } = this.props;
+        const messages = defineMessages({
+          warning: {
+            id: msgId,
+          },
+        });
+
+        return (
+          <div className="checkout-container msg-bank">
+            <div className="card-content" style={{ textAlign: "center" }}>
+              <div dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning) }} />
+
+              <div className="button-container">
+                <button className="btn btn-main" onClick={e => onSubmit(e)} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
+                  <span className="text-uppercase" style={{ fontWeight: "normal" }}>
+                    {intl.formatMessage({ id: "checkout.swal.button.continueCheckOut" })}
+                  </span>
+                </button>
+                <button className="btn btn-dark" onClick={this.handleBackBasket} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
+                  <span className="text-uppercase">
+                    {intl.formatMessage({ id: "checkout.swal.button.backToCart" })}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
       if (type === "delete") {
         const messages = defineMessages({
           warning: {

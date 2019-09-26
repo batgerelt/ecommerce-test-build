@@ -33,12 +33,12 @@ class IndividualTab extends React.Component {
     }
   }
 
-  errorMsg = (txt) => {
+  errorMsg = (code) => {
     // MySwal.hideLoading();
     MySwal.close();
     MySwal.fire({
       type: "error",
-      text: txt,
+      text: this.props.intl.formatMessage({ id: code }),
       animation: true,
       width: "25rem",
       confirmButtonColor: "#feb415",
@@ -119,7 +119,6 @@ class IndividualTab extends React.Component {
       },
     });
     if (password) {
-      console.log(password);
       let cardno = cardInfo.cardno;
       this.props.checkEpointPin({ cardno, pincode: password }).then((res) => {
         console.log(res);
@@ -145,7 +144,7 @@ class IndividualTab extends React.Component {
             DeliveryInfo.setUseEpoint(true, cardInfo, usedPoint);
           }
         } else {
-          this.errorMsg(res.payload.message);
+          this.errorMsg(res.payload.code);
         }
       });
     }
@@ -224,20 +223,23 @@ class IndividualTab extends React.Component {
                     <div className="form-group">
                       <Form.Item style={{ marginBottom: 0 }}>
                         {getFieldDecorator("cardPoint", {
-                          initialValue: formatter.format(cardInfo.point),
+                          initialValue: formatter.format(cardInfo.status === 1 ? cardInfo.point : 0),
                           rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
                         })(
                           <Input size="large" autoComplete="false" disabled type="text" placeholder={intl.formatMessage({ id: "shared.form.epoint.placeholder" })} style={{ marginBottom: 0 }} className="col-md-12" />,
                         )}
                       </Form.Item>
-                      {/*  <label>
-                        Таны карт идэвхгүй болсон байна. Хэрэглэгчийн үйлчилгээний
-                        төвд хандаж картаа шинэчилүүлнэ үү.
-                      </label> */}
+                      {
+                        cardInfo.status === 0 ?
+                          <label>
+                            {intl.formatMessage({ id: cardInfo.code })}
+                          </label>
+                          : ""
+                      }
                     </div>
                   </div>
                 </div>
-                <button className="btn btn-main" disabled={useEpoint} onClick={this.handleUsePoint}>
+                <button className="btn btn-main" disabled={!!(useEpoint || cardInfo.status === 0)} onClick={this.handleUsePoint}>
                   <FormattedMessage id="shared.form.button.use" />
                 </button>
               </div>

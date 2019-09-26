@@ -17,6 +17,7 @@ import {
   Comment,
   Breadcrumb,
 } from "./components";
+import { ProductNotFound } from "../";
 
 class ProductDetail extends React.Component {
   renderRealational = () => {
@@ -193,9 +194,7 @@ class ProductDetail extends React.Component {
       );
     }
     return (
-      <div>
-        Бараа олдсонгүй
-      </div>
+      <ProductNotFound />
     );
   }
 }
