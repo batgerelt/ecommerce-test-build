@@ -68,7 +68,6 @@ class MobileMenu extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   }
@@ -105,7 +104,7 @@ class MobileMenu extends React.Component {
         <Menu.SubMenu
           key={index}
           title={
-            <Link to={item.route} style={{ color: "#999" }} onClick={this.handleClose}>
+            <Link to={item.route} style={{ color: "#999" }} /* onClick={this.handleClose} */>
               {lang === "mn" ? item.name : item.name_en}
             </Link>
           }
@@ -134,7 +133,6 @@ class MobileMenu extends React.Component {
       );
     } catch (error) {
       return null;
-      /* return console.log(error); */
     }
   }
   render() {

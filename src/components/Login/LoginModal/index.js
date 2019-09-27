@@ -220,8 +220,8 @@ class LoginModal extends React.Component {
             </Form.Item>
           </Form>
 
-          <FacebookLogin />
-          <GoogleLogin />
+          <FacebookLogin {...this.props} />
+          <GoogleLogin {...this.props} />
 
           {this.props.RegistrationModal ?
             <div className="text-center">
