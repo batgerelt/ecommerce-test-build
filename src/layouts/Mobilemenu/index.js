@@ -104,7 +104,7 @@ class MobileMenu extends React.Component {
         <Menu.SubMenu
           key={index}
           title={
-            <Link to="#" style={{ color: "#999" }} /* onClick={this.handleClose} */>
+            <Link to={item.route} style={{ color: "#999" }} onClick={this.handleClose}>
               {lang === "mn" ? item.name : item.name_en}
             </Link>
           }
