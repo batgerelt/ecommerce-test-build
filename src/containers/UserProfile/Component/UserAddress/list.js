@@ -295,7 +295,7 @@ class Component extends React.Component {
                     showSearch
                     placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
                     onChange={this.onMainLocation}
-                    disabled={loader}
+                    disabled
                     loading={loader}
                   >
                     {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}

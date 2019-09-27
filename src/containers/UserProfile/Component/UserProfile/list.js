@@ -16,7 +16,11 @@ class Component extends React.Component {
     dis: "",
     loc: null,
     loader: false,
-    params: [],
+    params: {
+      provid: "11",
+      distid: "01",
+      commid: 3335,
+    },
   };
 
   componentWillMount() {
@@ -32,13 +36,16 @@ class Component extends React.Component {
     };
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
-        console.log(res.payload.data.info);
         localStorage.setItem('next', JSON.stringify(res.payload.data.info));
         localStorage.setItem('percent', res.payload.data.info.cstatus);
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
           param.distid = res.payload.data.main.districtid;
           param.commid = res.payload.data.main.locid;
+        } else {
+          param.provid = "11";
+          param.distid = "01";
+          param.commid = 3335;
         }
         this.setState({ params: param });
         this.props.getSystemLocation().then((res) => {
@@ -202,13 +209,13 @@ class Component extends React.Component {
           <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
           <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
             <Form.Item>
-              <Input className="profile-custom-input" value={card.cardno} disabled style={{ backgroundColor: "white", color: "rgba(0, 0, 0, 0.5)" }} />
+              <Input className="profile-custom-input" value={card.cardno} disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
             <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
             <Form.Item>
-              <Input className="profile-custom-input" value="0000" type="password" disabled style={{ backgroundColor: "white", color: "rgba(0, 0, 0, 0.5);" }} />
+              <Input className="profile-custom-input" value="0000" type="password" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />
             </Form.Item>
           </Col>
         </Form>
@@ -227,14 +234,13 @@ class Component extends React.Component {
           <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("mainLocation", {
+              initialValue: this.state.params.provid,
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
             })(
               <Select
                 showSearch
-                placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
-                optionFilterProp="children"
                 onChange={this.onMainLocation}
-                disabled={loader}
+                disabled
                 loading={loader}
               >
                 {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}
@@ -247,6 +253,7 @@ class Component extends React.Component {
           <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("subLocation", {
+              /* initialValue: this.checkError(this.state.params.distid), */
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
             })(
               <Select
@@ -267,6 +274,7 @@ class Component extends React.Component {
           <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
           <Form.Item>
             {getFieldDecorator("commiteLocation", {
+              /* initialValue: this.checkError(this.state.params.commid), */
               rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
             })(
               <Select
@@ -314,7 +322,7 @@ class Component extends React.Component {
                 showSearch
                 placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })}
                 onChange={this.onMainLocation}
-                disabled={loader}
+                disabled
                 loading={loader}
               >
                 {this.props.systemlocation === undefined ? null : this.renderLocation(this.props.systemlocation)}

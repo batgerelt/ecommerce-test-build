@@ -2818,6 +2818,7 @@ body {
 .cart-container.after-order li .big {
   color: rgba(0, 0, 0, 0.9);
   font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .cart-container.after-order .line {
@@ -3851,7 +3852,13 @@ form .e-input-group .count-text {
 
 .success-message-container .message ul .big {
   font-size: 0.9rem;
+  font-weight: 400;
 }
+
+.success-message-container .message ul span {
+  font-weight: normal;
+}
+
 
 .success-message-container .user-detail {
   padding-top: 0;
@@ -3872,7 +3879,7 @@ form .e-input-group .count-text {
 .success-message-container .user-detail p span {
   color: rgba(0, 0, 0, 0.7);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .success-message-container .bottom-text {
@@ -3891,6 +3898,7 @@ form .e-input-group .count-text {
 .success-message-container .bottom-text strong {
   font-size: 1rem;
   display: block;
+  font-weight: 400;
   margin: 10px auto;
 }
 

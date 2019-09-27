@@ -166,6 +166,17 @@ class Component extends React.Component {
       return console.log(error);
     }
   }
+  renderNULL() {
+    return (
+      <div>
+        <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }}>
+          <Col className="product" span={24} >
+            <p>Таны Үзсэн барааны түүх жагсаалт хоосон байна.</p>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
   render() {
     const loaders = this.state.loader;
     const icon = <Icon type="sync" spin />;
@@ -180,7 +191,7 @@ class Component extends React.Component {
           indicator={<Loader />}
         >
           <div className="product-list-history" style={{ minHeight: "30em" }}>
-            {this.renderProducts()}
+            {this.props.history.length !== 0 ? this.renderProducts() : this.renderNULL()}
           </div>
         </Spin>
       </div>

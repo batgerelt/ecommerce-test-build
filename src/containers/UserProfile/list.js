@@ -56,11 +56,6 @@ class List extends React.Component {
 
   renderProgress = (data) => {
     let info = data;
-    /* let percents = 0;
-    if (info !== undefined) {
-      info = localStorage.getItem('next');
-    }
-    percents = info.percent; */
     let percents = localStorage.getItem("percent");
     percents = (Number(percents) + 1) * 25;
     return (
@@ -140,7 +135,7 @@ class List extends React.Component {
             :
             null}
           <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
-          <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px", width: "85%" }} />
+          <Progress className="renderprogress progress-small" percent={percents} strokeColor="#feb415" showInfo={false} />
           <span className="rendername" style={{ fontSize: "13px" }}> {percents}%</span>
         </span>
       );
@@ -182,10 +177,6 @@ class List extends React.Component {
                           </Spin>
                         </Upload>
                         {this.props.userInfo === undefined ? null : this.renderName(this.props.userInfo.info)}
-                        {/* <strong><p className="text text-right" style={{ marginBottom: "-3px", marginTop: "-13px" }} ><FormattedMessage id="header.profile.userInfo" /></p></strong> */}
-                        {/* <div>
-                        {this.props.userInfo === undefined ? null : this.renderProgress(this.props.userInfo.info)}
-                      </div> */}
                       </div>
                       <ul className="list-unstyled" style={{ marginTop: "20px" }}>
                         <li className={pathname === "/profile" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }} >

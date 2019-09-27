@@ -68,7 +68,6 @@ class MobileMenu extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   }
@@ -134,7 +133,6 @@ class MobileMenu extends React.Component {
       );
     } catch (error) {
       return null;
-      /* return console.log(error); */
     }
   }
   render() {

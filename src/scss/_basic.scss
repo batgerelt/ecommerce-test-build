@@ -1774,6 +1774,7 @@ button{
     .big {
       color: $black9;
       font-size: 1.2rem;
+      font-weight: 500;
     }
   }
   .line {
@@ -2569,6 +2570,7 @@ form {
         color: $black7;
       }
       .big {
+        font-weight: 500;
         font-size: 1.2rem;
       }
     }
@@ -2960,7 +2962,7 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
-  background-color: grey !important;
+  background-color: transparent !important;
 }
 
 .mobile-menu-container.activated {
@@ -3505,10 +3507,10 @@ button:disabled{
   padding: 0px !important;
   line-height: 0px !important;
 }
-
-/* .user-menu-content .ant-divider-horizontal {
-  margin-top: 0px;
-} */
+.progress-small {
+  font-size: 16px;
+  width: 75%;
+}
 // 
 
 .ant-tree-title{

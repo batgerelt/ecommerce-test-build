@@ -4,21 +4,30 @@ import { bindActionCreators } from "redux";
 import { Spin } from "antd";
 import { Loader } from "../../../../components";
 import GolomtMerchant from "./GolomtMerchant";
-import { Checkout as CheckoutModel } from "../../../../models";
+import {
+  Checkout as CheckoutModel,
+  Cart as CartModel,
+} from "../../../../models";
 
 const mapStateToProps = state => ({
   ...state.checkout,
+  ...state.cart,
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     ...CheckoutModel,
+    ...CartModel,
   }, dispatch),
 });
 
 
 class MerchantReturn extends React.Component {
-  state = { loading: true };
+  state = {
+    loading: true,
+    isMerchantFalse: false,
+    return: '',
+  };
 
   getUrlParams = (props, name) => {
     // eslint-disable-next-line no-useless-escape
@@ -40,7 +49,23 @@ class MerchantReturn extends React.Component {
       signature: this.getUrlParams(this.props, "signature"),
     };
     this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
-      this.setState({ loading: false });
+      console.log(res);
+      if (!res.payload.success) {
+        if (res.payload.data.ordstatus === 15) {
+          this.props.clearLocally();
+          this.props.history.push("/profile/delivery");
+        } else if (res.payload.data.ordstatus === 16 || res.payload.data.ordstatus === 14 || res.payload.data.ordstatus === 18) {
+          this.setState({ isMerchantFalse: true, return: res }, () => {
+            this.props.history.push({
+              pathname: "/cart",
+              state: this.state,
+            });
+          });
+        }
+      } else {
+        this.setState({ loading: false });
+        this.props.clearLocally();
+      }
     });
   }
 

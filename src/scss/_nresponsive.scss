@@ -231,11 +231,13 @@
 
     .empty-cart {
         margin: 10px 0 10px;
-        text-align: center;
         border: 1px solid #ff4d4d;
         background-color: #ffcccc;
         border-radius: 5px;
         padding: 10px;
+        svg{
+            margin-right: 5px;
+        }
     }
 }
 
