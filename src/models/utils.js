@@ -103,6 +103,7 @@ const asyncFn = ({
       // } else {
       //   message.warning(data.message);
       // }
+
       if (!data) {
         throw new Error('no data provided');
       }

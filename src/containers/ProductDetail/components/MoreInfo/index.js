@@ -12,7 +12,7 @@ class Moreinfo extends Component {
       let {
         product, attributes, similarProducts, lang,
       } = this.props;
-      const similarProductsLimit = isMobileOnly ? 1 : 4;
+      const similarProductsLimit = isMobileOnly ? 2 : 6;
       const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {
         slidesPerView: similarProductsLimit,

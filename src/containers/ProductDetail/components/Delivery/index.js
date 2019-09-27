@@ -6,15 +6,23 @@ class Delivery extends Component {
   renderDelivery = () => {
     try {
       const { detail } = this.props;
+      console.log('detail: ', detail);
+
       return (
         <div className="block product-delivery">
           <p className="title upper-first">
-            {/* <strong>Хүргэлтийн мэдээлэл</strong> */}
-            <strong><FormattedMessage id="shared.sidebar.title.deliveryInfo" /></strong>
+            <strong>
+              <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
+            </strong>
           </p>
           <p className="text upper-first">
-            <span>{this.props.lang === "mn" ? detail.products.deliveryinfo : detail.products.deliveryinfo_en}</span>
-            {/* <span>{detail.deliveryinfo}</span> */}
+            <span>
+              {
+                this.props.lang === "mn"
+                  ? detail.products.deliveryinfo
+                  : detail.products.deliveryinfo_en
+              }
+            </span>
           </p>
         </div>
       );

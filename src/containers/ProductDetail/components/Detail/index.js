@@ -37,7 +37,6 @@ class Detail extends Component {
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
-    console.log(selectedCat);
     return (
       <div className="col-xl-7 col-lg-7 col-md-7 product-info-wrapper">
         <div className="product-info">
