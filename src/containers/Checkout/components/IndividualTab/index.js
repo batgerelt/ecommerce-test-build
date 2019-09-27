@@ -219,9 +219,9 @@ class IndividualTab extends React.Component {
                   <strong><FormattedMessage id="shared.form.epoint.title" /></strong>
                 </p>
                 <div className="row row10 checkoutFormContainer">
-                  <div className="col-xl-6 pad10">
-                    <div className="form-group">
-                      <Form.Item style={{ marginBottom: 0 }}>
+                  <div className="col-xl-12 pad10">
+                    <div className="form-group" style={{ display: "flex" }}>
+                      <Form.Item style={{ marginBottom: 0, width: "50%" }}>
                         {getFieldDecorator("cardPoint", {
                           initialValue: formatter.format(cardInfo.status === 1 ? cardInfo.point : 0),
                           rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
@@ -231,7 +231,10 @@ class IndividualTab extends React.Component {
                       </Form.Item>
                       {
                         cardInfo.status === 0 ?
-                          <label>
+                          <label style={{
+                            width: "50%", marginLeft: "1rem", fontSize: "0.7rem", marginTop: "0.2rem",
+                          }}
+                          >
                             {intl.formatMessage({ id: cardInfo.code })}
                           </label>
                           : ""
