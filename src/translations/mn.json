@@ -200,6 +200,7 @@
 	"profile.userProfile.form.swal.button.updateEmail": "Имэйл хаягаа шинэчлэх",
 	"profile.userProfile.form.swal.text": "Та имэйл хаягаа шинэчлэх тохиолдолд шинэ имэйл хаягаараа баталгаажуулалт хийхийг анхаарна уу",
 	"profile.userProfile.form.title": "Хувийн мэдээлэл",
+	"profile.userProfile.upload.error": "5MB-ээс бага хэмжээтэй зураг оруулна уу",
 	"profile.wishlist.title": "Хадгалсан бараа",
 	"recipeDetail.breadcrumb.home": "Нүүр",
 	"recipeDetail.breadcrumb.recipe": "Хоолны жор",

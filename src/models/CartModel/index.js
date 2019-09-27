@@ -492,7 +492,8 @@ class Model extends BaseModel {
               } else {
                 console.log('qty: ', qty);
                 console.log('found.qty (before): ', found.qty);
-                found.qty += qty;
+                const productQty = found.qty;
+                found.qty = productQty + qty;
                 console.log('found.qty (after): ', found.qty);
               }
             } else {
@@ -901,8 +902,6 @@ class Model extends BaseModel {
         try {
           let { products } = state;
           let product = action.payload;
-          console.log('products: ', products);
-          console.log('product: ', product);
 
           const found = products.find(prod => prod.skucd === product.skucd);
 

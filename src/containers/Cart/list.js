@@ -138,7 +138,6 @@ class Cart extends React.Component {
           }));
         }
       } else {
-        console.log('found: ', found);
         this.props.updateProductByQtyLocally(found);
 
         const updated = this.props.products.find(prod => prod.skucd === found.skucd);

@@ -31,9 +31,10 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
+  const intl = this.props;
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.warning('5MB-ээс бага хэмжээтэй зураг оруулна уу');
+    message.warning(intl.formatMessage({ id: "profile.userProfile.upload.error" }));
   }
   return isLt2M;
 }
@@ -116,12 +117,15 @@ class UserButton extends React.Component {
   handleClose = () => { this.setState({ visible: false }); }
 
   renderProgress() {
+    const intl = this.props;
     let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
     return (
       <div /* style={{ width: "230px" }} */>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
         <p className="text text-center">
-          <strong style={{ color: "white" }}>Таны мэдээлэл</strong>
+          <strong style={{ color: "white" }}>
+            <FormattedMessage id="header.profile.userInfo" />
+          </strong>
           <span style={{ color: "white" }}>{percents}%</span>
         </p>
       </div>
@@ -215,38 +219,59 @@ class UserButton extends React.Component {
                   <ul className="list-unstyled">
                     <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">
-                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.userProfile" /></span>
+                        <Avatar size="small" src={profile} shape="square" style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.userProfile" />
+                        </span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/history" className="flex-this">
-                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.seenHistory" /></span>
+                        <Avatar size="small" shape="square" src={history} style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.seenHistory" />
+                        </span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/wish" className="flex-this">
-                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.savedProducts" /></span>
+                        <Avatar size="small" shape="square" src={wishlist} style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.savedProducts" />
+                        </span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.orderHistory" /></span>
+                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.orderHistory" />
+                        </span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/address" className="flex-this">
-                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.deliveryAddress" /></span>
+                        <Avatar size="small" shape="square" src={location} style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.deliveryAddress" />
+                        </span>
                       </Link>
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/password" className="flex-this">
-                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} /><span><FormattedMessage id="header.profile.changePassword" /></span>
+                        <Avatar size="small" shape="square" src={password} style={{ width: "35px" }} />
+                        <span>
+                          <FormattedMessage id="header.profile.changePassword" />
+                        </span>
                       </Link>
                     </li>
                   </ul>
                   <div className="text-right" onClick={this.handleLogoutClick}>
                     <button className="btn btn-gray" style={{ width: "100%" }}>
-                      <span className="text-uppercase"><FormattedMessage id="header.profile.logout" /> <IconFont type="icon-tuichu" /></span>
+                      <span className="text-uppercase">
+                        <FormattedMessage id="header.profile.logout" />{" "}
+                        <IconFont type="icon-tuichu" />
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -315,38 +340,57 @@ class UserButton extends React.Component {
                         <li className={pathname === "/profile" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile" className="flex-this">
                             <Avatar size="small" shape="square" src={profile1} style={{ width: "35px" }} />
-                            <span style={{ color: "white" }}>Профайл хуудас</span>
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.userProfile" />
+                            </span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/history" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/history" className="flex-this">
-                            <Avatar size="small" shape="square" src={history1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Үзсэн барааны түүх</span>
+                            <Avatar size="small" shape="square" src={history1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.seenHistory" />
+                            </span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/wish" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/wish" className="flex-this">
-                            <Avatar size="small" shape="square" src={wishlist1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Хадгалсан бараа</span>
+                            <Avatar size="small" shape="square" src={wishlist1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.savedProducts" />
+                            </span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/delivery" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/delivery" className="flex-this">
-                            <Avatar size="small" shape="square" src={store1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Захиалгын түүх</span>
+                            <Avatar size="small" shape="square" src={store1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.orderHistory" />
+                            </span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/address" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/address" className="flex-this">
-                            <Avatar size="small" shape="square" src={location1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Хүргэлтийн хаяг</span>
+                            <Avatar size="small" shape="square" src={location1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.deliveryAddress" />
+                            </span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/password" ? "active" : " "} onClick={this.handleClose}>
                           <Link to="/profile/password" className="flex-this">
-                            <Avatar size="small" shape="square" src={password1} style={{ width: "35px" }} /><span style={{ color: "white" }}>Нууц үгээ солих</span>
+                            <Avatar size="small" shape="square" src={password1} style={{ width: "35px" }} />
+                            <span style={{ color: "white" }}>
+                              <FormattedMessage id="header.profile.changePassword" />
+                            </span>
                           </Link>
                         </li>
                       </ul>
                       <div onClick={this.handleLogout}>
                         <Link to="#" className="btn btn-gray">
-                          <span className="text-uppercase" style={{ color: "white" }}>Гарах</span>
+                          <span className="text-uppercase" style={{ color: "white" }}>
+                            <FormattedMessage id="header.profile.logout" />
+                          </span>
                         </Link>
                       </div>
                     </div>

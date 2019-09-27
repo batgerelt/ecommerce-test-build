@@ -38,12 +38,28 @@ class Slider extends React.Component {
 
     let sliderHeight;
 
-    if (windowWidth >= 1200 && isPackageDetail) {
-      sliderHeight = Math.round(((((windowWidth * (3 / 4)) - 20) / slideCount) / widthRatio) * heightRatio);
-    } else if (windowWidth >= 992 && isRecipeDetail) {
-      sliderHeight = Math.round(((((windowWidth * (2 / 3)) - 20) / slideCount) / widthRatio) * heightRatio);
+    if (isRecipeDetail) {
+      if (windowWidth >= 1200) {
+        sliderHeight = Math.round(((1200 - 60) * (2 / 3)) * (heightRatio / widthRatio));
+      } else if (windowWidth >= 992) {
+        sliderHeight = Math.round(((992 - 60) * (2 / 3)) * (heightRatio / widthRatio));
+      } else if (windowWidth >= 568) {
+        sliderHeight = Math.round((568 - 30) * (heightRatio / widthRatio));
+      } else {
+        sliderHeight = Math.round((windowWidth - 30) * (heightRatio / widthRatio));
+      }
+    } else if (isPackageDetail) {
+      if (windowWidth >= 1200) {
+        sliderHeight = Math.round(((1200 - 40) * (3 / 4)) * (heightRatio / widthRatio));
+      } else if (windowWidth >= 992) {
+        sliderHeight = Math.round(((992 - 40) * (3 / 4)) * (heightRatio / widthRatio));
+      } else if (windowWidth >= 568) {
+        sliderHeight = Math.round(((568 - 20) * (3 / 4)) * (heightRatio / widthRatio));
+      } else {
+        sliderHeight = Math.round((windowWidth - 20) * (heightRatio / widthRatio));
+      }
     } else {
-      sliderHeight = Math.round((((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) / widthRatio) * heightRatio);
+      sliderHeight = Math.round(((windowWidth - (this.props.isMain ? 0 : 20)) / slideCount) * (heightRatio / widthRatio));
     }
 
     try {
