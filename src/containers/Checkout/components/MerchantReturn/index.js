@@ -49,13 +49,19 @@ class MerchantReturn extends React.Component {
       signature: this.getUrlParams(this.props, "signature"),
     };
     this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
+      console.log(res);
       if (!res.payload.success) {
-        this.setState({ isMerchantFalse: true, return: res }, () => {
-          this.props.history.push({
-            pathname: "/cart",
-            state: this.state,
+        if (res.payload.data.ordstatus === 15) {
+          this.props.clearLocally();
+          this.props.history.push("/profile/delivery");
+        } else if (res.payload.data.ordstatus === 16 || res.payload.data.ordstatus === 14 || res.payload.data.ordstatus === 18) {
+          this.setState({ isMerchantFalse: true, return: res }, () => {
+            this.props.history.push({
+              pathname: "/cart",
+              state: this.state,
+            });
           });
-        });
+        }
       } else {
         this.setState({ loading: false });
         this.props.clearLocally();

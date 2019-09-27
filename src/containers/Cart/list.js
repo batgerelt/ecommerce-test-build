@@ -479,7 +479,7 @@ class Cart extends React.Component {
         content1 = (
           <div className="empty-cart">
             <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />
-            {this.props.location.state.return.payload.message}
+            {this.props.location.state.return.payload.data.message}
           </div>
         );
       }
