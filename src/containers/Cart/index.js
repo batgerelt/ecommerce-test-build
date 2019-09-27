@@ -26,7 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...CartModel,
       ...StaticModel,
       ...ProfileModel,
-      addWishList: ProductModel.addWishList,
+      ...ProductModel,
+      // addWishList: ProductModel.addWishList,
+      // getProduct: ProductModel.getProductDetail,
       removeAddedWishColor: ProductModel.removeAddedWishColor,
     },
     dispatch,
@@ -41,6 +43,15 @@ class Page extends React.Component {
         this.props.getProducts(this.props.data[0].info.customerInfo.id);
         this.props.getWishByCount({ count: 5 });
         this.props.getStaticInfo();
+      } else {
+        const { products } = this.props;
+
+        products.forEach(async (prod) => {
+          const result = await this.props.getProductDetail({ skucd: prod.skucd });
+          let product = result.payload.data.products;
+          product.qty = prod.qty;
+          this.props.updateProductLocally(product);
+        });
       }
     } catch (e) {
       console.log(e);

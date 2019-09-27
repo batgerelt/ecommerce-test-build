@@ -378,6 +378,11 @@ class Model extends BaseModel {
       model: this.model.confirmCartRemotely,
     });
 
+  updateProductLocally = product => ({
+    type: "UPDATE_PRODUCT_LOCALLY",
+    payload: product,
+  });
+
   updateReduxStore = (
     products,
     product,
@@ -390,6 +395,7 @@ class Model extends BaseModel {
       if (typeof products === "string") {
         products = JSON.parse(products);
       }
+      console.log('products: ', products);
 
       if (product.error !== undefined) {
         product.error = undefined;
@@ -463,7 +469,9 @@ class Model extends BaseModel {
               found.qty -= found.addminqty;
             }
           } else if (shouldUpdateByQty) {
-            const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
+            // const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
+            const qty = product.qty || product.addminqty || 1;
+
             if (found.isgift) {
               found.qty += qty;
             } else if (found.availableqty > 0) {
@@ -482,7 +490,10 @@ class Model extends BaseModel {
                     ? "206"
                     : "200";
               } else {
+                console.log('qty: ', qty);
+                console.log('found.qty (before): ', found.qty);
                 found.qty += qty;
+                console.log('found.qty (after): ', found.qty);
               }
             } else {
               found.error = from === "package"
@@ -522,6 +533,8 @@ class Model extends BaseModel {
               }
             }
           }
+          console.log("right before splice");
+          console.log('found: ', found);
           products.splice(index, 1, found);
         } else {
           throw new Error("Бараа олдсонгүй");
@@ -622,7 +635,6 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
-          console.log('state.products: ', state.products);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
@@ -674,12 +686,6 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          // const found = products.find(prod => prod.skucd === product.skucd || product.skucd);
-
-          // if (!found && product.qty < product.addminqty) {
-          //   product.qty = product.addminqty || 1;
-          // }
-
           return {
             ...state,
             products: this.updateReduxStore(
@@ -708,12 +714,6 @@ class Model extends BaseModel {
         try {
           const { products } = state;
           const product = action.payload;
-
-          // const found = products.find(prod => prod.skucd === product.skucd);
-
-          // if (!found && product.qty < product.addminqty) {
-          //   product.qty = product.addminqty || 1;
-          // }
 
           return {
             ...state,
@@ -744,12 +744,6 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          // const found = products.find(prod => prod.skucd === product.skucd);
-
-          // if (!found) {
-          //   throw new Error("Бараа олдсонгүй!");
-          // }
-
           products = products.filter(prod => prod.skucd !== product.skucd);
 
           return { ...state, products };
@@ -765,12 +759,6 @@ class Model extends BaseModel {
       case this.model.removeProductRemotely.response:
         try {
           let { products } = state;
-
-          // const found = products.find(prod => prod.skucd === action.payload.data);
-
-          // if (!found) {
-          //   throw new Error("Бараа олдсонгүй!");
-          // }
 
           products = products.filter(prod => prod.skucd !== action.payload.data);
 
@@ -907,6 +895,31 @@ class Model extends BaseModel {
       case this.model.confirmCartRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.confirmCartRemotely.response:
+        return state;
+
+      case "UPDATE_PRODUCT_LOCALLY":
+        try {
+          let { products } = state;
+          let product = action.payload;
+          console.log('products: ', products);
+          console.log('product: ', product);
+
+          const found = products.find(prod => prod.skucd === product.skucd);
+
+          if (found) {
+            const index = products.map(prod => prod.skucd).indexOf(found.skucd);
+
+            if (index !== -1) {
+              products.splice(index, 1, product);
+            }
+
+            return { ...state, products };
+          }
+
+          return state;
+        } catch (e) {
+          console.log(e);
+        }
         return state;
 
       default:
