@@ -5,7 +5,6 @@ import CryptoJS from "crypto-js";
 import { Link } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import { EncryptKey } from "../../../../utils/Consts";
-import arrow from "../../../../../src/scss/assets/images/demo/arrow.png";
 
 const formatter = new Intl.NumberFormat("en-US");
 
