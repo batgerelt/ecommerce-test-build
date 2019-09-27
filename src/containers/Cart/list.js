@@ -138,7 +138,6 @@ class Cart extends React.Component {
           }));
         }
       } else {
-        console.log('found: ', found);
         this.props.updateProductByQtyLocally(found);
 
         const updated = this.props.products.find(prod => prod.skucd === found.skucd);
@@ -475,10 +474,21 @@ class Cart extends React.Component {
     try {
       let { products } = this.props;
       const lang = this.props.intl.locale;
-
+      let content1;
+      if (this.props.location.state !== undefined && this.props.location.state.isMerchantFalse) {
+        content1 = (
+          <div className="empty-cart">
+            <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />
+            {this.props.location.state.return.payload.message}
+          </div>
+        );
+      }
       let content = (
-        <div className="empty-cart">
-          <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
+        <div>
+          {content1}
+          <div className="empty-cart">
+            <FontAwesomeIcon icon={["fas", "shopping-basket"]} /> <FormattedMessage id="cart.info.empty" />
+          </div>
         </div>
       );
 
@@ -498,144 +508,147 @@ class Cart extends React.Component {
         });
 
         content = (
-          <table className="table table-borderless">
-            <thead className="thead-light">
-              <tr>
-                <th className="column-1">
-                  <FormattedMessage id="cart.table.productName" />
-                </th>
-                <th className="column-2">
-                  <FormattedMessage id="cart.table.unitPrice" />
-                </th>
-                <th className="column-3">
-                  <FormattedMessage id="cart.table.count" />
-                </th>
-                <th className="column-4">
-                  <p className="price total">
-                    <FormattedMessage id="cart.table.price" />
-                  </p>
-                </th>
-              </tr>
-            </thead>
-            {products.map((prod, index) => (
-              <tbody key={index}>
+          <div>
+            {content1}
+            <table className="table table-borderless">
+              <thead className="thead-light">
                 <tr>
-                  <td className="column-1">
-                    <div className="flex-this">
-                      <div className="image-container default">
-                        <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
-                          <span
-                            className="image"
-                            style={{
-                              backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
-                            }}
-                          />
-                        </Link>
-                      </div>
-                      <div className="info-container">
-                        <Link
-                          to={prod.route || ""}
-                          style={{ color: "#6c757d" }}
-                        >
-                          <strong>
-                            {lang === "mn"
-                              ? prod.title || prod.title
-                              : prod.title_en || prod.title_en
-                            }
-                          </strong>
-                          <span className="featured">
-                            {lang === "mn"
-                              ? prod.featuretxt || prod.feature
-                              : prod.featuretxt_en || prod.feature_en
-                            }
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="column-2">{this.renderUnitPrice(prod)}</td>
-                  <td className="column-3">
-                    <form>
-                      <div className="input-group e-input-group">
-                        <div className="input-group-prepend" id="button-addon4">
-                          <button
-                            onClick={() => this.handleDecrementClick(prod)}
-                            className="btn"
-                            type="button"
-                          >
-                            <i className="fa fa-minus" aria-hidden="true" />
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={prod.qty}
-                          name="productQty"
-                          maxLength={5}
-                          onChange={this.handleInputChange(prod)}
-                        />
-                        <div className="input-group-append" id="button-addon4">
-                          <button
-                            onClick={() => this.handleIncrementClick(prod)}
-                            className="btn"
-                            type="button"
-                          >
-                            <i className="fa fa-plus" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </td>
-                  <td className="column-4">
-                    {this.renderTotalPrice(prod)}
-                  </td>
+                  <th className="column-1">
+                    <FormattedMessage id="cart.table.productName" />
+                  </th>
+                  <th className="column-2">
+                    <FormattedMessage id="cart.table.unitPrice" />
+                  </th>
+                  <th className="column-3">
+                    <FormattedMessage id="cart.table.count" />
+                  </th>
+                  <th className="column-4">
+                    <p className="price total">
+                      <FormattedMessage id="cart.table.price" />
+                    </p>
+                  </th>
                 </tr>
-                <tr className="table-action">
-                  <td colSpan="2">
-                    {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
-                  </td>
-                  <td colSpan="2">
-                    <div className="text-right single-action">
-                      <ul className="list-unstyled">
-                        <li>
+              </thead>
+              {products.map((prod, index) => (
+                <tbody key={index}>
+                  <tr>
+                    <td className="column-1">
+                      <div className="flex-this">
+                        <div className="image-container default">
+                          <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
+                            <span
+                              className="image"
+                              style={{
+                                backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
+                              }}
+                            />
+                          </Link>
+                        </div>
+                        <div className="info-container">
                           <Link
-                            to=""
-                            className="upper-first"
-                            onClick={e => this.handleSaveClick(e, prod)}
+                            to={prod.route || ""}
+                            style={{ color: "#6c757d" }}
                           >
-                            <i className="fa fa-heart" aria-hidden="true" />{" "}
-                            {
-                              !isMobile
-                                ? (
-                                  <span>
-                                    <FormattedMessage id="cart.table.button.save" />
-                                  </span>
-                                )
-                                : ""
-                            }
+                            <strong>
+                              {lang === "mn"
+                                ? prod.title || prod.title
+                                : prod.title_en || prod.title_en
+                              }
+                            </strong>
+                            <span className="featured">
+                              {lang === "mn"
+                                ? prod.featuretxt || prod.feature
+                                : prod.featuretxt_en || prod.feature_en
+                              }
+                            </span>
                           </Link>
-                        </li>
-                        <li>
-                          <Link to="" onClick={this.handleRemoveClick(prod)}>
-                            <i className="fa fa-times" aria-hidden="true" />{" "}
-                            {
-                              !isMobile
-                                ? (
-                                  <span>
-                                    <FormattedMessage id="cart.table.button.remove" />
-                                  </span>
-                                )
-                                : ""
-                            }
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="column-2">{this.renderUnitPrice(prod)}</td>
+                    <td className="column-3">
+                      <form>
+                        <div className="input-group e-input-group">
+                          <div className="input-group-prepend" id="button-addon4">
+                            <button
+                              onClick={() => this.handleDecrementClick(prod)}
+                              className="btn"
+                              type="button"
+                            >
+                              <i className="fa fa-minus" aria-hidden="true" />
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={prod.qty}
+                            name="productQty"
+                            maxLength={5}
+                            onChange={this.handleInputChange(prod)}
+                          />
+                          <div className="input-group-append" id="button-addon4">
+                            <button
+                              onClick={() => this.handleIncrementClick(prod)}
+                              className="btn"
+                              type="button"
+                            >
+                              <i className="fa fa-plus" aria-hidden="true" />
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </td>
+                    <td className="column-4">
+                      {this.renderTotalPrice(prod)}
+                    </td>
+                  </tr>
+                  <tr className="table-action">
+                    <td colSpan="2">
+                      {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
+                    </td>
+                    <td colSpan="2">
+                      <div className="text-right single-action">
+                        <ul className="list-unstyled">
+                          <li>
+                            <Link
+                              to=""
+                              className="upper-first"
+                              onClick={e => this.handleSaveClick(e, prod)}
+                            >
+                              <i className="fa fa-heart" aria-hidden="true" />{" "}
+                              {
+                                !isMobile
+                                  ? (
+                                    <span>
+                                      <FormattedMessage id="cart.table.button.save" />
+                                    </span>
+                                  )
+                                  : ""
+                              }
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="" onClick={this.handleRemoveClick(prod)}>
+                              <i className="fa fa-times" aria-hidden="true" />{" "}
+                              {
+                                !isMobile
+                                  ? (
+                                    <span>
+                                      <FormattedMessage id="cart.table.button.remove" />
+                                    </span>
+                                  )
+                                  : ""
+                              }
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+            </table>
+          </div>
         );
       }
 

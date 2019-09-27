@@ -33,7 +33,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  state = { loading: true };
+  state = {
+    loading: true,
+    isEmpty: false,
+  };
 
   componentWillMount() {
     this.getData(this.props.match.params.id);
@@ -49,7 +52,9 @@ class Page extends React.Component {
 
   getData = (id) => {
     // const { id } = this.props.match.params;
-    this.props.getProductDetail({ skucd: id }).then(r => this.setState({ loading: false }));
+    this.props.getProductDetail({ skucd: id }).then((r) => {
+      this.setState({ loading: false });
+    });
     this.props.getProductRelational({ skucd: id });
     this.props.getProductComment({ skucd: id });
     this.props.getProductCollection({ skucd: id });
@@ -67,7 +72,7 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} {...this} />
+        <List {...this.props} {...this} isEmpty={this.state.isEmpty} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );

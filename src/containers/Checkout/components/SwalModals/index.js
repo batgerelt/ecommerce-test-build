@@ -552,7 +552,8 @@ class SwalModals extends Component {
                       </div>
                       <div className="bottom-text text-center">
                         <div>
-                          {intl.formatMessage({ id: "checkout.swal.info.contract" })}
+                          {intl.formatMessage({ id: "checkout.swal.label.sentEbarimt" })}
+                          {/* intl.formatMessage({ id: "checkout.swal.info.contract" }) */}
                         </div>
                         <strong className="text-uppercase">
                           {intl.formatMessage({ id: "checkout.swal.label.contract" })}: 7611 0101
@@ -581,11 +582,6 @@ class SwalModals extends Component {
                             {intl.formatMessage({ id: "checkout.swal.label.showOrders" })}
                           </span>
                         </a>
-                      </div>
-                      <div className="bottom-text text-center">
-                        <p>
-                          {intl.formatMessage({ id: "checkout.swal.label.sentEbarimt" })}
-                        </p>
                       </div>
                     </div>
                   </div>
