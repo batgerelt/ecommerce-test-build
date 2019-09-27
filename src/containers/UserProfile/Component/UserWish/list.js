@@ -29,7 +29,7 @@ class Component extends React.Component {
         qty: item.addminqty || 1,
         iscart: 0,
       }).then((res) => {
-        console.log(res.payload);
+        /* console.log(res.payload); */
       });
     }
   }
@@ -117,11 +117,6 @@ class Component extends React.Component {
   renderNULL() {
     return (
       <div>
-        {/* <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }}>
-          <Col className="product" span={24} style={{ backgroundColor: "yellow" }}>
-            Энд зураг
-          </Col>
-        </Row> */}
         <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }}>
           <Col className="product" span={24} >
             Таны Хадгалсан бараа жагсаалт хоосон байна.
@@ -131,7 +126,6 @@ class Component extends React.Component {
     );
   }
   render() {
-    console.log("Хүслийн жагсаалт", this.props.wish.length);
     return (
       <div className="user-menu-content">
         <p className="title" style={{ textTransform: "uppercase" }}>

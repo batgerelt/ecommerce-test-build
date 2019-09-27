@@ -9,15 +9,17 @@ import { SOCIAL_IDS } from "../../../utils/Consts";
 class GoogleLogin extends React.Component {
   handleGoogleLoginResponse = (response) => {
     if (response && response.profileObj) {
+      console.log(response);
       const user = {
         id: response.profileObj.googleId,
         email: response.profileObj.email,
-        firstname: response.profileObj.name,
-        lastname: response.profileObj.name,
+        firstname: response.profileObj.familyName,
+        lastname: response.profileObj.givenName,
         picture: response.profileObj.imageUrl,
       };
       console.log("user", user);
     }
+    this.props.LoginModal.handleLoginModal();
   };
 
   handleGoogleLoginFailure = (err) => {
