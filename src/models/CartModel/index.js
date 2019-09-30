@@ -395,7 +395,6 @@ class Model extends BaseModel {
       if (typeof products === "string") {
         products = JSON.parse(products);
       }
-      console.log('products: ', products);
 
       if (product.error !== undefined) {
         product.error = undefined;
@@ -490,11 +489,8 @@ class Model extends BaseModel {
                     ? "206"
                     : "200";
               } else {
-                console.log('qty: ', qty);
-                console.log('found.qty (before): ', found.qty);
                 const productQty = found.qty;
                 found.qty = productQty + qty;
-                console.log('found.qty (after): ', found.qty);
               }
             } else {
               found.error = from === "package"
@@ -504,6 +500,12 @@ class Model extends BaseModel {
                   : "200";
             }
           } else {
+            if (from === "recipe") {
+              found.recipeid = product.recipeid;
+            } else if (from === "package") {
+              found.id = product.id;
+            }
+
             if (found.isgift) {
               found.qty += found.addminqty || 1;
             } else {
@@ -795,7 +797,7 @@ class Model extends BaseModel {
 
           return {
             ...state,
-            products: products.filter(prod => prod.error === undefined),
+            products,
             errors: errors.length > 0 ? errors : [],
           };
         } catch (e) {
@@ -829,7 +831,7 @@ class Model extends BaseModel {
 
           return {
             ...state,
-            products: products.filter(prod => prod.error === undefined),
+            products,
             errors: errors.length > 0 ? errors : [],
           };
         } catch (e) {
