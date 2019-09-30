@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import CryptoJS from "crypto-js";
 import { Spin } from "antd";
 import { Loader } from "../../../../components";
 import GolomtMerchant from "./GolomtMerchant";
+import { EncryptKey } from "../../../../utils/Consts";
 import {
   Checkout as CheckoutModel,
   Cart as CartModel,
@@ -49,11 +51,15 @@ class MerchantReturn extends React.Component {
       signature: this.getUrlParams(this.props, "signature"),
     };
     this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
-      console.log(res);
       if (!res.payload.success) {
         if (res.payload.data.ordstatus === 15) {
           this.props.clearLocally();
-          this.props.history.push("/profile/delivery");
+          this.setState({ isMerchantFalse: true, return: res }, () => {
+            this.props.history.push({
+              pathname: `/order/${this.encryptUrl(res.payload.data.order.id)}`,
+              state: this.state,
+            });
+          });
         } else if (res.payload.data.ordstatus === 16 || res.payload.data.ordstatus === 14 || res.payload.data.ordstatus === 18) {
           this.setState({ isMerchantFalse: true, return: res }, () => {
             this.props.history.push({
@@ -68,6 +74,12 @@ class MerchantReturn extends React.Component {
       }
     });
   }
+
+  encryptUrl = (id) => {
+    let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
+    return ciphertext.toString().replace('+', 'xMl3Jk').replace('/', 'Por21Ld').replace('=', 'Ml32');
+  }
+
 
   render() {
     const { loading } = this.state;

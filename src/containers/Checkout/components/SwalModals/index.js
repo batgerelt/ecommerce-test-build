@@ -251,49 +251,54 @@ class SwalModals extends Component {
                         ) : (
                             ""
                           ) */}
-                        {
-                          paymentType !== "qpay" ? (
-                            <div style={{ fontWeight: 'bold' }}>
-                              <p className="text" style={{ paddingLeft: '0px' }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }} />
-                            </div>
-                          ) : (
-                              ""
-                            )
-                        }
-                        <div className="menu-content text-left" style={{ display: "flex" }}>
-                          <div className="col-md-6">
-                            <ul className="list-unstyled">
-                              <li>
-                                <span>
-                                  {intl.formatMessage({ id: "checkout.swal.label.account" })}
-                                </span>
-                                <strong>{item.account}</strong>
-                              </li>
-                              <li>
-                                <span>
-                                  {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
-                                </span>
-                                <strong>{ordData.order.ordernumber}</strong>
-                              </li>
-                            </ul>
+                        <div className="menu-content text-left">
+                          <div className="col-md-12">
+                            {
+                              paymentType !== "qpay" ? (
+                                <div style={{ fontWeight: 'bold' }}>
+                                  <p className="text" style={{ paddingLeft: '0px', fontWeight: 'normal' }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }} />
+                                  <br />
+                                </div>
+                              ) : (
+                                  ""
+                                )
+                            }
                           </div>
-                          <div className="col-md-6">
-                            <ul className="list-unstyled">
-                              <li>
-                                <span>
-                                  {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
-                                </span>
-                                <strong>{item.name}</strong>
-                              </li>
-                              <li>
-                                <span>
-                                  {intl.formatMessage({ id: "checkout.swal.label.amount" })}
-                                </span>
-                                <strong>
-                                  {formatter.format(ordData.order.payamount)}₮
-                                </strong>
-                              </li>
-                            </ul>
+                          <div style={{ display: "flex" }}>
+                            <div className="col-md-6">
+                              <ul className="list-unstyled">
+                                <li>
+                                  <span className="fontWeight-normal">
+                                    {intl.formatMessage({ id: "checkout.swal.label.account" })}
+                                  </span>
+                                  <strong className="strong-500">{item.account}</strong>
+                                </li>
+                                <li>
+                                  <span className="fontWeight-normal">
+                                    {intl.formatMessage({ id: "checkout.swal.label.transactionDescription" })}
+                                  </span>
+                                  <strong className="strong-500">{ordData.order.ordernumber}</strong>
+                                </li>
+                              </ul>
+                            </div>
+                            <div className="col-md-6">
+                              <ul className="list-unstyled">
+                                <li>
+                                  <span className="fontWeight-normal">
+                                    {intl.formatMessage({ id: "checkout.swal.label.receiverName" })}
+                                  </span>
+                                  <strong className="strong-500">{item.name}</strong>
+                                </li>
+                                <li>
+                                  <span className="fontWeight-normal">
+                                    {intl.formatMessage({ id: "checkout.swal.label.amount" })}
+                                  </span>
+                                  <strong className="strong-500">
+                                    {formatter.format(ordData.order.payamount)}₮
+                                  </strong>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                         <div className="text d-flex chosen-bank-message-container pad-bot-0" style={{ marginTop: "10px" }}>
@@ -301,7 +306,7 @@ class SwalModals extends Component {
                             className="fa fa-info"
                             aria-hidden="true"
                           />
-                          <p style={{ fontSize: "13px" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">2</b>` }) }} />
+                          <p style={{ fontSize: "13px", textAlign: "justify" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">2</b>` }) }} />
                         </div>
                       </div>
                     </TabPane>

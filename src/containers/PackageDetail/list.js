@@ -217,6 +217,7 @@ class List extends React.Component {
   renderSlider = () => {
     try {
       const { images } = this.props;
+      console.log(images);
       const sliderParams = {
         spaceBetween: 0,
         autoplay: {

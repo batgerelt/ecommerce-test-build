@@ -2,6 +2,7 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BackTop, Avatar } from "antd";
 import store from "../../../src/scss/assets/images/demo/store.png";
 
@@ -137,6 +138,7 @@ class List extends React.Component {
       return console.log(error);
     }
   }
+
   renderOrdNum = () => {
     try {
       const { orderdetail } = this.props;
@@ -154,8 +156,19 @@ class List extends React.Component {
       return console.log(error);
     }
   }
+
+
   render() {
     const { orderdetail } = this.props;
+    let content;
+    if (this.props.location.state !== undefined && this.props.location.state.isMerchantFalse) {
+      content = (
+        <div className="empty-cart">
+          <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />
+          {this.props.location.state.return.payload.data.message}
+        </div>
+      );
+    }
     return (
       <div className="section orderdetail">
         <div className="top-container">
@@ -178,6 +191,7 @@ class List extends React.Component {
                     </div>
                   </div>
                   <div className="cart-table table-responsive">
+                    {content}
                     <table className="table table-borderless">
                       <thead className="thead-light">
                         <tr>
