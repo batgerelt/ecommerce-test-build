@@ -235,7 +235,7 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={this.handelAllCategory}
                               >
-                                <span className="no-padding" style={{ fontSize: "14px" }}>
+                                <span className="no-padding" style={{ fontSize: "13px" }}>
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
