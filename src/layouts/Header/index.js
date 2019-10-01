@@ -282,7 +282,7 @@ class AppHeader extends Component {
                           </div>
                         </li>
                         <li style={{ width: "20%" }}>
-                          <button
+                          <Link
                             className="btn"
                             to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
                             style={{ boxShadow: 'none', color: 'black' }}
@@ -297,7 +297,7 @@ class AppHeader extends Component {
                             >
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
-                          </button>
+                          </Link>
                         </li>
                       </ul>
                     </Form>
