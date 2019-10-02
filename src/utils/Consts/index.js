@@ -41,7 +41,7 @@ const PRODUCTS_PER_PAGE = 20;
 const SOCIAL_IDS = {
   google:
     "885941849583-p0voh45lmja4ng0lmft9jba9npgob1qe.apps.googleusercontent.com",
-  facebook: "901086453608971",
+  facebook: "405688910151569",
 };
 Object.freeze(SOCIAL_IDS);
 

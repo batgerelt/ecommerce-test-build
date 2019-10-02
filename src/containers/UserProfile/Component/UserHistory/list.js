@@ -66,7 +66,7 @@ class Component extends React.Component {
       return history.map((item, index) => {
         const isSaved = this.state.wish.find(w => w.skucd === item.skucd);
         return (
-          <Row className="single flex-this flex-space" key={index}>
+          <Row className="single flex-this flex-space" key={index} style={{ border: "1px solid white" }}>
             <Col className="product">
               <div className="flex-this">
                 <div className="image-container default">
