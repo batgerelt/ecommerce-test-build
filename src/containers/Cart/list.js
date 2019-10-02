@@ -279,6 +279,11 @@ class Cart extends React.Component {
     }
   };
 
+  seeMore = (e) => {
+    e.preventDefault();
+    this.props.getWishByCount({ count: 0 });
+  }
+
   // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
     if (product.discountprice || product.salepercent) {
@@ -460,7 +465,7 @@ class Cart extends React.Component {
               </li>
             ))}
           </ul>
-          <Link to="/profile/wish" className="btn btn-gray btn-block">
+          <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
             <span className="text-uppercase">
               <FormattedMessage id="shared.sidebar.button.showAll" />
             </span>
