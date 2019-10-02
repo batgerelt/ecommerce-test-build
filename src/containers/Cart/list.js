@@ -16,6 +16,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Cart extends React.Component {
   state = {
     proceedRoute: "/checkout",
+    showButton: true,
   };
 
   changeQties = products => products.map((product) => {
@@ -282,6 +283,7 @@ class Cart extends React.Component {
   seeMore = (e) => {
     e.preventDefault();
     this.props.getWishByCount({ count: 0 });
+    this.setState({ showButton: false });
   }
 
   // eslint-disable-next-line arrow-parens
@@ -465,11 +467,17 @@ class Cart extends React.Component {
               </li>
             ))}
           </ul>
-          <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
-            <span className="text-uppercase">
-              <FormattedMessage id="shared.sidebar.button.showAll" />
-            </span>
-          </Link>
+          {
+            this.state.showButton ?
+              <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
+                <span className="text-uppercase">
+                  <FormattedMessage id="shared.sidebar.button.showAll" />
+                </span>
+              </Link>
+              :
+              null
+          }
+
         </div>
       )
     );
