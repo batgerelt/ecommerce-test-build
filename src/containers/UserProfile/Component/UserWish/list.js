@@ -37,7 +37,7 @@ class Component extends React.Component {
     try {
       const { wish, lang } = this.props;
       return wish.map((item, index) => (
-        <Row className="single flex-this flex-space" span={24} style={{ width: "100%" }} key={index}>
+        <Row className="single flex-this flex-space" span={24} style={{ width: "100%", border: "1px solid white" }} key={index}>
           <Col className="product">
             <div className="flex-this">
               <div className="image-container default">
