@@ -15,6 +15,7 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
   state = {
+    tempProducts: [],
     proceedRoute: "/checkout",
   };
 
@@ -585,6 +586,7 @@ class Cart extends React.Component {
                             name="productQty"
                             maxLength={5}
                             onChange={this.handleInputChange(prod)}
+                            onBlur={this.handleInputBlur(prod)}
                           />
                           <div className="input-group-append" id="button-addon4">
                             <button
