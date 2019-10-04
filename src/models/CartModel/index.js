@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-lonely-if */
 import _ from "lodash";
@@ -579,7 +580,9 @@ class Model extends BaseModel {
           }
         } else {
           if (product.isgift) {
-            product.qty += product.addminqty;
+            if (!product.qty || isNaN(product.qty)) {
+              product.qty = product.addminqty;
+            }
           } else {
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
