@@ -488,7 +488,7 @@ class Cart extends React.Component {
       let { products } = this.props;
       const lang = this.props.intl.locale;
       let content1;
-      if (this.props.location.state !== undefined && this.props.location.state.isMerchantFalse) {
+      if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
           <div className="empty-cart">
             <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />

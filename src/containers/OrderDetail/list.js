@@ -161,7 +161,7 @@ class List extends React.Component {
   render() {
     const { orderdetail } = this.props;
     let content;
-    if (this.props.location.state !== undefined && this.props.location.state.isMerchantFalse) {
+    if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
       content = (
         <div className="empty-cart">
           <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />

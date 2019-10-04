@@ -264,57 +264,8 @@ class DeliveryInfo extends React.Component {
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 1) {
-          let mapForm = document.createElement("form");
-          mapForm.target = "_self";
-          mapForm.method = "POST";
-          mapForm.action = res.payload.data.url.url;
-
-          let keyNumber = document.createElement("input");
-          keyNumber.type = "hidden";
-          keyNumber.name = "key_number";
-          keyNumber.value = res.payload.data.url.key_number;
-
-          let transNumber = document.createElement("input");
-          transNumber.type = "hidden";
-          transNumber.name = "trans_number";
-          transNumber.value = res.payload.data.url.trans_number;
-
-          let trans_amount = document.createElement("input");
-          trans_amount.type = "hidden";
-          trans_amount.name = "trans_amount";
-          trans_amount.value = res.payload.data.url.trans_amount;
-
-          let time = document.createElement("input");
-          time.type = "hidden";
-          time.name = "time";
-          time.value = res.payload.data.url.time;
-
-          let lang_ind = document.createElement("input");
-          lang_ind.type = "hidden";
-          lang_ind.name = "lang_ind";
-          lang_ind.value = res.payload.data.url.lang_ind;
-
-          let signature = document.createElement("input");
-          signature.type = "hidden";
-          signature.name = "signature";
-          signature.value = res.payload.data.url.signature;
-
-          mapForm.appendChild(keyNumber);
-          mapForm.appendChild(transNumber);
-          mapForm.appendChild(trans_amount);
-          mapForm.appendChild(time);
-          mapForm.appendChild(lang_ind);
-          mapForm.appendChild(signature);
-
-          document.body.appendChild(mapForm);
-
-          let map = window.open(res.payload.data.url.url, "_self", "");
-
-          if (map) {
-            mapForm.submit();
-          } else {
-            console.log('error');
-          }
+          console.log(res.payload.data.url, "merchant");
+          setTimeout(() => this.changeWindow(res), 3000);
         }
       } else {
         // eslint-disable-next-line no-lonely-if
@@ -352,6 +303,59 @@ class DeliveryInfo extends React.Component {
         }
       }
     });
+  }
+
+  changeWindow = (res) => {
+    let mapForm = document.createElement("form");
+    mapForm.target = "_self";
+    mapForm.method = "POST";
+    mapForm.action = res.payload.data.url.url;
+
+    let keyNumber = document.createElement("input");
+    keyNumber.type = "hidden";
+    keyNumber.name = "key_number";
+    keyNumber.value = res.payload.data.url.key_number;
+
+    let transNumber = document.createElement("input");
+    transNumber.type = "hidden";
+    transNumber.name = "trans_number";
+    transNumber.value = res.payload.data.url.trans_number;
+
+    let trans_amount = document.createElement("input");
+    trans_amount.type = "hidden";
+    trans_amount.name = "trans_amount";
+    trans_amount.value = res.payload.data.url.trans_amount;
+
+    let time = document.createElement("input");
+    time.type = "hidden";
+    time.name = "time";
+    time.value = res.payload.data.url.time;
+
+    let lang_ind = document.createElement("input");
+    lang_ind.type = "hidden";
+    lang_ind.name = "lang_ind";
+    lang_ind.value = res.payload.data.url.lang_ind;
+
+    let signature = document.createElement("input");
+    signature.type = "hidden";
+    signature.name = "signature";
+    signature.value = res.payload.data.url.signature;
+
+    mapForm.appendChild(keyNumber);
+    mapForm.appendChild(transNumber);
+    mapForm.appendChild(trans_amount);
+    mapForm.appendChild(time);
+    mapForm.appendChild(lang_ind);
+    mapForm.appendChild(signature);
+
+    document.body.appendChild(mapForm);
+
+    let map = window.open(res.payload.data.url.url, "_self", "");
+    if (map) {
+      mapForm.submit();
+    } else {
+      console.log('error');
+    }
   }
 
   componentDidUpdate(prevProps) {

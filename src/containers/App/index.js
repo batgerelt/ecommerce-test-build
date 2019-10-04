@@ -55,7 +55,7 @@ import {
   Emart,
   Brand,
 } from "../";
-import MerchantReturn from "../Checkout/components/MerchantReturn";
+import PaymentReturn from "../Checkout/components/PaymentReturn";
 
 import IntlGlobalProvider from '../../components/IntlGlobalProvider';
 import translationEn from "../../translations/en.json";
@@ -156,7 +156,8 @@ class App extends Component {
                         <Route path="/ResetPassword/:key" component={PassReset} />
                         <Route path="/confirm/:key" component={Confirm} />
                         <Route path="/order/:id" component={Order} />
-                        <Route path="/golomtPayment" component={MerchantReturn} />
+                        <Route path="/golomtPayment" component={PaymentReturn} />
+                        <Route path="/qpayReturn" component={PaymentReturn} />
                         <Route path="*" component={Notfound} />
                       </Switch>
                     </div>

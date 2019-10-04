@@ -8,5 +8,6 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import IndividualTab from "./IndividualTab";
 import OrganizationTab from "./OrganizationTab";
+import PaymentReturn from "./PaymentReturn";
 
-export { LoginRegisterPanel, PaymentTypePanel, PaymentPanel, DeliveryInfo, SwalModals, Signin, Signup, DeliveryPanel, IndividualTab, OrganizationTab };
+export { LoginRegisterPanel, PaymentTypePanel, PaymentPanel, DeliveryInfo, SwalModals, Signin, Signup, DeliveryPanel, IndividualTab, OrganizationTab, PaymentReturn };
