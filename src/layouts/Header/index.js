@@ -186,7 +186,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row">
-              <div className="col-lg-8 col-md-6 col-5 pad10">
+              <div className="col-lg-9 col-md-7 col-6 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -205,7 +205,7 @@ class AppHeader extends Component {
                   <div className="search">
                     <Form className={searchClass}>
                       <ul className="list-unstyled list-float clr mainsearch">
-                        <li>
+                        <li style={{ justifyContent: "unset", width: "auto" }}>
                           <div
                             className="dropdown"
                             onClick={this.toggleDropdown}
@@ -217,7 +217,7 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              style={{ boxShadow: 'none' }}
+                              style={{ boxShadow: 'none', fontSize: "13px" }}
                             >
                               {
                                 this.state.item.id !== 0
@@ -235,7 +235,7 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={this.handelAllCategory}
                               >
-                                <span className="no-padding">
+                                <span className="no-padding" style={{ fontSize: "14px" }}>
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
@@ -251,7 +251,7 @@ class AppHeader extends Component {
                                       alt={item}
                                     />
                                   ) : null}
-                                  <span>{lang === "mn" ? item.name : item.name_en}</span>
+                                  <span style={{ fontSize: "14px" }}>{lang === "mn" ? item.name : item.name_en}</span>
                                 </a>
                               ))}
                             </div>
@@ -281,7 +281,7 @@ class AppHeader extends Component {
                             </label>
                           </div>
                         </li>
-                        <li>
+                        <li style={{ width: "20%" }}>
                           <Link
                             className="btn"
                             to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
@@ -298,30 +298,13 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                          {/* <Link
-                            to="#"
-                            className="btn mobile-search-cross"
-                            onClick={this.toggleSearch}
-                            style={{ background: "#feb415" }}
-                          >
-                            <i
-                              className="fa fa-remove d-block d-sm-none"
-                              style={{ fontSize: "20px", margin: "5px" }}
-                            />
-                            <span
-                              className="text-uppercase d-none d-sm-block"
-                              style={{ color: "black" }}
-                            >
-                              Хаах
-                            </span>
-                          </Link> */}
                         </li>
                       </ul>
                     </Form>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-4 col-md-6 col-7 pad10">
+              <div className="col-lg-3 col-md-5 col-6 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">

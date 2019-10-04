@@ -98,7 +98,7 @@ class MobileMenu extends React.Component {
 
   renderMenu = () => {
     try {
-      const lang = this.props.intl;
+      const lang = localStorage.getItem("lang");
       const { categoryRootMenu } = this.props.category;
       let toggleCategory = categoryRootMenu.map((item, index) => (
         <Menu.SubMenu

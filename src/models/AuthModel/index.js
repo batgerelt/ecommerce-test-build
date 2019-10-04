@@ -85,6 +85,8 @@ class AuthModel extends BaseModel {
   getCustomer = () =>
     asyncFn({ url: `/customer`, method: "GET", model: this.customerModel });
 
+  // Oauth 2.0 fb&google.
+
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       case this.resetModel.request:

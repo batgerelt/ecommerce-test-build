@@ -17,6 +17,7 @@ class Cart extends React.Component {
   state = {
     tempProducts: [],
     proceedRoute: "/checkout",
+    showButton: true,
   };
 
   changeQties = products => products.map((product) => {
@@ -280,6 +281,12 @@ class Cart extends React.Component {
     }
   };
 
+  seeMore = (e) => {
+    e.preventDefault();
+    this.props.getWishByCount({ count: 0 });
+    this.setState({ showButton: false });
+  }
+
   // eslint-disable-next-line arrow-parens
   renderUnitPrice = product => {
     if (product.discountprice || product.salepercent) {
@@ -461,11 +468,17 @@ class Cart extends React.Component {
               </li>
             ))}
           </ul>
-          <Link to="/profile/wish" className="btn btn-gray btn-block">
-            <span className="text-uppercase">
-              <FormattedMessage id="shared.sidebar.button.showAll" />
-            </span>
-          </Link>
+          {
+            this.state.showButton ?
+              <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
+                <span className="text-uppercase">
+                  <FormattedMessage id="shared.sidebar.button.showAll" />
+                </span>
+              </Link>
+              :
+              null
+          }
+
         </div>
       )
     );
@@ -476,7 +489,7 @@ class Cart extends React.Component {
       let { products } = this.props;
       const lang = this.props.intl.locale;
       let content1;
-      if (this.props.location.state !== undefined && this.props.location.state.isMerchantFalse) {
+      if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
           <div className="empty-cart">
             <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />
