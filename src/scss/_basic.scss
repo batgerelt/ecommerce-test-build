@@ -2312,6 +2312,21 @@ form {
       }
     }
   }
+
+  .tab-pane{
+    .fa {
+      width: 24px !important;
+      font-size: 1.2rem;
+      color: #feb415;
+      text-align: left;
+      display: block;
+    }
+    .text {
+      padding: 0;
+      margin-bottom: 10px;
+    }
+  }
+
   .right-panel {
     margin-top: 20px;
 

@@ -289,7 +289,7 @@
 	"shared.form.label.individual": "Person",
 	"shared.form.label.or": "Or",
 	"shared.form.label.rememberMe": "Remember",
-	"shared.form.label.tax.receipt": "VAT invoice type",
+	"shared.form.label.tax.receipt": "choose invoice type",
 	"shared.form.lastname.placeholder": "Last name",
 	"shared.form.lastname.validation.required": "Please enter your last name",
 	"shared.form.khoroo.placeholder": "Subdistrict",
