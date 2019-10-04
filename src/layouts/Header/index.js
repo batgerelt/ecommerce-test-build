@@ -217,7 +217,7 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              style={{ boxShadow: 'none', fontSize: "14px" }}
+                              style={{ boxShadow: 'none', fontSize: "13px" }}
                             >
                               {
                                 this.state.item.id !== 0
@@ -235,7 +235,7 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={this.handelAllCategory}
                               >
-                                <span className="no-padding" style={{ fontSize: "13px" }}>
+                                <span className="no-padding" style={{ fontSize: "14px" }}>
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
