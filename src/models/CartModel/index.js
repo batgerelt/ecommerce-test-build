@@ -536,8 +536,6 @@ class Model extends BaseModel {
               }
             }
           }
-          console.log("right before splice");
-          console.log('found: ', found);
           products.splice(index, 1, found);
         } else {
           throw new Error("Бараа олдсонгүй");
@@ -580,7 +578,9 @@ class Model extends BaseModel {
             }
           }
         } else {
-          if (!product.isgift) {
+          if (product.isgift) {
+            product.qty += product.addminqty;
+          } else {
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
                 if (product.qty) {
@@ -638,6 +638,7 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
+          console.log("state", state);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
