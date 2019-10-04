@@ -12,6 +12,7 @@ class Moreinfo extends Component {
       let {
         product, attributes, similarProducts, lang,
       } = this.props;
+      console.log('similarProducts: ', similarProducts);
       const similarProductsLimit = isMobileOnly ? 2 : 6;
       const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {

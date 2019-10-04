@@ -393,7 +393,9 @@ class CategoryInfo extends React.Component {
               <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
-                    <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
+                    <strong style={{ marginRight: 5 }}>
+                      {searchKeyWordResponse.hits.total.value}
+                    </strong>
                     <FormattedMessage id="search.searchResult.label.found" />
                   </p>
                 </div>

@@ -93,11 +93,11 @@ class Relational extends Component {
                         <span className="related-product-title">
                           {prod.title}
                         </span>
-                        <span className="related-product-price flex-this flex-space">
-                          <span>
+                        <span className="related-product-price price flex-this flex-space">
+                          <span className="current">
                             {formatter.format(prod.discountprice === 0 ? prod.currentprice : prod.discountprice)}₮
                           </span>
-                          <span>
+                          <span className="pricetag">
                             {prod.pricetag}
                           </span>
                         </span>

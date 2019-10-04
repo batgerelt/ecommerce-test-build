@@ -475,8 +475,29 @@ h1.title {
     }
 }
 
-.big-product,
+.big-product {
+    .info-container {
+        .price {
+            .pricetag {
+                margin-right: 200px;
+            }
+        }
+    }
+}
+
 .small-product {
+    .info-container {
+        .price {
+            .pricetag {
+                margin-right: 30px;
+            }
+        }
+    }
+}
+
+.big-product,
+.small-product,
+.single {
     .info-container {
         .price {
             display: grid;
