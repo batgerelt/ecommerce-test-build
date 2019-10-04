@@ -17,14 +17,7 @@ class FacebookLogin1 extends React.Component {
 
   responseFacebook = (response) => {
     if (response && response.userID) {
-      const user = {
-        id: response.userID,
-        email: response.email,
-        firstname: response.name.split(" ")[0],
-        lastname: response.name.split(" ").length > 1 ? response.name.split(" ")[1] : "",
-        picture: response.picture,
-      };
-      console.log("user", user);
+      console.log('response', response);
     }
   };
 
