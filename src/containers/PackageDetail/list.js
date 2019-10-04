@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-danger */
 import React from "react";
@@ -73,7 +74,6 @@ class List extends React.Component {
             product.qty === undefined ? product.addminqty || 1 : product.qty,
           iscart: 0,
         });
-        console.log('result: ', result);
         if (!result.payload.success) {
           const messages = defineMessages({
             error: {
@@ -87,22 +87,28 @@ class List extends React.Component {
           }));
         }
       } else {
-        product.insymd = Date.now();
-        this.props.increaseProductByQtyLocally(product);
+        if (product.qty === undefined) {
+          product.qty = product.addminqty;
+        }
 
-        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
+        if (product.qty > 0) {
+          product.insymd = Date.now();
+          this.props.increaseProductByQtyLocally(product);
 
-        if (updated && updated.error !== undefined) {
-          const messages = defineMessages({
-            error: {
-              id: updated.error,
-            },
-          });
+          const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          if (updated && updated.error !== undefined) {
+            const messages = defineMessages({
+              error: {
+                id: updated.error,
+              },
+            });
+
+            message.warning(intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }));
+          }
         }
       }
     } catch (e) {
@@ -166,8 +172,11 @@ class List extends React.Component {
     } else {
       products = products.map(prod => ({
         ...prod,
+        qty: prod.qty === undefined ? prod.addminqty : prod.qty,
         insymd: Date.now(),
       }));
+
+      products = products.filter(prod => prod.qty > 0);
 
       this.props.increasePackageProductsByQtyLocally(products);
 
@@ -365,6 +374,7 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
+      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&

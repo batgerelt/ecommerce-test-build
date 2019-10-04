@@ -15,6 +15,7 @@ const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
   state = {
+    tempProducts: [],
     proceedRoute: "/checkout",
     showButton: true,
   };

@@ -79,7 +79,6 @@ class Moreinfo extends Component {
               </h1>
 
               <div
-                style={{ textAlign: 'center' }}
                 dangerouslySetInnerHTML={{
                   __html: lang === "mn"
                     ? product.description

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { connect } from "react-redux";
@@ -32,6 +33,10 @@ class SwalModals extends React.Component {
     MySwal.close();
   }
 
+  keyPress = () => {
+    console.log('clickd');
+  }
+
   render() {
     return (
       <div className="checkout-container msg-bank">
@@ -45,6 +50,8 @@ class SwalModals extends React.Component {
             <button
               className="btn btn-main"
               onClick={this.onSubmit}
+              autoFocus
+              onKeyDown={this.onSubmit}
               style={{
                 hiteSpace: "initial",
                 width: "auto",

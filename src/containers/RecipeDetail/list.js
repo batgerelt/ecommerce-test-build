@@ -484,6 +484,7 @@ class List extends React.Component {
   };
 
   render() {
+    const { steps } = this.props;
     return (
       <div className="section">
         <div className="container pad10">
@@ -499,12 +500,16 @@ class List extends React.Component {
                   {this.renderRecipe()}
                   <hr />
                   {this.renderCk()}
-                  <div>
-                    <h4 className="title">
-                      <FormattedMessage id="recipeDetail.instruction.title" />
-                    </h4>
-                    {this.renderSteps()}
-                  </div>
+                  {
+                    steps.length !== 0 ?
+                      <div>
+                        <h4 className="title">
+                          <FormattedMessage id="recipeDetail.instruction.title" />
+                        </h4>
+                        {this.renderSteps()}
+                      </div>
+                      : null
+                  }
                 </div>
               </div>
               <div className="col-lg-4">

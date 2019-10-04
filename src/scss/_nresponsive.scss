@@ -262,7 +262,7 @@
 .drop-container {
     background-color: #262a32;
     margin-top: -5px;
-    margin-left: -40px;
+    margin-left: -5px;
 
     div.container {
         padding: 30px;
@@ -428,9 +428,9 @@ h1.title {
         .title {
             text-transform: uppercase;
             font-size: 20px;
-            border-bottom: 3px solid rgb(255, 182, 0);
+            border-bottom: 2px solid rgb(255, 182, 0);
             display: inline-block;
-            line-height: 0.65;
+            line-height: 1;
         }
 
         .recipes,
@@ -475,8 +475,29 @@ h1.title {
     }
 }
 
-.big-product,
+.big-product {
+    .info-container {
+        .price {
+            .pricetag {
+                margin-right: 100px;
+            }
+        }
+    }
+}
+
 .small-product {
+    .info-container {
+        .price {
+            .pricetag {
+                margin-right: 30px;
+            }
+        }
+    }
+}
+
+.big-product,
+.small-product,
+.single {
     .info-container {
         .price {
             display: grid;

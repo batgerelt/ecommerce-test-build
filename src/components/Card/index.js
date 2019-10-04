@@ -235,6 +235,7 @@ class Card extends React.Component {
       const {
         shape, item, isLastInRow, className, elastic, tags, list,
       } = this.props;
+      console.log('item: ', item);
       const lang = this.props.intl.locale;
 
       let prices;
