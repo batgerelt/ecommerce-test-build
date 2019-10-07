@@ -47,6 +47,7 @@ class Payment extends React.Component {
     if (location.pathname === "/qpayReturn") {
       let invoiceId = this.getUrlParams(location, "invoiceId");
     } else {
+      this.setState({ loading: false });
       let tmp = {
         trans_number: this.getUrlParams(location, "trans_number"),
         success: this.getUrlParams(location, "success"),
@@ -74,7 +75,6 @@ class Payment extends React.Component {
             });
           }
         } else {
-          this.setState({ loading: false });
           this.props.clearLocally();
         }
       });
@@ -93,7 +93,7 @@ class Payment extends React.Component {
     return (
       loading ?
         <Spin spinning={loading} indicator={<Loader />} />
-        : null
+        : <PaymentReturn loading {...this.props} {...this} />
     );
   }
 }

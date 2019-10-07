@@ -256,7 +256,16 @@ class SwalModals extends Component {
                             {
                               paymentType !== "qpay" ? (
                                 <div style={{ fontWeight: 'bold' }}>
-                                  <p className="text" style={{ paddingLeft: '0px', fontWeight: 'normal' }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }} />
+                                  <p
+                                    className="text"
+                                    style={{
+                                      paddingLeft: '0px',
+                                      fontWeight: 'normal',
+                                      fontSize: "13px",
+                                      textAlign: 'justify',
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning3, { orderNumber: `<b class="color-red">${ordData.order.ordernumber}</b>` }) }}
+                                  />
                                   <br />
                                 </div>
                               ) : (
@@ -556,7 +565,7 @@ class SwalModals extends Component {
                         </p>
                       </div>
                       <div className="bottom-text text-center">
-                        <div>
+                        <div style={{ fontSize: '0.8rem' }}>
                           {intl.formatMessage({ id: "checkout.swal.label.sentEbarimt" })}
                           {/* intl.formatMessage({ id: "checkout.swal.info.contract" }) */}
                         </div>

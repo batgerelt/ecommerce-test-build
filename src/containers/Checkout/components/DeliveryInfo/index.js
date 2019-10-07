@@ -382,6 +382,7 @@ class DeliveryInfo extends React.Component {
       ),
       width: type === "qpay" ? "30em" : "40em",
       animation: true,
+      allowEnterKey: true,
       button: false,
       showCloseButton: false,
       showCancelButton: false,
@@ -487,13 +488,13 @@ class DeliveryInfo extends React.Component {
                 }
               </p>
             </div>
-            <div className="text d-flex delivery-info-message">
+            {/*   <div className="text d-flex delivery-info-message content">
               <i
                 className="fa fa-info"
                 aria-hidden="true"
               />
               <p className="text flex-this">{lang === 'mn' ? this.checkError(chosenType.featuretxt) : this.checkError(chosenType.featuretxt_en)}</p>
-            </div>
+            </div> */}
 
           </div>
           <hr />
