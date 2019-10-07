@@ -367,7 +367,7 @@ class Detail extends Component {
         id: 202,
       },
     });
-    if (product.salemaxqty >= e.target.value) {
+    if (product.salemaxqty >= e.target.value || product.salemaxqty === 0) {
       this.setState({ productQty: e.target.value });
     } else {
       message.warning(intl.formatMessage(messages.warning, {
@@ -411,7 +411,7 @@ class Detail extends Component {
       this.state.productQty + product.addminqty > product.availableqty
         ? product.availableqty
         : this.state.productQty + product.addminqty;
-    if (product.salemaxqty >= productQty) {
+    if (product.salemaxqty >= productQty || product.salemaxqty === 0) {
       this.setState({ productQty });
     } else {
       message.warning(intl.formatMessage(messages.warning, {
