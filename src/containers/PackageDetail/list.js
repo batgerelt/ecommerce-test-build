@@ -571,6 +571,11 @@ class List extends React.Component {
                   {this.props.images === undefined ? null : this.renderSlider()}
                   {this.props.info === undefined ? null : this.renderCk()}
                   <div className="pack-product-container">
+                    <p className="title">
+                      <strong style={{ fontSize: "1.1rem" }}>
+                        <FormattedMessage id="packageDetail.title.recipeProducts" />
+                      </strong>
+                    </p>
                     {this.props.packageDetail === undefined
                       ? null
                       : this.renderCartInfo()}

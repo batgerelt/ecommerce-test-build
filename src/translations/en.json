@@ -167,6 +167,7 @@
 	"packageDetail.date": "{year}.{month}.{day}",
 	"packageDetail.info": "You can add products to cart by changing the counts of products to 0 that you don not want to buy.",
 	"packageDetail.label.price": "Price",
+	"packageDetail.title.recipeProducts": "EN Багцад орсон бараа",
 	"productDetail.button.addToCart": "Add to cart",
 	"productDetail.button.save": "Add to wishlist",
 	"productDetail.comment.form.button": "Publish",

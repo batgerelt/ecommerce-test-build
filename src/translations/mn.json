@@ -167,6 +167,7 @@
 	"packageDetail.date": "{year}.{month}.{day}",
 	"packageDetail.info": "Та багцаас сонгож авахгүй барааныхаа тоо хэмжээг 0 болгосноор багцаас хасаад сагсанд нэмэх боломжтой.",
 	"packageDetail.label.price": "Үнэ",
+	"packageDetail.title.recipeProducts": "Багцад орсон бараа",
 	"productDetail.button.addToCart": "Сагсанд нэмэх",
 	"productDetail.button.save": "Хадгалах",
 	"productDetail.comment.form.button": "Сэтгэгдэл үлдээх",
