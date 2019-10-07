@@ -49,6 +49,7 @@ class IndividualTab extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         return MySwal.fire({
           html: (
             <SwalModals
@@ -121,7 +122,6 @@ class IndividualTab extends React.Component {
     if (password) {
       let cardno = cardInfo.cardno;
       this.props.checkEpointPin({ cardno, pincode: password }).then((res) => {
-        console.log(res);
         if (res.payload.success) {
           const { DeliveryInfo } = this.props;
           let chosenType = DeliveryInfo.state.chosenType;
@@ -157,7 +157,6 @@ class IndividualTab extends React.Component {
     }
     return false;
   }
-
 
   renderForm = () => {
     try {

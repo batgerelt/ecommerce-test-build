@@ -24,6 +24,12 @@ class Cart extends React.Component {
     this.setState({ tempProducts: this.props.products });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.products !== this.state.tempProducts) {
+      this.setState({ tempProducts: this.props.products });
+    }
+  }
+
   changeQties = products => products.map((product) => {
     if (product.addminqty > 1) {
       product.qty /= product.addminqty;
@@ -62,6 +68,7 @@ class Cart extends React.Component {
 
     if (this.props.isLogged) {
       const result = await this.props.clearRemotely();
+
       if (!result.payload.success) {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }

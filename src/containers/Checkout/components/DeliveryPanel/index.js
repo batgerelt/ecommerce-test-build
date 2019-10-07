@@ -404,7 +404,7 @@ class DeliveryPanel extends React.Component {
       systemlocation,
       intl,
     } = this.props;
-
+    const lang = intl.locale;
     const { main } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
@@ -432,6 +432,13 @@ class DeliveryPanel extends React.Component {
               }
             >
               <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div className="text d-flex delivery-info-message" style={{ padding: "0px 15px 0px 15px" }}>
+                  <i
+                    className="fa fa-info"
+                    aria-hidden="true"
+                  />
+                  <p className="text flex-this" style={{ fontSize: "13px" }}>{lang === 'mn' ? this.checkError(item.featuretxt) : this.checkError(item.featuretxt_en)}</p>
+                </div>
                 <Form onSubmit={this.onSubmit} onKeyPress={e => (e.key === 'Enter' ? this.onSubmit(e) : null)}>
                   <div className="row row10 checkoutFormContainer">
                     {item.id !== 3 ? (
