@@ -20,6 +20,10 @@ class Cart extends React.Component {
     showButton: true,
   };
 
+  componentDidMount() {
+    this.setState({ tempProducts: this.props.products });
+  }
+
   changeQties = products => products.map((product) => {
     if (product.addminqty > 1) {
       product.qty /= product.addminqty;
@@ -108,8 +112,20 @@ class Cart extends React.Component {
     }
   };
 
-  // eslint-disable-next-line consistent-return
   handleInputChange = product => async (e) => {
+    const products = this.state.tempProducts;
+
+    products.forEach((prod) => {
+      if (prod.skucd === product.skucd) {
+        prod.qty = e.target.value;
+      }
+    });
+
+    this.setState({ tempProducts: products });
+  };
+
+  // eslint-disable-next-line consistent-return
+  handleInputBlur = product => async (e) => {
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -486,7 +502,7 @@ class Cart extends React.Component {
 
   renderContent = () => {
     try {
-      let { products } = this.props;
+      let products = this.state.tempProducts;
       const lang = this.props.intl.locale;
       let content1;
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
@@ -599,6 +615,7 @@ class Cart extends React.Component {
                             name="productQty"
                             maxLength={5}
                             onChange={this.handleInputChange(prod)}
+                            onBlur={this.handleInputBlur(prod)}
                           />
                           <div className="input-group-append" id="button-addon4">
                             <button
