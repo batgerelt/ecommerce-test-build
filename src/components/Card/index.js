@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate, message } from "antd";
+import windowSize from 'react-window-size';
 import { Label, ElasticLabel } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -233,14 +234,26 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className, elastic, tags, list,
+        shape, item, isLastInRow, className, elastic, tags, list, windowWidth,
       } = this.props;
-      console.log('item: ', item);
       const lang = this.props.intl.locale;
 
       let prices;
       if (!item) {
         return null;
+      }
+
+      let priceTagSpacing;
+      if (windowWidth >= 1200) {
+        priceTagSpacing = 180;
+      } else if (windowWidth >= 992) {
+        priceTagSpacing = 120;
+      } else if (windowWidth >= 768) {
+        priceTagSpacing = 60;
+      } else if (windowWidth >= 568) {
+        priceTagSpacing = 10;
+      } else {
+        priceTagSpacing = 30;
       }
 
       let priceTitle = "";
@@ -271,7 +284,7 @@ class Card extends React.Component {
 
             {/* elastic search price tag */}
             {!item.pricetag ? null : (
-              <span className="pricetag">
+              <span className="pricetag" style={{ marginRight: priceTagSpacing }}>
                 {lang === "mn"
                   ? item.pricetag
                   : item.pricetag_en === null
@@ -696,4 +709,4 @@ Card.propTypes = {
   className: PropTypes.string,
 };
 
-export default injectIntl(connect(mapStateToProps)(Card));
+export default windowSize(injectIntl(connect(mapStateToProps)(Card)));

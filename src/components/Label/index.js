@@ -32,7 +32,9 @@ class Label extends React.Component {
             data.content !== undefined
               ? parseInt(data.content, 10) === 100
                 ? <strong>0</strong>
-                : <strong>{data.content}</strong>
+                : parseInt(data.content, 10) === 0
+                  ? <strong>100</strong>
+                  : <strong>{data.content}</strong>
               : null
           }
           <small>{text}</small>
