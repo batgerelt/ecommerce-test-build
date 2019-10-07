@@ -264,8 +264,8 @@ class DeliveryInfo extends React.Component {
         }
 
         if (PaymentTypePanel.state.chosenPaymentType.id === 1) {
-          console.log(res.payload.data.url, "merchant");
-          setTimeout(() => this.changeWindow(res), 3000);
+          this.changeWindow(res);
+          // setTimeout(() => this.changeWindow(res), 3000);
         }
       } else {
         // eslint-disable-next-line no-lonely-if

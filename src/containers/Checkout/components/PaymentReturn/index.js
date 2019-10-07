@@ -43,7 +43,6 @@ class Payment extends React.Component {
 
   componentDidMount() {
     const { location } = this.props.history;
-    console.log(this.props, "tesstatss");
     if (location.pathname === "/qpayReturn") {
       let invoiceId = this.getUrlParams(location, "invoiceId");
     } else {
