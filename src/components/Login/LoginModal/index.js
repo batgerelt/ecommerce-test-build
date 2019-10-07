@@ -21,6 +21,7 @@ class LoginModal extends React.Component {
   componentWillUnmount() {
     this.props.onRef(null);
   }
+
   componentDidMount() {
     this.props.onRef(this);
   }
@@ -61,7 +62,6 @@ class LoginModal extends React.Component {
           if (!res.payload.success) {
             return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
-
           message.success(intl.formatMessage({ id: res.payload.code }));
           this.props.form.resetFields();
           this.handleForgetModal();
@@ -99,11 +99,13 @@ class LoginModal extends React.Component {
               localStorage.setItem('next', JSON.stringify(res.payload.data.info));
               localStorage.removeItem(this.state.isRemember ? null : 'username');
               let products = [];
+
               if (this.props.cart === undefined) {
                 products = this.props.products;
               } else {
                 products = this.props.cart.products;
               }
+
               if (products !== undefined) {
                 products = products.map(prod => ({
                   skucd: prod.skucd,
@@ -165,7 +167,7 @@ class LoginModal extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator("email", {
-                initialValue: localStorage.getItem('username') === null ? null : localStorage.getItem('username'),
+                initialValue: localStorage.getItem("username") === null ? null : localStorage.getItem("username"),
                 rules: [{
                   required: true,
                   type: "email",
