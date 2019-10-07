@@ -360,7 +360,21 @@ class Detail extends Component {
   }
 
   handleInputChange = product => (e) => {
-    this.setState({ productQty: e.target.value });
+    const { intl } = this.props;
+    const lang = intl.locale;
+    const messages = defineMessages({
+      warning: {
+        id: 202,
+      },
+    });
+    if (product.salemaxqty >= e.target.value) {
+      this.setState({ productQty: e.target.value });
+    } else {
+      message.warning(intl.formatMessage(messages.warning, {
+        name: lang === 'mn' ? product.title : product.title_en,
+        qty: product.salemaxqty,
+      }));
+    }
   };
 
   handleQtyBlur = (e, product) => {
@@ -386,11 +400,25 @@ class Detail extends Component {
   }
 
   handleIncrementClick = (product) => {
+    const { intl } = this.props;
+    const lang = intl.locale;
+    const messages = defineMessages({
+      warning: {
+        id: 202,
+      },
+    });
     const productQty =
       this.state.productQty + product.addminqty > product.availableqty
         ? product.availableqty
         : this.state.productQty + product.addminqty;
-    this.setState({ productQty });
+    if (product.salemaxqty >= productQty) {
+      this.setState({ productQty });
+    } else {
+      message.warning(intl.formatMessage(messages.warning, {
+        name: lang === 'mn' ? product.title : product.title_en,
+        qty: product.salemaxqty,
+      }));
+    }
   };
 
   handleDecrementClick = (product) => {
