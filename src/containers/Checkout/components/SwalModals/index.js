@@ -122,7 +122,7 @@ class SwalModals extends Component {
 
   encryptUrl = (id) => {
     let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
-    return ciphertext.toString().replace('+', 'xMl3Jk').replace('/', 'Por21Ld').replace('=', 'Ml32');
+    return ciphertext.toString().replace(/\+/g, 'xMl3Jk').replace(/\//ig, 'Por21Ld').replace(/=/g, 'Ml32');
   }
 
   // eslint-disable-next-line consistent-return

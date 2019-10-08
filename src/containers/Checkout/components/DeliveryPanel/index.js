@@ -45,11 +45,12 @@ class DeliveryPanel extends React.Component {
   componentDidMount() { this.props.onRef(this); }
   componentWillMount() {
     try {
+      let myStr = 'thisxMl3JkisxMl3JkaxMl3Jktest';
+      let newStr = myStr.replace(/xMl3Jk/g, '-');
+      console.log(newStr);
       const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
-      console.log('found: ', found);
-      console.log('main: ', main);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
       this.props.DeliveryInfo.setDeliveryType(found);
       if (main !== null) {
