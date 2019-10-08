@@ -48,6 +48,8 @@ class DeliveryPanel extends React.Component {
       const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
+      console.log('found: ', found);
+      console.log('main: ', main);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
       this.props.DeliveryInfo.setDeliveryType(found);
       if (main !== null) {
