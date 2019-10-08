@@ -21,10 +21,6 @@ class List extends React.Component {
   }
 
   componentWillMount() {
-    this.props.confirm({ key: this.props.match.params.key }).then((res) => {
-      message.success(intl.formatMessage({ id: res.payload.code }));
-    });
-    // setTimeout(() => { this.setState({ timer: true }) }, 10000);
     setInterval(() => {
       if (!this.props.LoginModal.state.visible) {
         const { time } = this.state;
@@ -41,86 +37,53 @@ class List extends React.Component {
     clearInterval();
   }
 
-  renderSuccessTrue() {
-    return (
-      <div>
-        <div
-          className="logo"
-          style={{ width: "15%", marginBottom: "50px" }}
-        >
-          <img
-            style={{ width: "100%" }}
-            alt="logo"
-            src={logo}
-          />
-        </div>
-        <h3><FormattedMessage id="registration.confirmation.title" /></h3>
-        <p><FormattedMessage id="registration.confirmation.body1" /></p>
-        <p><FormattedMessage id="registration.confirmation.body2" /></p>
-        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>
-          <FormattedMessage id="shared.form.button.login" />
-        </Button>
-      </div>
-    );
-  }
-
-  renderSuccessFalse() {
-    return <Redirect to="/" />;
-  }
-
-  renderConfirm = () => {
-    try {
-      const { confirms } = this.props;
-      if (confirms.success) {
-        return this.renderSuccessTrue();
-      }
-      return this.renderSuccessFalse();
-    } catch (error) {
-      return console.log(error);
-    }
-  }
-
   render() {
-    const { confirms } = this.props;
+    const { staticinfo } = this.props;
     return (
       <div className="top-container">
-        <div className="section">
-          <div className="container pad10" />
-          <div className="top-container">
+        {
+          !this.state.timer ?
+            <Redirect to="/" />
+            :
             <div className="section">
-              <div className="col-md-12">
-                <center>
-                  {confirms.length === 0 ? null : this.renderConfirm()}
-                  {!this.state.timer ? <Redirect to="/" /> : null}
-                  <p>
-                    <FormattedMessage
-                      id="registration.confirmation.time"
-                      values={{
-                        seconds: this.state.time,
-                      }}
-                    />
-                  </p>
-                </center>
+              <div className="container pad10" />
+              <div className="top-container">
+                <div className="section">
+                  <div className="col-md-12">
+                    <center>
+                      <div>
+                        <div
+                          className="logo"
+                          style={{ width: "15%", marginBottom: "50px" }}
+                        >
+                          {
+                            staticinfo !== null ? <img style={{ width: "100%" }} alt="logo" src={process.env.IMAGE + staticinfo.logopath} /> : null
+                          }
+                        </div>
+                        <h3><FormattedMessage id="registration.confirmation.title" /></h3>
+                        <p><FormattedMessage id="registration.confirmation.body1" /></p>
+                        <p><FormattedMessage id="registration.confirmation.body2" /></p>
+                        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>
+                          <FormattedMessage id="shared.form.button.login" />
+                        </Button>
+                      </div>
+                      <p>
+                        <FormattedMessage
+                          id="registration.confirmation.time"
+                          values={{
+                            seconds: this.state.time,
+                          }}
+                        />
+                      </p>
+                    </center>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+        }
       </div>
     );
   }
 }
 
 export default List;
-/* loadMoreRows = async (key) => {
-    try {
-      setTimeout(() => {
-        this.props.getPackageScroll({
-          order: "date_desc",
-          start: this.props.packageCount,
-          rowcnt: 8,
-        });
-      }, 1000);
-    } catch (error) {
-      return console.log(error);
-    }
-  }; */
