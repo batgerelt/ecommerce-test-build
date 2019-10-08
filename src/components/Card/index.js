@@ -186,7 +186,6 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem("auth") === null) {
-      console.log("login Modal", this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -245,15 +244,35 @@ class Card extends React.Component {
 
       let priceTagSpacing;
       if (windowWidth >= 1200) {
-        priceTagSpacing = 180;
-      } else if (windowWidth >= 992) {
-        priceTagSpacing = 120;
-      } else if (windowWidth >= 768) {
         priceTagSpacing = 60;
-      } else if (windowWidth >= 568) {
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 180;
+        }
+      } else if (windowWidth >= 992) {
+        priceTagSpacing = 50;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 120;
+        }
+      } else if (windowWidth >= 768) {
         priceTagSpacing = 10;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 60;
+        }
+      } else if (windowWidth >= 568) {
+        priceTagSpacing = 60;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 10;
+        }
       } else {
-        priceTagSpacing = 30;
+        priceTagSpacing = 10;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 150;
+        }
       }
 
       let priceTitle = "";
@@ -313,7 +332,7 @@ class Card extends React.Component {
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <span className="pricetag">
+                <span className="pricetag" style={{ marginRight: priceTagSpacing }}>
                   {lang === "mn"
                     ? item.pricetag
                     : item.pricetag_en === null
@@ -339,7 +358,7 @@ class Card extends React.Component {
 
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
-              <span className="pricetag">
+              <span className="pricetag" style={{ marginRight: priceTagSpacing }}>
                 {lang === "mn"
                   ? item.pricetag
                   : item.pricetag_en === null
@@ -453,6 +472,8 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
+                  {console.log(item)}
+                  {console.log(tags)}
                   {elastic ? <ElasticLabel data={item} tags={tags} /> :
                     item.tags && item.tags.map((label, index) => (
                       <Label

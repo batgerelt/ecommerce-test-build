@@ -67,7 +67,7 @@ class CartButton extends Component {
         ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
         : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
       return prod.addminqty > 1
-        ? prod.currentprice
+        ? prod.currentunitprice * (prod.qty ? prod.qty : 0)
         : price * (prod.qty ? prod.qty : 0);
     });
 

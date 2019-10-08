@@ -320,7 +320,7 @@ class index extends Component {
       return (
         <div className="label-wrapper">
           {data.isnew ? this.renderNew(localStorage.getItem("lang")) : null}
-          {data.salepercent !== 0 ? this.renderSale(localStorage.getItem("lang")) : null}
+          {data.salepercent !== undefined ? this.renderSale(localStorage.getItem("lang")) : null}
           {!data.isavailable ? this.renderSoldOut(localStorage.getItem("lang")) : null}
         </div>
       );
