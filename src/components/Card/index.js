@@ -38,7 +38,7 @@ class Card extends React.Component {
     const { intl, elastic } = this.props;
 
     try {
-      if (this.props.auth.isLogged) {
+      if (this.props.isLogged) {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
@@ -514,6 +514,7 @@ class Card extends React.Component {
                         data={label}
                         seq={index}
                         lang={lang}
+                        isDiscount
                       />
                     ))}
                   {hover}
@@ -583,6 +584,7 @@ class Card extends React.Component {
                           data={label}
                           seq={index}
                           lang={lang}
+                          isDiscount
                         />
                       ))
                   }
@@ -638,6 +640,7 @@ class Card extends React.Component {
                       data={label}
                       seq={index}
                       lang={this.props.intl.locale}
+                      isDiscount
                     />
                   ))}
                 {hover}
@@ -719,6 +722,7 @@ class Card extends React.Component {
                       data={label}
                       seq={index}
                       lang={this.props.intl.locale}
+                      isDiscount
                     />
                   ))}
                 <span className="cart-container">
