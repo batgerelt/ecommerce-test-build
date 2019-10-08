@@ -138,14 +138,16 @@ class MobileMenu extends React.Component {
   render() {
     const { visible } = this.state;
     return (
-      <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} >
-        <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
-          {this.renderHeader()}
-          {this.props.categorymenu === null ? null : this.renderContent()}
-          {this.props.categorymenu === null ? null : this.renderMenu()}
+      <li className="list-inline-item user">
+        <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} >
+          <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`}>
+            {this.renderHeader()}
+            {this.props.categorymenu === null ? null : this.renderContent()}
+            {this.props.categorymenu === null ? null : this.renderMenu()}
+          </div>
+          <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%" }} onClick={this.handleClose} />
         </div>
-        <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%" }} onClick={this.handleClose} />
-      </div>
+      </li>
     );
   }
 }
