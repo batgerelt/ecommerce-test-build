@@ -108,7 +108,7 @@ class IndividualTab extends React.Component {
       title: intl.formatMessage({ id: "shared.form.password.placeholder" }),
       input: "password",
       width: "20rem",
-      confirmButtonText: "Ok",
+      confirmButtonText: "Ашиглах",
       confirmButtonColor: "#feb415",
       cancelButtonText: intl.formatMessage({ id: "shared.form.button.cancel" }),
       inputPlaceholder: intl.formatMessage({ id: "shared.form.cardPassword.placeholder" }),
