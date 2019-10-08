@@ -30,6 +30,7 @@ import {
   Profile as ProfileModel,
   Attribute as AttributeModel,
   Brand as BrandModel,
+  User as UserModel,
 } from "../../models";
 import {
   Locale,
@@ -89,6 +90,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       ...ProfileModel,
       ...AttributeModel,
       ...BrandModel,
+      ...UserModel,
     },
     dispatch,
   ),

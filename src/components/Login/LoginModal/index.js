@@ -94,6 +94,7 @@ class LoginModal extends React.Component {
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
           localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
+          await this.props.getUserInfo();
           this.props.getCustomer().then(async (res) => {
             if (res.payload.success) {
               localStorage.setItem('next', JSON.stringify(res.payload.data.info));
