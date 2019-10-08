@@ -437,7 +437,7 @@ class AppHeader extends Component {
     const { staticinfo } = this.props.staticcontent;
     const { categorymenu } = this.props.category;
     return (
-      <div className="wrap" id="main-header" onClick={this.handleDropDownClose} style={{ zIndex: 100000000 }}>
+      <div className="wrap" id="main-header" onClick={this.handleDropDownClose} style={{ zIndex: 999 }}>
         {
           mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
             <div className="top-container">

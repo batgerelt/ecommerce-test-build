@@ -319,6 +319,7 @@
 	"shared.form.phone1.validation.pattern": "Утасны дугаар 8 оронтой байна",
 	"shared.form.phone1.validation.required": "Утасны дугаараа оруулна уу",
 	"shared.form.phone2.placeholder": "Утас",
+	"shared.notification.title.warning": "Анхааруулга",
 	"shared.sidebar.button.pay": "Төлбөр төлөх",
 	"shared.sidebar.button.proceed": "Үргэлжлүүлэх",
 	"shared.sidebar.button.showAll": "Бүгдийг харах",

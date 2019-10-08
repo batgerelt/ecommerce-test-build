@@ -162,7 +162,6 @@ class Cart extends React.Component {
           qty: found.addminqty > 1 ? Math.round(found.qty / found.addminqty) * found.addminqty : found.qty,
           iscart: 1,
         });
-        console.log('result: ', result);
 
         if (!result.payload.success) {
           const messages = defineMessages({
