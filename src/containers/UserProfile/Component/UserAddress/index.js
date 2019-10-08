@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getUserInfo();
+    this.props.getUserInfoProfile();
   }
 
   render() {
