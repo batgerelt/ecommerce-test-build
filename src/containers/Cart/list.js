@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-else-return */
 /* eslint-disable no-restricted-globals */
@@ -14,11 +15,17 @@ import { isMobile } from "react-device-detect";
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
-  state = {
-    tempProducts: [],
-    proceedRoute: "/checkout",
-    showButton: true,
-  };
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+
+    this.state = {
+      tempProducts: [],
+      proceedRoute: "/checkout",
+      showButton: true,
+    };
+  }
 
   componentDidMount() {
     this.setState({ tempProducts: this.props.products });
@@ -116,6 +123,12 @@ class Cart extends React.Component {
       }
     } else {
       throw new Error("Бараа олдсонгүй!");
+    }
+  };
+
+  handleInputKeyUp = product => async (e) => {
+    if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
+      this.inputRef.current.blur();
     }
   };
 
@@ -604,7 +617,7 @@ class Cart extends React.Component {
                     </td>
                     <td className="column-2">{this.renderUnitPrice(prod)}</td>
                     <td className="column-3">
-                      <form>
+                      <form onSubmit={e => { e.preventDefault(); }}>
                         <div className="input-group e-input-group">
                           <div className="input-group-prepend" id="button-addon4">
                             <button
@@ -616,11 +629,13 @@ class Cart extends React.Component {
                             </button>
                           </div>
                           <input
+                            ref={this.inputRef}
                             type="text"
                             className="form-control"
                             value={prod.qty}
                             name="productQty"
                             maxLength={5}
+                            onKeyUp={this.handleInputKeyUp(prod)}
                             onChange={this.handleInputChange(prod)}
                             onBlur={this.handleInputBlur(prod)}
                           />

@@ -641,7 +641,6 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
-          console.log("state", state);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),

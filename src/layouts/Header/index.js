@@ -186,7 +186,7 @@ class AppHeader extends Component {
         <div className="top-main">
           <div className="container container-laptop pad10">
             <div className="row">
-              <div className="col-lg-9 col-md-7 col-6 pad10">
+              <div className="col-lg-8 col-md-7 col-6 pad10">
                 <div className="flex-this flex-space">
                   <button
                     className="d-block d-md-none button buttonGrey"
@@ -281,7 +281,7 @@ class AppHeader extends Component {
                             </label>
                           </div>
                         </li>
-                        <li style={{ width: "20%" }}>
+                        <li>
                           <Link
                             className="btn"
                             to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
@@ -304,7 +304,7 @@ class AppHeader extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-5 col-6 pad10">
+              <div className="col-lg-4 col-md-5 col-6 pad10">
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">
@@ -437,7 +437,7 @@ class AppHeader extends Component {
     const { staticinfo } = this.props.staticcontent;
     const { categorymenu } = this.props.category;
     return (
-      <div className="wrap" id="main-header" onClick={this.handleDropDownClose} style={{ zIndex: 100000000 }}>
+      <div className="wrap" id="main-header" onClick={this.handleDropDownClose} style={{ zIndex: 999 }}>
         {
           mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
             <div className="top-container">

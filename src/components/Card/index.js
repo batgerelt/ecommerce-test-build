@@ -11,7 +11,7 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Rate, message } from "antd";
+import { Rate, message, notification } from "antd";
 import windowSize from 'react-window-size';
 import { Label, ElasticLabel } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
@@ -21,6 +21,16 @@ const formatter = new Intl.NumberFormat("en-US");
 class Card extends React.Component {
   state = {
     changeHeart: false,
+  };
+
+  openNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+      style: {
+        zIndex: 99999,
+      },
+    });
   };
 
   // eslint-disable-next-line consistent-return
@@ -43,6 +53,18 @@ class Card extends React.Component {
               },
             });
 
+            // this.openNotification(
+            //   'warning',
+            //   intl.formatMessage("shared.notification.title.warning"),
+            //   intl.formatMessage(
+            //     messages.error,
+            //     {
+            //       name: result.payload.data.values[0],
+            //       qty: result.payload.data.values[1],
+            //     },
+            //   ),
+            // );
+
             message.warning(intl.formatMessage(
               messages.error,
               {
@@ -61,6 +83,18 @@ class Card extends React.Component {
           }
 
           if (result.payload.data.names.length > 0) {
+            // this.openNotification(
+            //   'warning',
+            //   intl.formatMessage("shared.notification.title.warning"),
+            //   intl.formatMessage(
+            //     { id: result.payload.code },
+            //     {
+            //       names: result.payload.data.names.join(", "),
+            //       qty: result.payload.data.qty,
+            //     },
+            //   ),
+            // );
+
             message.warning(intl.formatMessage(
               { id: result.payload.code },
               {
@@ -186,7 +220,6 @@ class Card extends React.Component {
 
   handleSaveClick = () => {
     if (localStorage.getItem("auth") === null) {
-      console.log("login Modal", this.props);
       this.props.LoginModal.handleLoginModal();
     } else {
       const { item } = this.props;
@@ -234,7 +267,7 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className, elastic, tags, list, windowWidth,
+        shape, item, isLastInRow, className, elastic, tags, list, windowWidth, isDiscount,
       } = this.props;
       const lang = this.props.intl.locale;
 
@@ -245,15 +278,35 @@ class Card extends React.Component {
 
       let priceTagSpacing;
       if (windowWidth >= 1200) {
-        priceTagSpacing = 180;
-      } else if (windowWidth >= 992) {
-        priceTagSpacing = 120;
-      } else if (windowWidth >= 768) {
         priceTagSpacing = 60;
-      } else if (windowWidth >= 568) {
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 180;
+        }
+      } else if (windowWidth >= 992) {
+        priceTagSpacing = 50;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 120;
+        }
+      } else if (windowWidth >= 768) {
         priceTagSpacing = 10;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 60;
+        }
+      } else if (windowWidth >= 568) {
+        priceTagSpacing = 60;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 10;
+        }
       } else {
-        priceTagSpacing = 30;
+        priceTagSpacing = 10;
+
+        if (shape === CARD_TYPES.wide) {
+          priceTagSpacing = 150;
+        }
       }
 
       let priceTitle = "";
@@ -313,7 +366,7 @@ class Card extends React.Component {
 
               {/* elastic search price tag */}
               {item.pricetag === null ? null : (
-                <span className="pricetag">
+                <span className="pricetag" style={{ marginRight: priceTagSpacing }}>
                   {lang === "mn"
                     ? item.pricetag
                     : item.pricetag_en === null
@@ -339,7 +392,7 @@ class Card extends React.Component {
 
             {/* elastic search price tag */}
             {item.id || item.recipeid || !item.pricetag ? null : (
-              <span className="pricetag">
+              <span className="pricetag" style={{ marginRight: priceTagSpacing }}>
                 {lang === "mn"
                   ? item.pricetag
                   : item.pricetag_en === null
@@ -453,7 +506,7 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
-                  {elastic ? <ElasticLabel data={item} tags={tags} /> :
+                  {elastic ? <ElasticLabel data={item} tags={tags} isDiscount={isDiscount} /> :
                     item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}
@@ -522,7 +575,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    elastic ? <ElasticLabel wide data={item} tags={tags} /> :
+                    elastic ? <ElasticLabel wide data={item} tags={tags} isDiscount={isDiscount} /> :
                       item.tags && item.tags.map((label, index) => (
                         <Label
                           key={index}
@@ -658,7 +711,7 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                {elastic ? <ElasticLabel list data={item} tags={tags} /> :
+                {elastic ? <ElasticLabel list data={item} tags={tags} isDiscount={isDiscount} /> :
                   item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}

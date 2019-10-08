@@ -517,6 +517,14 @@ h1.title {
     }
 }
 
+.top-main {
+    .search {
+        li:last-child {
+            width: 30% !important;
+        }
+    }
+}
+
 // lg (< 1200px)
 @media (max-width: 1199px) {
     #root {
@@ -643,6 +651,7 @@ h1.title {
             }
 
             li:last-child {
+                width: 30% !important;
                 margin: 0;
                 display: flex;
                 align-items: center;
