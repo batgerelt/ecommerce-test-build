@@ -317,8 +317,6 @@ class index extends Component {
   render() {
     const { data, tags, isDiscount } = this.props;
     if (tags.length !== 0) {
-      console.log(data.salepercent);
-      console.log(isDiscount);
       return (
         <div className="label-wrapper">
           {data.isnew ? this.renderNew(localStorage.getItem("lang")) : null}
