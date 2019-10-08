@@ -36,6 +36,7 @@ class Page extends React.Component {
   state = {
     loading: true,
     isEmpty: false,
+    loadingCollection: true,
   };
 
   componentWillMount() {
@@ -66,7 +67,7 @@ class Page extends React.Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, loadingCollection } = this.state;
     return (
       <Spin
         spinning={loading}

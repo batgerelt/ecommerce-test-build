@@ -64,9 +64,10 @@ class PackageDetail extends React.Component {
       <div>
         <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-        {
+        <List {...this.props} {...this} />
+        {/* {
           confirms.length === 0 ? null : confirms.success ? <List {...this.props} {...this} /> : <Redirect to="/" />
-        }
+        } */}
       </div>
     );
   }

@@ -38,10 +38,15 @@ class Page extends React.Component {
     loadingType: true,
   }
   componentWillMount() {
+    this.getData();
+  }
+
+  getData = async () => {
     let auth = JSON.parse(localStorage.getItem("auth"));
     this.props.getPaymentTypes();
-    this.props.getDeliveryTypes();
+    await this.props.getDeliveryTypes();
     this.props.getBankInfo();
+    console.log("auth :", auth);
     if (auth !== null && auth !== undefined) {
       this.props.getUserInfo().then((res) => {
         this.setState({ loading: false });

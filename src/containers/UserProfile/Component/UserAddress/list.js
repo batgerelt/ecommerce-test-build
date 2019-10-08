@@ -40,7 +40,7 @@ class Component extends React.Component {
       distid: "01",
       commid: 3335,
     };
-    this.props.getSystemLocation().then((res) => {
+    this.props.getSystemLocationProfile().then((res) => {
       if (res.payload.success) {
         this.setState({ systemlocation: res.payload.data });
         this.props.getDistrictLocation({ id: param.provid }).then((res) => {
@@ -78,7 +78,7 @@ class Component extends React.Component {
         };
         this.props.addAddress({ body: { ...param } }).then((res) => {
           if (res.payload.success) {
-            this.props.getUserInfo();
+            this.props.getUserInfoProfile();
             this.props.form.resetFields();
             this.setState({ load: false });
             message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
@@ -168,7 +168,7 @@ class Component extends React.Component {
   onDelete = (e, item) => {
     this.setState({ loader: true });
     this.props.deleteAddress({ id: item.id }).then((res) => {
-      this.props.getUserInfo().then((res) => {
+      this.props.getUserInfoProfile().then((res) => {
         if (res.payload.success) {
           this.setState({ loader: false });
         }

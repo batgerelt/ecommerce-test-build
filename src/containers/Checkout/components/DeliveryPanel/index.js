@@ -48,6 +48,8 @@ class DeliveryPanel extends React.Component {
       const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;
       let found = deliveryTypes.find(item => item.isenable === 1);
+      console.log('found: ', found);
+      console.log('main: ', main);
       this.setState({ defaultActiveKey: found.id, chosenDeliveryType: found });
       this.props.DeliveryInfo.setDeliveryType(found);
       if (main !== null) {
@@ -195,7 +197,7 @@ class DeliveryPanel extends React.Component {
 
   changeTab = (e) => {
     const { deliveryTypes, intl } = this.props;
-    // this.props.form.resetFields();
+    // this.props.form.resetFields();c
     let found = deliveryTypes.find(item => item.id === parseInt(e));
     if (found.isenable === 1) {
       this.props.DeliveryInfo.setDeliveryType(found);

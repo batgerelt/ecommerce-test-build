@@ -185,7 +185,7 @@ class Model extends BaseModel {
     }
   }
   // Location
-  getSystemLocation = () =>
+  getSystemLocationProfile = () =>
     asyncFn({
       url: `/systemlocation`,
       method: "GET",
@@ -204,7 +204,7 @@ class Model extends BaseModel {
       model: this.model.committelocation,
     });
   // GET
-  getUserInfo = () =>
+  getUserInfoProfile = () =>
     asyncFn({
       url: `/customer/address`,
       method: "GET",
