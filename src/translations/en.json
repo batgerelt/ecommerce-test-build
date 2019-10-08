@@ -319,6 +319,7 @@
 	"shared.form.phone1.validation.pattern": "Phone number must have 8 digits",
 	"shared.form.phone1.validation.required": "Please enter your phone number",
 	"shared.form.phone2.placeholder": "Phone 2",
+	"shared.notification.title.warning": "Warning",
 	"shared.sidebar.button.pay": "Checkout",
 	"shared.sidebar.button.proceed": "Proceed to checkout",
 	"shared.sidebar.button.showAll": "Show all",

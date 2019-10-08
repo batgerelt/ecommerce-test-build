@@ -19,7 +19,7 @@ class GoogleLogin extends React.Component {
       };
       console.log("user", user);
     }
-    this.props.LoginModal.handleLoginModal();
+    // this.props.LoginModal.handleLoginModal();
   };
 
   handleGoogleLoginFailure = (err) => {

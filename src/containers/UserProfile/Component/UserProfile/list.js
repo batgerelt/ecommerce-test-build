@@ -66,7 +66,9 @@ class Component extends React.Component {
     e.preventDefault();
     const { intl } = this.props;
     // eslint-disable-next-line consistent-return
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
+      let param = [];
+      let param1 = [];
       if (!err) {
         if (this.props.userInfo.main === null) {
           const param = {
@@ -77,13 +79,27 @@ class Component extends React.Component {
             phonE1: values.phone1,
             phonE2: values.phone2,
           };
-          this.props.addAddress({ body: { ...param } }).then((res) => {
-            if (res.payload.success) {
-              this.getdata();
+          let result = await this.props.addAddress({ body: { ...param } });
+          if (result.payload.success) {
+            let response = await this.props.getCustomer();
+            if (response.payload.success) {
+              param1 = {
+                id: this.props.userInfo.info.id,
+                username: this.props.userInfo.info.username,
+                firstname: values.firstname,
+                imgnm: this.props.userInfo.info.imgnm,
+                lastname: values.lastname,
+                email: values.email,
+                phonE1: values.phone1,
+                phonE2: values.phone2,
+                locid: response.payload.data.main.locid,
+                address: response.payload.data.main.address,
+                adrsid: response.payload.data.main.id,
+              };
             }
-          });
+          }
         } else {
-          const param = {
+          param = {
             id: this.props.userInfo.info.id,
             username: this.props.userInfo.info.username,
             firstname: values.firstname,
@@ -96,37 +112,42 @@ class Component extends React.Component {
             address: values.address,
             adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
           };
-          if (this.props.userInfo.info.email !== param.email) {
-            return MySwal.fire({
-              html: (
-                <SwalModals
-                  type={"email"}
-                  onRef={ref => (this.SwalModals = ref)}
-                  param={param}
-                  {...this}
-                  {...this.props}
-                />
-              ),
-              type: "warning",
-              animation: true,
-              button: false,
-              showCloseButton: false,
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              closeOnEsc: false,
-            });
-            // eslint-disable-next-line no-else-return
-          } else {
-            this.props.updateMain({ body: param }).then((res) => {
-              if (res.payload.success) {
-                this.getdata();
-              }
-            });
-          }
         }
-        message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+
+        if (param1.length !== 0) {
+          param = param1;
+        }
+
+        if (this.props.userInfo.info.email !== param.email) {
+          return MySwal.fire({
+            html: (
+              <SwalModals
+                type={"email"}
+                onRef={ref => (this.SwalModals = ref)}
+                param={param}
+                {...this}
+                {...this.props}
+              />
+            ),
+            type: "warning",
+            animation: true,
+            button: false,
+            showCloseButton: false,
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            closeOnEsc: false,
+          });
+          // eslint-disable-next-line no-else-return
+        } else {
+          this.props.updateMain({ body: param }).then((res) => {
+            if (res.payload.success) {
+              this.getdata();
+              message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+            }
+          });
+        }
       }
     });
   }
@@ -500,3 +521,64 @@ class Component extends React.Component {
 }
 
 export default injectIntl(Form.create({ name: "component" })(Component));
+
+
+/* if (this.props.userInfo.main === null) {
+          const param = {
+            custid: this.props.data[0].info.customerInfo.id,
+            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
+            address: values.address,
+            name: values.firstname,
+            phonE1: values.phone1,
+            phonE2: values.phone2,
+          };
+          this.props.addAddress({ body: { ...param } }).then((res) => {
+            if (res.payload.success) {
+              this.getdata();
+            }
+          });
+        } else {
+          const param = {
+            id: this.props.userInfo.info.id,
+            username: this.props.userInfo.info.username,
+            firstname: values.firstname,
+            imgnm: this.props.userInfo.info.imgnm,
+            lastname: values.lastname,
+            email: values.email,
+            phonE1: values.phone1,
+            phonE2: values.phone2,
+            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
+            address: values.address,
+            adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
+          };
+          if (this.props.userInfo.info.email !== param.email) {
+            return MySwal.fire({
+              html: (
+                <SwalModals
+                  type={"email"}
+                  onRef={ref => (this.SwalModals = ref)}
+                  param={param}
+                  {...this}
+                  {...this.props}
+                />
+              ),
+              type: "warning",
+              animation: true,
+              button: false,
+              showCloseButton: false,
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              closeOnEsc: false,
+            });
+            // eslint-disable-next-line no-else-return
+          } else {
+            this.props.updateMain({ body: param }).then((res) => {
+              if (res.payload.success) {
+                this.getdata();
+              }
+            });
+          }
+        }
+        message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })); */

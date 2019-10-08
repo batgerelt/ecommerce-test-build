@@ -281,11 +281,11 @@ class List extends React.Component {
                 </span>
                 <span className="recipe-product-price">
                   {item.pricetag && (
-                    <span>
+                    <span className="pricetag">
                       {lang === "mn" ? item.pricetag : item.pricetag_en}
                     </span>
                   )}
-                  <span>
+                  <span className="current">
                     {formatter.format(item.price)}₮
                   </span>
                 </span>

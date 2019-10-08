@@ -34,7 +34,15 @@ class Label extends React.Component {
     } else {
       content = (
         <div>
-          {data.content !== undefined ? <strong>{data.content}</strong> : ""}
+          {
+            data.content !== undefined
+              ? parseInt(data.content, 10) === 100
+                ? <strong>0</strong>
+                : parseInt(data.content, 10) === 0
+                  ? <strong>100</strong>
+                  : <strong>{data.content}</strong>
+              : null
+          }
           <small>
             {
               intl.locale === "mn"
