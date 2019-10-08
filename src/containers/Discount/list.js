@@ -29,6 +29,7 @@ const ITEM_HEIGHT = 340;
 const RowItem = React.memo(function RowItem({ item, ...props }) {
   return (
     <Card
+      isDiscount
       shape={CARD_TYPES.slim}
       item={item}
       {...props}
@@ -157,6 +158,7 @@ class Discount extends React.Component {
             {
               headerProducts.map((item, i) => (
                 <Card
+                  isDiscount
                   elastic
                   key={i}
                   shape={CARD_TYPES.slim}
@@ -267,6 +269,7 @@ class Discount extends React.Component {
                                   {
                                     rowItems.map(itemId => (
                                       <Card
+                                        isDiscount
                                         elastic
                                         key={itemId.skucd + key}
                                         shape={CARD_TYPES.slim}

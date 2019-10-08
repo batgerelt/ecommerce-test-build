@@ -26,7 +26,6 @@ class Label extends React.Component {
         </small>
       );
     } else {
-      console.log(data.content);
       content = (
         <div>
           {

@@ -315,12 +315,14 @@ class index extends Component {
   };
 
   render() {
-    const { data, tags } = this.props;
+    const { data, tags, isDiscount } = this.props;
     if (tags.length !== 0) {
+      console.log(data.salepercent);
+      console.log(isDiscount);
       return (
         <div className="label-wrapper">
           {data.isnew ? this.renderNew(localStorage.getItem("lang")) : null}
-          {data.salepercent !== undefined ? this.renderSale(localStorage.getItem("lang")) : null}
+          {data.salepercent > 0 || isDiscount ? this.renderSale(localStorage.getItem("lang")) : null}
           {!data.isavailable ? this.renderSoldOut(localStorage.getItem("lang")) : null}
         </div>
       );

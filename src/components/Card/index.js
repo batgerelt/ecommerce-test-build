@@ -267,7 +267,7 @@ class Card extends React.Component {
   renderCards = () => {
     try {
       const {
-        shape, item, isLastInRow, className, elastic, tags, list, windowWidth,
+        shape, item, isLastInRow, className, elastic, tags, list, windowWidth, isDiscount,
       } = this.props;
       const lang = this.props.intl.locale;
 
@@ -506,7 +506,7 @@ class Card extends React.Component {
                       }}
                     />
                   </Link>
-                  {elastic ? <ElasticLabel data={item} tags={tags} /> :
+                  {elastic ? <ElasticLabel data={item} tags={tags} isDiscount={isDiscount} /> :
                     item.tags && item.tags.map((label, index) => (
                       <Label
                         key={index}
@@ -575,7 +575,7 @@ class Card extends React.Component {
                   </Link>
                   {/* elastic search тэй холбоотой барааны шошго өөр төрлөөр ирж байгаа */}
                   {
-                    elastic ? <ElasticLabel wide data={item} tags={tags} /> :
+                    elastic ? <ElasticLabel wide data={item} tags={tags} isDiscount={isDiscount} /> :
                       item.tags && item.tags.map((label, index) => (
                         <Label
                           key={index}
@@ -711,7 +711,7 @@ class Card extends React.Component {
                 >
                   {prices}
                 </Link>
-                {elastic ? <ElasticLabel list data={item} tags={tags} /> :
+                {elastic ? <ElasticLabel list data={item} tags={tags} isDiscount={isDiscount} /> :
                   item.tags && item.tags.map((label, index) => (
                     <Label
                       key={index}
