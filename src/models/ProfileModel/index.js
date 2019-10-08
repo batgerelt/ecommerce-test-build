@@ -185,7 +185,7 @@ class Model extends BaseModel {
     }
   }
   // Location
-  getSystemLocation = () =>
+  getSystemLocationProfile = () =>
     asyncFn({
       url: `/systemlocation`,
       method: "GET",

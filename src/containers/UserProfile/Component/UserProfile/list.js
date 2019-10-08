@@ -48,7 +48,7 @@ class Component extends React.Component {
           param.commid = 3335;
         }
         this.setState({ params: param });
-        this.props.getSystemLocation().then((res) => {
+        this.props.getSystemLocationProfile().then((res) => {
           if (res.payload.success) {
             this.props.getDistrictLocation({ id: param.provid }).then((res) => {
               if (res.payload.success) {

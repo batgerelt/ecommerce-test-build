@@ -10,7 +10,7 @@ import { intl } from '../../components/IntlGlobalProvider';
 class List extends React.Component {
   state = {
     message: [],
-    time: 10,
+    time: 1000,
     timer: true,
     second: true,
   };
@@ -63,18 +63,24 @@ class List extends React.Component {
                         <h3><FormattedMessage id="registration.confirmation.title" /></h3>
                         <p><FormattedMessage id="registration.confirmation.body1" /></p>
                         <p><FormattedMessage id="registration.confirmation.body2" /></p>
-                        <Button className="btn btn-black text-uppercase" onClick={this.handleLogin}>
+                        <p>
+                          <FormattedMessage
+                            id="registration.confirmation.time"
+                            values={{
+                              seconds: this.state.time,
+                            }}
+                          />
+                        </p>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          className="btn btn-block btn-login text-uppercase"
+                          onClick={this.handleLogin}
+                          style={{ width: "200px" }}
+                        >
                           <FormattedMessage id="shared.form.button.login" />
                         </Button>
                       </div>
-                      <p>
-                        <FormattedMessage
-                          id="registration.confirmation.time"
-                          values={{
-                            seconds: this.state.time,
-                          }}
-                        />
-                      </p>
                     </center>
                   </div>
                 </div>

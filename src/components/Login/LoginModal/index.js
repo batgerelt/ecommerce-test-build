@@ -94,52 +94,50 @@ class LoginModal extends React.Component {
           localStorage.setItem('username', this.state.isRemember ? values.email : null);
           localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
           localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
-          await this.props.getUserInfo();
-          this.props.getCustomer().then(async (res) => {
-            if (res.payload.success) {
-              localStorage.setItem('next', JSON.stringify(res.payload.data.info));
-              localStorage.removeItem(this.state.isRemember ? null : 'username');
-              let products = [];
+          let repo = await this.props.getCustomer();
+          if (repo.payload.succes) {
+            localStorage.setItem('next', JSON.stringify(repo.payload.data.info));
+            localStorage.removeItem(this.state.isRemember ? null : 'username');
+            let products = [];
 
-              if (this.props.cart === undefined) {
-                products = this.props.products;
-              } else {
-                products = this.props.cart.products;
-              }
-
-              if (products !== undefined) {
-                products = products.map(prod => ({
-                  skucd: prod.skucd,
-                  qty: prod.qty,
-                }));
-              }
-
-              let result = await this.props.increaseProductsByQtyRemotely({
-                iscart: 0,
-                body: products,
-              });
-
-              if (result !== undefined) {
-                if (!result.payload.success) {
-                  message.warning(intl.formatMessage({ id: result.payload.code }));
-                }
-              }
-
-              if (products !== undefined) {
-                this.props.getProducts().then((res) => {
-                  let k = res.payload.data.length - products.length;
-                  if (res.payload.data.length !== 0 && k !== 0) {
-                    this.setState({ goCart: true });
-                    this.props.form.resetFields();
-                  } else {
-                    this.props.form.resetFields();
-                  }
-                });
-              }
+            if (this.props.cart === undefined) {
+              products = this.props.products;
             } else {
-              console.log(res.payload);
+              products = this.props.cart.products;
             }
-          });
+
+            if (products !== undefined) {
+              products = products.map(prod => ({
+                skucd: prod.skucd,
+                qty: prod.qty,
+              }));
+            }
+
+            let result = await this.props.increaseProductsByQtyRemotely({
+              iscart: 0,
+              body: products,
+            });
+
+            if (result !== undefined) {
+              if (!result.payload.success) {
+                message.warning(intl.formatMessage({ id: result.payload.code }));
+              }
+            }
+
+            if (products !== undefined) {
+              this.props.getProducts().then((res) => {
+                let k = res.payload.data.length - products.length;
+                if (res.payload.data.length !== 0 && k !== 0) {
+                  this.setState({ goCart: true });
+                  this.props.form.resetFields();
+                } else {
+                  this.props.form.resetFields();
+                }
+              });
+            }
+          }
+          await this.props.getUserInfo();
+          await this.props.getSystemLocation();
         } catch (e) {
           console.log(e);
         }

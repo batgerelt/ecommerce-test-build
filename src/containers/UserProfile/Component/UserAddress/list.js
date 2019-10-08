@@ -40,7 +40,7 @@ class Component extends React.Component {
       distid: "01",
       commid: 3335,
     };
-    this.props.getSystemLocation().then((res) => {
+    this.props.getSystemLocationProfile().then((res) => {
       if (res.payload.success) {
         this.setState({ systemlocation: res.payload.data });
         this.props.getDistrictLocation({ id: param.provid }).then((res) => {
