@@ -41,12 +41,13 @@ class SwalModals extends React.Component {
     return (
       <div className="checkout-container msg-bank">
         <div className="card-content" style={{ textAlign: "center" }}>
-          <div className="button-container">
-            <strong>
-              <p style={{ fontSize: '15px' }}>
-                {intl.formatMessage({ id: "profile.epoint.info" })}
-              </p>
-            </strong>
+          <div>
+            <p style={{ fontSize: '15px' }}>
+              {intl.formatMessage({ id: "profile.epoint.info" })}
+            </p>
+            <p style={{ fontSize: '15px' }}>
+              {intl.formatMessage({ id: "profile.epoint.info.continue" })}
+            </p>
             <button
               className="btn btn-main"
               onClick={this.onSubmit}
