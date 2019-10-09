@@ -188,7 +188,7 @@
 	"profile.deliveryAddress.table.title": "Registered address",
 	"profile.deliveryAddress.title": "Add delivery address",
 	"profile.epoint.info": "You can earn and use points by connecting your ePoint card.",
-	"profile.epoint.info.continue": "Please attention: Impossible to change the connected card !!!",
+	"profile.epoint.info.continue": "Please attention: Impossible to change the connected card.",
 	"profile.orderHistory.table.date": "Date",
 	"profile.orderHistory.table.link": "Details",
 	"profile.orderHistory.table.orderNo": "Order number",

@@ -11,16 +11,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName("response", "login"),
       error: this.buildActionName("error", "login"),
     };
-    this.loggedModel = {
-      request: this.buildActionName("request", "logged"),
-      response: this.buildActionName("response", "logged"),
-      error: this.buildActionName("error", "logged"),
+    this.oauthModel = {
+      request: this.buildActionName("request", "oauthlogin"),
+      response: this.buildActionName("response", "oauthlogin"),
+      error: this.buildActionName("error", "oauthlogin"),
     };
-    /* this.logoutModel = {
-      request: this.buildActionName('request', 'logout'),
-      response: this.buildActionName('response', 'logout'),
-      error: this.buildActionName('error', 'logout'),
-    }; */
     this.signupModel = {
       request: this.buildActionName("request", "signup"),
       response: this.buildActionName("response", "signup"),
@@ -51,18 +46,6 @@ class AuthModel extends BaseModel {
     };
   }
 
-  login = ({ body } = {}) =>
-    asyncFn({
-      body,
-      url: "/login/userlogin",
-      method: "POST",
-      model: this.loginModel,
-    });
-
-  // logout = () => asyncFn({
-  //   url: '/api/auth/signout', method: 'GET', model: this.logoutModel,
-  // })
-
   logout = () => ({
     type: "AUTH_LOGOUT",
   });
@@ -85,7 +68,23 @@ class AuthModel extends BaseModel {
   getCustomer = () =>
     asyncFn({ url: `/customer`, method: "GET", model: this.customerModel });
 
+  login = ({ body, isfiles } = {}) =>
+    asyncFn({
+      body,
+      url: "/login/userlogin",
+      method: "POST",
+      model: this.loginModel,
+    });
+
   // Oauth 2.0 fb&google.
+
+  ouathLog = ({ body } = {}) =>
+    asyncFn({
+      body,
+      url: "/login/oauthlogin",
+      method: "POST",
+      model: this.oauthModel,
+    });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -103,6 +102,12 @@ class AuthModel extends BaseModel {
           /* success: action.payload.success,
           message: action.payload.message, */
         };
+      case this.customerModel.response:
+        return {
+          ...state,
+          userInfo: action.payload.data,
+        };
+
       case this.loginModel.request:
         return {
           ...state,
@@ -117,11 +122,6 @@ class AuthModel extends BaseModel {
           error: true,
           errorMessage: action.message,
         };
-      case this.customerModel.response:
-        return {
-          ...state,
-          userInfo: action.payload.data,
-        };
       case this.loginModel.response:
         return {
           ...state,
@@ -129,56 +129,30 @@ class AuthModel extends BaseModel {
           isLogged: action.payload.success,
           data: action.payload.data,
         };
-      case this.loggedModel.request:
+
+      // oauth Model
+      case this.oauthModel.request:
         return {
           ...state,
           isLoading: true,
           error: false,
           errorMessage: "",
         };
-      case this.loggedModel.error:
+      case this.oauthModel.error:
         return {
           ...state,
           isLoading: false,
           error: true,
           errorMessage: action.message,
-          isLogged: action.payload.success,
         };
-      case this.loggedModel.response:
+      case this.oauthModel.response:
         return {
           ...state,
           isLoading: false,
           isLogged: action.payload.success,
-          user: {
-            name: action.payload.name,
-            username: action.payload.username,
-          },
+          data: action.payload.data,
         };
-      // case this.logoutModel.request:
-      //   return {
-      //     ...state,
-      //     isLoading: true,
-      //     error: false,
-      //     errorMessage: '',
-      //   };
-      // case this.logoutModel.error:
-      //   return {
-      //     ...state,
-      //     isLoading: false,
-      //     error: true,
-      //     errorMessage: action.message,
-      //   };
-      // case this.logoutModel.response:
-      //   localStorage.clear();
-      //   return {
-      //     ...state,
-      //     isLoading: false,
-      //     isLogged: false,
-      //     user: {
-      //       name: '',
-      //       username: '',
-      //     },
-      //   };
+
       case "AUTH_LOGOUT":
         const username = localStorage.getItem("username");
         localStorage.clear();
