@@ -148,7 +148,6 @@ class Discount extends React.Component {
   renderHeaderProduct = () => {
     try {
       const { headerProducts } = this.state;
-      console.log('headerProducts: ', headerProducts);
       const data = [];
 
       headerProducts.map(i => data.push(i._source));

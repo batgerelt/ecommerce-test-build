@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-first-prop-new-line */
 /* eslint-disable arrow-parens */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-else-return */
@@ -22,7 +23,7 @@ class Cart extends React.Component {
 
     this.state = {
       tempProducts: [],
-      proceedRoute: "/checkout",
+      shouldRedirect: false,
       showButton: true,
     };
   }
@@ -52,15 +53,31 @@ class Cart extends React.Component {
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
 
-        if (result.payload && result.payload.data && result.payload.data.length > 0) {
-          if (result.payload.data[0].data.values.length > 0) {
+        if (result.payload.success) {
+          this.setState({ shouldRedirect: true });
+        } else {
+          if (result.payload.data.length > 0) {
+            let reasons = [];
             result.payload.data.forEach(msg => (
-              message.warning(intl.formatMessage(
+              reasons.push(intl.formatMessage(
                 { id: msg.code },
-                { names: msg.data.values.join(", ") },
+                {
+                  name: msg.values[0],
+                  qty: msg.values[1],
+                },
               ))
             ));
-            this.setState({ proceedRoute: "/cart" });
+
+            if (reasons.length > 0) {
+              message.warning(intl.formatMessage(
+                { id: result.payload.code },
+                {
+                  names: reasons.join(", "),
+                },
+              ));
+            }
+
+            this.setState({ shouldRedirect: false });
           }
         }
       }
@@ -134,6 +151,7 @@ class Cart extends React.Component {
 
   handleInputChange = product => async (e) => {
     const products = this.state.tempProducts;
+    console.log('products: ', products);
 
     products.forEach((prod) => {
       if (prod.skucd === product.skucd) {
@@ -714,6 +732,11 @@ class Cart extends React.Component {
   render() {
     const { products, staticinfo } = this.props;
     const lang = this.props.intl.locale;
+
+    if (this.state.shouldRedirect) {
+      return <Redirect to="/checkout" />;
+    }
+
     return (
       <div className="section">
         <div className="container pad10">
@@ -772,8 +795,7 @@ class Cart extends React.Component {
                         </span>
                       </p>
                     </div>
-                    <Link
-                      to={this.state.proceedRoute}
+                    <button
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                         }`}
@@ -782,7 +804,7 @@ class Cart extends React.Component {
                       <span className="text-uppercase">
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>
-                    </Link>
+                    </button>
                   </div>
                   {this.renderWishlistProducts()}
                 </div>
