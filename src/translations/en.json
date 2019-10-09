@@ -262,6 +262,7 @@
 	"shared.form.cardNumber.validation.min": "Card number must have 14 digits",
 	"shared.form.cardNumber.validation.pattern": "Card number must have 14 digits",
 	"shared.form.cardNumber.validation.required": "Please enter your card number",
+	"shared.form.cardPassword.warningmessage": "En Таны ипойнт карттай бүртгэлтэй утасны дугаарын сүүлийн дөрвөн орон.",
 	"shared.form.cardPassword.placeholder": "Card password",
 	"shared.form.cardPassword.validation.required": "Please enter your card password",
 	"shared.form.cardPassword.validation.pattern": "Card number must have 14 digits",
