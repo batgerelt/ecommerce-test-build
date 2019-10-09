@@ -311,7 +311,7 @@ class LoginModal extends React.Component {
   state = {
     visible: false,
     isVisibleReset: false,
-    isRemember: localStorage.getItem("auth") === null ? 1 : 0,
+    isRemember: false,
     direct: false,
     confirm: false,
     goCart: false,
@@ -449,7 +449,7 @@ class LoginModal extends React.Component {
   };
 
   onRemember = (e) => {
-    this.setState({ isRemember: e.target.checked });
+    this.setState({ isRemember: true });
   };
 
   render() {
@@ -467,6 +467,7 @@ class LoginModal extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator("email", {
+                initialValue: localStorage.getItem("username") === null ? null : localStorage.getItem("username"),
                 rules: [{
                   required: true,
                   type: "email",
