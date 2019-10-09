@@ -3,8 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { Divider, Rate, Spin, BackTop, Row, Col, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { Loader } from "../../../../components";
-import clear from "../../../../scss/assets/svg/clear.svg";
-import favorite from "../../../../scss/assets/svg/favorite.svg";
 
 const formatter = new Intl.NumberFormat("en-US");
 

@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class OrderDetail extends React.Component {
   componentWillMount() {
-    let id = this.props.match.params.id.toString().replace('xMl3Jk', '+').replace('Por21Ld', '/').replace('Ml32', '=');
+    let id = this.props.match.params.id.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
     let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
     let plaintext = bytes.toString(CryptoJS.enc.Utf8);
     this.props.getOrderDetail({ ordid: plaintext });

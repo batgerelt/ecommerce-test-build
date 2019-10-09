@@ -86,6 +86,7 @@ class UserButton extends React.Component {
   componentDidUpdate() {
     if (localStorage.getItem("auth") !== null) {
       let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
+      console.log(jwtDecode(token).exp, Date.now() / 1000);
       if (jwtDecode(token).exp < Date.now() / 1000) {
         // localStorage.clear();
         this.handleLogout();

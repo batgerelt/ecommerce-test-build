@@ -26,7 +26,6 @@ class IndividualTab extends React.Component {
     this.props.onRef(this);
     const { userinfo } = this.props;
     const { setFieldsValue } = this.props.form;
-    console.log(userinfo);
     if (userinfo.card !== undefined) {
       // setFieldsValue({ cardPoint: userinfo.card.point });
       this.setState({ cardInfo: userinfo.card });
@@ -102,10 +101,25 @@ class IndividualTab extends React.Component {
 
   handleUsePoint = async (e) => {
     e.preventDefault();
+    /* style={{
+      width: '24px',
+      fontSize: '1.2rem',
+      color: '#feb415',
+      textAlign: "left",
+      display: "block",
+    }} */
     const { intl } = this.props;
     const { cardInfo } = this.state;
     const { value: password } = await Swal.fire({
       title: intl.formatMessage({ id: "shared.form.password.placeholder" }),
+      html: `<div style="background-color: rgba(254, 180, 21, 0.2); padding: 10px 5px 0px 5px; display: flex;">
+      <i
+        class="fa fa-info"
+        aria-hidden="true"
+        style="color: #feb415; font-size: 1rem; width: 24px; padding-left: 5px;"
+      ></i>
+        <p style="font-size: 13px;">${intl.formatMessage({ id: "shared.form.cardPassword.warningmessage" })}</p>
+      </div>`,
       input: "password",
       width: "20rem",
       confirmButtonText: "Ашиглах",
@@ -207,6 +221,22 @@ class IndividualTab extends React.Component {
                           />,
                         )}
                       </Form.Item>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="text d-flex delivery-info-message" style={{ padding: "8px 15px 8px 15px", position: "absolute", bottom: "12px" }}>
+                      <i
+                        className="fa fa-info"
+                        aria-hidden="true"
+                        style={{
+                          width: '24px',
+                          fontSize: '1.2rem',
+                          color: '#feb415',
+                          textAlign: "left",
+                          display: "block",
+                        }}
+                      />
+                      <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: " shared.form.cardPassword.warningmessage" })}</p>
                     </div>
                   </div>
                 </div>
