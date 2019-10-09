@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable func-names */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-lonely-if */
 /* eslint-disable indent */
@@ -82,26 +84,39 @@ class Card extends React.Component {
             message.warning(intl.formatMessage({ id: result.payload.code }));
           }
 
-          if (result.payload.data.names.length > 0) {
-            // this.openNotification(
-            //   'warning',
-            //   intl.formatMessage("shared.notification.title.warning"),
-            //   intl.formatMessage(
-            //     { id: result.payload.code },
-            //     {
-            //       names: result.payload.data.names.join(", "),
-            //       qty: result.payload.data.qty,
-            //     },
-            //   ),
-            // );
+          const failedProducts = result.payload.data.fail;
+
+          if (failedProducts.length > 0) {
+            let reasons = [];
+            failedProducts.forEach((prod) => {
+              reasons.push(intl.formatMessage(
+                { id: prod.code },
+                {
+                  name: prod.values[0],
+                  qty: prod.values[1],
+                },
+              ));
+            });
 
             message.warning(intl.formatMessage(
               { id: result.payload.code },
               {
-                names: result.payload.data.names.join(", "),
+                names: reasons.join(", "),
                 qty: result.payload.data.qty,
               },
             ));
+
+            // this.openNotification(
+            //   'warning',
+            //   intl.formatMessage({ id: "shared.notification.title.warning" }),
+            //   intl.formatMessage(
+            //     { id: result.payload.code },
+            //     {
+            //       names: reasons.join(", "),
+            //       qty: result.payload.data.qty,
+            //     },
+            //   ),
+            // );
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -136,7 +151,7 @@ class Card extends React.Component {
                 item.addminqty = res.payload.data.addminqty;
                 return this.props.incrementProductLocally(item);
               }
-              return message.warning(intl.formatMessage({ id: 200 }, { name: item.name, qty: item.qty }));
+              return message.warning(intl.formatMessage({ id: 200 }, { name: item.title, qty: item.qty }));
             });
           }
           this.props.incrementProductLocally(item);
