@@ -17,6 +17,7 @@ import {
   Recipe as RecipeModel,
   Attribute as AttributeModel,
   Brand as BrandModel,
+  User as UserModel,
 } from "../../models";
 import { LoginModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
@@ -45,6 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...ProfileModel,
     ...AttributeModel,
     ...BrandModel,
+    ...UserModel,
   }, dispatch),
 });
 

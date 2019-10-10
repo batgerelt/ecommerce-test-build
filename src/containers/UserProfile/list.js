@@ -106,10 +106,21 @@ class List extends React.Component {
   renderImage = () => {
     try {
       const { userInfo } = this.props;
-      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      let realImage = "";
+      let realImage1 = localStorage.getItem('img');
+      if (realImage1.slice(0, 5) === "https") {
+        realImage = localStorage.getItem('img');
+      } else {
+        realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      }
       return (
         <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
       );
+      /* const { userInfo } = this.props;
+      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      return (
+        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
+      ); */
     } catch (error) {
       return console.log(error);
     }

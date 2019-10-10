@@ -8,18 +8,20 @@ import { SOCIAL_IDS } from "../../../utils/Consts";
 
 class GoogleLogin extends React.Component {
   handleGoogleLoginResponse = (response) => {
+    let param = [];
     if (response && response.profileObj) {
-      console.log(response);
-      const user = {
-        id: response.profileObj.googleId,
+      param = {
+        username: response.profileObj.givenName,
+        firstname: response.profileObj.givenName,
+        lastname: response.profileObj.familyName,
+        phone: null,
         email: response.profileObj.email,
-        firstname: response.profileObj.familyName,
-        lastname: response.profileObj.givenName,
-        picture: response.profileObj.imageUrl,
+        oauthType: "Gmail",
+        oauthId: response.profileObj.googleId,
+        imgUrl: response.profileObj.imageUrl,
       };
-      console.log("user", user);
+      this.props.loginSocial(param);
     }
-    // this.props.LoginModal.handleLoginModal();
   };
 
   handleGoogleLoginFailure = (err) => {

@@ -86,7 +86,6 @@ class UserButton extends React.Component {
   componentDidUpdate() {
     if (localStorage.getItem("auth") !== null) {
       let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
-      console.log(jwtDecode(token).exp, Date.now() / 1000);
       if (jwtDecode(token).exp < Date.now() / 1000) {
         // localStorage.clear();
         this.handleLogout();
@@ -154,10 +153,20 @@ class UserButton extends React.Component {
 
   renderImage = () => {
     try {
-      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      let realImage = "";
+      let realImage1 = localStorage.getItem('img');
+      if (realImage1.slice(0, 5) === "https") {
+        realImage = localStorage.getItem('img');
+      } else {
+        realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      }
       return (
         <div id="imagePreview" style={{ backgroundImage: `url(${realImage})` }} />
       );
+      /* const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      return (
+        <div id="imagePreview" style={{ backgroundImage: `url(${realImage})` }} />
+      ); */
     } catch (error) {
       return console.log(error);
     }
@@ -193,7 +202,14 @@ class UserButton extends React.Component {
           localStorage.setItem('next', JSON.stringify(user));
           localStorage.setItem('img', user.imgnm);
         }
-        const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+        let realImage = "";
+        let realImage1 = localStorage.getItem('img');
+        if (realImage1.slice(0, 5) === "https") {
+          realImage = localStorage.getItem('img');
+        } else {
+          realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+        }
+        /* const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img')); */
         content = (
           <li className="list-inline-item user">
             <Link to="#" className="flex-this" onClick={this.showpro}>
