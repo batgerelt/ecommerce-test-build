@@ -46,7 +46,6 @@ class Page extends React.Component {
     this.props.getPaymentTypes();
     await this.props.getDeliveryTypes();
     this.props.getBankInfo();
-    console.log("auth :", auth);
     if (auth !== null && auth !== undefined) {
       this.props.getUserInfo().then((res) => {
         this.setState({ loading: false });

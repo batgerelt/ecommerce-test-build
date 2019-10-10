@@ -151,7 +151,6 @@ class Cart extends React.Component {
 
   handleInputChange = product => async (e) => {
     const products = this.state.tempProducts;
-    console.log('products: ', products);
 
     products.forEach((prod) => {
       if (prod.skucd === product.skucd && e.target.value !== "") {

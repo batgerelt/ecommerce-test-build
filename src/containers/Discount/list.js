@@ -65,7 +65,7 @@ class Discount extends React.Component {
 
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-      if (res.payload.success) {
+      if (res.payload.success && res.payload.data) {
         this.setState({
           headerProducts: res.payload.data.hits.hits,
           rowCount: 20,
