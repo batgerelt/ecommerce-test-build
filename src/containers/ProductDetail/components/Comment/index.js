@@ -50,11 +50,13 @@ class Comment extends Component {
       } = this.props;
       const { rate, rate_user_cnt } = product;
       let realImage = "";
-      let realImage1 = localStorage.getItem('img');
-      if (realImage1.slice(0, 5) === "https") {
-        realImage = localStorage.getItem('img');
-      } else {
-        realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+      if (localStorage.getItem('img')) {
+        let realImage1 = localStorage.getItem('img');
+        if (realImage1.slice(0, 5) === "https") {
+          realImage = localStorage.getItem('img');
+        } else {
+          realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
+        }
       }
       return (
         <div className="comments-container">
