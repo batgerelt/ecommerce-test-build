@@ -154,7 +154,7 @@ class Cart extends React.Component {
     console.log('products: ', products);
 
     products.forEach((prod) => {
-      if (prod.skucd === product.skucd) {
+      if (prod.skucd === product.skucd && e.target.value !== "") {
         prod.qty = e.target.value;
       }
     });
