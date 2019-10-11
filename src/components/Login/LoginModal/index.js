@@ -340,11 +340,8 @@ class LoginModal extends React.Component {
   }
 
   handleResetVisible = () => {
-    console.log(this.props);
-    console.log("handleResetVisible");
     this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
-    /* this.props.ForgetModal.handleForgetModal(); */
   }
 
   goHome() {
@@ -393,7 +390,6 @@ class LoginModal extends React.Component {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
-          console.log('result', result);
           this.loggedData(result);
           if (result.payload.success) {
             // localStorage.setItem('username', this.state.isRemember ? values.email : null);

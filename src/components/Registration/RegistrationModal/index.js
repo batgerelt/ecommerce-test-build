@@ -166,8 +166,8 @@ class RegistrationModal extends React.Component {
             </button>
           </Form.Item>
 
-          <span className="divide-maker"><FormattedMessage id="shared.form.label.or" /></span>
-          <Form.Item style={{ width: '100%', marginBottom: '5px' }}>
+          {/* <span className="divide-maker"><FormattedMessage id="shared.form.label.or" /></span> */}
+          {/* <Form.Item style={{ width: '100%', marginBottom: '5px' }}>
             <button
               type="submit"
               className="btn btn-block btn-social btn-facebook"
@@ -183,7 +183,7 @@ class RegistrationModal extends React.Component {
             >
               <span><FormattedMessage id="shared.form.button.googleRegister" /></span>
             </button>
-          </Form.Item>
+          </Form.Item> */}
 
         </Form>
       </Modal>

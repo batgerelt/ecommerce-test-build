@@ -10,7 +10,7 @@ import { intl } from '../../components/IntlGlobalProvider';
 class List extends React.Component {
   state = {
     message: [],
-    time: 1000,
+    time: 10,
     timer: true,
     second: true,
   };
