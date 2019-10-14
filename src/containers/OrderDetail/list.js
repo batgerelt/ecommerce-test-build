@@ -105,7 +105,7 @@ class List extends React.Component {
                     margin: "0px",
                   }}
                   >
-                    {lang === "mn" ? orderdetail.info.status : orderdetail.info.status_en}
+                    {lang === "mn" ? orderdetail.info.customerstatusname : orderdetail.info.customerstatusname_en}
                   </p>
                 </h5>
                 <p className="text flex-this" style={{ marginTop: "-10px" }}>

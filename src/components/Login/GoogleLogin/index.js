@@ -20,6 +20,7 @@ class GoogleLogin extends React.Component {
         oauthId: response.profileObj.googleId,
         imgUrl: response.profileObj.imageUrl,
       };
+      console.log("response", response);
       this.props.loginSocial(param);
     }
   };
@@ -50,3 +51,4 @@ class GoogleLogin extends React.Component {
 }
 
 export default GoogleLogin;
+

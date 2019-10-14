@@ -19,6 +19,7 @@ class IndividualTab extends React.Component {
     cardInfo: null,
     useEpoint: false,
     epointUsedPoint: 0,
+    showPasswordWarning: false,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -48,7 +49,6 @@ class IndividualTab extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         return MySwal.fire({
           html: (
             <SwalModals
@@ -172,11 +172,16 @@ class IndividualTab extends React.Component {
     return false;
   }
 
+  focusPassword = (e) => {
+    this.setState({ showPasswordWarning: !this.state.showPasswordWarning });
+  }
+
   renderForm = () => {
     try {
       const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { loading, cardInfo, useEpoint } = this.state;
+      const { showPasswordWarning } = this.state;
       return (
         <Form onSubmit={this.onSubmit}>
           {
@@ -214,6 +219,8 @@ class IndividualTab extends React.Component {
                             placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
                             maxLength={4}
                             allowClear
+                            onFocus={this.focusPassword}
+                            onBlur={this.focusPassword}
                             type="password"
                             size="large"
                             className="col-md-12"
@@ -223,22 +230,26 @@ class IndividualTab extends React.Component {
                       </Form.Item>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="text d-flex delivery-info-message" style={{ padding: "8px 15px 8px 15px", position: "absolute", bottom: "12px" }}>
-                      <i
-                        className="fa fa-info"
-                        aria-hidden="true"
-                        style={{
-                          width: '24px',
-                          fontSize: '1.2rem',
-                          color: '#feb415',
-                          textAlign: "left",
-                          display: "block",
-                        }}
-                      />
-                      <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: " shared.form.cardPassword.warningmessage" })}</p>
-                    </div>
-                  </div>
+                  {
+                    showPasswordWarning ?
+                      <div className="col-md-6">
+                        <div className="text d-flex delivery-info-message" style={{ padding: "8px 15px 8px 15px", position: "absolute", bottom: "12px" }}>
+                          <i
+                            className="fa fa-info"
+                            aria-hidden="true"
+                            style={{
+                              width: '24px',
+                              fontSize: '1.2rem',
+                              color: '#feb415',
+                              textAlign: "left",
+                              display: "block",
+                            }}
+                          />
+                          <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: "shared.form.cardPassword.warningmessage" })}</p>
+                        </div>
+                      </div>
+                      : null
+                  }
                 </div>
                 <Button htmlType="submit" loading={loading} disabled={this.checkCardValue()} className="btn btn-main"><FormattedMessage id="shared.form.button.connect" /></Button>
               </div> :
