@@ -69,7 +69,7 @@ class Component extends React.Component {
       if (!err) {
         this.setState({ load: true });
         const param = {
-          custid: this.props.data[0].info.customerInfo.id,
+          custid: this.props.data.value.userInfo.empcode,
           locid: this.state.params.commid,
           address: values.homeaddress,
           name: values.name,

@@ -101,3 +101,7 @@ button:hover{
   text-transform: uppercase;
   font-size: 14px !important;
 }
+
+.ant-dropdown{
+  z-index: 100 !important;
+}
