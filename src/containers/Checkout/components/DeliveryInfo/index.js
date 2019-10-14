@@ -353,7 +353,7 @@ class DeliveryInfo extends React.Component {
     let signature = document.createElement("input");
     signature.type = "hidden";
     signature.name = "signature";
-    signature.value = res.payload.data.url.signature.toLowerCase();
+    signature.value = res.payload.data.url.signature;
 
     mapForm.appendChild(keyNumber);
     mapForm.appendChild(transNumber);
