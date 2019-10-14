@@ -338,6 +338,7 @@ class SwalModals extends Component {
       }
 
       if (type === "qpay") {
+        const { interval } = this.props;
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content">
@@ -389,7 +390,10 @@ class SwalModals extends Component {
 
               <div className="text-center" style={{ marginTop: "10px" }}>
                 <a
-                  onClick={e => readyBtn(e, chosenBank, ordData, type)}
+                  onClick={(e) => {
+                    clearInterval(interval);
+                    readyBtn(e, chosenBank, ordData, type);
+                  }}
                   className="btn btn-main"
                 >
                   <span className="text-uppercase">
