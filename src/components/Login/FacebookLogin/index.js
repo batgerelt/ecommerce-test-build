@@ -9,7 +9,7 @@ class FacebookLogin1 extends React.Component {
     isLoggedIn: false,
   }
 
-  componentClicked = () => this.props.handleLoginModal();
+  componentClicked = () => console.log("Clicked");
 
   responseFacebook = (response) => {
     let param = [];
