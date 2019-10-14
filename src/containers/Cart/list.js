@@ -132,7 +132,7 @@ class Cart extends React.Component {
     if (found) {
       if (this.props.isLogged) {
         const result = await this.props.removeProductRemotely({
-          custid: this.props.data.value.userInfo.empcode,
+          custid: this.props.data[0].info.customerInfo.id,
           skucd: found.skucd,
         });
         if (!result.payload.success) {
