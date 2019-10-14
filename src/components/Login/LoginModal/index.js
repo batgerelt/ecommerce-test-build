@@ -328,6 +328,7 @@ class LoginModal extends React.Component {
   handleLoginModal = () => {
     this.props.form.resetFields();
     this.setState({ visible: !this.state.visible });
+    this.setState({ isRemember: false });
   };
 
   handleRegistrationModal = () => {
@@ -392,7 +393,7 @@ class LoginModal extends React.Component {
           let result = await this.props.login({ body: { ...values } });
           this.loggedData(result);
           if (result.payload.success) {
-            // localStorage.setItem('username', this.state.isRemember ? values.email : null);
+            localStorage.setItem('username', this.state.isRemember ? values.email : null);
             this.setState({ confirm: this.state.direct });
             this.handleLoginModal();
             await this.props.getUserInfo();
@@ -469,7 +470,7 @@ class LoginModal extends React.Component {
   }
 
   onRemember = (e) => {
-    this.setState({ isRemember: true });
+    this.setState({ isRemember: !this.state.isRemember });
   };
 
   render() {
