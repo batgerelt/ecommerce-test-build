@@ -1,10 +1,11 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Signin extends React.Component {
     this.state = {
       loading: false,
       defaultActiveKey: 1,
+      shouldRedirect: false,
     };
   }
 
@@ -34,6 +36,37 @@ class Signin extends React.Component {
                   this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
                   this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
                 }
+
+                // ~~~~~~~~~~~~~~~>
+                let confirmResult = await this.props.confirmCartRemotely();
+                console.log('confirmResult: ', confirmResult);
+
+                if (!confirmResult.payload.success) {
+                  if (confirmResult.payload.data.length > 0) {
+                    let reasons = [];
+                    confirmResult.payload.data.forEach(msg => (
+                      reasons.push(intl.formatMessage(
+                        { id: msg.code },
+                        {
+                          name: msg.values[0],
+                          qty: msg.values[1],
+                        },
+                      ))
+                    ));
+
+                    if (reasons.length > 0) {
+                      message.warning(intl.formatMessage(
+                        { id: confirmResult.payload.code },
+                        {
+                          names: reasons.join(", "),
+                        },
+                      ));
+                    }
+
+                    return this.props.history.push("/cart");
+                  }
+                }
+
                 let { products } = this.props;
                 products = products.map(prod => ({
                   skucd: prod.skucd,
@@ -165,6 +198,10 @@ class Signin extends React.Component {
   }
 
   render() {
+    if (this.state.shouldRedirect) {
+      return <Redirect to="/cart" />;
+    }
+
     return this.renderLoginForm();
   }
 }

@@ -51,6 +51,7 @@ class Cart extends React.Component {
     try {
       if (this.props.isLogged) {
         let result = await this.props.confirmCartRemotely();
+        console.log('result: ', result);
         const { intl } = this.props;
 
         if (result.payload.success) {
@@ -80,6 +81,8 @@ class Cart extends React.Component {
             this.setState({ shouldRedirect: false });
           }
         }
+      } else {
+        this.setState({ shouldRedirect: true });
       }
     } catch (error) {
       console.log('error: ', error);
@@ -540,6 +543,7 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
+      console.log('products: ', products);
       const lang = this.props.intl.locale;
       let content1;
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
@@ -629,6 +633,11 @@ class Cart extends React.Component {
                               }
                             </span>
                           </Link>
+                          {prod.availableqty <= 0 ? (
+                            <div className="badge badge-dark">
+                              {lang === "mn" ? "Дууссан" : "Sold out"}
+                            </div>
+                          ) : ""}
                         </div>
                       </div>
                     </td>
