@@ -263,7 +263,7 @@ class DeliveryInfo extends React.Component {
           interval = setInterval(() => {
             this.props.getOrderDetail({ ordid: res.payload.data.order.id }).then((response) => {
               if (response.payload.success) {
-                if (response.payload.data.info.statusid === 1) {
+                if (response.payload.data.info.statusid === 2) {
                   MySwal.close();
                   this.props.history.push({
                     pathname: `/qpayReturn`,
@@ -319,6 +319,7 @@ class DeliveryInfo extends React.Component {
   }
 
   changeWindow = (res) => {
+    // console.log(res.payload.data.url.signature.toLowerCase());
     let mapForm = document.createElement("form");
     mapForm.target = "_self";
     mapForm.method = "POST";
@@ -352,7 +353,7 @@ class DeliveryInfo extends React.Component {
     let signature = document.createElement("input");
     signature.type = "hidden";
     signature.name = "signature";
-    signature.value = res.payload.data.url.signature;
+    signature.value = res.payload.data.url.signature.toLowerCase();
 
     mapForm.appendChild(keyNumber);
     mapForm.appendChild(transNumber);
@@ -362,13 +363,13 @@ class DeliveryInfo extends React.Component {
     mapForm.appendChild(signature);
 
     document.body.appendChild(mapForm);
-
-    let map = window.open(res.payload.data.url.url, "_self", "");
-    if (map) {
+    console.log(res.payload.data);
+    // let map = window.open(res.payload.data.url.url, "_self", "");
+    /* if (map) {
       mapForm.submit();
     } else {
       console.log('error');
-    }
+    } */
   }
 
   componentDidUpdate(prevProps) {
