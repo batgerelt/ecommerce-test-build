@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch,
   ),
 });
+let interval;
 
 class DeliveryInfo extends React.Component {
   state = {
@@ -258,8 +259,20 @@ class DeliveryInfo extends React.Component {
           data = this.props.bankInfo;
           this.openLastModal("msgBank", data, res.payload.data);
         }
-
         if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
+          interval = setInterval(() => {
+            this.props.getOrderDetail({ ordid: res.payload.data.order.id }).then((response) => {
+              if (response.payload.success) {
+                if (response.payload.data.info.statusid === 1) {
+                  MySwal.close();
+                  this.props.history.push({
+                    pathname: `/qpayReturn`,
+                    state: response.payload.data,
+                  });
+                }
+              }
+            });
+          }, 1000);
           this.openLastModal("qpay", [], res.payload.data);
         }
 
@@ -372,6 +385,7 @@ class DeliveryInfo extends React.Component {
         <SwalModals
           type={type}
           dataValue={data}
+          interval={interval}
           ordData={ordData}
           readyBtn={this.handlePayment}
           onRef={ref => (this.SwalModals = ref)}
@@ -384,6 +398,7 @@ class DeliveryInfo extends React.Component {
       animation: true,
       allowEnterKey: true,
       button: false,
+      onClose: this.closeSwal,
       showCloseButton: false,
       showCancelButton: false,
       showConfirmButton: false,
@@ -392,6 +407,10 @@ class DeliveryInfo extends React.Component {
       closeOnEsc: false,
     });
   };
+
+  closeSwal = (e) => {
+    clearInterval(interval);
+  }
 
   handleAgreementNotif = (value) => {
     this.setState({ notif: value, checkedAgreement: value });

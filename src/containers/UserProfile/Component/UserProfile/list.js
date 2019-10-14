@@ -72,7 +72,7 @@ class Component extends React.Component {
       if (!err) {
         if (this.props.userInfo.main === null) {
           const param = {
-            custid: this.props.data[0].info.customerInfo.id,
+            custid: this.props.data.value.userInfo.empcode,
             locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
             name: values.firstname,
@@ -527,7 +527,7 @@ export default injectIntl(Form.create({ name: "component" })(Component));
 
 /* if (this.props.userInfo.main === null) {
           const param = {
-            custid: this.props.data[0].info.customerInfo.id,
+            custid: this.props.data.value.userInfo.empcode,
             locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
             name: values.firstname,
