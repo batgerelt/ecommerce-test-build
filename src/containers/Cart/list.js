@@ -51,20 +51,20 @@ class Cart extends React.Component {
     try {
       if (this.props.isLogged) {
         let result = await this.props.confirmCartRemotely();
-        console.log('result: ', result);
         const { intl } = this.props;
 
         if (result.payload.success) {
           this.setState({ shouldRedirect: true });
         } else {
           if (result.payload.data.length > 0) {
+            console.log('result.payload: ', result.payload);
             let reasons = [];
             result.payload.data.forEach(msg => (
               reasons.push(intl.formatMessage(
                 { id: msg.code },
                 {
-                  name: msg.values[0],
-                  qty: msg.values[1],
+                  name: msg.values[1],
+                  qty: msg.values[2],
                 },
               ))
             ));
@@ -132,7 +132,7 @@ class Cart extends React.Component {
     if (found) {
       if (this.props.isLogged) {
         const result = await this.props.removeProductRemotely({
-          custid: this.props.data[0].info.customerInfo.id,
+          custid: this.props.data.value.userInfo.empcode,
           skucd: found.skucd,
         });
         if (!result.payload.success) {
