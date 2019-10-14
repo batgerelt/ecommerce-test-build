@@ -85,7 +85,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: '',
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -126,7 +126,7 @@ class CategoryInfo extends React.Component {
     this.setState({ loading: !this.state.loading, minPrice: e[0], maxPrice: e[1] });
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: '',
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -156,7 +156,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: '',
       attribute: this.state.attributes.join(','),
       color: colors.join(','),
@@ -186,7 +186,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: '',
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -216,7 +216,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: '',
       attribute: attributes.join(','),
       color: this.state.colors.join(','),
@@ -245,7 +245,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: 0,
-      custId: isLogged ? data.value.userInfo.empcode : 0,
+      custId: isLogged ? data[0].info.customerInfo.id : 0,
       value: "",
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
@@ -529,7 +529,7 @@ class CategoryInfo extends React.Component {
         const { isLogged, data } = this.props;
         const params = {
           catId: 0,
-          custId: isLogged ? data.value.userInfo.empcode : 0,
+          custId: isLogged ? data[0].info.customerInfo.id : 0,
           value: searchword,
           attribute: this.state.attributes.join(','),
           color: this.state.colors.join(','),
