@@ -14,11 +14,10 @@ class FacebookLogin1 extends React.Component {
   responseFacebook = (response) => {
     let param = [];
     if (response && response.userID) {
-      console.log(response);
       param = {
         username: response.name,
-        firstname: response.name,
-        lastname: response.name,
+        firstname: null,
+        lastname: null,
         phone: null,
         email: response.email,
         oauthType: "FaceBook",
@@ -52,3 +51,4 @@ class FacebookLogin1 extends React.Component {
   }
 }
 export default injectIntl(FacebookLogin1);
+

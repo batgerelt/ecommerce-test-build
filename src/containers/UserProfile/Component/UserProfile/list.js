@@ -145,6 +145,8 @@ class Component extends React.Component {
             if (res.payload.success) {
               this.getdata();
               message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+            } else {
+              message.warning(intl.formatMessage({ id: res.payload.code }));
             }
           });
         }
