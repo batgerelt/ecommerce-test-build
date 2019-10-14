@@ -11,8 +11,8 @@ class GolomtMerchant extends React.Component {
   }
 
   render() {
-    const { golomtMerchant } = this.props;
-    if (golomtMerchant.success) {
+    const { golomtMerchant, state } = this.props;
+    if (golomtMerchant.success || state.qpayReturn) {
       return (
         <div className="section section-gray">
           <div className="container pad10">
@@ -32,26 +32,26 @@ class GolomtMerchant extends React.Component {
                       <div className="message">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Захиалга <strong>{golomtMerchant.data.order.ordernumber}</strong>
+                            Захиалга <strong>{state.qpayReturn ? state.return.info.ordernumber : golomtMerchant.data.order.ordernumber}</strong>
                           </span>
                         </h5>
                         <ul className="list-unstyled class">
                           <li className="flex-this flex-space">
                             <span>Худалдаж авсан барааны тоо:</span>
                             <strong className="big">
-                              {golomtMerchant.data.order.orderquantity}
+                              {state.qpayReturn ? state.return.info.totalquantity : golomtMerchant.data.order.orderquantity}
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
                             <span>Мөнгөн дүн:</span>
                             <strong className="big">
-                              {formatter.format(golomtMerchant.data.order.totalamount)}₮
+                              {formatter.format(state.qpayReturn ? state.return.info.totalamount : golomtMerchant.data.order.totalamount)}₮
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
                             <span>Төлбөрийн төрөл:</span>
                             <strong className="big">
-                              {golomtMerchant.data.order.paymenttype}
+                              {state.qpayReturn ? "Qpay" : golomtMerchant.data.order.paymenttype}
                             </strong>
                           </li>
                         </ul>
@@ -68,7 +68,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span> {golomtMerchant.data.delivery.custname}</span>
+                          <span> {state.qpayReturn ? state.return.info.custname : golomtMerchant.data.delivery.custname}</span>
                         </p>
                         <p className="text flex-this">
                           <i
@@ -77,7 +77,7 @@ class GolomtMerchant extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {`${golomtMerchant.data.delivery.phonE1}, ${golomtMerchant.data.delivery.phonE2}`}
+                            {state.qpayReturn ? `${state.return.info.phone1}, ${state.return.info.phone2}` : `${golomtMerchant.data.delivery.phonE1}, ${golomtMerchant.data.delivery.phonE2}`}
                           </span>
                         </p>
                         <p className="text flex-this">
@@ -86,7 +86,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{golomtMerchant.data.delivery.address}</span>
+                          <span>{state.qpayReturn ? state.return.info.address : golomtMerchant.data.delivery.address}</span>
                         </p>
                         <p className="text flex-this">
                           <i
@@ -94,7 +94,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{golomtMerchant.data.delivery.insymd}</span>
+                          <span>{state.qpayReturn ? state.return.info.orddate : golomtMerchant.data.delivery.insymd}</span>
                         </p>
                       </div>
                       <div className="bottom-text text-center">
@@ -120,7 +120,7 @@ class GolomtMerchant extends React.Component {
                         <a
                           className="btn btn-dark"
                           onClick={() =>
-                            this.props.history.push(`/order/${this.encryptUrl(golomtMerchant.data.order.id)}`)
+                            this.props.history.push(`/order/${this.encryptUrl(state.qpayReturn ? state.return.info.id : golomtMerchant.data.order.id)}`)
                           }
                         >
                           <span className="text-uppercase">Захиалга харах</span>
@@ -135,7 +135,9 @@ class GolomtMerchant extends React.Component {
         </div>
       );
     }
-    return (
+
+    return "";
+    /* return (
       <div className="section section-gray">
         <div className="container pad10">
           <div className="success-message-container" style={{ padding: "100px 0" }}>
@@ -165,7 +167,7 @@ class GolomtMerchant extends React.Component {
           </div>
         </div>
       </div>
-    );
+    ); */
   }
 }
 

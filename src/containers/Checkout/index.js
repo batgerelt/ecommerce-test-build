@@ -10,6 +10,7 @@ import {
   Checkout as CheckoutModel,
   User as UserModel,
   Cart as CartModel,
+  Profile as ProfileModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   ...state.checkout,
   ...state.user,
   ...state.cart,
+  getOrderDetail: state.profile.getOrderDetail,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -29,6 +31,7 @@ const mapDispatchToProps = dispatch => ({
     ...CheckoutModel,
     ...UserModel,
     ...CartModel,
+    ...ProfileModel,
   }, dispatch),
 });
 
