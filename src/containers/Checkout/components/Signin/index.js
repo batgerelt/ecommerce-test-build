@@ -112,8 +112,8 @@ class Signin extends React.Component {
                       reasons.push(intl.formatMessage(
                         { id: msg.code },
                         {
-                          name: msg.values[0],
-                          qty: msg.values[1],
+                          name: msg.values[1],
+                          qty: msg.values[2],
                         },
                       ))
                     ));
