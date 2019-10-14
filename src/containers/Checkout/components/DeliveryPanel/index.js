@@ -40,6 +40,7 @@ class DeliveryPanel extends React.Component {
     chosenDate: null,
     dateLoading: false,
     requiredField: true,
+    isEmail: true,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -218,6 +219,7 @@ class DeliveryPanel extends React.Component {
         if (values.email !== undefined) {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
+              this.setState({ isEmail: false });
               message.warning(intl.formatMessage({ id: res.payload.code }));
             }
           });
@@ -271,8 +273,10 @@ class DeliveryPanel extends React.Component {
               // MySwal.close();
               this.props.changeLoading(false);
               if (res.payload.success) {
-                this.props.changeDeliveryType();
-                this.props.callback("3");
+                if (this.state.isEmail) {
+                  this.props.changeDeliveryType();
+                  this.props.callback("3");
+                }
               } else {
                 MySwal.fire({
                   html: (
