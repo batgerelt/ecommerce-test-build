@@ -50,7 +50,7 @@ class Page extends React.Component {
   state = { banner: { header: [], middle: [], footer: [] } }
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getCategoryMenu();
+    // this.props.getCategoryMenu();
     this.props.getBrand();
     this.props.getHomePageBanner().then(res => {
       const { banner } = this.state;
