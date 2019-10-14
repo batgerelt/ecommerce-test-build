@@ -72,7 +72,7 @@ class Component extends React.Component {
       if (!err) {
         if (this.props.userInfo.main === null) {
           const param = {
-            custid: this.props.data.value.userInfo.empcode,
+            custid: this.props.data[0].info.customerInfo.id,
             locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
             address: values.address,
             name: values.firstname,
@@ -508,6 +508,7 @@ class Component extends React.Component {
     }
   };
   render() {
+    console.log("FAF", this.props);
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
         <p className="title" style={{ textTransform: "uppercase" }}>
