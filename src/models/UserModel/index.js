@@ -52,6 +52,15 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'districtandcommiteloc'),
           error: this.buildActionName('error', data.model, 'districtandcommiteloc'),
         },
+        adduseremail: {
+          request: this.buildActionName("request", data.model, "adduseremail"),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "adduseremail",
+          ),
+          error: this.buildActionName("error", data.model, "adduseremail"),
+        },
       };
     }
     this.addAddressModel = {
@@ -68,6 +77,9 @@ class Model extends BaseModel {
   getDistrictAndCommitte = ({ id } = {}) => asyncFn({ url: `/customer/address/info/${id}`, method: 'GET', model: this.model.districtandcommiteloc })
   addAddress = ({ body }) => asyncFn({
     body, url: `/customer/address`, method: 'POST', model: this.addAddressModel,
+  });
+  addUserEmail = values => asyncFn({
+    url: `/customer/mail/${values}`, method: 'PUT', model: this.model.adduseremail,
   });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

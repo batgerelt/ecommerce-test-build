@@ -214,6 +214,11 @@ class DeliveryPanel extends React.Component {
     const { chosenAddress, addresstype, chosenDeliveryType } = this.state;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        if (values.email !== undefined) {
+          this.props.addUserEmail(values.email).then((res) => {
+            console.log(res);
+          });
+        }
         let body = {};
         body.id = chosenAddress.id;
         body.custid = 1;
@@ -405,7 +410,7 @@ class DeliveryPanel extends React.Component {
       intl,
     } = this.props;
     const lang = intl.locale;
-    const { main } = this.props.userinfo;
+    const { main, info } = this.props.userinfo;
     return (
       <Tabs onChange={this.changeTab} defaultActiveKey={defaultActiveKey.toString()} activeKey={defaultActiveKey.toString()}>
         {deliveryTypes.map((item, i) => {
@@ -520,7 +525,7 @@ class DeliveryPanel extends React.Component {
                       )}
 
                     {item.id !== 3 ? (
-                      <div className="col-xl-12 col-md-12">
+                      <div className={info.email === null ? 'col-xl-8 col-md-8' : 'col-xl-12 col-md-12'}>
                         <Form.Item>
                           {getFieldDecorator("address", {
                             initialValue: this.checkError(chosenAddress.address),
@@ -533,6 +538,31 @@ class DeliveryPanel extends React.Component {
                     ) : (
                         ""
                       )}
+                    {
+                      info.email === null ?
+                        <div className="col-xl-4 col-md-4">
+                          <Form.Item>
+                            {getFieldDecorator("email", {
+                              initialValue: "",
+                              rules: [
+                                {
+                                  required: true,
+                                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                                  type: "email",
+                                },
+                              ],
+                            })(
+                              <Input
+                                type="text"
+                                size="large"
+                                placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                                autoComplete="off"
+                                allowClear
+                              />,
+                            )}
+                          </Form.Item>
+                        </div> : null
+                    }
                     <div className="col-xl-4 col-md-4">
                       <Form.Item>
                         {getFieldDecorator("name", {
