@@ -221,6 +221,8 @@ class DeliveryPanel extends React.Component {
             if (!res.payload.success) {
               this.setState({ isEmail: false });
               message.warning(intl.formatMessage({ id: res.payload.code }));
+            } else {
+              this.setState({ isEmail: true });
             }
           });
         }
@@ -255,7 +257,7 @@ class DeliveryPanel extends React.Component {
         if (products.length !== 0) {
           if (chosenDeliveryType.id === 3 || chosenDeliveryType.id === 2) {
             this.props.changeDeliveryType();
-            this.props.callback("1");
+            this.props.callback("3");
           } else {
             this.props.changeLoading(true);
             // MySwal.showLoading();
