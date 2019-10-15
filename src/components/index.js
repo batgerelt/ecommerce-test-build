@@ -14,7 +14,6 @@ import CartButton from "./CartButton";
 import UserButton from "./UserButton";
 import Label from "./Label";
 import PageBanner from "./PageBanner";
-import FilterSet from "./FilterSet";
 import CardSlider from "./CardSlider";
 import NotFound from "./NotFound";
 import SearchFilterSet from "./SearchFilterSet";
@@ -37,7 +36,6 @@ export {
   UserButton,
   Label,
   PageBanner,
-  FilterSet,
   CardSlider,
   NotFound,
   SearchFilterSet,
