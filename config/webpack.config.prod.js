@@ -10,6 +10,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const paths = require('./paths');
 const fs = require('fs-extra');
 const getClientEnvironment = require('./env');
@@ -25,7 +26,7 @@ const publicPath = paths.servedPath;
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === './';
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const shouldUseSourceMap = false; // process.env.GENERATE_SOURCEMAP !== 'false';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
@@ -439,6 +440,7 @@ module.exports = {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
+        removeScriptTypeAttributes: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
@@ -471,6 +473,13 @@ module.exports = {
         ascii_only: true,
       },
       sourceMap: shouldUseSourceMap,
+    }),
+    new CompressionPlugin({
+      filename: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.scss$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8,
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
