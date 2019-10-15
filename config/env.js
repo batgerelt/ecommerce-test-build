@@ -50,7 +50,7 @@ function getClientEnvironment(publicUrl) {
 
         // REAL
         //API: `https://api.emartmall.mn/mn/api`,
-        // IMAGE: `https://cdn.emartmall.mn/`,
+        //IMAGE: `https://cdn.emartmall.mn/`,
         //IMAGES: `https://api.emartmall.mn/`,
 
         //TEST
