@@ -38,7 +38,6 @@ class Card extends React.Component {
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
     const { intl, elastic } = this.props;
-    console.log('intl: ', intl);
 
     try {
       if (this.props.isLogged) {
@@ -59,8 +58,8 @@ class Card extends React.Component {
             message.warning(intl.formatMessage(
               messages.error,
               {
-                name: result.payload.data.values[0],
-                qty: result.payload.data.values[1],
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
               },
             ));
           }
