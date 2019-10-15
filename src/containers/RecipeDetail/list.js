@@ -160,7 +160,7 @@ class List extends React.Component {
 
       if (this.props.isLogged) {
         const result = await this.props.incrementProductRemotely({
-          custid: this.props.data.value.userInfo.empcode,
+          custid: this.props.data[0].info.customerInfo.id,
           skucd: product.skucd,
           qty: product.addminqty || 1,
           iscart: 0,

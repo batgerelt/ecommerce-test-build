@@ -3452,6 +3452,9 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.dropdown-item:active {
+  background-color: transparent !important;
+}
 .top-text {
     font-size: 11px;
     position: absolute;

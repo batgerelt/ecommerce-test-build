@@ -40,7 +40,7 @@ class Page extends React.Component {
   componentWillMount() {
     try {
       if (this.props.isLogged) {
-        this.props.getProducts(this.props.data.value.userInfo.empcode);
+        this.props.getProducts(this.props.data[0].info.customerInfo.id);
         this.props.getWishByCount({ count: 5 });
         this.props.getStaticInfo();
       } else {

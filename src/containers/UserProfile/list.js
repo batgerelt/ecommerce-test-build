@@ -116,11 +116,6 @@ class List extends React.Component {
       return (
         <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
       );
-      /* const { userInfo } = this.props;
-      const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-      return (
-        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : realImage})` }} />
-      ); */
     } catch (error) {
       return console.log(error);
     }

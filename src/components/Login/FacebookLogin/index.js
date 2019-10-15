@@ -9,7 +9,7 @@ class FacebookLogin1 extends React.Component {
     isLoggedIn: false,
   }
 
-  componentClicked = () => console.log('clicked');
+  componentClicked = () => console.log("Clicked");
 
   responseFacebook = (response) => {
     let param = [];
@@ -36,7 +36,7 @@ class FacebookLogin1 extends React.Component {
       fbContent = (
         <FacebookLogin
           appId={SOCIAL_IDS.facebook}
-          // autoLoad
+          autoLoad={false}
           fields="name,email,picture"
           cssClass="btn btn-block btn-social btn-facebook"
           onClick={this.componentClicked}
