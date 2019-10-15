@@ -40,6 +40,7 @@ class DeliveryPanel extends React.Component {
     chosenDate: null,
     dateLoading: false,
     requiredField: true,
+    isEmail: true,
   };
 
   componentWillUnmount() { this.props.onRef(null); }
@@ -211,13 +212,16 @@ class DeliveryPanel extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { products, userinfo } = this.props;
+    const { products, userinfo, intl } = this.props;
     const { chosenAddress, addresstype, chosenDeliveryType } = this.state;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (values.email !== undefined) {
           this.props.addUserEmail(values.email).then((res) => {
-            console.log(res);
+            if (!res.payload.success) {
+              this.setState({ isEmail: false });
+              message.warning(intl.formatMessage({ id: res.payload.code }));
+            }
           });
         }
         let body = {};
@@ -251,7 +255,7 @@ class DeliveryPanel extends React.Component {
         if (products.length !== 0) {
           if (chosenDeliveryType.id === 3 || chosenDeliveryType.id === 2) {
             this.props.changeDeliveryType();
-            this.props.callback("3");
+            this.props.callback("1");
           } else {
             this.props.changeLoading(true);
             // MySwal.showLoading();
@@ -269,8 +273,10 @@ class DeliveryPanel extends React.Component {
               // MySwal.close();
               this.props.changeLoading(false);
               if (res.payload.success) {
-                this.props.changeDeliveryType();
-                this.props.callback("3");
+                if (this.state.isEmail) {
+                  this.props.changeDeliveryType();
+                  this.props.callback("3");
+                }
               } else {
                 MySwal.fire({
                   html: (

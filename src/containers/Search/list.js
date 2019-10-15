@@ -346,7 +346,11 @@ class CategoryInfo extends React.Component {
         );
       }
 
-      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
+      return (
+        <div className="block">
+          <FormattedMessage id="search.filter.filter.noCategory" />
+        </div>
+      );
     } catch (error) {
       // return console.log(error);
       return null;

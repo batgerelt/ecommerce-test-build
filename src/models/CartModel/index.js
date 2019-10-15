@@ -655,6 +655,9 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
+
+        console.log('action.payload: ', action.payload);
+
         let products = action.payload.success
           ? action.payload.data
           : action.payload.data.items;

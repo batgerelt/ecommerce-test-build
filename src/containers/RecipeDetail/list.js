@@ -27,7 +27,6 @@ class List extends React.Component {
             </Link>
           </li>
           <li>
-            {console.log('recipe: ', recipe)}
             <span>{this.props.lang === "mn" ? recipe.recipenm : recipe.recipenm_en}</span>
           </li>
         </ul>
@@ -235,22 +234,27 @@ class List extends React.Component {
         }));
         this.props.incrementRecipeProductsLocally(products);
 
+        const names = [];
+
         products.forEach((product) => {
           const updated = this.props.products.find(prod => prod.skucd === product.skucd);
 
           if (updated && updated.error !== undefined) {
-            const messages = defineMessages({
-              error: {
-                id: updated.error,
-              },
-            });
+            const name = intl.locale === "mn" ? updated.title : updated.title_en;
 
-            message.warning(intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }));
+            names.push(name);
           }
         });
+
+        if (names.length > 0) {
+          message.warning(intl.formatMessage(
+            { id: "206" },
+            {
+              names: names.join(", "),
+              qty: products.length - names.length,
+            },
+          ));
+        }
       }
     } catch (e) {
       console.log(e);
@@ -279,7 +283,7 @@ class List extends React.Component {
                 <span className="recipe-product-title">
                   {lang === "mn" ? item.title : item.title_en}
                 </span>
-                <span className="recipe-product-price">
+                <span className="recipe-product-price price">
                   {item.pricetag && (
                     <span className="pricetag">
                       {lang === "mn" ? item.pricetag : item.pricetag_en}

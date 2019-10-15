@@ -1,7 +1,7 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
 import moment from "moment";
-import MessengerCustomerChat from "react-messenger-customer-chat";
+// import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
 import { BackTop } from "antd";
 import { isMobileOnly } from 'react-device-detect';

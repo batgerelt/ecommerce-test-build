@@ -318,7 +318,7 @@ class List extends React.Component {
                   <span className="similar-product-title">
                     {lang === "mn" ? prod.title : prod.title_en}
                   </span>
-                  <span className="similar-product-price">
+                  <span className="similar-product-price price">
                     {formatter.format(prod.sprice || prod.price)}₮
                   </span>
                 </Link>

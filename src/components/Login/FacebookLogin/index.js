@@ -35,6 +35,7 @@ class FacebookLogin1 extends React.Component {
     } else {
       fbContent = (
         <FacebookLogin
+          reAuthenticate
           appId={SOCIAL_IDS.facebook}
           autoLoad={false}
           fields="name,email,picture"
