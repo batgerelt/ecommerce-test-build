@@ -36,8 +36,8 @@ class FacebookLogin1 extends React.Component {
     } else {
       fbContent = (
         <FacebookLogin
-          reAuthenticate
-          redirectUri="https://www.emartmall.mn"
+          // reAuthenticate
+          // redirectUri="https://www.emartmall.mn"
           isMobile
           disableMobileRedirect
           appId={SOCIAL_IDS.facebook}
