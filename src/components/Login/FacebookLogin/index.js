@@ -12,6 +12,7 @@ class FacebookLogin1 extends React.Component {
   componentClicked = () => console.log("Clicked");
 
   responseFacebook = (response) => {
+    console.log('response: ', response);
     let param = [];
     if (response && response.userID) {
       param = {
@@ -35,6 +36,10 @@ class FacebookLogin1 extends React.Component {
     } else {
       fbContent = (
         <FacebookLogin
+          reAuthenticate
+          redirectUri="https://www.emartmall.mn"
+          isMobile
+          disableMobileRedirect
           appId={SOCIAL_IDS.facebook}
           autoLoad={false}
           fields="name,email,picture"

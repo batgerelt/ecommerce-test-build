@@ -364,12 +364,12 @@ class DeliveryInfo extends React.Component {
 
     document.body.appendChild(mapForm);
     console.log(res.payload.data);
-    // let map = window.open(res.payload.data.url.url, "_self", "");
-    /* if (map) {
+    let map = window.open(res.payload.data.url.url, "_self", "");
+    if (map) {
       mapForm.submit();
     } else {
       console.log('error');
-    } */
+    }
   }
 
   componentDidUpdate(prevProps) {
