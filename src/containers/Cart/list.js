@@ -57,7 +57,6 @@ class Cart extends React.Component {
           this.setState({ shouldRedirect: true });
         } else {
           if (result.payload.data.length > 0) {
-            console.log('result.payload: ', result.payload);
             let reasons = [];
             result.payload.data.forEach(msg => (
               reasons.push(intl.formatMessage(
@@ -191,8 +190,8 @@ class Cart extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -240,8 +239,8 @@ class Cart extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -277,8 +276,8 @@ class Cart extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       }
@@ -311,8 +310,8 @@ class Cart extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -543,7 +542,6 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
-      console.log('products: ', products);
       const lang = this.props.intl.locale;
       let content1;
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
@@ -739,6 +737,7 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
+    console.log('products: ', products);
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {
@@ -750,7 +749,9 @@ class Cart extends React.Component {
         <div className="container pad10">
           <div className="cart-container">
             <h1 className="title">
-              <span className="text-uppercase"><FormattedMessage id="cart.title" /></span>
+              <span className="text-uppercase">
+                <FormattedMessage id="cart.title" />
+              </span>
             </h1>
             <div className="row row10">
               <div className="col-xl-8 col-lg-8 pad10">

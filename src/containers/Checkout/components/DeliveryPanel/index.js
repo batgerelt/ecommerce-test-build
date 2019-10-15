@@ -251,7 +251,7 @@ class DeliveryPanel extends React.Component {
         if (products.length !== 0) {
           if (chosenDeliveryType.id === 3 || chosenDeliveryType.id === 2) {
             this.props.changeDeliveryType();
-            this.props.callback("3");
+            this.props.callback("1");
           } else {
             this.props.changeLoading(true);
             // MySwal.showLoading();
