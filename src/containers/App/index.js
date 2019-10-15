@@ -168,10 +168,6 @@ class App extends Component {
                       </div>
                     </Layout.Content>
                   </ScrollToTop>
-                  <MessengerCustomerChat
-                    pageId="1438714326447694"
-                    appId="436816840280763"
-                  />
                   <Footer {...this.props} />
                 </Layout>
               </Router>
