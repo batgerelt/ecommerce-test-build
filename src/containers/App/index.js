@@ -124,7 +124,7 @@ class App extends Component {
         />
       );
     } catch (error) {
-      return console.log('error: ', error);
+      return console.log('MessengerCustomerChat error: ', error);
     }
   }
 
