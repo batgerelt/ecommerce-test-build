@@ -180,7 +180,7 @@ class App extends Component {
                     </div>
                   </Layout.Content>
                 </ScrollToTop>
-
+                {this.renderChatMessenger()}
                 <Footer {...this.props} />
               </Layout>
             </Router>
