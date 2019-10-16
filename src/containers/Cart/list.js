@@ -737,7 +737,7 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
-    console.log('products: ', products);
+    console.log('this.props: ', this.props);
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {

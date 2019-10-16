@@ -124,7 +124,7 @@ class List extends React.Component {
   renderIcons = () => {
     try {
       const { recipe, lang } = this.props;
-      return (
+      return recipe && (
         <div className="block product-delivery icons">
           <div className="row row10">
             <div className="col">
@@ -214,18 +214,21 @@ class List extends React.Component {
           return message.warning(intl.formatMessage({ id: result.payload.code }));
         }
         if (result.payload.data.fail.length > 0) {
-          result.payload.data.fail.forEach((msg) => {
-            const messages = defineMessages({
-              error: {
-                id: msg.code,
-              },
-            });
+          const names = [];
 
-            message.warning(intl.formatMessage(messages.error, {
-              name: msg.value.title,
-              qty: msg.value.salemaxqty,
-            }));
+          result.payload.data.fail.forEach((failed) => {
+            names.push(failed.values[1]);
           });
+
+          if (names.length > 0) {
+            message.warning(intl.formatMessage(
+              { id: "206" },
+              {
+                names: names.join(", "),
+                qty: result.payload.data.qty,
+              },
+            ));
+          }
         }
       } else {
         products = products.map(prod => ({

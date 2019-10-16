@@ -37,6 +37,7 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
+    console.log('item: ', item);
     const { intl, elastic } = this.props;
 
     try {
@@ -106,6 +107,7 @@ class Card extends React.Component {
         if (item.skucd) {
           item.insymd = Date.now();
           if (elastic) { // elastic -аас явуулах боломжгүй барааны нэмэлт мэдээлэл
+            console.log('elastic: ', elastic);
             return this.props.getMoreInfoElastic({ skucd: item.skucd }).then((res) => {
               if (item.addminqty <= res.payload.data.availableqty) {
                 item.availableqty = res.payload.data.availableqty;
@@ -123,6 +125,7 @@ class Card extends React.Component {
               ));
             });
           }
+          console.log('item: ', item);
           this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 

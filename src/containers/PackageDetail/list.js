@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-danger */
@@ -159,15 +160,23 @@ class List extends React.Component {
       if (!result.payload.success) {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
+      console.log('result.payload.data: ', result.payload.data);
       if (result.payload.data.fail.length > 0) {
-        const titles = result.payload.data.fail.map(err => err.values[0]);
-        message.warning(intl.formatMessage(
-          { id: "205" },
-          {
-            names: titles.join(", "),
-            qty: result.payload.data.items.length,
-          },
-        ));
+        const names = [];
+
+        result.payload.data.fail.map((failed) => {
+          names.push(failed.values[1]);
+        });
+
+        if (names.length > 0) {
+          message.warning(intl.formatMessage(
+            { id: "205" },
+            {
+              names: names.join(", "),
+              qty: result.payload.data.items.length - result.payload.data.fail.length,
+            },
+          ));
+        }
       }
     } else {
       products = products.map(prod => ({
