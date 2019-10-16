@@ -9,7 +9,7 @@ class FacebookLogin1 extends React.Component {
     isLoggedIn: false,
   }
 
-  componentClicked = () => console.log("Clicked");
+  componentClicked = () => this.props.closeLoginModal();
 
   responseFacebook = (response) => {
     console.log('response: ', response);
@@ -36,8 +36,6 @@ class FacebookLogin1 extends React.Component {
     } else {
       fbContent = (
         <FacebookLogin
-          // reAuthenticate
-          // redirectUri="https://www.emartmall.mn"
           isMobile
           disableMobileRedirect
           appId={SOCIAL_IDS.facebook}
