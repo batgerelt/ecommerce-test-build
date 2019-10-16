@@ -170,14 +170,14 @@ module.exports = {
                 options: {
                   importLoaders: 1,
                   modules: true,
-                  sourceMap: true,
+                  sourceMap: false,
                   localIdentName: '[name]__[local]__[hash:base64:5]',
                 },
               }, {
                 loader: "less-loader",
                 options: {
                   modifyVars: themeVariables,
-                  sourceMap: true,
+                  sourceMap: false,
                 },
               }],
           },
@@ -225,7 +225,7 @@ module.exports = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  sourceMap: true,
+                  sourceMap: false,
                   importLoaders: 1,
                   modules: true,
                   localIdentName: '[name]__[local]__[hash:base64:5]',
@@ -267,13 +267,13 @@ module.exports = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  sourceMap: true,
+                  sourceMap: false,
                 },
               }, {
                 loader: "less-loader",
                 options: {
                   modifyVars: themeVariables,
-                  sourceMap: true,
+                  sourceMap: false,
                 },
               }],
           },
