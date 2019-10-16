@@ -485,6 +485,7 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
+    console.log('products: ', products);
 
     if (!products) {
       return 0;
@@ -493,7 +494,7 @@ class List extends React.Component {
     return products.reduce(
       (acc, cur) =>
         acc +
-        cur.currentprice *
+        cur.currentunitprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,
     );
