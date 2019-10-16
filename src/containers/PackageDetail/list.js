@@ -37,8 +37,8 @@ class List extends React.Component {
         });
 
         message.warning(intl.formatMessage(messages.error, {
-          name: result.payload.data.values[0],
-          qty: result.payload.data.values[1],
+          name: result.payload.data.values[1],
+          qty: result.payload.data.values[2],
         }));
       }
     } else {
@@ -83,8 +83,8 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -160,7 +160,6 @@ class List extends React.Component {
       if (!result.payload.success) {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
-      console.log('result.payload.data: ', result.payload.data);
       if (result.payload.data.fail.length > 0) {
         const names = [];
 
@@ -486,6 +485,7 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
+    console.log('products: ', products);
 
     if (!products) {
       return 0;
@@ -494,7 +494,7 @@ class List extends React.Component {
     return products.reduce(
       (acc, cur) =>
         acc +
-        cur.currentprice *
+        cur.currentunitprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,
     );

@@ -173,8 +173,8 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
