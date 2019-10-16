@@ -147,7 +147,6 @@ class Cart extends React.Component {
 
   handleInputKeyUp = product => async (e) => {
     if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
-      console.log('this.proceedRef: ', this.proceedRef);
       this.proceedRef.current.focus();
     }
   };

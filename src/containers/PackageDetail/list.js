@@ -37,8 +37,8 @@ class List extends React.Component {
         });
 
         message.warning(intl.formatMessage(messages.error, {
-          name: result.payload.data.values[0],
-          qty: result.payload.data.values[1],
+          name: result.payload.data.values[1],
+          qty: result.payload.data.values[2],
         }));
       }
     } else {
@@ -83,8 +83,8 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -160,7 +160,6 @@ class List extends React.Component {
       if (!result.payload.success) {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
-      console.log('result.payload.data: ', result.payload.data);
       if (result.payload.data.fail.length > 0) {
         const names = [];
 
