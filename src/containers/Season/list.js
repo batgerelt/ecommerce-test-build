@@ -250,7 +250,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === cat.key ? true : cat.key,
+      promotion: this.state.promotion === cat.id ? true : cat.id,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -265,7 +265,7 @@ class CategoryInfo extends React.Component {
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
           count: 20,
-          promotion: this.state.promotion === cat.key ? true : cat.key,
+          promotion: this.state.promotion === cat.id ? true : cat.id,
           aggregations: res.payload.data,
         });
       }
@@ -282,18 +282,26 @@ class CategoryInfo extends React.Component {
         return (
           <ul className="list-unstyled category-list">
             {
-              promotions.buckets.buckets.map((cat, index) => (
-                <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
+              // promotions.buckets.buckets.map((cat, index) => (
+              //   <li key={index} className={cat.key === this.state.promotion ? "selected" : "disabled"}>
+              //     <span onClick={() => this.handleClickCategory(cat)}>
+              //       {
+              //         promotionall.find(i => i.id === cat.key) === undefined
+              //           ? null
+              //           : (
+              //             lang === "mn"
+              //               ? promotionall.find(i => i.id === cat.key).name
+              //               : promotionall.find(i => i.id === cat.key).nameen
+              //           )
+              //       }
+              //     </span>
+              //   </li>
+              // ))
+
+              promotionall.map((cat, index) => (
+                <li key={index} className={cat.id === this.state.promotion ? "selected" : "disabled"} >
                   <span onClick={() => this.handleClickCategory(cat)}>
-                    {
-                      promotionall.find(i => i.id === cat.key) === undefined
-                        ? null
-                        : (
-                          lang === "mn"
-                            ? promotionall.find(i => i.id === cat.key).name
-                            : promotionall.find(i => i.id === cat.key).nameen
-                        )
-                    }
+                    { lang === "mn" ? cat.name : cat.nameen }
                   </span>
                 </li>
               ))
