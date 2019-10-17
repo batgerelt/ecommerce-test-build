@@ -117,7 +117,6 @@ class App extends Component {
 
   render() {
     const { lang } = this.props.locale;
-
     try {
       return (
         <Layout style={{ minHeight: '100vh' }}>
