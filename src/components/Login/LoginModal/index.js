@@ -78,16 +78,16 @@ class LoginModal extends React.Component {
         this.setState({ confirm: this.state.direct });
         await this.props.getUserInfo();
         await this.props.getSystemLocation();
-        if (this.props.match.url.slice(0, 8) === "/confirm") {
-          this.setState({ direct: true });
-        }
       }
     });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log("darah");
+    let direct = false;
+    if (this.props.match.url.slice(0, 8) === "/confirm") {
+      direct = true;
+    }
     const { intl } = this.props;
     // eslint-disable-next-line consistent-return
     this.props.form.validateFields(async (err, values) => {
@@ -97,13 +97,10 @@ class LoginModal extends React.Component {
           this.closeLoginModal();
           this.loggedData(result);
           if (result.payload.success) {
+            this.setState({ confirm: direct });
             localStorage.setItem('username', this.state.isRemember ? values.email : null);
-            this.setState({ confirm: this.state.direct });
             await this.props.getUserInfo();
             await this.props.getSystemLocation();
-            if (this.props.match.url.slice(0, 8) === "/confirm") {
-              this.setState({ direct: true });
-            }
           }
         } catch (e) {
           console.log(e);
@@ -143,12 +140,12 @@ class LoginModal extends React.Component {
             qty: prod.qty,
           }));
         }
-
+        console.log("product", products);
         let result = await this.props.increaseProductsByQtyRemotely({
           iscart: 0,
           body: products,
         });
-
+        console.log("increaseProductsByQtyRemotely", result);
         if (result !== undefined) {
           if (!result.payload.success) {
             message.warning(intl.formatMessage({ id: result.payload.code }));
@@ -193,16 +190,20 @@ class LoginModal extends React.Component {
         >
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
-              {getFieldDecorator("email", {
+              {getFieldDecorator('email', {
                 initialValue: localStorage.getItem("username") === null ? null : localStorage.getItem("username"),
-                rules: [{
-                  required: true,
-                  type: "email",
-                  pattern: new RegExp("[A-Za-z]"),
-                  message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                }],
+                rules: [
+                  {
+                    type: 'email',
+                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                  },
+                  {
+                    required: true,
+                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                  },
+                ],
               })(
-                <LatinInput
+                <Input
                   placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                   className="form-control"
                   autoComplete="off"
