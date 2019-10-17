@@ -39,7 +39,7 @@ class Page extends React.Component {
   render() {
     return (
       <div>
-        <List {...this.props} {...this} />
+        <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );

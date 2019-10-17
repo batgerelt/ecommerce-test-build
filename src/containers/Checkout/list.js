@@ -18,19 +18,22 @@ const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
 
 class Checkout extends React.Component {
-  state = {
-    activeKey: ["1"],
-    customerInfo: null,
-    companyInfo: null,
-    deliveryTypeExpanded: false,
-    paymentTypeExpanded: false,
-    payType: false,
-    loading: false,
-    chnged: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeKey: ["1"],
+      customerInfo: null,
+      companyInfo: null,
+      deliveryTypeExpanded: false,
+      paymentTypeExpanded: false,
+      payType: false,
+      loading: false,
+      chnged: false,
+    };
+  }
 
   componentDidUpdate(nextProps) {
-    if (!this.props.isLogged && nextProps.isLogged) {
+    if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       this.props.history.push("/");
     }
     if (this.checkLoggedIn()) {

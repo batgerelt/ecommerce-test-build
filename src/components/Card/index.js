@@ -38,9 +38,8 @@ class Card extends React.Component {
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
     const { intl, elastic } = this.props;
-
     try {
-      if (this.props.isLogged) {
+      if (localStorage.getItem('auth') !== null) {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
@@ -115,7 +114,7 @@ class Card extends React.Component {
                 return this.props.incrementProductLocally(item);
               }
               return message.warning(intl.formatMessage(
-                { id: 200 },
+                { id: "200" },
                 {
                   name: item.title,
                   qty: item.qty,

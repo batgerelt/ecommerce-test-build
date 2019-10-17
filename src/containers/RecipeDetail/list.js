@@ -124,7 +124,7 @@ class List extends React.Component {
   renderIcons = () => {
     try {
       const { recipe, lang } = this.props;
-      return (
+      return recipe && (
         <div className="block product-delivery icons">
           <div className="row row10">
             <div className="col">
@@ -158,7 +158,7 @@ class List extends React.Component {
     try {
       const { intl } = this.props;
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: product.skucd,
@@ -173,8 +173,8 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -206,7 +206,7 @@ class List extends React.Component {
     try {
       const { intl } = this.props;
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementRecipeProductsRemotely({
           recipeid: this.props.match.params.id,
         });
@@ -214,18 +214,21 @@ class List extends React.Component {
           return message.warning(intl.formatMessage({ id: result.payload.code }));
         }
         if (result.payload.data.fail.length > 0) {
-          result.payload.data.fail.forEach((msg) => {
-            const messages = defineMessages({
-              error: {
-                id: msg.code,
-              },
-            });
+          const names = [];
 
-            message.warning(intl.formatMessage(messages.error, {
-              name: msg.value.title,
-              qty: msg.value.salemaxqty,
-            }));
+          result.payload.data.fail.forEach((failed) => {
+            names.push(failed.values[1]);
           });
+
+          if (names.length > 0) {
+            message.warning(intl.formatMessage(
+              { id: "206" },
+              {
+                names: names.join(", "),
+                qty: result.payload.data.qty,
+              },
+            ));
+          }
         }
       } else {
         products = products.map(prod => ({

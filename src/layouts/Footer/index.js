@@ -189,9 +189,7 @@ class Footer extends React.Component {
               )
             }
             <div className="bottom-container">
-              <center>
-                <p><FormattedMessage id="footer.copyright.text" /></p>
-              </center>
+              <p><FormattedMessage id="footer.copyright.text" /></p>
             </div>
           </div>
         </div>

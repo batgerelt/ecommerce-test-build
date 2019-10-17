@@ -32,7 +32,7 @@ class RecipeDetail extends React.Component {
   }
 
   render() {
-    return <List {...this.props} />;
+    return <List {...this.props} isLoggedIn={localStorage.getItem('auth') !== null} />;
   }
 }
 

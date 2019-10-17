@@ -19,6 +19,9 @@ class Signin extends React.Component {
     };
   }
 
+  closeLoginModal = () => {
+    console.log("close");
+  }
   loginSocial = (param) => {
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
       console.log("result", res);

@@ -19,7 +19,7 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.inputRef = React.createRef();
+    this.proceedRef = React.createRef();
 
     this.state = {
       tempProducts: [],
@@ -49,7 +49,7 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
     try {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
 
@@ -92,7 +92,7 @@ class Cart extends React.Component {
   handleClearClick = async () => {
     const { intl } = this.props;
 
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.clearRemotely();
 
       if (!result.payload.success) {
@@ -105,7 +105,7 @@ class Cart extends React.Component {
 
   handleSaveClick = (e, product) => {
     e.preventDefault();
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       this.props.addWishList({ skucd: product.skucd || product.skucd }).then((res) => {
         if (res.payload.success) {
           setTimeout(() => {
@@ -129,7 +129,7 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.removeProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: found.skucd,
@@ -147,7 +147,7 @@ class Cart extends React.Component {
 
   handleInputKeyUp = product => async (e) => {
     if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
-      this.inputRef.current.blur();
+      this.proceedRef.current.focus();
     }
   };
 
@@ -165,6 +165,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputBlur = product => async (e) => {
+    console.log("fired blur");
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -175,7 +176,7 @@ class Cart extends React.Component {
         : parseInt(e.target.value);
       found.qty = parseInt(qty, 10);
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.skucd,
           qty: found.addminqty > 1 ? Math.round(found.qty / found.addminqty) * found.addminqty : found.qty,
@@ -224,7 +225,7 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           skucd: found.skucd,
           qty: found.qty + found.addminqty,
@@ -261,7 +262,7 @@ class Cart extends React.Component {
         }
       }
     } else {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           skucd: product.skucd,
           qty: product.addminqty || 1,
@@ -291,7 +292,7 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         // const productQty =
         //   found.qty - found.addminqty < found.addminqty
         //     ? found.addminqty
@@ -468,7 +469,7 @@ class Cart extends React.Component {
   };
 
   renderWishlistProducts = () => {
-    if (!this.props.isLogged) {
+    if (!this.props.isLoggedIn) {
       return null;
     }
     const wishlistProducts = this.props.wish;
@@ -737,7 +738,6 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
-    console.log('products: ', products);
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {
@@ -805,6 +805,7 @@ class Cart extends React.Component {
                       </p>
                     </div>
                     <button
+                      ref={this.proceedRef}
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                         }`}
