@@ -61,7 +61,7 @@ class Payment extends React.Component {
       };
       this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
         if (!res.payload.success) {
-          if (res.payload.data.ordstatus === 15) {
+          if (res.payload.data.ordstatus === "SUCCESS") {
             this.props.clearLocally();
             this.setState({ isReturn: true, return: res }, () => {
               this.props.history.push({
@@ -69,7 +69,8 @@ class Payment extends React.Component {
                 state: this.state,
               });
             });
-          } else if (res.payload.data.ordstatus === 16 || res.payload.data.ordstatus === 14 || res.payload.data.ordstatus === 18) {
+            // (res.payload.data.ordstatus === 16 || res.payload.data.ordstatus === 14 || res.payload.data.ordstatus === 18)
+          } else {
             this.setState({ isReturn: true, return: res }, () => {
               this.props.history.push({
                 pathname: "/cart",
