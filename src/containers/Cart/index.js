@@ -39,7 +39,7 @@ class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     try {
-      if (this.props.isLogged) {
+      if (localStorage.getItem('auth') !== null) {
         this.props.getProducts(this.props.data[0].info.customerInfo.id);
         this.props.getWishByCount({ count: 5 });
         this.props.getStaticInfo();
@@ -61,7 +61,7 @@ class Page extends React.Component {
   render() {
     return (
       <div>
-        <List {...this.props} {...this} />
+        <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );

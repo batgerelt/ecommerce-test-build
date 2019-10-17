@@ -32,7 +32,7 @@ class Detail extends Component {
 
   renderDetails = () => {
     const {
-      categorymenu, rate, isLogged, intl, attributes,
+      categorymenu, rate, isLoggedIn, intl, attributes,
     } = this.props;
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
@@ -66,12 +66,12 @@ class Detail extends Component {
           <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
             <Rate
               allowHalf
-              value={isLogged ? rate / 2 : 0}
+              value={isLoggedIn ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
             <p className="text upper-first">
-              {/* ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
-              ({isLogged ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
+              {/* ({isLoggedIn ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
+              ({isLoggedIn ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
           </div>
           {!!attributes && !!attributes.length && (
@@ -112,9 +112,9 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLogged, detail, addRate, getProductRate, intl,
+      isLoggedIn, detail, addRate, getProductRate, intl,
     } = this.props;
-    if (isLogged) {
+    if (isLoggedIn) {
       let skucd = detail.products.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
@@ -314,8 +314,8 @@ class Detail extends Component {
   };
 
   handleSaveClick = () => {
-    const { isLogged, addWishList, detail } = this.props;
-    if (isLogged) {
+    const { isLoggedIn, addWishList, detail } = this.props;
+    if (isLoggedIn) {
       let skucd = detail.products.skucd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
@@ -432,7 +432,7 @@ class Detail extends Component {
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (product) => {
     const { intl } = this.props;
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.increaseProductByQtyRemotely({
         skucd: product.skucd,
         qty: this.state.productQty,

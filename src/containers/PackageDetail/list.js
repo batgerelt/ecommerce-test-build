@@ -23,7 +23,7 @@ class List extends React.Component {
 
   handleSimilarProductIncrement = async (product) => {
     const { intl } = this.props;
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.incrementProductRemotely({
         skucd: product.skucd,
         qty: product.addminqty || 1,
@@ -68,7 +68,7 @@ class List extends React.Component {
 
       let product = { ...prod };
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.increaseProductByQtyRemotely({
           skucd: product.skucd,
           qty:
@@ -149,7 +149,7 @@ class List extends React.Component {
   handleAddToCart = async (products) => {
     const { intl } = this.props;
 
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       products = products.map(prod => ({
         skucd: prod.skucd,
         qty: prod.qty !== undefined ? prod.qty : prod.addminqty || 1,

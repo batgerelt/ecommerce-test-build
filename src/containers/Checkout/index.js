@@ -69,7 +69,7 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} loading={loading} LoginModal={this.LoginModal} ForgetModal={this.ForgetModal} />
+        <List {...this.props} loading={loading} LoginModal={this.LoginModal} ForgetModal={this.ForgetModal} isLoggedIn={localStorage.getItem('auth') !== null} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
         <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} />
       </Spin>
