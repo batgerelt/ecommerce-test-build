@@ -137,7 +137,7 @@ class List extends React.Component {
         >
           <strong style={{ marginBottom: "-10px" }}>{info.firstname}</strong>
           {this.state.showButton ?
-            <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
+            <Button style={{ marginTop: "-5px", marginLeft: "5px", color: "black" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
             :
             null}
           <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>

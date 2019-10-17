@@ -217,7 +217,7 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              style={{ boxShadow: 'none', fontSize: "13px" }}
+                              style={{ boxShadow: 'none', fontSize: "14px" }}
                             >
                               {
                                 this.state.item.id !== 0
@@ -257,7 +257,7 @@ class AppHeader extends Component {
                             </div>
                           </div>
                         </li>
-                        <li className="search-form">
+                        <li className="search-form" style={{ width: "100%" }}>
                           <div className="form-group">
                             <label
                               className="input"
@@ -271,7 +271,7 @@ class AppHeader extends Component {
                                 type="text"
                                 className="form-control input-search"
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
-                                style={{ boxShadow: 'none' }}
+                                style={{ boxShadow: 'none', fontSize: "14px" }}
                                 onChange={e => this.handleChangeSearchWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
@@ -281,7 +281,12 @@ class AppHeader extends Component {
                             </label>
                           </div>
                         </li>
-                        <li>
+                        <li style={{ width: "20% !important" }}>
+                          <Link to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`} className="btn" style={{ color: "black" }}>
+                            <i className="fa fa-search" />
+                          </Link>
+                        </li>
+                        {/* <li>
                           <Link
                             className="btn"
                             to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
@@ -298,7 +303,7 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </Form>
                   </div>

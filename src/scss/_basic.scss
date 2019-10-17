@@ -916,14 +916,13 @@ button{
     margin-top: 10px;
   }
   .bottom-container {
+    text-align: center;
     border-top: 1px solid $white9;
-    padding-top: 10px;
-    margin-bottom: -40px;
-
+    padding-bottom: 10px;
     p {
       color: $white5;
       margin: auto;
-      font-size: 0.7rem;
+      font-size: 14px;
       letter-spacing: 0.5px;
     }
   }
@@ -3535,6 +3534,9 @@ button:disabled{
 }
 .top-main .search li:last-child .btn {
   background-color: #FFB81C !important;
+}
+.top-main .search li:last-child {
+  width: 20% !important;
 }
 // 
 
