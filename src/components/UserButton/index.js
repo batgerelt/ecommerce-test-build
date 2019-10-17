@@ -61,7 +61,7 @@ class UserButton extends React.Component {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
 
-    if (!this.props.isLogged) {
+    if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
       message.success(intl.formatMessage({ id: "userButton.info.success" }));
     }

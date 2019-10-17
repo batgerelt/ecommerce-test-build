@@ -33,7 +33,7 @@ class Checkout extends React.Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (!this.props.isLogged && nextProps.isLogged) {
+    if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       this.props.history.push("/");
     }
     if (this.checkLoggedIn()) {

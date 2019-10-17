@@ -158,7 +158,7 @@ class List extends React.Component {
     try {
       const { intl } = this.props;
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: product.skucd,
@@ -206,7 +206,7 @@ class List extends React.Component {
     try {
       const { intl } = this.props;
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementRecipeProductsRemotely({
           recipeid: this.props.match.params.id,
         });

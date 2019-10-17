@@ -40,8 +40,7 @@ class Card extends React.Component {
     const { intl, elastic } = this.props;
 
     try {
-      console.log('this.props: ', this.props);
-      if (this.props.isLogged) {
+      if (localStorage.getItem('auth') !== null) {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
