@@ -95,6 +95,7 @@ class Homepage extends React.Component {
         newproduct,
         recipeAll,
       } = this.props;
+      console.log('emartproduct: ', emartproduct);
 
       const items = {
         products: {

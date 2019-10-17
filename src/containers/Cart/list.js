@@ -19,7 +19,7 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.inputRef = React.createRef();
+    this.proceedRef = React.createRef();
 
     this.state = {
       tempProducts: [],
@@ -147,7 +147,7 @@ class Cart extends React.Component {
 
   handleInputKeyUp = product => async (e) => {
     if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
-      this.inputRef.current.blur();
+      this.proceedRef.current.focus();
     }
   };
 
@@ -165,6 +165,7 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputBlur = product => async (e) => {
+    console.log("fired blur");
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -737,7 +738,6 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
-    console.log('products: ', products);
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {
@@ -805,6 +805,7 @@ class Cart extends React.Component {
                       </p>
                     </div>
                     <button
+                      ref={this.proceedRef}
                       className={`btn btn-main btn-block${
                         products && products.length ? "" : " disabled"
                         }`}

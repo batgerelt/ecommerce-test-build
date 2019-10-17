@@ -40,6 +40,7 @@ class Card extends React.Component {
     const { intl, elastic } = this.props;
 
     try {
+      console.log('this.props: ', this.props);
       if (this.props.isLogged) {
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
@@ -115,7 +116,7 @@ class Card extends React.Component {
                 return this.props.incrementProductLocally(item);
               }
               return message.warning(intl.formatMessage(
-                { id: 200 },
+                { id: "200" },
                 {
                   name: item.title,
                   qty: item.qty,

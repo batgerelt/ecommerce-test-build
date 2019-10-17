@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-danger */
@@ -36,8 +37,8 @@ class List extends React.Component {
         });
 
         message.warning(intl.formatMessage(messages.error, {
-          name: result.payload.data.values[0],
-          qty: result.payload.data.values[1],
+          name: result.payload.data.values[1],
+          qty: result.payload.data.values[2],
         }));
       }
     } else {
@@ -82,8 +83,8 @@ class List extends React.Component {
           });
 
           message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
           }));
         }
       } else {
@@ -160,14 +161,21 @@ class List extends React.Component {
         message.warning(intl.formatMessage({ id: result.payload.code }));
       }
       if (result.payload.data.fail.length > 0) {
-        const titles = result.payload.data.fail.map(err => err.values[0]);
-        message.warning(intl.formatMessage(
-          { id: "205" },
-          {
-            names: titles.join(", "),
-            qty: result.payload.data.items.length,
-          },
-        ));
+        const names = [];
+
+        result.payload.data.fail.map((failed) => {
+          names.push(failed.values[1]);
+        });
+
+        if (names.length > 0) {
+          message.warning(intl.formatMessage(
+            { id: "205" },
+            {
+              names: names.join(", "),
+              qty: result.payload.data.items.length - result.payload.data.fail.length,
+            },
+          ));
+        }
       }
     } else {
       products = products.map(prod => ({
@@ -477,6 +485,7 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
+    console.log('products: ', products);
 
     if (!products) {
       return 0;
@@ -485,7 +494,7 @@ class List extends React.Component {
     return products.reduce(
       (acc, cur) =>
         acc +
-        cur.currentprice *
+        cur.currentunitprice *
         (cur.qty || cur.qty === 0 ? cur.qty : cur.addminqty || 1),
       0,
     );
