@@ -95,7 +95,7 @@ class LoginModal extends React.Component {
         try {
           let result = await this.props.login({ body: { ...values } });
           this.closeLoginModal();
-          this.loggedData(result);
+          this.logData(result);
           if (result.payload.success) {
             this.setState({ confirm: direct });
             localStorage.setItem('username', this.state.isRemember ? values.email : null);
@@ -110,7 +110,7 @@ class LoginModal extends React.Component {
   };
 
   // eslint-disable-next-line consistent-return
-  loggedData = (result) => {
+  logData = (result) => {
     const { intl } = this.props;
     if (result.payload.success) {
       message.success(intl.formatMessage({ id: "loginModal.info.success" }));
@@ -140,12 +140,10 @@ class LoginModal extends React.Component {
             qty: prod.qty,
           }));
         }
-        console.log("product", products);
         let result = await this.props.increaseProductsByQtyRemotely({
           iscart: 0,
           body: products,
         });
-        console.log("increaseProductsByQtyRemotely", result);
         if (result !== undefined) {
           if (!result.payload.success) {
             message.warning(intl.formatMessage({ id: result.payload.code }));
