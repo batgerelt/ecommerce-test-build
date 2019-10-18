@@ -94,7 +94,6 @@ class LoginModal extends React.Component {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
-          this.closeLoginModal();
           this.logData(result);
           if (result.payload.success) {
             this.setState({ confirm: direct });
@@ -120,6 +119,7 @@ class LoginModal extends React.Component {
       }
       return null;
     }
+    this.closeLoginModal();
     localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);

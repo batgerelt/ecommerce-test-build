@@ -525,16 +525,13 @@ class Cart extends React.Component {
             ))}
           </ul>
           {
-            this.state.showButton ?
+            wishlistProducts.length < 5 ? null : this.state.showButton ?
               <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
                 <span className="text-uppercase">
                   <FormattedMessage id="shared.sidebar.button.showAll" />
                 </span>
-              </Link>
-              :
-              null
+              </Link> : null
           }
-
         </div>
       )
     );
