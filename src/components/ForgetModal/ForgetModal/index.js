@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
 import { Link } from "react-router-dom";
 
 class ForgetModal extends React.Component {
@@ -25,10 +25,9 @@ class ForgetModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
           }
-
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }) });
           this.props.form.resetFields();
           this.handleForgetModal();
         });

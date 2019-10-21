@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button, message, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import NumberInput from "../../../../components/Input/NumberInput";
@@ -89,7 +89,7 @@ class IndividualTab extends React.Component {
             this.setState({ cardInfo: res.payload.data });
             DeliveryInfo.setIndividualData(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
-            message.success(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }) });
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

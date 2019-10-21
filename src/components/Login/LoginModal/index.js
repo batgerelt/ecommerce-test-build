@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
@@ -62,7 +62,7 @@ class LoginModal extends React.Component {
           if (!res.payload.success) {
             return message.warning(intl.formatMessage({ id: res.payload.code }));
           }
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }) });
           this.props.form.resetFields();
           this.handleForgetModal();
         });
@@ -112,10 +112,10 @@ class LoginModal extends React.Component {
   logData = (result) => {
     const { intl } = this.props;
     if (result.payload.success) {
-      message.success(intl.formatMessage({ id: "loginModal.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 0 });
     } else {
       if (result.payload.code) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        notification.warning({ message: intl.formatMessage({ id: result.payload.code }) });
       }
       return null;
     }

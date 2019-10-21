@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl';
 import { connect } from "react-redux";
-import { Collapse, Tabs, Divider, Button, message } from "antd";
+import { message, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { intl } from '../../../../components/IntlGlobalProvider';
@@ -31,12 +31,11 @@ class SwalModals extends React.Component {
 
   onSubmit = () => {
     this.props.updateMain({ body: this.props.param }).then((res) => {
-      console.log(res);
       if (res.payload.success) {
         localStorage.removeItem("username");
         /* this.props.logout();
         this.props.clearLocally(); */
-        message.success(intl.formatMessage({ id: "433" }));
+        notification.success({ message: intl.formatMessage({ id: "433" }) });
       } else {
         message.warning(intl.formatMessage({ id: res.payload.code }));
       }

@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Divider, Rate, message, Form, Input } from "antd";
+import { Divider, Rate, message, Form, Input, notification } from "antd";
 import { Redirect, withRouter } from 'react-router-dom';
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -18,9 +18,9 @@ class Component extends React.Component {
           password: values.password,
         }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
           }
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }) });
           return history.push('/');
         });
       }

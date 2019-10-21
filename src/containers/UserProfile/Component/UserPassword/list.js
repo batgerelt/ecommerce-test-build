@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, message, Input, Select, Icon, Spin, Col, Button, Divider } from "antd";
+import { Form, message, Input, Select, Icon, Spin, Col, Button, Divider, notification } from "antd";
 // import { Link } from "react-router-dom";
 
 class Component extends React.Component {
@@ -18,7 +18,7 @@ class Component extends React.Component {
         this.props.resetPassword({ body: params }).then((res) => {
           if (res.payload.success) {
             this.props.form.resetFields();
-            message.success(intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }));
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }) });
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

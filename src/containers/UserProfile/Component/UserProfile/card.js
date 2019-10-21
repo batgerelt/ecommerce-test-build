@@ -1,7 +1,7 @@
 import React from "react";
 import withReactContent from "sweetalert2-react-content";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, message, Input, Spin, Col, Button } from "antd";
+import { Form, message, Input, Spin, Col, Button, notification } from "antd";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import SwalModals from "./EpointModal";
@@ -53,7 +53,7 @@ class Component extends React.Component {
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
-            message.success(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }) });
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, message, Input, Select, Divider, Col, Button } from "antd";
+import { Form, message, Input, Select, Divider, Col, Button, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Card from "./card";
@@ -144,7 +144,7 @@ class Component extends React.Component {
           this.props.updateMain({ body: param }).then((res) => {
             if (res.payload.success) {
               this.getdata();
-              message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+              notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }) });
             } else {
               message.warning(intl.formatMessage({ id: res.payload.code }));
             }
@@ -525,63 +525,3 @@ class Component extends React.Component {
 
 export default injectIntl(Form.create({ name: "component" })(Component));
 
-
-/* if (this.props.userInfo.main === null) {
-          const param = {
-            custid: this.props.data[0].info.customerInfo.id,
-            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
-            address: values.address,
-            name: values.firstname,
-            phonE1: values.phone1,
-            phonE2: values.phone2,
-          };
-          this.props.addAddress({ body: { ...param } }).then((res) => {
-            if (res.payload.success) {
-              this.getdata();
-            }
-          });
-        } else {
-          const param = {
-            id: this.props.userInfo.info.id,
-            username: this.props.userInfo.info.username,
-            firstname: values.firstname,
-            imgnm: this.props.userInfo.info.imgnm,
-            lastname: values.lastname,
-            email: values.email,
-            phonE1: values.phone1,
-            phonE2: values.phone2,
-            locid: this.state.loc === null ? values.commiteLocation : this.state.loc,
-            address: values.address,
-            adrsid: this.props.userInfo.main === undefined ? null : this.props.userInfo.main.id,
-          };
-          if (this.props.userInfo.info.email !== param.email) {
-            return MySwal.fire({
-              html: (
-                <SwalModals
-                  type={"email"}
-                  onRef={ref => (this.SwalModals = ref)}
-                  param={param}
-                  {...this}
-                  {...this.props}
-                />
-              ),
-              type: "warning",
-              animation: true,
-              button: false,
-              showCloseButton: false,
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              closeOnEsc: false,
-            });
-            // eslint-disable-next-line no-else-return
-          } else {
-            this.props.updateMain({ body: param }).then((res) => {
-              if (res.payload.success) {
-                this.getdata();
-              }
-            });
-          }
-        }
-        message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })); */

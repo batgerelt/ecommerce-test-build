@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button, message, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
 
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
@@ -38,7 +38,7 @@ class Signin extends React.Component {
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
-      message.success(intl.formatMessage({ id: "loginModal.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }) });
     } else {
       if (r.payload.code) {
         message.warning(intl.formatMessage({ id: r.payload.code }));
