@@ -20,7 +20,7 @@ class Component extends React.Component {
           if (!res.payload.success) {
             return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
           }
-          notification.success({ message: intl.formatMessage({ id: res.payload.code }) });
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           return history.push('/');
         });
       }

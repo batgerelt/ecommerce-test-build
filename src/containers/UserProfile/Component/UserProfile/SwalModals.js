@@ -35,7 +35,7 @@ class SwalModals extends React.Component {
         localStorage.removeItem("username");
         /* this.props.logout();
         this.props.clearLocally(); */
-        notification.success({ message: intl.formatMessage({ id: "433" }) });
+        notification.success({ message: intl.formatMessage({ id: "433" }), duration: 2 });
       } else {
         message.warning(intl.formatMessage({ id: res.payload.code }));
       }

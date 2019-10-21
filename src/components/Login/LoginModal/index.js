@@ -112,7 +112,7 @@ class LoginModal extends React.Component {
   logData = (result) => {
     const { intl } = this.props;
     if (result.payload.success) {
-      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 0 });
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
     } else {
       if (result.payload.code) {
         notification.warning({ message: intl.formatMessage({ id: result.payload.code }) });

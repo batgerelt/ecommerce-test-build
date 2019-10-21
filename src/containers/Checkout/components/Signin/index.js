@@ -38,7 +38,7 @@ class Signin extends React.Component {
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
-      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }) });
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
     } else {
       if (r.payload.code) {
         message.warning(intl.formatMessage({ id: r.payload.code }));

@@ -81,7 +81,7 @@ class Component extends React.Component {
             this.props.getUserInfoProfile();
             this.props.form.resetFields();
             this.setState({ load: false });
-            notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }) });
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
           } else {
             message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
           }

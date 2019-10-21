@@ -53,7 +53,7 @@ class Component extends React.Component {
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
-            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }) });
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }), duration: 2 });
           } else {
             message.warning(intl.formatMessage({ id: res.payload.code }));
           }

@@ -144,7 +144,7 @@ class Component extends React.Component {
           this.props.updateMain({ body: param }).then((res) => {
             if (res.payload.success) {
               this.getdata();
-              notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }) });
+              notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
             } else {
               message.warning(intl.formatMessage({ id: res.payload.code }));
             }

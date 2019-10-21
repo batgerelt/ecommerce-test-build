@@ -55,7 +55,7 @@ class PackageDetail extends React.Component {
     this.props.getStaticInfo();
     this.props.confirm({ key: this.props.match.params.key }).then((Res) => {
       if (!Res.payload.success) {
-        notification.success({ message: intl.formatMessage({ id: Res.payload.code }) });
+        notification.success({ message: intl.formatMessage({ id: Res.payload.code }), duration: 2 });
       }
     });
   }

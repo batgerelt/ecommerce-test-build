@@ -61,7 +61,7 @@ class Signup extends React.Component {
             if (res.payload.success) {
               this.props.form.resetFields();
               this.props.LoginRegisterPanel.changeTab(1);
-              notification.success({ message: intl.formatMessage({ id: "registration.confirmation.email" }) });
+              notification.success({ message: intl.formatMessage({ id: "registration.confirmation.email" }), duration: 2 });
             } else {
               message.warning(intl.formatMessage({ id: res.payload.code }));
             }

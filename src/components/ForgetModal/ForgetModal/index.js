@@ -27,7 +27,7 @@ class ForgetModal extends React.Component {
           if (!res.payload.success) {
             return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
           }
-          notification.success({ message: intl.formatMessage({ id: res.payload.code }) });
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           this.props.form.resetFields();
           this.handleForgetModal();
         });

@@ -62,7 +62,7 @@ class UserButton extends React.Component {
 
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
-      notification.success({ message: intl.formatMessage({ id: "userButton.info.success" }) });
+      notification.success({ message: intl.formatMessage({ id: "userButton.info.success" }), duration: 2 });
     }
   }
 
