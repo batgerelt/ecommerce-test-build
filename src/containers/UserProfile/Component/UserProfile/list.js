@@ -16,6 +16,7 @@ class Component extends React.Component {
     dis: "",
     loc: null,
     loader: false,
+    newEmail: null,
     params: {
       provid: "11",
       distid: "01",
@@ -152,6 +153,33 @@ class Component extends React.Component {
         }
       }
     });
+  }
+
+  changeMail = (e) => {
+    e.preventDefault();
+    MySwal.fire({
+      html: (
+        <SwalModals
+          type={"email"}
+          onRef={ref => (this.SwalModals = ref)}
+          updateMain={this.props.updateMain}
+          {...this.props.userInfo}
+          {...this}
+        />
+      ),
+      animation: true,
+      button: false,
+      showCloseButton: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      closeOnEsc: false,
+    });
+  }
+
+  changeEmail = (mail) => {
+    this.setState({ newEmail: mail });
   }
 
   renderLocation = (location) => {
@@ -438,15 +466,22 @@ class Component extends React.Component {
               </Col>
             </Col>
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
               <Form.Item>
                 {getFieldDecorator("email", {
                   initialValue: userInfo.info.email,
                   rules: [{ required: true, type: "email", message: intl.formatMessage({ id: "shared.form.email.validation.required" }) }],
-                })(<LatinInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
+                })(<Input className="profile-custom-input" disabled placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })} />)}
               </Form.Item>
             </Col>
+
+            <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
+              <Button className="btn-mail" onClick={this.changeMail} >
+                <span>Имэйл солих</span>
+              </Button>
+            </Col>
+
             <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
               <Form.Item>
@@ -466,7 +501,7 @@ class Component extends React.Component {
                 })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            {/* <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text">
                 {intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2
               </span>
@@ -479,7 +514,7 @@ class Component extends React.Component {
                   ],
                 })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
-            </Col>
+            </Col> */}
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
@@ -508,7 +543,6 @@ class Component extends React.Component {
     }
   };
   render() {
-    console.log("FAF", this.props);
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
         <p className="title" style={{ textTransform: "uppercase" }}>

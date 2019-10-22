@@ -21,6 +21,7 @@ class LoginModal extends React.Component {
   componentWillUnmount() {
     this.props.onRef(null);
   }
+
   componentDidMount() {
     this.props.onRef(this);
   }
@@ -73,7 +74,7 @@ class LoginModal extends React.Component {
   loginSocial = (param) => {
     this.closeLoginModal();
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
-      this.loggedData(res);
+      this.logData(res);
       if (res.payload.success) {
         this.setState({ confirm: this.state.direct });
         await this.props.getUserInfo();
@@ -115,7 +116,7 @@ class LoginModal extends React.Component {
       notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
     } else {
       if (result.payload.code) {
-        notification.warning({ message: intl.formatMessage({ id: result.payload.code }) });
+        notification.warning({ message: intl.formatMessage({ id: result.payload.code }), duration: 2 });
       }
       return null;
     }

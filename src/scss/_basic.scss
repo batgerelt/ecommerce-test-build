@@ -3040,9 +3040,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .button-container{
-  padding-top: 2em;
+  /* padding-top: 2em;
   padding-right: 3em;
-  padding-left: 3em;
+  padding-left: 3em; */
 }
 
 .swal2-icon.swal2-error {
@@ -3451,6 +3451,13 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.btn-mail {
+  background: #FFB81C;
+  height: 40px;
+  width: 100%;
+  color: #000000;
+  margin-bottom: 20px;
+}
 .ant-notification-notice-close {
   display: none !important;
 }
