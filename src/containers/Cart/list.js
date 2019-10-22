@@ -18,10 +18,9 @@ const formatter = new Intl.NumberFormat("en-US");
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-
     this.proceedRef = React.createRef();
-
     this.state = {
+      count: 5,
       tempProducts: [],
       shouldRedirect: false,
       showButton: true,
@@ -165,7 +164,6 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputBlur = product => async (e) => {
-    console.log("fired blur");
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -339,8 +337,9 @@ class Cart extends React.Component {
 
   seeMore = (e) => {
     e.preventDefault();
+    const wishlistProducts = this.props.wish;
     this.props.getWishByCount({ count: 0 });
-    this.setState({ showButton: false });
+    this.setState({ showButton: false, count: wishlistProducts.length });
   }
 
   // eslint-disable-next-line arrow-parens
@@ -473,6 +472,7 @@ class Cart extends React.Component {
       return null;
     }
     const wishlistProducts = this.props.wish;
+    console.log(wishlistProducts.length);
     const lang = this.props.intl.locale;
     return (
       wishlistProducts &&
@@ -482,7 +482,7 @@ class Cart extends React.Component {
             <FormattedMessage id="shared.sidebar.title.wishlist" />
           </p>
           <ul className="list-unstyled">
-            {wishlistProducts.map((wishlistProd, index) => (
+            {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
                   <Link to={wishlistProd.route || ""}>
@@ -525,7 +525,7 @@ class Cart extends React.Component {
             ))}
           </ul>
           {
-            wishlistProducts.length < 5 ? null : this.state.showButton ?
+            wishlistProducts.length <= 5 ? null : this.state.showButton ?
               <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
                 <span className="text-uppercase">
                   <FormattedMessage id="shared.sidebar.button.showAll" />
