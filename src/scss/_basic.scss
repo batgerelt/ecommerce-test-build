@@ -3451,6 +3451,9 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.ant-notification {
+  z-index: 9999999999 !important;
+}
 .btn-mail {
   background: #FFB81C;
   height: 40px;

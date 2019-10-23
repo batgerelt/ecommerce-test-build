@@ -12,7 +12,7 @@
 /* eslint-disable import/newline-after-import */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Tabs, Input, Form, Select, DatePicker, message } from "antd";
+import { Tabs, Input, Form, Select, DatePicker, message, notification } from "antd";
 import moment from "moment";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -206,7 +206,10 @@ class DeliveryPanel extends React.Component {
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
       });
     } else {
-      message.warning(intl.formatMessage({ id: "checkout.expressDelivery.info" }));
+      notification.warning({
+        message: intl.formatMessage({ id: "checkout.expressDelivery.info" }),
+        duration: 3,
+      });
     }
   };
 
@@ -220,7 +223,10 @@ class DeliveryPanel extends React.Component {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
               this.setState({ isEmail: false });
-              message.warning(intl.formatMessage({ id: res.payload.code }));
+              notification.warning({
+                message: intl.formatMessage({ id: res.payload.code }),
+                duration: 3,
+              });
             } else {
               this.setState({ isEmail: true });
             }
@@ -246,7 +252,10 @@ class DeliveryPanel extends React.Component {
                 }
               });
             } else {
-              message.warning(res.payload.message);
+              notification.warning({
+                message: res.payload.message,
+                duration: 3,
+              });
             }
           });
         };

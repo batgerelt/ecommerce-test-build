@@ -7,7 +7,7 @@ import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'rea
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { css } from "glamor";
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import { Slider } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -35,11 +35,13 @@ class List extends React.Component {
             id: result.payload.code,
           },
         });
-
-        message.warning(intl.formatMessage(messages.error, {
-          name: result.payload.data.values[1],
-          qty: result.payload.data.values[2],
-        }));
+        notification.warning({
+          message: intl.formatMessage(messages.error, {
+            name: result.payload.data.values[1],
+            qty: result.payload.data.values[2],
+          }),
+          duration: 3,
+        });
       }
     } else {
       product.insymd = Date.now();
@@ -53,11 +55,13 @@ class List extends React.Component {
             id: updated.error,
           },
         });
-
-        message.warning(intl.formatMessage(messages.error, {
-          name: updated.title,
-          qty: updated.qty,
-        }));
+        notification.warning({
+          message: intl.formatMessage(messages.error, {
+            name: updated.title,
+            qty: updated.qty,
+          }),
+          duration: 3,
+        });
       }
     }
   };
@@ -81,11 +85,13 @@ class List extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         if (product.qty === undefined) {
@@ -104,11 +110,13 @@ class List extends React.Component {
                 id: updated.error,
               },
             });
-
-            message.warning(intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }));
+            notification.warning({
+              message: intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              }),
+              duration: 3,
+            });
           }
         }
       }
@@ -158,7 +166,10 @@ class List extends React.Component {
         body: products,
       });
       if (!result.payload.success) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        notification.warning({
+          message: intl.formatMessage({ id: result.payload.code }),
+          duration: 3,
+        });
       }
       if (result.payload.data.fail.length > 0) {
         const names = [];
@@ -168,13 +179,16 @@ class List extends React.Component {
         });
 
         if (names.length > 0) {
-          message.warning(intl.formatMessage(
-            { id: "205" },
-            {
-              names: names.join(", "),
-              qty: result.payload.data.items.length - result.payload.data.fail.length,
-            },
-          ));
+          notification.warning({
+            message: intl.formatMessage(
+              { id: "205" },
+              {
+                names: names.join(", "),
+                qty: result.payload.data.items.length - result.payload.data.fail.length,
+              },
+            ),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -192,13 +206,16 @@ class List extends React.Component {
 
       if (errors.length > 0) {
         const titles = errors.map(err => err.title);
-        message.warning(intl.formatMessage(
-          { id: "205" },
-          {
-            names: titles.join(", "),
-            qty: products.length - errors.length,
-          },
-        ));
+        notification.warning({
+          message: intl.formatMessage(
+            { id: "205" },
+            {
+              names: titles.join(", "),
+              qty: products.length - errors.length,
+            },
+          ),
+          duration: 3,
+        });
       }
     }
   };

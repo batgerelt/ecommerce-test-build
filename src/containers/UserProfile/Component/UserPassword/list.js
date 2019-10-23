@@ -20,7 +20,7 @@ class Component extends React.Component {
             this.props.form.resetFields();
             notification.success({ message: intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }), duration: 2 });
           } else {
-            message.warning(intl.formatMessage({ id: res.payload.code }));
+            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
         });
       }

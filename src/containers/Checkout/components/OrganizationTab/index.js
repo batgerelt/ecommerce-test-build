@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button, message, notification } from "antd";
 import LatinInput from "../../../../components/Input/LatinInput";
 import KrillInput from "../../../../components/Input/KrillInput";
 
@@ -56,7 +56,10 @@ class OrganizationTab extends React.Component {
               setFieldsValue({ regno: res.payload.data.name });
               this.setState({ companyInfo: value, connected: true });
             } else {
-              message.warning(intl.formatMessage({ id: "checkout.extra.organization.info" }));
+              notification.warning({
+                message: intl.formatMessage({ id: "checkout.extra.organization.info" }),
+                duration: 3,
+              });
             }
           }
         });

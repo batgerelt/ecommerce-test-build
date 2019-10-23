@@ -91,7 +91,10 @@ class IndividualTab extends React.Component {
             setFieldsValue({ cardPoint: res.payload.data.point });
             notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }), duration: 2 });
           } else {
-            message.warning(intl.formatMessage({ id: res.payload.code }));
+            notification.warning({
+              message: intl.formatMessage({ id: res.payload.code }),
+              duration: 3,
+            });
           }
           this.setState({ loading: false });
         });

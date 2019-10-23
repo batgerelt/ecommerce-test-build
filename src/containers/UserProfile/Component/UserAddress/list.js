@@ -83,7 +83,7 @@ class Component extends React.Component {
             this.setState({ load: false });
             notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
           } else {
-            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
+            notification.warning({ message: intl.formatMessage({ id: "shared.form.info.cannotSave" }), duration: 3 });
           }
         });
       }

@@ -5,7 +5,7 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, Rate, message } from "antd";
+import { Button, Rate, message, notification } from "antd";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -119,10 +119,12 @@ class Detail extends Component {
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
-          // message.warning(res.payload.message);
           getProductRate({ skucd });
         } else {
-          message.warning(intl.formatMessage({ id: res.payload.code }));
+          notification.warning({
+            message: intl.formatMessage({ id: res.payload.code }),
+            duration: 3,
+          });
         }
       });
     } else {
@@ -370,10 +372,13 @@ class Detail extends Component {
     if (product.salemaxqty >= e.target.value || product.salemaxqty === 0) {
       this.setState({ productQty: e.target.value });
     } else {
-      message.warning(intl.formatMessage(messages.warning, {
-        name: lang === 'mn' ? product.title : product.title_en,
-        qty: product.salemaxqty,
-      }));
+      notification.warning({
+        message: intl.formatMessage(messages.warning, {
+          name: lang === 'mn' ? product.title : product.title_en,
+          qty: product.salemaxqty,
+        }),
+        duration: 3,
+      });
     }
   };
 
@@ -387,7 +392,10 @@ class Detail extends Component {
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
       console.log("3");
-      message.warning("Барааны нөөц хүрэлцэхгүй байна.");
+      notification.warning({
+        message: "Барааны нөөц хүрэлцэхгүй байна.",
+        duration: 3,
+      });
     } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
       console.log("4");
@@ -414,10 +422,13 @@ class Detail extends Component {
     if (product.salemaxqty >= productQty || product.salemaxqty === 0) {
       this.setState({ productQty });
     } else {
-      message.warning(intl.formatMessage(messages.warning, {
-        name: lang === 'mn' ? product.title : product.title_en,
-        qty: product.salemaxqty,
-      }));
+      notification.warning({
+        message: intl.formatMessage(messages.warning, {
+          name: lang === 'mn' ? product.title : product.title_en,
+          qty: product.salemaxqty,
+        }),
+        duration: 3,
+      });
     }
   };
 
@@ -445,10 +456,13 @@ class Detail extends Component {
             id: result.payload.code,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, {
-          name: result.payload.data.values[0],
-          qty: result.payload.data.values[1],
-        }));
+        notification.warning({
+          message: intl.formatMessage(messages.warning, {
+            name: result.payload.data.values[0],
+            qty: result.payload.data.values[1],
+          }),
+          duration: 3,
+        });
       }
     } else {
       product.insymd = Date.now();
@@ -463,10 +477,13 @@ class Detail extends Component {
             id: updated.error,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, {
-          name: updated.title,
-          qty: updated.qty,
-        }));
+        notification.warning({
+          message: intl.formatMessage(messages.warning, {
+            name: updated.title,
+            qty: updated.qty,
+          }),
+          duration: 3,
+        });
       }
     }
   };

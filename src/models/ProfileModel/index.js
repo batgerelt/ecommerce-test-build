@@ -181,6 +181,15 @@ class Model extends BaseModel {
           response: this.buildActionName("response", data.model, "checkkey"),
           error: this.buildActionName("error", data.model, "checkkey"),
         },
+        editemail: {
+          request: this.buildActionName("request", data.model, "editemail"),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "editemail",
+          ),
+          error: this.buildActionName("error", data.model, "editemail"),
+        },
       };
     }
   }
@@ -372,6 +381,9 @@ class Model extends BaseModel {
       method: `DELETE`,
       model: this.model.deleteAddress,
     });
+  editEmail = values => asyncFn({
+    url: `/customer/mail/${values}`, method: 'PUT', model: this.model.editemail,
+  });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

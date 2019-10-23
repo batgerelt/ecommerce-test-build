@@ -147,7 +147,7 @@ class Component extends React.Component {
               this.getdata();
               notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
             } else {
-              message.warning(intl.formatMessage({ id: res.payload.code }));
+              notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
             }
           });
         }
@@ -162,7 +162,7 @@ class Component extends React.Component {
         <SwalModals
           type={"email"}
           onRef={ref => (this.SwalModals = ref)}
-          updateMain={this.props.updateMain}
+          editEmail={this.props.editEmail}
           {...this.props.userInfo}
           {...this}
         />

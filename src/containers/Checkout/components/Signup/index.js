@@ -63,11 +63,17 @@ class Signup extends React.Component {
               this.props.LoginRegisterPanel.changeTab(1);
               notification.success({ message: intl.formatMessage({ id: "registration.confirmation.email" }), duration: 2 });
             } else {
-              message.warning(intl.formatMessage({ id: res.payload.code }));
+              notification.warning({
+                message: intl.formatMessage({ id: res.payload.code }),
+                duration: 3,
+              });
             }
           });
         } else {
-          message.warning(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
+          notification.warning({
+            message: intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }),
+            duration: 3,
+          });
         }
       }
     });

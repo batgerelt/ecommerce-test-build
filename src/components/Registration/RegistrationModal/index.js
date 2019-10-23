@@ -30,7 +30,7 @@ class RegistrationModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.signup({ body: values }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
           notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           this.handleSignup();

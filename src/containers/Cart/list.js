@@ -10,7 +10,7 @@ import React from "react";
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { message, Affix } from 'antd';
+import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -68,12 +68,15 @@ class Cart extends React.Component {
             ));
 
             if (reasons.length > 0) {
-              message.warning(intl.formatMessage(
-                { id: result.payload.code },
-                {
-                  names: reasons.join(", "),
-                },
-              ));
+              notification.warning({
+                message: intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: reasons.join(", "),
+                  },
+                ),
+                duration: 3,
+              });
             }
 
             this.setState({ shouldRedirect: false });
@@ -95,7 +98,10 @@ class Cart extends React.Component {
       const result = await this.props.clearRemotely();
 
       if (!result.payload.success) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        notification.warning({
+          message: intl.formatMessage({ id: result.payload.code }),
+          duration: 3,
+        });
       }
     } else {
       this.props.clearLocally();
@@ -134,7 +140,10 @@ class Cart extends React.Component {
           skucd: found.skucd,
         });
         if (!result.payload.success) {
-          message.warning(intl.formatMessage({ id: result.payload.code }));
+          notification.warning({
+            message: intl.formatMessage({ id: result.payload.code }),
+            duration: 3,
+          });
         }
       } else {
         this.props.removeProductLocally(product);
@@ -187,11 +196,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -204,11 +215,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -236,11 +249,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.incrementProductLocally(found);
@@ -253,10 +268,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -273,11 +291,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       }
     }
@@ -307,11 +327,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -324,10 +346,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {

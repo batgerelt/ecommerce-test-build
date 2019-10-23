@@ -30,29 +30,16 @@ class SwalModals extends React.Component {
 
 
   onSubmit = () => {
-    let param = [];
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        param = {
-          id: this.props.info.id,
-          username: this.props.info.username,
-          firstname: this.props.info.firstname,
-          imgnm: this.props.info.imgnm,
-          lastname: this.props.info.lastname,
-          email: values.email,
-          phonE1: this.props.info.phone1,
-          phonE2: null,
-          locid: this.props.main.locid,
-          address: this.props.main.address,
-          adrsid: this.props.main.id,
-        };
-        this.props.updateMain({ body: param }).then((res) => {
+        this.props.editEmail(values.email).then((res) => {
+          console.log("response", res);
           if (res.payload.success) {
             localStorage.removeItem("username");
-            notification.success({ message: intl.formatMessage({ id: "433" }), duration: 5 });
+            notification.success({ message: intl.formatMessage({ id: "433" }), duration: 3 });
             MySwal.close();
           } else {
-            message.warning(intl.formatMessage({ id: res.payload.code }));
+            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
         }).catch(err => console.log(err));
       }

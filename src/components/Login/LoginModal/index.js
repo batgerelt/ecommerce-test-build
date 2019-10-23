@@ -61,7 +61,7 @@ class LoginModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
           notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           this.props.form.resetFields();
@@ -147,7 +147,7 @@ class LoginModal extends React.Component {
         });
         if (result !== undefined) {
           if (!result.payload.success) {
-            message.warning(intl.formatMessage({ id: result.payload.code }));
+            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
         }
         this.props.form.resetFields();
