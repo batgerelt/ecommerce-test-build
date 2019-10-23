@@ -169,7 +169,6 @@ class LoginModal extends React.Component {
   }
 
   onRemember = (e) => {
-    console.log("remember");
     this.setState({ isRemember: !this.state.isRemember });
   };
 
