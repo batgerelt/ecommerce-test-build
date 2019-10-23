@@ -44,7 +44,6 @@ class AuthModel extends BaseModel {
       modules: [],
       userInfo: [],
     };
-    console.log(localStorage.getItem('auth'), "skfhidshgiufergrb");
   }
 
   logout = () => ({

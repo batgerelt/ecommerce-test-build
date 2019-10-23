@@ -307,7 +307,7 @@
 	"shared.form.newPasswordAgain.validation.required": "Please repeat password",
 	"shared.form.oldPassword.placeholder": "Old password",
 	"shared.form.oldPassword.validation.required": "Please enter old password",
-	"shared.form.company.regNo.placeholder": "Company registry number",
+	"shared.form.company.regNo.placeholder": "Company registry",
 	"shared.form.company.regNo.validation.required": "Please enter company registeration number",
 	"shared.form.password.placeholder": "Password",
 	"shared.form.password.validation.pattern": "Password must have at least 4 characters",

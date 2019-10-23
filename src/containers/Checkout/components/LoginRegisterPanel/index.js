@@ -39,46 +39,6 @@ class LoginRegisterPanel extends React.Component {
     }
   }
 
-  handleGetValue = () => { return console.log('LoginRegister'); }
-
-  /* agreementApprove = e => {
-    e.preventDefault();
-    this.props.form.validateFields(async (err, values) => {
-      if (!err) {
-        this.register(values);
-      }
-    });
-
-    MySwal.close();
-  }; */
-
-  /*  agreementCancel = e => {
-    e.preventDefault();
-    MySwal.close();
-  }; */
-
-  /* openAgreement = () => {
-    MySwal.fire({
-      html: (
-        <SwalModals
-          type={"agreement"}
-          agreementApprove={this.agreementApprove}
-          agreementCancel={this.agreementCancel}
-        />
-      ),
-      width: "38em",
-      animation: false,
-      button: false,
-      showCloseButton: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-      focusConfirm: false,
-      showCloseButton: true,
-      allowOutsideClick: false,
-      closeOnEsc: false
-    });
-  }; */
-
   render() {
     return (
       <Tabs

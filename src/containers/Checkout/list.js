@@ -1,8 +1,10 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable radix */
 import React from "react";
-import { FormattedMessage } from 'react-intl';
-import { Collapse, Spin } from "antd";
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Collapse, Spin, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
@@ -11,6 +13,7 @@ import {
   PaymentPanel,
   DeliveryInfo,
   DeliveryPanel,
+  SwalModals,
 } from "./components";
 import { Loader } from "../../components";
 
@@ -21,7 +24,7 @@ class Checkout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeKey: ["1"],
+      activeKey: "1",
       customerInfo: null,
       companyInfo: null,
       deliveryTypeExpanded: false,
@@ -29,17 +32,26 @@ class Checkout extends React.Component {
       payType: false,
       loading: false,
       chnged: false,
+      chosenDelivery: {},
+      totalPrice: 0,
+      totalQty: 0,
+      chosenAddress: {},
+      addresstype: "edit",
+      isEmail: true,
+      deliveryPanelForm: {},
+      chosenDate: null,
+      chosenRadio: 1,
+      organizationData: [],
+      chosenPaymentType: {},
+      useEpoint: false,
+      epointUsedPoint: 0,
+      cardInfo: null,
     };
   }
 
   componentDidUpdate(nextProps) {
     if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       this.props.history.push("/");
-    }
-    if (this.checkLoggedIn()) {
-      if (this.props.loading !== nextProps.loading) {
-        this.setState({ activeKey: ["2"], chnged: true });
-      }
     }
   }
 
@@ -53,16 +65,29 @@ class Checkout extends React.Component {
     });
   };
 
+  setDeliveryPanelForm = (item) => {
+    this.setState({ deliveryPanelForm: item });
+  }
+
   componentWillMount = () => {
-    const { products } = this.props;
+    const { products, userinfo } = this.props;
+    if (this.checkLoggedIn()) {
+      if (!this.props.loading) {
+        this.setState({ activeKey: "2", chnged: true });
+      }
+    }
     if (products.length === 0) {
       this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
       this.props.history.push("/cart");
     }
+    if (userinfo.card !== undefined) {
+      this.setState({ cardInfo: userinfo.card });
+    }
+    this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
   }
 
-  changeDeliveryType = () => {
-    this.setState({ deliveryTypeExpanded: true });
+  changeDeliveryType = (value) => {
+    this.setState({ deliveryTypeExpanded: value });
   }
 
   changePaymentType = () => {
@@ -96,9 +121,15 @@ class Checkout extends React.Component {
   );
 
   callback = (key) => {
-    this.setState({
-      activeKey: key,
-    });
+    const { activeKey } = this.state;
+    console.log(key, activeKey);
+    if (key === "3" && activeKey === "2") {
+      this.onSubmitDeliveryPanel();
+    } else if (key === "2" && activeKey === "3") {
+      this.setState({ activeKey: "2" });
+    } else {
+      this.setState({ activeKey: key });
+    }
   };
 
   changeLoading = (val) => {
@@ -134,10 +165,193 @@ class Checkout extends React.Component {
     return false;
   }
 
-  render() {
+  getTotalQty = (products) => {
+    if (typeof products === 'string') {
+      products = JSON.parse(products);
+    }
+    const qties = products && products.map(prod => (prod.qty ? prod.qty : 0));
+    return qties && qties.length > 0
+      ? qties.reduce((acc, cur) => acc + cur)
+      : 0;
+  }
+
+  getTotalPrice = (products) => {
+    if (typeof products === 'string') {
+      products = JSON.parse(products);
+    }
+    const prices = products && products.map((prod) => {
+      const price = prod.salepercent && prod.discountprice
+        ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
+        : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
+      return (prod.addminqty > 1 ? prod.currentunitprice : price) * (prod.qty ? prod.qty : 0);
+    });
+    return prices && prices.length > 0
+      ? prices.reduce((acc, cur) => acc + cur)
+      : 0;
+  };
+
+  changeDeliveryTab = (item) => {
+    const { totalPrice } = this.state;
+    if (totalPrice >= item.freecondition && item.freecondition !== 0) {
+      item.price = 0;
+    }
+    this.setState({ chosenDelivery: item });
+  }
+
+  getDeliveryTypeValue = (body, date) => {
+    console.log(body, date);
+  }
+
+  changeChosenDate = (item) => {
+    this.setState({ chosenDate: item });
+  }
+
+  onSubmitDeliveryPanel = (e) => {
+    e !== undefined ? e.preventDefault() : '';
     const {
-      deliveryTypeExpanded, paymentTypeExpanded, payType, loading,
-    } = this.state;
+      products,
+      userinfo,
+      intl,
+    } = this.props;
+    const { chosenAddress, addresstype, chosenDelivery } = this.state;
+    console.log(this.state.deliveryPanelForm, "clicked");
+    this.state.deliveryPanelForm.validateFields((err, values) => {
+      if (!err) {
+        if (values.email !== undefined && userinfo.info.email === null) {
+          this.props.addUserEmail(values.email).then((res) => {
+            if (!res.payload.success) {
+              this.setState({ isEmail: false });
+              message.warning(intl.formatMessage({ id: res.payload.code }));
+            } else {
+              this.setState({ isEmail: true });
+            }
+          });
+        }
+        let body = {};
+        body.id = chosenAddress.id;
+        body.custid = 1;
+        body.locid = chosenAddress.locid;
+        body.address = values.address;
+        body.name = values.name;
+        body.phonE1 = values.phone1;
+        body.phonE2 = values.phone2;
+        if (addresstype === "new" && chosenDelivery.id !== 3) {
+          this.props.addAddress({ body }).then((res) => {
+            if (res.payload.success) {
+              chosenAddress.id = res.payload.data;
+              body.id = res.payload.data;
+              this.changeChosenAddress(chosenAddress);
+              this.changeAddressType("edit");
+              this.props.getUserInfo().then((res) => {
+                if (res.payload.success) {
+                  this.setState({ noAddress: false });
+                }
+              });
+            } else {
+              message.warning(res.payload.message);
+            }
+          });
+        }
+        body.provincenm = chosenAddress.provincenm;
+        body.districtnm = chosenAddress.districtnm;
+        body.committeenm = chosenAddress.committeenm;
+        this.getDeliveryTypeValue(body, this.state.chosenDate);
+        if (products.length !== 0) {
+          if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
+            this.changeDeliveryType(true);
+            this.setState({ activeKey: "3" });
+          } else {
+            this.changeLoading(true);
+            let locid = this.state.chosenAddress.locid;
+            let tmp = [];
+            products.map((item) => {
+              let it = {
+                skucd: item.skucd,
+                qty: item.qty,
+              };
+              tmp.push(it);
+            });
+            this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
+              this.changeLoading(false);
+              if (res.payload.success) {
+                if (this.state.isEmail) {
+                  this.changeDeliveryType(true);
+                  this.setState({ activeKey: "3" });
+                }
+              } else {
+                MySwal.fire({
+                  html: (
+                    <SwalModals
+                      type={"delete"}
+                      data={[]}
+                      ordData={[]}
+                      onRef={ref => (this.SwalModals = ref)}
+                      {...this}
+                      {...this.props}
+                    />
+                  ),
+                  type: "warning",
+                  animation: true,
+                  button: false,
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  focusConfirm: false,
+                  allowOutsideClick: false,
+                  closeOnEsc: false,
+                });
+              }
+            });
+          }
+        }
+      } else {
+        console.log("aldaas");
+      }
+    });
+  }
+
+  changeChosenAddress = (item) => {
+    this.setState({ chosenAddress: item });
+  }
+
+  changeAddressType = (item) => {
+    this.setState({ addresstype: item });
+  }
+
+  changeChosenRadio = (item) => {
+    this.setState({ chosenRadio: item });
+  }
+
+  setOrganizationData = (item) => {
+    this.setState({ organizationData: item });
+  }
+
+  setChosenPaymentType = (item) => {
+    this.setState({ chosenPaymentType: item });
+  }
+
+  changeCompanyInfo = (item) => {
+    this.setState({ companyInfo: item });
+  }
+
+  setUseEpoint = (value, usedPoint) => {
+    this.setState({ useEpoint: value, epointUsedPoint: usedPoint });
+  }
+
+  continueCheckout = (epointUsedPoint, useEpoint) => {
+    this.setState({ epointUsedPoint, useEpoint });
+  }
+
+  changeCardInfo = (item) => {
+    this.setState({ cardInfo: item });
+  }
+
+  changeEpointUsedPoint = (item) => {
+    this.setState({ epointUsedPoint: item });
+  }
+
+  render() {
+    const { deliveryTypeExpanded, loading } = this.state;
     return (
       <Spin
         spinning={loading}
@@ -173,30 +387,48 @@ class Checkout extends React.Component {
                             disabled={!this.checkLoggedIn()}
                             key={"2"}
                           >
-                            <DeliveryPanel onRef={ref => (this.DeliveryPanel = ref)} {...this} {...this.props} />
+                            <DeliveryPanel
+                              {...this.props}
+                              mainState={this.state}
+                              changeDeliveryTab={this.changeDeliveryTab}
+                              getDeliveryTypeValue={this.getDeliveryTypeValue}
+                              changeChosenAddress={this.changeChosenAddress}
+                              changeAddressType={this.changeAddressType}
+                              setDeliveryPanelForm={this.setDeliveryPanelForm}
+                              changeChosenDate={this.changeChosenDate}
+                            />
                           </Panel>
                           <Panel
                             header={this.paymentType()}
                             showArrow={false}
-                            disabled={!(deliveryTypeExpanded && this.checkLoggedIn())}
+                            disabled={!this.checkLoggedIn()}
                             key={"3"}
                           >
-                            <PaymentTypePanel onRef={ref => (this.PaymentTypePanel = ref)} {...this} {...this.props} />
-                          </Panel>
-                          <Panel
-                            header={this.optionType()}
-                            showArrow={false}
-                            disabled={!(paymentTypeExpanded && this.checkLoggedIn())}
-                            key="4"
-                          >
-                            <PaymentPanel onRef={ref => (this.PaymentPanel = ref)} {...this} {...this.props} />
+                            <PaymentTypePanel
+                              {...this.props}
+                              mainState={this.state}
+                              changeChosenRadio={this.changeChosenRadio}
+                              setOrganizationData={this.setOrganizationData}
+                              setChosenPaymentType={this.setChosenPaymentType}
+                              changeCompanyInfo={this.changeCompanyInfo}
+                              changeCardInfo={this.changeCardInfo}
+                              setUseEpoint={this.setUseEpoint}
+                            />
                           </Panel>
                         </Collapse>
                       </div>
                     </div>
                   </div>
                 </div>
-                <DeliveryInfo onRef={ref => (this.DeliveryInfo = ref)} {...this} {...this.props} />
+                <DeliveryInfo
+                  onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
+                  mainState={this.state}
+                  changeLoading={this.changeLoading}
+                  setUseEpoint={this.setUseEpoint}
+                  changeCardInfo={this.changeCardInfo}
+                  changeEpointUsedPoint={this.changeEpointUsedPoint}
+                  {...this.props}
+                />
               </div>
             </div>
           </div>
@@ -206,4 +438,4 @@ class Checkout extends React.Component {
   }
 }
 
-export default Checkout;
+export default injectIntl(Checkout);

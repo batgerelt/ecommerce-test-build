@@ -50,7 +50,7 @@ class Page extends React.Component {
     await this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (auth !== null && auth !== undefined) {
-      this.props.getUserInfo().then((res) => {
+      await this.props.getUserInfo().then((res) => {
         this.setState({ loading: false });
       });
       this.props.getSystemLocation();
@@ -69,7 +69,11 @@ class Page extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <List {...this.props} loading={loading} LoginModal={this.LoginModal} ForgetModal={this.ForgetModal} isLoggedIn={localStorage.getItem('auth') !== null} />
+        {
+          !loading ?
+            <List {...this.props} loading={loading} LoginModal={this.LoginModal} ForgetModal={this.ForgetModal} isLoggedIn={localStorage.getItem('auth') !== null} />
+            : null
+        }
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
         <ForgetModal onRef={ref => (this.ForgetModal = ref)} {...this.props} />
       </Spin>

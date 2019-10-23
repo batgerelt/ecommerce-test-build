@@ -29,9 +29,6 @@ class SwalModals extends Component {
     mode: "left",
   };
 
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
-
   errorMsg = (txt) => {
     MySwal.fire({
       type: "error",
@@ -113,7 +110,7 @@ class SwalModals extends Component {
           this.props.history.push("/cart");
         } else {
           MySwal.close();
-          this.props.changeDeliveryType();
+          this.props.changeDeliveryType(true);
           this.props.callback("3");
         }
       }
@@ -408,7 +405,7 @@ class SwalModals extends Component {
 
       if (type === "paymentSuccess") {
         const {
-          PaymentTypePanel, chosenInfo, paymentType, chosenBankInfo, userinfo, ordData,
+          chosenInfo, paymentType, chosenBankInfo, userinfo, ordData, mainState,
         } = this.props;
         const messages = defineMessages({
           warning1: {
@@ -472,7 +469,7 @@ class SwalModals extends Component {
                             <span>
                               {intl.formatMessage({ id: "checkout.swal.label.paymentType" })}:
                             </span>
-                            <strong className="big">{intl.locale === "mn" ? PaymentTypePanel.state.chosenPaymentType.name : PaymentTypePanel.state.chosenPaymentType.name_en}</strong>
+                            <strong className="big">{intl.locale === "mn" ? mainState.chosenPaymentType.name : mainState.chosenPaymentType.name_en}</strong>
                           </li>
                           {paymentType !== "qpay" ? (
                             <div>
@@ -526,8 +523,8 @@ class SwalModals extends Component {
                           />
                           <span>
                             {" "}
-                            {chosenInfo.length !== 0
-                              ? `${chosenInfo.phonE1}, ${chosenInfo.phonE2}`
+                            {mainState.chosenAddress.length !== 0
+                              ? `${mainState.chosenAddress.phone1}`
                               : ""}
                           </span>
                         </p>
@@ -550,11 +547,11 @@ class SwalModals extends Component {
                           <span>
                             {
                               ordData.delivery.deliverytype !== 3 ?
-                                chosenInfo.length !== 0
-                                  ? `${chosenInfo.provincenm},
-                              ${chosenInfo.districtnm},
-                              ${chosenInfo.committeenm},
-                              ${chosenInfo.address}`
+                                mainState.chosenAddress.length !== 0
+                                  ? `${mainState.chosenAddress.provincenm},
+                              ${mainState.chosenAddress.districtnm},
+                              ${mainState.chosenAddress.committeenm},
+                              ${mainState.chosenAddress.address}`
                                   : "" : "Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар"
                             }
                           </span>

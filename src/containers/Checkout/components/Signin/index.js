@@ -24,7 +24,6 @@ class Signin extends React.Component {
   }
   loginSocial = (param) => {
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
-      console.log("result", res);
       this.loggedData(res);
       if (res.payload.success) {
         this.setState({ confirm: this.state.direct });
