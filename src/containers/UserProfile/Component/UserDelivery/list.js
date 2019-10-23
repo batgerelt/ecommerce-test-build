@@ -36,6 +36,7 @@ class Component extends React.Component {
   renderDelivery = () => {
     try {
       const { delivery } = this.props;
+      console.log("delivery.lenght", delivery.length);
       return delivery.map((item, index) => (
         <tr key={index} className="order-table-responsive">
           <td>

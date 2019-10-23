@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
-import { Avatar, message } from "antd";
+import { Avatar, message, notification } from "antd";
 import { Link } from "react-router-dom";
 import { Slider } from "../../components";
 import chef from "../../../src/scss/assets/images/demo/chef.png";
@@ -171,11 +171,13 @@ class List extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         product.insymd = Date.now();
@@ -189,11 +191,13 @@ class List extends React.Component {
               id: updated.error,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } catch (e) {
@@ -211,7 +215,7 @@ class List extends React.Component {
           recipeid: this.props.match.params.id,
         });
         if (!result.payload.success) {
-          return message.warning(intl.formatMessage({ id: result.payload.code }));
+          return notification.warning({ message: intl.formatMessage({ id: result.payload.code }), duration: 3 });
         }
         if (result.payload.data.fail.length > 0) {
           const names = [];
@@ -221,13 +225,9 @@ class List extends React.Component {
           });
 
           if (names.length > 0) {
-            message.warning(intl.formatMessage(
-              { id: "206" },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.qty,
-              },
-            ));
+            notification.warning({
+              message: intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: result.payload.data.qty }), duration: 3,
+            });
           }
         }
       } else {
@@ -250,13 +250,9 @@ class List extends React.Component {
         });
 
         if (names.length > 0) {
-          message.warning(intl.formatMessage(
-            { id: "206" },
-            {
-              names: names.join(", "),
-              qty: products.length - names.length,
-            },
-          ));
+          notification.warning({
+            message: intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: products.length - names.length }), duration: 3,
+          });
         }
       }
     } catch (e) {

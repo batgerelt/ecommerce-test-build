@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
+import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon, notification } from "antd";
 import { Link } from "react-router-dom";
 import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
@@ -81,9 +81,9 @@ class Component extends React.Component {
             this.props.getUserInfoProfile();
             this.props.form.resetFields();
             this.setState({ load: false });
-            message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+            notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
           } else {
-            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
+            notification.warning({ message: intl.formatMessage({ id: "shared.form.info.cannotSave" }), duration: 3 });
           }
         });
       }

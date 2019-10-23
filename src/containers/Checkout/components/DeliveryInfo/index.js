@@ -10,7 +10,7 @@ import React from "react";
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Checkbox, Modal, Button, message, Radio, Affix } from "antd";
+import { Checkbox, Modal, Button, message, Radio, Affix, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Static as StaticModel } from "../../../../models";
@@ -192,9 +192,7 @@ class DeliveryInfo extends React.Component {
               id: res.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: res.payload.data,
-          }));
+          notification.warning({ message: intl.formatMessage(messages.error, { name: res.payload.data }), duration: 3 });
         }
       });
     } catch (error) {

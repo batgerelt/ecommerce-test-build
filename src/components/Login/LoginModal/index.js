@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
@@ -21,6 +21,7 @@ class LoginModal extends React.Component {
   componentWillUnmount() {
     this.props.onRef(null);
   }
+
   componentDidMount() {
     this.props.onRef(this);
   }
@@ -60,9 +61,9 @@ class LoginModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           this.props.form.resetFields();
           this.handleForgetModal();
         });
@@ -73,7 +74,7 @@ class LoginModal extends React.Component {
   loginSocial = (param) => {
     this.closeLoginModal();
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
-      this.loggedData(res);
+      this.logData(res);
       if (res.payload.success) {
         this.setState({ confirm: this.state.direct });
         await this.props.getUserInfo();
@@ -94,8 +95,7 @@ class LoginModal extends React.Component {
       if (!err) {
         try {
           let result = await this.props.login({ body: { ...values } });
-          this.closeLoginModal();
-          this.loggedData(result);
+          this.logData(result);
           if (result.payload.success) {
             this.setState({ confirm: direct });
             localStorage.setItem('username', this.state.isRemember ? values.email : null);
@@ -110,16 +110,17 @@ class LoginModal extends React.Component {
   };
 
   // eslint-disable-next-line consistent-return
-  loggedData = (result) => {
+  logData = (result) => {
     const { intl } = this.props;
     if (result.payload.success) {
-      message.success(intl.formatMessage({ id: "loginModal.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
     } else {
       if (result.payload.code) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        notification.warning({ message: intl.formatMessage({ id: result.payload.code }), duration: 2 });
       }
       return null;
     }
+    this.closeLoginModal();
     localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
@@ -140,15 +141,13 @@ class LoginModal extends React.Component {
             qty: prod.qty,
           }));
         }
-        console.log("product", products);
         let result = await this.props.increaseProductsByQtyRemotely({
           iscart: 0,
           body: products,
         });
-        console.log("increaseProductsByQtyRemotely", result);
         if (result !== undefined) {
           if (!result.payload.success) {
-            message.warning(intl.formatMessage({ id: result.payload.code }));
+            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
         }
         this.props.form.resetFields();
@@ -170,7 +169,6 @@ class LoginModal extends React.Component {
   }
 
   onRemember = (e) => {
-    console.log("remember");
     this.setState({ isRemember: !this.state.isRemember });
   };
 

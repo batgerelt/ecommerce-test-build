@@ -53,14 +53,16 @@ class Card extends React.Component {
                 id: result.payload.code,
               },
             });
-
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: result.payload.data.values[1],
-                qty: result.payload.data.values[2],
-              },
-            ));
+            notification.warning({
+              message: intl.formatMessage(
+                messages.error,
+                {
+                  name: result.payload.data.values[1],
+                  qty: result.payload.data.values[2],
+                },
+              ),
+              duration: 3,
+            });
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
@@ -71,14 +73,16 @@ class Card extends React.Component {
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-
-            message.warning(intl.formatMessage(
-              { id: result.payload.code },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.qty,
-              },
-            ), 10);
+            notification.warning({
+              message: intl.formatMessage(
+                { id: result.payload.code },
+                {
+                  names: names.join(", "),
+                  qty: result.payload.data.qty,
+                },
+              ),
+              duration: 3,
+            });
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
@@ -89,14 +93,16 @@ class Card extends React.Component {
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-
-            message.warning(intl.formatMessage(
-              { id: result.payload.code },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.qty,
-              },
-            ), 10);
+            notification.warning({
+              message: intl.formatMessage(
+                { id: result.payload.code },
+                {
+                  names: names.join(", "),
+                  qty: result.payload.data.qty,
+                },
+              ),
+              duration: 3,
+            });
           }
         } else {
           //
@@ -113,13 +119,16 @@ class Card extends React.Component {
                 item.addminqty = res.payload.data.addminqty;
                 return this.props.incrementProductLocally(item);
               }
-              return message.warning(intl.formatMessage(
-                { id: "200" },
-                {
-                  name: item.title,
-                  qty: item.qty,
-                },
-              ));
+              return notification.warning({
+                message: intl.formatMessage(
+                  { id: "200" },
+                  {
+                    name: item.title,
+                    qty: item.qty,
+                  },
+                ),
+                duration: 3,
+              });
             });
           }
           this.props.incrementProductLocally(item);
@@ -131,13 +140,16 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: updated.title,
-                qty: updated.qty,
-              },
-            ));
+            notification.warning({
+              message: intl.formatMessage(
+                messages.error,
+                {
+                  name: updated.title,
+                  qty: updated.qty,
+                },
+              ),
+              duration: 3,
+            });
           }
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
@@ -155,13 +167,16 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            message.warning(intl.formatMessage(
-              { id: "206" },
-              {
-                names: titles.join(", "),
-                qty: products.length - errors.length,
-              },
-            ), 10);
+            notification.warning({
+              message: intl.formatMessage(
+                { id: "206" },
+                {
+                  names: titles.join(", "),
+                  qty: products.length - errors.length,
+                },
+              ),
+              duration: 3,
+            });
           }
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
@@ -179,13 +194,16 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            message.warning(intl.formatMessage(
-              { id: "205" },
-              {
-                names: titles.join(", "),
-                qty: products.length - errors.length,
-              },
-            ), 10);
+            notification.warning({
+              message: intl.formatMessage(
+                { id: "205" },
+                {
+                  names: titles.join(", "),
+                  qty: products.length - errors.length,
+                },
+              ),
+              duration: 10,
+            });
           }
         } else {
           //

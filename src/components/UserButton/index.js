@@ -2,7 +2,8 @@ import React from "react";
 import * as jwtDecode from 'jwt-decode';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Avatar, Progress, Icon, Button, Upload, Spin, message } from "antd";
+import { Avatar, Progress, Icon, Button, Upload, Spin, message, notification } from "antd";
+import Notification from "../Notification";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../scss/assets/images/demo/upload.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
@@ -31,10 +32,9 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-  const intl = this.props;
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.warning(intl.formatMessage({ id: "profile.userProfile.upload.error" }));
+    notification.warning({ message: '5MB-ээс бага хэмжээтэй зураг оруулна уу', duration: 3 });
   }
   return isLt2M;
 }
@@ -63,7 +63,7 @@ class UserButton extends React.Component {
 
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
-      message.success(intl.formatMessage({ id: "userButton.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "userButton.info.success" }), duration: 2 });
     }
   }
 
@@ -187,6 +187,7 @@ class UserButton extends React.Component {
       <li className="list-inline-item" onClick={this.handleLogin}>
         <div className="text-uppercase" style={{ cursor: 'default' }}>
           <FormattedMessage id="header.profile.text" />
+          <Notification />
         </div>
       </li>
     );
@@ -345,8 +346,8 @@ class UserButton extends React.Component {
                             </div>
                           </Spin>
                         </Upload>
-                        <span className="" style={{ color: "white" }}>{user === null ? " " : user.firstname}</span>
-                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "white" }}>{intl.formatMessage({ id: "shared.form.button.save" })}</p></Button> : null}
+                        <span style={{ color: "white" }}>{user === null ? " " : user.firstname}</span>
+                        {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "black" }}>{intl.formatMessage({ id: "shared.form.button.save" })}</p></Button> : null}
                       </div>
                       {this.renderProgress()}
                     </li>

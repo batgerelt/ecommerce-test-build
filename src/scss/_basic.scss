@@ -3040,9 +3040,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .button-container{
-  padding-top: 2em;
+  /* padding-top: 2em;
   padding-right: 3em;
-  padding-left: 3em;
+  padding-left: 3em; */
 }
 
 .swal2-icon.swal2-error {
@@ -3448,10 +3448,29 @@ button:disabled{
 }
 
 // tur ingev
+.ant-dropdown {
+  position: fixed !important;
+}
 .buttonBlack{
   display: none !important;
 }
 // profile custom input
+.ant-notification-notice {
+  background: #FFF3C9;
+}
+.ant-notification {
+  z-index: 9999999999 !important;
+}
+.btn-mail {
+  background: #FFB81C;
+  height: 40px;
+  width: 100%;
+  color: #000000;
+  margin-bottom: 20px;
+}
+.ant-notification-notice-close {
+  display: none !important;
+}
 .dropdown-item:active {
   background-color: transparent !important;
 }

@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button, message, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
 
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
@@ -37,10 +37,13 @@ class Signin extends React.Component {
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
-      message.success(intl.formatMessage({ id: "loginModal.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
     } else {
       if (r.payload.code) {
-        message.warning(intl.formatMessage({ id: r.payload.code }));
+        notification.warning({
+          message: intl.formatMessage({ id: r.payload.code }),
+          duration: 3,
+        });
       }
       return null;
     }
@@ -65,7 +68,10 @@ class Signin extends React.Component {
           body: products,
         });
         if (!result.payload.success) {
-          message.warning(intl.formatMessage({ id: result.payload.code }));
+          notification.warning({
+            message: intl.formatMessage({ id: result.payload.code }),
+            duration: 3,
+          });
         }
         this.props.getProducts().then((res) => {
           let k = res.payload.data.length - products.length;
@@ -80,7 +86,6 @@ class Signin extends React.Component {
       }
     }).catch((err) => {
       console.log('err: ', err);
-      // message.warning(intl.formatMessage({ id: result.payload.code }));
     });
     this.props.getSystemLocation({});
   }
@@ -121,12 +126,15 @@ class Signin extends React.Component {
                     ));
 
                     if (reasons.length > 0) {
-                      message.warning(intl.formatMessage(
-                        { id: confirmResult.payload.code },
-                        {
-                          names: reasons.join(", "),
-                        },
-                      ));
+                      notification.warning({
+                        message: intl.formatMessagintl.formatMessage(
+                          { id: confirmResult.payload.code },
+                          {
+                            names: reasons.join(", "),
+                          },
+                        ),
+                        duration: 3,
+                      });
                     }
 
                     return this.props.history.push("/cart");
@@ -143,7 +151,10 @@ class Signin extends React.Component {
                   body: products,
                 });
                 if (!result.payload.success) {
-                  message.warning(intl.formatMessage({ id: result.payload.code }));
+                  notification.warning({
+                    message: intl.formatMessage({ id: result.payload.code }),
+                    duration: 3,
+                  });
                 }
                 this.props.getProducts().then((res) => {
                   let k = res.payload.data.length - products.length;
@@ -158,11 +169,13 @@ class Signin extends React.Component {
               }
             }).catch((err) => {
               console.log('err: ', err);
-              // message.warning(intl.formatMessage({ id: result.payload.code }));
             });
             this.props.getSystemLocation({});
           } else {
-            message.warning(intl.formatMessage({ id: r.payload.code }));
+            notification.warning({
+              message: intl.formatMessage({ id: r.payload.code }),
+              duration: 3,
+            });
           }
           this.setState({ loading: false });
         }).catch(err => console.log(err));

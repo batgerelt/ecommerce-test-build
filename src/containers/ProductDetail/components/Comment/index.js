@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate, message } from "antd";
+import { Rate, notification } from "antd";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
 class Comment extends Component {
@@ -33,11 +33,17 @@ class Comment extends Component {
             this.setState({ comment: "" });
             this.props.getProductComment({ skucd: product.skucd });
           } else {
-            message.warning(intl.formatMessage({ id: res.payload.code }));
+            notification.warning({
+              message: intl.formatMessage({ id: res.payload.code }),
+              duration: 3,
+            });
           }
         });
       } else {
-        message.warning("Сэтгэгдэл бичнэ үү.");
+        notification.warning({
+          message: "Сэтгэгдэл бичнэ үү.",
+          duration: 3,
+        });
       }
     }
   }

@@ -13,7 +13,7 @@
 /* eslint-disable import/newline-after-import */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Input, Form, Select, DatePicker, message, Radio } from "antd";
+import { Input, Form, Select, DatePicker, message, Radio, notification } from "antd";
 import moment from "moment";
 import LetterInput from "../../../../components/Input/LetterInput";
 const Option = Select.Option;
@@ -198,7 +198,10 @@ class DeliveryPanel extends React.Component {
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
       });
     } else {
-      message.warning(intl.formatMessage({ id: "checkout.expressDelivery.info" }));
+      notification.warning({
+        message: intl.formatMessage({ id: "checkout.expressDelivery.info" }),
+        duration: 3,
+      });
     }
   };
 

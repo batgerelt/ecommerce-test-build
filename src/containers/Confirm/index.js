@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, Redirect } from "react-router-dom";
-import { message } from 'antd';
+import { notification } from 'antd';
 import {
   Profile as ProfileModel,
   Auth as AuthModel,
@@ -55,7 +55,7 @@ class PackageDetail extends React.Component {
     this.props.getStaticInfo();
     this.props.confirm({ key: this.props.match.params.key }).then((Res) => {
       if (!Res.payload.success) {
-        message.success(intl.formatMessage({ id: Res.payload.code }));
+        notification.success({ message: intl.formatMessage({ id: Res.payload.code }), duration: 2 });
       }
     });
   }

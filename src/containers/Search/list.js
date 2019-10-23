@@ -662,7 +662,6 @@ class CategoryInfo extends React.Component {
                               maxItemsPerRow,
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
-                            console.log('rowItems: ', rowItems);
                             return (
                               <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (

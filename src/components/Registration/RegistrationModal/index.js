@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import LetterInput from "../../Input/LetterInput";
 import LatinInput from "../../Input/LatinInput";
@@ -30,9 +30,9 @@ class RegistrationModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.signup({ body: values }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
           }
-          message.success(intl.formatMessage({ id: res.payload.code }), 5);
+          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
           this.handleSignup();
         });
       }

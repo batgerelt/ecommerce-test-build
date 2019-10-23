@@ -10,7 +10,7 @@ import React from "react";
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { message, Affix } from 'antd';
+import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -18,10 +18,9 @@ const formatter = new Intl.NumberFormat("en-US");
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-
     this.proceedRef = React.createRef();
-
     this.state = {
+      count: 5,
       tempProducts: [],
       shouldRedirect: false,
       showButton: true,
@@ -69,12 +68,15 @@ class Cart extends React.Component {
             ));
 
             if (reasons.length > 0) {
-              message.warning(intl.formatMessage(
-                { id: result.payload.code },
-                {
-                  names: reasons.join(", "),
-                },
-              ));
+              notification.warning({
+                message: intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: reasons.join(", "),
+                  },
+                ),
+                duration: 3,
+              });
             }
 
             this.setState({ shouldRedirect: false });
@@ -96,7 +98,10 @@ class Cart extends React.Component {
       const result = await this.props.clearRemotely();
 
       if (!result.payload.success) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        notification.warning({
+          message: intl.formatMessage({ id: result.payload.code }),
+          duration: 3,
+        });
       }
     } else {
       this.props.clearLocally();
@@ -135,7 +140,10 @@ class Cart extends React.Component {
           skucd: found.skucd,
         });
         if (!result.payload.success) {
-          message.warning(intl.formatMessage({ id: result.payload.code }));
+          notification.warning({
+            message: intl.formatMessage({ id: result.payload.code }),
+            duration: 3,
+          });
         }
       } else {
         this.props.removeProductLocally(product);
@@ -165,7 +173,6 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputBlur = product => async (e) => {
-    console.log("fired blur");
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -189,11 +196,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -206,11 +215,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -238,11 +249,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.incrementProductLocally(found);
@@ -255,10 +268,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -275,11 +291,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       }
     }
@@ -309,11 +327,13 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -326,10 +346,13 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            }),
+            duration: 3,
+          });
         }
       }
     } else {
@@ -339,8 +362,9 @@ class Cart extends React.Component {
 
   seeMore = (e) => {
     e.preventDefault();
+    const wishlistProducts = this.props.wish;
     this.props.getWishByCount({ count: 0 });
-    this.setState({ showButton: false });
+    this.setState({ showButton: false, count: wishlistProducts.length });
   }
 
   // eslint-disable-next-line arrow-parens
@@ -473,6 +497,7 @@ class Cart extends React.Component {
       return null;
     }
     const wishlistProducts = this.props.wish;
+    console.log(wishlistProducts.length);
     const lang = this.props.intl.locale;
     return (
       wishlistProducts &&
@@ -482,7 +507,7 @@ class Cart extends React.Component {
             <FormattedMessage id="shared.sidebar.title.wishlist" />
           </p>
           <ul className="list-unstyled">
-            {wishlistProducts.map((wishlistProd, index) => (
+            {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
                   <Link to={wishlistProd.route || ""}>
@@ -525,16 +550,13 @@ class Cart extends React.Component {
             ))}
           </ul>
           {
-            this.state.showButton ?
+            wishlistProducts.length <= 5 ? null : this.state.showButton ?
               <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
                 <span className="text-uppercase">
                   <FormattedMessage id="shared.sidebar.button.showAll" />
                 </span>
-              </Link>
-              :
-              null
+              </Link> : null
           }
-
         </div>
       )
     );

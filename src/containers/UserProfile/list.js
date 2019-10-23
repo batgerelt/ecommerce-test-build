@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col } from "antd";
+import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col, notification } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
 // import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -31,7 +31,7 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.warning('5MB-ээс бага хэмжээтэй зураг оруулна уу');
+    notification.warning({ message: '5MB-ээс бага хэмжээтэй зураг оруулна уу', duration: 3 });
   }
   return isLt2M;
 }
@@ -47,10 +47,9 @@ class List extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
-
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
-      message.success(intl.formatMessage({ id: "userButton.info.success" }));
+      notification.success({ message: intl.formatMessage({ id: "userButton.info.success" }), duration: 2 });
     }
   }
 

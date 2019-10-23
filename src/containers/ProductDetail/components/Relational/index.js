@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, message } from "antd";
+import { Button, notification } from "antd";
 import { toast } from "react-toastify";
 import { css } from "glamor";
 
@@ -33,9 +33,12 @@ class Relational extends Component {
               id: result.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.warning, {
-            name: result.payload.data.values[0],
-          }));
+          notification.warning({
+            message: intl.formatMessage(messages.warning, {
+              name: result.payload.data.values[0],
+            }),
+            duration: 3,
+          });
         }
       } else {
         this.props.incrementProductLocally(product);

@@ -281,12 +281,12 @@ class AppHeader extends Component {
                             </label>
                           </div>
                         </li>
-                        <li style={{ width: "20% !important" }}>
+                        {/* <li style={{ width: "20% !important" }}>
                           <Link to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`} className="btn" style={{ color: "black" }}>
                             <i className="fa fa-search" />
                           </Link>
-                        </li>
-                        {/* <li>
+                        </li> */}
+                        <li>
                           <Link
                             className="btn"
                             to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
@@ -303,7 +303,7 @@ class AppHeader extends Component {
                               <FormattedMessage id="header.searchBar.button" />
                             </span>
                           </Link>
-                        </li> */}
+                        </li>
                       </ul>
                     </Form>
                   </div>
