@@ -3447,10 +3447,16 @@ button:disabled{
 }
 
 // tur ingev
+.ant-dropdown {
+  position: fixed !important;
+}
 .buttonBlack{
   display: none !important;
 }
 // profile custom input
+.ant-notification-notice {
+  background: #FFF3C9;
+}
 .ant-notification {
   z-index: 9999999999 !important;
 }
