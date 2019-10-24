@@ -70,6 +70,7 @@ class Checkout extends React.Component {
   }
 
   componentWillMount = () => {
+    this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
     if (this.checkLoggedIn()) {
       if (!this.props.loading) {
@@ -122,11 +123,12 @@ class Checkout extends React.Component {
 
   callback = (key) => {
     const { activeKey } = this.state;
-    console.log(key, activeKey);
     if (key === "3" && activeKey === "2") {
       this.onSubmitDeliveryPanel();
+      this.scrollTo(0, 0);
     } else if (key === "2" && activeKey === "3") {
       this.setState({ activeKey: "2" });
+      this.scrollTo(0, 0);
     } else {
       this.setState({ activeKey: key });
     }
@@ -206,6 +208,14 @@ class Checkout extends React.Component {
     this.setState({ chosenDate: item });
   }
 
+  scrollTo = (top, left) => {
+    window.scroll({
+      top,
+      left,
+      behavior: 'smooth',
+    });
+  }
+
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
     const {
@@ -214,7 +224,6 @@ class Checkout extends React.Component {
       intl,
     } = this.props;
     const { chosenAddress, addresstype, chosenDelivery } = this.state;
-    console.log(this.state.deliveryPanelForm, "clicked");
     this.state.deliveryPanelForm.validateFields((err, values) => {
       if (!err) {
         if (values.email !== undefined && userinfo.info.email === null) {
@@ -386,6 +395,7 @@ class Checkout extends React.Component {
                             showArrow={false}
                             disabled={!this.checkLoggedIn()}
                             key={"2"}
+                            id="deliveryPanelID"
                           >
                             <DeliveryPanel
                               {...this.props}
@@ -403,6 +413,7 @@ class Checkout extends React.Component {
                             showArrow={false}
                             disabled={!this.checkLoggedIn()}
                             key={"3"}
+                            id="paymentTypePanelID"
                           >
                             <PaymentTypePanel
                               {...this.props}

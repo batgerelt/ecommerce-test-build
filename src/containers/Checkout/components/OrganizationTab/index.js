@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message, notification } from "antd";
+import { Input, Form, Button, message, notification, Col } from "antd";
 import KrillInput from "../../../../components/Input/KrillInput";
 
 class OrganizationTab extends React.Component {
@@ -61,35 +61,37 @@ class OrganizationTab extends React.Component {
       return (
         <Form>
           <div className="row row10 checkoutFormContainer">
-            <div className="col-md-6 col-xl-6" />
-            <div className="col-md-6 col-xl-6 org-container" style={{ display: "flex" }}>
-              <div className="col-xl-8">
-                <div className="form-group">
-                  <Form.Item>
-                    {getFieldDecorator("regno", {
-                      rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
-                    })(
-                      <KrillInput
-                        size="large"
-                        autoComplete="new-password"
-                        type="text"
-                        placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })}
-                        disabled={connected}
-                        className="col-md-12"
-                        style={{ paddingLeft: '10px' }}
-                      />,
-                    )}
-                  </Form.Item>
-                </div>
-              </div>
-              <div className="col-xl-4">
-                {
-                  !connected ?
-                    <button className="second-btn btn btn-dark" onClick={this.onSubmit}><FormattedMessage id="shared.form.button.connect" /></button> :
-                    <button className="second-btn btn btn-dark" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></button>
-                }
-              </div>
-            </div>
+            <Col span={24} className="org-container padd10">
+              <Col xs={12} sm={12} md={12} lg={12} xl={12} className="padd10" />
+              <Col xs={12} sm={12} md={12} lg={12} xl={12} className="padd10">
+                <Col xs={17} sm={17} md={17} lg={17} xl={17}>
+                  <div className="form-group">
+                    <Form.Item>
+                      {getFieldDecorator("regno", {
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
+                      })(
+                        <KrillInput
+                          size="large"
+                          autoComplete="new-password"
+                          type="text"
+                          placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })}
+                          disabled={connected}
+                          className="col-md-12"
+                          style={{ paddingLeft: '10px' }}
+                        />,
+                      )}
+                    </Form.Item>
+                  </div>
+                </Col>
+                <Col xs={7} sm={7} md={7} lg={7} xl={7} className="padd10">
+                  {
+                    !connected ?
+                      <button className="second-btn btn btn-dark" onClick={this.onSubmit}><FormattedMessage id="shared.form.button.connect" /></button> :
+                      <button className="second-btn btn btn-dark" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></button>
+                  }
+                </Col>
+              </Col>
+            </Col>
           </div>
         </Form>
       );
