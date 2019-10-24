@@ -497,8 +497,70 @@ class Cart extends React.Component {
       return null;
     }
     const wishlistProducts = this.props.wish;
-    console.log(wishlistProducts.length);
     const lang = this.props.intl.locale;
+    if (this.state.showButton) {
+      return (
+        wishlistProducts &&
+        wishlistProducts.length > 0 && (
+          <div className="block fav-products">
+            <p className="title">
+              <FormattedMessage id="shared.sidebar.title.wishlist" />
+            </p>
+            <ul className="list-unstyled">
+              {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
+                <li className="flex-this" key={index}>
+                  <div className="image-container default">
+                    <Link to={wishlistProd.route || ""}>
+                      <span
+                        className="image"
+                        style={{
+                          backgroundImage: `url(${process.env.IMAGE}${
+                            wishlistProd.img
+                            })`,
+                        }}
+                      />
+                    </Link>
+                  </div>
+                  <div className="info-container">
+                    <div className="flex-space">
+                      <Link to={wishlistProd.route || ""}>
+                        <div className="text">
+                          <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
+                          <strong>
+                            {formatter.format(
+                              wishlistProd.discountprice
+                                ? wishlistProd.discountprice || wishlistProd.currentprice
+                                : wishlistProd.price
+                                  ? wishlistProd.price
+                                  : 0,
+                            )}
+                            ₮
+                          </strong>
+                        </div>
+                      </Link>
+                      <button
+                        className="action btn btn-link"
+                        onClick={() => this.handleIncrementClick(wishlistProd)}
+                      >
+                        <i className="fa fa-cart-plus" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {
+              wishlistProducts.length <= 5 ? null : this.state.showButton ?
+                <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
+                  <span className="text-uppercase">
+                    <FormattedMessage id="shared.sidebar.button.showAll" />
+                  </span>
+                </Link> : null
+            }
+          </div>
+        )
+      );
+    }
     return (
       wishlistProducts &&
       wishlistProducts.length > 0 && (
@@ -507,7 +569,7 @@ class Cart extends React.Component {
             <FormattedMessage id="shared.sidebar.title.wishlist" />
           </p>
           <ul className="list-unstyled">
-            {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
+            {wishlistProducts.map((wishlistProd, index) => (
               <li className="flex-this" key={index}>
                 <div className="image-container default">
                   <Link to={wishlistProd.route || ""}>
