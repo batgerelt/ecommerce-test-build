@@ -19,6 +19,7 @@ import { SwalModals, IndividualTab } from "../";
 const RadioGroup = Radio.Group;
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
+
 const mapStateToProps = state => ({
   ...state.staticcontent,
 });
@@ -34,15 +35,18 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 let interval;
 
 class DeliveryInfo extends React.Component {
-  state = {
-    checkedAgreement: false,
-    modal2Visible: false,
-    agreementData: [],
-    chosenInfo: {},
-    organizationData: [],
-    notif: false,
-    checkedEpoint: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedAgreement: false,
+      modal2Visible: false,
+      agreementData: [],
+      chosenInfo: {},
+      organizationData: [],
+      notif: false,
+      checkedEpoint: false,
+    };
+  }
 
   checkError = (value) => {
     if (value === undefined || value === null) {
@@ -86,6 +90,7 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    let agreementId = document.getElementById("agreementId");
     const {
       userinfo, products, mainState,
     } = this.props;
@@ -93,6 +98,10 @@ class DeliveryInfo extends React.Component {
       this.props.onSubmitDeliveryPanel();
     } else if (mainState.activeKey === '3') {
       if (!this.state.checkedAgreement) {
+        agreementId.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
         this.setState({ notif: true });
       } else if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
         this.props.changeLoading(true);
@@ -333,9 +342,11 @@ class DeliveryInfo extends React.Component {
     const { mainState } = this.props;
     let cardInfo = mainState.cardInfo;
     if (!e.target.checked) {
-      cardInfo.point = parseFloat(cardInfo.point) + mainState.epointUsedPoint;
-      this.props.changeCardInfo(cardInfo);
-      this.props.setUseEpoint(false, 0);
+      if (cardInfo !== null && mainState.epointUsedPoint !== 0) {
+        cardInfo.point = parseFloat(cardInfo.point) + mainState.epointUsedPoint;
+        this.props.changeCardInfo(cardInfo);
+        this.props.setUseEpoint(false, 0);
+      }
     }
     this.setState({ checkedEpoint: e.target.checked });
   }
@@ -465,7 +476,7 @@ class DeliveryInfo extends React.Component {
             }
             <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
             {" "}
-            <a style={{ paddingLeft: '8px' }}>
+            <a id="agreementId" style={{ paddingLeft: '8px' }}>
               <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
             </a>
             <Affix offsetBottom={0}>

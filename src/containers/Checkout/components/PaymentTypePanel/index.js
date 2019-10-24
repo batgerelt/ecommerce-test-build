@@ -5,7 +5,7 @@
 /* eslint-disable array-callback-return */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, Radio } from "antd";
+import { Form, Radio, Col } from "antd";
 import { OrganizationTab } from "../";
 
 const RadioGroup = Radio.Group;
@@ -34,36 +34,37 @@ class PaymentTypePanel extends React.Component {
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
-        <label className="card radio-card" key={item.id}>
-          <div
-            className="radio-button-container"
-            style={{ marginTop: "5px" }}
-          >
-            <input
-              className="form-check-input radio-button"
-              type="radio"
-              name="paymentRadios"
-              checked={chosenPaymentType.id === item.id}
-              id={item.id}
-              onChange={this.changeRadio}
-            />
-            <span className="checkmark" style={{ right: "15px" }} />
-          </div>
-          <h5 className="title radio-button-title">
-            <i
-              className={item.imgnm}
-              aria-hidden="true"
-              style={{ marginTop: "10px" }}
-            />
-            <p>
-              <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
-              <span>{intl.locale === "mn" ? item.description : item.description_en}</span>
-            </p>
-          </h5>
-        </label>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+          <label className="card radio-card" key={item.id}>
+            <div
+              className="radio-button-container"
+              style={{ marginTop: "5px" }}
+            >
+              <input
+                className="form-check-input radio-button"
+                type="radio"
+                name="paymentRadios"
+                checked={chosenPaymentType.id === item.id}
+                id={item.id}
+                onChange={this.changeRadio}
+              />
+              <span className="checkmark" style={{ right: "15px" }} />
+            </div>
+            <h5 className="title radio-button-title">
+              <i
+                className={item.imgnm}
+                aria-hidden="true"
+                style={{ marginTop: "10px" }}
+              />
+              <p>
+                <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
+                <span>{intl.locale === "mn" ? item.description : item.description_en}</span>
+              </p>
+            </h5>
+          </label>
+        </Col>
       ));
     }
-
     return tmp;
   };
 
@@ -75,12 +76,14 @@ class PaymentTypePanel extends React.Component {
 
   changeRadioInOrg = (e) => {
     const { mainState } = this.props;
+    // eslint-disable-next-line prefer-destructuring
+    let cardInfo = mainState.cardInfo;
     if (e.target.value === 2) {
-      // eslint-disable-next-line prefer-destructuring
-      let cardInfo = mainState.cardInfo;
-      cardInfo.point = parseFloat(cardInfo.point) + mainState.epointUsedPoint;
-      this.props.changeCardInfo(cardInfo);
-      this.props.setUseEpoint(false, 0);
+      if (cardInfo !== undefined && mainState.epointUsedPoint !== 0) {
+        cardInfo.point = parseFloat(cardInfo.point) + mainState.epointUsedPoint;
+        this.props.changeCardInfo(cardInfo);
+        this.props.setUseEpoint(false, 0);
+      }
     }
     this.props.changeChosenRadio(e.target.value);
   }
@@ -90,18 +93,28 @@ class PaymentTypePanel extends React.Component {
     return (
       <Form name="paymenttypeform" onSubmit={this.onSubmit}>
         <div className="content-container">
-          <p className="title font-weight-bold" style={{ marginBottom: '0px' }}>
-            <FormattedMessage id="shared.form.label.tax.receipt" />
-          </p>
+          <Col span={24}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+              <p className="title font-weight-bold" style={{ marginBottom: '0px' }}>
+                <FormattedMessage id="shared.form.label.tax.receipt" />
+              </p>
+            </Col>
+          </Col>
           <div className="content-container payment" style={{ padding: '0 0' }}>
             <RadioGroup onChange={this.changeRadioInOrg} value={chosenRadio} style={{ width: '100%' }}>
               <div className="flex-this hand-pay">
-                <div className="form-check" style={{ width: '100%' }}>
-                  <Radio value={1} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.individual" /></Radio>
-                </div>
-                <div className="form-check" style={{ width: '100%' }}>
-                  <Radio value={2} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.company" /></Radio>
-                </div>
+                <Col span={24}>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                    <div className="form-check" style={{ width: '100%', marginRight: '20px' }}>
+                      <Radio value={1} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.individual" /></Radio>
+                    </div>
+                  </Col>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                    <div className="form-check" style={{ width: '100%', marginRight: '0px' }}>
+                      <Radio value={2} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.company" /></Radio>
+                    </div>
+                  </Col>
+                </Col>
               </div>
             </RadioGroup>
           </div>
@@ -114,10 +127,16 @@ class PaymentTypePanel extends React.Component {
               />
               : null
           }
-          <p className="title font-weight-bold">
-            Төлбөрийн төрөл сонгох
-          </p>
-          {this.renderPaymentTypes()}
+          <Col span={24}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+              <p className="title font-weight-bold">
+                Төлбөрийн төрөл сонгох
+              </p>
+            </Col>
+          </Col>
+          <Col span={24}>
+            {this.renderPaymentTypes()}
+          </Col>
         </div>
         <hr />
       </Form>
