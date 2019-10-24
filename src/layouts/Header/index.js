@@ -195,7 +195,7 @@ class AppHeader extends Component {
                 duration: 5000,
                 onScreen: false,
               },
-              content: <Notification type="warning" text="Success SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess" />,
+              content: <Notification type="warning" text="Success" />,
             });
           }}
           >hello
@@ -210,7 +210,7 @@ class AppHeader extends Component {
                 duration: 5000,
                 onScreen: false,
               },
-              content: <Notification type="success" text="Success SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess" />,
+              content: <Notification type="success" text="Success" />,
             });
           }}
           >hello
@@ -225,7 +225,7 @@ class AppHeader extends Component {
                 duration: 5000,
                 onScreen: false,
               },
-              content: <Notification type="info" text="Success SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess SuccessSuccess" />,
+              content: <Notification type="info" text="Success" />,
             });
           }}
           >hello
