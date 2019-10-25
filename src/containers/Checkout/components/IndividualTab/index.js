@@ -8,6 +8,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message, notification, Col } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import NumberInput from "../../../../components/Input/NumberInput";
 import SwalModals from "../../../../containers/UserProfile/Component/UserProfile/EpointModal";
 
@@ -75,11 +77,28 @@ class IndividualTab extends React.Component {
           if (res.payload.success) {
             this.props.changeCardInfo(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
-            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }), duration: 2 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
+            });
           } else {
-            notification.warning({
-              message: intl.formatMessage({ id: res.payload.code }),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
             });
           }
           this.setState({ loading: false });

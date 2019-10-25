@@ -1,6 +1,8 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, message, Input, Select, Icon, Spin, Col, Button, Divider, notification } from "antd";
+import { Form, Input, Col, Button, Divider, notification } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 // import { Link } from "react-router-dom";
 
 class Component extends React.Component {
@@ -18,9 +20,29 @@ class Component extends React.Component {
         this.props.resetPassword({ body: params }).then((res) => {
           if (res.payload.success) {
             this.props.form.resetFields();
-            notification.success({ message: intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" }), duration: 2 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.password.savedSuccessfully" })} />,
+            });
           } else {
-            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
         });
       }

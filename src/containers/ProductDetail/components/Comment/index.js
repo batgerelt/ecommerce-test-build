@@ -5,7 +5,9 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate, notification } from "antd";
+import { Rate } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
 class Comment extends Component {
@@ -33,16 +35,30 @@ class Comment extends Component {
             this.setState({ comment: "" });
             this.props.getProductComment({ skucd: product.skucd });
           } else {
-            notification.warning({
-              message: intl.formatMessage({ id: res.payload.code }),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
             });
           }
         });
       } else {
-        notification.warning({
-          message: "Сэтгэгдэл бичнэ үү.",
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text="Сэтгэгдэл бичнэ үү." />,
         });
       }
     }

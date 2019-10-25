@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, Redirect } from "react-router-dom";
-import { notification } from 'antd';
+import { store } from 'react-notifications-component';
+import { Notification } from "../../components";
 import {
   Profile as ProfileModel,
   Auth as AuthModel,
@@ -53,9 +54,19 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class PackageDetail extends React.Component {
   componentWillMount() {
     this.props.getStaticInfo();
-    this.props.confirm({ key: this.props.match.params.key }).then((Res) => {
-      if (!Res.payload.success) {
-        notification.success({ message: intl.formatMessage({ id: Res.payload.code }), duration: 2 });
+    this.props.confirm({ key: this.props.match.params.key }).then((res) => {
+      if (!res.payload.success) {
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+        });
       }
     });
   }

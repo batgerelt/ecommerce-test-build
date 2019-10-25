@@ -13,6 +13,8 @@ import { bindActionCreators } from "redux";
 import { Checkbox, Modal, Button, message, Radio, Affix, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import { Static as StaticModel } from "../../../../models";
 import { SwalModals, IndividualTab } from "../";
 
@@ -202,7 +204,17 @@ class DeliveryInfo extends React.Component {
               id: res.payload.code,
             },
           });
-          notification.warning({ message: intl.formatMessage(messages.error, { name: res.payload.data }), duration: 3 });
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage(messages.error, { name: res.payload.data })} />,
+          });
         }
       });
     } catch (error) {

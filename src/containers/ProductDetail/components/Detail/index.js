@@ -5,10 +5,10 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, Rate, message, notification } from "antd";
+import { Rate, notification } from "antd";
 import moment from "moment";
-import { toast } from "react-toastify";
-import { css } from "glamor";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
@@ -121,9 +121,16 @@ class Detail extends Component {
         if (res.payload.success) {
           getProductRate({ skucd });
         } else {
-          notification.warning({
-            message: intl.formatMessage({ id: res.payload.code }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
         }
       });
@@ -372,12 +379,23 @@ class Detail extends Component {
     if (product.salemaxqty >= e.target.value || product.salemaxqty === 0) {
       this.setState({ productQty: e.target.value });
     } else {
-      notification.warning({
-        message: intl.formatMessage(messages.warning, {
-          name: lang === 'mn' ? product.title : product.title_en,
-          qty: product.salemaxqty,
-        }),
-        duration: 3,
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification
+          type="warning"
+          text={
+            intl.formatMessage(messages.warning,
+              {
+                name: lang === 'mn' ? product.title : product.title_en, qty: product.salemaxqty,
+              })}
+        />,
       });
     }
   };
@@ -389,9 +407,16 @@ class Detail extends Component {
       this.setState({ productQty: product.addminqty });
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
-      notification.warning({
-        message: "Барааны нөөц хүрэлцэхгүй байна.",
-        duration: 3,
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text="Барааны нөөц хүрэлцэхгүй байна." />,
       });
     } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
@@ -417,12 +442,22 @@ class Detail extends Component {
     if (product.salemaxqty >= productQty || product.salemaxqty === 0) {
       this.setState({ productQty });
     } else {
-      notification.warning({
-        message: intl.formatMessage(messages.warning, {
-          name: lang === 'mn' ? product.title : product.title_en,
-          qty: product.salemaxqty,
-        }),
-        duration: 3,
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification
+          type="warning"
+          text={intl.formatMessage(messages.warning, {
+            name: lang === 'mn' ? product.title : product.title_en,
+            qty: product.salemaxqty,
+          })}
+        />,
       });
     }
   };
@@ -451,12 +486,22 @@ class Detail extends Component {
             id: result.payload.code,
           },
         });
-        notification.warning({
-          message: intl.formatMessage(messages.warning, {
-            name: result.payload.data.values[0],
-            qty: result.payload.data.values[1],
-          }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.warning, {
+              name: result.payload.data.values[0],
+              qty: result.payload.data.values[1],
+            })}
+          />,
         });
       }
     } else {
@@ -472,12 +517,22 @@ class Detail extends Component {
             id: updated.error,
           },
         });
-        notification.warning({
-          message: intl.formatMessage(messages.warning, {
-            name: updated.title,
-            qty: updated.qty,
-          }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.warning, {
+              name: updated.title,
+              qty: updated.qty,
+            })}
+          />,
         });
       }
     }

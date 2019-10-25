@@ -12,6 +12,8 @@ import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -68,14 +70,24 @@ class Cart extends React.Component {
             ));
 
             if (reasons.length > 0) {
-              notification.warning({
-                message: intl.formatMessage(
-                  { id: result.payload.code },
-                  {
-                    names: reasons.join(", "),
-                  },
-                ),
-                duration: 3,
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification
+                  type="warning"
+                  text={intl.formatMessage(
+                    { id: result.payload.code },
+                    {
+                      names: reasons.join(", "),
+                    },
+                  )}
+                />,
               });
             }
 
@@ -98,9 +110,16 @@ class Cart extends React.Component {
       const result = await this.props.clearRemotely();
 
       if (!result.payload.success) {
-        notification.warning({
-          message: intl.formatMessage({ id: result.payload.code }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
         });
       }
     } else {
@@ -140,9 +159,16 @@ class Cart extends React.Component {
           skucd: found.skucd,
         });
         if (!result.payload.success) {
-          notification.warning({
-            message: intl.formatMessage({ id: result.payload.code }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
           });
         }
       } else {
@@ -196,12 +222,22 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
           });
         }
       } else {
@@ -215,12 +251,22 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
           });
         }
       }
@@ -249,12 +295,22 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
           });
         }
       } else {
@@ -268,12 +324,22 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
           });
         }
       }
@@ -291,12 +357,22 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
           });
         }
       }
@@ -327,12 +403,22 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
           });
         }
       } else {
@@ -346,12 +432,22 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
           });
         }
       }

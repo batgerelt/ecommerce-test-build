@@ -7,8 +7,6 @@ import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
-import { store } from 'react-notifications-component';
-
 import { Category, MainMenu, UserButton, CartButton, Notification } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
@@ -185,7 +183,7 @@ class AppHeader extends Component {
 
       return (
         <div className="top-main">
-          <button onClick={() => {
+          {/* <button onClick={() => {
             store.addNotification({
               insert: "top",
               container: "top-right",
@@ -229,7 +227,7 @@ class AppHeader extends Component {
             });
           }}
           >hello
-          </button>
+          </button> */}
           <div className="container container-laptop pad10">
             <div className="row">
               <div className="col-lg-8 col-md-7 col-6 pad10">
