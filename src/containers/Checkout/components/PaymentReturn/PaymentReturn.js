@@ -51,7 +51,7 @@ class GolomtMerchant extends React.Component {
                           <li className="flex-this flex-space">
                             <span>Төлбөрийн төрөл:</span>
                             <strong className="big">
-                              {state.qpayReturn ? "Qpay" : golomtMerchant.data.order.paymenttype}
+                              {state.qpayReturn ? "Qpay" : "Төлбөрийн карт"}
                             </strong>
                           </li>
                         </ul>
@@ -94,7 +94,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{state.qpayReturn ? state.return.info.orddate : golomtMerchant.data.delivery.insymd}</span>
+                          <span>{state.qpayReturn ? state.return.info.orddate : golomtMerchant.data.delivery.insymd.slice(0, 10)}</span>
                         </p>
                       </div>
                       <div className="bottom-text text-center">
