@@ -1,9 +1,11 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from "react-redux";
-import { message, notification, Col, Form, Input } from "antd";
+import { Col, Form, Input } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
+import { Notification } from '../../../../components';
 import { intl } from '../../../../components/IntlGlobalProvider';
 
 const MySwal = withReactContent(Swal);
@@ -36,10 +38,30 @@ class SwalModals extends React.Component {
           console.log("response", res);
           if (res.payload.success) {
             localStorage.removeItem("username");
-            notification.success({ message: intl.formatMessage({ id: "433" }), duration: 3 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "433" })} />,
+            });
             MySwal.close();
           } else {
-            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
         }).catch(err => console.log(err));
       }

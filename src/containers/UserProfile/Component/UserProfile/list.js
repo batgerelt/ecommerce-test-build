@@ -1,13 +1,14 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, message, Input, Select, Divider, Col, Button, notification } from "antd";
+import { Form, Input, Select, Divider, Col, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import Card from "./card";
 import SwalModals from "./SwalModals";
 import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
-import LatinInput from "../../../../components/Input/LatinInput";
 
 const MySwal = withReactContent(Swal);
 
@@ -145,9 +146,29 @@ class Component extends React.Component {
           this.props.updateMain({ body: param }).then((res) => {
             if (res.payload.success) {
               this.getdata();
-              notification.success({ message: intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }), duration: 2 });
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })} />,
+              });
             } else {
-              notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+              });
             }
           });
         }

@@ -1,9 +1,10 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'react-intl';
-import { Avatar, message, notification } from "antd";
+import { Avatar } from "antd";
 import { Link } from "react-router-dom";
-import { Slider } from "../../components";
+import { store } from 'react-notifications-component';
+import { Slider, Notification } from "../../components";
 import chef from "../../../src/scss/assets/images/demo/chef.png";
 import time from "../../../src/scss/assets/images/demo/time.png";
 import smile from "../../../src/scss/assets/images/demo/smile.png";
@@ -171,12 +172,24 @@ class List extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(
+                messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              },
+              )}
+            />,
           });
         }
       } else {
@@ -191,12 +204,24 @@ class List extends React.Component {
               id: updated.error,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(
+                messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              },
+              )}
+            />,
           });
         }
       }
@@ -215,7 +240,20 @@ class List extends React.Component {
           recipeid: this.props.match.params.id,
         });
         if (!result.payload.success) {
-          return notification.warning({ message: intl.formatMessage({ id: result.payload.code }), duration: 3 });
+          return store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage({ id: result.payload.code })}
+            />,
+          });
         }
         if (result.payload.data.fail.length > 0) {
           const names = [];
@@ -225,8 +263,19 @@ class List extends React.Component {
           });
 
           if (names.length > 0) {
-            notification.warning({
-              message: intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: result.payload.data.qty }), duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: result.payload.data.qty })}
+              />,
             });
           }
         }
@@ -250,8 +299,19 @@ class List extends React.Component {
         });
 
         if (names.length > 0) {
-          notification.warning({
-            message: intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: products.length - names.length }), duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage({ id: "206" }, { names: names.join(", "), qty: products.length - names.length })}
+            />,
           });
         }
       }

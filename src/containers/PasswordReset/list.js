@@ -1,7 +1,9 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Divider, Rate, message, Form, Input, notification } from "antd";
+import { Form, Input } from "antd";
 import { Redirect, withRouter } from 'react-router-dom';
+import { store } from 'react-notifications-component';
+import { Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -18,9 +20,29 @@ class Component extends React.Component {
           password: values.password,
         }).then((res) => {
           if (!res.payload.success) {
-            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
-          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
           return history.push('/');
         });
       }

@@ -7485,6 +7485,13 @@ react-notification-badge@^1.5.1:
   dependencies:
     core-js "3"
 
+react-notifications-component@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-notifications-component/-/react-notifications-component-2.1.0.tgz#c0ff1ab754bf25f0b00d6430b1fd38133be5cc0e"
+  integrity sha512-qCjPVmrdz96t1/oOCdJzJYAAKha5r2LhiVcE2uM/3DIHOZlkQ0MqZtmoPzLiZoQ2kOUom5HeVX6gEbp+lRSnEw==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-prop-toggle@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-prop-toggle/-/react-prop-toggle-1.0.2.tgz#8b0b7e74653606b1427cfcf6c4eaa9198330568e"

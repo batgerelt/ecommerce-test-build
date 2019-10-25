@@ -1,13 +1,13 @@
 import React from "react";
 import withReactContent from "sweetalert2-react-content";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, message, Input, Spin, Col, Button, notification } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Col, Button } from "antd";
+import { store } from 'react-notifications-component';
 import Swal from "sweetalert2";
 import SwalModals from "./EpointModal";
 import { intl } from '../../../../components/IntlGlobalProvider';
 import NumberInput from "../../../../components/Input/NumberInput";
-// import { Loader } from "../../../../components";
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
@@ -53,9 +53,29 @@ class Component extends React.Component {
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
-            notification.success({ message: intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }), duration: 2 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
+            });
           } else {
-            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
           this.setState({ loader: false });
         });

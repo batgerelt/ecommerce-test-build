@@ -4,11 +4,9 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'react-intl';
+import { store } from 'react-notifications-component';
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { css } from "glamor";
-import { message, notification } from 'antd';
-import { Slider } from "../../components";
+import { Slider, Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class List extends React.Component {
@@ -35,12 +33,22 @@ class List extends React.Component {
             id: result.payload.code,
           },
         });
-        notification.warning({
-          message: intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            })}
+          />,
         });
       }
     } else {
@@ -55,12 +63,22 @@ class List extends React.Component {
             id: updated.error,
           },
         });
-        notification.warning({
-          message: intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            })}
+          />,
         });
       }
     }
@@ -85,12 +103,22 @@ class List extends React.Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.error, {
-              name: result.payload.data.values[1],
-              qty: result.payload.data.values[2],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
           });
         }
       } else {
@@ -110,12 +138,22 @@ class List extends React.Component {
                 id: updated.error,
               },
             });
-            notification.warning({
-              message: intl.formatMessage(messages.error, {
-                name: updated.title,
-                qty: updated.qty,
-              }),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(messages.error, {
+                  name: updated.title,
+                  qty: updated.qty,
+                })}
+              />,
             });
           }
         }
@@ -166,9 +204,16 @@ class List extends React.Component {
         body: products,
       });
       if (!result.payload.success) {
-        notification.warning({
-          message: intl.formatMessage({ id: result.payload.code }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
         });
       }
       if (result.payload.data.fail.length > 0) {
@@ -179,15 +224,25 @@ class List extends React.Component {
         });
 
         if (names.length > 0) {
-          notification.warning({
-            message: intl.formatMessage(
-              { id: "205" },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.items.length - result.payload.data.fail.length,
-              },
-            ),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(
+                { id: "205" },
+                {
+                  names: names.join(", "),
+                  qty: result.payload.data.items.length - result.payload.data.fail.length,
+                },
+              )}
+            />,
           });
         }
       }
@@ -206,15 +261,25 @@ class List extends React.Component {
 
       if (errors.length > 0) {
         const titles = errors.map(err => err.title);
-        notification.warning({
-          message: intl.formatMessage(
-            { id: "205" },
-            {
-              names: titles.join(", "),
-              qty: products.length - errors.length,
-            },
-          ),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(
+              { id: "205" },
+              {
+                names: titles.join(", "),
+                qty: products.length - errors.length,
+              },
+            )}
+          />,
         });
       }
     }

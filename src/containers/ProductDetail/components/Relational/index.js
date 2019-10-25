@@ -2,9 +2,9 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, notification } from "antd";
-import { toast } from "react-toastify";
-import { css } from "glamor";
+import { Button } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -33,11 +33,21 @@ class Relational extends Component {
               id: result.payload.code,
             },
           });
-          notification.warning({
-            message: intl.formatMessage(messages.warning, {
-              name: result.payload.data.values[0],
-            }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.warning, {
+                name: result.payload.data.values[0],
+              })}
+            />,
           });
         }
       } else {

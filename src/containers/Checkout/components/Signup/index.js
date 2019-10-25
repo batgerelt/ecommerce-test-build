@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message, notification } from "antd";
+import { Input, Form, Button } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import NumberInput from "../../../../components/Input/NumberInput";
 import LetterInput from "../../../../components/Input/LetterInput";
 
@@ -61,18 +63,42 @@ class Signup extends React.Component {
             if (res.payload.success) {
               this.props.form.resetFields();
               this.props.LoginRegisterPanel.changeTab(1);
-              notification.success({ message: intl.formatMessage({ id: "registration.confirmation.email" }), duration: 2 });
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: "registration.confirmation.email" })} />,
+              });
             } else {
-              notification.warning({
-                message: intl.formatMessage({ id: res.payload.code }),
-                duration: 3,
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
               });
             }
           });
         } else {
-          notification.warning({
-            message: intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" })} />,
           });
         }
       }

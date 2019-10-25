@@ -4,6 +4,8 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
 import { Link } from "react-router-dom";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../";
 
 class ForgetModal extends React.Component {
   state = {
@@ -25,9 +27,29 @@ class ForgetModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }) });
+            return store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 2000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
-          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 2000,
+              onScreen: false,
+            },
+            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
           this.props.form.resetFields();
           this.handleForgetModal();
         });

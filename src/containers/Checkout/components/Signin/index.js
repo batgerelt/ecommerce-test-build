@@ -4,9 +4,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message, notification } from "antd";
+import { Input, Form, Button } from "antd";
 import { Link, Redirect } from "react-router-dom";
-
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
 
 class Signin extends React.Component {
@@ -37,12 +38,29 @@ class Signin extends React.Component {
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
-      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+      });
     } else {
       if (r.payload.code) {
-        notification.warning({
-          message: intl.formatMessage({ id: r.payload.code }),
-          duration: 3,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: r.payload.code })} />,
         });
       }
       return null;
@@ -68,9 +86,16 @@ class Signin extends React.Component {
           body: products,
         });
         if (!result.payload.success) {
-          notification.warning({
-            message: intl.formatMessage({ id: result.payload.code }),
-            duration: 3,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
           });
         }
         this.props.getProducts().then((res) => {
@@ -126,14 +151,24 @@ class Signin extends React.Component {
                     ));
 
                     if (reasons.length > 0) {
-                      notification.warning({
-                        message: intl.formatMessagintl.formatMessage(
-                          { id: confirmResult.payload.code },
-                          {
-                            names: reasons.join(", "),
-                          },
-                        ),
-                        duration: 3,
+                      store.addNotification({
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 3000,
+                          onScreen: false,
+                        },
+                        content: <Notification
+                          type="warning"
+                          text={intl.formatMessagintl.formatMessage(
+                            { id: confirmResult.payload.code },
+                            {
+                              names: reasons.join(", "),
+                            },
+                          )}
+                        />,
                       });
                     }
 
@@ -151,9 +186,16 @@ class Signin extends React.Component {
                   body: products,
                 });
                 if (!result.payload.success) {
-                  notification.warning({
-                    message: intl.formatMessage({ id: result.payload.code }),
-                    duration: 3,
+                  store.addNotification({
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 3000,
+                      onScreen: false,
+                    },
+                    content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
                   });
                 }
                 this.props.getProducts().then((res) => {
@@ -172,9 +214,16 @@ class Signin extends React.Component {
             });
             this.props.getSystemLocation({});
           } else {
-            notification.warning({
-              message: intl.formatMessage({ id: r.payload.code }),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: r.payload.code })} />,
             });
           }
           this.setState({ loading: false });

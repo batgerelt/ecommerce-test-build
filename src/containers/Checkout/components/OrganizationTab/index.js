@@ -3,6 +3,8 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button, message, notification, Col } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import KrillInput from "../../../../components/Input/KrillInput";
 
 class OrganizationTab extends React.Component {
@@ -42,9 +44,16 @@ class OrganizationTab extends React.Component {
               this.props.changeCompanyInfo(value);
               this.setState({ connected: true });
             } else {
-              notification.warning({
-                message: intl.formatMessage({ id: "checkout.extra.organization.info" }),
-                duration: 3,
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: "checkout.extra.organization.info" })} />,
               });
             }
           }

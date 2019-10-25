@@ -13,9 +13,10 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Rate, message, notification } from "antd";
+import { Rate, notification } from "antd";
+import { store } from 'react-notifications-component';
 import windowSize from 'react-window-size';
-import { Label, ElasticLabel } from "../";
+import { Label, ElasticLabel, Notification } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -24,16 +25,6 @@ class Card extends React.Component {
   state = {
     changeHeart: false,
   };
-
-  // openNotification = (type, message, description) => {
-  //   notification[type]({
-  //     message,
-  //     description,
-  //     style: {
-  //       zIndex: 99999,
-  //     },
-  //   });
-  // };
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
@@ -53,15 +44,16 @@ class Card extends React.Component {
                 id: result.payload.code,
               },
             });
-            notification.warning({
-              message: intl.formatMessage(
-                messages.error,
-                {
-                  name: result.payload.data.values[1],
-                  qty: result.payload.data.values[2],
-                },
-              ),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage(messages.error, { name: result.payload.data.values[1], qty: result.payload.data.values[2] })} />,
             });
           }
         } else if (item.recipeid) {
@@ -73,15 +65,25 @@ class Card extends React.Component {
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-            notification.warning({
-              message: intl.formatMessage(
-                { id: result.payload.code },
-                {
-                  names: names.join(", "),
-                  qty: result.payload.data.qty,
-                },
-              ),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: names.join(", "),
+                    qty: result.payload.data.qty,
+                  },
+                )}
+              />,
             });
           }
         } else if (item.id) {
@@ -93,15 +95,25 @@ class Card extends React.Component {
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-            notification.warning({
-              message: intl.formatMessage(
-                { id: result.payload.code },
-                {
-                  names: names.join(", "),
-                  qty: result.payload.data.qty,
-                },
-              ),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: names.join(", "),
+                    qty: result.payload.data.qty,
+                  },
+                )}
+              />,
             });
           }
         } else {
@@ -119,15 +131,25 @@ class Card extends React.Component {
                 item.addminqty = res.payload.data.addminqty;
                 return this.props.incrementProductLocally(item);
               }
-              return notification.warning({
-                message: intl.formatMessage(
-                  { id: "200" },
-                  {
-                    name: item.title,
-                    qty: item.qty,
-                  },
-                ),
-                duration: 3,
+              return store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 3000,
+                  onScreen: false,
+                },
+                content: <Notification
+                  type="warning"
+                  text={intl.formatMessage(
+                    { id: "200" },
+                    {
+                      name: item.title,
+                      qty: item.qty,
+                    },
+                  )}
+                />,
               });
             });
           }
@@ -140,15 +162,25 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            notification.warning({
-              message: intl.formatMessage(
-                messages.error,
-                {
-                  name: updated.title,
-                  qty: updated.qty,
-                },
-              ),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  messages.error,
+                  {
+                    name: updated.title,
+                    qty: updated.qty,
+                  },
+                )}
+              />,
             });
           }
         } else if (item.recipeid) {
@@ -167,15 +199,25 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            notification.warning({
-              message: intl.formatMessage(
-                { id: "206" },
-                {
-                  names: titles.join(", "),
-                  qty: products.length - errors.length,
-                },
-              ),
-              duration: 3,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: "206" },
+                  {
+                    names: titles.join(", "),
+                    qty: products.length - errors.length,
+                  },
+                )}
+              />,
             });
           }
         } else if (item.id) {
@@ -194,15 +236,25 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            notification.warning({
-              message: intl.formatMessage(
-                { id: "205" },
-                {
-                  names: titles.join(", "),
-                  qty: products.length - errors.length,
-                },
-              ),
-              duration: 10,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: "205" },
+                  {
+                    names: titles.join(", "),
+                    qty: products.length - errors.length,
+                  },
+                )}
+              />,
             });
           }
         } else {

@@ -3,9 +3,11 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
+import { store } from 'react-notifications-component';
 import { Link, Redirect } from "react-router-dom";
 import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
+import { Notification } from "../../";
 
 class LoginModal extends React.Component {
   state = {
@@ -61,9 +63,29 @@ class LoginModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+            return store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
-          notification.success({ message: intl.formatMessage({ id: res.payload.code }), duration: 2 });
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 2000,
+              onScreen: false,
+            },
+            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
           this.props.form.resetFields();
           this.handleForgetModal();
         });
@@ -113,10 +135,30 @@ class LoginModal extends React.Component {
   logData = (result) => {
     const { intl } = this.props;
     if (result.payload.success) {
-      notification.success({ message: intl.formatMessage({ id: "loginModal.info.success" }), duration: 2 });
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 2000,
+          onScreen: false,
+        },
+        content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+      });
     } else {
       if (result.payload.code) {
-        notification.warning({ message: intl.formatMessage({ id: result.payload.code }), duration: 2 });
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 2000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+        });
       }
       return null;
     }
@@ -147,7 +189,17 @@ class LoginModal extends React.Component {
         });
         if (result !== undefined) {
           if (!result.payload.success) {
-            notification.warning({ message: intl.formatMessage({ id: res.payload.code }), duration: 3 });
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
         }
         this.props.form.resetFields();

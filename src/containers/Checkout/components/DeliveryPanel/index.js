@@ -14,7 +14,9 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Input, Form, Select, DatePicker, message, Radio, notification, Col } from "antd";
+import { store } from 'react-notifications-component';
 import moment from "moment";
+import { Notification } from "../../../../components";
 import LetterInput from "../../../../components/Input/LetterInput";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -198,9 +200,16 @@ class DeliveryPanel extends React.Component {
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
       });
     } else {
-      notification.warning({
-        message: intl.formatMessage({ id: "checkout.expressDelivery.info" }),
-        duration: 3,
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,
       });
     }
   };

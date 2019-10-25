@@ -3,7 +3,8 @@ import * as jwtDecode from 'jwt-decode';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress, Icon, Button, Upload, Spin, message, notification } from "antd";
-// import Notification from "../Notification";
+import { store } from 'react-notifications-component';
+import { Notification } from "../";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
 import upload from "../../scss/assets/images/demo/upload.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
@@ -11,7 +12,7 @@ import history from "../../../src/scss/assets/images/demo/history.png";
 import wishlist from "../../../src/scss/assets/images/demo/wishlist.png";
 import location from "../../../src/scss/assets/images/demo/location.png";
 import password from "../../../src/scss/assets/images/demo/password.png";
-import store from "../../../src/scss/assets/images/demo/store.png";
+import store2 from "../../../src/scss/assets/images/demo/store.png";
 import crossImage from "../../scss/assets/svg/error.svg";
 import style from "./style.less";
 import profile1 from "../../scss/assets/svg/profile.svg";
@@ -34,7 +35,17 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    notification.warning({ message: '5MB-ээс бага хэмжээтэй зураг оруулна уу', duration: 3 });
+    store.addNotification({
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: {
+        duration: 2000,
+        onScreen: false,
+      },
+      content: <Notification type="warning" text="5MB-ээс бага хэмжээтэй зураг оруулна уу" />,
+    });
   }
   return isLt2M;
 }
@@ -60,10 +71,19 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
-
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
-      notification.success({ message: intl.formatMessage({ id: "userButton.info.success" }), duration: 2 });
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 2000,
+          onScreen: false,
+        },
+        content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
+      });
     }
   }
 
@@ -260,7 +280,7 @@ class UserButton extends React.Component {
                     </li>
                     <li onClick={this.showpro}>
                       <Link to="/profile/delivery" className="flex-this">
-                        <Avatar size="small" shape="square" src={store} style={{ width: "35px" }} />
+                        <Avatar size="small" shape="square" src={store2} style={{ width: "35px" }} />
                         <span>
                           <FormattedMessage id="header.profile.orderHistory" />
                         </span>
