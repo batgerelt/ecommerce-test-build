@@ -17,7 +17,8 @@ import { RegistrationModal } from "../../components/Registration";
 import { ForgetModal } from "../../components/ForgetModal";
 import Notfound from "../Exception/404";
 import MessengerCustomerChat from 'react-messenger-customer-chat';
-import style from "./style.less";
+import 'react-notifications-component/dist/theme.css';
+
 import {
   Locale as LocaleModel,
   Category as CategoryModel,
@@ -63,6 +64,7 @@ import PaymentReturn from "../Checkout/components/PaymentReturn";
 import IntlGlobalProvider from '../../components/IntlGlobalProvider';
 import translationEn from "../../translations/en.json";
 import translationMn from "../../translations/mn.json";
+import ReactNotification from 'react-notifications-component';
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -171,6 +173,7 @@ class App extends Component {
                     pageId="1438714326447694"
                     appId="436816840280763"
                   />
+                  <ReactNotification />
                   <Footer {...this.props} />
                 </Layout>
               </Router>
