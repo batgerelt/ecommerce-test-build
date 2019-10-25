@@ -34,12 +34,9 @@ class PaymentTypePanel extends React.Component {
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
-        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-          <label className="card radio-card" key={item.id}>
-            <div
-              className="radio-button-container"
-              style={{ marginTop: "5px" }}
-            >
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" key={item.id}>
+          <label className="card radio-card" style={{ boxShadow: chosenPaymentType.id === item.id ? 'inset 0 0 0 1px #feb415' : '' }}>
+            <div className="radio-button-container" style={{ marginTop: "5px" }}>
               <input
                 className="form-check-input radio-button"
                 type="radio"
@@ -92,7 +89,7 @@ class PaymentTypePanel extends React.Component {
     const { chosenRadio } = this.props.mainState;
     return (
       <Form name="paymenttypeform" onSubmit={this.onSubmit}>
-        <div className="content-container">
+        <div className="content-container" style={{ paddingRight: '0px', paddingLeft: '0px' }}>
           <Col span={24}>
             <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
               <p className="title font-weight-bold" style={{ marginBottom: '0px' }}>
@@ -105,12 +102,15 @@ class PaymentTypePanel extends React.Component {
               <div className="flex-this hand-pay">
                 <Col span={24}>
                   <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-                    <div className="form-check" style={{ width: '100%', marginRight: '20px' }}>
-                      <Radio value={1} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.individual" /></Radio>
+                    <div className="form-check" style={{ width: '100%', marginRight: '20px', boxShadow: chosenRadio === 1 ? '0 0 0 1px #feb415' : '' }}>
+                      <Radio value={1} style={{ width: '100%' }}>
+                        {/* <img alt="zurag" src={require("../../../../scss/assets/images/demo/shuurhai.png")} /> */}
+                        <FormattedMessage id="shared.form.label.individual" />
+                      </Radio>
                     </div>
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-                    <div className="form-check" style={{ width: '100%', marginRight: '0px' }}>
+                    <div className="form-check" style={{ width: '100%', marginRight: '0px', boxShadow: chosenRadio === 2 ? '0 0 0 1px #feb415' : '' }}>
                       <Radio value={2} style={{ width: '100%' }}><FormattedMessage id="shared.form.label.company" /></Radio>
                     </div>
                   </Col>
@@ -138,7 +138,6 @@ class PaymentTypePanel extends React.Component {
             {this.renderPaymentTypes()}
           </Col>
         </div>
-        <hr />
       </Form>
     );
   }

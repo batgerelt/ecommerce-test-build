@@ -37,7 +37,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "",
+      sort: "updateddate_desc",
       isLeftPanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,

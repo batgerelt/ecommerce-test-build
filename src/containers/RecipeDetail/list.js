@@ -264,6 +264,7 @@ class List extends React.Component {
     try {
       const { lang } = this.props;
       const products = this.props.recipeProducts;
+      console.log(products, "products");
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -289,7 +290,13 @@ class List extends React.Component {
                     </span>
                   )}
                   <span className="current">
-                    {formatter.format(item.price)}₮
+                    <small className="sale" style={{ marginRight: '5px', textDecoration: 'line-through' }}>
+                      {
+                        item.discountprice !== 0 ?
+                          `${formatter.format(item.price)}₮` : null
+                      }
+                    </small>
+                    {formatter.format(item.discountprice !== 0 ? item.discountprice : item.price)}₮
                   </span>
                 </span>
               </Link>

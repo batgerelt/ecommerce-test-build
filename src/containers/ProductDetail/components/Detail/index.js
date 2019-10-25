@@ -141,6 +141,7 @@ class Detail extends Component {
 
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
+    console.log('detail: ', detail);
     if (!detail) {
       return null;
     }
@@ -238,7 +239,7 @@ class Detail extends Component {
                 value={productQty}
                 name="productQty"
                 onChange={this.handleInputChange(detail)}
-                // onKeyDown={this.handleQtyKeyDown(detail)}
+                onKeyDown={e => (e.keyCode === 13 ? this.handleQtyBlur(e, detail) : null)}
                 onBlur={e => this.handleQtyBlur(e, detail)}
                 disabled={detail.availableqty < 1}
               />
@@ -385,23 +386,18 @@ class Detail extends Component {
   handleQtyBlur = (e, product) => {
     if (isNaN(e.target.value)) {
       this.setState({ productQty: product.addminqty });
-      console.log("1");
     } else if (e.target.value < product.addminqty) {
       this.setState({ productQty: product.addminqty });
-      console.log("2");
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
-      console.log("3");
       notification.warning({
         message: "Барааны нөөц хүрэлцэхгүй байна.",
         duration: 3,
       });
     } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
-      console.log("4");
     } else if (e.target.value <= product.salemaxqty) {
       this.setState({ productQty: e.target.value });
-      console.log("5");
     } else {
       this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }

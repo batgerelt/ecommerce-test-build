@@ -62,9 +62,9 @@ class OrganizationTab extends React.Component {
         <Form>
           <div className="row row10 checkoutFormContainer">
             <Col span={24} className="org-container padd10">
-              <Col xs={12} sm={12} md={12} lg={12} xl={12} className="padd10" />
-              <Col xs={12} sm={12} md={12} lg={12} xl={12} className="padd10">
-                <Col xs={17} sm={17} md={17} lg={17} xl={17}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10" />
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                <Col xs={16} sm={16} md={16} lg={16} xl={16}>
                   <div className="form-group">
                     <Form.Item>
                       {getFieldDecorator("regno", {
@@ -83,11 +83,11 @@ class OrganizationTab extends React.Component {
                     </Form.Item>
                   </div>
                 </Col>
-                <Col xs={7} sm={7} md={7} lg={7} xl={7} className="padd10">
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="padd10">
                   {
                     !connected ?
-                      <button className="second-btn btn btn-dark" onClick={this.onSubmit}><FormattedMessage id="shared.form.button.connect" /></button> :
-                      <button className="second-btn btn btn-dark" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></button>
+                      <button className="second-btn btn btn-dark col-md-12" onClick={this.onSubmit}><FormattedMessage id="shared.form.button.connect" /></button> :
+                      <button className="second-btn btn btn-dark col-md-12" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></button>
                   }
                 </Col>
               </Col>

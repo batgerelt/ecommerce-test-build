@@ -100,7 +100,7 @@ class DeliveryInfo extends React.Component {
       if (!this.state.checkedAgreement) {
         agreementId.scrollIntoView({
           behavior: 'smooth',
-          block: 'start',
+          block: 'center',
         });
         this.setState({ notif: true });
       } else if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
@@ -167,6 +167,7 @@ class DeliveryInfo extends React.Component {
                 }
               });
             }, 1000);
+            this.props.clearRemotely();
             this.openLastModal("qpay", [], res.payload.data);
           }
 
@@ -367,7 +368,6 @@ class DeliveryInfo extends React.Component {
       isLoggedIn,
     } = this.props;
     const lang = intl.locale;
-    console.log(this.props);
     return (
       <div className="col-lg-4 pad10">
         <div className="block right-panel">
@@ -479,15 +479,19 @@ class DeliveryInfo extends React.Component {
             <a id="agreementId" style={{ paddingLeft: '8px' }}>
               <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
             </a>
-            <Affix offsetBottom={0}>
-              <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn} >
-                <span className="text-uppercase">
-                  {
-                    !mainState.deliveryTypeExpanded ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
-                  }
-                </span>
-              </button>
-            </Affix>
+            {
+              isLoggedIn ?
+                <Affix offsetBottom={0}>
+                  <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn} >
+                    <span className="text-uppercase">
+                      {
+                        mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                      }
+                    </span>
+                  </button>
+                </Affix>
+                : null
+            }
           </div>
         </div>
 

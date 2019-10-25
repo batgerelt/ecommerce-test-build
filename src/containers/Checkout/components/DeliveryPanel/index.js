@@ -336,8 +336,17 @@ class DeliveryPanel extends React.Component {
                       k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
                     }
                     return (
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                        <div key={i} className="form-check col-md-12" style={{ paddingTop: '5px', paddingBottom: '5px', borderRadius: "4px" }} onClick={e => this.changeTabError(e, item)}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
+                        <div
+                          className="form-check col-md-12"
+                          style={{
+                            paddingTop: '5px',
+                            paddingBottom: '5px',
+                            borderRadius: "4px",
+                            boxShadow: parseInt(defaultActiveKey) === item.id ? '0 0 0 1px #feb415' : '',
+                          }}
+                          onClick={e => this.changeTabError(e, item)}
+                        >
                           <Radio value={item.id} name={item.id} disabled={!(item.isenable === 1)} className="col-md-12">
                             <img
                               alt="icon"
