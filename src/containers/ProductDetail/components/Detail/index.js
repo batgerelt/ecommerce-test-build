@@ -148,7 +148,6 @@ class Detail extends Component {
 
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
-    console.log('detail: ', detail);
     if (!detail) {
       return null;
     }
