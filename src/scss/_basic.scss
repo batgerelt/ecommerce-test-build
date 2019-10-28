@@ -3454,6 +3454,14 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.ant-dropdown {
+  position: fixed !important;
+}
+.scrolled-menu {
+  z-index: -5;
+  overflow: auto;
+  height: 600px;
+}
 .ant-notification-notice {
   background: #FFF3C9;
 }

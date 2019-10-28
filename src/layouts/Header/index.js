@@ -399,7 +399,7 @@ class AppHeader extends Component {
 
       const dropdown = (
         <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ zIndex: -5 }}>
-          <div className="container pad10" style={{ zIndex: -5 }}>
+          <div className="container pad10 scrolled-menu">
             <Category dataSource={root} {...this.props} />
           </div>
         </div>
