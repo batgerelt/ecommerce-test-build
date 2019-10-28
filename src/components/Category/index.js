@@ -20,6 +20,7 @@ class MainMenu extends React.Component {
   render() {
     const data = this.props && this.props.dataSource;
     const lang = this.props.intl.locale;
+    console.log(data);
     return (
       <div className="row row10">
         {data.map((item, index) => (
@@ -37,7 +38,7 @@ class MainMenu extends React.Component {
               </li>
               {item.children &&
                 item.children
-                  .sort((a, b) => a.orders > b.orders)
+                  .sort((a, b) => (a.orders !== b.orders ? a.order > b.orders : a.name.localeCompare(b.name)))
                   .map((it, ind) => (
                     <li
                       className="active"
