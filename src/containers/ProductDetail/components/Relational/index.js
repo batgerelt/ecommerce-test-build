@@ -39,7 +39,7 @@ class Relational extends Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 3000,
+              duration: 5000,
               onScreen: false,
             },
             content: <Notification

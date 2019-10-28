@@ -38,7 +38,7 @@ function beforeUpload(file) {
       animationIn: ["animated", "fadeIn"],
       animationOut: ["animated", "fadeOut"],
       dismiss: {
-        duration: 3000,
+        duration: 5000,
         onScreen: false,
       },
       content: <Notification type="warning" text="5MB-ээс бага хэмжээтэй зураг оруулна уу" />,
@@ -66,7 +66,7 @@ class List extends React.Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 3000,
+          duration: 5000,
           onScreen: false,
         },
         content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,

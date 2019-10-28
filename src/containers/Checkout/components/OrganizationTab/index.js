@@ -50,7 +50,7 @@ class OrganizationTab extends React.Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                  duration: 3000,
+                  duration: 5000,
                   onScreen: false,
                 },
                 content: <Notification type="warning" text={intl.formatMessage({ id: "checkout.extra.organization.info" })} />,

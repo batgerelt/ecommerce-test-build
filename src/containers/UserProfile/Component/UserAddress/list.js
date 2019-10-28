@@ -87,7 +87,7 @@ class Component extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 3000,
+                duration: 5000,
                 onScreen: false,
               },
               content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })} />,
@@ -99,7 +99,7 @@ class Component extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 3000,
+                duration: 5000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.info.cannotSave" })} />,

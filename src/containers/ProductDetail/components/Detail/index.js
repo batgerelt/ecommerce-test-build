@@ -127,7 +127,7 @@ class Detail extends Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 3000,
+              duration: 5000,
               onScreen: false,
             },
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -386,7 +386,7 @@ class Detail extends Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 3000,
+          duration: 5000,
           onScreen: false,
         },
         content: <Notification
@@ -414,7 +414,7 @@ class Detail extends Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 3000,
+          duration: 5000,
           onScreen: false,
         },
         content: <Notification type="warning" text="Барааны нөөц хүрэлцэхгүй байна." />,
@@ -449,7 +449,7 @@ class Detail extends Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 3000,
+          duration: 5000,
           onScreen: false,
         },
         content: <Notification
@@ -493,7 +493,7 @@ class Detail extends Component {
           animationIn: ["animated", "fadeIn"],
           animationOut: ["animated", "fadeOut"],
           dismiss: {
-            duration: 3000,
+            duration: 5000,
             onScreen: false,
           },
           content: <Notification
@@ -524,7 +524,7 @@ class Detail extends Component {
           animationIn: ["animated", "fadeIn"],
           animationOut: ["animated", "fadeOut"],
           dismiss: {
-            duration: 3000,
+            duration: 5000,
             onScreen: false,
           },
           content: <Notification

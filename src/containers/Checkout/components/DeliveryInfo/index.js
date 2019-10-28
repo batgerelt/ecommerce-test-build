@@ -210,7 +210,7 @@ class DeliveryInfo extends React.Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 3000,
+              duration: 5000,
               onScreen: false,
             },
             content: <Notification type="warning" text={intl.formatMessage(messages.error, { name: res.payload.data })} />,
