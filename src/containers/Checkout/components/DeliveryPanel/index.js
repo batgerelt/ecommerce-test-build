@@ -13,7 +13,7 @@
 /* eslint-disable import/newline-after-import */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Input, Form, Select, DatePicker, message, Radio, notification, Col } from "antd";
+import { Input, Form, Select, DatePicker, message, Radio, notification, Col, Button } from "antd";
 import { store } from 'react-notifications-component';
 import moment from "moment";
 import { Notification } from "../../../../components";
@@ -440,26 +440,27 @@ class DeliveryPanel extends React.Component {
               </Col>
               {defaultActiveKey !== 3 && main !== null ? (
                 <Col span={24}>
-                  <Col xs={24} sm={24} md={20} lg={20} xl={20} className="padd10">
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
-                    <Form.Item>
+                    <Form.Item className="select-button">
                       {getFieldDecorator("id", {
                         initialValue: this.checkError(chosenAddress.id),
                         rules: [{ required: false, message: "Хаяг оруулна уу" }],
                       })(
-                        <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })}>
+                        <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
                           {this.renderAddrsOption()}
                         </Select>,
                       )}
+                      <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none' }} />
                     </Form.Item>
                   </Col>
-                  <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
+                  {/* <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
                     <Form.Item>
                       <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>
                         <FormattedMessage id="shared.form.button.newAddress" />
                       </button>
                     </Form.Item>
-                  </Col>
+                  </Col> */}
                 </Col>
               ) : (
                   null

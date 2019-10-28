@@ -45,7 +45,8 @@ class Relational extends Component {
             content: <Notification
               type="warning"
               text={intl.formatMessage(messages.warning, {
-                name: result.payload.data.values[0],
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
               })}
             />,
           });

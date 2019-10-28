@@ -2,8 +2,9 @@
 import React from "react";
 import { Rate, Spin, Icon, Col, Row, Divider } from "antd";
 import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
-import { Loader } from "../../../../components";
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
+import { store } from 'react-notifications-component';
+import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -46,11 +47,37 @@ class Component extends React.Component {
   }
   handleIncrement = item => async (e) => {
     e.preventDefault();
+    const { intl } = this.props;
     if (item.skucd) {
       this.props.incrementProductRemotely({
         skucd: item.skucd,
         qty: item.addminqty || 1,
         iscart: 0,
+      }).then((res) => {
+        if (!res.payload.success) {
+          const messages = defineMessages({
+            warning: {
+              id: res.payload.code,
+            },
+          });
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.warning, {
+                name: res.payload.data.values[1],
+                qty: res.payload.data.values[2],
+              })}
+            />,
+          });
+        }
       });
     }
   }
@@ -199,4 +226,4 @@ class Component extends React.Component {
   }
 }
 
-export default Component;
+export default injectIntl(Component);

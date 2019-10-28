@@ -12,10 +12,15 @@ import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
-  state = {
-    productQty: this.props.detail.products.addminqty || 1,
-    rate: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.proceedRef = React.createRef();
+    this.inputRef = React.createRef();
+    this.state = {
+      productQty: this.props.detail.products.addminqty || 1,
+      rate: 0,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
@@ -54,13 +59,13 @@ class Detail extends Component {
             </p>
           ) */}
           {
-            detail.feature && (
+           /*  detail.feature && (
               <p className="big-text">
                 <strong>
                   {lang === "mn" ? detail.feature : detail.feature_en}
                 </strong>
               </p>
-            )
+            ) */
           }
 
           <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
@@ -144,6 +149,12 @@ class Detail extends Component {
     step || (step = 1.0);
     const inv = 1.0 / step;
     return Math.round(value * inv) / inv;
+  };
+
+  handleInputKeyUp = product => async (e) => {
+    if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
+      this.proceedRef.current.focus();
+    }
   };
 
   renderCartInfo = () => {
@@ -239,13 +250,14 @@ class Detail extends Component {
               </div>
 
               <input
+                ref={this.inputRef}
                 type="text"
                 maxLength="5"
                 className="form-control"
                 value={productQty}
                 name="productQty"
+                onKeyUp={this.handleInputKeyUp(detail)}
                 onChange={this.handleInputChange(detail)}
-                onKeyDown={e => (e.keyCode === 13 ? this.handleQtyBlur(e, detail) : null)}
                 onBlur={e => this.handleQtyBlur(e, detail)}
                 disabled={detail.availableqty < 1}
               />
@@ -286,7 +298,7 @@ class Detail extends Component {
           </button>
 
           <button
-            type="button"
+            ref={this.proceedRef}
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
             /* onClick={() => this.props.onUpdateCart(detail)} */
@@ -498,8 +510,8 @@ class Detail extends Component {
           content: <Notification
             type="warning"
             text={intl.formatMessage(messages.warning, {
-              name: result.payload.data.values[0],
-              qty: result.payload.data.values[1],
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
             })}
           />,
         });
@@ -510,7 +522,6 @@ class Detail extends Component {
       this.props.increaseProductByQtyLocally(product);
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
-
       if (updated && updated.error !== undefined) {
         const messages = defineMessages({
           warning: {
