@@ -47,7 +47,7 @@ class Signin extends React.Component {
           duration: 5000,
           onScreen: false,
         },
-        content: <Notification type="warning" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+        content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
       });
     } else {
       if (r.payload.code) {

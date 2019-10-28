@@ -17,8 +17,8 @@ class Footer extends React.Component {
 
       return (
         <div className="col-sm-6 col-lg-3 pad10 logo-container">
-          <Link to="/" className="logo">
-            <img alt="logo" src={process.env.IMAGE + staticinfo.logopath2} />
+          <Link to="/" className="logo" style={{ width: "10% !important" }}>
+            <img alt="logo" src={process.env.IMAGE + staticinfo.logopath2} style={{ width: "100% !important" }} />
           </Link>
           <ul className="social">
             <li>

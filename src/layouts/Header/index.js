@@ -183,51 +183,6 @@ class AppHeader extends Component {
 
       return (
         <div className="top-main">
-          {/* <button onClick={() => {
-            store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: false,
-              },
-              content: <Notification type="warning" text="Success" />,
-            });
-          }}
-          >hello
-          </button>
-          <button onClick={() => {
-            store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: false,
-              },
-              content: <Notification type="success" text="Success" />,
-            });
-          }}
-          >hello
-          </button>
-          <button onClick={() => {
-            store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: false,
-              },
-              content: <Notification type="info" text="Success" />,
-            });
-          }}
-          >hello
-          </button> */}
           <div className="container container-laptop pad10">
             <div className="row">
               <div className="col-lg-8 col-md-7 col-6 pad10">
