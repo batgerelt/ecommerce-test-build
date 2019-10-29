@@ -3187,8 +3187,15 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .addAddressBtn {
-  padding: 4px 22px;
-  font-size: 0.8rem;
+  color: #fff;
+  background-color: #23272b;
+  border-color: #1d2124;
+  border-radius: 0px 4px 4px 0px;
+  border-left: none;
+}
+.addAddressBtn:hover{
+  background-color: #23272b !important;
+  border-color: #1d2124 !important;
 }
 
 .marginLeft {
@@ -3630,4 +3637,12 @@ button:disabled{
 
 .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus+.ant-radio-inner{
   border-color: #feb415 !important;
+}
+
+.select-button .ant-form-item-children{
+  display: flex !important;
+}
+
+.add-select .ant-select-selection{
+  border-radius: 4px 0px 0px 4px !important;
 }
