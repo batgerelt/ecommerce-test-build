@@ -382,7 +382,7 @@ class Model extends BaseModel {
       model: this.model.deleteAddress,
     });
   editEmail = values => asyncFn({
-    url: `/customer/mail/${values}`, method: 'PUT', model: this.model.editemail,
+    url: `/customer/profilemail/${values}`, method: 'PUT', model: this.model.editemail,
   });
 
   reducer = (state = this.initialState, action) => {
