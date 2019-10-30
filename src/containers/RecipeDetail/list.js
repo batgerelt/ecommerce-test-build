@@ -12,6 +12,9 @@ import smile from "../../../src/scss/assets/images/demo/smile.png";
 const formatter = new Intl.NumberFormat("en-US");
 
 class List extends React.Component {
+  state = {
+    loading: false,
+  }
   renderRoot = () => {
     try {
       const { recipe } = this.props;
@@ -236,9 +239,11 @@ class List extends React.Component {
       const { intl } = this.props;
 
       if (this.props.isLoggedIn) {
+        this.setState({ loading: true });
         const result = await this.props.incrementRecipeProductsRemotely({
           recipeid: this.props.match.params.id,
         });
+        this.setState({ loading: false });
         if (!result.payload.success) {
           return store.addNotification({
             insert: "top",
@@ -324,7 +329,6 @@ class List extends React.Component {
     try {
       const { lang } = this.props;
       const products = this.props.recipeProducts;
-      console.log(products, "products");
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -366,10 +370,8 @@ class List extends React.Component {
                   className="btn btn-link"
                   onClick={() => this.handleIncrementClick(item)}
                 >
-                  <i
-                    className="fa fa-cart-plus"
-                    aria-hidden="true"
-                  />
+                  <i className="fa fa-cart-plus" aria-hidden="true" />
+                  {" "}
                 </button>
               </div>
             </div>
@@ -383,7 +385,7 @@ class List extends React.Component {
 
   renderProducts = () => {
     const products = this.props.recipeProducts;
-
+    const { loading } = this.state;
     const total =
       products &&
       products.length > 0 &&
@@ -407,14 +409,12 @@ class List extends React.Component {
               </p>
               <button
                 type="button"
+                disabled={loading}
                 className="btn btn-main"
                 onClick={() => this.handleIncrementAllClick(products)}
               >
-                <i
-                  className="fa fa-cart-plus"
-                  aria-hidden="true"
-                  style={{ fontSize: "1.2rem" }}
-                />{" "}
+                <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" style={{ fontSize: "1.2rem" }} />
+                {" "}
                 <span className="text-uppercase">
                   <FormattedMessage id="shared.sidebar.button.addToCart" />
                 </span>

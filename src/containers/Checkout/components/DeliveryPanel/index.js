@@ -441,18 +441,22 @@ class DeliveryPanel extends React.Component {
               {defaultActiveKey !== 3 && main !== null ? (
                 <Col span={24}>
                   <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
-                    <Form.Item className="select-button">
-                      {getFieldDecorator("id", {
-                        initialValue: this.checkError(chosenAddress.id),
-                        rules: [{ required: false, message: "Хаяг оруулна уу" }],
-                      })(
-                        <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
-                          {this.renderAddrsOption()}
-                        </Select>,
-                      )}
-                      <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none' }} />
-                    </Form.Item>
+                    <Col xs={20} sm={20} md={23} lg={23} xl={23}>
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+                      <Form.Item className="select-button">
+                        {getFieldDecorator("id", {
+                          initialValue: this.checkError(chosenAddress.id),
+                          rules: [{ required: false, message: "Хаяг оруулна уу" }],
+                        })(
+                          <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
+                            {this.renderAddrsOption()}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={4} sm={4} md={1} lg={1} xl={1}>
+                      <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
+                    </Col>
                   </Col>
                   {/* <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
                     <Form.Item>

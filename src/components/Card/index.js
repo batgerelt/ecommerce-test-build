@@ -24,6 +24,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Card extends React.Component {
   state = {
     changeHeart: false,
+    loading: false,
   };
 
   // eslint-disable-next-line consistent-return
@@ -31,13 +32,14 @@ class Card extends React.Component {
     const { intl, elastic } = this.props;
     try {
       if (localStorage.getItem('auth') !== null) {
+        this.setState({ loading: true });
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
             qty: item.addminqty || 1,
             iscart: 0,
           });
-
+          this.setState({ loading: false });
           if (!result.payload.success) {
             const messages = defineMessages({
               error: {
@@ -60,7 +62,7 @@ class Card extends React.Component {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
-
+          this.setState({ loading: false });
           const failedProducts = result.payload.data.fail;
 
           if (failedProducts.length > 0) {
@@ -90,7 +92,7 @@ class Card extends React.Component {
           const result = await this.props.incrementPackageProductsRemotely({
             packageid: item.id,
           });
-
+          this.setState({ loading: false });
           const failedProducts = result.payload.data.fail;
 
           if (failedProducts.length > 0) {
@@ -117,6 +119,7 @@ class Card extends React.Component {
             });
           }
         } else {
+          this.setState({ loading: false });
           //
         }
       } else {
@@ -318,7 +321,7 @@ class Card extends React.Component {
         shape, item, isLastInRow, className, elastic, tags, list, windowWidth, isDiscount,
       } = this.props;
       const lang = this.props.intl.locale;
-
+      const { loading } = this.state;
       let prices;
       if (!item) {
         return null;
@@ -469,22 +472,23 @@ class Card extends React.Component {
         cartDisabled = false;
       }
       const hover = (
-        <div className="search-hover">
-          <button className="btn btn-link" onClick={this.handleSaveClick}>
+        <div className="search-hover action">
+          <button className="action btn btn-link" onClick={this.handleSaveClick}>
             <i
               className={
                 this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
               }
               aria-hidden="true"
-              style={{ color: "#feb415" }}
+            // style={{ color: "#feb415" }}
+            // fa-spin
             />
           </button>
           <button
             onClick={() => this.handleIncrement(item)}
-            className="btn btn-link"
-            disabled={false}
+            className="action btn btn-link"
+            disabled={loading}
           >
-            <i className="fa fa-cart-plus" aria-hidden="true" />
+            <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
           </button>
         </div>
       );

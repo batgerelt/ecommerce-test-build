@@ -586,6 +586,7 @@ class SwalModals extends Component {
                             {intl.formatMessage({ id: "checkout.swal.label.backToHomepage" })}
                           </span>
                         </a>
+                        <br /><br />
                         <a
                           className="btn btn-dark"
                           onClick={(e) => {
