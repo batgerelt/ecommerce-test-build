@@ -3639,10 +3639,14 @@ button:disabled{
   border-color: #feb415 !important;
 }
 
-.select-button .ant-form-item-children{
+/* .select-button .ant-form-item-children{
   display: flex !important;
-}
+} */
 
 .add-select .ant-select-selection{
   border-radius: 4px 0px 0px 4px !important;
+}
+
+.fa-spin:before{
+  content: "\f1ce"
 }

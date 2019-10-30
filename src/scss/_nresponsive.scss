@@ -1878,6 +1878,27 @@ h1.title {
     #root {
         margin-top: 101px !important;
     }
+
+    .action {
+        button, a {
+            i {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+            }
+            padding: 5px;
+        }
+    }
+
+    .cart-container .cart-info .fav-products .info-container .fa {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .product-detail-page .pack-product-container .pack-list .info-container form .input-group{
+        width: 85px;
+    }
     
     .e-breadcrumb {
         padding: 0px;
@@ -2215,6 +2236,27 @@ h1.title {
     .e-breadcrumb {
         padding: 10px 0px;
         margin-bottom: 0px;
+    }
+
+    .action {
+        button, a {
+            i {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+            }
+            padding: 5px;
+        }
+    }
+
+    .product-detail-page .pack-product-container .pack-list .info-container form .input-group{
+        width: 85px;
+    }
+
+    .cart-container .cart-info .fav-products .info-container .fa {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
     }
 
     .product-detail-page {

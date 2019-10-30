@@ -10,6 +10,10 @@ import { Slider, Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class List extends React.Component {
+  state = {
+    loading: false,
+  }
+
   setProducts = (products) => {
     this.setState({
       products: products.map(prod => ({
@@ -196,6 +200,7 @@ class List extends React.Component {
     const { intl } = this.props;
 
     if (this.props.isLoggedIn) {
+      this.setState({ loading: true });
       products = products.map(prod => ({
         skucd: prod.skucd,
         qty: prod.qty !== undefined ? prod.qty : prod.addminqty || 1,
@@ -203,6 +208,7 @@ class List extends React.Component {
       const result = await this.props.increaseProductsByQtyRemotely({
         body: products,
       });
+      this.setState({ loading: false });
       if (!result.payload.success) {
         store.addNotification({
           insert: "top",
@@ -585,6 +591,7 @@ class List extends React.Component {
   renderCartInfo = () => {
     try {
       const { packageDetail } = this.props;
+      const { loading } = this.state;
       return (
         <div className="pack-product-container">
           <div className="pack-list">
@@ -604,13 +611,12 @@ class List extends React.Component {
                   </p>
                   <button
                     type="button"
+                    disabled={loading}
                     className="btn btn-main"
                     onClick={() => this.handleAddToCart(packageDetail.products)}
                   >
-                    <i
-                      className="fa fa-cart-plus"
-                      aria-hidden="true"
-                    />{" "}
+                    <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
+                    {" "}
                     <span className="text-uppercase">
                       <FormattedMessage id="packageDetail.button.addToCart" />
                     </span>
