@@ -209,7 +209,7 @@ class DeliveryPanel extends React.Component {
           duration: 5000,
           onScreen: false,
         },
-        content: <Notification type="warning" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,
+        content: <Notification type="info" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,
       });
     }
   };
@@ -217,7 +217,17 @@ class DeliveryPanel extends React.Component {
   changeTabError = (e, item) => {
     const { intl } = this.props;
     if (item.isenable === 0) {
-      message.warning(intl.formatMessage({ id: "checkout.expressDelivery.info" }));
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification type="info" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,
+      });
     }
   }
 
