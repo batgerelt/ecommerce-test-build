@@ -229,8 +229,8 @@ class Signin extends React.Component {
           }
           this.setState({ loading: false });
         }).catch(err => console.log(err));
-        let result = await this.props.login({ body: { ...values } });
-        this.loggedData(result);
+        /* let result = await this.props.login({ body: { ...values } });
+        this.loggedData(result); */
       } else {
         console.log(err);
       }

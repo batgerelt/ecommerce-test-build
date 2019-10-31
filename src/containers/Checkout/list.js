@@ -7,6 +7,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Collapse, Spin, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
 import {
   LoginRegisterPanel,
   PaymentTypePanel,
@@ -15,7 +16,7 @@ import {
   DeliveryPanel,
   SwalModals,
 } from "./components";
-import { Loader } from "../../components";
+import { Loader, Notification } from "../../components";
 
 const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
@@ -231,7 +232,17 @@ class Checkout extends React.Component {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
               this.setState({ isEmail: false });
-              message.warning(intl.formatMessage({ id: res.payload.code }));
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
+                },
+                content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+              });
             } else {
               this.setState({ isEmail: true });
             }
@@ -258,7 +269,17 @@ class Checkout extends React.Component {
                 }
               });
             } else {
-              message.warning(res.payload.message);
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
+                },
+                content: <Notification type="success" text={intl.formatMessage({ id: res.payload.message })} />,
+              });
             }
           });
         }

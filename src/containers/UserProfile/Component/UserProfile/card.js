@@ -94,6 +94,7 @@ class Component extends React.Component {
             <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
             <Form.Item>
               {getFieldDecorator("cardno", {
+                initialValue: 97611000,
                 rules: [
                   // { required: true, message: "Картын дугаараа оруулна уу" },
                   { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },

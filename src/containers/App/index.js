@@ -104,6 +104,7 @@ class App extends Component {
   state = { dataSource: {} };
 
   componentWillMount() {
+    console.log("componentWillMount");
     this.props.getCategoryMenu();
     this.props.getStaticInfo();
     this.props.getMenu();
@@ -116,8 +117,11 @@ class App extends Component {
     this.props.getTags();
     this.props.setLang();
   }
-
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
   render() {
+    console.log("render");
     const { lang } = this.props.locale;
     try {
       return (
