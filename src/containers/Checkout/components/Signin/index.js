@@ -8,6 +8,7 @@ import { Input, Form, Button } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
+import LatinInput from "../../../../components/Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
 
 class Signin extends React.Component {
@@ -251,21 +252,23 @@ class Signin extends React.Component {
           <div className="row row10">
             <div className="offset-md-3 col-md-6 pad10">
               <Form.Item style={{ marginBottom: "10px" }}>
-                {getFieldDecorator("email", {
+                {getFieldDecorator('email', {
                   initialValue: "",
                   rules: [
                     {
+                      type: 'email',
+                      message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                    },
+                    {
                       required: true,
                       message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                      type: "email",
                     },
                   ],
                 })(
-                  <Input
-                    type="text"
+                  <LatinInput
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                    autoComplete="off"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>

@@ -23,6 +23,7 @@ class Cart extends React.Component {
     this.proceedRef = React.createRef();
     this.state = {
       count: 5,
+      loading: false,
       tempProducts: [],
       shouldRedirect: false,
       showButton: true,
@@ -51,11 +52,12 @@ class Cart extends React.Component {
   handleConfirmClick = async () => {
     try {
       if (this.props.isLoggedIn) {
+        this.setState({ loading: true });
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
 
         if (result.payload.success) {
-          this.setState({ shouldRedirect: true });
+          this.setState({ shouldRedirect: true, loading: false });
         } else {
           if (result.payload.data.length > 0) {
             let reasons = [];
@@ -91,7 +93,7 @@ class Cart extends React.Component {
               });
             }
 
-            this.setState({ shouldRedirect: false });
+            this.setState({ loading: true, shouldRedirect: false });
           }
         }
       } else {
@@ -918,6 +920,7 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
+    const { loading } = this.state;
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {
@@ -990,7 +993,10 @@ class Cart extends React.Component {
                         products && products.length ? "" : " disabled"
                         }`}
                       onClick={() => this.handleConfirmClick()}
+                      disabled={loading}
                     >
+                      <i className={`fa ${loading ? "fa-spin" : null}`} aria-hidden="true" />
+                      {" "}
                       <span className="text-uppercase">
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>

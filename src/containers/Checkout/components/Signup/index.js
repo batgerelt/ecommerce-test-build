@@ -6,6 +6,7 @@ import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import NumberInput from "../../../../components/Input/NumberInput";
 import LetterInput from "../../../../components/Input/LetterInput";
+import LatinInput from "../../../../components/Input/LatinInput";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -154,11 +155,10 @@ class Signup extends React.Component {
                   rules: [{
                     required: true,
                     type: "email",
-                    pattern: new RegExp("[A-Za-z]"),
                     message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   }],
                 })(
-                  <Input
+                  <LatinInput
                     allowClear
                     type="text"
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}

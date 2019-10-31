@@ -493,15 +493,13 @@ class DeliveryInfo extends React.Component {
             </a>
             {
               isLoggedIn ?
-                <Affix offsetBottom={0}>
-                  <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn} >
-                    <span className="text-uppercase">
-                      {
-                        mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
-                      }
-                    </span>
-                  </button>
-                </Affix>
+                <button className="btn btn-main btn-block sticky-btn" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                  <span className="text-uppercase">
+                    {
+                      mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                    }
+                  </span>
+                </button>
                 : null
             }
           </div>

@@ -3650,3 +3650,9 @@ button:disabled{
 .fa-spin:before{
   content: "\f1ce"
 }
+
+.sticky-btn{
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+}

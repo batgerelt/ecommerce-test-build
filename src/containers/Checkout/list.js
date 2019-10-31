@@ -226,6 +226,7 @@ class Checkout extends React.Component {
     const { chosenAddress, addresstype, chosenDelivery } = this.state;
     this.state.deliveryPanelForm.validateFields((err, values) => {
       if (!err) {
+        chosenAddress.address = values.address;
         if (values.email !== undefined && userinfo.info.email === null) {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
