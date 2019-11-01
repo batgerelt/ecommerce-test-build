@@ -36,6 +36,7 @@ const request = ({
         'Content-Type': 'application/json',
         Authorization: bearerHeader,
         'Access-Control-Allow-Headers': '*',
+        Cache: 'no-cache',
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
@@ -61,15 +62,16 @@ const request = ({
   }
 
   return fetch(process.env.API + url, {
-    credentials: 'same-origin',
     method,
     headers: {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
       Authorization: bearerHeader,
     },
+    credentials: 'include',
     body: JSON.stringify(body),
   }).then((response) => {
+    console.log(response.headers.get('Set-Cookie'));
     if (!response.ok) {
       throw new Error(response.statusText);
     }
