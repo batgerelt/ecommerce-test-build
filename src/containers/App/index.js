@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Layout } from "antd";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
 import { addLocaleData, IntlProvider } from "react-intl";
 import localeEn from "react-intl/locale-data/en";
@@ -136,7 +135,6 @@ class App extends Component {
 
                     {/** fixed header */}
                     <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
-                    {/*  */}
 
                     {/** Үндсэн root болон nested root-үүд доор байрлана */}
                     <Layout.Content>
@@ -187,13 +185,6 @@ class App extends Component {
     }
   }
 }
-
-App.propTypes = {
-  auth: PropTypes.object.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 export default connect(
   mapStateToProps,
