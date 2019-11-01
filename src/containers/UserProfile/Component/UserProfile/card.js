@@ -13,7 +13,13 @@ const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
 
 class Component extends React.Component {
-  state = { dis: "", loc: null, loader: false };
+  state = {
+    dis: "",
+    loc: null,
+    oader: false,
+    cardno: null,
+  };
+
   componentWillMount() { }
 
   handleSubmit = (e) => {
@@ -83,6 +89,10 @@ class Component extends React.Component {
     });
   }
 
+  cardNovalue = () => {
+    this.setState({ cardno: 97611000 });
+  }
+
   render() {
     const { intl } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -94,14 +104,14 @@ class Component extends React.Component {
             <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
             <Form.Item>
               {getFieldDecorator("cardno", {
-                initialValue: 97611000,
+                initialValue: this.state.cardno,
                 rules: [
                   // { required: true, message: "Картын дугаараа оруулна уу" },
                   { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
+              })(<NumberInput onClick={this.cardNovalue} className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
             </Form.Item>
           </Col>
 
