@@ -18,7 +18,7 @@ import {
   AutoSizer,
 } from "react-virtualized";
 import windowSize from 'react-window-size';
-
+import { SearchNotFound } from "../";
 import { Card, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
@@ -669,15 +669,10 @@ class CategoryInfo extends React.Component {
   render() {
     return (
       <div className="top-container">
-        <div className="section">
+        <div className="section search-result">
           <div className="container pad10">
             {this.state.nodata ? (
-              <div
-                style={{ minHeight: window.innerHeight / 3 }}
-                className="row row10"
-              >
-                <h1>Барааны мэдээлэл олдсонгүй</h1>
-              </div>
+              <SearchNotFound />
             ) : (
                 <div className="row row10">
                   {this.renderLeftPanel()}

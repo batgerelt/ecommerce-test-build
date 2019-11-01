@@ -61,7 +61,7 @@ const request = ({
   }
 
   return fetch(process.env.API + url, {
-    credentials: 'include',
+    credentials: 'same-origin',
     method,
     headers: {
       Accept: 'application/json, text/plain, */*',

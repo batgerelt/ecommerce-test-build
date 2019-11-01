@@ -104,24 +104,21 @@ class App extends Component {
   state = { dataSource: {} };
 
   componentWillMount() {
-    console.log("componentWillMount");
-    this.props.getCategoryMenu();
-    this.props.getStaticInfo();
     this.props.getMenu();
-    this.props.getStaticPages();
-    this.props.getCategoryAll();
-    this.props.getAttributeAll();
-    this.props.getAttributeValue();
-    this.props.getAllBrand();
-    this.props.getAllPromotion();
+    this.props.getStaticInfo();
     this.props.getTags();
     this.props.setLang();
   }
   componentDidMount() {
-    console.log("componentDidMount");
+    this.props.getCategoryMenu();
+    this.props.getAllBrand();
+    this.props.getStaticPages();
+    this.props.getAttributeAll();
+    this.props.getAttributeValue();
+    this.props.getCategoryAll();
+    this.props.getAllPromotion();
   }
   render() {
-    console.log("render");
     const { lang } = this.props.locale;
     try {
       return (

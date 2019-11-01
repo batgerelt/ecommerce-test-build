@@ -194,7 +194,7 @@ class IndividualTab extends React.Component {
                         <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
                         <Form.Item>
                           {getFieldDecorator("cardno", {
-                            initialValue: "",
+                            initialValue: 97611000,
                             rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                             { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
                             { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) }],

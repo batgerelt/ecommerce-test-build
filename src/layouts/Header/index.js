@@ -112,6 +112,7 @@ class AppHeader extends Component {
   renderTopNavigation = () => {
     try {
       const { staticinfo } = this.props.staticcontent;
+      console.log('staticinfo: ', staticinfo);
       return (
         <div className="top-nav">
           <div className="container container-laptop">
@@ -125,7 +126,7 @@ class AppHeader extends Component {
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
-                      <strong> {staticinfo.phone} </strong>
+                      <strong> {staticinfo === null ? '' : staticinfo.phone} </strong>
                     </span>
                   </li>
                 </ul>
@@ -238,7 +239,7 @@ class AppHeader extends Component {
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
-                              {root.map((item, index) => (
+                              {root.length !== 0 && root.map((item, index) => (
                                 <a
                                   className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
                                   key={index}
@@ -437,20 +438,13 @@ class AppHeader extends Component {
   }
 
   render() {
-    const { mainmenu } = this.props.menu;
-    const { staticinfo } = this.props.staticcontent;
-    const { categorymenu } = this.props.category;
     return (
       <div className="wrap" id="main-header" onClick={this.handleDropDownClose} >
-        {
-          mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
-            <div className="top-container">
-              {this.renderTopNavigation()}
-              {this.renderTopMain()}
-              {this.renderMainNavigation()}
-            </div>
-          )
-        }
+        <div className="top-container">
+          {this.renderTopNavigation()}
+          {this.renderTopMain()}
+          {this.renderMainNavigation()}
+        </div>
       </div>
     );
   }
