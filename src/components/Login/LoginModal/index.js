@@ -253,7 +253,7 @@ class LoginModal extends React.Component {
                   },
                 ],
               })(
-                <Input
+                <LatinInput
                   placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                   className="form-control"
                   autoComplete="off"
