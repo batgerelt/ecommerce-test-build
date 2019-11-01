@@ -112,7 +112,6 @@ class AppHeader extends Component {
   renderTopNavigation = () => {
     try {
       const { staticinfo } = this.props.staticcontent;
-      console.log('staticinfo: ', staticinfo);
       return (
         <div className="top-nav">
           <div className="container container-laptop">
@@ -192,7 +191,6 @@ class AppHeader extends Component {
                     className="d-block d-md-none button buttonGrey"
                     onClick={this.togglePopup}
                   >
-                    {/* <i className="fa fa-navicon" aria-hidden="true" /> */}
                     <img
                       src={navImage}
                       alt="mobile navigation"
@@ -370,7 +368,7 @@ class AppHeader extends Component {
         </div>
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   }
 

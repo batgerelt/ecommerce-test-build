@@ -67,7 +67,7 @@ class Page extends React.Component {
   };
 
   render() {
-    const { loading, loadingCollection } = this.state;
+    const { loading } = this.state;
     return (
       <Spin
         spinning={loading}
