@@ -93,15 +93,32 @@ class Signin extends React.Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 5000,
+              duration: 3000,
               onScreen: false,
             },
             content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
           });
         }
-        this.props.getProducts().then((res) => {
+        /* this.props.getProducts().then((res) => {
           let k = res.payload.data.length - products.length;
           if (res.payload.data.length !== 0 && k !== 0) {
+            this.props.history.push("/cart");
+          } else {
+            this.props.callback("2");
+          }
+        }); */
+        this.props.getProducts().then((res) => {
+          let resCount = 0;
+          let prodCount = 0;
+          res.payload.data.map((item) => {
+            resCount += item.qty;
+          });
+          products.map((item) => {
+            prodCount += item.qty;
+          });
+          let k = res.payload.data.length - products.length;
+          console.log(resCount, prodCount);
+          if (resCount !== prodCount) {
             this.props.history.push("/cart");
           } else {
             this.props.callback("2");
@@ -182,10 +199,12 @@ class Signin extends React.Component {
                   skucd: prod.skucd,
                   qty: prod.qty,
                 }));
+
                 let result = await this.props.increaseProductsByQtyRemotely({
                   iscart: 0,
                   body: products,
                 });
+
                 if (!result.payload.success) {
                   store.addNotification({
                     insert: "top",
@@ -193,15 +212,25 @@ class Signin extends React.Component {
                     animationIn: ["animated", "fadeIn"],
                     animationOut: ["animated", "fadeOut"],
                     dismiss: {
-                      duration: 5000,
+                      duration: 3000,
                       onScreen: false,
                     },
                     content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
                   });
                 }
+
                 this.props.getProducts().then((res) => {
+                  let resCount = 0;
+                  let prodCount = 0;
+                  res.payload.data.map((item) => {
+                    resCount += item.qty;
+                  });
+                  products.map((item) => {
+                    prodCount += item.qty;
+                  });
                   let k = res.payload.data.length - products.length;
-                  if (res.payload.data.length !== 0 && k !== 0) {
+                  console.log(resCount, prodCount);
+                  if (resCount !== prodCount) {
                     this.props.history.push("/cart");
                   } else {
                     this.props.callback("2");
@@ -221,7 +250,7 @@ class Signin extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: r.payload.code })} />,

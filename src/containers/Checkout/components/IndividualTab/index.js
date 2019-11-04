@@ -21,6 +21,7 @@ class IndividualTab extends React.Component {
     useEpoint: false,
     epointUsedPoint: 0,
     showPasswordWarning: false,
+    cardno: null,
   };
 
   errorMsg = (code) => {
@@ -34,6 +35,10 @@ class IndividualTab extends React.Component {
       confirmButtonColor: "#feb415",
     });
   };
+
+  cardNovalue = () => {
+    this.setState({ cardno: 97611000 });
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -194,7 +199,7 @@ class IndividualTab extends React.Component {
                         <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
                         <Form.Item>
                           {getFieldDecorator("cardno", {
-                            initialValue: 97611000,
+                            initialValue: this.state.cardno,
                             rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                             { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
                             { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) }],
@@ -206,6 +211,7 @@ class IndividualTab extends React.Component {
                               size="large"
                               className="col-md-12"
                               autoComplete="new-password"
+                              onClick={this.cardNovalue}
                             />,
                           )}
                         </Form.Item>

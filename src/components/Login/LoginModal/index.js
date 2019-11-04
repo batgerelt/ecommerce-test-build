@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/no-multi-comp */
 import React from "react";
@@ -141,7 +142,7 @@ class LoginModal extends React.Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: false,
         },
         content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
@@ -154,7 +155,7 @@ class LoginModal extends React.Component {
           animationIn: ["animated", "fadeIn"],
           animationOut: ["animated", "fadeOut"],
           dismiss: {
-            duration: 5000,
+            duration: 3000,
             onScreen: false,
           },
           content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
@@ -195,7 +196,7 @@ class LoginModal extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -204,9 +205,27 @@ class LoginModal extends React.Component {
         }
         this.props.form.resetFields();
         if (products !== undefined) {
-          this.props.getProducts().then((res) => {
+          /* this.props.getProducts().then((res) => {
             let k = res.payload.data.length - products.length;
             if (res.payload.data.length !== 0 && k !== 0) {
+              this.setState({ goCart: true });
+              this.props.form.resetFields();
+            } else {
+              this.props.form.resetFields();
+            }
+          }); */
+          this.props.getProducts().then((res) => {
+            let resCount = 0;
+            let prodCount = 0;
+            res.payload.data.map((item) => {
+              resCount += item.qty;
+            });
+            products.map((item) => {
+              prodCount += item.qty;
+            });
+            let k = res.payload.data.length - products.length;
+            console.log(resCount, prodCount);
+            if (resCount !== prodCount) {
               this.setState({ goCart: true });
               this.props.form.resetFields();
             } else {
