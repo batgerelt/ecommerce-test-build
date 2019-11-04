@@ -1,16 +1,17 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Avatar, Progress, Upload, Button, message, Spin, Icon, Row, Col } from "antd";
+import { Avatar, Progress, Upload, Button, Spin, Icon, Row, Col, notification } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
-// import avatar from "../../../src/scss/assets/images/demo/defaultAvatar.png";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../components";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
 import profile from "../../../src/scss/assets/images/demo/profile.png";
 import history from "../../../src/scss/assets/images/demo/history.png";
 import wishlist from "../../../src/scss/assets/images/demo/wishlist.png";
 import location from "../../../src/scss/assets/images/demo/location.png";
 import password from "../../../src/scss/assets/images/demo/password.png";
-import store from "../../../src/scss/assets/images/demo/store.png";
+import store1 from "../../../src/scss/assets/images/demo/store.png";
 import logout from "../../../src/scss/assets/svg/sign-out.svg";
 import {
   UserProfile,
@@ -31,7 +32,17 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.warning('5MB-ээс бага хэмжээтэй зураг оруулна уу');
+    store.addNotification({
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: {
+        duration: 5000,
+        onScreen: false,
+      },
+      content: <Notification type="warning" text="5MB-ээс бага хэмжээтэй зураг оруулна уу" />,
+    });
   }
   return isLt2M;
 }
@@ -47,10 +58,19 @@ class List extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
-
-    if (!this.props.isLogged) {
+    if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
-      message.success(intl.formatMessage({ id: "userButton.info.success" }));
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
+      });
     }
   }
 
@@ -137,7 +157,7 @@ class List extends React.Component {
         >
           <strong style={{ marginBottom: "-10px" }}>{info.firstname}</strong>
           {this.state.showButton ?
-            <Button style={{ marginTop: "-5px", marginLeft: "5px" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
+            <Button style={{ marginTop: "-5px", marginLeft: "5px", color: "black" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
             :
             null}
           <p className="text progress-text" style={{ margin: "0px" }}><FormattedMessage id="header.profile.userInfo" /></p>
@@ -202,7 +222,7 @@ class List extends React.Component {
                         </li>
                         <li className={pathname === "/profile/delivery" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>
                           <Link to={`${match.path}/delivery`} className="flex-this">
-                            <Avatar size="small" shape="square" src={store} className="marginRight10" /><span><FormattedMessage id="header.profile.orderHistory" /></span>
+                            <Avatar size="small" shape="square" src={store1} className="marginRight10" /><span><FormattedMessage id="header.profile.orderHistory" /></span>
                           </Link>
                         </li>
                         <li className={pathname === "/profile/address" ? "active" : " "} style={{ marginTop: "5px", marginBottom: "5px" }}>

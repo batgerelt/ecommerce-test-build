@@ -5,10 +5,9 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Icon, Form, Dropdown, Layout } from "antd";
+import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
-
-import { Category, MainMenu, UserButton, CartButton } from "../../components";
+import { Category, MainMenu, UserButton, CartButton, Notification } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
@@ -126,7 +125,7 @@ class AppHeader extends Component {
                         theme="filled"
                         style={{ color: "rgba(254, 180, 21, 1)" }}
                       />
-                      <strong> {staticinfo.phone} </strong>
+                      <strong> {staticinfo === null ? '' : staticinfo.phone} </strong>
                     </span>
                   </li>
                 </ul>
@@ -192,7 +191,6 @@ class AppHeader extends Component {
                     className="d-block d-md-none button buttonGrey"
                     onClick={this.togglePopup}
                   >
-                    {/* <i className="fa fa-navicon" aria-hidden="true" /> */}
                     <img
                       src={navImage}
                       alt="mobile navigation"
@@ -217,7 +215,7 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              style={{ boxShadow: 'none', fontSize: "13px" }}
+                              style={{ boxShadow: 'none', fontSize: "14px" }}
                             >
                               {
                                 this.state.item.id !== 0
@@ -239,7 +237,7 @@ class AppHeader extends Component {
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
-                              {root.map((item, index) => (
+                              {root.length !== 0 && root.map((item, index) => (
                                 <a
                                   className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
                                   key={index}
@@ -257,7 +255,7 @@ class AppHeader extends Component {
                             </div>
                           </div>
                         </li>
-                        <li className="search-form">
+                        <li className="search-form" style={{ width: "100%" }}>
                           <div className="form-group">
                             <label
                               className="input"
@@ -271,7 +269,7 @@ class AppHeader extends Component {
                                 type="text"
                                 className="form-control input-search"
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
-                                style={{ boxShadow: 'none' }}
+                                style={{ boxShadow: 'none', fontSize: "14px" }}
                                 onChange={e => this.handleChangeSearchWord(e)}
                                 onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
@@ -281,6 +279,11 @@ class AppHeader extends Component {
                             </label>
                           </div>
                         </li>
+                        {/* <li style={{ width: "20% !important" }}>
+                          <Link to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`} className="btn" style={{ color: "black" }}>
+                            <i className="fa fa-search" />
+                          </Link>
+                        </li> */}
                         <li>
                           <Link
                             className="btn"
@@ -365,7 +368,7 @@ class AppHeader extends Component {
         </div>
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   }
 
@@ -395,7 +398,7 @@ class AppHeader extends Component {
 
       const dropdown = (
         <div className="drop-container" onClick={this.handleCategoryDropdown} style={{ zIndex: -5 }}>
-          <div className="container pad10" style={{ zIndex: -5 }}>
+          <div className="container pad10 scrolled-menu">
             <Category dataSource={root} {...this.props} />
           </div>
         </div>
@@ -433,20 +436,13 @@ class AppHeader extends Component {
   }
 
   render() {
-    const { mainmenu } = this.props.menu;
-    const { staticinfo } = this.props.staticcontent;
-    const { categorymenu } = this.props.category;
     return (
       <div className="wrap" id="main-header" onClick={this.handleDropDownClose} >
-        {
-          mainmenu.length === 0 || staticinfo === null || categorymenu.length === 0 ? null : (
-            <div className="top-container">
-              {this.renderTopNavigation()}
-              {this.renderTopMain()}
-              {this.renderMainNavigation()}
-            </div>
-          )
-        }
+        <div className="top-container">
+          {this.renderTopNavigation()}
+          {this.renderTopMain()}
+          {this.renderMainNavigation()}
+        </div>
       </div>
     );
   }

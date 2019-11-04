@@ -1,11 +1,11 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { Form, message, Input, Select, Table, Divider, Col, Button, Spin, Icon } from "antd";
+import { Form, Input, Select, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
+import { store } from 'react-notifications-component';
 import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
-import LatinInput from "../../../../components/Input/LatinInput";
-import { Loader } from "../../../../components";
+import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -81,9 +81,29 @@ class Component extends React.Component {
             this.props.getUserInfoProfile();
             this.props.form.resetFields();
             this.setState({ load: false });
-            message.success(intl.formatMessage({ id: "shared.form.info.savedSuccessfully" }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })} />,
+            });
           } else {
-            message.warning(intl.formatMessage({ id: "shared.form.info.cannotSave" }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.info.cannotSave" })} />,
+            });
           }
         });
       }

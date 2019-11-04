@@ -4,14 +4,16 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedDate, FormattedMessage, defineMessages, injectIntl } from 'react-intl';
+import { store } from 'react-notifications-component';
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { css } from "glamor";
-import { message } from 'antd';
-import { Slider } from "../../components";
+import { Slider, Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class List extends React.Component {
+  state = {
+    loading: false,
+  }
+
   setProducts = (products) => {
     this.setState({
       products: products.map(prod => ({
@@ -23,7 +25,7 @@ class List extends React.Component {
 
   handleSimilarProductIncrement = async (product) => {
     const { intl } = this.props;
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.incrementProductRemotely({
         skucd: product.skucd,
         qty: product.addminqty || 1,
@@ -35,11 +37,23 @@ class List extends React.Component {
             id: result.payload.code,
           },
         });
-
-        message.warning(intl.formatMessage(messages.error, {
-          name: result.payload.data.values[1],
-          qty: result.payload.data.values[2],
-        }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.error, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            })}
+          />,
+        });
       }
     } else {
       product.insymd = Date.now();
@@ -53,11 +67,23 @@ class List extends React.Component {
             id: updated.error,
           },
         });
-
-        message.warning(intl.formatMessage(messages.error, {
-          name: updated.title,
-          qty: updated.qty,
-        }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.error, {
+              name: updated.title,
+              qty: updated.qty,
+            })}
+          />,
+        });
       }
     }
   };
@@ -68,7 +94,7 @@ class List extends React.Component {
 
       let product = { ...prod };
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.increaseProductByQtyRemotely({
           skucd: product.skucd,
           qty:
@@ -81,11 +107,23 @@ class List extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       } else {
         if (product.qty === undefined) {
@@ -104,11 +142,23 @@ class List extends React.Component {
                 id: updated.error,
               },
             });
-
-            message.warning(intl.formatMessage(messages.error, {
-              name: updated.title,
-              qty: updated.qty,
-            }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(messages.error, {
+                  name: updated.title,
+                  qty: updated.qty,
+                })}
+              />,
+            });
           }
         }
       }
@@ -149,7 +199,8 @@ class List extends React.Component {
   handleAddToCart = async (products) => {
     const { intl } = this.props;
 
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
+      this.setState({ loading: true });
       products = products.map(prod => ({
         skucd: prod.skucd,
         qty: prod.qty !== undefined ? prod.qty : prod.addminqty || 1,
@@ -157,8 +208,19 @@ class List extends React.Component {
       const result = await this.props.increaseProductsByQtyRemotely({
         body: products,
       });
+      this.setState({ loading: false });
       if (!result.payload.success) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+        });
       }
       if (result.payload.data.fail.length > 0) {
         const names = [];
@@ -168,13 +230,26 @@ class List extends React.Component {
         });
 
         if (names.length > 0) {
-          message.warning(intl.formatMessage(
-            { id: "205" },
-            {
-              names: names.join(", "),
-              qty: result.payload.data.items.length - result.payload.data.fail.length,
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
             },
-          ));
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(
+                { id: "205" },
+                {
+                  names: names.join(", "),
+                  qty: result.payload.data.items.length - result.payload.data.fail.length,
+                },
+              )}
+            />,
+          });
         }
       }
     } else {
@@ -192,13 +267,26 @@ class List extends React.Component {
 
       if (errors.length > 0) {
         const titles = errors.map(err => err.title);
-        message.warning(intl.formatMessage(
-          { id: "205" },
-          {
-            names: titles.join(", "),
-            qty: products.length - errors.length,
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
           },
-        ));
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(
+              { id: "205" },
+              {
+                names: titles.join(", "),
+                qty: products.length - errors.length,
+              },
+            )}
+          />,
+        });
       }
     }
   };
@@ -382,7 +470,6 @@ class List extends React.Component {
   renderProducts = () => {
     try {
       const { products } = this.props.packageDetail;
-      console.log('products: ', products);
       const { lang } = this.props;
       return (
         products &&
@@ -502,6 +589,7 @@ class List extends React.Component {
   renderCartInfo = () => {
     try {
       const { packageDetail } = this.props;
+      const { loading } = this.state;
       return (
         <div className="pack-product-container">
           <div className="pack-list">
@@ -521,13 +609,12 @@ class List extends React.Component {
                   </p>
                   <button
                     type="button"
+                    disabled={loading}
                     className="btn btn-main"
                     onClick={() => this.handleAddToCart(packageDetail.products)}
                   >
-                    <i
-                      className="fa fa-cart-plus"
-                      aria-hidden="true"
-                    />{" "}
+                    <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
+                    {" "}
                     <span className="text-uppercase">
                       <FormattedMessage id="packageDetail.button.addToCart" />
                     </span>

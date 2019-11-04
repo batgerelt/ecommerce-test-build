@@ -2,8 +2,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message, Col } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, Col, notification } from "antd";
 import { Link } from "react-router-dom";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../";
 
 class ForgetModal extends React.Component {
   state = {
@@ -25,10 +27,29 @@ class ForgetModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.reset({ mail: values.email }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
-
-          message.success(intl.formatMessage({ id: res.payload.code }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
           this.props.form.resetFields();
           this.handleForgetModal();
         });

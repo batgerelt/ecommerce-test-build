@@ -1,8 +1,10 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Modal, Form, Input, Button, Checkbox, Icon, message } from "antd";
+import { Modal, Form, Input, Button, Checkbox, Icon, message, notification } from "antd";
 import { Link, Redirect } from "react-router-dom";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../";
 import LetterInput from "../../Input/LetterInput";
 import LatinInput from "../../Input/LatinInput";
 import NumberInput from "../../Input/NumberInput";
@@ -30,9 +32,29 @@ class RegistrationModal extends React.Component {
         // eslint-disable-next-line consistent-return
         this.props.signup({ body: values }).then((res) => {
           if (!res.payload.success) {
-            return message.warning(intl.formatMessage({ id: res.payload.code }));
+            return store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
-          message.success(intl.formatMessage({ id: res.payload.code }), 5);
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
           this.handleSignup();
         });
       }

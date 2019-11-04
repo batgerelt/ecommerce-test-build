@@ -28,7 +28,6 @@ class PaymentPanel extends React.Component {
   componentWillUnmount() { this.props.onRef(null); }
   componentDidMount() { this.props.onRef(this); }
 
-  handleGetValue = () => { return console.log('LoginRegister'); }
 
   changeRadio = (e) => {
     const { DeliveryInfo, intl } = this.props;
@@ -50,6 +49,7 @@ class PaymentPanel extends React.Component {
   }
 
   render() {
+    const { intl } = this.props;
     const { chosenRadio } = this.state;
     return (
       <div>
@@ -57,17 +57,33 @@ class PaymentPanel extends React.Component {
           <p className="title">
             <strong><FormattedMessage id="shared.form.label.tax.receipt" /></strong>
           </p>
-
-          <RadioGroup onChange={this.changeRadio} value={chosenRadio}>
+          <div className="content-container payment" style={{ padding: '0px' }}>
+            <RadioGroup name="radiogroup" defaultValue={chosenRadio} onChange={this.changeRadio}>
+              <div className="hand-pay flex-this">
+                <div className="form-check" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
+                  <Radio value={1} name={1}>
+                    <img
+                      alt="icon"
+                      width="40px"
+                      height="40px"
+                      src={require("../../../../scss/assets/images/demo/shuurhai.png")}
+                    />
+                    <strong>{"Сонгох"}</strong>
+                  </Radio>
+                </div>
+              </div>
+            </RadioGroup>
+          </div>
+          {/*    <RadioGroup name="radioInOrg" onChange={this.changeRadio}>
             <div className="hand-pay flex-this">
               <div className="form-check">
-                <Radio value={1}><FormattedMessage id="shared.form.label.individual" /></Radio>
+                <Radio name={1} value={1}><FormattedMessage id="shared.form.label.individual" /></Radio>
               </div>
               <div className="form-check">
-                <Radio value={2}><FormattedMessage id="shared.form.label.company" /></Radio>
+                <Radio name={2} value={2}><FormattedMessage id="shared.form.label.company" /></Radio>
               </div>
             </div>
-          </RadioGroup>
+          </RadioGroup> */}
           {
             chosenRadio === 1 ?
               <IndividualTab onRef={ref => (this.IndividualTab = ref)} {...this} {...this.props} />

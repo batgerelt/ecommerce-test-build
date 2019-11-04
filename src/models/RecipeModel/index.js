@@ -90,7 +90,7 @@ class Model extends BaseModel {
       case this.model.recipedetail.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipedetail.response:
-        return { ...state, recipe: action.payload.data[0].recipe, steps: action.payload.data[0].steps };
+        return { ...state, recipe: action.payload.data.recipe, steps: action.payload.data.steps };
 
       // GET BRAND
       case this.model.recipeproducts.request:

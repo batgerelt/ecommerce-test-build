@@ -1,9 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import NumberInput from "../../../../components/Input/NumberInput";
 import LetterInput from "../../../../components/Input/LetterInput";
+import LatinInput from "../../../../components/Input/LatinInput";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -61,13 +64,43 @@ class Signup extends React.Component {
             if (res.payload.success) {
               this.props.form.resetFields();
               this.props.LoginRegisterPanel.changeTab(1);
-              message.success(intl.formatMessage({ id: "registration.confirmation.email" }));
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: "registration.confirmation.email" })} />,
+              });
             } else {
-              message.warning(intl.formatMessage({ id: res.payload.code }));
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+              });
             }
           });
         } else {
-          message.warning(intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.passwordAgain.validation.compare" })} />,
+          });
         }
       }
     });
@@ -122,11 +155,10 @@ class Signup extends React.Component {
                   rules: [{
                     required: true,
                     type: "email",
-                    pattern: new RegExp("[A-Za-z]"),
                     message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                   }],
                 })(
-                  <Input
+                  <LatinInput
                     allowClear
                     type="text"
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}

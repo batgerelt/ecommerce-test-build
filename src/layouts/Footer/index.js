@@ -17,13 +17,13 @@ class Footer extends React.Component {
 
       return (
         <div className="col-sm-6 col-lg-3 pad10 logo-container">
-          <Link to="/" className="logo">
-            <img alt="logo" src={process.env.IMAGE + staticinfo.logopath2} />
+          <Link to="/" className="logo" style={{ width: "10% !important" }}>
+            <img alt="logo" src={staticinfo && process.env.IMAGE + staticinfo.logopath2} style={{ width: "100% !important" }} />
           </Link>
           <ul className="social">
             <li>
               <a
-                href={staticinfo.facebook}
+                href={staticinfo && staticinfo.facebook}
                 target="_blank "
                 rel="noopener"
               >
@@ -41,7 +41,7 @@ class Footer extends React.Component {
                   />
                 </span>
               </a>
-              <a href={staticinfo.gmail} target="_blank " rel="noopener">
+              <a href={staticinfo && staticinfo.gmail} target="_blank " rel="noopener">
                 <span className="fa-layers fa-fw">
                   <FontAwesomeIcon
                     icon={["fas", "circle"]}
@@ -57,7 +57,7 @@ class Footer extends React.Component {
                 </span>
               </a>
               <a
-                href={staticinfo.twitter}
+                href={staticinfo && staticinfo.twitter}
                 target="_blank "
                 rel="noopener"
               >
@@ -189,9 +189,7 @@ class Footer extends React.Component {
               )
             }
             <div className="bottom-container">
-              <center>
-                <p><FormattedMessage id="footer.copyright.text" /></p>
-              </center>
+              <p><FormattedMessage id="footer.copyright.text" /></p>
             </div>
           </div>
         </div>

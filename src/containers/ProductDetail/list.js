@@ -51,7 +51,6 @@ class ProductDetail extends React.Component {
         <Detail
           detail={detail.products === null ? {} : detail.products}
           categorymenu={categorymenu.length === 0 ? [] : categorymenu}
-          isLoggedIn={this.props.isLogged}
           addWishList={addWishList}
           attributes={attribute.length === 0 ? [] : attribute}
           addRate={addRate}
@@ -105,7 +104,7 @@ class ProductDetail extends React.Component {
           comments={comment}
           addComment={addComment}
           getProductComment={getProductComment}
-          auth={this.props.isLogged}
+          auth={this.props.isLoggedIn}
           user={this.props.data}
         />
       );

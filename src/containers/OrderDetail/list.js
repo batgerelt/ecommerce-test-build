@@ -56,6 +56,7 @@ class List extends React.Component {
     try {
       const { orderdetail } = this.props;
       const lang = this.props.intl.locale;
+      console.log("orderdetail", orderdetail);
       if (orderdetail.info !== null) {
         return (
           <div className="cart-info filter-sticky" style={{ fontSize: "13px" }}>
@@ -121,6 +122,10 @@ class List extends React.Component {
                   <span>{orderdetail.info.phone1}, {orderdetail.info.phone2}</span>
                 </p>
                 <p className="text flex-this">
+                  <i className="fa fa-envelope" aria-hidden="true" style={{ color: "#feb415" }} />
+                  <span>{orderdetail.info.email}</span>
+                </p>
+                <p className="text flex-this">
                   <i className="fa fa-map-marker" aria-hidden="true" style={{ color: "#feb415" }} />
                   <span>{orderdetail.info.address}</span>
                 </p>
@@ -156,7 +161,6 @@ class List extends React.Component {
       return console.log(error);
     }
   }
-
 
   render() {
     const { orderdetail } = this.props;

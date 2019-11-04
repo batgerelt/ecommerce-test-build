@@ -5,17 +5,22 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, Rate, message } from "antd";
+import { Rate, notification } from "antd";
 import moment from "moment";
-import { toast } from "react-toastify";
-import { css } from "glamor";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
-  state = {
-    productQty: this.props.detail.products.addminqty || 1,
-    rate: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.proceedRef = React.createRef();
+    this.inputRef = React.createRef();
+    this.state = {
+      productQty: this.props.detail.products.addminqty || 1,
+      rate: 0,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
@@ -32,7 +37,7 @@ class Detail extends Component {
 
   renderDetails = () => {
     const {
-      categorymenu, rate, isLogged, intl, attributes,
+      categorymenu, rate, isLoggedIn, intl, attributes,
     } = this.props;
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
@@ -54,24 +59,24 @@ class Detail extends Component {
             </p>
           ) */}
           {
-            detail.feature && (
+           /*  detail.feature && (
               <p className="big-text">
                 <strong>
                   {lang === "mn" ? detail.feature : detail.feature_en}
                 </strong>
               </p>
-            )
+            ) */
           }
 
           <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
             <Rate
               allowHalf
-              value={isLogged ? rate / 2 : 0}
+              value={isLoggedIn ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
             <p className="text upper-first">
-              {/* ({isLogged ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
-              ({isLogged ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
+              {/* ({isLoggedIn ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
+              ({isLoggedIn ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
           </div>
           {!!attributes && !!attributes.length && (
@@ -112,17 +117,26 @@ class Detail extends Component {
 
   handleRateChange = (e) => {
     const {
-      isLogged, detail, addRate, getProductRate, intl,
+      isLoggedIn, detail, addRate, getProductRate, intl,
     } = this.props;
-    if (isLogged) {
+    if (isLoggedIn) {
       let skucd = detail.products.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
         if (res.payload.success) {
-          // message.warning(res.payload.message);
           getProductRate({ skucd });
         } else {
-          message.warning(intl.formatMessage({ id: res.payload.code }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
         }
       });
     } else {
@@ -135,6 +149,12 @@ class Detail extends Component {
     step || (step = 1.0);
     const inv = 1.0 / step;
     return Math.round(value * inv) / inv;
+  };
+
+  handleInputKeyUp = product => async (e) => {
+    if (e.key === "Enter" || e.keyCode === 13 || e.which === 13) {
+      this.proceedRef.current.focus();
+    }
   };
 
   renderCartInfo = () => {
@@ -230,13 +250,14 @@ class Detail extends Component {
               </div>
 
               <input
+                ref={this.inputRef}
                 type="text"
                 maxLength="5"
                 className="form-control"
                 value={productQty}
                 name="productQty"
+                onKeyUp={this.handleInputKeyUp(detail)}
                 onChange={this.handleInputChange(detail)}
-                // onKeyDown={this.handleQtyKeyDown(detail)}
                 onBlur={e => this.handleQtyBlur(e, detail)}
                 disabled={detail.availableqty < 1}
               />
@@ -277,7 +298,7 @@ class Detail extends Component {
           </button>
 
           <button
-            type="button"
+            ref={this.proceedRef}
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
             /* onClick={() => this.props.onUpdateCart(detail)} */
@@ -314,8 +335,8 @@ class Detail extends Component {
   };
 
   handleSaveClick = () => {
-    const { isLogged, addWishList, detail } = this.props;
-    if (isLogged) {
+    const { isLoggedIn, addWishList, detail } = this.props;
+    if (isLoggedIn) {
       let skucd = detail.products.skucd;
       addWishList({ skucd }).then((res) => {
         if (res.payload.success) {
@@ -370,30 +391,49 @@ class Detail extends Component {
     if (product.salemaxqty >= e.target.value || product.salemaxqty === 0) {
       this.setState({ productQty: e.target.value });
     } else {
-      message.warning(intl.formatMessage(messages.warning, {
-        name: lang === 'mn' ? product.title : product.title_en,
-        qty: product.salemaxqty,
-      }));
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification
+          type="warning"
+          text={
+            intl.formatMessage(messages.warning,
+              {
+                name: lang === 'mn' ? product.title : product.title_en, qty: product.salemaxqty,
+              })}
+        />,
+      });
     }
   };
 
   handleQtyBlur = (e, product) => {
     if (isNaN(e.target.value)) {
       this.setState({ productQty: product.addminqty });
-      console.log("1");
     } else if (e.target.value < product.addminqty) {
       this.setState({ productQty: product.addminqty });
-      console.log("2");
     } else if (e.target.value > product.availableqty) {
       this.setState({ productQty: product.availableqty });
-      console.log("3");
-      message.warning("Барааны нөөц хүрэлцэхгүй байна.");
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text="Барааны нөөц хүрэлцэхгүй байна." />,
+      });
     } else if (e.target.value % product.addminqty === 0) {
       this.setState({ productQty: parseInt(e.target.value, 10) });
-      console.log("4");
     } else if (e.target.value <= product.salemaxqty) {
       this.setState({ productQty: e.target.value });
-      console.log("5");
     } else {
       this.setState({ productQty: this.roundToPrecision(e.target.value, product.addminqty) });
     }
@@ -414,10 +454,23 @@ class Detail extends Component {
     if (product.salemaxqty >= productQty || product.salemaxqty === 0) {
       this.setState({ productQty });
     } else {
-      message.warning(intl.formatMessage(messages.warning, {
-        name: lang === 'mn' ? product.title : product.title_en,
-        qty: product.salemaxqty,
-      }));
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification
+          type="warning"
+          text={intl.formatMessage(messages.warning, {
+            name: lang === 'mn' ? product.title : product.title_en,
+            qty: product.salemaxqty,
+          })}
+        />,
+      });
     }
   };
 
@@ -432,7 +485,7 @@ class Detail extends Component {
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (product) => {
     const { intl } = this.props;
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.increaseProductByQtyRemotely({
         skucd: product.skucd,
         qty: this.state.productQty,
@@ -445,10 +498,23 @@ class Detail extends Component {
             id: result.payload.code,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, {
-          name: result.payload.data.values[1],
-          qty: result.payload.data.values[2],
-        }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.warning, {
+              name: result.payload.data.values[1],
+              qty: result.payload.data.values[2],
+            })}
+          />,
+        });
       }
     } else {
       product.insymd = Date.now();
@@ -456,17 +522,29 @@ class Detail extends Component {
       this.props.increaseProductByQtyLocally(product);
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
-
       if (updated && updated.error !== undefined) {
         const messages = defineMessages({
           warning: {
             id: updated.error,
           },
         });
-        message.warning(intl.formatMessage(messages.warning, {
-          name: updated.title,
-          qty: updated.qty,
-        }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(messages.warning, {
+              name: updated.title,
+              qty: updated.qty,
+            })}
+          />,
+        });
       }
     }
   };

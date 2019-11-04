@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable radix */
 /* eslint-disable camelcase */
@@ -9,14 +10,18 @@ import React from "react";
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Checkbox, Modal, Button, message } from "antd";
+import { Checkbox, Modal, Button, message, Radio, Affix, notification } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import { Static as StaticModel } from "../../../../models";
-import { SwalModals } from "../";
+import { SwalModals, IndividualTab } from "../";
 
+const RadioGroup = Radio.Group;
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
+
 const mapStateToProps = state => ({
   ...state.staticcontent,
 });
@@ -32,21 +37,18 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 let interval;
 
 class DeliveryInfo extends React.Component {
-  state = {
-    checkedAgreement: false,
-    modal2Visible: false,
-    agreementData: [],
-    chosenInfo: {},
-    chosenType: {},
-    totalPrice: 0,
-    totalQty: 0,
-    ePointData: [],
-    organizationData: [],
-    chosenDate: null,
-    useEpoint: false,
-    epointUsedPoint: 0,
-    notif: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedAgreement: false,
+      modal2Visible: false,
+      agreementData: [],
+      chosenInfo: {},
+      organizationData: [],
+      notif: false,
+      checkedEpoint: !(props.mainState.cardInfo === null),
+    };
+  }
 
   checkError = (value) => {
     if (value === undefined || value === null) {
@@ -55,111 +57,9 @@ class DeliveryInfo extends React.Component {
     return value;
   };
 
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() { this.props.onRef(this); }
-  componentWillMount() {
-    const { products } = this.props.props;
-    const { userinfo } = this.props;
-    this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
-  }
   setModal2Visible = (modal2Visible) => {
     this.setState({ modal2Visible });
   }
-
-  handleGetValue = (value, zone) => {
-    this.setState({ chosenInfo: value, chosenDate: zone });
-  }
-
-  setDeliveryType = (value) => {
-    const { totalPrice } = this.state;
-    if (totalPrice >= value.freecondition && value.freecondition !== 0) {
-      value.price = 0;
-    }
-    this.setState({ chosenType: value });
-  }
-
-  setIndividualData = (value) => {
-    this.setState({ ePointData: value });
-  }
-
-  setUseEpoint = (value, cardInfo, usedPoint) => {
-    this.setState({ useEpoint: value, ePointData: cardInfo, epointUsedPoint: usedPoint });
-  }
-
-  setOrganizationData = (value) => {
-    this.setState({ organizationData: value });
-  }
-
-  getPrice = (product) => {
-    let price = product.price;
-    if (product.issalekg && product.kgproduct !== undefined) {
-      price = product.kgproduct[0].salegramprice;
-    }
-
-    if (product.spercent && product.spercent !== 100 && !product.issalekg) {
-      price = product.sprice;
-    }
-
-    return price;
-  };
-
-  getTotalQty = (products) => {
-    if (typeof products === 'string') {
-      products = JSON.parse(products);
-    }
-    const qties = products && products.map(prod => (prod.qty ? prod.qty : 0));
-    return qties && qties.length > 0
-      ? qties.reduce((acc, cur) => acc + cur)
-      : 0;
-  }
-
-  getUnitPrice = (product) => {
-    if (product.sprice) {
-      if (
-        product.issalekg &&
-        product.kgproduct &&
-        product.kgproduct[0] &&
-        product.kgproduct[0].salegramprice
-      ) {
-        // Хямдарсан бөгөөд кг-ын бараа
-        return {
-          price: product.kgproduct[0].salegramprice,
-          sprice: product.kgproduct[0].salegramprice,
-        };
-      }
-
-      // Хямдарсан бараа
-      return { price: product.price, sprice: product.sprice };
-    }
-
-    if (
-      product.issalekg &&
-      product.kgproduct &&
-      product.kgproduct[0] &&
-      product.kgproduct[0].salegramprice
-    ) {
-      // Хямдраагүй бөгөөд кг-ын бараа
-      return { price: product.kgproduct[0].salegramprice, sprice: null };
-    }
-
-    // Хямдраагүй бараа
-    return { price: product.price, sprice: null };
-  };
-
-  getTotalPrice = (products) => {
-    if (typeof products === 'string') {
-      products = JSON.parse(products);
-    }
-    const prices = products && products.map((prod) => {
-      const price = prod.salepercent && prod.discountprice
-        ? prod.issalekg && prod.currentprice ? prod.currentprice : prod.discountprice
-        : prod.issalekg && prod.currentprice ? prod.currentprice : prod.price;
-      return (prod.addminqty > 1 ? prod.currentunitprice : price) * (prod.qty ? prod.qty : 0);
-    });
-    return prices && prices.length > 0
-      ? prices.reduce((acc, cur) => acc + cur)
-      : 0;
-  };
 
   handleScroll = () => {
     let calcBottom =
@@ -176,9 +76,9 @@ class DeliveryInfo extends React.Component {
 
   handleAgreement = (e) => {
     this.setState({ checkedAgreement: e.target.checked });
-    if (e.target.checked) {
+    /* if (e.target.checked) {
       this.getAgreementData();
-    }
+    } */
   };
 
   getAgreementData = () => {
@@ -191,99 +91,92 @@ class DeliveryInfo extends React.Component {
     });
   }
 
-  generateNoat = (total, deliver) => {
-    const { useEpoint, epointUsedPoint } = this.state;
-    let value = 0;
-    if (deliver !== undefined) {
-      // eslint-disable-next-line no-mixed-operators
-      value = ((total + deliver - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
-    } else {
-      value = ((total - (useEpoint ? epointUsedPoint : 0)) / 110) * 10;
-    }
-    return value.toFixed(2);
-  };
-
   handleSubmit = (e) => {
+    let agreementId = document.getElementById("agreementId");
     const {
-      userinfo, DeliveryInfo, PaymentTypePanel, products,
+      userinfo, products, mainState,
     } = this.props;
-    const {
-      organizationData, ePointData, chosenInfo, chosenDate, epointUsedPoint,
-    } = this.state;
-    if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
-      this.props.changeLoading(true);
-      // MySwal.showLoading();
-      let tmp = {};
-      tmp.custId = userinfo.info.id;
-      tmp.deliveryTypeId = DeliveryInfo.state.chosenType.id;
-      tmp.custName = chosenInfo.name;
-      tmp.custAddressId = chosenInfo.id;
-      tmp.phone1 = chosenInfo.phonE1;
-      tmp.phone2 = chosenInfo.phonE2;
-      tmp.paymentType = PaymentTypePanel.state.chosenPaymentType.id;
-      tmp.addPoint = 0;
-      tmp.deliveryDate = chosenDate;
-      tmp.usedPoint = epointUsedPoint;
-      tmp.items = products;
-      tmp.locId = chosenInfo.locid;
-      tmp.custAddress =
-        `${chosenInfo.provincenm},
-        ${chosenInfo.districtnm}, 
-        ${chosenInfo.committeenm}, 
-        ${chosenInfo.address}`;
-      tmp.address = chosenInfo.address;
-      if (organizationData.length === 0) {
-        tmp.taxRegno = "";
-        tmp.taxName = "";
-      } else {
-        tmp.taxRegno = organizationData.regno;
-        tmp.taxName = organizationData.name;
+    if (mainState.activeKey === '2') {
+      this.props.onSubmitDeliveryPanel();
+    } else if (mainState.activeKey === '3') {
+      if (!this.state.checkedAgreement) {
+        agreementId.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        this.setState({ notif: true });
+      } else if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
+        this.props.changeLoading(true);
+        let tmp = {};
+        tmp.custId = userinfo.info.id;
+        tmp.deliveryTypeId = mainState.chosenDelivery.id;
+        tmp.custName = mainState.chosenAddress.name;
+        tmp.custAddressId = mainState.chosenAddress.id;
+        tmp.phone1 = mainState.chosenAddress.phone1;
+        tmp.phone2 = mainState.chosenAddress.phone2;
+        tmp.paymentType = mainState.chosenPaymentType.id;
+        tmp.addPoint = 0;
+        tmp.deliveryDate = mainState.chosenDate;
+        tmp.usedPoint = mainState.epointUsedPoint;
+        tmp.items = products;
+        tmp.locId = mainState.chosenAddress.locid;
+        tmp.custAddress =
+          `${mainState.chosenAddress.provincenm},
+          ${mainState.chosenAddress.districtnm},
+          ${mainState.chosenAddress.committeenm},
+          ${mainState.chosenAddress.address}`;
+        tmp.address = mainState.chosenAddress.address;
+        if (mainState.organizationData.length === 0) {
+          tmp.taxRegno = "";
+          tmp.taxName = "";
+        } else {
+          tmp.taxRegno = mainState.organizationData.regno;
+          tmp.taxName = mainState.organizationData.name;
+        }
+        this.sendPayment(tmp);
       }
-      this.sendPayment(tmp);
     }
   }
 
   continueCheckout = () => {
-    this.setState({ epointUsedPoint: 0, useEpoint: false }, () => {
-      this.handleSubmit();
-    });
+    this.props.continueCheckout(0, false);
+    this.handleSubmit();
   }
 
   sendPayment = (tmp) => {
-    const { PaymentTypePanel, intl } = this.props;
-    let data;
-    this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
-      this.props.changeLoading(false);
-      // MySwal.close();
-      if (res.payload.success) {
-        if (PaymentTypePanel.state.chosenPaymentType.id === 2) {
-          data = this.props.bankInfo;
-          this.openLastModal("msgBank", data, res.payload.data);
-        }
-        if (PaymentTypePanel.state.chosenPaymentType.id === 3) {
-          interval = setInterval(() => {
-            this.props.getOrderDetail({ ordid: res.payload.data.order.id }).then((response) => {
-              if (response.payload.success) {
-                if (response.payload.data.info.statusid === 2) {
-                  MySwal.close();
-                  this.props.history.push({
-                    pathname: `/qpayReturn`,
-                    state: response.payload.data,
-                  });
+    try {
+      const { intl, mainState } = this.props;
+      let data;
+      this.props.sendCheckoutOrder({ body: tmp }).then((res) => {
+        this.props.changeLoading(false);
+        // MySwal.close();
+        if (res.payload.success) {
+          if (mainState.chosenPaymentType.id === 2) {
+            data = this.props.bankInfo;
+            this.openLastModal("msgBank", data, res.payload.data);
+          }
+          if (mainState.chosenPaymentType.id === 3) {
+            interval = setInterval(() => {
+              this.props.getOrderDetail({ ordid: res.payload.data.order.id }).then((response) => {
+                if (response.payload.success) {
+                  if (response.payload.data.info.statusid === 2) {
+                    MySwal.close();
+                    this.props.history.push({
+                      pathname: `/qpayReturn`,
+                      state: response.payload.data,
+                    });
+                  }
                 }
-              }
-            });
-          }, 1000);
-          this.openLastModal("qpay", [], res.payload.data);
-        }
+              });
+            }, 1000);
+            this.props.clearRemotely();
+            this.openLastModal("qpay", [], res.payload.data);
+          }
 
-        if (PaymentTypePanel.state.chosenPaymentType.id === 1) {
-          this.changeWindow(res);
-          // setTimeout(() => this.changeWindow(res), 3000);
-        }
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (res.payload.code === "621") {
+          if (mainState.chosenPaymentType.id === 1) {
+            this.changeWindow(res);
+          }
+        } else if (res.payload.code === "621") {
           MySwal.fire({
             html: (
               <SwalModals
@@ -311,16 +204,25 @@ class DeliveryInfo extends React.Component {
               id: res.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: res.payload.data,
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage(messages.error, { name: res.payload.data })} />,
+          });
         }
-      }
-    });
+      });
+    } catch (error) {
+      return console.log("Aldaa: ", error);
+    }
   }
 
   changeWindow = (res) => {
-    // console.log(res.payload.data.url.signature.toLowerCase());
     let mapForm = document.createElement("form");
     mapForm.target = "_self";
     mapForm.method = "POST";
@@ -372,14 +274,6 @@ class DeliveryInfo extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.products !== undefined && prevProps.products !== undefined) {
-      if (prevProps.products.length !== this.props.products.length) {
-        this.setState({ totalPrice: this.getTotalPrice(this.props.products), totalQty: this.getTotalQty(this.props.products) });
-      }
-    }
-  }
-
   openLastModal = (type, data, ordData) => {
     MySwal.fire({
       html: (
@@ -389,9 +283,7 @@ class DeliveryInfo extends React.Component {
           interval={interval}
           ordData={ordData}
           readyBtn={this.handlePayment}
-          onRef={ref => (this.SwalModals = ref)}
-          totalQty={this.state.totalQty}
-          {...this}
+          totalQty={this.props.mainState.totalQty}
           {...this.props}
         />
       ),
@@ -449,11 +341,44 @@ class DeliveryInfo extends React.Component {
     });
   };
 
+  errorMsg = (txt) => {
+    MySwal.fire({
+      type: "error",
+      text: txt,
+      animation: true,
+      width: "25rem",
+      confirmButtonColor: "#feb415",
+    });
+  };
+
+  handleCheckEpoint = (e) => {
+    const { mainState } = this.props;
+    let cardInfo = mainState.cardInfo;
+    if (!e.target.checked) {
+      if (cardInfo !== null && mainState.epointUsedPoint !== 0) {
+        cardInfo.point = parseFloat(cardInfo.point) + mainState.epointUsedPoint;
+        this.props.changeCardInfo(cardInfo);
+        this.props.setUseEpoint(false, 0);
+      }
+    }
+    this.setState({ checkedEpoint: e.target.checked });
+  }
+
+  /* handleBackDelivery = () => {
+    this.props.callback("2");
+    this.props.changeDeliveryType(false);
+  } */
+
   render() {
     const {
-      checkedAgreement, chosenInfo, chosenType, totalPrice, totalQty, epointUsedPoint, useEpoint,
+      checkedAgreement, checkedEpoint,
     } = this.state;
-    const { staticpage, state, intl } = this.props;
+    const {
+      staticpage,
+      intl,
+      mainState,
+      isLoggedIn,
+    } = this.props;
     const lang = intl.locale;
     return (
       <div className="col-lg-4 pad10">
@@ -468,8 +393,8 @@ class DeliveryInfo extends React.Component {
               <i className="fa fa-truck" />
               <span>
                 {lang === "mn"
-                  ? `${this.checkError(chosenType.typenm)}`
-                  : `${this.checkError(chosenType.typenm_en)}`}
+                  ? `${this.checkError(mainState.chosenDelivery.typenm)}`
+                  : `${this.checkError(mainState.chosenDelivery.typenm_en)}`}
               </span>
             </p>
             <p className="text flex-this">
@@ -478,7 +403,7 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
               />
               <span>
-                {this.checkError(chosenInfo.name)}
+                {this.checkError(mainState.chosenAddress.name)}
               </span>
             </p>
             <p className="text flex-this">
@@ -487,7 +412,7 @@ class DeliveryInfo extends React.Component {
                 aria-hidden="true"
               />
               <span>
-                {`${this.checkError(chosenInfo.phonE1)} ${this.checkError(chosenInfo.phonE2)}`}
+                {`${this.checkError(mainState.chosenAddress.phone1)}`}
               </span>
             </p>
             <div className="d-flex mb-2">
@@ -497,9 +422,12 @@ class DeliveryInfo extends React.Component {
               />
               <p className="text flex-this">
                 {
-                  this.checkError(chosenType.id) !== 3 ?
+                  this.checkError(mainState.chosenDelivery.id) !== 3 ?
                     <span>
-                      {`${this.checkError(chosenInfo.provincenm)} ${this.checkError(chosenInfo.districtnm)} ${this.checkError(chosenInfo.committeenm)} ${this.checkError(chosenInfo.address)}`}
+                      {`${this.checkError(mainState.chosenAddress.provincenm)} 
+                        ${this.checkError(mainState.chosenAddress.districtnm)}
+                        ${this.checkError(mainState.chosenAddress.committeenm)}
+                        ${this.checkError(mainState.chosenAddress.address)}`}
                     </span>
                     :
                     <span>
@@ -508,14 +436,6 @@ class DeliveryInfo extends React.Component {
                 }
               </p>
             </div>
-            {/*   <div className="text d-flex delivery-info-message content">
-              <i
-                className="fa fa-info"
-                aria-hidden="true"
-              />
-              <p className="text flex-this">{lang === 'mn' ? this.checkError(chosenType.featuretxt) : this.checkError(chosenType.featuretxt_en)}</p>
-            </div> */}
-
           </div>
           <hr />
           <div className="content px-3">
@@ -527,42 +447,61 @@ class DeliveryInfo extends React.Component {
 
           <div className="content pb-2">
             <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.products" /> ({totalQty}):</span>
-              <strong>{formatter.format(totalPrice)}₮</strong>
+              <span><FormattedMessage id="shared.sidebar.label.products" /> ({mainState.totalQty}):</span>
+              <strong>{formatter.format(mainState.totalPrice)}₮</strong>
             </p>
             <p className="text flex-space">
               <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
-              <strong>{`${formatter.format(this.checkError(chosenType.price))}₮`}</strong>
+              <strong>{`${formatter.format(this.checkError(mainState.chosenDelivery.price))}₮`}</strong>
             </p>
             {
-              useEpoint ?
+              mainState.useEpoint ?
                 <p className="text flex-space">
                   {/* <span>Имарт карт оноо:</span> */}
                   <span><FormattedMessage id="shared.sidebar.label.epoint" />:</span>
-                  <strong style={{ color: "red" }}>{`-${formatter.format(epointUsedPoint)}`}₮</strong>
+                  <strong style={{ color: "red" }}>{`-${formatter.format(mainState.epointUsedPoint)}`}₮</strong>
                 </p> : ""
             }
             <hr />
             <p className="text flex-space result-price">
               <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
-              <strong>{formatter.format(totalPrice + (chosenType.price !== undefined ? chosenType.price : 0) - (useEpoint ? epointUsedPoint : 0))}₮</strong>
+              <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
             </p>
-            {/*  <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.tax" />:</span>
-              <strong>{formatter.format(this.generateNoat(totalPrice, chosenType.price))}₮</strong>
-            </p> */}
+            {
+              mainState.chosenRadio === 1 ?
+                <Checkbox checked={checkedEpoint} onChange={this.handleCheckEpoint} style={{ marginBottom: '10px' }}>
+                  {" "}
+                  <a>
+                    <span>Ипойнт карт ашиглах</span>
+                  </a>
+                </Checkbox>
+                : null
+            }
             <br />
-            <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif}>
-              {" "}
-              <a>
-                <span style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: this.state.notif ? "underline" : "none" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
-              </a>
-            </Checkbox>
-            <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!(checkedAgreement && state.paymentTypeExpanded && state.deliveryTypeExpanded)}>
-              <span className="text-uppercase">
-                <FormattedMessage id="shared.sidebar.button.pay" />
-              </span>
-            </button>
+            {
+              checkedEpoint && mainState.chosenRadio === 1 ? <IndividualTab
+                {...this.props}
+                setUseEpoint={this.props.setUseEpoint}
+                changeCardInfo={this.props.changeCardInfo}
+                changeEpointUsedPoint={this.props.changeEpointUsedPoint}
+              /> : null
+            }
+            <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
+            {" "}
+            <a id="agreementId" style={{ paddingLeft: '8px' }}>
+              <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+            </a>
+            {
+              isLoggedIn ?
+                <button className="btn btn-main btn-block sticky-btn" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                  <span className="text-uppercase">
+                    {
+                      mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                    }
+                  </span>
+                </button>
+                : null
+            }
           </div>
         </div>
 

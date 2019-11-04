@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Layout } from "antd";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import PropTypes from "prop-types";
 import ScrollToTop from "react-router-scroll-top";
 import { addLocaleData, IntlProvider } from "react-intl";
 import localeEn from "react-intl/locale-data/en";
@@ -17,7 +16,8 @@ import { RegistrationModal } from "../../components/Registration";
 import { ForgetModal } from "../../components/ForgetModal";
 import Notfound from "../Exception/404";
 import MessengerCustomerChat from 'react-messenger-customer-chat';
-import style from "./style.less";
+import 'react-notifications-component/dist/theme.css';
+
 import {
   Locale as LocaleModel,
   Category as CategoryModel,
@@ -63,6 +63,7 @@ import PaymentReturn from "../Checkout/components/PaymentReturn";
 import IntlGlobalProvider from '../../components/IntlGlobalProvider';
 import translationEn from "../../translations/en.json";
 import translationMn from "../../translations/mn.json";
+import ReactNotification from 'react-notifications-component';
 
 import "../../scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,22 +103,22 @@ class App extends Component {
   state = { dataSource: {} };
 
   componentWillMount() {
-    this.props.getCategoryMenu();
-    this.props.getStaticInfo();
     this.props.getMenu();
-    this.props.getStaticPages();
-    this.props.getCategoryAll();
-    this.props.getAttributeAll();
-    this.props.getAttributeValue();
-    this.props.getAllBrand();
-    this.props.getAllPromotion();
+    this.props.getStaticInfo();
     this.props.getTags();
     this.props.setLang();
   }
-
+  componentDidMount() {
+    this.props.getCategoryMenu();
+    this.props.getAllBrand();
+    this.props.getStaticPages();
+    this.props.getAttributeAll();
+    this.props.getAttributeValue();
+    this.props.getCategoryAll();
+    this.props.getAllPromotion();
+  }
   render() {
     const { lang } = this.props.locale;
-
     try {
       return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -134,7 +135,6 @@ class App extends Component {
 
                     {/** fixed header */}
                     <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
-                    {/*  */}
 
                     {/** Үндсэн root болон nested root-үүд доор байрлана */}
                     <Layout.Content>
@@ -172,6 +172,7 @@ class App extends Component {
                     pageId="1438714326447694"
                     appId="436816840280763"
                   />
+                  <ReactNotification />
                   <Footer {...this.props} />
                 </Layout>
               </Router>
@@ -184,13 +185,6 @@ class App extends Component {
     }
   }
 }
-
-App.propTypes = {
-  auth: PropTypes.object.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 export default connect(
   mapStateToProps,

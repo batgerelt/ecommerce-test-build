@@ -66,11 +66,11 @@ class CategoryInfo extends React.Component {
   }
 
   handleChangeOrder = (e) => {
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -106,7 +106,7 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangePrice = (e) => {
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     this.setState({
       loading: !this.state.loading,
       minPrice: e[0],
@@ -114,7 +114,7 @@ class CategoryInfo extends React.Component {
     });
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -140,7 +140,7 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangeColor = (e) => {
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     const { colors } = this.state;
     if (e.target.checked) {
       colors.push(e.target.value);
@@ -153,7 +153,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: colors.join(","),
@@ -179,7 +179,7 @@ class CategoryInfo extends React.Component {
   };
 
   handleChangeBrand = (e, brand) => {
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     const { brands } = this.state;
     if (e.target.checked) {
       brands.push(brand);
@@ -190,7 +190,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: this.state.attributes.join(","),
       color: this.state.colors.join(","),
@@ -218,7 +218,7 @@ class CategoryInfo extends React.Component {
 
   handleChangeAttribute = (e, value, attribute) => {
     this.setState({ loading: !this.state.loading });
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     const { attributes } = this.state;
     // eslint-disable-next-line react/no-string-refs
     if (e.target.checked) {
@@ -233,7 +233,7 @@ class CategoryInfo extends React.Component {
 
     const params = {
       catId: this.state.catid,
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: attributes.join(","),
       color: this.state.colors.join(","),
@@ -260,13 +260,13 @@ class CategoryInfo extends React.Component {
   };
 
   handleClickCategory = (cat) => {
-    const { isLogged, data } = this.props;
+    const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
 
     const params = {
       catId: cat.length === 0 ? catid : cat[0],
-      custId: isLogged ? data[0].info.customerInfo.id : 0,
+      custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
       value: searchword === '.' ? '' : searchword,
       attribute: "",
       color: "",
@@ -583,10 +583,10 @@ class CategoryInfo extends React.Component {
       const { searchKeyWordResponse } = this.props;
 
       if (this.state.products.length < searchKeyWordResponse.hits.total.value || !this.state.loading) {
-        const { isLogged, data } = this.props;
+        const { isLoggedIn, data } = this.props;
         const params = {
           catId: this.state.catid,
-          custId: isLogged ? data[0].info.customerInfo.id : 0,
+          custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
           value: searchword === '.' ? '' : searchword,
           attribute: this.state.attributes.join(','),
           color: this.state.colors.join(","),
@@ -662,7 +662,6 @@ class CategoryInfo extends React.Component {
                               maxItemsPerRow,
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
-                            console.log('rowItems: ', rowItems);
                             return (
                               <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
@@ -710,11 +709,11 @@ class CategoryInfo extends React.Component {
         ismore: !this.state.ismore,
         catid,
       });
-      const { isLogged, data } = this.props;
+      const { isLoggedIn, data } = this.props;
 
       const params = {
         catId: catid,
-        custId: isLogged ? data[0].info.customerInfo.id : 0,
+        custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
         value: searchword === '.' ? '' : searchword,
         attribute: "",
         color: "",

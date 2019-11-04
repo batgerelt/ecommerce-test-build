@@ -29,12 +29,11 @@ class PackageDetail extends React.Component {
   componentWillMount() {
     this.props.getDetailPackage({ id: this.props.match.params.id });
     this.props.getInfoPackage({ id: this.props.match.params.id }).then((res1) => {
-      console.log(res1, "ress1");
     });
   }
 
   render() {
-    return <List {...this.props} />;
+    return <List {...this.props} isLoggedIn={localStorage.getItem('auth') !== null} />;
   }
 }
 

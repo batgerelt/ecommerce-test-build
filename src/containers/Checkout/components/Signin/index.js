@@ -4,9 +4,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button } from "antd";
 import { Link, Redirect } from "react-router-dom";
-
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
+import LatinInput from "../../../../components/Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
 
 class Signin extends React.Component {
@@ -19,9 +21,11 @@ class Signin extends React.Component {
     };
   }
 
+  closeLoginModal = () => {
+    console.log("close");
+  }
   loginSocial = (param) => {
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
-      console.log("result", res);
       this.loggedData(res);
       if (res.payload.success) {
         this.setState({ confirm: this.state.direct });
@@ -35,10 +39,30 @@ class Signin extends React.Component {
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
-      message.success(intl.formatMessage({ id: "loginModal.info.success" }));
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+      });
     } else {
       if (r.payload.code) {
-        message.warning(intl.formatMessage({ id: r.payload.code }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: r.payload.code })} />,
+        });
       }
       return null;
     }
@@ -63,11 +87,38 @@ class Signin extends React.Component {
           body: products,
         });
         if (!result.payload.success) {
-          message.warning(intl.formatMessage({ id: result.payload.code }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+          });
         }
-        this.props.getProducts().then((res) => {
+        /* this.props.getProducts().then((res) => {
           let k = res.payload.data.length - products.length;
           if (res.payload.data.length !== 0 && k !== 0) {
+            this.props.history.push("/cart");
+          } else {
+            this.props.callback("2");
+          }
+        }); */
+        this.props.getProducts().then((res) => {
+          let resCount = 0;
+          let prodCount = 0;
+          res.payload.data.map((item) => {
+            resCount += item.qty;
+          });
+          products.map((item) => {
+            prodCount += item.qty;
+          });
+          let k = res.payload.data.length - products.length;
+          console.log(resCount, prodCount);
+          if (resCount !== prodCount) {
             this.props.history.push("/cart");
           } else {
             this.props.callback("2");
@@ -78,7 +129,6 @@ class Signin extends React.Component {
       }
     }).catch((err) => {
       console.log('err: ', err);
-      // message.warning(intl.formatMessage({ id: result.payload.code }));
     });
     this.props.getSystemLocation({});
   }
@@ -119,12 +169,25 @@ class Signin extends React.Component {
                     ));
 
                     if (reasons.length > 0) {
-                      message.warning(intl.formatMessage(
-                        { id: confirmResult.payload.code },
-                        {
-                          names: reasons.join(", "),
+                      store.addNotification({
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: false,
                         },
-                      ));
+                        content: <Notification
+                          type="warning"
+                          text={intl.formatMessagintl.formatMessage(
+                            { id: confirmResult.payload.code },
+                            {
+                              names: reasons.join(", "),
+                            },
+                          )}
+                        />,
+                      });
                     }
 
                     return this.props.history.push("/cart");
@@ -136,16 +199,38 @@ class Signin extends React.Component {
                   skucd: prod.skucd,
                   qty: prod.qty,
                 }));
+
                 let result = await this.props.increaseProductsByQtyRemotely({
                   iscart: 0,
                   body: products,
                 });
+
                 if (!result.payload.success) {
-                  message.warning(intl.formatMessage({ id: result.payload.code }));
+                  store.addNotification({
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 3000,
+                      onScreen: false,
+                    },
+                    content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+                  });
                 }
+
                 this.props.getProducts().then((res) => {
+                  let resCount = 0;
+                  let prodCount = 0;
+                  res.payload.data.map((item) => {
+                    resCount += item.qty;
+                  });
+                  products.map((item) => {
+                    prodCount += item.qty;
+                  });
                   let k = res.payload.data.length - products.length;
-                  if (res.payload.data.length !== 0 && k !== 0) {
+                  console.log(resCount, prodCount);
+                  if (resCount !== prodCount) {
                     this.props.history.push("/cart");
                   } else {
                     this.props.callback("2");
@@ -156,16 +241,25 @@ class Signin extends React.Component {
               }
             }).catch((err) => {
               console.log('err: ', err);
-              // message.warning(intl.formatMessage({ id: result.payload.code }));
             });
             this.props.getSystemLocation({});
           } else {
-            message.warning(intl.formatMessage({ id: r.payload.code }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: r.payload.code })} />,
+            });
           }
           this.setState({ loading: false });
         }).catch(err => console.log(err));
-        let result = await this.props.login({ body: { ...values } });
-        this.loggedData(result);
+        /* let result = await this.props.login({ body: { ...values } });
+        this.loggedData(result); */
       } else {
         console.log(err);
       }
@@ -187,21 +281,23 @@ class Signin extends React.Component {
           <div className="row row10">
             <div className="offset-md-3 col-md-6 pad10">
               <Form.Item style={{ marginBottom: "10px" }}>
-                {getFieldDecorator("email", {
+                {getFieldDecorator('email', {
                   initialValue: "",
                   rules: [
                     {
+                      type: 'email',
+                      message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                    },
+                    {
                       required: true,
                       message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                      type: "email",
                     },
                   ],
                 })(
-                  <Input
-                    type="text"
+                  <LatinInput
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                    autoComplete="off"
                     className="form-control"
+                    autoComplete="off"
                   />,
                 )}
               </Form.Item>

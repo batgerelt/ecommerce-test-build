@@ -20,8 +20,8 @@ function formatNumber(value) {
 class LatinInput extends React.Component {
   onChange = (e) => {
     const { value } = e.target;
-    const reg = /^-?(0|[A-Z a-z - _ 0-9 @ .][A-Z a-z - _ 0-9 @ .]*)(\.[A-Z a-z - _ 0-9 @ .]*)?$/;
-    if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value === '-') {
+    const reg = /^-?(0|[A-Za-z0-9][A-Za-z-_0-9@.]*)(\.[A-Za-z-_0-9@.]*)?$/;
+    if (reg.test(value) || value === '') {
       this.props.onChange(value);
     }
   };

@@ -2,9 +2,9 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button, message } from "antd";
-import { toast } from "react-toastify";
-import { css } from "glamor";
+import { Button } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -20,7 +20,7 @@ class Relational extends Component {
   handleIncrementClick = async (product) => {
     const { intl } = this.props;
     try {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           skucd: product.skucd,
           qty: product.addminqty || 1,
@@ -33,9 +33,23 @@ class Relational extends Component {
               id: result.payload.code,
             },
           });
-          message.warning(intl.formatMessage(messages.warning, {
-            name: result.payload.data.values[1],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.warning, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       } else {
         product.insymd = Date.now();

@@ -212,8 +212,8 @@ class Model extends BaseModel {
       case this.model.info.response:
         return {
           ...state,
-          images: action.payload.data[0].images,
-          info: action.payload.data[0].products[0],
+          images: action.payload.data.images,
+          info: action.payload.data.products[0],
         };
 
       case "CART_INCREMENT_PACKAGE_PRODUCT_LOCALLY":

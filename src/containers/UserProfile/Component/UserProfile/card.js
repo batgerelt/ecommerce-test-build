@@ -1,19 +1,25 @@
 import React from "react";
 import withReactContent from "sweetalert2-react-content";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, message, Input, Spin, Col, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Col, Button } from "antd";
+import { store } from 'react-notifications-component';
 import Swal from "sweetalert2";
 import SwalModals from "./EpointModal";
 import { intl } from '../../../../components/IntlGlobalProvider';
 import NumberInput from "../../../../components/Input/NumberInput";
-// import { Loader } from "../../../../components";
+import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
 
 class Component extends React.Component {
-  state = { dis: "", loc: null, loader: false };
+  state = {
+    dis: "",
+    loc: null,
+    oader: false,
+    cardno: null,
+  };
+
   componentWillMount() { }
 
   handleSubmit = (e) => {
@@ -53,14 +59,38 @@ class Component extends React.Component {
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
             this.props.getCustomer();
-            message.success(intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
+            });
           } else {
-            message.warning(intl.formatMessage({ id: res.payload.code }));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+            });
           }
           this.setState({ loader: false });
         });
       }
     });
+  }
+
+  cardNovalue = () => {
+    this.setState({ cardno: 97611000 });
   }
 
   render() {
@@ -74,13 +104,14 @@ class Component extends React.Component {
             <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
             <Form.Item>
               {getFieldDecorator("cardno", {
+                initialValue: this.state.cardno,
                 rules: [
                   // { required: true, message: "Картын дугаараа оруулна уу" },
                   { required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
+              })(<NumberInput onClick={this.cardNovalue} className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
             </Form.Item>
           </Col>
 

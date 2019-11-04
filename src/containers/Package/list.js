@@ -36,8 +36,8 @@ class Discount extends React.Component {
       const { banner, menuPackage, intl } = this.props;
       return (
         <PageBanner
-          title={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}
-          subtitle={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en}
+          title={intl.locale === "mn" ? menuPackage[0].menunm : menuPackage[0].menunm_en}
+          subtitle={intl.locale === "mn" ? menuPackage[0].subtitle : menuPackage[0].subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#8CBD3F"
         />

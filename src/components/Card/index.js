@@ -13,9 +13,10 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Rate, message, notification } from "antd";
+import { Rate, notification } from "antd";
+import { store } from 'react-notifications-component';
 import windowSize from 'react-window-size';
-import { Label, ElasticLabel } from "../";
+import { Label, ElasticLabel, Notification } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -23,84 +24,102 @@ const formatter = new Intl.NumberFormat("en-US");
 class Card extends React.Component {
   state = {
     changeHeart: false,
+    loading: false,
   };
-
-  // openNotification = (type, message, description) => {
-  //   notification[type]({
-  //     message,
-  //     description,
-  //     style: {
-  //       zIndex: 99999,
-  //     },
-  //   });
-  // };
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
     const { intl, elastic } = this.props;
-
     try {
-      console.log('this.props: ', this.props);
-      if (this.props.isLogged) {
+      if (localStorage.getItem('auth') !== null) {
+        this.setState({ loading: true });
         if (item.skucd) {
           const result = await this.props.incrementProductRemotely({
             skucd: item.skucd,
             qty: item.addminqty || 1,
             iscart: 0,
           });
-
+          this.setState({ loading: false });
           if (!result.payload.success) {
             const messages = defineMessages({
               error: {
                 id: result.payload.code,
               },
             });
-
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: result.payload.data.values[1],
-                qty: result.payload.data.values[2],
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ));
+              content: <Notification type="warning" text={intl.formatMessage(messages.error, { name: result.payload.data.values[1], qty: result.payload.data.values[2] })} />,
+            });
           }
         } else if (item.recipeid) {
           const result = await this.props.incrementRecipeProductsRemotely({
             recipeid: item.recipeid,
           });
-
+          this.setState({ loading: false });
           const failedProducts = result.payload.data.fail;
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-
-            message.warning(intl.formatMessage(
-              { id: result.payload.code },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.qty,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ), 10);
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: names.join(", "),
+                    qty: result.payload.data.qty,
+                  },
+                )}
+              />,
+            });
           }
         } else if (item.id) {
           const result = await this.props.incrementPackageProductsRemotely({
             packageid: item.id,
           });
-
+          this.setState({ loading: false });
           const failedProducts = result.payload.data.fail;
 
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-
-            message.warning(intl.formatMessage(
-              { id: result.payload.code },
-              {
-                names: names.join(", "),
-                qty: result.payload.data.qty,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ), 10);
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: result.payload.code },
+                  {
+                    names: names.join(", "),
+                    qty: result.payload.data.qty,
+                  },
+                )}
+              />,
+            });
           }
         } else {
+          this.setState({ loading: false });
           //
         }
       } else {
@@ -115,13 +134,26 @@ class Card extends React.Component {
                 item.addminqty = res.payload.data.addminqty;
                 return this.props.incrementProductLocally(item);
               }
-              return message.warning(intl.formatMessage(
-                { id: "200" },
-                {
-                  name: item.title,
-                  qty: item.qty,
+              return store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
                 },
-              ));
+                content: <Notification
+                  type="warning"
+                  text={intl.formatMessage(
+                    { id: "200" },
+                    {
+                      name: item.title,
+                      qty: item.qty,
+                    },
+                  )}
+                />,
+              });
             });
           }
           this.props.incrementProductLocally(item);
@@ -133,13 +165,26 @@ class Card extends React.Component {
                 id: updated.error,
               },
             });
-            message.warning(intl.formatMessage(
-              messages.error,
-              {
-                name: updated.title,
-                qty: updated.qty,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ));
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  messages.error,
+                  {
+                    name: updated.title,
+                    qty: updated.qty,
+                  },
+                )}
+              />,
+            });
           }
         } else if (item.recipeid) {
           const result = await this.props.getRecipeProducts({
@@ -157,13 +202,26 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            message.warning(intl.formatMessage(
-              { id: "206" },
-              {
-                names: titles.join(", "),
-                qty: products.length - errors.length,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ), 10);
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: "206" },
+                  {
+                    names: titles.join(", "),
+                    qty: products.length - errors.length,
+                  },
+                )}
+              />,
+            });
           }
         } else if (item.id) {
           const result = await this.props.getPackageProducts({
@@ -181,13 +239,26 @@ class Card extends React.Component {
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
-            message.warning(intl.formatMessage(
-              { id: "205" },
-              {
-                names: titles.join(", "),
-                qty: products.length - errors.length,
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 5000,
+                onScreen: false,
               },
-            ), 10);
+              content: <Notification
+                type="warning"
+                text={intl.formatMessage(
+                  { id: "205" },
+                  {
+                    names: titles.join(", "),
+                    qty: products.length - errors.length,
+                  },
+                )}
+              />,
+            });
           }
         } else {
           //
@@ -250,7 +321,7 @@ class Card extends React.Component {
         shape, item, isLastInRow, className, elastic, tags, list, windowWidth, isDiscount,
       } = this.props;
       const lang = this.props.intl.locale;
-
+      const { loading } = this.state;
       let prices;
       if (!item) {
         return null;
@@ -401,22 +472,23 @@ class Card extends React.Component {
         cartDisabled = false;
       }
       const hover = (
-        <div className="search-hover">
-          <button className="btn btn-link" onClick={this.handleSaveClick}>
+        <div className="search-hover action">
+          <button className="action btn btn-link" onClick={this.handleSaveClick}>
             <i
               className={
                 this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
               }
               aria-hidden="true"
-              style={{ color: "#feb415" }}
+            // style={{ color: "#feb415" }}
+            // fa-spin
             />
           </button>
           <button
             onClick={() => this.handleIncrement(item)}
-            className="btn btn-link"
-            disabled={false}
+            className="action btn btn-link"
+            disabled={loading}
           >
-            <i className="fa fa-cart-plus" aria-hidden="true" />
+            <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
           </button>
         </div>
       );

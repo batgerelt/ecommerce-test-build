@@ -10,18 +10,20 @@ import React from "react";
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { message, Affix } from 'antd';
+import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-
     this.proceedRef = React.createRef();
-
     this.state = {
+      count: 5,
+      loading: false,
       tempProducts: [],
       shouldRedirect: false,
       showButton: true,
@@ -49,12 +51,13 @@ class Cart extends React.Component {
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
     try {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
+        this.setState({ loading: true });
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
 
         if (result.payload.success) {
-          this.setState({ shouldRedirect: true });
+          this.setState({ shouldRedirect: true, loading: false });
         } else {
           if (result.payload.data.length > 0) {
             let reasons = [];
@@ -69,15 +72,28 @@ class Cart extends React.Component {
             ));
 
             if (reasons.length > 0) {
-              message.warning(intl.formatMessage(
-                { id: result.payload.code },
-                {
-                  names: reasons.join(", "),
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
                 },
-              ));
+                content: <Notification
+                  type="warning"
+                  text={intl.formatMessage(
+                    { id: result.payload.code },
+                    {
+                      names: reasons.join(", "),
+                    },
+                  )}
+                />,
+              });
             }
 
-            this.setState({ shouldRedirect: false });
+            this.setState({ loading: true, shouldRedirect: false });
           }
         }
       } else {
@@ -92,11 +108,21 @@ class Cart extends React.Component {
   handleClearClick = async () => {
     const { intl } = this.props;
 
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       const result = await this.props.clearRemotely();
 
       if (!result.payload.success) {
-        message.warning(intl.formatMessage({ id: result.payload.code }));
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+        });
       }
     } else {
       this.props.clearLocally();
@@ -105,7 +131,7 @@ class Cart extends React.Component {
 
   handleSaveClick = (e, product) => {
     e.preventDefault();
-    if (this.props.isLogged) {
+    if (this.props.isLoggedIn) {
       this.props.addWishList({ skucd: product.skucd || product.skucd }).then((res) => {
         if (res.payload.success) {
           setTimeout(() => {
@@ -129,13 +155,23 @@ class Cart extends React.Component {
     let found = products.find(prod => prod.skucd === product.skucd);
 
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.removeProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: found.skucd,
         });
         if (!result.payload.success) {
-          message.warning(intl.formatMessage({ id: result.payload.code }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+          });
         }
       } else {
         this.props.removeProductLocally(product);
@@ -165,7 +201,6 @@ class Cart extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleInputBlur = product => async (e) => {
-    console.log("fired blur");
     let { intl, products } = this.props;
 
     let found = products.find(prod => prod.skucd === product.skucd);
@@ -176,7 +211,7 @@ class Cart extends React.Component {
         : parseInt(e.target.value);
       found.qty = parseInt(qty, 10);
 
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.updateProductByQtyRemotely({
           skucd: found.skucd,
           qty: found.addminqty > 1 ? Math.round(found.qty / found.addminqty) * found.addminqty : found.qty,
@@ -189,11 +224,23 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       } else {
         this.props.updateProductByQtyLocally(found);
@@ -206,11 +253,23 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
+          });
         }
       }
     } else {
@@ -225,7 +284,7 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           skucd: found.skucd,
           qty: found.qty + found.addminqty,
@@ -238,11 +297,23 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       } else {
         this.props.incrementProductLocally(found);
@@ -255,14 +326,27 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
+          });
         }
       }
     } else {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
           skucd: product.skucd,
           qty: product.addminqty || 1,
@@ -275,11 +359,23 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       }
     }
@@ -292,7 +388,7 @@ class Cart extends React.Component {
 
     let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
-      if (this.props.isLogged) {
+      if (this.props.isLoggedIn) {
         // const productQty =
         //   found.qty - found.addminqty < found.addminqty
         //     ? found.addminqty
@@ -309,11 +405,23 @@ class Cart extends React.Component {
               id: result.payload.code,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: result.payload.data.values[1],
-            qty: result.payload.data.values[2],
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
+              })}
+            />,
+          });
         }
       } else {
         this.props.decrementProductLocally(found);
@@ -326,10 +434,23 @@ class Cart extends React.Component {
               id: updated.error,
             },
           });
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: updated.title,
+                qty: updated.qty,
+              })}
+            />,
+          });
         }
       }
     } else {
@@ -339,8 +460,9 @@ class Cart extends React.Component {
 
   seeMore = (e) => {
     e.preventDefault();
+    const wishlistProducts = this.props.wish;
     this.props.getWishByCount({ count: 0 });
-    this.setState({ showButton: false });
+    this.setState({ showButton: false, count: wishlistProducts.length });
   }
 
   // eslint-disable-next-line arrow-parens
@@ -469,11 +591,74 @@ class Cart extends React.Component {
   };
 
   renderWishlistProducts = () => {
-    if (!this.props.isLogged) {
+    if (!this.props.isLoggedIn) {
       return null;
     }
     const wishlistProducts = this.props.wish;
     const lang = this.props.intl.locale;
+    if (this.state.showButton) {
+      return (
+        wishlistProducts &&
+        wishlistProducts.length > 0 && (
+          <div className="block fav-products">
+            <p className="title">
+              <FormattedMessage id="shared.sidebar.title.wishlist" />
+            </p>
+            <ul className="list-unstyled">
+              {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
+                <li className="flex-this" key={index}>
+                  <div className="image-container default">
+                    <Link to={wishlistProd.route || ""}>
+                      <span
+                        className="image"
+                        style={{
+                          backgroundImage: `url(${process.env.IMAGE}${
+                            wishlistProd.img
+                            })`,
+                        }}
+                      />
+                    </Link>
+                  </div>
+                  <div className="info-container">
+                    <div className="flex-space">
+                      <Link to={wishlistProd.route || ""}>
+                        <div className="text">
+                          <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
+                          <strong>
+                            {formatter.format(
+                              wishlistProd.discountprice
+                                ? wishlistProd.discountprice || wishlistProd.currentprice
+                                : wishlistProd.price
+                                  ? wishlistProd.price
+                                  : 0,
+                            )}
+                            ₮
+                          </strong>
+                        </div>
+                      </Link>
+                      <button
+                        className="action btn btn-link"
+                        onClick={() => this.handleIncrementClick(wishlistProd)}
+                      >
+                        <i className="fa fa-cart-plus" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {
+              wishlistProducts.length <= 5 ? null : this.state.showButton ?
+                <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
+                  <span className="text-uppercase">
+                    <FormattedMessage id="shared.sidebar.button.showAll" />
+                  </span>
+                </Link> : null
+            }
+          </div>
+        )
+      );
+    }
     return (
       wishlistProducts &&
       wishlistProducts.length > 0 && (
@@ -525,16 +710,13 @@ class Cart extends React.Component {
             ))}
           </ul>
           {
-            this.state.showButton ?
+            wishlistProducts.length <= 5 ? null : this.state.showButton ?
               <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
                 <span className="text-uppercase">
                   <FormattedMessage id="shared.sidebar.button.showAll" />
                 </span>
-              </Link>
-              :
-              null
+              </Link> : null
           }
-
         </div>
       )
     );
@@ -738,6 +920,7 @@ class Cart extends React.Component {
 
   render() {
     const { products, staticinfo } = this.props;
+    const { loading } = this.state;
     const lang = this.props.intl.locale;
 
     if (this.state.shouldRedirect) {
@@ -810,7 +993,10 @@ class Cart extends React.Component {
                         products && products.length ? "" : " disabled"
                         }`}
                       onClick={() => this.handleConfirmClick()}
+                      disabled={loading}
                     >
+                      <i className={`fa ${loading ? "fa-spin" : null}`} aria-hidden="true" />
+                      {" "}
                       <span className="text-uppercase">
                         <FormattedMessage id="shared.sidebar.button.proceed" />
                       </span>

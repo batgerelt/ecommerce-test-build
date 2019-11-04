@@ -2,27 +2,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Input, Form, Button, message } from "antd";
-import LatinInput from "../../../../components/Input/LatinInput";
+import { Input, Form, Button, message, notification, Col } from "antd";
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../../components";
 import KrillInput from "../../../../components/Input/KrillInput";
 
 class OrganizationTab extends React.Component {
   state = {
     connected: false,
-    loading: false,
-    companyInfo: null,
   };
-
-  componentWillUnmount() { this.props.onRef(null); }
-  componentDidMount() {
-    const { state } = this.props;
-    const { setFieldsValue } = this.props.form;
-    this.props.onRef(this);
-    if (state.companyInfo !== null) {
-      setFieldsValue({ regno: state.companyInfo.name });
-      this.setState({ companyInfo: state.companyInfo, connected: true });
-    }
-  }
 
   checkOrgValue = (e) => {
     let value = this.props.form.getFieldsValue(["regno"]);
@@ -33,30 +21,40 @@ class OrganizationTab extends React.Component {
   }
 
   edit = (e) => {
+    e.preventDefault();
     const { setFieldsValue } = this.props.form;
-    const { DeliveryInfo } = this.props;
     setFieldsValue({ regno: "" });
-    DeliveryInfo.setOrganizationData([]);
-    this.setState({ companyInfo: null, connected: false, loading: false });
+    this.props.setOrganizationData([]);
+    this.props.changeCompanyInfo(null);
+    this.setState({ connected: false });
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     const { setFieldsValue, validateFields } = this.props.form;
-    const { DeliveryInfo, intl } = this.props;
+    const { intl } = this.props;
     validateFields((err, values) => {
       if (!err) {
-        this.setState({ loading: true });
         this.props.getCompanyInfo({ regno: values.regno }).then((res) => {
-          this.setState({ loading: false });
           if (res.payload.success) {
             if (res.payload.data.name !== "") {
               let value = { regno: values.regno, name: res.payload.data.name };
-              DeliveryInfo.setOrganizationData(value);
+              this.props.setOrganizationData(value);
               setFieldsValue({ regno: res.payload.data.name });
-              this.setState({ companyInfo: value, connected: true });
+              this.props.changeCompanyInfo(value);
+              this.setState({ connected: true });
             } else {
-              message.warning(intl.formatMessage({ id: "checkout.extra.organization.info" }));
+              store.addNotification({
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: false,
+                },
+                content: <Notification type="warning" text={intl.formatMessage({ id: "checkout.extra.organization.info" })} />,
+              });
             }
           }
         });
@@ -66,37 +64,44 @@ class OrganizationTab extends React.Component {
 
   renderForm = () => {
     const { intl } = this.props;
-    const { connected, loading } = this.state;
+    const { connected } = this.state;
     try {
       const { getFieldDecorator } = this.props.form;
       return (
-        <Form onSubmit={this.onSubmit}>
+        <Form>
           <div className="row row10 checkoutFormContainer">
-            <div className="col-xl-6 pad10">
-              <div className="form-group">
-                <Form.Item>
-                  {getFieldDecorator("regno", {
-                    rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
-                  })(
-                    <KrillInput
-                      size="large"
-                      uppercase
-                      autoComplete="new-password"
-                      type="text"
-                      placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })}
-                      disabled={connected}
-                      className="col-md-12"
-                    />,
-                  )}
-                </Form.Item>
-              </div>
-            </div>
+            <Col span={24} className="org-container padd10">
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10" />
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+                <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+                  <div className="form-group">
+                    <Form.Item>
+                      {getFieldDecorator("regno", {
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.company.regNo.validation.required" }) }],
+                      })(
+                        <KrillInput
+                          size="large"
+                          autoComplete="new-password"
+                          type="text"
+                          placeholder={intl.formatMessage({ id: "shared.form.company.regNo.placeholder" })}
+                          disabled={connected}
+                          className="col-md-12"
+                          style={{ paddingLeft: '10px' }}
+                        />,
+                      )}
+                    </Form.Item>
+                  </div>
+                </Col>
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="padd10">
+                  {
+                    !connected ?
+                      <button className="second-btn btn btn-dark col-md-12" onClick={this.onSubmit}><FormattedMessage id="shared.form.button.connect" /></button> :
+                      <button className="second-btn btn btn-dark col-md-12" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></button>
+                  }
+                </Col>
+              </Col>
+            </Col>
           </div>
-          {
-            !connected ?
-              <Button loading={loading} className="btn btn-main solid" htmlType="submit"><FormattedMessage id="shared.form.button.connect" /></Button> :
-              <Button loading={loading} className="btn btn-main solid" onClick={this.edit}><FormattedMessage id="shared.form.button.edit" /></Button>
-          }
         </Form>
       );
     } catch (error) {

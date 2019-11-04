@@ -916,14 +916,13 @@ button{
     margin-top: 10px;
   }
   .bottom-container {
+    text-align: center;
     border-top: 1px solid $white9;
-    padding-top: 10px;
-    margin-bottom: -40px;
-
+    padding-bottom: 10px;
     p {
       color: $white5;
       margin: auto;
-      font-size: 0.7rem;
+      font-size: 14px;
       letter-spacing: 0.5px;
     }
   }
@@ -2753,6 +2752,10 @@ form {
   position: absolute !important;
 }
 
+.ant-form-item{
+  margin-bottom: 15px !important;
+}
+
 MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
   border-color: rgb(163, 163, 163);
 }
@@ -3041,9 +3044,9 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .button-container{
-  padding-top: 2em;
+  /* padding-top: 2em;
   padding-right: 3em;
-  padding-left: 3em;
+  padding-left: 3em; */
 }
 
 .swal2-icon.swal2-error {
@@ -3184,9 +3187,15 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .addAddressBtn {
-  padding: 3px 59px;
-  margin-left: 4px;
-  margin-top: 4px;
+  color: #fff;
+  background-color: #23272b;
+  border-color: #1d2124;
+  border-radius: 0px 4px 4px 0px;
+  border-left: none;
+}
+.addAddressBtn:hover{
+  background-color: #23272b !important;
+  border-color: #1d2124 !important;
 }
 
 .marginLeft {
@@ -3232,7 +3241,7 @@ MuiInputBase-input-49 MuiOutlinedInput-input-34 MuiInputBase-inputType-52 {
 }
 
 .checkoutFormContainer .ant-form-item{
-  margin-bottom: 5px !important;
+  margin-bottom: 10px !important;
 }
 
 .background-cover{
@@ -3452,6 +3461,36 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.styles__notification__37303 {
+  width: 100% !important;
+}
+.notification-container-bottom-center, .notification-container-bottom-left, .notification-container-bottom-right, .notification-container-mobile-bottom, .notification-container-mobile-top, .notification-container-top-center, .notification-container-top-left, .notification-container-top-right {
+    z-index: 9999999999 !important;
+}
+.ant-dropdown {
+  position: fixed !important;
+}
+.scrolled-menu {
+  z-index: -5;
+  overflow: auto;
+  height: 600px;
+}
+.ant-notification-notice {
+  background: #FFF3C9;
+}
+.ant-notification {
+  z-index: 9999999999 !important;
+}
+.btn-mail {
+  background: #FFB81C;
+  height: 40px;
+  width: 100%;
+  color: #000000;
+  margin-bottom: 20px;
+}
+.ant-notification-notice-close {
+  display: none !important;
+}
 .dropdown-item:active {
   background-color: transparent !important;
 }
@@ -3536,6 +3575,9 @@ button:disabled{
 .top-main .search li:last-child .btn {
   background-color: #FFB81C !important;
 }
+.top-main .search li:last-child {
+  width: 20% !important;
+}
 // 
 
 .ant-tree-title{
@@ -3576,4 +3618,41 @@ button:disabled{
 
 .success-message-container .user-detail p{
   margin-bottom: 0.4rem;
+}
+
+/* .checkoutFormContainer .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto{
+  padding-right: 5px;
+  padding-left: 5px;
+}
+ */
+.second-btn{
+  padding: 4px 20px;
+  margin-top: 6px;
+  font-size: 0.8rem;
+}
+
+.checkout-container .content-container .hand-pay .form-check:hover{
+  box-shadow: 0 0 0 1px #feb415 !important;
+}
+
+.ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus+.ant-radio-inner{
+  border-color: #feb415 !important;
+}
+
+/* .select-button .ant-form-item-children{
+  display: flex !important;
+} */
+
+.add-select .ant-select-selection{
+  border-radius: 4px 0px 0px 4px !important;
+}
+
+.fa-spin:before{
+  content: "\f1ce"
+}
+
+.sticky-btn{
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
 }

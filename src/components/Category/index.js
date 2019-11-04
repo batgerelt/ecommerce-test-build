@@ -20,7 +20,7 @@ class MainMenu extends React.Component {
   render() {
     const data = this.props && this.props.dataSource;
     const lang = this.props.intl.locale;
-
+    console.log(data);
     return (
       <div className="row row10">
         {data.map((item, index) => (
@@ -38,21 +38,21 @@ class MainMenu extends React.Component {
               </li>
               {item.children &&
                 item.children
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((it, ind) => (
-                  <li
-                    className="active"
-                    key={ind}
-                    onClick={() => this.handleDetail(it.id)}
-                  >
-                    <Link
-                      to={item.route ? `${it.route}?lvl=${it.lvl}` : '#'}
-                      className="list-unstyled active sub-category-color"
+                  .sort((a, b) => (a.orders !== b.orders ? a.order > b.orders : a.name.localeCompare(b.name)))
+                  .map((it, ind) => (
+                    <li
+                      className="active"
+                      key={ind}
+                      onClick={() => this.handleDetail(it.id)}
                     >
-                      <span>{lang === "mn" ? it.name : it.name_en}</span>
-                    </Link>
-                  </li>
-                ))}
+                      <Link
+                        to={item.route ? `${it.route}?lvl=${it.lvl}` : '#'}
+                        className="list-unstyled active sub-category-color"
+                      >
+                        <span>{lang === "mn" ? it.name : it.name_en}</span>
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           </div>
         ))}

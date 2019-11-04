@@ -7,7 +7,6 @@ const request = ({
   url, method, body, isfiles,
 }) => {
   let bearerHeader = 'Bearer ';
-  // bitgii hamaagvi uurchluud baildaa uur zunduu gazar ashiglchihsn bgaa ymiig !!!!!!!!!!!!!!!!!!!!
   const root = localStorage.getItem('auth') === null ? null : JSON.parse(localStorage.getItem('auth'));
   if (root !== null) {
     bearerHeader += root.data[0].info.access_token;
@@ -37,6 +36,7 @@ const request = ({
         'Content-Type': 'application/json',
         Authorization: bearerHeader,
         'Access-Control-Allow-Headers': '*',
+        Cache: 'no-cache',
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
@@ -62,15 +62,16 @@ const request = ({
   }
 
   return fetch(process.env.API + url, {
-    credentials: 'include',
     method,
     headers: {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
       Authorization: bearerHeader,
     },
+    credentials: 'include',
     body: JSON.stringify(body),
   }).then((response) => {
+    console.log(response.headers.get('Set-Cookie'));
     if (!response.ok) {
       throw new Error(response.statusText);
     }
