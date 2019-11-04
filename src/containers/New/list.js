@@ -149,8 +149,8 @@ class Bookmarks extends PureComponent {
       const { banner, menuNew, intl } = this.props;
       return (
         <PageBanner
-          title={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}
-          subtitle={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en}
+          title={intl.locale === "mn" ? menuNew[0].menunm : menuNew[0].menunm_en}
+          subtitle={intl.locale === "mn" ? menuNew[0].subtitle : menuNew[0].subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#00A1E4"
         />

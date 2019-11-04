@@ -301,7 +301,7 @@ class CategoryInfo extends React.Component {
               promotionall.map((cat, index) => (
                 <li key={index} className={cat.id === this.state.promotion ? "selected" : "disabled"} >
                   <span onClick={() => this.handleClickCategory(cat)}>
-                    { lang === "mn" ? cat.name : cat.nameen }
+                    {lang === "mn" ? cat.name : cat.nameen}
                   </span>
                 </li>
               ))
@@ -651,8 +651,8 @@ class CategoryInfo extends React.Component {
       const { menuSeason, seasonbanner } = this.props;
       return (
         <PageBanner
-          title={lang === "mn" ? menuSeason.menunm : menuSeason.menunm_en}
-          subtitle={lang === "mn" ? menuSeason.subtitle : menuSeason.subtitle_en}
+          title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+          subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
           banners={seasonbanner}
           bgColor="#00CFB4"
         />

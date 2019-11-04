@@ -34,8 +34,8 @@ class Recipe extends React.Component {
       const { banner, menuRecipe, intl } = this.props;
       return (
         <PageBanner
-          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
-          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
+          title={intl.locale === "mn" ? menuRecipe[0].menunm : menuRecipe[0].menunm_en}
+          subtitle={intl.locale === "mn" ? menuRecipe[0].subtitle : menuRecipe[0].subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#F2769B"
         />
