@@ -528,7 +528,6 @@ class CategoryInfo extends React.Component {
         };
 
         this.props.searchProduct({ body: { ...params } }).then((res) => {
-          window.scrollTo(0, 0);
           if (res.payload.success) {
             this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
           }
@@ -626,7 +625,6 @@ class CategoryInfo extends React.Component {
     brandid = this.props.match.params.id;
     this.setState({ loading: !this.state.loading, ismore: !this.state.ismore });
     const { isLoggedIn, data } = this.props;
-    console.log('data: ', data);
 
     const params = {
       catId: 0,
