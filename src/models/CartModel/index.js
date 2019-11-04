@@ -641,8 +641,6 @@ class Model extends BaseModel {
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
         try {
-          console.log('state.products: ', state.products);
-          console.log('action.payload: ', action.payload);
           return {
             ...state,
             products: this.updateReduxStore(state.products, action.payload),
@@ -657,9 +655,6 @@ class Model extends BaseModel {
       case this.model.incrementProductRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementProductRemotely.response:
-
-        console.log('action.payload: ', action.payload);
-
         let products = action.payload.success
           ? action.payload.data
           : action.payload.data.items;

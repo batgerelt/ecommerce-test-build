@@ -409,7 +409,7 @@ class Cart extends React.Component {
     const { products } = this.props;
 
     return products && products.reduce((acc, cur) => (
-      acc + (cur.qty ? cur.qty : 0)
+      acc + (cur.qty && cur.qty > 0 ? cur.qty : 0)
     ), 0);
   };
 
@@ -792,7 +792,7 @@ class Cart extends React.Component {
                           <FormattedMessage id="cart.sidebar.label.total" />:{" "}
                         </span>
                         <span>
-                          {this.renderTotalQty()}<FormattedMessage id="cart.sidebar.label.unit" />
+                          {parseInt(this.renderTotalQty())}<FormattedMessage id="cart.sidebar.label.unit" />
                         </span>
                       </p>
                       <p className="flex-space">

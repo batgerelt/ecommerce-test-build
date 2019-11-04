@@ -485,7 +485,6 @@ class List extends React.Component {
 
   getTotal = () => {
     const { products } = this.props.packageDetail;
-    console.log('products: ', products);
 
     if (!products) {
       return 0;
