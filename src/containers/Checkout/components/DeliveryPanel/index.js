@@ -328,6 +328,7 @@ class DeliveryPanel extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     const {
       defaultActiveKey, districtLocation, selectLoading,
@@ -498,7 +499,7 @@ class DeliveryPanel extends React.Component {
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
                     <Form.Item>
                       {getFieldDecorator("districtid", {
-                        initialValue: this.checkError(chosenAddress.districtid),
+                        initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.districtid),
                         rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                       })(
                         <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
@@ -511,7 +512,7 @@ class DeliveryPanel extends React.Component {
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
                     <Form.Item>
                       {getFieldDecorator("committeeid", {
-                        initialValue: this.checkError(chosenAddress.committeeid),
+                        initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.committeeid),
                         rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
                       })(
                         <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
