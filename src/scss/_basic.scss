@@ -3664,3 +3664,31 @@ button:disabled{
   position: sticky !important;
   top: 0 !important;
 }
+
+.header-container{
+  .MuiButton-root{
+    border-radius: 0px !important;
+  }
+  
+  .MuiButton-text{
+    padding: 5px 0px !important;
+  }
+  
+  .MuiButton-root{
+    min-width: 50px !important;
+  }
+}
+
+.search-hover{
+  .MuiButton-root{
+    border-radius: 20px !important;
+  }
+  
+  .MuiButton-text{
+    padding: 5px 8px !important;
+  }
+  
+  .MuiButton-root{
+    min-width: 50px !important;
+  }
+}
