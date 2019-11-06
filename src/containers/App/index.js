@@ -35,7 +35,6 @@ import {
   User as UserModel,
 } from "../../models";
 import {
-  Locale,
   Home,
   Discount,
   New,
@@ -46,7 +45,6 @@ import {
   Static,
   Checkout,
   Category,
-  ProductList,
   RecipeDetail,
   Cart,
   Search,
@@ -170,7 +168,8 @@ class App extends Component {
                   </ScrollToTop>
                   <MessengerCustomerChat
                     pageId="1438714326447694"
-                    appId="436816840280763"
+                    appId="730767227416524"
+                    htmlRef={"www.emartmall.mn"}
                   />
                   <ReactNotification />
                   <Footer {...this.props} />
