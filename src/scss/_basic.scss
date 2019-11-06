@@ -3464,9 +3464,16 @@ button:disabled{
 .styles__notification__37303 {
   width: 100% !important;
 }
-.notification-container-bottom-center, .notification-container-bottom-left, .notification-container-bottom-right, .notification-container-mobile-bottom, .notification-container-mobile-top, .notification-container-top-center, .notification-container-top-left, .notification-container-top-right {
-    // z-index: 9999999999 !important;
-    top: 99px !important;
+.notification-container-bottom-center,
+.notification-container-bottom-left,
+.notification-container-bottom-right,
+.notification-container-mobile-bottom,
+.notification-container-mobile-top,
+.notification-container-top-center,
+.notification-container-top-left,
+.notification-container-top-right {
+    z-index: 9999999999 !important;
+    margin-top: 99px !important;
 }
 .ant-dropdown {
   position: fixed !important;
