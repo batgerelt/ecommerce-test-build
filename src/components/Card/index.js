@@ -13,9 +13,10 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Rate, notification } from "antd";
+import { Rate } from "antd";
 import { store } from 'react-notifications-component';
 import windowSize from 'react-window-size';
+import Button from "@material-ui/core/Button";
 import { Label, ElasticLabel, Notification } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
 
@@ -473,7 +474,7 @@ class Card extends React.Component {
       }
       const hover = (
         <div className="search-hover action">
-          <button className="action btn btn-link" onClick={this.handleSaveClick}>
+          <Button className="action btn btn-link" onClick={this.handleSaveClick}>
             <i
               className={
                 this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
@@ -482,14 +483,14 @@ class Card extends React.Component {
             // style={{ color: "#feb415" }}
             // fa-spin
             />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => this.handleIncrement(item)}
             className="action btn btn-link"
             disabled={loading}
           >
             <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
-          </button>
+          </Button>
         </div>
       );
 
@@ -777,7 +778,7 @@ class Card extends React.Component {
                       isDiscount
                     />
                   ))}
-                <span className="cart-container">
+                <span className="cart-container search-hover">
                   <a className="wishlist" onClick={this.handleSaveClick}>
                     <i
                       className={

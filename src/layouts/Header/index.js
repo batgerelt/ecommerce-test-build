@@ -7,7 +7,8 @@ import { Link, withRouter } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Icon, Form, Dropdown } from "antd";
 import moment from "moment";
-import { Category, MainMenu, UserButton, CartButton, Notification } from "../../components";
+import Button from "@material-ui/core/Button";
+import { Category, MainMenu, UserButton, CartButton } from "../../components";
 import searchImage from "../../scss/assets/svg/001-search.svg";
 import heartImage from "../../scss/assets/svg/003-chat.svg";
 import navImage from "../../scss/assets/svg/list.svg";
@@ -182,13 +183,13 @@ class AppHeader extends Component {
       });
 
       return (
-        <div className="top-main">
+        <div className="top-main header-container">
           <div className="container container-laptop pad10">
             <div className="row">
               <div className="col-lg-8 col-md-7 col-6 pad10">
                 <div className="flex-this flex-space">
-                  <button
-                    className="d-block d-md-none button buttonGrey"
+                  <Button
+                    className="d-block d-md-none button buttonGrey header-mobile-menu"
                     onClick={this.togglePopup}
                   >
                     <img
@@ -196,9 +197,9 @@ class AppHeader extends Component {
                       alt="mobile navigation"
                       height="25px"
                     />
-                  </button>
+                  </Button>
                   <Link to="/" className="logo">
-                    <img alt="logo" src={process.env.IMAGE + staticinfo.logopath} />
+                    <img alt="logo" className="header-brand-logo" src={process.env.IMAGE + staticinfo.logopath} />
                   </Link>
                   <div className="search">
                     <Form className={searchClass}>
