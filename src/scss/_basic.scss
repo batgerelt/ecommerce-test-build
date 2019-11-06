@@ -3465,7 +3465,7 @@ button:disabled{
   width: 100% !important;
 }
 .notification-container-bottom-center, .notification-container-bottom-left, .notification-container-bottom-right, .notification-container-mobile-bottom, .notification-container-mobile-top, .notification-container-top-center, .notification-container-top-left, .notification-container-top-right {
-    z-index: 9999999999 !important;
+    // z-index: 9999999999 !important;
     top: 99px !important;
 }
 .ant-dropdown {

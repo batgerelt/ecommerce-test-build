@@ -288,8 +288,10 @@ class Checkout extends React.Component {
         this.getDeliveryTypeValue(body, this.state.chosenDate);
         if (products.length !== 0) {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
-            this.changeDeliveryType(true);
-            this.setState({ activeKey: "3" });
+            if (this.state.isEmail) {
+              this.changeDeliveryType(true);
+              this.setState({ activeKey: "3" });
+            }
           } else {
             this.changeLoading(true);
             let locid = this.state.chosenAddress.locid;
