@@ -489,7 +489,7 @@ class DeliveryInfo extends React.Component {
             <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
             {" "}
             <a id="agreementId" style={{ paddingLeft: '8px' }}>
-              <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "mediumblue" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+              <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
             </a>
             {
               isLoggedIn ?
