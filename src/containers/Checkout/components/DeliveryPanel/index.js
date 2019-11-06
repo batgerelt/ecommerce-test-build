@@ -343,223 +343,226 @@ class DeliveryPanel extends React.Component {
     } = this.props;
     const lang = intl.locale;
     const { main, info } = this.props.userinfo;
-    return (
-      <div>
-        <Col span={24}>
-          <div className="content-container payment" style={{ padding: '0px' }}>
-            <RadioGroup name="radiogroup" defaultValue={defaultActiveKey} onChange={this.changeTab} className="col-md-12">
-              <div className="hand-pay flex-this">
-                {
-                  deliveryTypes.map((item, i) => {
-                    let k = item.logo;
-                    if (parseInt(defaultActiveKey) === item.id) {
-                      k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
-                    }
-                    return (
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
-                        <div
-                          className="form-check col-md-12"
-                          style={{
-                            paddingTop: '5px',
-                            paddingBottom: '5px',
-                            borderRadius: "4px",
-                            boxShadow: parseInt(defaultActiveKey) === item.id ? '0 0 0 1px #feb415' : '',
-                          }}
-                          onClick={e => this.changeTabError(e, item)}
-                        >
-                          <Radio value={item.id} name={item.id} disabled={!(item.isenable === 1)} className="col-md-12">
-                            <img
-                              alt="icon"
-                              width="40px"
-                              height="40px"
-                              src={require("../../../../scss/assets/images/demo/" + k)}
-                            />
-                            <strong>{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
-                          </Radio>
-                        </div>
-                      </Col>
-                    );
-                  })
-                }
-              </div>
-            </RadioGroup>
-          </div>
-        </Col>
-        <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <Form>
-            <div>
-              <Col span={24} style={{ marginBottom: '10px' }}>
-                <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                  <div className="text d-flex delivery-info-message" style={{ padding: "0px 15px 0px 15px", borderRadius: "4px" }}>
-                    <i
-                      className="fa fa-info"
-                      aria-hidden="true"
-                    />
-                    <p className="text flex-this" style={{ fontSize: "13px" }}>{lang === 'mn' ? this.checkError(mainState.chosenDelivery.featuretxt) : this.checkError(mainState.chosenDelivery.featuretxt_en)}</p>
-                  </div>
-                </Col>
-              </Col>
-              <Col span={24}>
-                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                  <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
-                  <Form.Item>
-                    {getFieldDecorator("name", {
-                      initialValue: this.checkError(chosenAddress.name),
-                      rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
-                    })(
-                      <LetterInput size="large" autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
-                    )}
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                  <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
-                  <Form.Item>
-                    {getFieldDecorator("email", {
-                      initialValue: this.checkError(info.email),
-                      rules: [
-                        {
-                          required: true,
-                          message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                          type: "email",
-                        },
-                      ],
-                    })(
-                      <Input
-                        size="large"
-                        className="col-md-12"
-                        placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                        autoComplete="off"
-                        allowClear={info.email === null ? true : false}
-                        disabled={info.email === null ? false : true}
-                      />,
-                    )}
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                  <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
-                  <Form.Item>
-                    {getFieldDecorator("phone1", {
-                      initialValue: this.checkError(chosenAddress.phone1),
-                      rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
-                      { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                      { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-                    })(
-                      <Input size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
-                    )}
-                  </Form.Item>
-                </Col>
-              </Col>
-              {defaultActiveKey !== 3 && main !== null ? (
-                <Col span={24}>
+    if (this.props.userinfo.info !== undefined) {
+      return (
+        <div>
+          <Col span={24}>
+            <div className="content-container payment" style={{ padding: '0px' }}>
+              <RadioGroup name="radiogroup" defaultValue={defaultActiveKey} onChange={this.changeTab} className="col-md-12">
+                <div className="hand-pay flex-this">
+                  {
+                    deliveryTypes.map((item, i) => {
+                      let k = item.logo;
+                      if (parseInt(defaultActiveKey) === item.id) {
+                        k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
+                      }
+                      return (
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
+                          <div
+                            className="form-check col-md-12"
+                            style={{
+                              paddingTop: '5px',
+                              paddingBottom: '5px',
+                              borderRadius: "4px",
+                              boxShadow: parseInt(defaultActiveKey) === item.id ? '0 0 0 1px #feb415' : '',
+                            }}
+                            onClick={e => this.changeTabError(e, item)}
+                          >
+                            <Radio value={item.id} name={item.id} disabled={!(item.isenable === 1)} className="col-md-12">
+                              <img
+                                alt="icon"
+                                width="40px"
+                                height="40px"
+                                src={require("../../../../scss/assets/images/demo/" + k)}
+                              />
+                              <strong>{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
+                            </Radio>
+                          </div>
+                        </Col>
+                      );
+                    })
+                  }
+                </div>
+              </RadioGroup>
+            </div>
+          </Col>
+          <div className="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <Form>
+              <div>
+                <Col span={24} style={{ marginBottom: '10px' }}>
                   <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                    <Col xs={20} sm={20} md={23} lg={23} xl={23}>
-                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
-                      <Form.Item className="select-button">
-                        {getFieldDecorator("id", {
-                          initialValue: this.checkError(chosenAddress.id),
-                          rules: [{ required: false, message: "Хаяг оруулна уу" }],
-                        })(
-                          <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
-                            {this.renderAddrsOption()}
-                          </Select>,
-                        )}
-                      </Form.Item>
-                    </Col>
-                    <Col xs={4} sm={4} md={1} lg={1} xl={1}>
-                      <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
-                    </Col>
+                    <div className="text d-flex delivery-info-message" style={{ padding: "0px 15px 0px 15px", borderRadius: "4px" }}>
+                      <i
+                        className="fa fa-info"
+                        aria-hidden="true"
+                      />
+                      <p className="text flex-this" style={{ fontSize: "13px" }}>{lang === 'mn' ? this.checkError(mainState.chosenDelivery.featuretxt) : this.checkError(mainState.chosenDelivery.featuretxt_en)}</p>
+                    </div>
                   </Col>
-                  {/* <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
+                </Col>
+                <Col span={24}>
+                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("name", {
+                        initialValue: this.checkError(chosenAddress.name),
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
+                      })(
+                        <LetterInput size="large" autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("email", {
+                        initialValue: this.checkError(info.email),
+                        rules: [
+                          {
+                            required: true,
+                            message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                            type: "email",
+                          },
+                        ],
+                      })(
+                        <Input
+                          size="large"
+                          className="col-md-12"
+                          placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                          autoComplete="off"
+                          allowClear={info.email === null ? true : false}
+                          disabled={info.email === null ? false : true}
+                        />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("phone1", {
+                        initialValue: this.checkError(chosenAddress.phone1),
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                        { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                        { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+                      })(
+                        <Input size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Col>
+                {defaultActiveKey !== 3 && main !== null ? (
+                  <Col span={24}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                      <Col xs={20} sm={20} md={23} lg={23} xl={23}>
+                        <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+                        <Form.Item className="select-button">
+                          {getFieldDecorator("id", {
+                            initialValue: this.checkError(chosenAddress.id),
+                            rules: [{ required: false, message: "Хаяг оруулна уу" }],
+                          })(
+                            <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
+                              {this.renderAddrsOption()}
+                            </Select>,
+                          )}
+                        </Form.Item>
+                      </Col>
+                      <Col xs={4} sm={4} md={1} lg={1} xl={1}>
+                        <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
+                      </Col>
+                    </Col>
+                    {/* <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
                     <Form.Item>
                       <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>
                         <FormattedMessage id="shared.form.button.newAddress" />
                       </button>
                     </Form.Item>
                   </Col> */}
+                  </Col>
+                ) : (
+                    null
+                  )}
+                {defaultActiveKey !== 3 ? (
+                  <Col span={24}>
+                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("provinceid", {
+                          initialValue: `${systemlocation.find(i => i.gbn === 'U') === undefined ? [] : systemlocation.find(i => i.gbn === 'U').id}`,
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
+                        })(
+                          <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
+                            {this.renderLocation(systemlocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("districtid", {
+                          initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.districtid),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
+                        })(
+                          <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            {this.renderLocation(districtLocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("committeeid", {
+                          initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.committeeid),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
+                        })(
+                          <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
+                            {this.renderLocation(committeLocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("address", {
+                          initialValue: this.checkError(chosenAddress.address),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                        })(
+                          <Input className="col-md-12" size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Col>
+                ) : (
+                    null
+                  )}
+              </div>
+              <Col span={24}>
+                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
+                  <span className="top-text">{intl.formatMessage({ id: "shared.form.label.deliveryDate" })}</span>
+                  <DatePicker
+                    size="large"
+                    className="col-md-12"
+                    format="YYYY-MM-DD"
+                    showTime={false}
+                    placeholder="Огноо сонгох"
+                    value={chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : moment(chosenDate, "YYYY-MM-DD")}
+                    allowClear={false}
+                    onChange={(date, dateString) =>
+                      this.dateStringChange(date, dateString)
+                    }
+                    disabled={dateLoading}
+                    disabledDate={this.disabledDate}
+                  />
                 </Col>
-              ) : (
-                  null
-                )}
-              {defaultActiveKey !== 3 ? (
-                <Col span={24}>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
-                    <Form.Item>
-                      {getFieldDecorator("provinceid", {
-                        initialValue: `${systemlocation.find(i => i.gbn === 'U') === undefined ? [] : systemlocation.find(i => i.gbn === 'U').id}`,
-                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
-                      })(
-                        <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
-                          {this.renderLocation(systemlocation)}
-                        </Select>,
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
-                    <Form.Item>
-                      {getFieldDecorator("districtid", {
-                        initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.districtid),
-                        rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
-                      })(
-                        <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
-                          {this.renderLocation(districtLocation)}
-                        </Select>,
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
-                    <Form.Item>
-                      {getFieldDecorator("committeeid", {
-                        initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.committeeid),
-                        rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
-                      })(
-                        <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
-                          {this.renderLocation(committeLocation)}
-                        </Select>,
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
-                    <Form.Item>
-                      {getFieldDecorator("address", {
-                        initialValue: this.checkError(chosenAddress.address),
-                        rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
-                      })(
-                        <Input className="col-md-12" size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Col>
-              ) : (
-                  null
-                )}
-            </div>
-            <Col span={24}>
-              <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
-                <span className="top-text">{intl.formatMessage({ id: "shared.form.label.deliveryDate" })}</span>
-                <DatePicker
-                  size="large"
-                  className="col-md-12"
-                  format="YYYY-MM-DD"
-                  showTime={false}
-                  placeholder="Огноо сонгох"
-                  value={chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : moment(chosenDate, "YYYY-MM-DD")}
-                  allowClear={false}
-                  onChange={(date, dateString) =>
-                    this.dateStringChange(date, dateString)
-                  }
-                  disabled={dateLoading}
-                  disabledDate={this.disabledDate}
-                />
               </Col>
-            </Col>
-          </Form>
+            </Form>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

@@ -243,6 +243,8 @@ class Signin extends React.Component {
               console.log('err: ', err);
             });
             this.props.getSystemLocation({});
+            await this.props.getUserInfo();
+            await this.props.getSystemLocation();
           } else {
             store.addNotification({
               insert: "top",
