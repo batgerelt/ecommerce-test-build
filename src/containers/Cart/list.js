@@ -316,7 +316,7 @@ class Cart extends React.Component {
           });
         }
       } else {
-        this.props.incrementProductLocally(found);
+        this.props.incrementProductLocally(found, true);
 
         const updated = this.props.products.find(prod => prod.skucd === found.skucd);
 
@@ -725,6 +725,7 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
+      console.log('products: ', products);
       const lang = this.props.intl.locale;
       let content1;
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
@@ -746,7 +747,6 @@ class Cart extends React.Component {
 
       if (products && products.length > 0) {
         products = products.filter(product => product.qty);
-
         products.sort((a, b) => {
           if (typeof a.insymd === "string") {
             a.insymd = new Date(a.insymd).getTime();
@@ -864,7 +864,7 @@ class Cart extends React.Component {
                   </tr>
                   <tr className="table-action">
                     <td colSpan="2">
-                      {lang === "mn" ? prod.deliveryinfo : prod.deliveryInfo_en}
+                      {lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
                     </td>
                     <td colSpan="2">
                       <div className="text-right single-action">

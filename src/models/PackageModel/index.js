@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-lonely-if */
 /* eslint-disable array-callback-return */
 /* eslint-disable indent */
@@ -78,38 +79,185 @@ class Model extends BaseModel {
     payload: product,
   });
 
+  // updateReduxStore = (
+  //   products,
+  //   product,
+  //   shouldDecrement = false,
+  //   shouldUpdateByQty = false,
+  // ) => {
+  //   try {
+  //     let found = products.find(prod => prod.skucd === product.skucd);
+
+  //     if (found) {
+  //       const index = products.map(prod => prod.skucd).indexOf(found.skucd);
+
+  //       if (index !== -1) {
+  //         found.qty = found.qty === 0 ? 0 : (found.qty || found.addminqty || 1);
+
+  //         if (shouldDecrement) {
+  //           if (shouldUpdateByQty) {
+  //             const qty = product.qty || product.addminqty || 1;
+  //             if (found.qty - qty < found.addminqty) {
+  //               found.qty = 0;
+  //               found.error = "204";
+  //             } else {
+  //               found.qty -= qty;
+  //             }
+  //           } else if (found.qty - found.addminqty < found.addminqty) {
+  //             found.qty = 0;
+  //             found.error = "204";
+  //           } else {
+  //             found.qty -= found.addminqty;
+  //           }
+  //         } else if (shouldUpdateByQty) {
+  //           const qty = product.qty || product.addminqty || 1;
+  //           if (found.isgift) {
+  //             found.qty += qty;
+  //           } else if (found.availableqty > 0) {
+  //             if (found.salemaxqty > 0) {
+  //               if (found.qty + qty > found.salemaxqty) {
+  //                 found.qty = found.salemaxqty;
+  //                 found.error = "202";
+  //               } else {
+  //                 found.qty += qty;
+  //               }
+  //             } else if (found.qty + qty > found.availableqty) {
+  //               found.qty = found.availableqty;
+  //               found.error = "200";
+  //             } else {
+  //               found.qty += qty;
+  //             }
+  //           } else {
+  //             found.error = "200";
+  //           }
+  //         } else {
+  //           if (found.isgift) {
+  //             found.qty += found.addminqty || 1;
+  //           } else {
+  //             if (found.availableqty > 0) {
+  //               if (found.salemaxqty > 0) {
+  //                 if (found.qty + found.addminqty > found.salemaxqty) {
+  //                   found.qty = found.salemaxqty;
+  //                   found.error = "202";
+  //                 } else {
+  //                   found.qty += found.addminqty || 1;
+  //                 }
+  //               } else if (found.qty + found.addminqty > found.availableqty) {
+  //                 found.qty = found.availableqty;
+  //                 found.error = "200";
+  //               } else {
+  //                 found.qty += found.addminqty || 1;
+  //               }
+  //             } else {
+  //               found.error = "200";
+  //             }
+  //           }
+  //         }
+  //         products.splice(index, 1, found);
+  //       } else {
+  //         throw new Error("Бараа олдсонгүй");
+  //       }
+  //     } else {
+  //       throw new Error("Бараа олдсонгүй");
+  //     }
+  //     return products;
+  //   } catch (error) {
+  //     return console.log('error: ', error);
+  //   }
+  // };
+
   updateReduxStore = (
     products,
     product,
+    from = "",
+    shouldOverride = false,
     shouldDecrement = false,
     shouldUpdateByQty = false,
   ) => {
     try {
+      if (typeof products === "string") {
+        products = JSON.parse(products);
+      }
+
+      if (product.error !== undefined) {
+        product.error = undefined;
+      }
+
+      if (from !== "cart") {
+        product.insymd = new Date();
+      }
+
       let found = products.find(prod => prod.skucd === product.skucd);
 
       if (found) {
         const index = products.map(prod => prod.skucd).indexOf(found.skucd);
 
         if (index !== -1) {
-          found.qty = found.qty === 0 ? 0 : (found.qty || found.addminqty || 1);
+          if (shouldOverride) {
+            let qty = product.qty || product.addminqty || 1;
+            qty = product.addminqty > 1
+              ? Math.round(qty / product.addminqty) * product.addminqty
+              : qty;
 
-          if (shouldDecrement) {
+            if (found.isgift) {
+              if (found.qty < found.addminqty) {
+                found.qty = found.addminqty;
+                found.error = "204";
+              } else {
+                found.qty = qty;
+              }
+            } else {
+              if (found.availableqty > 0) {
+                if (found.salemaxqty > 0) {
+                  if (qty > found.salemaxqty) {
+                    found.qty = found.salemaxqty;
+                    found.error = "202";
+                  } else if (qty < found.addminqty) {
+                    found.qty = found.addminqty;
+                    found.error = "204";
+                  } else {
+                    found.qty = qty;
+                  }
+                } else if (qty > found.availableqty) {
+                  found.qty = found.availableqty;
+                  found.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
+                } else if (qty < found.addminqty) {
+                  found.qty = found.addminqty;
+                  found.error = "204";
+                } else {
+                  found.qty = qty;
+                }
+              } else {
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
+              }
+            }
+          } else if (shouldDecrement) {
             if (shouldUpdateByQty) {
               const qty = product.qty || product.addminqty || 1;
               if (found.qty - qty < found.addminqty) {
-                found.qty = 0;
+                found.qty = found.addminqty;
                 found.error = "204";
               } else {
                 found.qty -= qty;
               }
             } else if (found.qty - found.addminqty < found.addminqty) {
-              found.qty = 0;
+              found.qty = found.addminqty;
               found.error = "204";
             } else {
               found.qty -= found.addminqty;
             }
           } else if (shouldUpdateByQty) {
+            // const qty = product.qty === 0 ? 0 : (product.qty || product.addminqty || 1);
             const qty = product.qty || product.addminqty || 1;
+
             if (found.isgift) {
               found.qty += qty;
             } else if (found.availableqty > 0) {
@@ -122,14 +270,29 @@ class Model extends BaseModel {
                 }
               } else if (found.qty + qty > found.availableqty) {
                 found.qty = found.availableqty;
-                found.error = "200";
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
               } else {
-                found.qty += qty;
+                const productQty = found.qty;
+                found.qty = productQty + qty;
               }
             } else {
-              found.error = "200";
+              found.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
             }
           } else {
+            if (from === "recipe") {
+              found.recipeid = product.recipeid;
+            } else if (from === "package") {
+              found.id = product.id;
+            }
+
             if (found.isgift) {
               found.qty += found.addminqty || 1;
             } else {
@@ -143,12 +306,20 @@ class Model extends BaseModel {
                   }
                 } else if (found.qty + found.addminqty > found.availableqty) {
                   found.qty = found.availableqty;
-                  found.error = "200";
+                  found.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
                 } else {
                   found.qty += found.addminqty || 1;
                 }
               } else {
-                found.error = "200";
+                found.error = from === "package"
+                  ? "205"
+                  : from === "recipe"
+                    ? "206"
+                    : "200";
               }
             }
           }
@@ -157,7 +328,87 @@ class Model extends BaseModel {
           throw new Error("Бараа олдсонгүй");
         }
       } else {
-        throw new Error("Бараа олдсонгүй");
+        console.log(product);
+        if (shouldUpdateByQty) {
+          const qty = product.qty === 0
+            ? 0
+            : (product.qty || product.addminqty || 1);
+
+          if (product.isgift) {
+            product.qty = qty;
+          } else {
+            if (product.availableqty > 0) {
+              if (product.salemaxqty > 0) {
+                if (qty > product.salemaxqty) {
+                  product.qty = product.salemaxqty;
+                  product.error = "202";
+                } else {
+                  product.qty = qty;
+                }
+              } else {
+                if (qty > product.availableqty) {
+                  product.qty = product.availableqty;
+                  product.error = from === "package"
+                    ? "205"
+                    : from === "recipe"
+                      ? "206"
+                      : "200";
+                } else {
+                  product.qty = qty;
+                }
+              }
+            } else {
+              product.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
+            }
+          }
+        } else {
+          if (product.isgift) {
+            if (!product.qty || isNaN(product.qty)) {
+              product.qty = product.addminqty;
+            }
+          } else {
+            if (product.availableqty > 0) {
+              if (product.salemaxqty > 0) {
+                if (product.qty) {
+                  if (product.qty > product.salemaxqty) {
+                    product.qty = product.salemaxqty;
+                    product.error = "202";
+                  } else {
+                    // NOT NECESSARY
+                  }
+                } else {
+                  product.qty = product.addminqty || 1;
+                }
+              } else {
+                if (product.qty) {
+                  if (product.qty > product.availableqty) {
+                    product.qty = product.availableqty;
+                    product.error = from === "package"
+                      ? "205"
+                      : from === "recipe"
+                        ? "206"
+                        : "200";
+                  } else {
+                    // NOT NECESSARY
+                  }
+                } else {
+                  product.qty = product.addminqty || 1;
+                }
+              }
+            } else {
+              product.error = from === "package"
+                ? "205"
+                : from === "recipe"
+                  ? "206"
+                  : "200";
+            }
+          }
+        }
+        products.push(product);
       }
       return products;
     } catch (error) {
@@ -277,7 +528,7 @@ class Model extends BaseModel {
             ...state,
             packageDetail: {
               ...state.packageDetail,
-              products: this.updateReduxStore(products, product, false, true),
+              products: this.updateReduxStore(products, product, "", true),
             },
           };
         } catch (e) {

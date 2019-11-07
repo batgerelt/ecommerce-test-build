@@ -44,14 +44,14 @@ class Page extends React.Component {
         this.props.getWishByCount({ count: 6 });
         this.props.getStaticInfo();
       } else {
-        const { products } = this.props;
-
-        products.forEach(async (prod) => {
-          const result = await this.props.getProductDetail({ skucd: prod.skucd });
-          let product = result.payload.data.products;
-          product.qty = prod.qty;
-          this.props.updateProductLocally(product);
-        });
+        // const { products } = this.props;
+        // products.forEach(async (prod) => {
+        //   const result = await this.props.getProductDetail({ skucd: prod.skucd });
+        //   let product = result.payload.data.products;
+        //   product.qty = prod.qty;
+        //   product.insymd = prod.insymd;
+        //   this.props.updateProductLocally(product);
+        // });
       }
     } catch (e) {
       console.log(e);

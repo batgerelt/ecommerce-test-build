@@ -224,7 +224,6 @@ class LoginModal extends React.Component {
               prodCount += item.qty;
             });
             let k = res.payload.data.length - products.length;
-            console.log(resCount, prodCount);
             if (resCount !== prodCount) {
               this.setState({ goCart: true });
               this.props.form.resetFields();

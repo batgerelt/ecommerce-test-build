@@ -242,9 +242,9 @@ class Model extends BaseModel {
       model: this.model.products,
     });
 
-  incrementProductLocally = product => ({
+  incrementProductLocally = (product, isCart = false) => ({
     type: "CART_INCREMENT_PRODUCT_LOCALLY",
-    payload: product,
+    payload: { product, isCart },
   });
 
   incrementProductRemotely = ({ skucd, qty, iscart }) =>
@@ -399,6 +399,10 @@ class Model extends BaseModel {
 
       if (product.error !== undefined) {
         product.error = undefined;
+      }
+
+      if (from !== "cart") {
+        product.insymd = new Date();
       }
 
       let found = products.find(prod => prod.skucd === product.skucd);
@@ -621,7 +625,6 @@ class Model extends BaseModel {
             }
           }
         }
-
         products.push(product);
       }
       return products;
@@ -640,10 +643,13 @@ class Model extends BaseModel {
         return { ...state, products: action.payload.data };
 
       case "CART_INCREMENT_PRODUCT_LOCALLY":
+        const { product, isCart } = action.payload;
+        const from = isCart ? "cart" : "";
+
         try {
           return {
             ...state,
-            products: this.updateReduxStore(state.products, action.payload),
+            products: this.updateReduxStore(state.products, product, from),
           };
         } catch (e) {
           console.log(e);

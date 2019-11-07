@@ -263,7 +263,7 @@ class List extends React.Component {
 
       this.props.increasePackageProductsByQtyLocally(products);
 
-      const errors = this.props.errors.filter(prod => prod.id === parseInt(this.props.match.params.id, 10));
+      const errors = this.props.errors && this.props.errors.filter(prod => prod.id === parseInt(this.props.match.params.id, 10));
 
       if (errors.length > 0) {
         const titles = errors.map(err => err.title);
@@ -322,7 +322,6 @@ class List extends React.Component {
   renderSlider = () => {
     try {
       const { images } = this.props;
-      console.log(images);
       const sliderParams = {
         spaceBetween: 0,
         autoplay: {

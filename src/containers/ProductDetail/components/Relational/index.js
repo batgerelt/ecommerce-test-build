@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 
