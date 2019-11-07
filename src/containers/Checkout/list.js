@@ -50,11 +50,11 @@ class Checkout extends React.Component {
     };
   }
 
-  componentDidUpdate(nextProps) {
-    if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
+  /* componentDidUpdate(nextProps) {
+    if (localStorage.getItem('auth') === null) {
       this.props.history.push("/");
     }
-  }
+  } */
 
   errorMsg = (txt) => {
     MySwal.fire({
@@ -227,7 +227,14 @@ class Checkout extends React.Component {
     const { chosenAddress, addresstype, chosenDelivery } = this.state;
     this.state.deliveryPanelForm.validateFields((err, values) => {
       if (!err) {
+        // console.log(values);
+        // this.setState({ chosenAddress: values });
+        // console.log(chosenAddress);
+        chosenAddress.phone1 = values.phone1;
+        chosenAddress.name = values.name;
+
         if (values.email !== undefined && userinfo.info.email === null) {
+          console.log("values.email", values.email);
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
               this.setState({ isEmail: false });
@@ -288,8 +295,10 @@ class Checkout extends React.Component {
         this.getDeliveryTypeValue(body, this.state.chosenDate);
         if (products.length !== 0) {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
-            this.changeDeliveryType(true);
-            this.setState({ activeKey: "3" });
+            if (this.state.isEmail) {
+              this.changeDeliveryType(true);
+              this.setState({ activeKey: "3" });
+            }
           } else {
             this.changeLoading(true);
             let locid = this.state.chosenAddress.locid;

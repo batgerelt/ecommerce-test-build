@@ -81,8 +81,18 @@ class Model extends BaseModel {
   addUserEmail = values => asyncFn({
     url: `/customer/mail/${values}`, method: 'PUT', model: this.model.adduseremail,
   });
+  clearUserModelState = () => ({
+    type: "CLEAR_USER",
+  });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // LOGOUT CLEAR USER
+      case "CLEAR_USER":
+        console.log("logout");
+        return {
+          ...state,
+          userinfo: [],
+        };
       // GET USER ADDRESS
       case this.model.userinfo.request:
         return { ...state, current: this.requestCase(state.current, action) };

@@ -38,7 +38,7 @@ class CategoryInfo extends React.Component {
       minPrice: 0,
       maxPrice: 0,
       sort: "updateddate_desc",
-      isLeftPanel: false,
+      showMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
       colors: [],
@@ -306,79 +306,89 @@ class CategoryInfo extends React.Component {
     }
   };
 
-  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel })
+  showMobilePanel = () =>
+    this.setState({ isMobilePanel: !this.state.isMobilePanel });
 
-  renderLeftPanel = () => {
-    try {
-      const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
-      const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
+renderLeftPanel = () => {
+  try {
+    const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
 
-      return (
-        <div className="col-lg-3 col-md-4 pad10">
-          <div className={`left-panel-container ${leftPanel1}`} onClick={this.showLeftPanel}>
-            <div className={leftPanel}>
-              <button
-                className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
+    return (
+      <div
+        className="col-lg-3 col-md-4 pad10"
+        ref={(node) => {
+          this.container = node;
+        }}
+      >
+        {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
+        <div
+          className={`left-panel-container ${
+            this.state.isMobilePanel ? "show" : null
+          }`}
+          onClick={this.showMobilePanel}
+        >
+          <div className={leftPanel}>
+            <button
+              className="button buttonBlack filter-cross"
+              onClick={this.showMobilePanel}
+            >
+              <img
+                src={crossImage}
+                alt="cross"
+                height="25px"
+                aria-hidden="true"
+              />
+            </button>
+            <h5 className="title">
+              <strong>
+                <FormattedMessage id="search.filter.title" />
+              </strong>
+            </h5>
+            <p className="title">
+              <span>
+                <FormattedMessage id="search.filter.category.title" />
+              </span>
+            </p>
+            <div className="accordion" id="accordionExample">
+              <div
+                id="collapseOne"
+                className="collapse show"
+                aria-labelledby="headingOne"
+                data-parent="#accordionExample"
               >
-                <img
-                  src={crossImage}
-                  alt="cross"
-                  height="25px"
-                  aria-hidden="true"
-                />
-              </button>
+                <div className="collapse-content">
+                  <ul className="list-unstyled">
+                    {this.renderCategoryList()}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div>
               <h5 className="title">
-                <strong><FormattedMessage id="search.filter.title" /></strong>
+                <strong>
+                  <FormattedMessage id="search.filter.filter.title" />
+                </strong>
               </h5>
-              <p className="title">
-                <span>
-                  <FormattedMessage id="search.filter.category.title" />
-                </span>
-              </p>
-              <div className="accordion" id="accordionExample">
-                <div
-                  id="collapseOne"
-                  className="collapse show"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordionExample"
-                >
-                  <div className="collapse-content">
-                    <ul className="list-unstyled">
-                      {this.renderCategoryList()}
-                    </ul>
-                  </div>
-                </div>
+              <div className="left-filter">
+                <SearchFilterSet
+                  onRef={ref => (this.FilterSet = ref)}
+                  {...this.props}
+                  {...this}
+                  data={this.state.aggregations}
+                />
               </div>
-
-              <div>
-                <h5
-                  className="title"
-                  onClick={this.showMobilePanel}
-                >
-                  <strong>
-                    <FormattedMessage id="search.filter.filter.title" />
-                  </strong>
-                </h5>
-                <div className="left-filter">
-                  <SearchFilterSet
-                    onRef={ref => (this.FilterSet = ref)}
-                    {...this.props}
-                    {...this}
-                    data={this.state.aggregations}
-                  />
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
-      );
-    } catch (error) {
-      // return console.log(error);
-      return null;
-    }
+        {/* </Affix> */}
+      </div>
+    );
+  } catch (error) {
+    // return console.log(error);
+    return null;
   }
+};
 
   renderFilteredList = () => {
     try {
@@ -401,7 +411,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showLeftPanel}
+                      onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">Шүүлтүүр</span>

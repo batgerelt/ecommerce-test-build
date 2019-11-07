@@ -3464,8 +3464,16 @@ button:disabled{
 .styles__notification__37303 {
   width: 100% !important;
 }
-.notification-container-bottom-center, .notification-container-bottom-left, .notification-container-bottom-right, .notification-container-mobile-bottom, .notification-container-mobile-top, .notification-container-top-center, .notification-container-top-left, .notification-container-top-right {
+.notification-container-bottom-center,
+.notification-container-bottom-left,
+.notification-container-bottom-right,
+.notification-container-mobile-bottom,
+.notification-container-mobile-top,
+.notification-container-top-center,
+.notification-container-top-left,
+.notification-container-top-right {
     z-index: 9999999999 !important;
+    margin-top: 99px !important;
 }
 .ant-dropdown {
   position: fixed !important;
@@ -3655,4 +3663,32 @@ button:disabled{
   position: -webkit-sticky !important;
   position: sticky !important;
   top: 0 !important;
+}
+
+.header-container{
+  .MuiButton-root{
+    border-radius: 0px !important;
+  }
+  
+  .MuiButton-text{
+    padding: 5px 0px !important;
+  }
+  
+  .MuiButton-root{
+    min-width: 50px !important;
+  }
+}
+
+.search-hover{
+  .MuiButton-root{
+    border-radius: 20px !important;
+  }
+  
+  .MuiButton-text{
+    padding: 5px 8px !important;
+  }
+  
+  .MuiButton-root{
+    min-width: 50px !important;
+  }
 }

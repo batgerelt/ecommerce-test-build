@@ -58,6 +58,7 @@ class List extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.clearLocally();
+    this.props.clearUserModelState();
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
       store.addNotification({

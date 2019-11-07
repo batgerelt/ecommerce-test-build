@@ -39,7 +39,7 @@ class CategoryInfo extends React.Component {
       minPrice: 0,
       maxPrice: 0,
       sort: "",
-      isLeftPanel: false,
+      isMobilePanel: false,
       ITEM_HEIGHT: 294.98,
       shapeType: 2,
       colors: [],
@@ -361,21 +361,31 @@ class CategoryInfo extends React.Component {
     }
   };
 
+  showMobilePanel = () =>
+    this.setState({ isMobilePanel: !this.state.isMobilePanel });
+
   renderLeftPanel = () => {
     try {
-      const leftPanel1 = `${this.state.isLeftPanel ? " show" : ""}`;
-      const leftPanel = `left-panel${this.state.isLeftPanel ? " show" : ""}`;
+      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
 
       return (
-        <div className="col-lg-3 col-md-4 pad10">
+        <div
+          className="col-lg-3 col-md-4 pad10"
+          ref={(node) => {
+            this.container = node;
+          }}
+        >
+          {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
-            className={`left-panel-container ${leftPanel1}`}
-            onClick={this.showLeftPanel}
+            className={`left-panel-container ${
+              this.state.isMobilePanel ? "show" : null
+              }`}
+            onClick={this.showMobilePanel}
           >
             <div className={leftPanel}>
               <button
                 className="button buttonBlack filter-cross"
-                onClick={this.showLeftPanel}
+                onClick={this.showMobilePanel}
               >
                 <img
                   src={crossImage}
@@ -420,6 +430,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
+          {/* </Affix> */}
         </div>
       );
     } catch (error) {
@@ -449,7 +460,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showLeftPanel}
+                      onClick={this.showMobilePanel}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">

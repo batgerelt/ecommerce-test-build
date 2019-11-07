@@ -1355,7 +1355,11 @@ h1.title {
     .ant-rate {
         display: block;
         margin-top: 5px;
-        font-size: 13px;
+        font-size: 20px;
+
+        .ant-rate-star {
+            margin-right: 5px;
+        }
     }
 
     .product-detail-page {
@@ -1796,7 +1800,7 @@ h1.title {
             margin: 0px !important;
 
             img {
-                max-width: 90px;
+                max-width: 100px;
             }
         }
 
@@ -1870,6 +1874,16 @@ h1.title {
 
     .left-panel {
         transform: translateX(-280px);
+    }
+
+    .header-brand-logo{
+        border: 1px solid #ededed;
+        height: 37px;
+        padding: 5px;
+      }
+      
+    .header-mobile-menu{
+      margin-right: 2px !important;
     }
 }
 

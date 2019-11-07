@@ -71,6 +71,7 @@ class UserButton extends React.Component {
   handleLogoutClick = () => {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
+    this.props.clearUserModelState();
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
       store.addNotification({
@@ -107,7 +108,6 @@ class UserButton extends React.Component {
     if (localStorage.getItem("auth") !== null) {
       let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
       if (jwtDecode(token).exp < Date.now() / 1000) {
-        // localStorage.clear();
         this.handleLogout();
       }
     }
@@ -169,6 +169,7 @@ class UserButton extends React.Component {
     this.setState({ visible: false });
     this.props.logout();
     this.props.clearLocally();
+    this.props.clearUserModelState();
   }
 
   renderImage = () => {

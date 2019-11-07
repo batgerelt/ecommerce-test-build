@@ -8,12 +8,14 @@ import {
   Auth as AuthModel,
   Profile as ProfileModel,
   Cart as CartModel,
+  User as UserModel,
 } from "../../models";
 
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
   ...state.cart,
+  clearUserModelState: state.user.clearUserModelState,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -21,6 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...AuthModel,
     ...ProfileModel,
     ...CartModel,
+    ...UserModel,
   }, dispatch),
 });
 

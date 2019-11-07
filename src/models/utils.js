@@ -71,6 +71,7 @@ const request = ({
     credentials: 'include',
     body: JSON.stringify(body),
   }).then((response) => {
+    // console.log(response.headers.get('Set-Cookie'));
     if (!response.ok) {
       throw new Error(response.statusText);
     }
