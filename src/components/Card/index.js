@@ -157,6 +157,7 @@ class Card extends React.Component {
               });
             });
           }
+          console.log('item: ', item);
           this.props.incrementProductLocally(item);
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 

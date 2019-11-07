@@ -32,7 +32,7 @@ class Recipe extends React.Component {
   renderMainBanner = () => {
     try {
       const { banner, menuRecipe, intl } = this.props;
-      return (
+      return menuRecipe[0] && (
         <PageBanner
           title={intl.locale === "mn" ? menuRecipe[0].menunm : menuRecipe[0].menunm_en}
           subtitle={intl.locale === "mn" ? menuRecipe[0].subtitle : menuRecipe[0].subtitle_en}

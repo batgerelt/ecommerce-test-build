@@ -649,7 +649,7 @@ class CategoryInfo extends React.Component {
     const lang = localStorage.getItem('lang');
     try {
       const { menuSeason, seasonbanner } = this.props;
-      return (
+      return menuSeason[0] && (
         <PageBanner
           title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
           subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}

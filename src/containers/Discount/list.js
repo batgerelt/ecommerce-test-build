@@ -132,7 +132,7 @@ class Discount extends React.Component {
   renderMainBanner = () => {
     try {
       const { banner, menuDiscount, intl } = this.props;
-      return (
+      return menuDiscount[0] && (
         <PageBanner
           title={intl.locale === "mn" ? menuDiscount[0].menunm : menuDiscount[0].menunm_en}
           subtitle={intl.locale === "mn" ? menuDiscount[0].subtitle : menuDiscount[0].subtitle_en}

@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 
@@ -52,7 +52,23 @@ class Relational extends Component {
           });
         }
       } else {
+        product.insymd = Date.now();
         this.props.incrementProductLocally(product);
+
+        const updated = this.props.products.find(prod => prod.skucd === product.skucd);
+
+        if (updated && updated.error !== undefined) {
+          const messages = defineMessages({
+            error: {
+              id: updated.error,
+            },
+          });
+
+          message.warning(intl.formatMessage(messages.error, {
+            name: updated.title,
+            qty: updated.qty,
+          }));
+        }
       }
     } catch (e) {
       console.log(e);
