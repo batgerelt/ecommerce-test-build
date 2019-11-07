@@ -364,11 +364,6 @@ class DeliveryInfo extends React.Component {
     this.setState({ checkedEpoint: e.target.checked });
   }
 
-  /* handleBackDelivery = () => {
-    this.props.callback("2");
-    this.props.changeDeliveryType(false);
-  } */
-
   render() {
     const {
       checkedAgreement, checkedEpoint,

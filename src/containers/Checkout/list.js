@@ -232,7 +232,7 @@ class Checkout extends React.Component {
         // console.log(chosenAddress);
         chosenAddress.phone1 = values.phone1;
         chosenAddress.name = values.name;
-
+        chosenAddress.address = values.address;
         if (values.email !== undefined && userinfo.info.email === null) {
           console.log("values.email", values.email);
           this.props.addUserEmail(values.email).then((res) => {

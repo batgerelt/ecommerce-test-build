@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-lonely-if */
 /* eslint-disable prefer-destructuring */
@@ -37,8 +38,9 @@ class Detail extends Component {
 
   renderDetails = () => {
     const {
-      categorymenu, rate, isLoggedIn, intl, attributes,
+      categorymenu, isLoggedIn, intl, attributes,
     } = this.props;
+    const { rate, rate_user_cnt } = this.props.detail.products;
     const lang = intl.locale;
     const detail = this.props.detail.products ? this.props.detail.products : null;
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
@@ -59,26 +61,33 @@ class Detail extends Component {
             </p>
           ) */}
           {
-           /*  detail.feature && (
-              <p className="big-text">
-                <strong>
-                  {lang === "mn" ? detail.feature : detail.feature_en}
-                </strong>
-              </p>
-            ) */
+            /*  detail.feature && (
+               <p className="big-text">
+                 <strong>
+                   {lang === "mn" ? detail.feature : detail.feature_en}
+                 </strong>
+               </p>
+             ) */
           }
-
-          <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+          <div className="main-rating">
+            <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
+            <p className="text">
+              (
+              {rate_user_cnt === null ? 0 : rate_user_cnt}{" "}
+              <FormattedMessage id="productDetail.comment.list.rate" />
+              )
+            </p>
+          </div>
+          {/* <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
             <Rate
               allowHalf
               value={isLoggedIn ? rate / 2 : 0}
               onChange={this.handleRateChange}
             />
             <p className="text upper-first">
-              {/* ({isLoggedIn ? `Таны өгсөн үнэлгээ` : " Та одоогоор үнэлгээ өгөөгүй байна"}) */}
               ({isLoggedIn ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
             </p>
-          </div>
+          </div> */}
           {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
               <div className="product-bottom-info">

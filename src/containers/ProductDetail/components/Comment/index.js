@@ -16,9 +16,54 @@ class Comment extends Component {
     comments: [],
   };
 
+  componentWillRecieveProps(nextProps) {
+    console.log(this.props.location, nextProps.location);
+  }
+
   handleCommitChange = (e) => {
     if (e.target.value.length <= 120) {
       this.setState({ comment: e.target.value });
+    }
+  };
+
+  handleRateChange = (e) => {
+    if (localStorage.getItem("auth") !== null) {
+      const {
+        detail, addRate, getProductRate, intl, getProductDetail,
+      } = this.props;
+      let skucd = detail.skucd;
+      let rate = e * 2;
+      addRate({ skucd, rate }).then((res) => {
+        console.log(res);
+        if (res.payload.success) {
+          getProductRate({ skucd });
+          getProductDetail({ skucd });
+        } else {
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: false,
+            },
+            content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+          });
+        }
+      });
+    } else {
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text="Уг үйлдлийг нэвтэрсний дараа хийнэ." />,
+      });
     }
   };
 
@@ -68,9 +113,8 @@ class Comment extends Component {
   renderCommentList = () => {
     try {
       const {
-        product, comments, user, auth, intl,
+        product, comments, user, auth, intl, isLoggedIn, rate,
       } = this.props;
-      const { rate, rate_user_cnt } = product;
       let realImage = "";
       if (localStorage.getItem('img')) {
         let realImage1 = localStorage.getItem('img');
@@ -139,7 +183,19 @@ class Comment extends Component {
               </h1>
 
               <div className="comments-list">
-                <div className="main-rating">
+
+                <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+                  <Rate
+                    allowHalf
+                    value={rate / 2}
+                    onChange={this.handleRateChange}
+                  />
+                  <p className="text upper-first">
+                    ({intl.formatMessage({ id: "productDetail.rate.text" })})
+                  </p>
+                </div>
+
+                {/* <div className="main-rating">
                   <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">
                     (
@@ -147,7 +203,7 @@ class Comment extends Component {
                     <FormattedMessage id="productDetail.comment.list.rate" />
                     )
                   </p>
-                </div>
+                </div> */}
 
                 {comments.map((comment, index) => (
                   <div className="single" key={index}>

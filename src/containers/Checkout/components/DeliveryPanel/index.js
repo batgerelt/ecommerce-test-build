@@ -328,7 +328,6 @@ class DeliveryPanel extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     const {
       defaultActiveKey, districtLocation, selectLoading,
@@ -470,13 +469,6 @@ class DeliveryPanel extends React.Component {
                         <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
                       </Col>
                     </Col>
-                    {/* <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
-                    <Form.Item>
-                      <button className="btn btn-dark addAddressBtn" onClick={this.handleAddAddress}>
-                        <FormattedMessage id="shared.form.button.newAddress" />
-                      </button>
-                    </Form.Item>
-                  </Col> */}
                   </Col>
                 ) : (
                     null

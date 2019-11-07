@@ -65,6 +65,31 @@ class ProductDetail extends React.Component {
     }
   };
 
+  renderCommentList = () => {
+    try {
+      const {
+        detail, comment, addComment, getProductComment, addRate, getProductRate, rate, getProductDetail,
+      } = this.props;
+      return (
+        <Comment
+          rate={rate}
+          detail={detail.products === null ? {} : detail.products}
+          getProductRate={getProductRate}
+          addRate={addRate}
+          product={detail.products}
+          comments={comment}
+          addComment={addComment}
+          getProductComment={getProductComment}
+          auth={this.props.isLoggedIn}
+          user={this.props.data}
+          getProductDetail={getProductDetail}
+        />
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
   renderDeliveryInfo = () => {
     try {
       const { detail } = this.props;
@@ -86,26 +111,6 @@ class ProductDetail extends React.Component {
           attributes={attribute.length === 0 ? [] : attribute}
           similarProducts={collection.length === 0 ? [] : collection}
           {...this.props}
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderCommentList = () => {
-    try {
-      const {
-        detail, comment, addComment, getProductComment,
-      } = this.props;
-      return (
-        <Comment
-          product={detail.products}
-          comments={comment}
-          addComment={addComment}
-          getProductComment={getProductComment}
-          auth={this.props.isLoggedIn}
-          user={this.props.data}
         />
       );
     } catch (error) {
@@ -164,6 +169,7 @@ class ProductDetail extends React.Component {
   };
 
   render() {
+    console.log("unelge", this.props.rate);
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">
