@@ -779,18 +779,18 @@ class Card extends React.Component {
                     />
                   ))}
                 <span className="cart-container search-hover">
-                  <a className="wishlist" onClick={this.handleSaveClick}>
+                  <Button className="wishlist" onClick={this.handleSaveClick}>
                     <i
                       className={
                         this.state.changeHeart ? "fa fa-heart" : "fa fa-heart-o"
                       }
                       aria-hidden="true"
                     />
-                  </a>
-                  <a onClick={() => this.handleIncrement(item)}>
+                  </Button>
+                  <Button onClick={() => this.handleIncrement(item)}>
                     <i className="fa fa-cart-plus" aria-hidden="true" />
                     <span />
-                  </a>
+                  </Button>
                 </span>
               </div>
             </div >
