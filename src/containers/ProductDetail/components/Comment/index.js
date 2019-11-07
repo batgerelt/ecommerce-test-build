@@ -34,7 +34,6 @@ class Comment extends Component {
       let skucd = detail.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
-        console.log(res);
         if (res.payload.success) {
           getProductRate({ skucd });
           getProductDetail({ skucd });
@@ -187,7 +186,7 @@ class Comment extends Component {
                 <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
                   <Rate
                     allowHalf
-                    value={rate / 2}
+                    // value={rate / 2}
                     onChange={this.handleRateChange}
                   />
                   <p className="text upper-first">
