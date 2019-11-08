@@ -30,6 +30,7 @@ const mapStateToProps = state => ({
   ...state.profile,
   ...state.auth,
   ...state.staticcontent,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -65,13 +66,14 @@ class PackageDetail extends React.Component {
             duration: 5000,
             onScreen: false,
           },
-          content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+          content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
         });
       }
     });
   }
 
   render() {
+    console.log("this.props.cart", this.props);
     const { confirms } = this.props;
     return (
       <div>
