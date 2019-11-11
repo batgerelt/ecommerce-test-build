@@ -323,8 +323,6 @@ class Model extends BaseModel {
         };
 
       case this.addWishListModel.response:
-        console.log('state', state);
-        console.log('action.payload', action.payload);
         return state;
 
       // ADD WISH LIST PACKAGE MODEL
