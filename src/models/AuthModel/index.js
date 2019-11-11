@@ -37,8 +37,9 @@ class AuthModel extends BaseModel {
         username: "",
       },
       data: {},
-      isLoading: false,
+      Loader: false,
       isLogged: false,
+      isLoader: false,
       error: false,
       errorMessage: "",
       modules: [],
@@ -85,6 +86,14 @@ class AuthModel extends BaseModel {
       method: "POST",
       model: this.oauthModel,
     });
+
+  loaderTrue = () => ({
+    type: "LOADER_TRUE",
+  });
+
+  loaderFalse = () => ({
+    type: "LOADER_FALSE",
+  });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -170,6 +179,16 @@ class AuthModel extends BaseModel {
           },
           auth: null,
           data: [],
+        };
+      case "LOADER_TRUE":
+        return {
+          ...state,
+          Loader: true,
+        };
+      case "LOADER_FALSE":
+        return {
+          ...state,
+          Loader: false,
         };
       default:
         return state;

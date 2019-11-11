@@ -463,7 +463,7 @@ class DeliveryInfo extends React.Component {
               <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
             </p>
             {
-              mainState.chosenRadio === 1 ?
+              localStorage.getItem("auth") !== null && mainState.chosenRadio === 1 ?
                 <Checkbox checked={checkedEpoint} onChange={this.handleCheckEpoint} style={{ marginBottom: '10px' }}>
                   {" "}
                   <a>
@@ -474,7 +474,7 @@ class DeliveryInfo extends React.Component {
             }
             <br />
             {
-              checkedEpoint && mainState.chosenRadio === 1 ? <IndividualTab
+              localStorage.getItem("auth") !== null && checkedEpoint && mainState.chosenRadio === 1 ? <IndividualTab
                 {...this.props}
                 setUseEpoint={this.props.setUseEpoint}
                 changeCardInfo={this.props.changeCardInfo}
