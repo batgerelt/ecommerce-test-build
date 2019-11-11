@@ -17,6 +17,9 @@ class Model extends BaseModel {
     isFetchingSearch: false,
     promotionall: [],
     tags: [],
+    newproducts: [],
+    newproductCount: 10,
+    isFetchingNew: false,
   }
 
   constructor(data = {}) {
@@ -58,6 +61,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'tags'),
           error: this.buildActionName('error', data.model, 'tags'),
         },
+        newproduct: {
+          request: this.buildActionName('request', data.model, 'newproduct'),
+          response: this.buildActionName('response', data.model, 'newproduct'),
+          error: this.buildActionName('error', data.model, 'newproduct'),
+        },
       };
     }
   }
@@ -78,12 +86,25 @@ class Model extends BaseModel {
     body, url: `/search/elastic`, method: 'POST', model: this.model.searchProduct,
   })
 
+  getNewProducts = ({ body } = {}) => asyncFn({
+    body, url: `/search/elastic`, method: 'POST', model: this.model.newproduct,
+  })
+
   resetSearch = () => ({
     type: 'resetsearch',
   });
+
   getAllPromotion = () => asyncFn({
     url: `/search/promotion`, method: 'GET', model: this.model.promotionAll,
   })
+
+  pushProduct = (products) => {
+    let tmp = this.initialState.newproducts;
+    if (products.length !== 0) {
+      products.map(i => tmp.push(i._source));
+    }
+    return tmp;
+  }
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -126,6 +147,19 @@ class Model extends BaseModel {
         return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
       case this.model.searchProduct.response:
         return { ...state, isFetchingSearch: false, searchKeyWordResponse: action.payload.data };
+
+      // GET SEARCH NEW PRODUCT
+      case this.model.newproduct.request:
+        return { ...state, isFetchingNew: true, current: this.requestCase(state.current, action) };
+      case this.model.newproduct.error:
+        return { ...state, isFetchingNew: false, current: this.errorCase(state.current, action) };
+      case this.model.newproduct.response:
+        return {
+          ...state,
+          isFetchingNew: false,
+          newproducts: this.pushProduct(action.payload.data.hits.hits),
+          newproductCount: state.newproductCount + 20,
+        };
 
       // GET ALL PROMOTION
       case this.model.promotionAll.request:

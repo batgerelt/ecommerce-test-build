@@ -472,11 +472,6 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
-          // const found = products.find(prod => prod.skucd === product.skucd);
-
-          // if (!found) {
-          //   product.qty = product.addminqty || 1;
-          // }
 
           return {
             ...state,
