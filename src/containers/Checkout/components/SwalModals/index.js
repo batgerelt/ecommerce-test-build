@@ -103,7 +103,7 @@ class SwalModals extends Component {
 
   onSubmit = () => {
     const { checkProductZone } = this.props;
-    this.props.replaceProductsRemotely({ body: checkProductZone.data }).then((res) => {
+    this.props.replaceProductsRemotely({ body: checkProductZone.data.skucds }).then((res) => {
       if (res.payload.success) {
         if (res.payload.data.length === 0) {
           this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
@@ -170,7 +170,16 @@ class SwalModals extends Component {
         return (
           <div className="checkout-container msg-bank">
             <div className="card-content" style={{ textAlign: "center" }}>
-              <div dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning, { productName: `<p><strong>${checkProductZone.message}</strong></p>` }) }} />
+              <div style={{ maxHeight: "290px", overflow: "auto", marginBottom: "10px" }}>
+                {
+                  checkProductZone.data.skunms.map((item, index) => {
+                    return <p style={{ textAlign: "left" }} key={index}>{item}</p>;
+                  })
+                }
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <strong><p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p></strong>
+              </div>
 
               <div className="button-container">
                 <button className="btn btn-main" onClick={this.onSubmit} style={{ whiteSpace: "initial", width: "100%", marginBottom: "3%" }}>
