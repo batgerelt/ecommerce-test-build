@@ -32,7 +32,7 @@ class CategoryInfo extends React.Component {
     this.state = {
       products: [],
       isListViewOn: false,
-      loading: false,
+      loading: true,
       isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -71,6 +71,7 @@ class CategoryInfo extends React.Component {
             startsWith: 20,
             aggregations: res.payload.data,
             promotions: res.payload.data.aggregations.promotions,
+            loading: false,
           });
         }
       });

@@ -20,6 +20,9 @@ class Model extends BaseModel {
     newproducts: [],
     newproductCount: 10,
     isFetchingNew: false,
+    discountproducts: [],
+    discountproductCount: 10,
+    isFetchingDiscount: false,
   }
 
   constructor(data = {}) {
@@ -66,6 +69,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'newproduct'),
           error: this.buildActionName('error', data.model, 'newproduct'),
         },
+        discountproduct: {
+          request: this.buildActionName('request', data.model, 'discountproduct'),
+          response: this.buildActionName('response', data.model, 'discountproduct'),
+          error: this.buildActionName('error', data.model, 'discountproduct'),
+        },
       };
     }
   }
@@ -88,6 +96,10 @@ class Model extends BaseModel {
 
   getNewProducts = ({ body } = {}) => asyncFn({
     body, url: `/search/elastic`, method: 'POST', model: this.model.newproduct,
+  })
+
+  getDiscountProducts = ({ body } = {}) => asyncFn({
+    body, url: `/search/elastic`, method: 'POST', model: this.model.discountproduct,
   })
 
   resetSearch = () => ({
@@ -159,6 +171,19 @@ class Model extends BaseModel {
           isFetchingNew: false,
           newproducts: this.pushProduct(action.payload.data.hits.hits),
           newproductCount: state.newproductCount + 20,
+        };
+
+      // GET SEARCH DISCOUNT PRODUCT
+      case this.model.discountproduct.request:
+        return { ...state, isFetchingNew: true, current: this.requestCase(state.current, action) };
+      case this.model.discountproduct.error:
+        return { ...state, isFetchingNew: false, current: this.errorCase(state.current, action) };
+      case this.model.discountproduct.response:
+        return {
+          ...state,
+          isFetchingDiscount: false,
+          discountproducts: this.pushProduct(action.payload.data.hits.hits),
+          discountproductCount: state.discountproductCount + 20,
         };
 
       // GET ALL PROMOTION

@@ -41,7 +41,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  state = { loading: false }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
     this.props.getSeasonBanner();
@@ -49,15 +48,11 @@ class Page extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
     return (
-      <Spin
-        spinning={loading}
-        indicator={<Loader />}
-      >
+      <div>
         <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-      </Spin>
+      </div>
     );
   }
 }
