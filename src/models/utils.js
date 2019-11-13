@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash';
 import withQuery from 'with-query';
-import { message } from "antd";
 
 const request = ({
   url, method, body, isfiles,
@@ -12,22 +11,6 @@ const request = ({
     bearerHeader += root.data[0].info.access_token;
   }
   if (method === 'GET') {
-    // let root = localStorage.getItem("persist:root");
-    // if (typeof root === "string") {
-    //   root = JSON.parse(root);
-    // }
-    // console.log('root: ', root);
-
-    // let { locale } = root;
-    // if (typeof locale === "string") {
-    //   locale = JSON.parse(locale);
-    // }
-    // console.log('locale: ', locale);
-
-    // const to = locale.lang;
-    // console.log('to: ', to);
-
-    const to = localStorage.getItem("lang");
     return fetch(withQuery(process.env.API + url, body), {
       credentials: 'include',
       method: 'GET',
@@ -71,7 +54,10 @@ const request = ({
     credentials: 'include',
     body: JSON.stringify(body),
   }).then((response) => {
-    // console.log(response.headers.get('Set-Cookie'));
+    if (response.status === 401) {
+      localStorage.clear();
+    }
+
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -98,12 +84,6 @@ const asyncFn = ({
       const data = await request({
         url, method, body, isfiles,
       });
-
-      // if (data && data.success) {
-      //   if (model.response === 'RESPONSE_PRODUCTLIST_UPDATE') { message.success(data.message); }
-      // } else {
-      //   message.warning(data.message);
-      // }
 
       if (!data) {
         throw new Error('no data provided');

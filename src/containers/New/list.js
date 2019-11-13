@@ -55,6 +55,7 @@ class Bookmarks extends PureComponent {
           headerProducts: res.payload.data.hits.hits,
           startsWith: 10,
           total: res.payload.data.hits.total.value,
+          rowCount: 20,
         });
       }
     });
