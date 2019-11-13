@@ -105,14 +105,14 @@ class UserButton extends React.Component {
     }
   };
 
-  // componentDidUpdate() {
-  //   if (localStorage.getItem("auth") !== null) {
-  //     let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
-  //     if (jwtDecode(token).exp < Date.now() / 1000) {
-  //       this.handleLogout();
-  //     }
-  //   }
-  // }
+  componentDidUpdate() {
+    if (localStorage.getItem("auth") !== null) {
+      let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
+      if (jwtDecode(token).exp < Date.now() / 1000) {
+        this.handleLogout();
+      }
+    }
+  }
 
   uploadPick = () => {
     const { file } = this.state;
