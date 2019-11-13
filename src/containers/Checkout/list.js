@@ -346,7 +346,14 @@ class Checkout extends React.Component {
   }
 
   changeChosenAddress = (item) => {
-    this.setState({ chosenAddress: item });
+    if (this.props.userinfo.main !== null) {
+      console.log("haha");
+      this.setState({ chosenAddress: item });
+    } else {
+      item.name = this.props.userinfo.info.firstname;
+      item.phone1 = this.props.userinfo.info.phone1;
+      this.setState({ chosenAddress: item });
+    }
   }
 
   changeAddressType = (item) => {

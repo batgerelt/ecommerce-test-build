@@ -212,8 +212,8 @@ class Component extends React.Component {
           <td>
             {
               item.ismain === 1
-                ? <strong>{item.phone1},<br />{item.phone2}</strong>
-                : <p>{item.phone1},<br />{item.phone2}</p>
+                ? <strong>{item.phone1}</strong>
+                : <p>{item.phone1}</p>
             }
           </td>
           <td className="column-3">
@@ -273,7 +273,7 @@ class Component extends React.Component {
       return (
         <div className="row row10">
           <Form onSubmit={this.handleSubmit}>
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.name.placeholder" })}</span>
               <Form.Item>
                 {getFieldDecorator("name", {
@@ -282,7 +282,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
               <Form.Item>
                 {getFieldDecorator("phone1", {
@@ -293,7 +293,7 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            {/* <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.phone2.placeholder" })}</span>
               <Form.Item>
                 {getFieldDecorator("phone2", {
@@ -302,7 +302,7 @@ class Component extends React.Component {
                   { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                 })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
               </Form.Item>
-            </Col>
+            </Col> */}
 
             <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>

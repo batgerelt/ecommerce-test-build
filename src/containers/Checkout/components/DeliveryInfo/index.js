@@ -377,128 +377,132 @@ class DeliveryInfo extends React.Component {
     const lang = intl.locale;
     return (
       <div className="col-lg-4 pad10">
-        <div className="block right-panel">
-          <p className="title font-weight-bold">
-            <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
-          </p>
-          <hr />
+        {
+          localStorage.getItem("auth") !== null ?
+            <div className="block right-panel">
+              <p className="title font-weight-bold">
+                <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
+              </p>
+              <hr />
 
-          <div className="content">
-            <p className="text flex-this">
-              <i className="fa fa-truck" />
-              <span>
-                {lang === "mn"
-                  ? `${this.checkError(mainState.chosenDelivery.typenm)}`
-                  : `${this.checkError(mainState.chosenDelivery.typenm_en)}`}
-              </span>
-            </p>
-            <p className="text flex-this">
-              <i
-                className="fa fa-user"
-                aria-hidden="true"
-              />
-              <span>
-                {this.checkError(mainState.chosenAddress.name)}
-              </span>
-            </p>
-            <p className="text flex-this">
-              <i
-                className="fa fa-phone"
-                aria-hidden="true"
-              />
-              <span>
-                {`${this.checkError(mainState.chosenAddress.phone1)}`}
-              </span>
-            </p>
-            <div className="d-flex mb-2">
-              <i
-                className="fa fa-map-marker"
-                aria-hidden="true"
-              />
-              <p className="text flex-this">
-                {
-                  this.checkError(mainState.chosenDelivery.id) !== 3 ?
-                    <span>
-                      {`${this.checkError(mainState.chosenAddress.provincenm)} 
+              <div className="content">
+                <p className="text flex-this">
+                  <i className="fa fa-truck" />
+                  <span>
+                    {lang === "mn"
+                      ? `${this.checkError(mainState.chosenDelivery.typenm)}`
+                      : `${this.checkError(mainState.chosenDelivery.typenm_en)}`}
+                  </span>
+                </p>
+                <p className="text flex-this">
+                  <i
+                    className="fa fa-user"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    {this.checkError(mainState.chosenAddress.name)}
+                  </span>
+                </p>
+                <p className="text flex-this">
+                  <i
+                    className="fa fa-phone"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    {`${this.checkError(mainState.chosenAddress.phone1)}`}
+                  </span>
+                </p>
+                <div className="d-flex mb-2">
+                  <i
+                    className="fa fa-map-marker"
+                    aria-hidden="true"
+                  />
+                  <p className="text flex-this">
+                    {
+                      this.checkError(mainState.chosenDelivery.id) !== 3 ?
+                        <span>
+                          {
+                            this.props.userinfo.main !== null ? `${this.checkError(mainState.chosenAddress.provincenm)} 
                         ${this.checkError(mainState.chosenAddress.districtnm)}
                         ${this.checkError(mainState.chosenAddress.committeenm)}
-                        ${this.checkError(mainState.chosenAddress.address)}`}
-                    </span>
-                    :
-                    <span>
-                      Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
-                    </span>
-                }
-              </p>
-            </div>
-          </div>
-          <hr />
-          <div className="content px-3">
-            <p className="title pb-2">
-              <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
-            </p>
-          </div>
-          <hr />
-
-          <div className="content pb-2">
-            <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.products" /> ({mainState.totalQty}):</span>
-              <strong>{formatter.format(mainState.totalPrice)}₮</strong>
-            </p>
-            <p className="text flex-space">
-              <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
-              <strong>{`${formatter.format(this.checkError(mainState.chosenDelivery.price))}₮`}</strong>
-            </p>
-            {
-              mainState.useEpoint ?
-                <p className="text flex-space">
-                  {/* <span>Имарт карт оноо:</span> */}
-                  <span><FormattedMessage id="shared.sidebar.label.epoint" />:</span>
-                  <strong style={{ color: "red" }}>{`-${formatter.format(mainState.epointUsedPoint)}`}₮</strong>
-                </p> : ""
-            }
-            <hr />
-            <p className="text flex-space result-price">
-              <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
-              <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
-            </p>
-            {
-              localStorage.getItem("auth") !== null && mainState.chosenRadio === 1 ?
-                <Checkbox checked={checkedEpoint} onChange={this.handleCheckEpoint} style={{ marginBottom: '10px' }}>
-                  {" "}
-                  <a>
-                    <span>Ипойнт карт ашиглах</span>
-                  </a>
-                </Checkbox>
-                : null
-            }
-            <br />
-            {
-              localStorage.getItem("auth") !== null && checkedEpoint && mainState.chosenRadio === 1 ? <IndividualTab
-                {...this.props}
-                setUseEpoint={this.props.setUseEpoint}
-                changeCardInfo={this.props.changeCardInfo}
-                changeEpointUsedPoint={this.props.changeEpointUsedPoint}
-              /> : null
-            }
-            <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
-            {" "}
-            <a id="agreementId" style={{ paddingLeft: '8px' }}>
-              <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
-            </a>
-            {
-              isLoggedIn ?
-                <button className="btn btn-main btn-block sticky-btn" onClick={this.handleSubmit} disabled={!isLoggedIn}>
-                  <span className="text-uppercase">
-                    {
-                      mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                        ${this.checkError(mainState.chosenAddress.address)}` : null
+                          }
+                        </span>
+                        :
+                        <span>
+                          Улаанбаатар хот Хан-Уул дүүрэг, 1-р хороо, Хан-Уул салбар
+                        </span>
                     }
-                  </span>
-                </button>
-                : null
-            }
-          </div>
-        </div>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div className="content px-3">
+                <p className="title pb-2">
+                  <strong><FormattedMessage id="shared.sidebar.label.payment" /></strong>
+                </p>
+              </div>
+              <hr />
+              <div className="content pb-2">
+                <p className="text flex-space">
+                  <span><FormattedMessage id="shared.sidebar.label.products" /> ({mainState.totalQty}):</span>
+                  <strong>{formatter.format(mainState.totalPrice)}₮</strong>
+                </p>
+                <p className="text flex-space">
+                  <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
+                  <strong>{`${formatter.format(this.checkError(mainState.chosenDelivery.price))}₮`}</strong>
+                </p>
+                {
+                  mainState.useEpoint ?
+                    <p className="text flex-space">
+                      {/* <span>Имарт карт оноо:</span> */}
+                      <span><FormattedMessage id="shared.sidebar.label.epoint" />:</span>
+                      <strong style={{ color: "red" }}>{`-${formatter.format(mainState.epointUsedPoint)}`}₮</strong>
+                    </p> : ""
+                }
+                <hr />
+                <p className="text flex-space result-price">
+                  <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
+                  <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
+                </p>
+                {
+                  mainState.chosenRadio === 1 ?
+                    <Checkbox checked={checkedEpoint} onChange={this.handleCheckEpoint} style={{ marginBottom: '10px' }}>
+                      {" "}
+                      <a>
+                        <span>Ипойнт карт ашиглах</span>
+                      </a>
+                    </Checkbox>
+                    : null
+                }
+                <br />
+                {
+                  checkedEpoint && mainState.chosenRadio === 1 ? <IndividualTab
+                    {...this.props}
+                    setUseEpoint={this.props.setUseEpoint}
+                    changeCardInfo={this.props.changeCardInfo}
+                    changeEpointUsedPoint={this.props.changeEpointUsedPoint}
+                  /> : null
+                }
+                <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
+                {" "}
+                <a id="agreementId" style={{ paddingLeft: '8px' }}>
+                  <span onClick={e => this.handleAgreementNotif(true)} style={{ color: checkedAgreement ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+                </a>
+                {
+                  isLoggedIn ?
+                    <button className="btn btn-main btn-block sticky-btn" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                      <span className="text-uppercase">
+                        {
+                          mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                        }
+                      </span>
+                    </button>
+                    : null
+                }
+              </div>
+            </div> : null
+        }
 
         <Modal
           centered

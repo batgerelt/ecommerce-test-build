@@ -72,6 +72,7 @@ class UserButton extends React.Component {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
     this.props.clearUserModelState();
+    this.props.clearDetail();
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
       store.addNotification({
@@ -104,14 +105,14 @@ class UserButton extends React.Component {
     }
   };
 
-  componentDidUpdate() {
-    if (localStorage.getItem("auth") !== null) {
-      let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
-      if (jwtDecode(token).exp < Date.now() / 1000) {
-        this.handleLogout();
-      }
-    }
-  }
+  // componentDidUpdate() {
+  //   if (localStorage.getItem("auth") !== null) {
+  //     let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
+  //     if (jwtDecode(token).exp < Date.now() / 1000) {
+  //       this.handleLogout();
+  //     }
+  //   }
+  // }
 
   uploadPick = () => {
     const { file } = this.state;
@@ -166,6 +167,7 @@ class UserButton extends React.Component {
   }
 
   handleLogout = () => {
+    console.log("sda");
     this.setState({ visible: false });
     this.props.logout();
     this.props.clearLocally();

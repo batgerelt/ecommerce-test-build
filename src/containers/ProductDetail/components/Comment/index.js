@@ -5,11 +5,12 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate } from "antd";
+import { Rate, Input } from "antd";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
+const { TextArea } = Input;
 class Comment extends Component {
   state = {
     comment: "",
@@ -146,9 +147,16 @@ class Comment extends Component {
 
               <form>
                 <div className="form-group">
-                  <textarea
+                  {/* <textarea
                     className="form-control textarea"
                     // placeholder="Сэтгэгдэл үлдээх хэсэг"
+                    placeholder={intl.formatMessage({ id: "productDetail.comment.form.placeholder" })}
+                    name="comment"
+                    style={{ minHeight: "150px" }}
+                    value={this.state.comment}
+                    onChange={this.handleCommitChange}
+                  /> */}
+                  <TextArea
                     placeholder={intl.formatMessage({ id: "productDetail.comment.form.placeholder" })}
                     name="comment"
                     style={{ minHeight: "150px" }}
@@ -186,7 +194,7 @@ class Comment extends Component {
                 <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
                   <Rate
                     allowHalf
-                    // value={rate / 2}
+                    value={rate / 2}
                     onChange={this.handleRateChange}
                   />
                   <p className="text upper-first">
