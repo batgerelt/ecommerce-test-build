@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, Input, Select, Divider, Col, Button } from "antd";
+import { Form, Input, Select, Divider, Col, Button, Modal } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { store } from 'react-notifications-component';
@@ -23,6 +23,7 @@ class Component extends React.Component {
       distid: "01",
       commid: 3335,
     },
+    giftvisible: null,
   };
 
   componentWillMount() {
@@ -197,6 +198,15 @@ class Component extends React.Component {
       allowOutsideClick: false,
       closeOnEsc: false,
     });
+  }
+
+  showModal = (picture) => {
+    console.log("giftModal");
+    this.setState({ imgnm: picture, giftvisible: true });
+  }
+
+  onCancel = () => {
+    this.setState({ giftvisible: false });
   }
 
   changeEmail = (mail) => {
@@ -556,14 +566,16 @@ class Component extends React.Component {
               </Col>
             </Col>
           </Form>
-          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} /> : this.renderCard(userInfo.card)}
+          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(userInfo.card)}
         </div >
       );
     } catch (error) {
       return console.log(error);
     }
   };
+
   render() {
+    let img = process.env.IMAGE + this.state.imgnm;
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
         <p className="title" style={{ textTransform: "uppercase" }}>
@@ -573,6 +585,16 @@ class Component extends React.Component {
         <div className="user-profile-container">
           {this.props.userInfo === undefined ? null : this.renderProfile()}
         </div>
+        <Modal
+          title=""
+          visible={this.state.giftvisible}
+          onCancel={this.onCancel}
+          closeOnEsc
+          footer={null}
+          className="no-padding"
+        >
+          <img alt="haha" src={img} style={{ width: "100%" }} />
+        </Modal>
       </div>
     );
   }

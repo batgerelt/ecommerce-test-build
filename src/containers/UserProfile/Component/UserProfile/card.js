@@ -20,6 +20,7 @@ class Component extends React.Component {
     oader: false,
     cardno: null,
     visible: false,
+    imgnm: null,
   };
 
   componentWillMount() { }
@@ -60,7 +61,13 @@ class Component extends React.Component {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
+            console.log(res.payload);
             this.props.getCustomer();
+            // console.log(res.payload.value.imgnm);
+            // this.setState({ imgnm: res.payload.imgnm });
+            if (res.payload.data.imgnm !== null) {
+              this.props.showModal(res.payload.data.imgnm);
+            }
             store.addNotification({
               insert: "top",
               container: "top-right",
@@ -73,6 +80,7 @@ class Component extends React.Component {
               content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
             });
           } else {
+            console.log(res.payload);
             store.addNotification({
               insert: "top",
               container: "top-right",
@@ -145,14 +153,16 @@ class Component extends React.Component {
             </Col>
           </Col>
         </Form>
-        <Modal
+        {/* <Modal
           title=""
           visible={this.state.visible}
+          onCancel={this.onCancel}
+          closeOnEsc
           footer={null}
           className="no-padding"
         >
-          <img alt="haha" src="https://animax.mn/uploaded/images/2019/Oct/Animax%20(1).jpg" style={{ width: "100%" }} />
-        </Modal>
+          <img alt="haha" src={this.state.imgnm} style={{ width: "100%" }} />
+        </Modal> */}
       </Col>
     );
   }

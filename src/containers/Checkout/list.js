@@ -243,7 +243,7 @@ class Checkout extends React.Component {
                   duration: 5000,
                   onScreen: false,
                 },
-                content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+                content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
               });
             } else {
               this.setState({ isEmail: true });
@@ -399,7 +399,7 @@ class Checkout extends React.Component {
         spinning={loading}
         indicator={<Loader />}
       >
-        <div className="section section-gray">
+        <div className="section">
           <div className="container pad10">
             <div className="checkout-container" >
               <div className="row row10">

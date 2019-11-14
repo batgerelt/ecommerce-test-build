@@ -47,6 +47,7 @@ class DeliveryInfo extends React.Component {
       organizationData: [],
       notif: false,
       checkedEpoint: !(props.mainState.cardInfo === null),
+      giftvisible: null,
     };
   }
 
@@ -364,7 +365,17 @@ class DeliveryInfo extends React.Component {
     this.setState({ checkedEpoint: e.target.checked });
   }
 
+  showModal = (picture) => {
+    console.log("giftModal");
+    this.setState({ imgnm: picture, giftvisible: true });
+  }
+
+  onCancel = () => {
+    this.setState({ giftvisible: false });
+  }
+
   render() {
+    let img = process.env.IMAGE + this.state.imgnm;
     const {
       checkedAgreement, checkedEpoint,
     } = this.state;
@@ -482,6 +493,7 @@ class DeliveryInfo extends React.Component {
                     setUseEpoint={this.props.setUseEpoint}
                     changeCardInfo={this.props.changeCardInfo}
                     changeEpointUsedPoint={this.props.changeEpointUsedPoint}
+                    showModal={this.showModal}
                   /> : null
                 }
                 <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
@@ -523,6 +535,16 @@ class DeliveryInfo extends React.Component {
               />
             </div>
           </div>
+        </Modal>
+        <Modal
+          title=""
+          visible={this.state.giftvisible}
+          onCancel={this.onCancel}
+          closeOnEsc
+          footer={null}
+          className="no-padding"
+        >
+          <img alt="haha" src={img} style={{ width: "100%" }} />
         </Modal>
       </div>
     );
