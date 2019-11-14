@@ -409,14 +409,16 @@ class AppHeader extends Component {
         <div className="main-nav">
           <div className="container container-laptop pad10">
             <ul className="list-inline">
-              <li className="list-inline-item active" style={{ paddingLeft: '0px' }}>
-                <Link to="/" style={{ paddingLeft: '0px' }}>
-                  <Icon
-                    type="home"
-                    theme="filled"
-                    style={{ color: "#feb415" }}
-                  />
-                </Link>
+              <li className="list-inline-item active header-home-icon" style={{ paddingLeft: '0px' }}>
+                <Button>
+                  <Link to="/" style={{ paddingLeft: '0px' }}>
+                    <Icon
+                      type="home"
+                      theme="filled"
+                      style={{ color: "#feb415" }}
+                    />
+                  </Link>
+                </Button>
               </li>
               <li className="list-inline-item has-drop">
                 <Dropdown placement="bottomLeft" visible={categoryDropdown} overlay={dropdown} trigger={['click']} onVisibleChange={this.handleCategoryDropdown}>

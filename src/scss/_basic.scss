@@ -3696,3 +3696,20 @@ button:disabled{
     min-width: 50px !important;
   }
 }
+
+.main-menu-list{
+  .MuiButton-text{
+    padding: 0% !important;
+  }
+}
+
+.header-home-icon{
+  .MuiButton-text{
+    padding: 8px 15px !important;
+  }
+
+  .MuiButton-root{
+    border-radius: 20px !important;
+    min-width: 40px !important;
+  }
+}
