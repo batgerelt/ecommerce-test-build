@@ -178,7 +178,7 @@ class SwalModals extends Component {
                 }
               </div>
               <div style={{ marginBottom: "10px" }}>
-                <strong><p>барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p></strong>
+                <strong><p>дээрх барааг таны сонгосон хаягт хүргэх боломжгүй байна.</p></strong>
               </div>
 
               <div className="button-container">

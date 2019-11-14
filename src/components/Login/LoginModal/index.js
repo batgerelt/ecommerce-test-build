@@ -135,6 +135,8 @@ class LoginModal extends React.Component {
   // eslint-disable-next-line consistent-return
   logData = (result) => {
     const { intl } = this.props;
+    const { pathname } = this.props.location;
+    let sku = pathname.slice(pathname.length - 13, pathname.length);
     if (result.payload.success) {
       store.addNotification({
         insert: "top",
@@ -169,6 +171,10 @@ class LoginModal extends React.Component {
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
     localStorage.setItem('next', JSON.stringify(result.payload.data[0].info.customerInfo));
+    if (pathname === `/productdetail/${sku}`) {
+      this.props.getProductRate({ skucd: sku });
+      this.props.addViewList({ skucd: sku });
+    }
     this.props.getCustomer().then(async (res) => {
       if (res.payload.success) {
         localStorage.setItem('next', JSON.stringify(res.payload.data.info));

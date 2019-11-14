@@ -184,9 +184,17 @@ class Model extends BaseModel {
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
   getMoreInfoElastic = ({ skucd }) => asyncFn({ url: `/product/elastic/${skucd}`, method: 'GET', model: this.model.elasticmoreinfo });
-
+  clearDetail = () => ({
+    type: "CLEAR_DETAIL",
+  });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      case "CLEAR_DETAIL":
+        console.log("clear_detail");
+        return {
+          ...state,
+          rate: 0,
+        };
       // GET EMART PRODUCT
       case this.model.emartproduct.request:
         return { ...state, current: this.requestCase(state.current, action) };

@@ -1,9 +1,10 @@
 import React from "react";
 import withReactContent from "sweetalert2-react-content";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, Col, Button } from "antd";
+import { Form, Col, Button, Modal } from "antd";
 import { store } from 'react-notifications-component';
 import Swal from "sweetalert2";
+import { Lightbox } from "react-modal-image";
 import SwalModals from "./EpointModal";
 import { intl } from '../../../../components/IntlGlobalProvider';
 import NumberInput from "../../../../components/Input/NumberInput";
@@ -18,6 +19,7 @@ class Component extends React.Component {
     loc: null,
     oader: false,
     cardno: null,
+    visible: false,
   };
 
   componentWillMount() { }
@@ -142,8 +144,15 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
           </Col>
-
         </Form>
+        <Modal
+          title=""
+          visible={this.state.visible}
+          footer={null}
+          className="no-padding"
+        >
+          <img alt="haha" src="https://animax.mn/uploaded/images/2019/Oct/Animax%20(1).jpg" style={{ width: "100%" }} />
+        </Modal>
       </Col>
     );
   }

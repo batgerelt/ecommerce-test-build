@@ -3461,6 +3461,10 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.no-padding .ant-modal-body {
+  padding: 0px !important;
+}
+
 .styles__notification__37303 {
   width: 100% !important;
 }
