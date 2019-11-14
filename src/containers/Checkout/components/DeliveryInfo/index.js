@@ -77,6 +77,7 @@ class DeliveryInfo extends React.Component {
 
   handleAgreement = (e) => {
     this.setState({ checkedAgreement: e.target.checked });
+    this.setState({ notif: false });
     /* if (e.target.checked) {
       this.getAgreementData();
     } */
@@ -499,7 +500,7 @@ class DeliveryInfo extends React.Component {
                 <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
                 {" "}
                 <a id="agreementId" style={{ paddingLeft: '8px' }}>
-                  <span onClick={e => this.handleAgreementNotif(true)} style={{ color: checkedAgreement ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
+                  <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
                 </a>
                 {
                   isLoggedIn ?
