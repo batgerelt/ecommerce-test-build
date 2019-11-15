@@ -231,7 +231,6 @@ class Signin extends React.Component {
                     prodCount += item.qty;
                   });
                   let k = res.payload.data.length - products.length;
-                  console.log(resCount, prodCount);
                   if (resCount !== prodCount) {
                     this.props.history.push("/cart");
                   } else {
@@ -262,8 +261,6 @@ class Signin extends React.Component {
           }
           this.setState({ loading: false });
         }).catch(err => console.log(err));
-        /* let result = await this.props.login({ body: { ...values } });
-        this.loggedData(result); */
       } else {
         console.log(err);
       }

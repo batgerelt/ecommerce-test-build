@@ -45,11 +45,10 @@ class Page extends React.Component {
   }
 
   getData = async () => {
-    let auth = JSON.parse(localStorage.getItem("auth"));
     this.props.getPaymentTypes();
     await this.props.getDeliveryTypes();
     this.props.getBankInfo();
-    if (auth !== null && auth !== undefined) {
+    if (localStorage.getItem("auth") !== null) {
       await this.props.getUserInfo().then((res) => {
         this.setState({ loading: false });
       });

@@ -10,8 +10,8 @@ class MainMenu extends React.Component {
     const { pathname, search } = this.props.history.location;
     let tmp = data.map((item, index) => {
       return (
-        <Button>
-          <li className="list-inline-item" key={index} style={{ textTransform: "uppercase" }}>
+        <Button key={index}>
+          <li className="list-inline-item" style={{ textTransform: "uppercase" }}>
             <Link to={item.link}>
               <span style={{ color: pathname + search === item.link ? "#FFB81C" : "#FFFFFF" }}>
                 {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}

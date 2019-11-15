@@ -82,6 +82,7 @@ class Checkout extends React.Component {
       this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
       this.props.history.push("/cart");
     }
+    console.log("cardinfo");
     if (userinfo.card !== undefined) {
       this.setState({ cardInfo: userinfo.card });
     }
@@ -347,7 +348,6 @@ class Checkout extends React.Component {
 
   changeChosenAddress = (item) => {
     if (this.props.userinfo.main !== null) {
-      console.log("haha");
       this.setState({ chosenAddress: item });
     } else {
       item.name = this.props.userinfo.info.firstname;
@@ -464,15 +464,18 @@ class Checkout extends React.Component {
                     </div>
                   </div>
                 </div>
-                <DeliveryInfo
-                  onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
-                  mainState={this.state}
-                  changeLoading={this.changeLoading}
-                  setUseEpoint={this.setUseEpoint}
-                  changeCardInfo={this.changeCardInfo}
-                  changeEpointUsedPoint={this.changeEpointUsedPoint}
-                  {...this.props}
-                />
+                {
+                  localStorage.getItem("auth") ?
+                    <DeliveryInfo
+                      onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
+                      mainState={this.state}
+                      changeLoading={this.changeLoading}
+                      setUseEpoint={this.setUseEpoint}
+                      changeCardInfo={this.changeCardInfo}
+                      changeEpointUsedPoint={this.changeEpointUsedPoint}
+                      {...this.props}
+                    /> : null
+                }
               </div>
             </div>
           </div>

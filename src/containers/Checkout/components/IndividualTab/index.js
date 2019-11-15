@@ -192,9 +192,6 @@ class IndividualTab extends React.Component {
           {
             mainState.cardInfo === null ?
               <div>
-                {/*   <p className="title">
-                  <strong><FormattedMessage id="shared.form.label.card.connect" /></strong>
-                </p> */}
                 <div className="row row10 checkoutFormContainer">
                   <Col span={24}>
                     <div className="form-group">
