@@ -77,11 +77,7 @@ class DeliveryInfo extends React.Component {
   };
 
   handleAgreement = (e) => {
-    console.log("jaja");
-    this.setState({ checkedAgreement: e.target.checked, notif: false, giftvisible: true });
-    /* if (e.target.checked) {
-      this.getAgreementData();
-    } */
+    this.setState({ checkedAgreement: e.target.checked, notif: false });
   };
 
   getAgreementData = () => {
@@ -498,7 +494,7 @@ class DeliveryInfo extends React.Component {
                     showModal={this.showModal}
                   /> : null
                 }
-                <Checkbox checked={checkedAgreement} onChange={this.showModal} autoFocus={this.state.notif} />
+                <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
                 {" "}
                 <a id="agreementId" style={{ paddingLeft: '8px' }}>
                   <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
@@ -546,7 +542,7 @@ class DeliveryInfo extends React.Component {
           footer={null}
           className="no-padding"
         >
-          <img alt="haha" src={img} style={{ width: "100%" }} />
+          <img alt="gitfImage" src={img} style={{ width: "100%" }} />
         </Modal>
       </div>
     );

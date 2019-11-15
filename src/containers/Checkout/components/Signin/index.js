@@ -24,6 +24,7 @@ class Signin extends React.Component {
   closeLoginModal = () => {
     console.log("close");
   }
+
   loginSocial = (param) => {
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
       this.loggedData(res);
@@ -72,6 +73,7 @@ class Signin extends React.Component {
     localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
     // eslint-disable-next-line consistent-return
     this.props.getUserInfo().then(async (res) => {
+      console.log(res.payload);
       if (res.payload.success) {
         if (res.payload.data.main !== null) {
           this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
