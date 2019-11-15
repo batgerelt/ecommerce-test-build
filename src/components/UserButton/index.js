@@ -167,7 +167,6 @@ class UserButton extends React.Component {
   }
 
   handleLogout = () => {
-    console.log("sda");
     this.setState({ visible: false });
     this.props.logout();
     this.props.clearLocally();

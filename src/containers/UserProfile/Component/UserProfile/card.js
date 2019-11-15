@@ -61,10 +61,7 @@ class Component extends React.Component {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
-            console.log(res.payload);
             this.props.getCustomer();
-            // console.log(res.payload.value.imgnm);
-            // this.setState({ imgnm: res.payload.imgnm });
             if (res.payload.data.imgnm !== null) {
               this.props.showModal(res.payload.data.imgnm);
             }
@@ -80,7 +77,6 @@ class Component extends React.Component {
               content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
             });
           } else {
-            console.log(res.payload);
             store.addNotification({
               insert: "top",
               container: "top-right",

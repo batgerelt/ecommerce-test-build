@@ -12,7 +12,6 @@ class FacebookLogin1 extends React.Component {
   componentClicked = () => this.props.closeLoginModal();
 
   responseFacebook = (response) => {
-    console.log('response: ', response);
     let param = [];
     if (response && response.userID) {
       param = {

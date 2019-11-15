@@ -35,7 +35,6 @@ class SwalModals extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.props.editEmail(values.email).then((res) => {
-          console.log("response", res);
           if (res.payload.success) {
             localStorage.removeItem("username");
             store.addNotification({
@@ -69,7 +68,6 @@ class SwalModals extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="checkout-container msg-bank" style={{ padding: '0px !important' }}>

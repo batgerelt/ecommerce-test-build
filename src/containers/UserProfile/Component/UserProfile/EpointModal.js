@@ -33,9 +33,7 @@ class SwalModals extends React.Component {
     MySwal.close();
   }
 
-  keyPress = () => {
-    console.log('clickd');
-  }
+  keyPress = () => { }
 
   render() {
     return (

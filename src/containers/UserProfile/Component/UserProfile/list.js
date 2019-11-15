@@ -201,7 +201,6 @@ class Component extends React.Component {
   }
 
   showModal = (picture) => {
-    console.log("giftModal");
     this.setState({ imgnm: picture, giftvisible: true });
   }
 

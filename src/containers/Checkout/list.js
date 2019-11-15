@@ -82,7 +82,6 @@ class Checkout extends React.Component {
       this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
       this.props.history.push("/cart");
     }
-    console.log("cardinfo");
     if (userinfo.card !== undefined) {
       this.setState({ cardInfo: userinfo.card });
     }
@@ -202,9 +201,7 @@ class Checkout extends React.Component {
     this.setState({ chosenDelivery: item });
   }
 
-  getDeliveryTypeValue = (body, date) => {
-    // console.log(body, date);
-  }
+  getDeliveryTypeValue = (body, date) => { }
 
   changeChosenDate = (item) => {
     this.setState({ chosenDate: item });
@@ -340,8 +337,6 @@ class Checkout extends React.Component {
             });
           }
         }
-      } else {
-        console.log("aldaas");
       }
     });
   }

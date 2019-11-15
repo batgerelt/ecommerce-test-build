@@ -73,7 +73,6 @@ class PackageDetail extends React.Component {
   }
 
   render() {
-    console.log("this.props.cart", this.props);
     const { confirms } = this.props;
     return (
       <div>

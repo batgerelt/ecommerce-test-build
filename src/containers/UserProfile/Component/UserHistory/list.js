@@ -16,13 +16,7 @@ class Component extends React.Component {
       this.setState({ wish: result.payload.data });
     }
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('nextProps: ', nextProps);
-  //   if (this.props.wish.length === nextProps.wish.length) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
+
   onDelete = item => async (e) => {
     e.preventDefault();
     this.setState({ loader: true });

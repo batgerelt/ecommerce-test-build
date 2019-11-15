@@ -300,7 +300,6 @@ class Model extends BaseModel {
         method: `PUT`,
         model: this.model.changePassword,
       },
-      console.log(key),
     );
   checkKey = ({ key }) =>
     asyncFn({
@@ -341,7 +340,6 @@ class Model extends BaseModel {
         method: `PUT`,
         model: this.model.changePassword,
       },
-      console.log(key),
     );
   checkKey = ({ key }) =>
     asyncFn({
