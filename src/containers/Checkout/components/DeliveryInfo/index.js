@@ -47,7 +47,8 @@ class DeliveryInfo extends React.Component {
       organizationData: [],
       notif: false,
       checkedEpoint: !(props.mainState.cardInfo === null),
-      giftvisible: null,
+      giftvisible: false,
+      imgnm: null,
     };
   }
 
@@ -76,8 +77,8 @@ class DeliveryInfo extends React.Component {
   };
 
   handleAgreement = (e) => {
-    this.setState({ checkedAgreement: e.target.checked });
-    this.setState({ notif: false });
+    console.log("jaja");
+    this.setState({ checkedAgreement: e.target.checked, notif: false, giftvisible: true });
     /* if (e.target.checked) {
       this.getAgreementData();
     } */
@@ -367,7 +368,6 @@ class DeliveryInfo extends React.Component {
   }
 
   showModal = (picture) => {
-    console.log("giftModal");
     this.setState({ imgnm: picture, giftvisible: true });
   }
 
@@ -377,6 +377,7 @@ class DeliveryInfo extends React.Component {
 
   render() {
     let img = process.env.IMAGE + this.state.imgnm;
+    console.log(this.state.giftvisible, img);
     const {
       checkedAgreement, checkedEpoint,
     } = this.state;
@@ -497,7 +498,7 @@ class DeliveryInfo extends React.Component {
                     showModal={this.showModal}
                   /> : null
                 }
-                <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
+                <Checkbox checked={checkedAgreement} onChange={this.showModal} autoFocus={this.state.notif} />
                 {" "}
                 <a id="agreementId" style={{ paddingLeft: '8px' }}>
                   <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>

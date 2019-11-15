@@ -82,6 +82,9 @@ class IndividualTab extends React.Component {
           if (res.payload.success) {
             this.props.changeCardInfo(res.payload.data);
             setFieldsValue({ cardPoint: res.payload.data.point });
+            if (res.payload.data.imgnm !== null) {
+              this.props.showModal(res.payload.data.imgnm);
+            }
             store.addNotification({
               insert: "top",
               container: "top-right",
