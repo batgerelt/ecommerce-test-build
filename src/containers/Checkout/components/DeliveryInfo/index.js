@@ -8,11 +8,10 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Checkbox, Modal, Button, message, Radio, Affix, notification } from "antd";
+import { Checkbox, Modal, Button, Radio } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import { Static as StaticModel } from "../../../../models";
@@ -22,18 +21,6 @@ const RadioGroup = Radio.Group;
 const formatter = new Intl.NumberFormat("en-US");
 const MySwal = withReactContent(Swal);
 
-const mapStateToProps = state => ({
-  ...state.staticcontent,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...bindActionCreators(
-    {
-      ...StaticModel,
-    },
-    dispatch,
-  ),
-});
 let interval;
 
 class DeliveryInfo extends React.Component {
@@ -50,6 +37,13 @@ class DeliveryInfo extends React.Component {
       giftvisible: false,
       imgnm: null,
     };
+  }
+
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined);
   }
 
   componentWillMount() {
@@ -433,7 +427,7 @@ class DeliveryInfo extends React.Component {
                   className="fa fa-map-marker"
                   aria-hidden="true"
                 />
-                <p className="text flex-this">
+                <p className="text flex-this shake-rotate">
                   {
                     this.checkError(mainState.chosenDelivery.id) !== 3 ?
                       <span>
@@ -501,24 +495,27 @@ class DeliveryInfo extends React.Component {
                   showModal={this.showModal}
                 /> : null
               }
-              <Checkbox checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
+              <Checkbox className={this.state.notif ? "agreementcheck" : ""} checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />
               {" "}
               <a id="agreementId" style={{ paddingLeft: '8px' }}>
                 <span onClick={e => this.handleAgreementNotif(true)} style={{ color: this.state.notif ? "red" : "", textDecoration: "underline" }}><FormattedMessage id="shared.sidebar.checkbox.acceptance" /></span>
               </a>
-              {
-                isLoggedIn ?
-                  <button className="btn btn-main btn-block sticky-btn" onClick={this.handleSubmit} disabled={!isLoggedIn}>
-                    <span className="text-uppercase">
-                      {
-                        mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
-                      }
-                    </span>
-                  </button>
-                  : null
-              }
             </div>
           </div>
+        }
+        {
+          !isMobile ?
+            isLoggedIn ?
+              <div className="sticky-btn">
+                <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                  <span className="text-uppercase">
+                    {
+                      mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                    }
+                  </span>
+                </button>
+              </div>
+              : null : null
         }
 
         <Modal
@@ -556,7 +553,4 @@ class DeliveryInfo extends React.Component {
   }
 }
 
-export default injectIntl(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DeliveryInfo));
+export default injectIntl((DeliveryInfo));

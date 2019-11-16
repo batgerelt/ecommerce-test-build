@@ -3663,11 +3663,14 @@ button:disabled{
   content: "\f1ce"
 }
 
-.sticky-btn{
-  position: -webkit-sticky !important;
+div.sticky-btn{
+  -webkit-position: sticky !important;
   position: sticky !important;
-  top: 0 !important;
+  bottom: 0px !important;
+  width: 100%;
+  z-index: 9;
 }
+
 
 .header-container{
   .MuiButton-root{
@@ -3711,5 +3714,29 @@ button:disabled{
   .MuiButton-root{
     border-radius: 20px !important;
     min-width: 40px !important;
+  }
+}
+
+.agreementcheck .ant-checkbox-inner{
+  border-color: red !important;
+  box-shadow: 0 0px 16px 5px red;
+  -moz-box-shadow: 0 0px 16px 5px red;
+  -webkit-box-shadow: 0 0px 16px 5px red;
+  transition: box-shadow 0.3s ease-in-out;
+  -webkit-animation-name: agreementCheck;
+  -webkit-animation-duration: 1s;
+  animation-name: agreementCheck;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes agreementCheck{
+  from {
+    -webkit-box-shadow: 0 0px 16px 5px red;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  to {
+    -webkit-box-shadow: 0 0px 16px 5px white;
+    transition: box-shadow 0.3s ease-in;
   }
 }

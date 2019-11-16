@@ -1,3 +1,4 @@
+/* eslint-disable react/no-string-refs */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-destructuring */
@@ -7,6 +8,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Collapse, Spin, message } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import {
   LoginRegisterPanel,
@@ -123,15 +125,19 @@ class Checkout extends React.Component {
   );
 
   callback = (key) => {
-    const { activeKey } = this.state;
-    if (key === "3" && activeKey === "2") {
-      this.onSubmitDeliveryPanel();
-      this.scrollTo(0, 0);
-    } else if (key === "2" && activeKey === "3") {
-      this.setState({ activeKey: "2" });
-      this.scrollTo(0, 0);
-    } else {
-      this.setState({ activeKey: key });
+    if (!isMobile) {
+      if (key !== undefined) {
+        const { activeKey } = this.state;
+        if (key === "3" && activeKey === "2") {
+          this.onSubmitDeliveryPanel();
+          // this.scrollTo(0, 0);
+        } else if (key === "2" && activeKey === "3") {
+          this.setState({ activeKey: "2" });
+          this.scrollTo(0, 0);
+        } else {
+          this.setState({ activeKey: key });
+        }
+      }
     }
   };
 
@@ -140,7 +146,7 @@ class Checkout extends React.Component {
   }
 
   paymentType = () => (
-    <div className="title-container flex-space">
+    <div className="title-container flex-space" id="paymentType">
       <h5 className="title">
         <a className="flex-this upper-first checkout-panel-title">
           <i className="fa fa-credit-card" aria-hidden="true" />
@@ -290,6 +296,13 @@ class Checkout extends React.Component {
         if (products.length !== 0) {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
             if (this.state.isEmail) {
+              if (isMobile) {
+                let paymentType = document.getElementById("paymentType");
+                paymentType.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center',
+                });
+              }
               this.changeDeliveryType(true);
               this.setState({ activeKey: "3" });
             }
@@ -310,6 +323,13 @@ class Checkout extends React.Component {
                 if (this.state.isEmail) {
                   this.changeDeliveryType(true);
                   this.setState({ activeKey: "3" });
+                  if (isMobile) {
+                    let paymentType = document.getElementById("paymentType");
+                    paymentType.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'center',
+                    });
+                  }
                 }
               } else {
                 MySwal.fire({
@@ -387,8 +407,16 @@ class Checkout extends React.Component {
     this.setState({ epointUsedPoint: item });
   }
 
+  handleSubmit = () => {
+    this.DeliveryInfo.handleSubmit();
+  }
   render() {
-    const { deliveryTypeExpanded, loading } = this.state;
+    const {
+      deliveryTypeExpanded,
+      loading,
+      activeKey,
+    } = this.state;
+    const { isLoggedIn } = this.props;
     return (
       <Spin
         spinning={loading}
@@ -397,14 +425,13 @@ class Checkout extends React.Component {
         <div className="section">
           <div className="container pad10">
             <div className="checkout-container" >
-              <div className="row row10">
+              <div className="row row10" ref={(node) => { this.container = node; }}>
                 <div className="col-lg-8 pad10">
                   <div className="accordion" id="accordionExample">
                     <div className="card">
                       <div className="card-header" id="headingOne">
                         <Collapse
-                          accordion
-                          activeKey={this.checkLoggedIn() ? this.state.activeKey : ["1"]}
+                          activeKey={this.checkLoggedIn() ? isMobile ? ["2", "3"] : this.state.activeKey : ["1"]}
                           onChange={this.callback}
                         >
                           {
@@ -462,14 +489,28 @@ class Checkout extends React.Component {
                 {
                   localStorage.getItem("auth") ?
                     <DeliveryInfo
+                      onRef={ref => (this.DeliveryInfo = ref)}
                       onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
                       mainState={this.state}
                       changeLoading={this.changeLoading}
                       setUseEpoint={this.setUseEpoint}
                       changeCardInfo={this.changeCardInfo}
+                      container={this.container}
                       changeEpointUsedPoint={this.changeEpointUsedPoint}
                       {...this.props}
                     /> : null
+                }
+                <div className="col-lg-8 pad10" />
+                {
+                  isMobile ?
+                    <div className="sticky-btn">
+                      <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                        <span className="text-uppercase">
+                          {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
+                        </span>
+                      </button>
+                    </div>
+                    : null
                 }
               </div>
             </div>

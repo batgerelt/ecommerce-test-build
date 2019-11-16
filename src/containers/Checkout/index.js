@@ -11,6 +11,7 @@ import {
   User as UserModel,
   Cart as CartModel,
   Profile as ProfileModel,
+  Static as StaticModel,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -22,6 +23,7 @@ const mapStateToProps = state => ({
   ...state.checkout,
   ...state.user,
   ...state.cart,
+  ...state.staticcontent,
   getOrderDetail: state.profile.getOrderDetail,
 });
 
@@ -32,6 +34,7 @@ const mapDispatchToProps = dispatch => ({
     ...UserModel,
     ...CartModel,
     ...ProfileModel,
+    ...StaticModel,
   }, dispatch),
 });
 
