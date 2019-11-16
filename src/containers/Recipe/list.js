@@ -164,7 +164,7 @@ class Recipe extends React.Component {
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
                               return (
-                                <div style={style} key={key} className="jss149">
+                                <div style={style} key={key} className="">
                                   {recipeScroll[index].length >= 6 ?
                                     (
                                       <CardList

@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-const-assign */
 /* eslint-disable react/no-danger */
 /* eslint-disable import/first */
 /* eslint-disable jsx-a11y/img-redundant-alt */
@@ -6,7 +8,20 @@ import { FormattedMessage } from 'react-intl';
 import { CardSlider } from "../../../../components";
 import { isMobileOnly } from "react-device-detect";
 
+let skucd = null;
 class Moreinfo extends Component {
+  shouldComponentUpdate(nextProps) {
+    const { similarProducts, detail } = nextProps;
+
+    if (similarProducts.length === 0) { return true; }
+    if (skucd !== detail.products.skucd) {
+      skucd = detail.products.skucd;
+      return true;
+    }
+
+    return false;
+  }
+
   renderMoreInfo = () => {
     try {
       let {
