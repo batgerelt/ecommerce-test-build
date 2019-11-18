@@ -147,6 +147,16 @@ class Comment extends Component {
 
               <form>
                 <div className="form-group">
+                  <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+                    <Rate
+                      allowHalf
+                      value={rate / 2}
+                      onChange={this.handleRateChange}
+                    />
+                    <p className="text upper-first">
+                      ({intl.formatMessage({ id: "productDetail.rate.text" })})
+                    </p>
+                  </div>
                   {/* <textarea
                     className="form-control textarea"
                     // placeholder="Сэтгэгдэл үлдээх хэсэг"
@@ -181,6 +191,7 @@ class Comment extends Component {
               </form>
             </div>
           )}
+
           {comments.length !== 0 && (
             <div style={{ marginTop: "40px" }}>
               <h1 className="title">
@@ -190,18 +201,6 @@ class Comment extends Component {
               </h1>
 
               <div className="comments-list">
-
-                <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
-                  <Rate
-                    allowHalf
-                    value={rate / 2}
-                    onChange={this.handleRateChange}
-                  />
-                  <p className="text upper-first">
-                    ({intl.formatMessage({ id: "productDetail.rate.text" })})
-                  </p>
-                </div>
-
                 {/* <div className="main-rating">
                   <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
                   <p className="text">

@@ -135,8 +135,8 @@ class App extends Component {
                     <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
 
                     {/** Үндсэн root болон nested root-үүд доор байрлана */}
-                    <Layout.Content>
-                      <div>
+                    <Layout.Content style={{ backgroundColor: "rgb(0, 0, 0, 0)" }}>
+                      <div style={{ backgroundColor: "white" }}>
                         <Switch>
                           <Route exact path="/" component={Home} />
                           <Route path="/discount" component={Discount} />

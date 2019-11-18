@@ -68,6 +68,10 @@ class PackageDetail extends React.Component {
           },
           content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
         });
+      } else {
+        this.props.logout();
+        this.props.clearLocally();
+        this.props.clearUserModelState();
       }
     });
   }

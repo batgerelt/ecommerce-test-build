@@ -11,6 +11,7 @@ import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
 
 const MySwal = withReactContent(Swal);
+const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = {
@@ -283,20 +284,30 @@ class Component extends React.Component {
   };
 
   renderCard(card) {
+    console.log(card);
+    const { getFieldDecorator } = this.props.form;
     const { intl } = this.props;
     return (
       <Col span={24}>
         <Form>
-          <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
           <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
             <Form.Item>
-              <Input className="profile-custom-input" value={card.cardno} disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />
+              {getFieldDecorator("cardPoint", {
+                initialValue: card.cardno,
+              })(
+                <Input className="profile-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
+              )}
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
-            <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
+            <span className="top-text">{intl.formatMessage({ id: "shared.form.epoint.placeholder" })}</span>
             <Form.Item>
-              <Input className="profile-custom-input" value="0000" type="password" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />
+              {getFieldDecorator("cardPoint", {
+                initialValue: formatter.format(card.status === 1 ? card.point : 0),
+              })(
+                <Input className="profile-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
+              )}
             </Form.Item>
           </Col>
         </Form>
