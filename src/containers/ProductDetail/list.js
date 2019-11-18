@@ -68,7 +68,7 @@ class ProductDetail extends React.Component {
   renderCommentList = () => {
     try {
       const {
-        detail, comment, addComment, getProductComment, addRate, getProductRate, rate, getProductDetail,
+        detail, comment, addComment, getProductComment, addRate, getProductRate, rate, getProductDetail, match,
       } = this.props;
       return (
         <Comment
@@ -79,6 +79,7 @@ class ProductDetail extends React.Component {
           product={detail.products}
           comments={comment}
           addComment={addComment}
+          match={match}
           getProductComment={getProductComment}
           auth={this.props.isLoggedIn}
           user={this.props.data}

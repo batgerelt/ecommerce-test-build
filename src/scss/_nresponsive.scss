@@ -1436,7 +1436,7 @@ h1.title {
 }
 
 // xs (< 768px)
-@media (max-width: 767px) {
+@media (max-width: 767px){
     
     #root {
         margin-top: 102px !important;
@@ -2295,4 +2295,13 @@ h1.title {
         }
     }
 }
+
+/* @media (max-width: 1024px) {
+  .flex-this {
+    flex: none;
+    display: inline-block !important;
+    justify-content: initial;
+    align-items: initial;
+  }
+} */
 

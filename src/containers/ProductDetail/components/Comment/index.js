@@ -17,8 +17,10 @@ class Comment extends Component {
     comments: [],
   };
 
-  componentWillRecieveProps(nextProps) {
-    console.log(this.props.location, nextProps.location);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.setState({ comment: "" });
+    }
   }
 
   handleCommitChange = (e) => {

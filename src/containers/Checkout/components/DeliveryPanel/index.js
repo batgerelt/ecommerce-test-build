@@ -356,7 +356,7 @@ class DeliveryPanel extends React.Component {
                         k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
                       }
                       return (
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
+                        <Col xs={24} sm={24} md={8} lg={9} xl={8} className="padd10" key={i}>
                           <div
                             className="form-check col-md-12"
                             style={{
@@ -400,7 +400,7 @@ class DeliveryPanel extends React.Component {
                   </Col>
                 </Col>
                 <Col span={24}>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
                     <Form.Item>
                       {getFieldDecorator("name", {
@@ -411,7 +411,7 @@ class DeliveryPanel extends React.Component {
                       )}
                     </Form.Item>
                   </Col>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
                     <Form.Item>
                       {getFieldDecorator("email", {
@@ -435,7 +435,7 @@ class DeliveryPanel extends React.Component {
                       )}
                     </Form.Item>
                   </Col>
-                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                     <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
                     <Form.Item>
                       {getFieldDecorator("phone1", {
@@ -475,7 +475,7 @@ class DeliveryPanel extends React.Component {
                   )}
                 {defaultActiveKey !== 3 ? (
                   <Col span={24}>
-                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                       <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
                       <Form.Item>
                         {getFieldDecorator("provinceid", {
@@ -488,7 +488,7 @@ class DeliveryPanel extends React.Component {
                         )}
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                       <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
                       <Form.Item>
                         {getFieldDecorator("districtid", {
@@ -501,7 +501,7 @@ class DeliveryPanel extends React.Component {
                         )}
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                       <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
                       <Form.Item>
                         {getFieldDecorator("committeeid", {
@@ -531,7 +531,7 @@ class DeliveryPanel extends React.Component {
                   )}
               </div>
               <Col span={24}>
-                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
+                <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
                   <span className="top-text">{intl.formatMessage({ id: "shared.form.label.deliveryDate" })}</span>
                   <DatePicker
                     size="large"
