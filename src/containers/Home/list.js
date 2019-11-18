@@ -7,7 +7,7 @@ import { BackTop } from "antd";
 import { isMobileOnly } from 'react-device-detect';
 
 import { Slider, Widget, Banner } from "../../components";
-import { WIDGET_SLUGS, SOCIAL_IDS } from "../../utils/Consts";
+import { WIDGET_SLUGS } from "../../utils/Consts";
 
 const sliderParams = {
   autoplay: {

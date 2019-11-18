@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-spaces */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable vars-on-top */
 /* eslint-disable no-var */
@@ -6,32 +7,27 @@
 import React from "react";
 
 class Banner extends React.Component {
-  getImageColor = (src) => {
-    let img = new Image();
-    img.setAttribute('crossOrigin', 'anonymous');
-    img.src = src;
-    // eslint-disable-next-line func-names
-    img.onload = () => {
-      let width = img.width;
-      let height = img.height;
-      let canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      let context = canvas.getContext("2d");
-      context.drawImage(img, 0, 0);
-      let data = context.getImageData(0, 0, width, height).data;
-      console.log(data);
-    };
+  state = { width: 0 }
+  changeScreen = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+  componentDidMount() {
+    window.addEventListener('resize', this.changeScreen);
+    this.changeScreen();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.changeScreen);
   }
 
   render() {
     try {
       const { data } = this.props;
-      const selected = data.length === undefined ? data : data[Math.floor(Math.random() * data.length)];
+      const { width } = this.state;
+      const selected = data.length === undefined ? data : data[0];
       // this.getImageColor(process.env.IMAGE + selected.imgnm);
       return (
         <div className="banner-container">
-          <span style={{ backgroundImage: `url(${process.env.IMAGE + selected.imgnm})` }} />
+          <span style={{ backgroundImage: `url(${process.env.IMAGE + (width < 767 ?  selected.mobimgnm : selected.imgnm)})` }} />
           <div className="container pad10">
             <a href={selected.link ? selected.link : "#"} target="_blank">
               <img

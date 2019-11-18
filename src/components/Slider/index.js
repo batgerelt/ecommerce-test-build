@@ -8,6 +8,18 @@ import Swiper from '@eredessil/react-id-swiper';
 import windowSize from 'react-window-size';
 
 class Slider extends React.Component {
+  state = { width: 0 }
+  changeScreen = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+  componentDidMount() {
+    window.addEventListener('resize', this.changeScreen);
+    this.changeScreen();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.changeScreen);
+  }
+
   renderRepice = () => {
     try {
       return this.props.sliderData.map((item, index) => (
@@ -26,6 +38,7 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
+    const { width } = this.state;
     const {
       sliderData, intl, windowWidth, ratio, isRecipeDetail, isPackageDetail,
     } = this.props;
@@ -98,8 +111,8 @@ class Slider extends React.Component {
             <div
               className={this.props.contain ? "background-contain" : "background-cover"}
               style={{
-                backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
-                height: sliderHeight,
+                backgroundImage: `url(${process.env.IMAGE + (this.props.isMain ? (width < 767 ? item.mobimgnm : item.imgnm) : item.imgnm)})`,
+                height: (this.props.isMain ? (width < 767 ? '360px' : sliderHeight) : sliderHeight),
               }}
             >
               {
