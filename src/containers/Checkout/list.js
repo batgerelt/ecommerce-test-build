@@ -72,6 +72,12 @@ class Checkout extends React.Component {
     this.setState({ deliveryPanelForm: item });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.products !== nextProps.products) {
+      this.setState({ totalPrice: this.getTotalPrice(nextProps.products), totalQty: this.getTotalQty(nextProps.products) });
+    }
+  }
+
   componentWillMount = () => {
     this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
@@ -126,7 +132,7 @@ class Checkout extends React.Component {
 
   callback = (key) => {
     if (!isMobile) {
-      if (key !== undefined) {
+      if (key !== undefined && key.length !== 0) {
         const { activeKey } = this.state;
         if (key === "3" && activeKey === "2") {
           this.onSubmitDeliveryPanel();
