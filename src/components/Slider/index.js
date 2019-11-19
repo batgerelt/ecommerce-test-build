@@ -8,6 +8,18 @@ import Swiper from '@eredessil/react-id-swiper';
 import windowSize from 'react-window-size';
 
 class Slider extends React.Component {
+  state = { width: 0 }
+  changeScreen = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+  componentDidMount() {
+    window.addEventListener('resize', this.changeScreen);
+    this.changeScreen();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.changeScreen);
+  }
+
   renderRepice = () => {
     try {
       return this.props.sliderData.map((item, index) => (
@@ -26,6 +38,7 @@ class Slider extends React.Component {
   }
 
   renderIndents = () => {
+    const { width } = this.state;
     const {
       sliderData, intl, windowWidth, ratio, isRecipeDetail, isPackageDetail,
     } = this.props;
@@ -66,30 +79,61 @@ class Slider extends React.Component {
       return sliderData.map((item, index) => {
         const container = (
           <div key={index} className="container pad10">
-            <div className="slide-container">
-              <div className="slide-content text-uppercase">
-                {item && item.isshownm !== 0 && (
-                  <div>
-                    <h2 className="title">
-                      {lang === "mn" ? item.bannernm : item.bannernm_en}
-                    </h2>
-                    <p className="text">
-                      {lang === "mn" ? item.description : item.description_en}
-                    </p>
+            {
+              item && item.link ? (
+                <a href={item && item.link ? item.link : '#'} target={item && item.link ? "_blank" : ''}>
+                  <div className="slide-container">
+                    <div className="slide-content text-uppercase">
+                      {item && item.isshownm !== 0 && (
+                        <div>
+                          <h2 className="title">
+                            {lang === "mn" ? item.bannernm : item.bannernm_en}
+                          </h2>
+                          <p className="text">
+                            {lang === "mn" ? item.description : item.description_en}
+                          </p>
+                        </div>
+                      )}
+                      {item && item.link && (
+                        <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
+                          <i className="fa fa-long-arrow-right" aria-hidden="true" />
+                          <span className="text-uppercase">
+                            {item.btntext && item.btntext.trim()
+                              ? lang === "mn" ? item.btntext : item.btntext_en
+                              : intl.formatMessage({ id: "shared.form.button.more" })}
+                          </span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-                )}
-                {item && item.link && (
-                  <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
-                    <i className="fa fa-long-arrow-right" aria-hidden="true" />
-                    <span className="text-uppercase">
-                      {item.btntext && item.btntext.trim()
-                        ? lang === "mn" ? item.btntext : item.btntext_en
-                        : intl.formatMessage({ id: "shared.form.button.more" })}
-                    </span>
-                  </a>
-                )}
-              </div>
-            </div>
+                </a>
+              ) : (
+                <div className="slide-container">
+                  <div className="slide-content text-uppercase">
+                    {item && item.isshownm !== 0 && (
+                      <div>
+                        <h2 className="title">
+                          {lang === "mn" ? item.bannernm : item.bannernm_en}
+                        </h2>
+                        <p className="text">
+                          {lang === "mn" ? item.description : item.description_en}
+                        </p>
+                      </div>
+                    )}
+                    {item && item.link && (
+                      <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
+                        <i className="fa fa-long-arrow-right" aria-hidden="true" />
+                        <span className="text-uppercase">
+                          {item.btntext && item.btntext.trim()
+                            ? lang === "mn" ? item.btntext : item.btntext_en
+                            : intl.formatMessage({ id: "shared.form.button.more" })}
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )
+            }
           </div>
         );
 
@@ -98,8 +142,8 @@ class Slider extends React.Component {
             <div
               className={this.props.contain ? "background-contain" : "background-cover"}
               style={{
-                backgroundImage: `url(${process.env.IMAGE + item.imgnm})`,
-                height: sliderHeight,
+                backgroundImage: `url(${process.env.IMAGE + (this.props.isMain ? (width < 767 ? item.mobimgnm : item.imgnm) : item.imgnm)})`,
+                height: (this.props.isMain ? (width < 767 ? '360px' : sliderHeight) : sliderHeight),
               }}
             >
               {

@@ -50,6 +50,7 @@ class Bookmarks extends PureComponent {
 
   componentWillMount() {
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
+      // console.log(res.payload.data.hits.total.value);
       if (res.payload.success) {
         this.setState({
           headerProducts: res.payload.data.hits.hits,

@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-bitwise */
 /* eslint-disable no-else-return */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable brace-style */
@@ -530,14 +532,14 @@ class CategoryInfo extends React.Component {
     const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 
-    if (windowWidth < 576) {
-      tmp = 335;
+    if (windowWidth < 576) { // is mobile
+      tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 370 : windowWidth < 475 ? 450 : 480;
     } else if (windowWidth < 768) {
-      tmp = 240;
+      tmp = 250;
     } else if (windowWidth < 992) {
-      tmp = isList ? 120 : 230;
+      tmp = isList ? 120 : 240;
     } else if (windowWidth < 1200) {
-      tmp = isList ? 120 : 275;
+      tmp = isList ? 120 : 285;
     } else {
       tmp = isList ? 120 : 305;
     }

@@ -55,7 +55,7 @@ class Page extends React.Component {
     this.props.getHomePageBanner().then(res => {
       const { banner } = this.state;
       const response = res.payload.data;
-      banner.header.push(response.header[Math.floor(Math.random() * response.header.length)]);
+      banner.header.push(response.header);
       banner.middle.push(response.middle[Math.floor(Math.random() * response.middle.length)]);
       banner.footer.push(response.footer[Math.floor(Math.random() * response.footer.length)]);
       return this.setState({ banner });

@@ -526,11 +526,11 @@ class CategoryInfo extends React.Component {
     const isList = this.state.isListViewOn;
 
     if (windowWidth < 576) {
-      tmp = 335;
+      tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 370 : windowWidth < 475 ? 400 : 450;
     } else if (windowWidth < 768) {
-      tmp = 240;
+      tmp = 250;
     } else if (windowWidth < 992) {
-      tmp = isList ? 120 : 230;
+      tmp = isList ? 120 : 240;
     } else if (windowWidth < 1200) {
       tmp = isList ? 120 : 275;
     } else {
