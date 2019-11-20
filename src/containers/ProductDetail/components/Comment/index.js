@@ -140,7 +140,7 @@ class Comment extends Component {
                 <p className="name">
                   <strong>
                     {
-                      auth !== 0 ? `${user[0].info.customerInfo.firstname}`
+                      auth !== 0 ? `${user.info.firstname}`
                         : ""
                     }
                   </strong>
@@ -159,15 +159,6 @@ class Comment extends Component {
                       ({intl.formatMessage({ id: "productDetail.rate.text" })})
                     </p>
                   </div>
-                  {/* <textarea
-                    className="form-control textarea"
-                    // placeholder="Сэтгэгдэл үлдээх хэсэг"
-                    placeholder={intl.formatMessage({ id: "productDetail.comment.form.placeholder" })}
-                    name="comment"
-                    style={{ minHeight: "150px" }}
-                    value={this.state.comment}
-                    onChange={this.handleCommitChange}
-                  /> */}
                   <TextArea
                     placeholder={intl.formatMessage({ id: "productDetail.comment.form.placeholder" })}
                     name="comment"
@@ -201,18 +192,7 @@ class Comment extends Component {
                   <FormattedMessage id="productDetail.comment.list.title" />
                 </span>
               </h1>
-
               <div className="comments-list">
-                {/* <div className="main-rating">
-                  <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
-                  <p className="text">
-                    (
-                    {rate_user_cnt === null ? 0 : rate_user_cnt}{" "}
-                    <FormattedMessage id="productDetail.comment.list.rate" />
-                    )
-                  </p>
-                </div> */}
-
                 {comments.map((comment, index) => (
                   <div className="single" key={index}>
                     <p className="text">{comment.commnt}</p>

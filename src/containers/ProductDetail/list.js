@@ -82,7 +82,7 @@ class ProductDetail extends React.Component {
           match={match}
           getProductComment={getProductComment}
           auth={this.props.isLoggedIn}
-          user={this.props.data}
+          user={this.props.userInfo}
           getProductDetail={getProductDetail}
         />
       );
@@ -170,6 +170,7 @@ class ProductDetail extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">

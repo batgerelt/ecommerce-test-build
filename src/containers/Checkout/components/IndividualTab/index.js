@@ -94,7 +94,7 @@ class IndividualTab extends React.Component {
                 duration: 5000,
                 onScreen: false,
               },
-              content: <Notification type="warning" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
+              content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
             });
           } else {
             store.addNotification({
