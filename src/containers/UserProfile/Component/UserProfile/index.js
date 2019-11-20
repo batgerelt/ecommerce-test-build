@@ -24,9 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class UserProfile extends React.Component {
   componentWillMount() {
-    this.props.getCustomer().then((res) => {
-      console.log("res.payload", res.payload);
-    });
+    this.props.getCustomer();
   }
   render() {
     return <List {...this.props} />;
