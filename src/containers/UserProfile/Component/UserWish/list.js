@@ -83,30 +83,36 @@ class Component extends React.Component {
             </div>
           </Col>
           <Col className="action price">
-            <ul className="list-unstyled flex-this">
-              <li style={{ textAlign: "left", width: "100%" }}>
-                <div className="price-pro">
+            <ul className="list-unstyled">
+              {
+                item.pricetag !== null
+                  ? localStorage.getItem('lang') === "mn"
+                    ? (
+                      <li style={{ textAlign: "left", width: "100%" }}>
+                        <span className="price-pro">
+                          <span>{`${item.pricetag}`}</span>
+                        </span>
+                      </li>
+                    )
+                    : (
+                      <li style={{ textAlign: "left", width: "100%" }}>
+                        <span className="price-pro">
+                          <span>{`${item.pricetag_en}`}</span>
+                        </span>
+                      </li>
+                    )
+                  : null
+              }
+              <li>
+                <span className="price-pro">
                   {
-                    item.pricetag !== null ?
-                      localStorage.getItem('lang') === "mn" ?
-                        <div>{`${item.pricetag}`}</div>
-                        :
-                        <div>{`${item.pricetag_en}`}</div>
-                      : null
+                    item.pricetag !== null
+                      ? localStorage.getItem('lang') === "mn"
+                        ? <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                        : <span>{`${formatter.format(item.currentprice)}₮`}</span>
+                      : <span>{`${formatter.format(item.currentprice)}₮`}</span>
                   }
-                </div>
-              </li>
-              <li style={{ textAlign: "right !important" }}>
-                <div className="price-pro">
-                  {
-                    item.pricetag !== null ?
-                      localStorage.getItem('lang') === "mn" ?
-                        <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                        :
-                        <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                      : <div>{`${formatter.format(item.currentprice)}₮`}</div>
-                  }
-                </div>
+                </span>
               </li>
             </ul>
           </Col>

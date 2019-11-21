@@ -73,7 +73,7 @@ class Signup extends React.Component {
                   duration: 5000,
                   onScreen: false,
                 },
-                content: <Notification type="warning" text={intl.formatMessage({ id: "registration.confirmation.email" })} />,
+                content: <Notification type="success" text={intl.formatMessage({ id: "registration.confirmation.email" })} />,
               });
             } else {
               store.addNotification({

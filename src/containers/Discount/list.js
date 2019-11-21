@@ -16,13 +16,8 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import { Card, CardList, Banner, PageBanner } from "../../components";
-import {
-  CARD_TYPES,
-  CARD_LIST_TYPES,
-  CARD_NUMS_IN_ROW,
-} from "../../utils/Consts";
-import { parseTwoDigitYear } from "moment";
+import { Card, Banner, PageBanner } from "../../components";
+import { CARD_TYPES } from "../../utils/Consts";
 import windowSize from 'react-window-size';
 
 const ITEM_HEIGHT = 340;

@@ -206,6 +206,9 @@ class Component extends React.Component {
   }
 
   onCancel = () => {
+    this.props.getCustomer().then((res) => {
+      console.log("Дахин ипойнт үлдэгдлээ авах оролдлого хийв.");
+    });
     this.setState({ giftvisible: false });
   }
 
@@ -284,7 +287,6 @@ class Component extends React.Component {
   };
 
   renderCard(card) {
-    console.log(card);
     const { getFieldDecorator } = this.props.form;
     const { intl } = this.props;
     return (

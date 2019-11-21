@@ -42,7 +42,7 @@ class Bookmarks extends PureComponent {
       module: "new",
       startsWith: 0,
       rowCount: 10,
-      orderColumn: "startnew_desc, endnew_asc",
+      orderColumn: "startnew_desc, endnew_asc, updatedate_desc",
       highlight: false,
       total: 0,
     };

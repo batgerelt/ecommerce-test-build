@@ -96,7 +96,7 @@ class AppHeader extends Component {
 
   handleKeyPress = (event, url) => {
     if (event.key === 'Enter') {
-      this.props.history.push(url);
+      this.props.history.push(encodeURI(url));
       this.setState({ word: '' });
     }
     return null;
@@ -267,11 +267,10 @@ class AppHeader extends Component {
                                 // required={item.id === 0 && word === ''}
                                 onInvalid={this.hadleValidate}
                                 list="cat"
-                                type="text"
                                 className="form-control input-search"
                                 placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
                                 style={{ boxShadow: 'none', fontSize: "14px" }}
-                                onChange={e => this.handleChangeSearchWord(e)}
+                                onChange={this.handleChangeSearchWord}
                                 onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
                               />
                               <datalist id="cat" className="list-unstyled" onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}>
