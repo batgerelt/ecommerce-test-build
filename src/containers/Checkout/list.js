@@ -49,6 +49,7 @@ class Checkout extends React.Component {
       useEpoint: false,
       epointUsedPoint: 0,
       cardInfo: null,
+      freeCond: 0,
     };
   }
 
@@ -74,7 +75,9 @@ class Checkout extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.products !== nextProps.products) {
-      this.setState({ totalPrice: this.getTotalPrice(nextProps.products), totalQty: this.getTotalQty(nextProps.products) });
+      this.setState({ totalPrice: this.getTotalPrice(nextProps.products), totalQty: this.getTotalQty(nextProps.products) }, () => {
+        this.changeDeliveryTab(this.state.chosenDelivery);
+      });
     }
   }
 
@@ -131,19 +134,16 @@ class Checkout extends React.Component {
   );
 
   callback = (key) => {
-    if (!isMobile) {
-      if (key !== undefined && key.length !== 0) {
-        const { activeKey } = this.state;
-        if (key === "3" && activeKey === "2") {
-          this.onSubmitDeliveryPanel();
-          // this.scrollTo(0, 0);
-        } else if (key === "2" && activeKey === "3") {
-          this.setState({ activeKey: "2" });
-          this.scrollTo(0, 0);
-        } else {
-          this.setState({ activeKey: key });
-        }
-      }
+    const { activeKey } = this.state;
+    if (key === "3" && activeKey === "2") {
+      this.onSubmitDeliveryPanel();
+      this.scrollTo(0, 0);
+    } else if (key === "2" && activeKey === "3") {
+      this.setState({ activeKey: "2" });
+      this.scrollTo(0, 0);
+    } else {
+      this.scrollTo(0, 0);
+      this.setState({ activeKey: key });
     }
   };
 
@@ -208,7 +208,11 @@ class Checkout extends React.Component {
   changeDeliveryTab = (item) => {
     const { totalPrice } = this.state;
     if (totalPrice >= item.freecondition && item.freecondition !== 0) {
+      this.setState({ freeCond: item.price });
       item.price = 0;
+    } else {
+      item.price += this.state.freeCond;
+      this.setState({ freeCond: 0 });
     }
     this.setState({ chosenDelivery: item });
   }
@@ -303,11 +307,11 @@ class Checkout extends React.Component {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
             if (this.state.isEmail) {
               if (isMobile) {
-                let paymentType = document.getElementById("paymentType");
-                paymentType.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center',
-                });
+                /*  let paymentType = document.getElementById("paymentType");
+                 paymentType.scrollIntoView({
+                   behavior: 'smooth',
+                   block: 'center',
+                 }); */
               }
               this.changeDeliveryType(true);
               this.setState({ activeKey: "3" });
@@ -329,13 +333,11 @@ class Checkout extends React.Component {
                 if (this.state.isEmail) {
                   this.changeDeliveryType(true);
                   this.setState({ activeKey: "3" });
-                  if (isMobile) {
-                    let paymentType = document.getElementById("paymentType");
-                    paymentType.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'center',
-                    });
-                  }
+                  let paymentType = document.getElementById("paymentType");
+                  paymentType.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
                 }
               } else {
                 MySwal.fire({
@@ -437,8 +439,9 @@ class Checkout extends React.Component {
                     <div className="card">
                       <div className="card-header" id="headingOne">
                         <Collapse
-                          activeKey={this.checkLoggedIn() ? isMobile ? ["2", "3"] : this.state.activeKey : ["1"]}
+                          activeKey={this.checkLoggedIn() ? this.state.activeKey : "1"}
                           onChange={this.callback}
+                          accordion
                         >
                           {
                             localStorage.getItem("auth") === null ?
@@ -509,14 +512,15 @@ class Checkout extends React.Component {
                 <div className="col-lg-8 pad10" />
                 {
                   isMobile ?
-                    <div className="sticky-btn">
-                      <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
-                        <span className="text-uppercase">
-                          {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
-                        </span>
-                      </button>
-                    </div>
-                    : null
+                    isLoggedIn ?
+                      <div className="sticky-btn">
+                        <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                          <span className="text-uppercase">
+                            {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
+                          </span>
+                        </button>
+                      </div>
+                      : null : null
                 }
               </div>
             </div>
