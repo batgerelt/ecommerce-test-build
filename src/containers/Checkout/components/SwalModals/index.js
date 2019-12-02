@@ -101,6 +101,14 @@ class SwalModals extends Component {
     this.props.history.push("cart");
   }
 
+  scrollTo = (top, left) => {
+    window.scroll({
+      top,
+      left,
+      behavior: 'smooth',
+    });
+  }
+
   onSubmit = () => {
     const { checkProductZone } = this.props;
     this.props.replaceProductsRemotely({ body: checkProductZone.data.skucds }).then((res) => {
@@ -109,6 +117,10 @@ class SwalModals extends Component {
           this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
           this.props.history.push("/cart");
         } else {
+          this.props.paymentId.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
           MySwal.close();
           this.props.changeDeliveryType(true);
           this.props.callback("3");
