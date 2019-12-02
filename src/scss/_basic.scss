@@ -3740,3 +3740,16 @@ div.sticky-btn{
     transition: box-shadow 0.3s ease-in;
   }
 }
+
+.login-button-material{
+  .MuiButton-text{
+    padding: 8px 15px !important;
+  }
+
+  .MuiButton-root{
+    border-radius: 0px !important;
+    min-width: 40px !important;
+    color: none;
+    font-weight: 400;
+  }
+}

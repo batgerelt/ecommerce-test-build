@@ -46,8 +46,8 @@ class Page extends React.Component {
   componentWillMount() {
     const { banner } = this.state;
     this.props.getSeasonBanner().then((res) => {
-      banner.header.push(res.payload.data.header[Math.floor(Math.random() * res.payload.data.header.length)]);
-      this.setState(banner);
+      banner.header.push(res.payload.data.header);
+      return this.setState(banner);
     });
     this.props.getSeasonMenu({});
   }

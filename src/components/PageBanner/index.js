@@ -41,6 +41,7 @@ class PageHeader extends React.Component {
   renderContent = () => {
     try {
       const { title, subtitle, bgColor } = this.props;
+      // console.log(this.state.selected);
       return (
         <div
           className="whole-page-title class container banner-pad"

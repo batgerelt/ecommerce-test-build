@@ -3,6 +3,7 @@ import * as jwtDecode from 'jwt-decode';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Avatar, Progress, Icon, Button, Upload, Spin, message, notification } from "antd";
+import ButtonGoogle from "@material-ui/core/Button";
 import { store } from 'react-notifications-component';
 import { Notification } from "../";
 import avatar from "../../scss/assets/images/demo/defaultAvatar.png";
@@ -206,10 +207,12 @@ class UserButton extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
-      <li className="list-inline-item" onClick={this.handleLogin}>
-        <div className="text-uppercase" style={{ cursor: 'default' }}>
-          <FormattedMessage id="header.profile.text" />
-        </div>
+      <li className="list-inline-item login-button-material" onClick={this.handleLogin}>
+        <ButtonGoogle>
+          <div className="text-uppercase" style={{ cursor: 'default' }}>
+            <FormattedMessage id="header.profile.text" />
+          </div>
+        </ButtonGoogle>
       </li>
     );
     if (localStorage.getItem('auth') !== null) {
