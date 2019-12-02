@@ -47,7 +47,7 @@ class Comment extends Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 5000,
+              duration: 3000,
               onScreen: false,
             },
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -61,7 +61,7 @@ class Comment extends Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: false,
         },
         content: <Notification type="warning" text="Уг үйлдлийг нэвтэрсний дараа хийнэ." />,
@@ -88,7 +88,7 @@ class Comment extends Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -102,7 +102,7 @@ class Comment extends Component {
           animationIn: ["animated", "fadeIn"],
           animationOut: ["animated", "fadeOut"],
           dismiss: {
-            duration: 5000,
+            duration: 3000,
             onScreen: false,
           },
           content: <Notification type="warning" text="Сэтгэгдэл бичнэ үү." />,

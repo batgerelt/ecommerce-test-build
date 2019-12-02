@@ -154,7 +154,7 @@ class Component extends React.Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                  duration: 5000,
+                  duration: 3000,
                   onScreen: false,
                 },
                 content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.savedSuccessfully" })} />,
@@ -166,7 +166,7 @@ class Component extends React.Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                  duration: 5000,
+                  duration: 3000,
                   onScreen: false,
                 },
                 content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -519,13 +519,13 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={24} md={6} lg={4} xl={4} className="padd10">
+            <Col xs={24} sm={24} md={12} lg={4} xl={4} className="padd10">
               <Button className="btn-mail" onClick={this.changeMail} >
                 <span>{intl.formatMessage({ id: "profile.userProfile.changeMail" })}</span>
               </Button>
             </Col>
 
-            <Col xs={24} sm={24} md={6} lg={8} xl={8} className="padd10">
+            <Col xs={24} sm={24} md={12} lg={8} xl={8} className="padd10">
               <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
               <Form.Item>
                 {getFieldDecorator("phone1", {
@@ -544,20 +544,6 @@ class Component extends React.Component {
                 })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} maxLength={8} autoComplete="off" />)}
               </Form.Item>
             </Col>
-            {/* <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-              <span className="top-text">
-                {intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2
-              </span>
-              <Form.Item>
-                {getFieldDecorator("phone2", {
-                  initialValue: userInfo.info.phone2,
-                  rules: [
-                    { pattern: new RegExp("^[0-9]*$"), min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                    { min: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) },
-                  ],
-                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} maxLength={8} autoComplete="off" />)}
-              </Form.Item>
-            </Col> */}
 
             {userInfo.main === null ? this.renderNoMain() : this.renderMain()}
 
