@@ -207,7 +207,7 @@ class Component extends React.Component {
 
   onCancel = () => {
     this.props.getCustomer().then((res) => {
-      console.log("Дахин ипойнт үлдэгдлээ авах оролдлого хийв.");
+      console.log("Ипойнт үлдэгдлээ харах оролдлого хийв.");
     });
     this.setState({ giftvisible: false });
   }
@@ -519,13 +519,13 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={24} md={4} lg={4} xl={4} className="padd10">
+            <Col xs={24} sm={24} md={6} lg={4} xl={4} className="padd10">
               <Button className="btn-mail" onClick={this.changeMail} >
-                <span>Имэйл солих</span>
+                <span>{intl.formatMessage({ id: "profile.userProfile.changeMail" })}</span>
               </Button>
             </Col>
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+            <Col xs={24} sm={24} md={6} lg={8} xl={8} className="padd10">
               <span className="top-text" style={{ left: "7px" }}>{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
               <Form.Item>
                 {getFieldDecorator("phone1", {
