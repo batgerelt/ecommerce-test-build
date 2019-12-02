@@ -19,6 +19,7 @@ class LoginModal extends React.Component {
     confirm: false,
     goCart: false,
     cartDirect: false,
+    loading: false,
   };
 
   componentWillUnmount() {
@@ -70,7 +71,7 @@ class LoginModal extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -82,7 +83,7 @@ class LoginModal extends React.Component {
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
-              duration: 5000,
+              duration: 3000,
               onScreen: false,
             },
             content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
@@ -117,6 +118,7 @@ class LoginModal extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
+          this.setState({ loading: true });
           let result = await this.props.login({ body: { ...values } });
           this.logData(result);
           if (result.payload.success) {
@@ -125,6 +127,7 @@ class LoginModal extends React.Component {
             await this.props.getUserInfo();
             await this.props.getSystemLocation();
           }
+          this.setState({ loading: false });
         } catch (e) {
           console.log(e);
         }
@@ -302,6 +305,8 @@ class LoginModal extends React.Component {
                 type="primary"
                 htmlType="submit"
                 className="btn btn-block btn-login text-uppercase"
+                loading={this.state.loading}
+                // disabled={this.state.loading}
               >
                 <FormattedMessage id="shared.form.button.login" />
               </Button>

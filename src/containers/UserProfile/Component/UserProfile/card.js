@@ -71,7 +71,7 @@ class Component extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="success" text={intl.formatMessage({ id: "shared.form.info.connectedSuccessfully" })} />,
@@ -83,7 +83,7 @@ class Component extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 5000,
+                duration: 3000,
                 onScreen: false,
               },
               content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,

@@ -205,6 +205,7 @@
 	"profile.userProfile.form.title": "Profile",
 	"profile.userProfile.upload.error": "Please upload an image smaller than 5MB",
 	"profile.wishlist.title": "Wishlist",
+	"profile.userProfile.changeMail": "Change email",
 	"recipeDetail.breadcrumb.home": "Home",
 	"recipeDetail.breadcrumb.recipe": "Recipe",
 	"recipeDetail.date": "{year}.{month}.{day}",

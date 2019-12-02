@@ -205,6 +205,7 @@
 	"profile.userProfile.form.title": "Хувийн мэдээлэл",
 	"profile.userProfile.upload.error": "5MB-ээс бага хэмжээтэй зураг оруулна уу",
 	"profile.wishlist.title": "Хадгалсан бараа",
+	"profile.userProfile.changeMail": "Имэйл солих",
 	"recipeDetail.breadcrumb.home": "Нүүр",
 	"recipeDetail.breadcrumb.recipe": "Хоолны жор",
 	"recipeDetail.date": "{year}.{month}.{day}",

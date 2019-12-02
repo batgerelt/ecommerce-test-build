@@ -38,7 +38,7 @@ function beforeUpload(file) {
       animationIn: ["animated", "fadeIn"],
       animationOut: ["animated", "fadeOut"],
       dismiss: {
-        duration: 5000,
+        duration: 3000,
         onScreen: false,
       },
       content: <Notification type="warning" text="5MB-ээс бага хэмжээтэй зураг оруулна уу" />,
@@ -67,7 +67,7 @@ class List extends React.Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: false,
         },
         content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
@@ -182,7 +182,7 @@ class List extends React.Component {
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }} >
-                <Col xs={0} sm={0} md={7} lg={7} xl={7}>
+                <Col xs={0} sm={0} md={8} lg={7} xl={7}>
                   <div style={{ backgroundColor: "white", borderRadius: "10px", marginRight: "10px" }}>
                     <div className="profile-menu" style={{ padding: "10px" }}>
                       <div className="menu-header">
@@ -246,7 +246,7 @@ class List extends React.Component {
                     </div>
                   </div>
                 </Col>
-                <Col xs={24} sm={24} md={17} lg={17} xl={17} style={{ padding: "0px !important" }}>
+                <Col xs={24} sm={24} md={16} lg={17} xl={17} style={{ padding: "0px !important" }}>
                   <Switch>
                     <Route exact path={match.path} component={UserProfile} {...this} />
                     <Route path={`${match.path}/history`} component={UserHistory} {...this} />

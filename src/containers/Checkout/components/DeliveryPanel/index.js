@@ -206,7 +206,7 @@ class DeliveryPanel extends React.Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: false,
         },
         content: <Notification type="info" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,
@@ -223,7 +223,7 @@ class DeliveryPanel extends React.Component {
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: false,
         },
         content: <Notification type="info" text={intl.formatMessage({ id: "checkout.expressDelivery.info" })} />,

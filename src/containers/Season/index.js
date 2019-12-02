@@ -41,16 +41,21 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
+  state = { banner: { header: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentWillMount() {
-    this.props.getSeasonBanner();
+    const { banner } = this.state;
+    this.props.getSeasonBanner().then((res) => {
+      banner.header.push(res.payload.data.header);
+      return this.setState(banner);
+    });
     this.props.getSeasonMenu({});
   }
 
   render() {
     return (
       <div>
-        <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} />
+        <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} banner={this.state.banner} />
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );
