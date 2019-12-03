@@ -135,14 +135,12 @@ class Checkout extends React.Component {
 
   callback = (key) => {
     const { activeKey } = this.state;
+    this.scrollTo(0, 0);
     if (key === "3" && activeKey === "2") {
       this.onSubmitDeliveryPanel();
-      this.scrollTo(0, 0);
     } else if (key === "2" && activeKey === "3") {
       this.setState({ activeKey: "2" });
-      this.scrollTo(0, 0);
     } else {
-      this.scrollTo(0, 0);
       this.setState({ activeKey: key });
     }
   };
@@ -346,6 +344,7 @@ class Checkout extends React.Component {
                       type={"delete"}
                       data={[]}
                       ordData={[]}
+                      paymentId={document.getElementById("paymentType")}
                       onRef={ref => (this.SwalModals = ref)}
                       {...this}
                       {...this.props}
