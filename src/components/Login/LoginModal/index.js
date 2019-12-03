@@ -263,7 +263,6 @@ class LoginModal extends React.Component {
       <div>
         <Modal
           title={intl.formatMessage({ id: "loginModal.title" })}
-          style={{ top: 20 }}
           visible={this.state.visible}
           onOk={this.handleLoginModal}
           onCancel={this.closeLoginModal}
@@ -294,7 +293,10 @@ class LoginModal extends React.Component {
             <Form.Item>
               {getFieldDecorator("password", {
                 rules: [
-                  { validator: this.validateToNextPassword },
+                  {
+                    required: true,
+                    message: intl.formatMessage({ id: "shared.form.password.validation.required" }),
+                  },
                 ],
               })(
                 <Input type="password" placeholder={intl.formatMessage({ id: "shared.form.password.placeholder" })} className="form-control" autoComplete="new-password" />,
@@ -306,7 +308,7 @@ class LoginModal extends React.Component {
                 htmlType="submit"
                 className="btn btn-block btn-login text-uppercase"
                 loading={this.state.loading}
-                // disabled={this.state.loading}
+              // disabled={this.state.loading}
               >
                 <FormattedMessage id="shared.form.button.login" />
               </Button>

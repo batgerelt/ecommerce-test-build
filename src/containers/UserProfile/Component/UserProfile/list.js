@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Form, Input, Select, Divider, Col, Button, Modal } from "antd";
+import ButtonGoogle from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { store } from 'react-notifications-component';
@@ -551,9 +552,9 @@ class Component extends React.Component {
               <Col xs={12} sm={12} md={18} lg={18} xl={18} />
               <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Form.Item className="text">
-                  <Button className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <ButtonGoogle className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
                     <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                  </Button>
+                  </ButtonGoogle>
                 </Form.Item>
               </Col>
             </Col>
