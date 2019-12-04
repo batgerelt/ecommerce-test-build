@@ -64,6 +64,7 @@ class DeliveryInfo extends React.Component {
 
   setModal2Visible = (modal2Visible) => {
     this.setState({ modal2Visible });
+    this.setState({ notif: false });
   }
 
   handleScroll = () => {
