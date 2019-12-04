@@ -779,7 +779,7 @@ class Cart extends React.Component {
         content = (
           <div>
             {content1}
-            <table className="table table-borderless">
+            <table className="table table-borderless cart-table-container">
               <thead className="thead-light">
                 <tr>
                   <th className="column-1">

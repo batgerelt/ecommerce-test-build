@@ -267,6 +267,7 @@ class LoginModal extends React.Component {
           onOk={this.handleLoginModal}
           onCancel={this.closeLoginModal}
           footer={null}
+          centered
         >
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
