@@ -317,22 +317,28 @@ class AppHeader extends Component {
                             onClick={() => this.handleKeyPress(item.id, word)}
                             style={{ boxShadow: "none", color: "black" }}
                           >
-                            {/* <i
-                              className="fa fa-search d-block d-sm-none"
-                              style={{ fontSize: "20px", margin: "5px" }}
-                            /> */}
-
                             {
-                              this.props.search.isLoadingSearch ? (
-                                <i className="fa fa-circle-o-notch fa-spin" />
-                            ) : (
-                              <span
-                                className="text-uppercase d-none d-sm-block"
-                                onClick={this.handleSearch}
-                              >
-                                <FormattedMessage id="header.searchBar.button" />
-                              </span>
+                              window.innerWidth < 576 ? (
+                                this.props.search.isLoadingSearch ? (
+                                  <i className="fa fa-circle-o-notch fa-spin" />
+                                ) : (
+                                  <i
+                                    className="fa fa-search d-block d-sm-none"
+                                    style={{ fontSize: "20px", margin: "5px" }}
+                                  />
                                 )
+                              ) : (
+                                this.props.search.isLoadingSearch ? (
+                                  <i className="fa fa-circle-o-notch fa-spin" />
+                                ) : (
+                                  <span
+                                    className="text-uppercase d-none d-sm-block"
+                                    onClick={this.handleSearch}
+                                  >
+                                    <FormattedMessage id="header.searchBar.button" />
+                                  </span>
+                                )
+                              )
                             }
                           </Button>
                         </li>
