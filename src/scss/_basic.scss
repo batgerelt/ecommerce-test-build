@@ -3760,3 +3760,28 @@ div.sticky-btn{
     font-weight: 400;
   }
 }
+
+.cart-footer-btn{
+  i{
+    margin-right: 5px;
+  }
+  .MuiButton-text{
+    padding: 8px 15px !important;
+  }
+
+  .MuiButton-root{
+    border-radius: 15px !important;
+    min-width: 40px !important;
+    color: #a7a8aa;
+    font-size: 0.7rem;
+  }
+}
+
+.cart-footer-btn:hover{
+  .fa-heart{
+    color: #FFB81C !important;
+  }
+  .fa-times{
+    color: red !important;
+  }
+}

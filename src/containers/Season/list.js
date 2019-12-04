@@ -469,7 +469,11 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => null;
+  noRowsRenderer = () => (
+    <div>
+      <h1>placeholder content</h1>
+    </div>
+  );
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
