@@ -70,6 +70,7 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
+    this.props.clearCookie();
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
     this.props.clearUserModelState();
@@ -169,6 +170,7 @@ class UserButton extends React.Component {
 
   handleLogout = () => {
     this.setState({ visible: false });
+    this.props.clearCookie();
     this.props.logout();
     this.props.clearLocally();
     this.props.clearUserModelState();

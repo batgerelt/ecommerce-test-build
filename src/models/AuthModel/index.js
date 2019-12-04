@@ -31,6 +31,11 @@ class AuthModel extends BaseModel {
       response: this.buildActionName("response", "customer"),
       error: this.buildActionName("error", "customer"),
     };
+    this.clearCookieModel = {
+      request: this.buildActionName("request", "clearCookie"),
+      response: this.buildActionName("response", "clearCookie"),
+      error: this.buildActionName("error", "clearCookie"),
+    };
     this.initialState = {
       user: {
         name: "",
@@ -50,6 +55,9 @@ class AuthModel extends BaseModel {
   logout = () => ({
     type: "AUTH_LOGOUT",
   });
+
+  clearCookie = () =>
+    asyncFn({ url: `/login/logout`, method: "POST", model: this.clearCookieModel })
 
   signup = ({ body } = {}) =>
     asyncFn({
@@ -97,6 +105,14 @@ class AuthModel extends BaseModel {
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      case this.clearCookieModel.request:
+        return {
+          ...state,
+        };
+      case this.clearCookieModel.response:
+        return {
+          ...state,
+        };
       case this.resetModel.request:
         return {
           ...state,

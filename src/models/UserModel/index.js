@@ -88,7 +88,6 @@ class Model extends BaseModel {
     switch (action.type) {
       // LOGOUT CLEAR USER
       case "CLEAR_USER":
-        console.log("logout");
         return {
           ...state,
           userinfo: [],

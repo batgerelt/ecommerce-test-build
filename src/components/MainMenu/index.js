@@ -11,7 +11,7 @@ class MainMenu extends React.Component {
     let tmp = data.map((item, index) => {
       return (
         <Button key={index}>
-          <li className="list-inline-item" style={{ textTransform: "uppercase" }}>
+          <li className="list-inline-item">
             <Link to={item.link}>
               <span style={{ color: pathname + search === item.link ? "#FFB81C" : "#FFFFFF" }}>
                 {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
