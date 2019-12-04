@@ -23,6 +23,7 @@ class Model extends BaseModel {
     discountproducts: [],
     discountproductCount: 10,
     isFetchingDiscount: false,
+    isLoadingSearch: false,
   }
 
   constructor(data = {}) {
@@ -74,6 +75,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'discountproduct'),
           error: this.buildActionName('error', data.model, 'discountproduct'),
         },
+        searchFromHeader: {
+          request: this.buildActionName('request', data.model, 'searchFromHeader'),
+          response: this.buildActionName('response', data.model, 'searchFromHeader'),
+          error: this.buildActionName('error', data.model, 'searchFromHeader'),
+        },
       };
     }
   }
@@ -92,6 +98,10 @@ class Model extends BaseModel {
 
   searchProduct = ({ body } = {}) => asyncFn({
     body, url: `/search/elastic`, method: 'POST', model: this.model.searchProduct,
+  })
+
+  searchFromHeader = ({ body } = {}) => asyncFn({
+    body, url: `/search/elastic`, method: 'POST', model: this.model.searchFromHeader,
   })
 
   getNewProducts = ({ body } = {}) => asyncFn({
@@ -152,13 +162,21 @@ class Model extends BaseModel {
       case this.model.searchkeyword.response:
         return { ...state, searchkeyword: action.payload.data[0] };
 
-      // GET SEARCH KEY WORD FILTER
+      //
       case this.model.searchProduct.request:
         return { ...state, isFetchingSearch: true, current: this.requestCase(state.current, action) };
       case this.model.searchProduct.error:
         return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
       case this.model.searchProduct.response:
         return { ...state, isFetchingSearch: false, searchKeyWordResponse: action.payload.data };
+
+      // GET SEARCH KEY WORD FILTER
+      case this.model.searchFromHeader.request:
+        return { ...state, isLoadingSearch: true, current: this.requestCase(state.current, action) };
+      case this.model.searchFromHeader.error:
+        return { ...state, isLoadingSearch: false, current: this.errorCase(state.current, action) };
+      case this.model.searchFromHeader.response:
+        return { ...state, isLoadingSearch: false, searchKeyWordResponse: action.payload.data };
 
       // GET SEARCH NEW PRODUCT
       case this.model.newproduct.request:

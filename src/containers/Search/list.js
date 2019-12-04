@@ -730,7 +730,7 @@ class CategoryInfo extends React.Component {
         highlight: false,
       };
 
-      return this.props.searchProduct({ body: { ...params } }).then((res) => {
+      return this.props.searchFromHeader({ body: { ...params } }).then((res) => {
         if (res.payload.success && res.payload.data) {
           this.setState({
             products: res.payload.data.hits.hits,

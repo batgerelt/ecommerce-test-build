@@ -323,7 +323,7 @@ class AppHeader extends Component {
                             /> */}
 
                             {
-                              this.props.search.isFetchingSearch ? (
+                              this.props.search.isLoadingSearch ? (
                                 <i className="fa fa-circle-o-notch fa-spin" />
                             ) : (
                               <span
