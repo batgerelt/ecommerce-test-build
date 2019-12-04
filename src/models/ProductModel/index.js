@@ -190,7 +190,6 @@ class Model extends BaseModel {
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       case "CLEAR_DETAIL":
-        console.log("clear_detail");
         return {
           ...state,
           rate: 0,

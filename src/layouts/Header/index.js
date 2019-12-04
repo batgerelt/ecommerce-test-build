@@ -427,7 +427,9 @@ class AppHeader extends Component {
                   </Link>
                 </Dropdown>
               </li>
-              <MainMenu dataSource={mainmenu} history={this.props.history} />
+              <li className="list-inline-item">
+                <MainMenu dataSource={mainmenu} history={this.props.history} />
+              </li>
             </ul>
           </div>
         </div>
