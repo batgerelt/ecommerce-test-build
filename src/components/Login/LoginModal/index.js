@@ -309,7 +309,7 @@ class LoginModal extends React.Component {
                 className="btn btn-block btn-login text-uppercase"
                 loading={this.state.loading}
               // disabled={this.state.loading}
-              >
+              >{" "}
                 <FormattedMessage id="shared.form.button.login" />
               </Button>
             </Form.Item>

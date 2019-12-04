@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
+import ButtonGoogle from "@material-ui/core/Button";
 import { Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -27,6 +28,8 @@ class Cart extends React.Component {
       tempProducts: [],
       shouldRedirect: false,
       showButton: true,
+      isadd: { loading: false, index: null },
+      ismin: { loading: false, index: null },
     };
   }
 
@@ -57,7 +60,7 @@ class Cart extends React.Component {
         const { intl } = this.props;
 
         if (result.payload.success) {
-          this.setState({ shouldRedirect: true, loading: false });
+          this.setState({ shouldRedirect: true });
         } else {
           if (result.payload.data.length > 0) {
             let reasons = [];
@@ -93,7 +96,7 @@ class Cart extends React.Component {
               });
             }
 
-            this.setState({ loading: true, shouldRedirect: false });
+            this.setState({ loading: false, shouldRedirect: false });
           }
         }
       } else {
@@ -278,11 +281,15 @@ class Cart extends React.Component {
   };
 
   // eslint-disable-next-line consistent-return
-  handleIncrementClick = async (product) => {
+  handleIncrementClick = async (product, index) => {
     let { intl } = this.props;
     let { products } = this.props;
-
     let found = products.find(prod => prod.skucd === product.skucd);
+    const { isadd } = this.state;
+    isadd.loading = true;
+    isadd.index = index;
+    this.setState({ isadd });
+
     if (found) {
       if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
@@ -291,7 +298,7 @@ class Cart extends React.Component {
           iscart: 1,
         });
 
-        if (!result.payload.success) {
+        if (result.payload && !result.payload.success) {
           const messages = defineMessages({
             error: {
               id: result.payload.code,
@@ -379,12 +386,19 @@ class Cart extends React.Component {
         }
       }
     }
+
+    isadd.loading = false;
+    this.setState({ isadd });
   };
 
   // eslint-disable-next-line consistent-return
-  handleDecrementClick = async (product) => {
+  handleDecrementClick = async (product, index) => {
     let { intl } = this.props;
     let { products } = this.props;
+    const { ismin } = this.state;
+    ismin.loading = true;
+    ismin.index = index;
+    this.setState({ ismin });
 
     let found = products.find(prod => prod.skucd === product.skucd);
     if (found) {
@@ -456,6 +470,9 @@ class Cart extends React.Component {
     } else {
       throw new Error("Бараа олдсонгүй!");
     }
+
+    ismin.loading = false;
+    this.setState({ ismin });
   };
 
   seeMore = (e) => {
@@ -725,8 +742,8 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
-      console.log('products: ', products);
       const lang = this.props.intl.locale;
+      const { isadd, ismin } = this.state;
       let content1;
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
@@ -828,11 +845,11 @@ class Cart extends React.Component {
                         <div className="input-group e-input-group">
                           <div className="input-group-prepend" id="button-addon4">
                             <button
-                              onClick={() => this.handleDecrementClick(prod)}
+                              onClick={() => this.handleDecrementClick(prod, index)}
                               className="btn"
                               type="button"
                             >
-                              <i className="fa fa-minus" aria-hidden="true" />
+                              {ismin.loading && ismin.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-minus" aria-hidden="true" />}
                             </button>
                           </div>
                           <input
@@ -848,11 +865,11 @@ class Cart extends React.Component {
                           />
                           <div className="input-group-append" id="button-addon4">
                             <button
-                              onClick={() => this.handleIncrementClick(prod)}
+                              onClick={() => this.handleIncrementClick(prod, index)}
                               className="btn"
                               type="button"
                             >
-                              <i className="fa fa-plus" aria-hidden="true" />
+                              {isadd.loading && isadd.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-plus" aria-hidden="true" />}
                             </button>
                           </div>
                         </div>
@@ -869,9 +886,8 @@ class Cart extends React.Component {
                     <td colSpan="2">
                       <div className="text-right single-action">
                         <ul className="list-unstyled">
-                          <li>
-                            <Link
-                              to=""
+                          <li className="cart-footer-btn">
+                            <ButtonGoogle
                               className="upper-first"
                               onClick={e => this.handleSaveClick(e, prod)}
                             >
@@ -885,10 +901,10 @@ class Cart extends React.Component {
                                   )
                                   : ""
                               }
-                            </Link>
+                            </ButtonGoogle>
                           </li>
-                          <li>
-                            <Link to="" onClick={this.handleRemoveClick(prod)}>
+                          <li className="cart-footer-btn">
+                            <ButtonGoogle onClick={this.handleRemoveClick(prod)}>
                               <i className="fa fa-times" aria-hidden="true" />{" "}
                               {
                                 !isMobile
@@ -899,7 +915,7 @@ class Cart extends React.Component {
                                   )
                                   : ""
                               }
-                            </Link>
+                            </ButtonGoogle>
                           </li>
                         </ul>
                       </div>
