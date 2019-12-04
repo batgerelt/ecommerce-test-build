@@ -56,7 +56,6 @@ class List extends React.Component {
     try {
       const { orderdetail } = this.props;
       const lang = this.props.intl.locale;
-      console.log("orderdetail", orderdetail);
       if (orderdetail.info !== null) {
         return (
           <div className="cart-info filter-sticky" style={{ fontSize: "13px" }}>
