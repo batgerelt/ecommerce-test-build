@@ -636,7 +636,7 @@ class Cart extends React.Component {
                       />
                     </Link>
                   </div>
-                  <div className="info-container">
+                  <div className="info-container cart-wishlist-container">
                     <div className="flex-space">
                       <Link to={wishlistProd.route || ""}>
                         <div className="text">
@@ -653,12 +653,12 @@ class Cart extends React.Component {
                           </strong>
                         </div>
                       </Link>
-                      <button
+                      <ButtonGoogle
                         className="action btn btn-link"
                         onClick={() => this.handleIncrementClick(wishlistProd)}
                       >
                         <i className="fa fa-cart-plus" aria-hidden="true" />
-                      </button>
+                      </ButtonGoogle>
                     </div>
                   </div>
                 </li>

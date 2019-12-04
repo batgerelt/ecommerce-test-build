@@ -3779,6 +3779,34 @@ div.sticky-btn{
     color: #FFB81C !important;
   }
   .fa-times{
-    color: red !important;
+    color: rgb(212, 19, 13) !important;
   }
+}
+
+.cart-wishlist-container{
+  .MuiButton-text{
+    padding: 6px 10px !important;
+  }
+
+  .MuiButton-root{
+    border-radius: 20px !important;
+    min-width: 30px !important;
+  }
+}
+
+.header-search-btn{
+  .MuiButton-text{
+    padding: 6px 10px !important; 
+  }
+
+  .MuiButton-root{
+    border-radius: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #FFB81C !important;
+  }
+}
+
+.header-search-btn:hover{
+  opacity: 0.8;
 }

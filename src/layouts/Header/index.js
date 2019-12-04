@@ -94,12 +94,17 @@ class AppHeader extends Component {
     this.setState({ isSearch: !this.state.isSearch });
   };
 
-  handleKeyPress = (event, url) => {
-    if (event.key === 'Enter') {
-      this.props.history.push(encodeURI(url));
-      this.setState({ word: '' });
+  handleKeyPress = (categoryid, searchword) => {
+    if (categoryid === 0 && searchword === "") {
+      return null;
     }
-    return null;
+
+    // searchword = 'hello';
+    this.props.history.push({
+      pathname: `/search/${categoryid}/${moment()}`,
+      search: searchword,
+    });
+    return this.setState({ word: '' });
   }
 
   hadleValidate = (e) => {
@@ -192,14 +197,14 @@ class AppHeader extends Component {
                     className="d-block d-md-none button buttonGrey header-mobile-menu"
                     onClick={this.togglePopup}
                   >
-                    <img
-                      src={navImage}
-                      alt="mobile navigation"
-                      height="25px"
-                    />
+                    <img src={navImage} alt="mobile navigation" height="25px" />
                   </Button>
                   <Link to="/" className="logo">
-                    <img alt="logo" className="header-brand-logo" src={process.env.IMAGE + staticinfo.logopath} />
+                    <img
+                      alt="logo"
+                      className="header-brand-logo"
+                      src={process.env.IMAGE + staticinfo.logopath}
+                    />
                   </Link>
                   <div className="search">
                     <Form className={searchClass}>
@@ -216,15 +221,17 @@ class AppHeader extends Component {
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              style={{ boxShadow: 'none', fontSize: "14px" }}
+                              style={{ boxShadow: "none", fontSize: "14px" }}
                             >
-                              {
-                                this.state.item.id !== 0
-                                  ? (
-                                    lang === "mn" ? this.state.item.name : this.state.item.name_en
-                                  )
-                                  : <FormattedMessage id="header.category.label.allProducts" />
-                              }
+                              {this.state.item.id !== 0 ? (
+                                lang === "mn" ? (
+                                  this.state.item.name
+                                ) : (
+                                  this.state.item.name_en
+                                )
+                              ) : (
+                                <FormattedMessage id="header.category.label.allProducts" />
+                              )}
                             </button>
                             <div
                               className={dropdownClass}
@@ -234,25 +241,35 @@ class AppHeader extends Component {
                                 className="dropdown-item"
                                 onClick={this.handelAllCategory}
                               >
-                                <span className="no-padding" style={{ fontSize: "14px" }}>
+                                <span
+                                  className="no-padding"
+                                  style={{ fontSize: "14px" }}
+                                >
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 </span>
                               </a>
-                              {root.length !== 0 && root.map((item, index) => (
-                                <a
-                                  className={`dropdown-item ${item.icon ? '' : 'no-icon-category'}`}
-                                  key={index}
-                                  onClick={e => this.handleChangeCategory(item, e)}
-                                >
-                                  {item.icon ? (
-                                    <img
-                                      src={process.env.IMAGE + item.icon}
-                                      alt={item}
-                                    />
-                                  ) : null}
-                                  <span style={{ fontSize: "14px" }}>{lang === "mn" ? item.name : item.name_en}</span>
-                                </a>
-                              ))}
+                              {root.length !== 0 &&
+                                root.map((item, index) => (
+                                  <a
+                                    className={`dropdown-item ${
+                                      item.icon ? "" : "no-icon-category"
+                                    }`}
+                                    key={index}
+                                    onClick={e =>
+                                      this.handleChangeCategory(item, e)
+                                    }
+                                  >
+                                    {item.icon ? (
+                                      <img
+                                        src={process.env.IMAGE + item.icon}
+                                        alt={item}
+                                      />
+                                    ) : null}
+                                    <span style={{ fontSize: "14px" }}>
+                                      {lang === "mn" ? item.name : item.name_en}
+                                    </span>
+                                  </a>
+                                ))}
                             </div>
                           </div>
                         </li>
@@ -268,39 +285,56 @@ class AppHeader extends Component {
                                 onInvalid={this.hadleValidate}
                                 list="cat"
                                 className="form-control input-search"
-                                placeholder={intl.formatMessage({ id: "header.searchBar.placeholder" })}
-                                style={{ boxShadow: 'none', fontSize: "14px" }}
+                                placeholder={intl.formatMessage({
+                                  id: "header.searchBar.placeholder",
+                                })}
+                                style={{ boxShadow: "none", fontSize: "14px" }}
                                 onChange={this.handleChangeSearchWord}
-                                onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}
+                                onKeyPress={e =>
+                                  (e.key === "Enter"
+                                    ? this.handleKeyPress(item.id, word)
+                                    : null)
+                                }
                               />
-                              <datalist id="cat" className="list-unstyled" onKeyPress={e => this.handleKeyPress(e, item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`)}>
-                                {this.state.suggestion.map(item => <option key={item.id} value={item.keyword} />)}
+                              <datalist
+                                id="cat"
+                                className="list-unstyled"
+                                onKeyPress={e =>
+                                  (e.key === "Enter"
+                                    ? this.handleKeyPress(item.id, word)
+                                    : null)
+                                }
+                              >
+                                {this.state.suggestion.map(item => (
+                                  <option key={item.id} value={item.keyword} />
+                                ))}
                               </datalist>
                             </label>
                           </div>
                         </li>
-                        {/* <li style={{ width: "20% !important" }}>
-                          <Link to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`} className="btn" style={{ color: "black" }}>
-                            <i className="fa fa-search" />
-                          </Link>
-                        </li> */}
-                        <li>
-                          <Link
-                            className="btn"
-                            to={item.id === 0 && word === '' ? "#" : `/search/${item.id}/${word === "" ? '.' : word}/${moment()}`}
-                            style={{ boxShadow: 'none', color: 'black' }}
+                        <li className="header-search-btn">
+                          <Button
+                            onClick={() => this.handleKeyPress(item.id, word)}
+                            style={{ boxShadow: "none", color: "black" }}
                           >
-                            <i
+                            {/* <i
                               className="fa fa-search d-block d-sm-none"
                               style={{ fontSize: "20px", margin: "5px" }}
-                            />
-                            <span
-                              className="text-uppercase d-none d-sm-block"
-                              onClick={this.handleSearch}
-                            >
-                              <FormattedMessage id="header.searchBar.button" />
-                            </span>
-                          </Link>
+                            /> */}
+
+                            {
+                              this.props.search.isFetchingSearch ? (
+                                <i className="fa fa-circle-o-notch fa-spin" />
+                            ) : (
+                              <span
+                                className="text-uppercase d-none d-sm-block"
+                                onClick={this.handleSearch}
+                              >
+                                <FormattedMessage id="header.searchBar.button" />
+                              </span>
+                                )
+                            }
+                          </Button>
                         </li>
                       </ul>
                     </Form>
@@ -311,10 +345,7 @@ class AppHeader extends Component {
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">
-                      <Link
-                        to="#"
-                        onClick={this.toggleSearch}
-                      >
+                      <Link to="#" onClick={this.toggleSearch}>
                         <img src={searchImage} alt="search" height="25px" />
                         <p>
                           <small>Хайлт</small>
@@ -323,39 +354,51 @@ class AppHeader extends Component {
                       </Link>
                     </li>
                     <li className="list-inline-item">
-                      {
-                        localStorage.getItem('auth') !== null ?
-                          (
-                            <Link to="/profile/wish" className="row10">
-                              <img
-                                src={addedWishList ? heartImageColor : heartImage}
-                                alt="wishlist"
-                                height="25px"
-                                style={addedWishList ? { transition: "0.3s", transform: "scale(1.4)" } : { transition: "0.3s", transform: "scale(1)" }}
-                              />
-                              <p className="header-text header-wish-text">
-                                <small className="upper-first">
-                                  <FormattedMessage id="header.wishlist.part1" />
-                                </small>
-                                <span>
-                                  <FormattedMessage id="header.wishlist.part2" />
-                                </span>
-                              </p>
-                            </Link>
-                          ) : (
-                            <Link to="#" className="row10" onClick={this.handleLogin}>
-                              <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
-                              <p className="header-text header-wish-text">
-                                <small className="upper-first">
-                                  <FormattedMessage id="header.wishlist.part1" />
-                                </small>
-                                <span>
-                                  <FormattedMessage id="header.wishlist.part2" />
-                                </span>
-                              </p>
-                            </Link>
-                          )
-                      }
+                      {localStorage.getItem("auth") !== null ? (
+                        <Link to="/profile/wish" className="row10">
+                          <img
+                            src={addedWishList ? heartImageColor : heartImage}
+                            alt="wishlist"
+                            height="25px"
+                            style={
+                              addedWishList
+                                ? {
+                                    transition: "0.3s",
+                                    transform: "scale(1.4)",
+                                  }
+                                : { transition: "0.3s", transform: "scale(1)" }
+                            }
+                          />
+                          <p className="header-text header-wish-text">
+                            <small className="upper-first">
+                              <FormattedMessage id="header.wishlist.part1" />
+                            </small>
+                            <span>
+                              <FormattedMessage id="header.wishlist.part2" />
+                            </span>
+                          </p>
+                        </Link>
+                      ) : (
+                        <Link
+                          to="#"
+                          className="row10"
+                          onClick={this.handleLogin}
+                        >
+                          <img
+                            src={addedWishList ? heartImageColor : heartImage}
+                            alt="wishlist"
+                            height="25px"
+                          />
+                          <p className="header-text header-wish-text">
+                            <small className="upper-first">
+                              <FormattedMessage id="header.wishlist.part1" />
+                            </small>
+                            <span>
+                              <FormattedMessage id="header.wishlist.part2" />
+                            </span>
+                          </p>
+                        </Link>
+                      )}
                     </li>
                     <li className="list-inline-item">
                       <CartButton {...this.props} />

@@ -703,7 +703,7 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     try {
-      searchword = this.props.match.params.word;
+      searchword = this.props.history.location.search.substring(1, this.props.history.location.search.length);
       searchtime = this.props.match.params.time;
       catid = this.props.match.params.cat;
 
@@ -717,7 +717,7 @@ class CategoryInfo extends React.Component {
       const params = {
         catId: catid,
         custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
-        value: searchword === '.' ? '' : searchword,
+        value: searchword,
         attribute: "",
         color: "",
         brand: "",
@@ -748,7 +748,9 @@ class CategoryInfo extends React.Component {
   };
 
   render() {
-    const { word, time, cat } = this.props.match.params;
+    const { time, cat } = this.props.match.params;
+    const word = this.props.history.location.search.substring(1, this.props.history.location.search.length);
+
     // Хайлтын хуудаснаас өөр үг хайх үед
     if (word !== searchword || time !== searchtime || cat !== catid) {
       this.getData();

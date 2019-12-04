@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash';
 import withQuery from 'with-query';
+import { message } from "antd";
 
 const request = ({
   url, method, body, isfiles,
@@ -23,6 +24,7 @@ const request = ({
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
+        message.info('Таныг одоо шууд гаргана хохо');
         localStorage.clear();
       }
       if (!response.ok) {
@@ -55,6 +57,7 @@ const request = ({
     body: JSON.stringify(body),
   }).then((response) => {
     if (response.status === 401) {
+      message.info('Таныг одоо шууд гаргана хохо');
       localStorage.clear();
     }
 
