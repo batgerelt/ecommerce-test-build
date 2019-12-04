@@ -155,7 +155,6 @@ class App extends Component {
                           <Route path="/emart" component={Emart} />
                           <Route path="/profile" component={Profile} />
                           <Route path="/search/:cat/:time" component={Search} />
-                          {/* <Route path="/search/:cat/:time" component={Search} /> */}
                           <Route path="/ResetPassword/:key" component={PassReset} />
                           <Route path="/confirm/:key" component={Confirm} />
                           <Route path="/order/:id" component={Order} />

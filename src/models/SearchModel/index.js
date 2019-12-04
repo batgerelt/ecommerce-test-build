@@ -200,9 +200,9 @@ class Model extends BaseModel {
 
       // GET ALL TAGS
       case this.model.tags.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, isFetchingSearch: true, current: this.requestCase(state.current, action) };
       case this.model.tags.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, isFetchingSearch: false, current: this.errorCase(state.current, action) };
       case this.model.tags.response:
         return { ...state, tags: action.payload.data };
 
