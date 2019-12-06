@@ -61,9 +61,10 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const { intl } = this.props;
     this.props.form.validateFields(async (err, values) => {
-      if (!err) {
+      let error = err.email;
+      if (error !== undefined) {
         // eslint-disable-next-line consistent-return
-        this.props.reset({ mail: values.email }).then((res) => {
+        this.props.reset({ mail: values.email1 }).then((res) => {
           if (!res.payload.success) {
             return store.addNotification({
               insert: "top",
@@ -374,11 +375,11 @@ class LoginModal extends React.Component {
         >
           <Form onSubmit={this.handleSubmitForget} className="login-form">
             <Form.Item>
-              {getFieldDecorator("email", {
+              {getFieldDecorator("email1", {
                 rules: [
                   {
-                    required: true,
-                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                    // required: true,
+                    // message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                     type: "email",
                   },
                 ],
