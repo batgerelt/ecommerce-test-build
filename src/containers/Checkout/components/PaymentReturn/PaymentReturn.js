@@ -77,7 +77,7 @@ class GolomtMerchant extends React.Component {
                             style={{ color: "#feb415" }}
                           />
                           <span>
-                            {state.qpayReturn ? `${state.return.info.phone1}, ${state.return.info.phone2}` : `${golomtMerchant.data.delivery.phonE1}, ${golomtMerchant.data.delivery.phonE2}`}
+                            {state.qpayReturn ? `${state.return.info.phone1}` : `${golomtMerchant.data.delivery.phonE1}`}
                           </span>
                         </p>
                         <p className="text flex-this">

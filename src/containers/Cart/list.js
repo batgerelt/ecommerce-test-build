@@ -622,37 +622,45 @@ class Cart extends React.Component {
               <FormattedMessage id="shared.sidebar.title.wishlist" />
             </p>
             <ul className="list-unstyled">
-              {wishlistProducts.slice(0, this.state.count).map((wishlistProd, index) => (
-                <li className="flex-this" key={index}>
-                  <div className="image-container default">
-                    <Link to={wishlistProd.route || ""}>
-                      <span
-                        className="image"
-                        style={{
-                          backgroundImage: `url(${process.env.IMAGE}${
-                            wishlistProd.img
-                            })`,
-                        }}
-                      />
-                    </Link>
-                  </div>
-                  <div className="info-container cart-wishlist-container">
-                    <div className="flex-space">
-                      <Link to={wishlistProd.route || ""}>
-                        <div className="text">
-                          <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
-                          <strong>
-                            {formatter.format(
-                              wishlistProd.discountprice
-                                ? wishlistProd.discountprice || wishlistProd.currentprice
-                                : wishlistProd.price
-                                  ? wishlistProd.price
-                                  : 0,
-                            )}
-                            ₮
-                          </strong>
-                        </div>
-                      </Link>
+              {wishlistProducts
+                .slice(0, this.state.count)
+                .map((wishlistProd, index) => (
+                  <li
+                    className="flex-this d-flex cart-wishlist-container"
+                    key={index}
+                  >
+                    <div className="col-2 p-0">
+                      <div className="image-container default">
+                        <Link to={wishlistProd.route || ""}>
+                          <span
+                            className="image"
+                            style={{ backgroundImage: `url(${process.env.IMAGE}${wishlistProd.img})` }}
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="col-8">
+                      <div className="info-container">
+                        <Link to={wishlistProd.route || ""}>
+                          <div className="text">
+                            <span>
+                              {lang === "mn"
+                                ? (wishlistProd.title.length > 50 ? `${wishlistProd.title.substring(0, 50)}...` : wishlistProd.title)
+                                : wishlistProd.title_en.substring(0, 50)}
+                            </span>
+                            <strong>
+                              {
+                                formatter.format(wishlistProd.discountprice ?
+                                  wishlistProd.discountprice || wishlistProd.currentprice
+                                  : wishlistProd.price ? wishlistProd.price : 0,
+                              )}
+                              ₮
+                            </strong>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="col-2 cart-wishlist-btn info-container d-flex justify-content-center p-0">
                       <ButtonGoogle
                         className="action btn btn-link"
                         onClick={() => this.handleIncrementClick(wishlistProd)}
@@ -660,18 +668,20 @@ class Cart extends React.Component {
                         <i className="fa fa-cart-plus" aria-hidden="true" />
                       </ButtonGoogle>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
             </ul>
-            {
-              wishlistProducts.length <= 5 ? null : this.state.showButton ?
-                <Link to="#" className="btn btn-gray btn-block" onClick={e => this.seeMore(e)}>
-                  <span className="text-uppercase">
-                    <FormattedMessage id="shared.sidebar.button.showAll" />
-                  </span>
-                </Link> : null
-            }
+            {wishlistProducts.length <= 5 ? null : this.state.showButton ? (
+              <Link
+                to="#"
+                className="btn btn-gray btn-block"
+                onClick={e => this.seeMore(e)}
+              >
+                <span className="text-uppercase">
+                  <FormattedMessage id="shared.sidebar.button.showAll" />
+                </span>
+              </Link>
+            ) : null}
           </div>
         )
       );
@@ -685,43 +695,48 @@ class Cart extends React.Component {
           </p>
           <ul className="list-unstyled">
             {wishlistProducts.map((wishlistProd, index) => (
-              <li className="flex-this" key={index}>
-                <div className="image-container default">
-                  <Link to={wishlistProd.route || ""}>
-                    <span
-                      className="image"
-                      style={{
-                        backgroundImage: `url(${process.env.IMAGE}${
-                          wishlistProd.img
-                          })`,
-                      }}
-                    />
-                  </Link>
+              <li
+                className="flex-this d-flex cart-wishlist-container"
+                key={index}
+              >
+                <div className="col-2 p-0">
+                  <div className="image-container default">
+                    <Link to={wishlistProd.route || ""}>
+                      <span
+                        className="image"
+                        style={{ backgroundImage: `url(${process.env.IMAGE}${wishlistProd.img})` }}
+                      />
+                    </Link>
+                  </div>
                 </div>
-                <div className="info-container">
-                  <div className="flex-space">
+                <div className="col-8">
+                  <div className="info-container">
                     <Link to={wishlistProd.route || ""}>
                       <div className="text">
-                        <span>{lang === "mn" ? wishlistProd.title : wishlistProd.title_en}</span>
+                        <span>
+                          {lang === "mn"
+                          ? (wishlistProd.title.length > 50 ? `${wishlistProd.title.substring(0, 50)}...` : wishlistProd.title)
+                          : wishlistProd.title_en.substring(0, 50)}
+                        </span>
                         <strong>
-                          {formatter.format(
-                            wishlistProd.discountprice
-                              ? wishlistProd.discountprice || wishlistProd.currentprice
-                              : wishlistProd.price
-                                ? wishlistProd.price
-                                : 0,
-                          )}
-                          ₮
+                          {
+                          formatter.format(wishlistProd.discountprice ?
+                            wishlistProd.discountprice || wishlistProd.currentprice
+                            : wishlistProd.price ? wishlistProd.price : 0,
+                        )}
+                        ₮
                         </strong>
                       </div>
                     </Link>
-                    <button
-                      className="action btn btn-link"
-                      onClick={() => this.handleIncrementClick(wishlistProd)}
-                    >
-                      <i className="fa fa-cart-plus" aria-hidden="true" />
-                    </button>
                   </div>
+                </div>
+                <div className="col-2 cart-wishlist-btn info-container d-flex justify-content-center p-0">
+                  <ButtonGoogle
+                    className="action btn btn-link"
+                    onClick={() => this.handleIncrementClick(wishlistProd)}
+                  >
+                    <i className="fa fa-cart-plus" aria-hidden="true" />
+                  </ButtonGoogle>
                 </div>
               </li>
             ))}

@@ -3786,7 +3786,7 @@ div.sticky-btn{
   }
 }
 
-.cart-wishlist-container{
+.cart-wishlist-btn{
   .MuiButton-text{
     padding: 6px 10px !important;
   }
@@ -3817,5 +3817,12 @@ div.sticky-btn{
 .cart-table-container{
   tr:first-child:hover{
     background-color: rgba(0,0,0,0.05);
+  }
+}
+
+.cart-wishlist-container{
+  .info-container{
+    width: 100% !important;
+    padding: 0% !important;
   }
 }

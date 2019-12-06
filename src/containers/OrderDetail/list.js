@@ -118,7 +118,7 @@ class List extends React.Component {
                 </p>
                 <p className="text flex-this">
                   <i className="fa fa-phone" aria-hidden="true" style={{ color: "#feb415" }} />
-                  <span>{orderdetail.info.phone1}, {orderdetail.info.phone2}</span>
+                  <span>{orderdetail.info.phone1}</span>
                 </p>
                 <p className="text flex-this">
                   <i className="fa fa-envelope" aria-hidden="true" style={{ color: "#feb415" }} />
