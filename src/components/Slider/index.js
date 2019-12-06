@@ -143,7 +143,7 @@ class Slider extends React.Component {
               className={this.props.contain ? "background-contain" : "background-cover"}
               style={{
                 backgroundImage: `url(${process.env.IMAGE + (this.props.isMain ? (width < 767 ? item.mobimgnm : item.imgnm) : item.imgnm)})`,
-                height: (this.props.isMain ? (width < 767 ? '360px' : sliderHeight) : sliderHeight),
+                height: (this.props.isMain ? (width < 767 ? '300px' : '600px') : sliderHeight),
               }}
             >
               {

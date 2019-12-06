@@ -24,7 +24,7 @@ const request = ({
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
-        message.info('Таныг одоо шууд гаргана хохо');
+        message.info('Token expired ^_^');
         localStorage.clear();
       }
       if (!response.ok) {
@@ -57,7 +57,7 @@ const request = ({
     body: JSON.stringify(body),
   }).then((response) => {
     if (response.status === 401) {
-      message.info('Таныг одоо шууд гаргана хохо');
+      message.info('Token expired ^_^');
       localStorage.clear();
     }
 

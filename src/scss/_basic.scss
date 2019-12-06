@@ -3818,6 +3818,10 @@ div.sticky-btn{
 .cart-table-container{
   tr:first-child:hover{
     background-color: rgba(0,0,0,0.05);
+
+    input{
+      background-color: rgba(0,0,0,0.05);
+    }
   }
 }
 

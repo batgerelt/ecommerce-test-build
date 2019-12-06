@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable no-useless-concat */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -190,6 +191,9 @@ class Footer extends React.Component {
             }
             <div className="bottom-container">
               <p><FormattedMessage id="footer.copyright.text" /></p>
+              <p><FormattedMessage id="footer.poweredby.text" />
+                <a href="https://datacare.mn/" target="_blank">Datacare llc</a>
+              </p>
             </div>
           </div>
         </div>
