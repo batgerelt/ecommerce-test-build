@@ -868,6 +868,7 @@ class Cart extends React.Component {
                             </div>
                             <input
                               ref={this.inputRef}
+                              type="text"
                               className="form-control"
                               value={prod.qty}
                               name="productQty"
