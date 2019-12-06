@@ -269,7 +269,6 @@ class Checkout extends React.Component {
         body.address = values.address;
         body.name = values.name;
         body.phonE1 = values.phone1;
-        body.phonE2 = values.phone2;
         if (addresstype === "new" && chosenDelivery.id !== 3) {
           this.props.addAddress({ body }).then((res) => {
             if (res.payload.success) {
