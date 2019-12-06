@@ -26,7 +26,7 @@ class Banner extends React.Component {
       const selected = data.length === undefined ? data : data[0];
       // this.getImageColor(process.env.IMAGE + selected.imgnm);
       return (
-        <div className="banner-container">
+        <div className="banner-container" style={{ height: `${width < 767 ? '300px' : 'auto'}` }}>
           <span style={{ backgroundImage: `url(${process.env.IMAGE + (width < 767 ?  selected.mobimgnm : selected.imgnm)})` }} />
           <div className="container pad10">
             <a href={selected.link ? selected.link : "#"} target="_blank">

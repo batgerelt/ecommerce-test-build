@@ -760,6 +760,7 @@ class Cart extends React.Component {
       const lang = this.props.intl.locale;
       const { isadd, ismin } = this.state;
       let content1;
+
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
           <div className="empty-cart">
@@ -813,101 +814,99 @@ class Cart extends React.Component {
                   </th>
                 </tr>
               </thead>
-              {products.map((prod, index) => (
-                <tbody key={index}>
-                  <tr>
-                    <td className="column-1">
-                      <div className="flex-this">
-                        <div className="image-container default">
-                          <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
-                            <span
-                              className="image"
-                              style={{
-                                backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
-                              }}
-                            />
-                          </Link>
+              {products.map((prod, index) => {
+                const title = lang === "mn" ? prod.title || prod.title : prod.title_en || prod.title_en;
+
+                return (
+                  <tbody key={index}>
+                    <tr>
+                      <td className="column-1">
+                        <div className="flex-this">
+                          <div className="image-container default">
+                            <Link to={prod.route || `/productdetail/${prod.skucd}` || ""}>
+                              <span
+                                className="image"
+                                style={{
+                                  backgroundImage: `url(${process.env.IMAGE}${prod.img || prod.imgnm || prod.url || ""})`,
+                                }}
+                              />
+                            </Link>
+                          </div>
+                          <div className="info-container">
+                            <Link
+                              to={prod.route || ""}
+                              style={{ color: "#6c757d" }}
+                            >
+                              <strong>{title.length < 35 ? title : `${title.substring(0, 35)}...`}</strong>
+                              <span className="featured">
+                                {lang === "mn"
+                                  ? prod.featuretxt || prod.feature
+                                  : prod.featuretxt_en || prod.feature_en
+                                }
+                              </span>
+                            </Link>
+                            {prod.availableqty <= 0 ? (
+                              <div className="badge badge-dark">
+                                {lang === "mn" ? "Дууссан" : "Sold out"}
+                              </div>
+                            ) : ""}
+                          </div>
                         </div>
-                        <div className="info-container">
-                          <Link
-                            to={prod.route || ""}
-                            style={{ color: "#6c757d" }}
-                          >
-                            <strong>
-                              {lang === "mn"
-                                ? prod.title || prod.title
-                                : prod.title_en || prod.title_en
-                              }
-                            </strong>
-                            <span className="featured">
-                              {lang === "mn"
-                                ? prod.featuretxt || prod.feature
-                                : prod.featuretxt_en || prod.feature_en
-                              }
-                            </span>
-                          </Link>
-                          {prod.availableqty <= 0 ? (
-                            <div className="badge badge-dark">
-                              {lang === "mn" ? "Дууссан" : "Sold out"}
+                      </td>
+                      <td className="column-2">{this.renderUnitPrice(prod)}</td>
+                      <td className="column-3">
+                        <form onSubmit={e => { e.preventDefault(); }}>
+                          <div className="input-group e-input-group">
+                            <div className="input-group-prepend" id="button-addon4">
+                              <button
+                                onClick={() => this.handleDecrementClick(prod, index)}
+                                className="btn"
+                                type="button"
+                              >
+                                {ismin.loading && ismin.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-minus" aria-hidden="true" />}
+                              </button>
                             </div>
-                          ) : ""}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="column-2">{this.renderUnitPrice(prod)}</td>
-                    <td className="column-3">
-                      <form onSubmit={e => { e.preventDefault(); }}>
-                        <div className="input-group e-input-group">
-                          <div className="input-group-prepend" id="button-addon4">
-                            <button
-                              onClick={() => this.handleDecrementClick(prod, index)}
-                              className="btn"
-                              type="button"
-                            >
-                              {ismin.loading && ismin.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-minus" aria-hidden="true" />}
-                            </button>
+                            <input
+                              ref={this.inputRef}
+                              type="text"
+                              className="form-control"
+                              value={prod.qty}
+                              name="productQty"
+                              maxLength={5}
+                              onKeyUp={this.handleInputKeyUp(prod)}
+                              onChange={this.handleInputChange(prod)}
+                              onBlur={this.handleInputBlur(prod)}
+                            />
+                            <div className="input-group-append" id="button-addon4">
+                              <button
+                                onClick={() => this.handleIncrementClick(prod, index)}
+                                className="btn"
+                                type="button"
+                              >
+                                {isadd.loading && isadd.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-plus" aria-hidden="true" />}
+                              </button>
+                            </div>
                           </div>
-                          <input
-                            ref={this.inputRef}
-                            type="text"
-                            className="form-control"
-                            value={prod.qty}
-                            name="productQty"
-                            maxLength={5}
-                            onKeyUp={this.handleInputKeyUp(prod)}
-                            onChange={this.handleInputChange(prod)}
-                            onBlur={this.handleInputBlur(prod)}
-                          />
-                          <div className="input-group-append" id="button-addon4">
-                            <button
-                              onClick={() => this.handleIncrementClick(prod, index)}
-                              className="btn"
-                              type="button"
-                            >
-                              {isadd.loading && isadd.index === index ? <i className="fa fa-circle-o-notch fa-spin" /> : <i className="fa fa-plus" aria-hidden="true" />}
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </td>
-                    <td className="column-4">
-                      {this.renderTotalPrice(prod)}
-                    </td>
-                  </tr>
-                  <tr className="table-action">
-                    <td colSpan="2">
-                      {lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
-                    </td>
-                    <td colSpan="2">
-                      <div className="text-right single-action">
-                        <ul className="list-unstyled">
-                          <li className="cart-footer-btn">
-                            <ButtonGoogle
-                              className="upper-first"
-                              onClick={e => this.handleSaveClick(e, prod)}
-                            >
-                              <i className="fa fa-heart" aria-hidden="true" />{" "}
-                              {
+                        </form>
+                      </td>
+                      <td className="column-4">
+                        {this.renderTotalPrice(prod)}
+                      </td>
+                    </tr>
+                    <tr className="table-action">
+                      <td colSpan="2">
+                        {lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
+                      </td>
+                      <td colSpan="2">
+                        <div className="text-right single-action">
+                          <ul className="list-unstyled">
+                            <li className="cart-footer-btn">
+                              <ButtonGoogle
+                                className="upper-first"
+                                onClick={e => this.handleSaveClick(e, prod)}
+                              >
+                                <i className="fa fa-heart" aria-hidden="true" />{" "}
+                                {
                                 !isMobile
                                   ? (
                                     <span>
@@ -916,12 +915,12 @@ class Cart extends React.Component {
                                   )
                                   : ""
                               }
-                            </ButtonGoogle>
-                          </li>
-                          <li className="cart-footer-btn">
-                            <ButtonGoogle onClick={this.handleRemoveClick(prod)}>
-                              <i className="fa fa-times" aria-hidden="true" />{" "}
-                              {
+                              </ButtonGoogle>
+                            </li>
+                            <li className="cart-footer-btn">
+                              <ButtonGoogle onClick={this.handleRemoveClick(prod)}>
+                                <i className="fa fa-times" aria-hidden="true" />{" "}
+                                {
                                 !isMobile
                                   ? (
                                     <span>
@@ -930,14 +929,15 @@ class Cart extends React.Component {
                                   )
                                   : ""
                               }
-                            </ButtonGoogle>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              ))}
+                              </ButtonGoogle>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })}
             </table>
           </div>
         );
