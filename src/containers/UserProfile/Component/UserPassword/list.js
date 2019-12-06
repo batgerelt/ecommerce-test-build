@@ -2,6 +2,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, Input, Col, Button, Divider, notification } from "antd";
 import { store } from 'react-notifications-component';
+import ButtonGoogle from "@material-ui/core/Button";
 import { Notification } from "../../../../components";
 // import { Link } from "react-router-dom";
 
@@ -121,9 +122,9 @@ class Component extends React.Component {
             <Col xs={12} sm={12} md={18} lg={18} xl={18} />
             <Col xs={12} sm={12} md={6} lg={6} xl={6}>
               <Form.Item className="text">
-                <Button className="btn btn-dark" onClick={this.handleSubmit} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                <ButtonGoogle className="btn btn-dark hover-effect" onClick={this.handleSubmit} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
                   <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                </Button>
+                </ButtonGoogle>
               </Form.Item>
             </Col>
           </Col>

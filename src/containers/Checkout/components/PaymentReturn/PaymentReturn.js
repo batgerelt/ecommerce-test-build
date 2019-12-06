@@ -12,6 +12,7 @@ class GolomtMerchant extends React.Component {
 
   render() {
     const { golomtMerchant, state } = this.props;
+    console.log("golomtMerchant", golomtMerchant);
     if (golomtMerchant.success || state.qpayReturn) {
       return (
         <div className="section section-gray">

@@ -3,6 +3,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { Form, Input, Select, Divider, Col, Button, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { store } from 'react-notifications-component';
+import ButtonGoogle from "@material-ui/core/Button";
 import LetterInput from "../../../../components/Input/LetterInput";
 import NumberInput from "../../../../components/Input/NumberInput";
 import { Loader, Notification } from "../../../../components";
@@ -293,17 +294,6 @@ class Component extends React.Component {
               </Form.Item>
             </Col>
 
-            {/* <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-              <span className="top-text">{intl.formatMessage({ id: "shared.form.phone2.placeholder" })}</span>
-              <Form.Item>
-                {getFieldDecorator("phone2", {
-                  rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
-                  { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
-                  { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
-                })(<NumberInput className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.phone2.placeholder" })} autoComplete="off" />)}
-              </Form.Item>
-            </Col> */}
-
             <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
               <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
               <Form.Item>
@@ -379,9 +369,9 @@ class Component extends React.Component {
               <Col xs={12} sm={12} md={18} lg={18} xl={18} />
               <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Form.Item className="text">
-                  <Button className="btn btn-dark" disabled={load} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <ButtonGoogle className="btn btn-dark hover-effect" disabled={load} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
                     <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                  </Button>
+                  </ButtonGoogle>
                 </Form.Item>
               </Col>
             </Col>

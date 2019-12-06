@@ -139,7 +139,6 @@ class DeliveryPanel extends React.Component {
     if (noAddress) {
       this.props.form.setFieldsValue({
         phone1: info.phone1,
-        phone2: info.phone2,
         name: info.firstname,
         committeeid: [],
         districtid: [],
@@ -151,7 +150,6 @@ class DeliveryPanel extends React.Component {
         districtid: addresstype === "new" ? [] : value.districtid,
         provinceid: value.provinceid,
         phone1: addresstype === "new" ? "" : value.phone1,
-        phone2: addresstype === "new" ? "" : value.phone2,
         address: addresstype === "new" ? "" : value.address,
         name: addresstype === "new" ? "" : value.name,
       });
@@ -532,7 +530,7 @@ class DeliveryPanel extends React.Component {
               </div>
               <Col span={24}>
                 <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
-                  <span className="top-text">{intl.formatMessage({ id: "shared.form.label.deliveryDate" })}</span>
+                  <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.label.deliveryDate" }) : intl.formatMessage({ id: "shared.form.label.getYourselfDate" })}</span>
                   <DatePicker
                     size="large"
                     className="col-md-12"

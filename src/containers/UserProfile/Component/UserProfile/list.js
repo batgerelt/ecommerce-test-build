@@ -552,9 +552,9 @@ class Component extends React.Component {
               <Col xs={12} sm={12} md={18} lg={18} xl={18} />
               <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Form.Item className="text">
-                  <ButtonGoogle className="btn btn-dark" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
-                    <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
-                  </ButtonGoogle>
+                  <button className="ui inverted primary button" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                    <span className="text-uppercase" style={{ fontWeight: "500" }}><FormattedMessage id="shared.form.button.save" /></span>
+                  </button >
                 </Form.Item>
               </Col>
             </Col>
