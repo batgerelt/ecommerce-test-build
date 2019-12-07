@@ -98,6 +98,7 @@ class GolomtMerchant extends React.Component {
                         </p>
                       </div>
                       <div className="bottom-text text-center">
+                        <br />
                         <p>
                           Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар
                           холбогдоно уу. Баярлалаа
