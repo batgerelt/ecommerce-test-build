@@ -11,6 +11,7 @@ import {
 import List from "./list";
 import { Loader } from "../../components";
 import { LoginModal } from "../../components/Login";
+import Skelton from "../../components/Skeltons/productDetail";
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -70,10 +71,12 @@ class Page extends React.Component {
     const { loading } = this.state;
     return (
       <Spin
-        spinning={loading}
+        spinning={false}
         indicator={<Loader />}
       >
-        <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
+        {
+          loading ? <Skelton /> : <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
+        }
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>
     );
