@@ -11,7 +11,7 @@ import { addLocaleData, IntlProvider } from "react-intl";
 import localeEn from "react-intl/locale-data/en";
 import localeMn from "react-intl/locale-data/mn";
 import { Header, Footer, Mobilemenu } from "../../layouts";
-import { LoginModal } from "../../components/Login";
+import { LoginModal, TokenExpiredModal } from "../../components/Login";
 import { RegistrationModal } from "../../components/Registration";
 import { ForgetModal } from "../../components/ForgetModal";
 import Notfound from "../Exception/404";
@@ -105,6 +105,7 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getTags();
     this.props.setLang();
+    localStorage.setItem('tokenExpired', false);
   }
   componentDidMount() {
     this.props.getCategoryMenu();
@@ -130,6 +131,7 @@ class App extends Component {
                     <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} {...this} />
                     <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
                     <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
+                    <TokenExpiredModal {...this} {...this.props} />
 
                     {/** fixed header */}
                     <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />

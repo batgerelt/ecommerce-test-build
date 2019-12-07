@@ -24,8 +24,8 @@ const request = ({
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
-        message.info('Token expired ^_^');
-        localStorage.clear();
+        // localStorage.setItem('tokenExpired', true);
+        localStorage.removeItem('auth');
       }
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -57,8 +57,8 @@ const request = ({
     body: JSON.stringify(body),
   }).then((response) => {
     if (response.status === 401) {
-      message.info('Token expired ^_^');
-      localStorage.clear();
+      // localStorage.setItem('tokenExpired', true);
+      localStorage.removeItem('auth');
     }
 
     if (!response.ok) {
