@@ -4,7 +4,7 @@ import { Rate, Spin, Icon, Col, Row, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { store } from 'react-notifications-component';
-import ButtonGoogle from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -144,10 +144,10 @@ class Component extends React.Component {
                 </li>
               </ul>
             </Col>
-            <Col className="action icons">
+            <Col className="action icons ">
               <ul className="list-unstyled flex-this">
-                <li>
-                  <ButtonGoogle
+                <li className="search-hover">
+                  <Button
                     className="action btn btn-link"
                     onClick={this.addHistory(item)}
                   >
@@ -155,10 +155,10 @@ class Component extends React.Component {
                       className={`fa fa-heart${isSaved ? '' : '-o'}`}
                       aria-hidden="true"
                     />
-                  </ButtonGoogle>
+                  </Button>
                 </li>
-                <li>
-                  <button
+                <li className="search-hover">
+                  <Button
                     className="action btn btn-link"
                     onClick={this.handleIncrement(item)}
                   >
@@ -166,10 +166,10 @@ class Component extends React.Component {
                       className="fa fa-cart-plus"
                       aria-hidden="true"
                     />
-                  </button>
+                  </Button>
                 </li>
-                <li>
-                  <button
+                <li className="search-hover">
+                  <Button
                     className="action btn btn-link"
                     onClick={this.onDelete(item)}
                   >
@@ -177,7 +177,7 @@ class Component extends React.Component {
                       className="fa fa-times"
                       aria-hidden="true"
                     />
-                  </button>
+                  </Button>
                 </li>
               </ul>
             </Col>

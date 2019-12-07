@@ -20,7 +20,6 @@ class MainMenu extends React.Component {
   render() {
     const data = this.props && this.props.dataSource;
     const lang = this.props.intl.locale;
-    console.log(data);
     return (
       <div className="row row10">
         {data.map((item, index) => (
@@ -53,6 +52,7 @@ class MainMenu extends React.Component {
                       </Link>
                     </li>
                   ))}
+              <br />
             </ul>
           </div>
         ))}
