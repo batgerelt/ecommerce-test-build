@@ -192,7 +192,7 @@ class Footer extends React.Component {
             <div className="bottom-container">
               <p><FormattedMessage id="footer.copyright.text" /></p>
               <p><FormattedMessage id="footer.poweredby.text" />
-                <a href="https://datacare.mn/" target="_blank">Datacare llc</a>
+                <a href="https://datacare.mn/" target="_blank">Datacare LLC</a>
               </p>
             </div>
           </div>

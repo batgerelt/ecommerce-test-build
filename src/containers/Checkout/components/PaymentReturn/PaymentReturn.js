@@ -15,8 +15,8 @@ class GolomtMerchant extends React.Component {
     console.log("golomtMerchant", golomtMerchant);
     if (golomtMerchant.success || state.qpayReturn) {
       return (
-        <div className="section section-gray">
-          <div className="container pad10">
+        <div className="section">
+          <div className="container pad10 py-5">
             <div className="success-message-container">
               <div className="container pad10">
                 <div className="row row10">
