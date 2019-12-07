@@ -12,7 +12,6 @@ class GolomtMerchant extends React.Component {
 
   render() {
     const { golomtMerchant, state } = this.props;
-    console.log("golomtMerchant", golomtMerchant);
     if (golomtMerchant.success || state.qpayReturn) {
       return (
         <div className="section">
@@ -87,7 +86,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          <span>{state.qpayReturn ? state.return.info.address : golomtMerchant.data.delivery.address}</span>
+                          <span>{state.qpayReturn ? state.return.info.address : golomtMerchant.data.delivery !== 3 ? golomtMerchant.data.delivery.address : "Улаанбаатар хот, Хан-Уул дүүрэг , 1-р хороо, Хан-Уул салбар"}</span>
                         </p>
                         <p className="text flex-this">
                           <i

@@ -60,10 +60,8 @@ class Payment extends React.Component {
         signature: this.getUrlParams(location, "signature"),
       };
       this.props.checkGolomtMerchant({ body: tmp }).then((res) => {
-        console.log("response1", res.payload.data);
         if (!res.payload.success) {
           if (res.payload.data.ordstatus === "SUCCESS") {
-            console.log("response2", res.payload.data);
             this.props.clearLocally();
             this.setState({ isReturn: true, return: res }, () => {
               this.props.history.push({
