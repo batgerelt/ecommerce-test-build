@@ -88,7 +88,7 @@ class GolomtMerchant extends React.Component {
                             aria-hidden="true"
                             style={{ color: "#feb415" }}
                           />
-                          {/* <span>{state.qpayReturn ? state.return.info.address : golomtMerchant.data.delivery.deliverytype === 3 ? "Улаанбаатар хот, Хан-Уул дүүрэг , 1-р хороо, Хан-Уул салбар" : golomtMerchant.data.delivery.address}</span> */}
+                          {<span>{state.qpayReturn ? state.return.info.deliverytype === 3 ? "Улаанбаатар хот, Хан-Уул дүүрэг , 1-р хороо, Хан-Уул салбар" : state.return.info.address : golomtMerchant.data.delivery.deliverytype === 3 ? "Улаанбаатар хот, Хан-Уул дүүрэг , 1-р хороо, Хан-Уул салбар" : golomtMerchant.data.delivery.address}</span>}
                         </p>
                         <p className="text flex-this">
                           <i
