@@ -138,7 +138,7 @@ class Slider extends React.Component {
         );
 
         return (
-          <div key={index} className="hello">
+          <div key={index} >
             <div
               className={this.props.contain ? "background-contain" : this.props.isMain ? 'background-cover-main' : 'background-cover'}
               style={{

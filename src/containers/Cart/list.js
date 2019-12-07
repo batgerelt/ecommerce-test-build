@@ -902,33 +902,21 @@ class Cart extends React.Component {
                           <ul className="list-unstyled">
                             <li className="cart-footer-btn">
                               <ButtonGoogle
-                                className="upper-first"
+                                className={`${isMobile ? 'pl-0' : null} upper-first`}
                                 onClick={e => this.handleSaveClick(e, prod)}
                               >
                                 <i className="fa fa-heart" aria-hidden="true" />{" "}
-                                {
-                                !isMobile
-                                  ? (
-                                    <span>
-                                      <FormattedMessage id="cart.table.button.save" />
-                                    </span>
-                                  )
-                                  : ""
-                              }
+                                <span >
+                                  <FormattedMessage id="cart.table.button.save" />
+                                </span>
                               </ButtonGoogle>
                             </li>
                             <li className="cart-footer-btn">
-                              <ButtonGoogle onClick={this.handleRemoveClick(prod)}>
+                              <ButtonGoogle onClick={this.handleRemoveClick(prod)} className={`${isMobile ? 'pl-0' : null}`}>
                                 <i className="fa fa-times" aria-hidden="true" />{" "}
-                                {
-                                !isMobile
-                                  ? (
-                                    <span>
-                                      <FormattedMessage id="cart.table.button.remove" />
-                                    </span>
-                                  )
-                                  : ""
-                              }
+                                <span >
+                                  <FormattedMessage id="cart.table.button.remove" />
+                                </span>
                               </ButtonGoogle>
                             </li>
                           </ul>

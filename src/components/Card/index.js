@@ -358,7 +358,7 @@ class Card extends React.Component {
         priceTagSpacing = 10;
 
         if (shape === CARD_TYPES.wide) {
-          priceTagSpacing = 150;
+          priceTagSpacing = 160;
         }
       }
 
