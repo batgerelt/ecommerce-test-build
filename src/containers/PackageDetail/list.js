@@ -497,7 +497,7 @@ class List extends React.Component {
                     </strong>
                   </Link>
                 </p>
-                <form>
+                <form onSubmit={e => e.preventDefault()}>
                   <div className="input-group e-input-group">
                     <div className="input-group-prepend" id="button-addon4">
                       <button
@@ -561,7 +561,7 @@ class List extends React.Component {
                 </div>
               </div>
             </div>
-          </li>
+          </li >
         ))
       );
     } catch (error) {

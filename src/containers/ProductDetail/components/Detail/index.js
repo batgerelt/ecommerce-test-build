@@ -526,9 +526,11 @@ class Detail extends Component {
         });
       }
     } else {
-      product.insymd = Date.now();
-      product.qty = this.state.productQty;
-      this.props.increaseProductByQtyLocally(product);
+      this.props.increaseProductByQtyLocally({
+        ...product,
+        qty: this.state.productQty,
+        insymd: Date.now(),
+      });
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
       if (updated && updated.error !== undefined) {
