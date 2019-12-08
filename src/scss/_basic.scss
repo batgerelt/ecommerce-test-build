@@ -3460,6 +3460,18 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.dropdown {
+  .MuiButton-label {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+.btn-allProduct {
+  box-shadow: "none";
+  font-size: "14px";
+  width: "100%";
+  padding-left: "5px !important";
+}
 
 .horizontal {
   display: flex;
