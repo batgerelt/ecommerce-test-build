@@ -214,14 +214,7 @@ class AppHeader extends Component {
                             className="dropdown"
                             onClick={this.toggleDropdown}
                           >
-                            <Button
-                              className="btn"
-                              style={{
-                                boxShadow: "none",
-                                fontSize: "14px",
-                                width: "100%",
-                              }}
-                            >
+                            <Button className="btn btn-allProduct">
                               {this.state.item.id !== 0 ? (
                                 lang === "mn" ? (
                                   this.state.item.name
