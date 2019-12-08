@@ -203,7 +203,7 @@ class Recipe extends React.Component {
 
   render() {
     return (
-      <div className="top-container top-container-responsive">
+      <div className="top-container top-container-responsive recipe-container">
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}

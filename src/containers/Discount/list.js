@@ -294,7 +294,7 @@ class Discount extends React.Component {
 
   render() {
     return (
-      <div className="top-container top-container-responsive">
+      <div className="top-container top-container-responsive discount-container">
         {this.props.menuDiscount === undefined ? null : this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}

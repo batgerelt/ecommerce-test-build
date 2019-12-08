@@ -94,13 +94,13 @@ class Slider extends React.Component {
                           </p>
                         </div>
                       )}
-                      {item && item.link && (
+                      {item && item.link && item.btntext !== null && (
                         <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
-                          <i className="fa fa-long-arrow-right" aria-hidden="true" />
+                          {item.btntext === null ? null : <i className="fa fa-long-arrow-right" aria-hidden="true" />}
                           <span className="text-uppercase">
                             {item.btntext && item.btntext.trim()
                               ? lang === "mn" ? item.btntext : item.btntext_en
-                              : intl.formatMessage({ id: "shared.form.button.more" })}
+                              : null}
                           </span>
                         </a>
                       )}

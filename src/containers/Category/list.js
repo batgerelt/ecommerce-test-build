@@ -760,7 +760,7 @@ class CategoryInfo extends React.Component {
     }
 
     return (
-      <div className="top-container">
+      <div className="top-container elastic-container">
         <div className="section category-search">
           <div className="container pad10">
             {this.renderBreadCrumb()}

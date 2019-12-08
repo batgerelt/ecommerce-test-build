@@ -669,7 +669,7 @@ class CategoryInfo extends React.Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container elastic-container">
         {this.renderBanner()}
         <div className="section season">
           <div className="container pad10">

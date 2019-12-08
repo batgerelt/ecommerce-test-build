@@ -415,7 +415,7 @@ h1.title {
         }
 
         .image-container {
-            padding-left: 5px;
+            // padding-left: 5px;
             margin-bottom: 20px;
         }
 
@@ -2144,10 +2144,30 @@ h1.title {
     #root {
         margin-top: 159px !important;
     }
+
+    .homepage-container{
+        .single-product{
+            .image-container{
+                height: 210px !important;
+            }
+        }
+    }
+
+    .ant-dropdown{
+        left: 0px !important;
+        width: 100% !important;
+        
+        .drop-container{
+            width: 100%;
+            margin-left: 0%;
+        }
+    }
+    
 }
 
 // (992px <= viewport < 1200px)
 @media (min-device-width: 992px) and (max-device-width: 1199px) {
+
     #root {
         margin-top: 164px !important;
     }
@@ -2256,8 +2276,18 @@ h1.title {
     }
 }
 
-// (576px <= viewport < 768px)
+// (576px <= viewport < 768px) maybe ipad 
 @media (min-device-width: 576px) and (max-device-width: 767px) {
+
+    // pad deer 3 tag garah ved bagtahgui bsan tul
+    .homepage-container, .package-container, .newproduct-container, .recipe-container, .discount-container{
+        .single-product{
+            .image-container{
+                height: 230px !important;
+            }
+        }
+    }
+
     .e-breadcrumb {
         padding: 10px 0px;
         margin-bottom: 0px;

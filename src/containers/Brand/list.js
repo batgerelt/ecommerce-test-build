@@ -759,7 +759,7 @@ class CategoryInfo extends React.Component {
 
   render() {
     return (
-      <div className="top-container brand-page">
+      <div className="top-container brand-page elastic-container">
         <div className="section">
           <div className="container pad10">
             <div className="row row10">

@@ -678,7 +678,7 @@ renderLeftPanel = () => {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container elastic-container">
         <div className="section search-result">
           <div className="container pad10">
             {this.state.nodata ? (

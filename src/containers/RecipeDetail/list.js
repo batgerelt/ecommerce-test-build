@@ -514,7 +514,7 @@ class List extends React.Component {
       return steps.map((step, index) => (
         <div key={index}>
           <div className="row row10" style={{ alignItems: "initial" }}>
-            <div className="col-sm-6 col-md-4 image-container">
+            <div className="col-sm-6 col-md-4 image-container fill">
               <div
                 style={{
                   backgroundImage: `url(${process.env.IMAGE + step.imgnm})`,

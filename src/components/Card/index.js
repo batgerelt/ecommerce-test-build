@@ -334,7 +334,7 @@ class Card extends React.Component {
         priceTagSpacing = 60;
 
         if (shape === CARD_TYPES.wide) {
-          priceTagSpacing = 180;
+          priceTagSpacing = 160;
         }
       } else if (windowWidth >= 992) {
         priceTagSpacing = 50;

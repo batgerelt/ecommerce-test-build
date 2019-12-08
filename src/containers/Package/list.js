@@ -198,7 +198,7 @@ class Discount extends React.Component {
 
   render() {
     return (
-      <div className="top-container top-container-responsive">
+      <div className="top-container top-container-responsive package-container">
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
