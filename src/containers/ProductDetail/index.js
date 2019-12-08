@@ -71,11 +71,11 @@ class Page extends React.Component {
     const { loading } = this.state;
     return (
       <Spin
-        spinning={false}
+        spinning={loading}
         indicator={<Loader />}
       >
         {
-          loading ? <Skelton /> : <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
+          <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
         }
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </Spin>

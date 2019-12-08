@@ -485,14 +485,18 @@ class CategoryInfo extends React.Component {
     const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 
-    if (windowWidth < 576) {
-      tmp = 335;
-    } else if (windowWidth < 768) {
-      tmp = 240;
-    } else if (windowWidth < 992) {
-      tmp = isList ? 120 : 240;
+    if (windowWidth < 576) { // is mobile
+      tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 370 : windowWidth < 475 ? 450 : 480;
+    } else if (windowWidth >= 576 && windowWidth <= 767) {
+      tmp = 365;
+    } else if (windowWidth >= 768 && windowWidth <= 991) {
+      tmp = 350;
+    }
+
+    else if (windowWidth < 992) {
+      tmp = isList ? 120 : 365;
     } else if (windowWidth < 1200) {
-      tmp = isList ? 120 : 275;
+      tmp = isList ? 120 : 285;
     } else {
       tmp = isList ? 120 : 305;
     }

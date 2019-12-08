@@ -2145,7 +2145,7 @@ h1.title {
         margin-top: 159px !important;
     }
 
-    .homepage-container{
+    .homepage-container, .elastic-container{
         .single-product{
             .image-container{
                 height: 210px !important;
@@ -2280,7 +2280,7 @@ h1.title {
 @media (min-device-width: 576px) and (max-device-width: 767px) {
 
     // pad deer 3 tag garah ved bagtahgui bsan tul
-    .homepage-container, .package-container, .newproduct-container, .recipe-container, .discount-container{
+    .homepage-container, .package-container, .newproduct-container, .recipe-container, .discount-container, .elastic-container{
         .single-product{
             .image-container{
                 height: 230px !important;

@@ -99,12 +99,11 @@ class AppHeader extends Component {
       return null;
     }
 
-    // searchword = 'hello';
     this.props.history.push({
       pathname: `/search/${categoryid}/${moment()}`,
       search: searchword,
     });
-    return this.setState({ word: '' });
+    return this.setState({ word: '', isSearch: false });
   }
 
   hadleValidate = (e) => {
