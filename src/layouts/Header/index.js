@@ -208,20 +208,19 @@ class AppHeader extends Component {
                   </Link>
                   <div className="search">
                     <Form className={searchClass}>
-                      <ul className="list-unstyled list-float clr mainsearch">
+                      <ul className="list-unstyled list-float mainsearch">
                         <li style={{ justifyContent: "unset", width: "auto" }}>
                           <div
                             className="dropdown"
                             onClick={this.toggleDropdown}
                           >
-                            <button
-                              className="btn dropdown-toggle"
-                              type="button"
-                              id="dropdownMenuButton"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                              style={{ boxShadow: "none", fontSize: "14px" }}
+                            <Button
+                              className="btn"
+                              style={{
+                                boxShadow: "none",
+                                fontSize: "14px",
+                                width: "100%",
+                              }}
                             >
                               {this.state.item.id !== 0 ? (
                                 lang === "mn" ? (
@@ -232,7 +231,8 @@ class AppHeader extends Component {
                               ) : (
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 )}
-                            </button>
+                              <Icon type="caret-down" />
+                            </Button>
                             <div
                               className={dropdownClass}
                               aria-labelledby="dropdownMenuButton"
