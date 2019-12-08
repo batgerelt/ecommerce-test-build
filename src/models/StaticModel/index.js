@@ -19,6 +19,7 @@ class Model extends BaseModel {
     staticpage: [],
     staticinfo: null,
     staticpages: [],
+    isLoadingStaticpage: false,
   }
 
   constructor(data = {}) {
@@ -59,11 +60,11 @@ class Model extends BaseModel {
 
       // GET STATIC PAGE
       case this.model.staticpage.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state, current: this.requestCase(state.current, action), isLoadingStaticpage: true };
       case this.model.staticpage.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state, current: this.errorCase(state.current, action), isLoadingStaticpage: false };
       case this.model.staticpage.response:
-        return { ...state, staticpage: action.payload.data[0] };
+        return { ...state, staticpage: action.payload.data[0], isLoadingStaticpage: false };
 
       // GET STATIC PAGES
       case this.model.staticpages.request:

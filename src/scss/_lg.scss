@@ -3988,51 +3988,30 @@ form .e-input-group .count-text {
   font-weight: 500;
 }
 
+.static-container{
+  padding: 25px !important;
+  background-color: rgba(73,75,87,.1);
+}
+
 .static-page {
-  max-height: 900px;
   overflow-y: auto;
   background-color: white;
-  border-radius: 3px;
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   -o-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-  padding: 40px 20px;
-}
+  padding: 20px 20px;
+  border-radius: 20px;
+  min-height: 40rem;
 
-.static-page h5 span {
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.9);
-}
+  img{
+    border-radius: 20px;
+  }
 
-.static-page h4 span {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.static-page .text {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 0.9rem;
-}
-
-.static-page .main-list > li + li {
-  margin-top: 40px;
-}
-
-.static-page .main-list ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.static-page .main-list ul li {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 0.9rem;
-}
-
-.static-page .main-list ul li:before {
-  content: "- ";
+  p, a, span{
+    text-align: justify !important;
+  }
 }
 
 .fixed-mobile-menu {
