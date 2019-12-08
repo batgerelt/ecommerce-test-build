@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable jsx-a11y/no-access-key */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
@@ -226,11 +227,11 @@ class AppHeader extends Component {
                                 lang === "mn" ? (
                                   this.state.item.name
                                 ) : (
-                                  this.state.item.name_en
-                                )
+                                    this.state.item.name_en
+                                  )
                               ) : (
-                                <FormattedMessage id="header.category.label.allProducts" />
-                              )}
+                                  <FormattedMessage id="header.category.label.allProducts" />
+                                )}
                             </button>
                             <div
                               className={dropdownClass}
@@ -252,7 +253,7 @@ class AppHeader extends Component {
                                   <a
                                     className={`dropdown-item ${
                                       item.icon ? "" : "no-icon-category"
-                                    }`}
+                                      }`}
                                     key={index}
                                     onClick={e =>
                                       this.handleChangeCategory(item, e)
@@ -321,23 +322,23 @@ class AppHeader extends Component {
                                 this.props.search.isLoadingSearch ? (
                                   <i className="fa fa-circle-o-notch fa-spin" />
                                 ) : (
-                                  <i
-                                    className="fa fa-search d-block d-sm-none"
-                                    style={{ fontSize: "20px", margin: "5px" }}
-                                  />
-                                )
+                                    <i
+                                      className="fa fa-search d-block d-sm-none"
+                                      style={{ fontSize: "20px", margin: "5px" }}
+                                    />
+                                  )
                               ) : (
-                                this.props.search.isLoadingSearch ? (
-                                  <i className="fa fa-circle-o-notch fa-spin" />
-                                ) : (
-                                  <span
-                                    className="text-uppercase d-none d-sm-block"
-                                    onClick={this.handleSearch}
-                                  >
-                                    <FormattedMessage id="header.searchBar.button" />
-                                  </span>
+                                  this.props.search.isLoadingSearch ? (
+                                    <i className="fa fa-circle-o-notch fa-spin" />
+                                  ) : (
+                                      <span
+                                        className="text-uppercase d-none d-sm-block"
+                                        onClick={this.handleSearch}
+                                      >
+                                        <FormattedMessage id="header.searchBar.button" />
+                                      </span>
+                                    )
                                 )
-                              )
                             }
                           </Button>
                         </li>
@@ -368,9 +369,9 @@ class AppHeader extends Component {
                             style={
                               addedWishList
                                 ? {
-                                    transition: "0.3s",
-                                    transform: "scale(1.4)",
-                                  }
+                                  transition: "0.3s",
+                                  transform: "scale(1.4)",
+                                }
                                 : { transition: "0.3s", transform: "scale(1)" }
                             }
                           />
@@ -384,26 +385,18 @@ class AppHeader extends Component {
                           </p>
                         </Link>
                       ) : (
-                        <Link
-                          to="#"
-                          className="row10"
-                          onClick={this.handleLogin}
-                        >
-                          <img
-                            src={addedWishList ? heartImageColor : heartImage}
-                            alt="wishlist"
-                            height="25px"
-                          />
-                          <p className="header-text header-wish-text">
-                            <small className="upper-first">
-                              <FormattedMessage id="header.wishlist.part1" />
-                            </small>
-                            <span>
-                              <FormattedMessage id="header.wishlist.part2" />
-                            </span>
-                          </p>
-                        </Link>
-                      )}
+                          <Link to="#" className="row10" onClick={this.handleLogin}>
+                            <img src={addedWishList ? heartImageColor : heartImage} alt="wishlist" height="25px" />
+                            <p className="header-text header-wish-text">
+                              <small className="upper-first">
+                                <FormattedMessage id="header.wishlist.part1" />
+                              </small>
+                              <span>
+                                <FormattedMessage id="header.wishlist.part2" />
+                              </span>
+                            </p>
+                          </Link>
+                        )}
                     </li>
                     <li className="list-inline-item">
                       <CartButton {...this.props} />
@@ -455,7 +448,7 @@ class AppHeader extends Component {
 
         <div className="main-nav">
           <div className="container container-laptop pad10">
-            <ul className="list-inline">
+            <ul className="list-inline horizontal">
               <li className="list-inline-item active header-home-icon" style={{ paddingLeft: '0px' }}>
                 <Button>
                   <Link to="/" style={{ paddingLeft: '0px' }}>
@@ -475,7 +468,7 @@ class AppHeader extends Component {
                   </Link>
                 </Dropdown>
               </li>
-              <li className="list-inline-item">
+              <li className="list-inline-item horizontal-top">
                 <MainMenu dataSource={mainmenu} history={this.props.history} />
               </li>
             </ul>

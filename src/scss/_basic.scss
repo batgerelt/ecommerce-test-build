@@ -3468,6 +3468,23 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+
+.horizontal {
+  display: flex;
+  width: 90% !important;
+}
+
+.horizontal-top {
+  width: 75% !important;
+}
+
+.horizontal-scroll {
+  // background-color: black;
+  overflow: auto;
+  white-space: nowrap;
+  width: 100% !important;
+}
+
 .hover-effect:hover {
   transition: all .5s;
   -webkit-transition: all .5s; /* Safari */

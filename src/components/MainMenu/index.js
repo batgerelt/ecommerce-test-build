@@ -26,7 +26,7 @@ class MainMenu extends React.Component {
 
   render() {
     try {
-      return <span className="main-menu-list">{this.renderMenus()}</span>;
+      return <span className="main-menu-list horizontal-scroll">{this.renderMenus()}</span>;
     } catch (error) {
       return console.log(error);
     }
