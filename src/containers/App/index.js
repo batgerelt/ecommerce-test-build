@@ -142,7 +142,7 @@ class App extends Component {
                         <Switch>
                           <Route exact path="/" component={Home} />
                           <Route path="/discount" component={Discount} />
-                          <Route path="/new" render={() => <New />} />
+                          <Route path="/new" component={New} />
                           <Route path="/recipe" component={Recipe} />
                           <Route path="/package" component={Package} />
                           <Route path="/season" component={Season} />
@@ -152,7 +152,7 @@ class App extends Component {
                           <Route path="/category/:id" component={Category} />
                           <Route path="/brand/:id" component={Brand} />
                           <Route path="/recipedetail/:id" component={RecipeDetail} />
-                          <Route path="/cart" component={Cart} />
+                          <Route path="/cart" render={() => <Cart {...this.props} {...this} />} />
                           <Route path="/packagedetail/:id" component={PackageDetail} />
                           <Route path="/emart" component={Emart} />
                           <Route path="/profile" component={Profile} />
