@@ -251,7 +251,7 @@ class Model extends BaseModel {
 
       // GET COLLECTION
       case this.model.collection.request:
-        return { ...state, current: this.requestCase(state.current, action), collection: [] };
+        return { ...state, current: this.requestCase(state.current, action) };
       case this.model.collection.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.collection.response:

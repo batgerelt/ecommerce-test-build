@@ -834,7 +834,7 @@ class Cart extends React.Component {
                           </div>
                           <div className="info-container">
                             <Link
-                              to={prod.route || ""}
+                              to={prod.route || `/productdetail/${prod.skucd}` || ""}
                               style={{ color: "#6c757d" }}
                             >
                               <strong>{title.length < 35 ? title : `${title.substring(0, 35)}...`}</strong>

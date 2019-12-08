@@ -110,7 +110,7 @@ class ProductDetail extends React.Component {
         <Moreinfo
           product={detail.products}
           attributes={attribute.length === 0 ? [] : attribute}
-          similarProducts={collection.length === 0 ? [] : collection}
+          similarProducts={collection}
           {...this.props}
         />
       );
