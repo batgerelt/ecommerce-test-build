@@ -12,16 +12,31 @@ const formatter = new Intl.NumberFormat("en-US");
 class List extends React.Component {
   state = {
     loading: false,
+    products: [],
   }
 
-  setProducts = (products) => {
-    this.setState({
-      products: products.map(prod => ({
-        cd: prod.skucd,
-        qty: prod.qty,
-      })),
+  componentDidMount() {
+    const { products } = this.props.packageDetail;
+    console.log(this.props);
+
+    const prods = products && products.map((prod) => {
+      if (!prod.qty) {
+        return { ...prod, qty: prod.addminqty };
+      }
+      return { ...prod };
     });
-  };
+
+    this.setState({ products: prods });
+  }
+
+  // setProducts = (products) => {
+  //   this.setState({
+  //     products: products.map(prod => ({
+  //       cd: prod.skucd,
+  //       qty: prod.qty,
+  //     })),
+  //   });
+  // };
 
   handleSimilarProductIncrement = async (product) => {
     const { intl } = this.props;
@@ -468,7 +483,8 @@ class List extends React.Component {
 
   renderProducts = () => {
     try {
-      const { products } = this.props.packageDetail;
+      let { products } = this.state;
+
       const { lang } = this.props;
       return (
         products &&
@@ -511,7 +527,7 @@ class List extends React.Component {
                           borderBottomLeftRadius: "20px",
                           marginRight: "5px",
                         }}
-                        onClick={() => this.handleDecrementProductClick(prod)}
+                        onClick={() => this.handleDecrementProductClick({ ...prod })}
                       >
                         <i className="fa fa-minus" aria-hidden="true" />
                       </button>
@@ -540,7 +556,7 @@ class List extends React.Component {
                           borderBottomRightRadius: "20px",
                           marginLeft: "5px",
                         }}
-                        onClick={() => this.handleIncrementProductClick(prod)}
+                        onClick={() => this.handleIncrementProductClick({ ...prod })}
                       >
                         <i className="fa fa-plus" aria-hidden="true" />
                       </button>
@@ -635,6 +651,7 @@ class List extends React.Component {
       return console.log(error);
     }
   };
+
   render() {
     try {
       return (

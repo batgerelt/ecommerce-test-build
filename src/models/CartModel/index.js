@@ -856,31 +856,104 @@ class Model extends BaseModel {
         return { ...state, products: action.payload.data.items };
 
       case "CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY":
-        try {
-          let { products } = state;
+        let cartProducts = [...state.products];
+        const packageProducts = [...action.payload];
 
-          action.payload.forEach((prod) => {
-            products = this.updateReduxStore(
-              products,
-              prod,
-              "package",
-              false,
-              false,
-              true,
-            );
-          });
+        console.log('cartProducts: ', cartProducts);
+        console.log('packageProducts', packageProducts);
 
-          const errors = products.filter(prod => prod.error !== undefined);
+        packageProducts.forEach((packageProduct) => {
+          const found = cartProducts.find(
+            cartProduct => cartProduct.skucd === packageProduct.skucd,
+          );
 
-          return {
-            ...state,
-            products: products.filter(prod => prod.error === undefined),
-            errors: errors.length > 0 ? errors : [],
-          };
-        } catch (e) {
-          console.log(e);
-        }
-        return state;
+          if (found) {
+            const newQty = parseInt(packageProduct.qty, 10) + found.qty;
+
+            if (!found.availableqty) {
+              if (found.salemaxqty > 0) {
+                if (newQty > found.salemaxqty) {
+                  found.qty = found.addminqty > 1
+                    ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                    : found.salemaxqty;
+                  found.error = "202";
+                } else {
+                  found.qty = newQty;
+                  found.error = null;
+                }
+              } else if (found.salemaxqty === 0) {
+                found.qty = newQty;
+                found.error = null;
+              } else {
+                found.error = '200';
+              }
+            } else {
+              if (found.availableqty > 0) {
+                if (found.salemaxqty > 0) {
+                  if (newQty > found.salemaxqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                      : found.salemaxqty;
+                    found.error = "202";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                } else {
+                  if (newQty > found.availableqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
+                      : found.availableqty;
+                    found.error = "200";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                }
+              } else {
+                found.error = "200";
+              }
+            }
+
+            const index = cartProducts.findIndex(prod => prod.skucd === found.skucd);
+
+            cartProducts[index] = found;
+          } else {
+            cartProducts.push(packageProduct);
+          }
+        });
+
+        return {
+          ...state,
+          products: cartProducts.filter(cartProduct => !cartProduct.error),
+          // errors: errors.length > 0 ? errors : [],
+        };
+
+      // try {
+      //   let { products } = state;
+
+      //   action.payload.forEach((prod) => {
+      //     products = this.updateReduxStore(
+      //       products,
+      //       prod,
+      //       "package",
+      //       false,
+      //       false,
+      //       true,
+      //     );
+      //   });
+
+      //   const errors = products.filter(prod => prod.error !== undefined);
+
+      //   return {
+      //     ...state,
+      //     products: products.filter(prod => prod.error === undefined),
+      //     errors: errors.length > 0 ? errors : [],
+      //   };
+      // } catch (e) {
+      //   console.log(e);
+      // }
+      // return state;
 
       case "CART_CLEAR_LOCALLY":
         return { ...state, products: [] };
