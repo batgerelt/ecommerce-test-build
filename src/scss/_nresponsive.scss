@@ -1904,6 +1904,10 @@ h1.title {
         margin-top: 101px !important;
     }
 
+    .static-container{
+        padding: 5px !important;
+    }
+
     .action {
         button, a {
             i {
@@ -2279,6 +2283,9 @@ h1.title {
 // (576px <= viewport < 768px) maybe ipad 
 @media (min-device-width: 576px) and (max-device-width: 767px) {
 
+    .static-container{
+        padding: 5px !important;
+    }
     // pad deer 3 tag garah ved bagtahgui bsan tul
     .homepage-container, .package-container, .newproduct-container, .recipe-container, .discount-container, .elastic-container{
         .single-product{

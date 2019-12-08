@@ -3,8 +3,10 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Spin } from "antd";
 
 import { Static as StaticModel } from "../../models";
+import { Loader } from "../../components";
 
 const mapStateToProps = state => ({
   ...state.staticcontent,
@@ -30,15 +32,9 @@ class Page extends React.Component {
         <div
           className="ck-editor static-page"
           style={{
-            minHeight: "700px",
-            backgroundColor: "white",
-            borderRadius: "20px",
-            padding: "40px 20px",
+            backgroundColor: staticpage.color,
           }}
         >
-          <h5 style={{ height: "50px" }}>
-            <center>{intl.locale === "mn" ? staticpage.name : staticpage.name_en}</center>
-          </h5>
           <div dangerouslySetInnerHTML={{
             __html: intl.locale === "mn"
               ? staticpage.description
@@ -53,12 +49,16 @@ class Page extends React.Component {
   }
 
   render() {
+    const { isLoadingStaticpage } = this.props;
+
     return (
-      <div className="section section-gray static">
-        <div className="container pad10">
-          {this.renderContent()}
+      <Spin indicator={<Loader />} spinning={isLoadingStaticpage}>
+        <div className="static-container">
+          <div className="container pad10">
+            {this.renderContent()}
+          </div>
         </div>
-      </div>
+      </Spin>
     );
   }
 }
