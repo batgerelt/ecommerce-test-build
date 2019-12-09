@@ -32,7 +32,7 @@ function PackageProductList({
     });
 
     setPackageProducts(prods);
-  }, []);
+  }, [products]);
 
   const renderNotification = ({
     code, name = '', names = '', qty = 0,
