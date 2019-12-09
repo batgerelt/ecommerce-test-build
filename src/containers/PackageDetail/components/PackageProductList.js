@@ -93,17 +93,15 @@ function PackageProductList({
 
   const handleAddToCartClick = async () => {
     if (localStorage.getItem('auth')) {
-      products = products.map(prod => ({
-        skucd: prod.skucd,
-        qty: prod.qty || prod.addminqty,
-      }));
-
       setLoading(true);
 
       const {
         payload: { code, data, success },
       } = await increaseProductsByQtyRemotely({
-        body: products,
+        body: packageProducts.map(prod => ({
+          skucd: prod.skucd,
+          qty: prod.qty || prod.addminqty,
+        })),
       });
 
       setLoading(false);
