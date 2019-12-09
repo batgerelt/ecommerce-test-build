@@ -589,6 +589,7 @@ class Model extends BaseModel {
               product.qty = product.addminqty;
             }
           } else {
+            console.log(product);
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
                 if (product.qty) {
@@ -985,21 +986,21 @@ class Model extends BaseModel {
           let packageProducts = [...action.payload];
 
           packageProducts.forEach((prod) => {
-            console.log(this.updateReduxStore(
+            this.updateReduxStore(
               cartProducts,
               { ...prod },
               "package",
               false,
               false,
               true,
-            ));
+            );
           });
 
           const errors = cartProducts.filter(prod => prod.error);
 
           return {
             ...state,
-            products: cartProducts.filter(prod => !prod.error),
+            products: cartProducts,
             errors: errors.length > 0 ? errors : [],
           };
         } catch (e) {
