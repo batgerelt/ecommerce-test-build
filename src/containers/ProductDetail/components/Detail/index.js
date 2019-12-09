@@ -538,7 +538,7 @@ class Detail extends Component {
       });
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
-      if (updated && updated.error !== undefined) {
+      if (updated && updated.error) {
         const messages = defineMessages({
           warning: {
             id: updated.error,

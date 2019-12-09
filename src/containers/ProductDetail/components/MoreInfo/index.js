@@ -10,6 +10,18 @@ import { isMobileOnly } from "react-device-detect";
 
 let skucd = null;
 class Moreinfo extends Component {
+  shouldComponentUpdate(nextProps) {
+    const { similarProducts, detail } = nextProps;
+
+    if (similarProducts.length === 0 || this.props.similarProducts !== similarProducts) { return true; }
+    if (skucd !== detail.products.skucd) {
+      skucd = detail.products.skucd;
+      return true;
+    }
+
+    return false;
+  }
+
   renderMoreInfo = () => {
     try {
       let {
@@ -57,7 +69,6 @@ class Moreinfo extends Component {
               </div>
             </div>
           ) */}
-          {console.log('similarProducts: ', similarProducts)}
 
           {!!similarProducts && !!similarProducts.length && (
             <div className="similar-products">
