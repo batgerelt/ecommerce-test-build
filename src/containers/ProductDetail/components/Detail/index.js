@@ -526,6 +526,11 @@ class Detail extends Component {
         });
       }
     } else {
+      console.log({
+        ...product,
+        qty: this.state.productQty,
+        insymd: Date.now(),
+      });
       this.props.increaseProductByQtyLocally({
         ...product,
         qty: this.state.productQty,
