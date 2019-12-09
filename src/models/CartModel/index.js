@@ -625,7 +625,9 @@ class Model extends BaseModel {
             }
           }
         }
-        products.push(product);
+        if (!product.error) {
+          products.push(product);
+        }
       }
       return products;
     } catch (error) {
