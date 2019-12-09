@@ -3482,21 +3482,21 @@ button:disabled{
   width: 100%;
 }
 
-.horizontal {
-  display: flex;
-  width: 90% !important;
-}
+// .horizontal {
+//   display: flex;
+//   width: 90% !important;
+// }
 
-.horizontal-top {
-  width: 75% !important;
-}
+// .horizontal-top {
+//   width: 75% !important;
+// }
 
-.horizontal-scroll {
-  // background-color: black;
-  overflow: auto;
-  white-space: nowrap;
-  width: 100% !important;
-}
+// .horizontal-scroll {
+//   // background-color: black;
+//   overflow: auto;
+//   white-space: nowrap;
+//   width: 100% !important;
+// }
 
 .hover-effect:hover {
   transition: all .5s;
@@ -3508,6 +3508,7 @@ button:disabled{
     color: #feb413;
   }
 }
+
 .main-nav .list-inline-item > span {
   padding: 0px !important;
 }
