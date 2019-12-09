@@ -471,9 +471,6 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
-          console.log(products);
-          console.log(product);
-
           return {
             ...state,
             packageDetail: {
@@ -490,8 +487,6 @@ class Model extends BaseModel {
         try {
           let { products } = state.packageDetail;
           let product = action.payload;
-
-          console.log(product);
 
           // const found = products.find(prod => prod.skucd === product.skucd);
 

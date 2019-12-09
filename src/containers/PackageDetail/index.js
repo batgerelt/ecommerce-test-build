@@ -108,14 +108,11 @@ function PackageDetail({
 
 const mapStateToProps = ({
   package: { info, images, packageDetail },
-}) => {
-  console.log(packageDetail);
-  return {
-    info,
-    images,
-    packageDetail,
-  };
-};
+}) => ({
+  info,
+  images,
+  packageDetail,
+});
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
