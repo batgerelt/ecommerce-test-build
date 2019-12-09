@@ -171,6 +171,7 @@ class App extends Component {
                     pageId="1438714326447694"
                     appId="730767227416524"
                     htmlRef={"www.emartmall.mn"}
+                    themeColor="#ffb200"
                   />
                   <ReactNotification />
                   <Footer {...this.props} />
