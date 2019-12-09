@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-lonely-if */
@@ -700,21 +701,72 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          return {
-            ...state,
-            products: this.updateReduxStore(
-              products,
-              product,
-              "",
-              false,
-              false,
-              true,
-            ),
-          };
+          const found = products.find(prod => prod.skucd === product.skucd);
+
+          if (found) {
+            const newQty = parseInt(product.qty, 10) + found.qty;
+
+            if (!found.availableqty) {
+              if (found.salemaxqty > 0) {
+                if (newQty > found.salemaxqty) {
+                  found.qty = found.addminqty > 1
+                    ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                    : found.salemaxqty;
+                  found.error = "202";
+                } else {
+                  found.qty = newQty;
+                  found.error = null;
+                }
+              } else if (found.salemaxqty === 0) {
+                found.qty = newQty;
+                found.error = null;
+              } else {
+                found.error = '200';
+              }
+            } else {
+              if (found.availableqty > 0) {
+                if (found.salemaxqty > 0) {
+                  if (newQty > found.salemaxqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                      : found.salemaxqty;
+                    found.error = "202";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                } else {
+                  if (newQty > found.availableqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
+                      : found.availableqty;
+                    found.error = "200";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                }
+              } else {
+                found.error = "200";
+              }
+            }
+
+            const index = products.findIndex(prod => prod.skucd === product.skucd);
+
+            products[index] = product;
+          } else {
+            if (product.availableqty < 0) {
+              product.error = '200';
+            } else {
+              products.push(product);
+            }
+          }
+
+          return { ...state, products };
         } catch (e) {
           console.log(e);
+          return state;
         }
-        return state;
 
       case this.model.increaseProductByQtyRemotely.request:
         return { ...state, current: this.requestCase(state.current, action) };
