@@ -328,7 +328,6 @@ class Model extends BaseModel {
           throw new Error("Бараа олдсонгүй");
         }
       } else {
-        console.log(product);
         if (shouldUpdateByQty) {
           const qty = product.qty === 0
             ? 0
@@ -472,6 +471,8 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
+          console.log(products);
+          console.log(product);
 
           return {
             ...state,
@@ -490,6 +491,8 @@ class Model extends BaseModel {
           let { products } = state.packageDetail;
           let product = action.payload;
 
+          console.log(product);
+
           // const found = products.find(prod => prod.skucd === product.skucd);
 
           // if (!found) {
@@ -500,7 +503,7 @@ class Model extends BaseModel {
             ...state,
             packageDetail: {
               ...state.packageDetail,
-              products: this.updateReduxStore(products, product, true),
+              products: this.updateReduxStore(products, product, '', false, true),
             },
           };
         } catch (e) {
