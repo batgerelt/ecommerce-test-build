@@ -2033,6 +2033,36 @@ h1.title {
         width: 100%;
         margin-bottom: 7px;
     }
+
+    .section-footer{
+        .d-f-center, .footer-contract{
+            display: flex !important;
+            justify-content: center !important;
+        }
+
+        .footer-contract{
+            .address{
+                width: auto !important;
+                margin: auto !important;
+            }
+
+            li{
+                display: flex;
+                justify-content: center;
+
+                span{
+                    text-align: center;
+                }
+            }
+        }
+
+        .social{
+            span{
+                font-size: 14px;
+                margin: auto 5px;
+            }
+        }
+    }
 }
 
 // (>= 1200px)

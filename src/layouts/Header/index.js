@@ -102,7 +102,7 @@ class AppHeader extends Component {
 
     this.props.history.push({
       pathname: `/search/${categoryid}/${moment()}`,
-      search: searchword,
+      state: searchword,
     });
     return this.setState({ word: '', isSearch: false });
   }

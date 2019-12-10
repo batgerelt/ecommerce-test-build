@@ -18,10 +18,10 @@ class Footer extends React.Component {
 
       return (
         <div className="col-sm-6 col-lg-3 pad10 logo-container">
-          <Link to="/" className="logo" style={{ width: "10% !important" }}>
+          <Link to="/" className="logo d-f-center" style={{ width: "10% !important" }}>
             <img alt="logo" src={staticinfo && process.env.IMAGE + staticinfo.logopath2} style={{ width: "100% !important" }} />
           </Link>
-          <ul className="social">
+          <ul className="social d-f-center">
             <li>
               <a
                 href={staticinfo && staticinfo.facebook}
@@ -76,6 +76,26 @@ class Footer extends React.Component {
                   />
                 </span>
               </a>
+
+              <a
+                href={staticinfo && staticinfo.instagram}
+                target="_blank "
+                rel="noopener"
+              >
+                <span className="fa-layers fa-fw">
+                  <FontAwesomeIcon
+                    icon={["fas", "circle"]}
+                    size="4x"
+                    color="#999"
+                  />
+                  <FontAwesomeIcon
+                    icon={["fab", "instagram"]}
+                    size="4x"
+                    inverse
+                    transform="shrink-6 right-1"
+                  />
+                </span>
+              </a>
             </li>
           </ul>
         </div>
@@ -91,7 +111,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10 d-f-center">
           <ul className="list-unstyled">
             {staticpages.map((item, index) => {
               if (item.pagetype === 1) {
@@ -119,7 +139,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10 d-f-center">
           <ul className="list-unstyled">
             {staticpages.map((item, index) => {
               if (item.pagetype === 2) {
@@ -146,7 +166,7 @@ class Footer extends React.Component {
       const { lang } = this.props.locale;
       const { staticinfo } = this.props.staticcontent;
       return (
-        <div className="col-sm-6 col-lg-3 pad10">
+        <div className="col-sm-6 col-lg-3 pad10 footer-contract">
           <ul className="list-unstyled address upper-first">
             <li>
               <strong><FormattedMessage id="footer.contract.title" /></strong>
