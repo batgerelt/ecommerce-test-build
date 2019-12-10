@@ -165,7 +165,7 @@ class AppHeader extends Component {
       const { intl } = this.props;
       const { staticinfo } = this.props.staticcontent;
       const { categorymenu } = this.props.category;
-      const { keywordid, word, item } = this.state;
+      const { word, item, isDropdownOpen } = this.state;
       const { addedWishList } = this.props.product;
       const dropdownClass = `dropdown-menu${this.state.isDropdownOpen ? " show" : ""}`;
       const searchClass = `search-mobile${this.state.isSearch ? " activated" : " "}`;
@@ -224,7 +224,7 @@ class AppHeader extends Component {
                               ) : (
                                   <FormattedMessage id="header.category.label.allProducts" />
                                 )}
-                              <Icon type="caret-down" />
+                              <Icon type={isDropdownOpen ? "caret-down" : "caret-left"} />
                             </Button>
                             <div
                               className={dropdownClass}

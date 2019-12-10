@@ -70,6 +70,7 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
+    this.setState({ visible: false });
     this.props.clearCookie();
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
@@ -430,12 +431,20 @@ class UserButton extends React.Component {
                           </Link>
                         </li>
                       </ul>
-                      <div onClick={this.handleLogoutClick}>
+                      {/* <div onClick={this.handleLogoutClick}>
                         <Link to="#" className="btn btn-gray">
                           <span className="text-uppercase" style={{ color: "white" }}>
                             <FormattedMessage id="header.profile.logout" />
                           </span>
                         </Link>
+                      </div> */}
+                      <div className="text-right" onClick={this.handleLogoutClick}>
+                        <ButtonGoogle className="btn" style={{ border: "1px solid white", color: "white", width: "100%" }}>
+                          <span className="text-uppercase">
+                            <FormattedMessage id="header.profile.logout" />{" "}
+                            <IconFont type="icon-tuichu" />
+                          </span>
+                        </ButtonGoogle>
                       </div>
                     </div>
                   </div>

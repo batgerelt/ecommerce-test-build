@@ -2,7 +2,6 @@ import Exception from './Exception';
 import SideNav from './SideNav';
 import PrivateRoute from './PrivateRoute';
 import Loader from "./Loader";
-
 import Slider from "./Slider";
 import Card from "./Card";
 import CardList from "./CardList";
@@ -19,12 +18,12 @@ import NotFound from "./NotFound";
 import SearchFilterSet from "./SearchFilterSet";
 import ElasticLabel from "./ElasticLabel";
 import Notification from "./Notification";
+import ForgetModal from "./ForgetModal";
 
 export {
   Exception,
   SideNav,
   PrivateRoute,
-
   Loader,
   Slider,
   Card,
@@ -42,4 +41,5 @@ export {
   SearchFilterSet,
   ElasticLabel,
   Notification,
+  ForgetModal,
 };

@@ -521,9 +521,21 @@ class Component extends React.Component {
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={4} xl={4} className="padd10">
-              <Button className="btn-mail" onClick={this.changeMail} >
-                <span>{intl.formatMessage({ id: "profile.userProfile.changeMail" })}</span>
-              </Button>
+              <Form.Item>
+                <Button
+                  className="btn hover-effect"
+                  onClick={this.changeMail}
+                  style={{
+                    width: "100%",
+                    height: "40px",
+                    fontSize: "12px",
+                    color: "#FFFFFF",
+                    backgroundColor: "#343A40",
+                  }}
+                >
+                  <span>{intl.formatMessage({ id: "profile.userProfile.changeMail" })}</span>
+                </Button>
+              </Form.Item>
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={8} xl={8} className="padd10">

@@ -3,6 +3,7 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Divider, Rate, Spin, BackTop, Row, Col, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { store } from 'react-notifications-component';
+import Button from "@material-ui/core/Button";
 import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -118,21 +119,21 @@ class Component extends React.Component {
           </Col>
           <Col className="action icons">
             <ul className="list-unstyled flex-this">
-              <li>
-                <button
+              <li className="search-hover">
+                <Button
                   className="action btn btn-link"
                   onClick={this.handleIncrement(item)}
                 >
                   <i className="fa fa-cart-plus" aria-hidden="true" />
-                </button>
+                </Button>
               </li>
-              <li>
-                <button
+              <li className="search-hover">
+                <Button
                   className="action btn btn-link"
                   onClick={this.onDelete(item)}
                 >
                   <i className="fa fa-times" aria-hidden="true" />
-                </button>
+                </Button>
               </li>
             </ul>
           </Col>

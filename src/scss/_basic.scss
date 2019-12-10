@@ -3461,6 +3461,24 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.button-navigation {
+  .MuiButtonBase-root:hover {
+      color: rgb(255, 182, 0) !important;
+  }
+  .MuiAppBar-colorDefault {
+    background-color: #ffffff !important;
+  }
+  .MuiPaper-elevation4 {
+    box-shadow: none !important;
+  }
+  .Mui-selected {
+    color: rgb(255, 182, 0) !important;
+  }
+  .PrivateTabIndicator-colorPrimary-98 {
+    background-color: rgb(255, 182, 0) !important;
+  }
+}
+
 .top-main {
   .search {
     li:first-child .btn {
@@ -3472,6 +3490,7 @@ button:disabled{
 .dropdown {
   .MuiButton-label {
     padding-left: 5px;
+    padding-right: 5px;
     width: 100% !important;
   }
 }
