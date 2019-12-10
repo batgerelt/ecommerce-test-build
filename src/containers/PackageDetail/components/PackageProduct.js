@@ -76,7 +76,7 @@ function PackageProduct({
         payload: { success, code, data },
       } = await increaseProductByQtyRemotely({
         skucd: product.skucd,
-        qty: product.qty || product.addminqty,
+        qty,
         iscart: 0,
       });
 
@@ -105,7 +105,7 @@ function PackageProduct({
           prod => prod.skucd === product.skucd,
         );
 
-        if (updated && updated.error !== undefined) {
+        if (updated && updated.error) {
           const { error, title, qty } = updated;
 
           renderNotification({

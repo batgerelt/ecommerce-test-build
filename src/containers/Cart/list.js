@@ -34,7 +34,20 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ tempProducts: this.props.products });
+    const { products } = this.props;
+    products.sort((a, b) => {
+      if (typeof a.insymd === "string") {
+        a.insymd = new Date(a.insymd).getTime();
+      }
+
+      if (typeof b.insymd === "string") {
+        b.insymd = new Date(b.insymd).getTime();
+      }
+
+      return b.insymd - a.insymd;
+    });
+
+    this.setState({ tempProducts: products });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -191,15 +204,17 @@ class Cart extends React.Component {
   };
 
   handleInputChange = product => async (e) => {
-    const products = this.state.tempProducts;
+    const { tempProducts } = this.state;
 
-    products.forEach((prod) => {
-      if (prod.skucd === product.skucd && e.target.value !== "") {
-        prod.qty = e.target.value;
+    tempProducts.map(i => {
+      if (i.skucd === product.skucd && e.target.value !== "") {
+        i.qty = e.target.value;
       }
+      return i;
     });
 
-    this.setState({ tempProducts: products });
+
+    this.setState({ tempProducts });
   };
 
   // eslint-disable-next-line consistent-return
@@ -780,17 +795,17 @@ class Cart extends React.Component {
 
       if (products && products.length > 0) {
         products = products.filter(product => product.qty);
-        products.sort((a, b) => {
-          if (typeof a.insymd === "string") {
-            a.insymd = new Date(a.insymd).getTime();
-          }
+        // products.sort((a, b) => {
+        //   if (typeof a.insymd === "string") {
+        //     a.insymd = new Date(a.insymd).getTime();
+        //   }
 
-          if (typeof b.insymd === "string") {
-            b.insymd = new Date(b.insymd).getTime();
-          }
+        //   if (typeof b.insymd === "string") {
+        //     b.insymd = new Date(b.insymd).getTime();
+        //   }
 
-          return b.insymd - a.insymd;
-        });
+        //   return b.insymd - a.insymd;
+        // });
 
         content = (
           <div>

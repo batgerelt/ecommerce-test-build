@@ -526,6 +526,11 @@ class Detail extends Component {
         });
       }
     } else {
+      console.log({
+        ...product,
+        qty: this.state.productQty,
+        insymd: Date.now(),
+      });
       this.props.increaseProductByQtyLocally({
         ...product,
         qty: this.state.productQty,
@@ -533,7 +538,7 @@ class Detail extends Component {
       });
 
       const updated = this.props.products.find(prod => prod.skucd === product.skucd);
-      if (updated && updated.error !== undefined) {
+      if (updated && updated.error) {
         const messages = defineMessages({
           warning: {
             id: updated.error,

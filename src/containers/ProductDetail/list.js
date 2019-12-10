@@ -170,7 +170,6 @@ class ProductDetail extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">

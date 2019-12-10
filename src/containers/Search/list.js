@@ -707,13 +707,12 @@ class CategoryInfo extends React.Component {
 
   getData = () => {
     try {
-      searchword = this.props.history.location.search.substring(1, this.props.history.location.search.length);
+      searchword = this.props.history.location.state;
       searchtime = this.props.match.params.time;
       catid = this.props.match.params.cat;
 
       this.setState({
         loading: true,
-        ismore: !this.state.ismore,
         catid,
       });
       const { isLoggedIn, data } = this.props;
@@ -753,7 +752,7 @@ class CategoryInfo extends React.Component {
 
   render() {
     const { time, cat } = this.props.match.params;
-    const word = this.props.history.location.search.substring(1, this.props.history.location.search.length);
+    const word = this.props.history.location.state;
 
     // Хайлтын хуудаснаас өөр үг хайх үед
     if (word !== searchword || time !== searchtime || cat !== catid) {

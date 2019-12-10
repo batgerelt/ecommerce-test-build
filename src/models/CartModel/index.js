@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-lonely-if */
@@ -588,6 +589,7 @@ class Model extends BaseModel {
               product.qty = product.addminqty;
             }
           } else {
+            console.log(product);
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
                 if (product.qty) {
@@ -625,7 +627,9 @@ class Model extends BaseModel {
             }
           }
         }
-        products.push(product);
+        if (!product.error) {
+          products.push(product);
+        }
       }
       return products;
     } catch (error) {
@@ -698,21 +702,72 @@ class Model extends BaseModel {
           let { products } = state;
           let product = action.payload;
 
-          return {
-            ...state,
-            products: this.updateReduxStore(
-              products,
-              product,
-              "",
-              false,
-              false,
-              true,
-            ),
-          };
+          const found = products.find(prod => prod.skucd === product.skucd);
+
+          if (found) {
+            const newQty = parseInt(product.qty, 10) + found.qty;
+
+            if (!found.availableqty) {
+              if (found.salemaxqty > 0) {
+                if (newQty > found.salemaxqty) {
+                  found.qty = found.addminqty > 1
+                    ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                    : found.salemaxqty;
+                  found.error = "202";
+                } else {
+                  found.qty = newQty;
+                  found.error = null;
+                }
+              } else if (found.salemaxqty === 0) {
+                found.qty = newQty;
+                found.error = null;
+              } else {
+                found.error = '200';
+              }
+            } else {
+              if (found.availableqty > 0) {
+                if (found.salemaxqty > 0) {
+                  if (newQty > found.salemaxqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+                      : found.salemaxqty;
+                    found.error = "202";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                } else {
+                  if (newQty > found.availableqty) {
+                    found.qty = found.addminqty > 1
+                      ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
+                      : found.availableqty;
+                    found.error = "200";
+                  } else {
+                    found.qty = newQty;
+                    found.error = null;
+                  }
+                }
+              } else {
+                found.error = "200";
+              }
+            }
+
+            const index = products.findIndex(prod => prod.skucd === found.skucd);
+
+            products[index] = found;
+          } else {
+            if (product.availableqty < 0) {
+              product.error = '200';
+            } else {
+              products.push(product);
+            }
+          }
+
+          return { ...state, products };
         } catch (e) {
           console.log(e);
+          return state;
         }
-        return state;
 
       case this.model.increaseProductByQtyRemotely.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -856,104 +911,102 @@ class Model extends BaseModel {
         return { ...state, products: action.payload.data.items };
 
       case "CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY":
-        let cartProducts = [...state.products];
-        const packageProducts = [...action.payload];
+        // let cartProducts = [...state.products];
+        // const packageProducts = [...action.payload];
 
-        console.log('cartProducts: ', cartProducts);
-        console.log('packageProducts', packageProducts);
+        // packageProducts.forEach((packageProduct) => {
+        //   const found = cartProducts.find(
+        //     cartProduct => cartProduct.skucd === packageProduct.skucd,
+        //   );
 
-        packageProducts.forEach((packageProduct) => {
-          const found = cartProducts.find(
-            cartProduct => cartProduct.skucd === packageProduct.skucd,
-          );
+        //   if (found) {
+        //     const newQty = parseInt(packageProduct.qty, 10) + found.qty;
 
-          if (found) {
-            const newQty = parseInt(packageProduct.qty, 10) + found.qty;
+        //     if (!found.availableqty) {
+        //       if (found.salemaxqty > 0) {
+        //         if (newQty > found.salemaxqty) {
+        //           found.qty = found.addminqty > 1
+        //             ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+        //             : found.salemaxqty;
+        //           found.error = "202";
+        //         } else {
+        //           found.qty = newQty;
+        //           found.error = null;
+        //         }
+        //       } else if (found.salemaxqty === 0) {
+        //         found.qty = newQty;
+        //         found.error = null;
+        //       } else {
+        //         found.error = '200';
+        //       }
+        //     } else {
+        //       if (found.availableqty > 0) {
+        //         if (found.salemaxqty > 0) {
+        //           if (newQty > found.salemaxqty) {
+        //             found.qty = found.addminqty > 1
+        //               ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
+        //               : found.salemaxqty;
+        //             found.error = "202";
+        //           } else {
+        //             found.qty = newQty;
+        //             found.error = null;
+        //           }
+        //         } else {
+        //           if (newQty > found.availableqty) {
+        //             found.qty = found.addminqty > 1
+        //               ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
+        //               : found.availableqty;
+        //             found.error = "200";
+        //           } else {
+        //             found.qty = newQty;
+        //             found.error = null;
+        //           }
+        //         }
+        //       } else {
+        //         found.error = "200";
+        //       }
+        //     }
 
-            if (!found.availableqty) {
-              if (found.salemaxqty > 0) {
-                if (newQty > found.salemaxqty) {
-                  found.qty = found.addminqty > 1
-                    ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
-                    : found.salemaxqty;
-                  found.error = "202";
-                } else {
-                  found.qty = newQty;
-                  found.error = null;
-                }
-              } else if (found.salemaxqty === 0) {
-                found.qty = newQty;
-                found.error = null;
-              } else {
-                found.error = '200';
-              }
-            } else {
-              if (found.availableqty > 0) {
-                if (found.salemaxqty > 0) {
-                  if (newQty > found.salemaxqty) {
-                    found.qty = found.addminqty > 1
-                      ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
-                      : found.salemaxqty;
-                    found.error = "202";
-                  } else {
-                    found.qty = newQty;
-                    found.error = null;
-                  }
-                } else {
-                  if (newQty > found.availableqty) {
-                    found.qty = found.addminqty > 1
-                      ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
-                      : found.availableqty;
-                    found.error = "200";
-                  } else {
-                    found.qty = newQty;
-                    found.error = null;
-                  }
-                }
-              } else {
-                found.error = "200";
-              }
-            }
+        //     const index = cartProducts.findIndex(prod => prod.skucd === found.skucd);
 
-            const index = cartProducts.findIndex(prod => prod.skucd === found.skucd);
+        //     cartProducts[index] = found;
+        //   } else {
+        //     cartProducts.push(packageProduct);
+        //   }
+        // });
 
-            cartProducts[index] = found;
-          } else {
-            cartProducts.push(packageProduct);
-          }
-        });
+        // return {
+        //   ...state,
+        //   products: cartProducts.filter(cartProduct => !cartProduct.error),
+        //   // errors: errors.length > 0 ? errors : [],
+        // };
 
-        return {
-          ...state,
-          products: cartProducts.filter(cartProduct => !cartProduct.error),
-          // errors: errors.length > 0 ? errors : [],
-        };
+        try {
+          let { products: cartProducts } = state;
+          let packageProducts = [...action.payload];
 
-      // try {
-      //   let { products } = state;
+          packageProducts.forEach((prod) => {
+            this.updateReduxStore(
+              cartProducts,
+              { ...prod },
+              "package",
+              false,
+              false,
+              true,
+            );
+          });
 
-      //   action.payload.forEach((prod) => {
-      //     products = this.updateReduxStore(
-      //       products,
-      //       prod,
-      //       "package",
-      //       false,
-      //       false,
-      //       true,
-      //     );
-      //   });
+          const errors = cartProducts.filter(prod => prod.error);
 
-      //   const errors = products.filter(prod => prod.error !== undefined);
-
-      //   return {
-      //     ...state,
-      //     products: products.filter(prod => prod.error === undefined),
-      //     errors: errors.length > 0 ? errors : [],
-      //   };
-      // } catch (e) {
-      //   console.log(e);
-      // }
-      // return state;
+          return {
+            ...state,
+            products: cartProducts,
+            errors: errors.length > 0 ? errors : [],
+          };
+        } catch (e) {
+          console.log(e);
+        }
+        return state;
 
       case "CART_CLEAR_LOCALLY":
         return { ...state, products: [] };
