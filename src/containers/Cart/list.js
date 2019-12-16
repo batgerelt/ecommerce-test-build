@@ -654,6 +654,7 @@ class Cart extends React.Component {
                         </Link>
                       </div>
                     </div>
+                    {/*  */}
                     <div className="col-8">
                       <div className="info-container">
                         <Link to={wishlistProd.route || ""}>
@@ -668,13 +669,14 @@ class Cart extends React.Component {
                                 formatter.format(wishlistProd.discountprice ?
                                   wishlistProd.discountprice || wishlistProd.currentprice
                                   : wishlistProd.price ? wishlistProd.price : 0,
-                              )}
+                                )}
                               ₮
                             </strong>
                           </div>
                         </Link>
                       </div>
                     </div>
+                    {/*  */}
                     <div className="col-2 cart-wishlist-btn info-container d-flex justify-content-center p-0">
                       <ButtonGoogle
                         className="action btn btn-link"
@@ -730,16 +732,16 @@ class Cart extends React.Component {
                       <div className="text">
                         <span>
                           {lang === "mn"
-                          ? (wishlistProd.title.length > 50 ? `${wishlistProd.title.substring(0, 50)}...` : wishlistProd.title)
-                          : wishlistProd.title_en.substring(0, 50)}
+                            ? (wishlistProd.title.length > 50 ? `${wishlistProd.title.substring(0, 50)}...` : wishlistProd.title)
+                            : wishlistProd.title_en.substring(0, 50)}
                         </span>
                         <strong>
                           {
-                          formatter.format(wishlistProd.discountprice ?
-                            wishlistProd.discountprice || wishlistProd.currentprice
-                            : wishlistProd.price ? wishlistProd.price : 0,
-                        )}
-                        ₮
+                            formatter.format(wishlistProd.discountprice ?
+                              wishlistProd.discountprice || wishlistProd.currentprice
+                              : wishlistProd.price ? wishlistProd.price : 0,
+                            )}
+                          ₮
                         </strong>
                       </div>
                     </Link>

@@ -26,23 +26,25 @@ class List extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <strong>{lang === "mn" ? item.title : item.titl_en}</strong>
-                <span>{lang === "mn" ? item.back : item.back_en}</span>
+                <Link to={item.route}>
+                  <strong style={{ color: "rgba(0, 0, 0, 0.5)" }}>{lang === "mn" ? item.title : item.titl_en}</strong>
+                  <span>{lang === "mn" ? item.back : item.back_en}</span>
+                </Link>
               </div>
             </div>
           </td>
           <td>
-            <p className="price" style={{ float: "right" }}>
+            <p className="price font12-mobile" style={{ textAlign: "right" }}>
               {formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮
             </p>
           </td>
           <td>
-            <p className="price total" style={{ float: "right" }}>
+            <p className="price total font12-mobile" style={{ textAlign: "right" }}>
               {item.orderquantity}
             </p>
           </td>
           <td>
-            <p className="price total" style={{ float: "right" }}>
+            <p className="price total font12-mobile" style={{ textAlign: "right" }}>
               <strong>{formatter.format(item.orderamount)}₮</strong>
             </p>
           </td>
@@ -175,14 +177,14 @@ class List extends React.Component {
     return (
       <div className="section orderdetail">
         <div className="top-container">
-          <div className="container pad10">
+          <div className="container">
             <div className="cart-container after-order">
               <h1 className="title">
                 {this.renderOrdNum()}
               </h1>
               <div className="row row10">
-                <div className="col-xl-8 pad10">
-                  <div className="row">
+                <div className="col-xl-8 padd0" style={{ padding: "0px !important" }}>
+                  <div className="row" style={{ padding: "0px !important" }}>
                     <div className="col">
                       <Link
                         to="/profile/delivery"
@@ -195,19 +197,19 @@ class List extends React.Component {
                   </div>
                   <div className="cart-table table-responsive">
                     {content}
-                    <table className="table table-borderless">
+                    <table className="table table-borderless font12-mobile">
                       <thead className="thead-light">
                         <tr>
-                          <th className="column-1"><FormattedMessage id="orderDetail.table.col.productName" /></th>
-                          <th className="column-2">
-                            <span style={{ float: "right" }}><FormattedMessage id="orderDetail.table.col.unitPrice" /></span>
+                          <th className="column-1 font12-mobile padd2-mobile"><FormattedMessage id="orderDetail.table.col.productName" /></th>
+                          <th className="column-2 font12-mobile padd2-mobile">
+                            <span className="text-right"><FormattedMessage id="orderDetail.table.col.unitPrice" /></span>
                           </th>
-                          <th className="column-3">
-                            <span style={{ float: "right" }}><FormattedMessage id="orderDetail.table.col.quantity" /></span>
+                          <th className="column-3 font12-mobile padd2-mobile">
+                            <span className="text-right"><FormattedMessage id="orderDetail.table.col.quantity" /></span>
                           </th>
-                          <th className="column-4">
-                            <span style={{ float: "right" }}>
-                              <p className="price total">
+                          <th className="column-4 font12-mobile padd2-mobile">
+                            <span>
+                              <p className="price total font12-mobile padd2-mobile text-right" >
                                 <FormattedMessage id="orderDetail.table.col.totalPrice" />
                               </p>
                             </span>

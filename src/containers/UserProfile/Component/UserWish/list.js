@@ -4,6 +4,8 @@ import { Divider, Rate, Spin, BackTop, Row, Col, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { store } from 'react-notifications-component';
 import Button from "@material-ui/core/Button";
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import IconButton from '@material-ui/core/IconButton';
 import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");

@@ -184,10 +184,12 @@ class ProductDetail extends React.Component {
                   </div>
                   {this.renderDetails()}
                 </div>
-                <div className="col-lg-3 product-plus-wrapper">
-                  <div className="product-plus">
-                    {this.renderDeliveryInfo()}
-                    {this.renderRealational()}
+                <div className="col-lg-3 ">
+                  <div className="cart-info filter-sticky">
+                    <div className="product-plus">
+                      {this.renderDeliveryInfo()}
+                      {this.renderRealational()}
+                    </div>
                   </div>
                 </div>
                 {this.renderMoreInfo()}

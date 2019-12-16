@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { Rate, notification } from "antd";
 import moment from "moment";
 import { store } from 'react-notifications-component';
+import Button from "@material-ui/core/Button";
 import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -294,30 +295,36 @@ class Detail extends Component {
           <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
-        <div className="btn-container text-right">
-          <button
+        <div className="btn-container text-right productButton">
+          <Button
             type="button"
-            className="btn btn-gray text-uppercase"
-            style={{ marginRight: "10px" }}
+            className="btn btn-main text-uppercase"
             onClick={this.handleSaveClick}
+            style={{
+              backgroundColor: "#DDDDDD",
+              marginRight: "10px",
+              padding: "5px 30px",
+              fontWeight: "700",
+              fontSize: "14.4px",
+            }}
           >
-            <span>
-              <FormattedMessage id="productDetail.button.save" />
-            </span>
-          </button>
-
-          <button
+            <span><FormattedMessage id="productDetail.button.save" /></span>
+          </Button>
+          <Button
             ref={this.proceedRef}
             className="btn btn-main text-uppercase"
             disabled={detail.availableqty < 1}
-            /* onClick={() => this.props.onUpdateCart(detail)} */
             onClick={() => this.handleAddToCart(detail)}
+            style={{
+              backgroundColor: "#FFB81C",
+              padding: "5px 30px",
+              fontWeight: "700",
+              fontSize: "14.4px",
+            }}
           >
-            <i className="fa fa-shopping-cart" aria-hidden="true" />{" "}
-            <span>
-              <FormattedMessage id="productDetail.button.addToCart" />
-            </span>
-          </button>
+            <i className="fa fa-shopping-cart" aria-hidden="true" />
+            <span style={{ paddingLeft: "5px" }}><FormattedMessage id="productDetail.button.addToCart" /></span>
+          </Button>
         </div>
         {detail.sdate !== null && detail.edate !== null && (
           <p className="text text-right upper-first">

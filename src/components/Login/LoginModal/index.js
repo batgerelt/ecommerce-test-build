@@ -169,7 +169,6 @@ class LoginModal extends React.Component {
       }
       return null;
     }
-    this.props.loaderTrue();
     this.closeLoginModal();
     localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(result.payload));
@@ -216,15 +215,6 @@ class LoginModal extends React.Component {
         }
         this.props.form.resetFields();
         if (products !== undefined) {
-          /* this.props.getProducts().then((res) => {
-            let k = res.payload.data.length - products.length;
-            if (res.payload.data.length !== 0 && k !== 0) {
-              this.setState({ goCart: true });
-              this.props.form.resetFields();
-            } else {
-              this.props.form.resetFields();
-            }
-          }); */
           this.props.getProducts().then((res) => {
             let resCount = 0;
             let prodCount = 0;
@@ -237,14 +227,11 @@ class LoginModal extends React.Component {
             let k = res.payload.data.length - products.length;
             if (resCount !== prodCount) {
               this.setState({ goCart: true });
-              this.props.loaderFalse();
               this.props.form.resetFields();
             } else {
-              this.props.loaderFalse();
               this.props.form.resetFields();
             }
           });
-          this.props.loaderFalse();
         }
       } else {
         console.log(res.payload);

@@ -356,5 +356,15 @@
 	"shared.sidebar.title.relatedProducts": "Хослох бараа",
 	"shared.sidebar.title.similarProducts": "Ижил бараа",
 	"shared.sidebar.title.wishlist": "Хадгалсан бараа",
-	"userButton.info.success": "Амжилттай гарлаа"
+	"userButton.info.success": "Амжилттай гарлаа",
+	"paymentReturn.info.success": "Таны захиалга амжилттай баталгаажлаа",
+	"paymentReturn.info.orderNumber": "Захиалга",
+	"paymentReturn.info.orderQty": "Худалдаж авсан барааны тоо",
+	"paymentReturn.info.orderAmount": "Мөнгөн дүн",
+	"paymentReturn.info.paymentType": "Төлбөрийн төрөл",
+	"paymentReturn.info.shippingInformation": "Хүргэлтийн мэдээлэл",
+	"paymentReturn.info.anyQuestion": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар хобогдоно уу. Баярлалаа",
+	"paymentReturn.info.contactNumber": "Лавлах утас",
+	"paymentReturn.info.backHome": "Нүүр хуудасруу буцах",
+	"paymentReturn.info.viewOrder": "Захиалга харах"
 }

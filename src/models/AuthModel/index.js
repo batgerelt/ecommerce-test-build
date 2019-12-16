@@ -95,14 +95,6 @@ class AuthModel extends BaseModel {
       model: this.oauthModel,
     });
 
-  loaderTrue = () => ({
-    type: "LOADER_TRUE",
-  });
-
-  loaderFalse = () => ({
-    type: "LOADER_FALSE",
-  });
-
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
       case this.clearCookieModel.request:
@@ -197,16 +189,6 @@ class AuthModel extends BaseModel {
           },
           auth: null,
           data: [],
-        };
-      case "LOADER_TRUE":
-        return {
-          ...state,
-          Loader: true,
-        };
-      case "LOADER_FALSE":
-        return {
-          ...state,
-          Loader: false,
         };
       default:
         return state;

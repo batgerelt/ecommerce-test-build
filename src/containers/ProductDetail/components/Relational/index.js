@@ -4,6 +4,7 @@ import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Button, message } from "antd";
 import { store } from 'react-notifications-component';
+import ButtonGoogle from "@material-ui/core/Button";
 import { Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -90,6 +91,7 @@ class Relational extends Component {
     try {
       let { relatedProducts } = this.props;
       const { isShowMoreClicked } = this.state;
+      const lang = this.props.intl.locale;
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
@@ -97,10 +99,7 @@ class Relational extends Component {
             <p className="title">
               <strong><FormattedMessage id="shared.sidebar.title.relatedProducts" /></strong>
             </p>
-            <ul
-              className="list-unstyled"
-              style={{ height: "254px", overflowY: "auto" }}
-            >
+            <ul className="list-unstyled">
               {data.map((prod, index) => (
                 <li key={index}>
                   <div className="single flex-this">
@@ -119,8 +118,10 @@ class Relational extends Component {
 
                     <div className="info-container flex-space info-price-container">
                       <Link to={prod.route ? prod.route : ""} title={prod.title}>
-                        <span className="related-product-title">
-                          {prod.title}
+                        <span>
+                          {lang === "mn"
+                            ? (prod.title.length > 25 ? `${prod.title.substring(0, 25)}...` : prod.title)
+                            : prod.title_en.substring(0, 25)}
                         </span>
                         <span className="related-product-price price flex-this flex-space">
                           <span className="current">
@@ -131,18 +132,14 @@ class Relational extends Component {
                           </span>
                         </span>
                       </Link>
-                      <div className="action">
-                        <button
-                          type="button"
-                          className="btn btn-link"
-                          onClick={() => this.handleIncrementClick(prod)}
-                        >
-                          <i
-                            className="fa fa-cart-plus"
-                            aria-hidden="true"
-                          />
-                        </button>
-                      </div>
+                    </div>
+                    <div className="action">
+                      <ButtonGoogle
+                        className="action btn btn-link"
+                        onClick={() => this.handleIncrementClick(prod)}
+                      >
+                        <i className="fa fa-cart-plus" aria-hidden="true" />
+                      </ButtonGoogle>
                     </div>
                   </div>
                 </li>

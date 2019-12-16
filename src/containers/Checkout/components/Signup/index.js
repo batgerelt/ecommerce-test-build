@@ -63,7 +63,7 @@ class Signup extends React.Component {
           this.props.signup({ body: { ...values } }).then((res) => {
             if (res.payload.success) {
               this.props.form.resetFields();
-              this.props.LoginRegisterPanel.changeTab(1);
+              this.props.handleChange(e, 0);
               store.addNotification({
                 insert: "top",
                 container: "top-right",
@@ -113,7 +113,6 @@ class Signup extends React.Component {
   onChangeFirst = (value) => {
     this.props.form.setFieldsValue({ firstname: value });
   };
-
 
   renderRegisterForm = () => {
     try {

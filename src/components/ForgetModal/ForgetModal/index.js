@@ -57,7 +57,7 @@ class ForgetModal extends React.Component {
     });
   };
 
-  handleForgetModal = () => {
+  zhandleForgetModal = () => {
     this.setState({ visible: !this.state.visible });
   }
 

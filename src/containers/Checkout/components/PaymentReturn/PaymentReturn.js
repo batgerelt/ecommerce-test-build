@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import CryptoJS from "crypto-js";
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { EncryptKey } from "../../../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -11,7 +12,7 @@ class GolomtMerchant extends React.Component {
   }
 
   render() {
-    const { golomtMerchant, state } = this.props;
+    const { golomtMerchant, state, intl } = this.props;
     console.log("state", golomtMerchant);
     console.log("state", state);
     if (golomtMerchant.success || state.qpayReturn) {
@@ -27,31 +28,31 @@ class GolomtMerchant extends React.Component {
                         <img alt="image" src={require("../../../../scss/assets/images/demo/4.png")} width="80px" />
                         <h4 className="title">
                           <span className="text-uppercase">
-                            Таны захиалга амжилттай баталгаажлаа
+                            <FormattedMessage id="paymentReturn.info.success" />
                           </span>
                         </h4>
                       </div>
                       <div className="message">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Захиалга <strong>{state.qpayReturn ? state.return.info.ordernumber : golomtMerchant.data.order.ordernumber}</strong>
+                            <FormattedMessage id="paymentReturn.info.orderNumber" /> <strong>{state.qpayReturn ? state.return.info.ordernumber : golomtMerchant.data.order.ordernumber}</strong>
                           </span>
                         </h5>
                         <ul className="list-unstyled class">
                           <li className="flex-this flex-space">
-                            <span>Худалдаж авсан барааны тоо:</span>
+                            <span><FormattedMessage id="paymentReturn.info.orderQty" />:</span>
                             <strong className="big">
                               {state.qpayReturn ? state.return.info.totalquantity : golomtMerchant.data.order.orderquantity}
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
-                            <span>Мөнгөн дүн:</span>
+                            <span><FormattedMessage id="paymentReturn.info.orderAmount" />:</span>
                             <strong className="big">
                               {formatter.format(state.qpayReturn ? state.return.info.totalamount : golomtMerchant.data.order.totalamount)}₮
                             </strong>
                           </li>
                           <li className="flex-this flex-space">
-                            <span>Төлбөрийн төрөл:</span>
+                            <span><FormattedMessage id="paymentReturn.info.paymentType" />:</span>
                             <strong className="big">
                               {state.qpayReturn ? "Qpay" : "Төлбөрийн карт"}
                             </strong>
@@ -61,7 +62,7 @@ class GolomtMerchant extends React.Component {
                       <div className="user-detail">
                         <h5 className="title flex-this flex-space">
                           <span className="text-uppercase">
-                            Хүргэлтийн мэдээлэл:
+                            <FormattedMessage id="paymentReturn.info.shippingInformation" />:
                           </span>
                         </h5>
                         <p className="text flex-this">
@@ -102,11 +103,10 @@ class GolomtMerchant extends React.Component {
                       <div className="bottom-text text-center">
                         <br />
                         <p>
-                          Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар
-                          холбогдоно уу. Баярлалаа
+                          <FormattedMessage id="paymentReturn.info.anyQuestion" />
                         </p>
                         <strong className="text-uppercase">
-                          Лавлах утас: 7611 0101
+                          <FormattedMessage id="paymentReturn.info.contactNumber" />: 7611 0101
                         </strong>
                       </div>
                       <div className="btn-container text-center">
@@ -115,7 +115,7 @@ class GolomtMerchant extends React.Component {
                           onClick={() => this.props.history.push("/")}
                         >
                           <span className="text-uppercase">
-                            Нүүр хуудасруу буцах
+                            <FormattedMessage id="paymentReturn.info.backHome" />
                           </span>
                         </a>
                       </div>
@@ -126,7 +126,7 @@ class GolomtMerchant extends React.Component {
                             this.props.history.push(`/order/${this.encryptUrl(state.qpayReturn ? state.return.info.id : golomtMerchant.data.order.id)}`)
                           }
                         >
-                          <span className="text-uppercase">Захиалга харах</span>
+                          <span className="text-uppercase"><FormattedMessage id="paymentReturn.info.viewOrder" /></span>
                         </a>
                       </div>
                     </div>

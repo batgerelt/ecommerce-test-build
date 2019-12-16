@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
 
 import { CARD_LIST_TYPES, WIDGET_SLUGS } from "../../utils/Consts";
 import { CardList } from "../";
@@ -57,12 +58,14 @@ class Widget extends React.Component {
           {cardList}
 
           <div className="more-link text-center">
-            <Link
-              to={widgetData.link ? widgetData.link : ""}
-              className="btn btn-border"
-            >
-              <span className="text text-uppercase">{widgetData.readMore}</span>
-            </Link>
+            <Button>
+              <Link
+                to={widgetData.link ? widgetData.link : ""}
+                className="btn btn-border"
+              >
+                <span className="text text-uppercase">{widgetData.readMore}</span>
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -3461,6 +3461,32 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.btn:hover {
+  opacity: .8;
+}
+
+.action {
+  .MuiButton-root {
+    border-radius: 20px !important;
+  }
+}
+
+.MuiButton-root:hover { 
+  opacity: .8;
+}
+
+.productButton .MuiButton-root:hover { 
+  opacity: .8;
+}
+
+.cart-info-container button:hover {
+  opacity: .8;
+}
+
+.sticky-btn button:hover {
+  opacity: .8;
+}
+
 .button-navigation {
   .MuiButtonBase-root:hover {
       color: rgb(255, 182, 0) !important;

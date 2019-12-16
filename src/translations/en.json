@@ -356,5 +356,15 @@
 	"shared.sidebar.title.relatedProducts": "Related",
 	"shared.sidebar.title.similarProducts": "Similar products",
 	"shared.sidebar.title.wishlist": "Wishlist",
-	"userButton.info.success": "Logged out successfully"
+	"userButton.info.success": "Logged out successfully",
+	"paymentReturn.info.success": "Your order has been confirmed",
+	"paymentReturn.info.orderNumber": "Order number is",
+	"paymentReturn.info.orderQty": "Order Qty",
+	"paymentReturn.info.orderAmount": "Order amount",
+	"paymentReturn.info.paymentType": "Payment type",
+	"paymentReturn.info.shippingInformation": "Shipping information",
+	"paymentReturn.info.anyQuestion": "If you have any questions about shipping please don't hesitate to contact us. Thanks for shopping with us",
+	"paymentReturn.info.contactNumber": "Contact number",
+	"paymentReturn.info.backHome": "Back to Home page",
+	"paymentReturn.info.viewOrder": "View order detail"
 }
