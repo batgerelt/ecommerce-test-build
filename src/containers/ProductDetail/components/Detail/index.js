@@ -295,7 +295,7 @@ class Detail extends Component {
           <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
-        <div className="btn-container text-right productButton">
+        <div className="btn-container text-right">
           <Button
             type="button"
             className="btn btn-main text-uppercase"

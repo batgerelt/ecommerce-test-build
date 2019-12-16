@@ -3461,6 +3461,35 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.cart-table-container tr:first-child:hover input {
+  background-color: transparent !important;
+}
+
+.test-input {
+  .input-group1 {
+    position: relative;
+  }
+
+  .input-group1 .input-area {
+    outline: none;
+    border: 1px solid #dadce0;
+    padding: 16px 13px;
+    font-size: 18px;
+    border-radius: 5px;
+  }
+  
+  .input-group1 .input-area:focus {
+    border: 2px solid royalblue;
+  }
+
+  .input-group .label {
+    color: #dadce0;
+    position: absolute;
+    top: 20px;
+    left: 13px;
+  }
+}
+
 .btn:hover {
   opacity: .8;
 }
@@ -3471,37 +3500,29 @@ button:disabled{
   }
 }
 
-.MuiButton-root:hover { 
-  opacity: .8;
-}
-
-.productButton .MuiButton-root:hover { 
-  opacity: .8;
-}
-
-.cart-info-container button:hover {
-  opacity: .8;
-}
-
-.sticky-btn button:hover {
+button:hover {
   opacity: .8;
 }
 
 .button-navigation {
   .MuiButtonBase-root:hover {
-      color: rgb(255, 182, 0) !important;
+      color: #FFB81C !important;
   }
+
   .MuiAppBar-colorDefault {
     background-color: #ffffff !important;
   }
+
   .MuiPaper-elevation4 {
     box-shadow: none !important;
   }
+
   .Mui-selected {
-    color: rgb(255, 182, 0) !important;
+    color: #FFB81C !important;
   }
+
   .PrivateTabIndicator-colorPrimary-98 {
-    background-color: rgb(255, 182, 0) !important;
+    background-color: #FFB81C !important;
   }
 }
 
@@ -3557,6 +3578,7 @@ button:disabled{
 .main-nav .list-inline-item > span {
   padding: 0px !important;
 }
+
 .no-padding .ant-modal-body {
   padding: 0px !important;
 }
@@ -3564,6 +3586,7 @@ button:disabled{
 .styles__notification__37303 {
   width: 100% !important;
 }
+
 .notification-container-bottom-center,
 .notification-container-bottom-left,
 .notification-container-bottom-right,
@@ -3579,20 +3602,25 @@ button:disabled{
   z-index: 9999999999 !important;
   margin-top: 71px !important;
 }
+
 .ant-dropdown {
   position: fixed !important;
 }
+
 .scrolled-menu {
   z-index: -5;
   overflow: auto;
   height: 600px;
 }
+
 .ant-notification-notice {
   background: #FFF3C9;
 }
+
 .ant-notification {
   z-index: 9999999999 !important;
 }
+
 .btn-mail {
   background: #FFB81C;
   height: 40px;
@@ -3600,12 +3628,15 @@ button:disabled{
   color: #000000;
   margin-bottom: 20px;
 }
+
 .ant-notification-notice-close {
   display: none !important;
 }
+
 .dropdown-item:active {
   background-color: transparent !important;
 }
+
 .top-text {
     font-size: 11px;
     position: absolute;
@@ -3616,25 +3647,30 @@ button:disabled{
     padding: 0px 5px 0px 5px;
     color: grey;
 }
+
 .ant-select-selection--single {
     height: 40px !important;
 }
+
 .ant-select-selection__rendered {
     line-height: 40px !important;
 }
+
 .padd10 {
     padding-left: 5px;
     padding-right: 5px;
 }
+
 .profile-custom-input {
   height: 40px;
 }
+
 .profile-section {
   background-color: #ffffff;
   padding-top: 20px !important;
   padding-bottom: 20px !important;
-
 }
+
 .table thead th {
   background-color: #dee2e6;
   border-bottom: 1px solid #dee2e6;
@@ -3643,6 +3679,7 @@ button:disabled{
 .table td, table th {
   vertical-align: middle !important;
 }
+
 .user-section .user-menu-content {
   border: 0px solid #E9E9E9 !important;
 }
@@ -3666,6 +3703,7 @@ button:disabled{
 .btn-reverse:hover {
   color: black !important;
 }
+
 .ant-input-affix-wrapper .ant-input-prefix {
   left: 10px !important;
   top: 45% !important;
@@ -3676,6 +3714,7 @@ button:disabled{
   padding: 0px !important;
   line-height: 0px !important;
 }
+
 .progress-small {
   font-size: 16px;
   width: 75%;
@@ -3684,13 +3723,14 @@ button:disabled{
 .top-main .search li:first-child .btn {
   text-transform: unset !important;
 }
+
 .top-main .search li:last-child .btn {
   background-color: #FFB81C !important;
 }
+
 .top-main .search li:last-child {
   width: 20% !important;
 }
-// 
 
 .ant-tree-title{
   white-space: nowrap; 
@@ -3731,11 +3771,6 @@ button:disabled{
   margin-bottom: 0.4rem;
 }
 
-/* .checkoutFormContainer .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto{
-  padding-right: 5px;
-  padding-left: 5px;
-}
- */
 .second-btn{
   padding: 4px 20px;
   margin-top: 6px;
@@ -3749,10 +3784,6 @@ button:disabled{
 .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus+.ant-radio-inner{
   border-color: #feb415 !important;
 }
-
-/* .select-button .ant-form-item-children{
-  display: flex !important;
-} */
 
 .add-select .ant-select-selection{
   border-radius: 4px 0px 0px 4px !important;
@@ -3770,7 +3801,6 @@ div.sticky-btn{
   width: 100%;
   z-index: 9;
 }
-
 
 .header-container{
   .MuiButton-root{
@@ -3859,6 +3889,7 @@ div.sticky-btn{
   i{
     margin-right: 5px;
   }
+
   .MuiButton-text{
     padding: 8px 15px !important;
   }
@@ -3875,6 +3906,7 @@ div.sticky-btn{
   .fa-heart{
     color: #FFB81C !important;
   }
+
   .fa-times{
     color: rgb(212, 19, 13) !important;
   }
