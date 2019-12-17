@@ -61,24 +61,10 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const { intl } = this.props;
     this.props.form.validateFields(async (err, values) => {
-      let error = err.email;
-      if (error !== undefined) {
-        // eslint-disable-next-line consistent-return
-        this.props.reset({ mail: values.email1 }).then((res) => {
-          if (!res.payload.success) {
-            return store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 3000,
-                onScreen: false,
-              },
-              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
-            });
-          }
-          store.addNotification({
+      // eslint-disable-next-line consistent-return
+      this.props.reset({ mail: values.email1 }).then((res) => {
+        if (!res.payload.success) {
+          return store.addNotification({
             insert: "top",
             container: "top-right",
             animationIn: ["animated", "fadeIn"],
@@ -87,12 +73,23 @@ class LoginModal extends React.Component {
               duration: 3000,
               onScreen: false,
             },
-            content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
+            content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
-          this.props.form.resetFields();
-          this.handleForgetModal();
+        }
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
         });
-      }
+        this.props.form.resetFields();
+        this.handleForgetModal();
+      });
     });
   };
 

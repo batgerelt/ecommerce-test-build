@@ -7,6 +7,22 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Rate, Input } from "antd";
 import { store } from 'react-notifications-component';
+
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 import { Notification } from "../../../../components";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
@@ -186,7 +202,7 @@ class Comment extends Component {
           )}
 
           {comments.length !== 0 && (
-            <div style={{ marginTop: "40px" }}>
+            <div className="product-comment" >
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.comment.list.title" />
@@ -195,21 +211,16 @@ class Comment extends Component {
               <div className="comments-list">
                 {comments.map((comment, index) => (
                   <div className="single" key={index}>
-                    <p className="text">{comment.commnt}</p>
-                    <ul className="list-unstyled bottom-info">
-                      {comment.idate && (
-                        <li>
-                          <span>
-                            {moment(comment.idate).format(
-                              "YYYY.MM.DD HH:mm:ss",
-                            )}
-                          </span>
-                        </li>
-                      )}
-                      <li>
-                        <strong>{comment.uname}</strong>
-                      </li>
-                    </ul>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          {comment.commnt}
+                        </Typography>
+                      </CardContent>
+                      <CardHeader
+                        subheader={moment(comment.idate).format("YYYY.MM.DD HH:mm:ss")}
+                      />
+                    </Card>
                   </div>
                 ))}
               </div>

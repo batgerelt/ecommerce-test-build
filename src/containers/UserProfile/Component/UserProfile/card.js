@@ -1,11 +1,9 @@
 import React from "react";
 import withReactContent from "sweetalert2-react-content";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, Col, Button, Modal } from "antd";
+import { Form, Col, Button } from "antd";
 import { store } from 'react-notifications-component';
 import Swal from "sweetalert2";
-import { Lightbox } from "react-modal-image";
-import ButtonGoogle from "@material-ui/core/Button";
 import SwalModals from "./EpointModal";
 import { intl } from '../../../../components/IntlGlobalProvider';
 import NumberInput from "../../../../components/Input/NumberInput";
@@ -18,7 +16,7 @@ class Component extends React.Component {
   state = {
     dis: "",
     loc: null,
-    oader: false,
+    loader: false,
     cardno: null,
     visible: false,
     imgnm: null,
@@ -143,23 +141,14 @@ class Component extends React.Component {
             <Col xs={12} sm={12} md={18} lg={18} xl={18} />
             <Col xs={12} sm={12} md={6} lg={6} xl={6}>
               <Form.Item className="text">
-                <ButtonGoogle className="btn btn-dark hover-effect" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
+
+                <Button className="btn btn-dark hover-effect" htmlType="submit" loading={this.state.loader} onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
                   <span className="text-uppercase"><FormattedMessage id="shared.form.button.connect" /></span>
-                </ButtonGoogle>
+                </Button>
               </Form.Item>
             </Col>
           </Col>
         </Form>
-        {/* <Modal
-          title=""
-          visible={this.state.visible}
-          onCancel={this.onCancel}
-          closeOnEsc
-          footer={null}
-          className="no-padding"
-        >
-          <img alt="haha" src={this.state.imgnm} style={{ width: "100%" }} />
-        </Modal> */}
       </Col>
     );
   }
