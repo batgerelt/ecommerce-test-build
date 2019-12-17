@@ -3492,27 +3492,29 @@ button:disabled{
 }
 
 // .test-input {
-//   .input-group1 {
+//   .input-group {
 //     position: relative;
 //   }
-
-//   .input-group1 .input-area {
+//   .input-group .input-area {
 //     outline: none;
 //     border: 1px solid #dadce0;
-//     padding: 16px 13px;
-//     font-size: 18px;
 //     border-radius: 5px;
+//     height: 40px !important;
 //   }
-  
-//   .input-group1 .input-area:focus {
-//     border: 2px solid royalblue;
+//   .input-group .input-area:focus {
+//     border: 2px solid royalblue; 
 //   }
-
-//   .input-group .label {
-//     color: #dadce0;
+//   .input-group .input-area:focus + span {
+//     color: royalblue;
+//   }
+//   .input-group span {
+//     color: #8d8d8d;
 //     position: absolute;
-//     top: 20px;
-//     left: 13px;
+//     background: #ffffff;
+//   }
+//   .input-group .input-area:valid + span {
+//     top: -20px;
+//     color: #8d8d8d;
 //   }
 // }
 

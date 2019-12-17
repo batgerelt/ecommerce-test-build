@@ -45,10 +45,12 @@ class LoginModal extends React.Component {
   };
 
   handleForgetModal = () => {
+    this.props.form.resetFields();
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
   }
 
   handleResetVisible = () => {
+    this.props.form.resetFields();
     this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
   }
@@ -273,6 +275,7 @@ class LoginModal extends React.Component {
                   placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                   className="form-control"
                   autoComplete="off"
+                  autoFocus
                 />,
               )}
             </Form.Item>
@@ -362,8 +365,7 @@ class LoginModal extends React.Component {
               {getFieldDecorator("email1", {
                 rules: [
                   {
-                    // required: true,
-                    // message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
                     type: "email",
                   },
                 ],
@@ -394,3 +396,4 @@ class LoginModal extends React.Component {
 }
 
 export default injectIntl(Form.create({ name: "normal_login" })(LoginModal));
+
