@@ -589,7 +589,7 @@ class Model extends BaseModel {
               product.qty = product.addminqty;
             }
           } else {
-            console.log(product);
+            // console.log(product);
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
                 if (product.qty) {

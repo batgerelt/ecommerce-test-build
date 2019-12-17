@@ -20,14 +20,12 @@ import {
   AutoSizer,
 } from "react-virtualized";
 import windowSize from 'react-window-size';
-import Button from "@material-ui/core/Button";
 
 import { SearchNotFound } from "../";
 import { Card, Loader, SearchFilterSet } from "../../components";
 import crossImage from "../../scss/assets/svg/error-black.svg";
 import styles from "./style.less";
 
-let screenWidth = 0;
 let searchword = null;
 let searchtime = null;
 let catid = null;
@@ -519,7 +517,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => null
+  noRowsRenderer = () => <h1> hello </h1>;
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -653,6 +651,7 @@ class CategoryInfo extends React.Component {
                         <List
                           style={{ outline: 'none' }}
                           autoHeight
+                          estimatedRowSize={0}
                           ref={registerChild}
                           height={height}
                           scrollTop={scrollTop}

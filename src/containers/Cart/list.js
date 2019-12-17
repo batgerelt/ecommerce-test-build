@@ -563,7 +563,7 @@ class Cart extends React.Component {
     const { products } = this.props;
 
     return products && products.reduce((acc, cur) => (
-      acc + (cur.qty && cur.qty > 0 ? cur.qty : 0)
+      parseInt(acc) + parseInt((cur.qty && cur.qty > 0 ? cur.qty : 0))
     ), 0);
   };
 

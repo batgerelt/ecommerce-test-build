@@ -157,8 +157,33 @@ class Card extends React.Component {
               });
             });
           }
-          console.log('item: ', item);
-          this.props.incrementProductLocally(item);
+          const result = await this.props.incrementProductLocally(item);
+          const { product } = result.payload;
+          if (product.error) {
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: (
+                <Notification
+                  type="warning"
+                  text={intl.formatMessage(
+                    { id: product.error },
+                    {
+                      name: product.title,
+                      qty: product.qty,
+                    },
+                  )}
+                />
+              ),
+            });
+          }
+
           const updated = this.props.products.find(prod => prod.skucd === item.skucd);
 
           if (updated && updated.error !== undefined) {
@@ -265,6 +290,8 @@ class Card extends React.Component {
         } else {
           //
         }
+
+        this.setState({ loading: false });
       }
     } catch (e) {
       return console.log(e);
@@ -463,7 +490,6 @@ class Card extends React.Component {
       }
 
       let heartDisabled = true;
-
       let cartDisabled = true;
       if (
         item.id ||

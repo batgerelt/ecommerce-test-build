@@ -51,17 +51,20 @@ class AppHeader extends Component {
   }
 
   handleChangeSearchWord = (e) => {
-    this.setState({ word: e.target.value });
-
-    if (this.state.word.length >= 1) {
-      this.props.searchWord({ keyword: e.target.value }).then((res) => {
-        if (res !== undefined) {
-          res.payload.success ? this.setState({ suggestion: res.payload.data }) : null;
-        } else { this.setState({ suggestion: [] }); }
-      });
+    try {
+      const { value } = e.target;
+      if (value !== null && value.length >= 1) {
+        this.props.searchWord({ keyword: value }).then((res) => {
+          if (res !== undefined) {
+            res.payload.success ? this.setState({ suggestion: res.payload.data, word: value }) : null;
+          } else { this.setState({ suggestion: [], word: value }); }
+        });
+      } else if (value.length === 1) {
+        this.setState({ suggestion: [], word: value });
+      }
+    } catch (error) {
+      console.log('error: ', error);
     }
-
-    if (e.target.value.length === 1) { this.setState({ suggestion: [] }); }
   };
 
   handleChangeCategory = (item) => {
@@ -269,11 +272,10 @@ class AppHeader extends Component {
                         <li className="search-form" style={{ width: "100%" }}>
                           <div className="form-group">
                             <label
-                              className="input"
-                              style={{ margin: "0px", width: "100%" }}
+                              className="input d-flex search-input"
                             >
                               <input
-                                value={word}
+                                // value={word}
                                 // required={item.id === 0 && word === ''}
                                 onInvalid={this.hadleValidate}
                                 list="cat"
@@ -289,6 +291,7 @@ class AppHeader extends Component {
                                     : null)
                                 }
                               />
+                              {/* <div className="search-btn-l  oader"><i className="fa fa-circle-o-notch fa-spin" /></div> */}
                               <datalist
                                 id="cat"
                                 className="list-unstyled"
