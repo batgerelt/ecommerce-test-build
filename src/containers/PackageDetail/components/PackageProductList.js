@@ -100,7 +100,7 @@ function PackageProductList({
       } = await increaseProductsByQtyRemotely({
         body: packageProducts.map(prod => ({
           skucd: prod.skucd,
-          qty: prod.qty || prod.addminqty,
+          qty: prod.qty,
         })),
       });
 

@@ -50,7 +50,7 @@ class Checkout extends React.Component {
       epointUsedPoint: 0,
       cardInfo: null,
       freeCond: 0,
-      submitLoading: false,
+      submitLoading: true,
     };
   }
 
@@ -513,8 +513,7 @@ class Checkout extends React.Component {
                   isMobile ?
                     isLoggedIn ?
                       <div className="sticky-btn">
-                        <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
-                          {submitLoading ? <i className="fa fa-circle-o-notch fa-spin mr-1" /> : null}
+                        <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
                           <span className="text-uppercase">
                             {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
                           </span>

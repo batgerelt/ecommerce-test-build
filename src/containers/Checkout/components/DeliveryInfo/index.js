@@ -36,6 +36,7 @@ class DeliveryInfo extends React.Component {
       checkedEpoint: !(props.mainState.cardInfo === null),
       giftvisible: false,
       imgnm: null,
+      loading: false,
     };
   }
 
@@ -98,6 +99,7 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    this.setState({ loading: true });
     let agreementId = document.getElementById("agreementId");
     const {
       userinfo, products, mainState,
@@ -141,6 +143,8 @@ class DeliveryInfo extends React.Component {
         this.sendPayment(tmp);
       }
     }
+
+    this.setState({ loading: false });
   }
 
   continueCheckout = () => {
@@ -379,9 +383,7 @@ class DeliveryInfo extends React.Component {
 
   render() {
     let img = process.env.IMAGE + this.state.imgnm;
-    const {
-      checkedAgreement, checkedEpoint,
-    } = this.state;
+    const { checkedAgreement, checkedEpoint, loading } = this.state;
     const {
       staticpage,
       intl,
@@ -510,7 +512,7 @@ class DeliveryInfo extends React.Component {
           !isMobile ?
             isLoggedIn ?
               <div className="sticky-btn">
-                <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn}>
+                <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || loading}>
                   <span className="text-uppercase">
                     {
                       mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
