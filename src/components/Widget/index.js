@@ -54,10 +54,8 @@ class Widget extends React.Component {
             {subtitle}
             {widgetData.interval ? widgetData.interval : ""}
           </h1>
-
           {cardList}
-
-          <div className="more-link text-center">
+          <div className="more-link text-center" >
             <Button>
               <Link
                 to={widgetData.link ? widgetData.link : ""}
@@ -67,6 +65,7 @@ class Widget extends React.Component {
               </Link>
             </Button>
           </div>
+          <div style={{ height: "30px", width: "100%" }} />
         </div>
       </div>
     );

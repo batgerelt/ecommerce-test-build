@@ -3461,34 +3461,60 @@ button:disabled{
   display: none !important;
 }
 // profile custom input
+.MuiCardContent-root {
+  padding-left: 10px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.product-comment {
+  .MuiTypography-body2 {
+    font-size: 16px !important;
+  }
+
+  .MuiTypography-body1 {
+    font-size: 14px !important;
+  }
+
+  .MuiCardHeader-root {
+    font-size: 12px !important;
+    padding-left: 10px !important;
+    padding-top: 5px !important;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;
+  }
+
+}
+
 .cart-table-container tr:first-child:hover input {
   background-color: transparent !important;
 }
 
-.test-input {
-  .input-group1 {
-    position: relative;
-  }
+// .test-input {
+//   .input-group1 {
+//     position: relative;
+//   }
 
-  .input-group1 .input-area {
-    outline: none;
-    border: 1px solid #dadce0;
-    padding: 16px 13px;
-    font-size: 18px;
-    border-radius: 5px;
-  }
+//   .input-group1 .input-area {
+//     outline: none;
+//     border: 1px solid #dadce0;
+//     padding: 16px 13px;
+//     font-size: 18px;
+//     border-radius: 5px;
+//   }
   
-  .input-group1 .input-area:focus {
-    border: 2px solid royalblue;
-  }
+//   .input-group1 .input-area:focus {
+//     border: 2px solid royalblue;
+//   }
 
-  .input-group .label {
-    color: #dadce0;
-    position: absolute;
-    top: 20px;
-    left: 13px;
-  }
-}
+//   .input-group .label {
+//     color: #dadce0;
+//     position: absolute;
+//     top: 20px;
+//     left: 13px;
+//   }
+// }
 
 .btn:hover {
   opacity: .8;
@@ -3548,21 +3574,21 @@ button:hover {
   width: 100%;
 }
 
-// .horizontal {
-//   display: flex;
-//   width: 90% !important;
-// }
+.horizontal {
+  display: flex;
+  width: 90% !important;
+}
 
-// .horizontal-top {
-//   width: 75% !important;
-// }
+.horizontal-top {
+  width: 75% !important;
+}
 
-// .horizontal-scroll {
-//   // background-color: black;
-//   overflow: auto;
-//   white-space: nowrap;
-//   width: 100% !important;
-// }
+.horizontal-scroll {
+  // background-color: black;
+  overflow: auto;
+  white-space: nowrap;
+  width: 100% !important;
+}
 
 .hover-effect:hover {
   transition: all .5s;

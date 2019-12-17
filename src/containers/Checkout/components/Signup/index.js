@@ -220,14 +220,14 @@ class Signup extends React.Component {
             </Col>
             <Col span={24}>
               <Col xs={0} sm={0} md={8} lg={8} xl={8} className="padd10" />
-              <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ textAlign: "center" }}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10 text-center">
                 <Form.Item>
                   <Button
-                    className="btn btn-login text-uppercase"
+                    className="btn btn-login text-uppercase text-center"
                     loading={this.state.loading}
                     size={"large"}
                     htmlType="submit"
-                    style={{ padding: "5px 50px", textAlign: "center" }}
+                    style={{ padding: "5px 50px" }}
                   >
                     <FormattedMessage id="shared.form.button.register" />
                   </Button>
