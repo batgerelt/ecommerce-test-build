@@ -589,7 +589,7 @@ class Model extends BaseModel {
               product.qty = product.addminqty;
             }
           } else {
-            // console.log(product);
+            // console.log('=>: ', product);
             if (product.availableqty > 0) {
               if (product.salemaxqty > 0) {
                 if (product.qty) {
@@ -627,7 +627,7 @@ class Model extends BaseModel {
             }
           }
         }
-        if (!product.error) {
+        if (!product.error || from === "package" || from === "recipe") {
           products.push(product);
         }
       }
@@ -889,9 +889,13 @@ class Model extends BaseModel {
 
           action.payload.forEach((prod) => {
             products = this.updateReduxStore(products, prod, "package");
+            // console.log('products: ', products);
           });
 
+          // console.log('products: ', products);
+
           const errors = products.filter(prod => prod.error !== undefined);
+          // console.log('errors: ', errors);
 
           return {
             ...state,

@@ -95,11 +95,19 @@ function PackageProduct({
       }
 
       if (product.qty > 0) {
-        increaseProductByQtyLocally({
+        const result = await increaseProductByQtyLocally({
           ...product,
           qty: parseInt(qty, 10),
           insymd: moment(),
         });
+
+        if (result.payload.error) {
+          renderNotification({
+            code: result.payload.error,
+            name: result.payload.title,
+            qty: result.payload.qty,
+          });
+        }
 
         const updated = products.find(
           prod => prod.skucd === product.skucd,

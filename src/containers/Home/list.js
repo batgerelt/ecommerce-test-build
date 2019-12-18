@@ -150,7 +150,7 @@ class Homepage extends React.Component {
       const brandParams = {
         slidesPerView: isMobileOnly ? 2 : 5,
         spaceBetween: 10,
-        loop: true,
+        loop: false,
         autoplay: {
           delay: 5000,
           disableOnInteraction: false,
@@ -168,7 +168,7 @@ class Homepage extends React.Component {
       const brandParams1 = {
         slidesPerView: brand.length,
         spaceBetween: 10,
-        loop: true,
+        loop: false,
         autoplay: {
           delay: 5000,
           disableOnInteraction: false,

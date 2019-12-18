@@ -358,8 +358,9 @@ class CategoryInfo extends React.Component {
     }
   };
 
-  showMobilePanel = () =>
-    this.setState({ isMobilePanel: !this.state.isMobilePanel });
+  showMobilePanel = () => {
+    window.innerWidth < 768 ? this.setState({ isMobilePanel: !this.state.isMobilePanel }) : null;
+  }
 
   renderLeftPanel = () => {
     try {
