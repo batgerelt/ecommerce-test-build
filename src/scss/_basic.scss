@@ -3460,7 +3460,33 @@ button:disabled{
 .buttonBlack{
   display: none !important;
 }
+
+.MuiInputLabel-outlined {
+  transform: translate(14px, 12px) scale(1);
+}
 // profile custom input
+
+// .MuiInputBase-root {
+//   background-color: orange !important;
+// }
+// .Mui-focused {
+//   div {
+//     border: 2px solid orange !important;
+//   }
+//   label {
+//     color: orange !important;
+//   }
+//   input {
+//     // border: 5px solid orange !important;
+//   }
+// }
+// .MuiFormLabel .Mui-focused {
+//   label {
+//     color: orange !important;
+//   }
+//   color: #FFB81C !important;
+// }
+
 .MuiCardContent-root {
   padding-left: 10px !important;
   padding-top: 0px !important;
@@ -3487,9 +3513,9 @@ button:disabled{
 
 }
 
-.cart-table-container tr:first-child:hover input {
-  background-color: transparent !important;
-}
+// .cart-table-container tr:first-child:hover input {
+//   background-color: transparent !important;
+// }
 
 // .test-input {
 //   .input-group {
