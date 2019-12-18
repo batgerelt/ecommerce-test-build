@@ -3460,7 +3460,9 @@ button:disabled{
 .buttonBlack{
   display: none !important;
 }
+
 // profile custom input
+
 .MuiCardContent-root {
   padding-left: 10px !important;
   padding-top: 0px !important;
@@ -3484,38 +3486,10 @@ button:disabled{
     padding-right: 0px !important;
     padding-bottom: 0px !important;
   }
-
 }
 
-.cart-table-container tr:first-child:hover input {
-  background-color: transparent !important;
-}
-
-// .test-input {
-//   .input-group {
-//     position: relative;
-//   }
-//   .input-group .input-area {
-//     outline: none;
-//     border: 1px solid #dadce0;
-//     border-radius: 5px;
-//     height: 40px !important;
-//   }
-//   .input-group .input-area:focus {
-//     border: 2px solid royalblue; 
-//   }
-//   .input-group .input-area:focus + span {
-//     color: royalblue;
-//   }
-//   .input-group span {
-//     color: #8d8d8d;
-//     position: absolute;
-//     background: #ffffff;
-//   }
-//   .input-group .input-area:valid + span {
-//     top: -20px;
-//     color: #8d8d8d;
-//   }
+// .cart-table-container tr:first-child:hover input {
+//   background-color: transparent !important;
 // }
 
 .btn:hover {

@@ -175,18 +175,12 @@ class Page extends React.Component {
             value={0}
             fullWidth
             icon={<PersonIcon />}
-            onClick={event => {
-              event.preventDefault();
-            }}
           />
           <Tab
             label={<FormattedMessage id="shared.form.button.register" />}
             value={1}
             fullWidth
             icon={<PersonAddIcon />}
-            onClick={event => {
-              event.preventDefault();
-            }}
           />
         </Tabs>
         <SwipeableViews index={value} >
