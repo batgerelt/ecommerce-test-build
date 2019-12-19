@@ -119,7 +119,7 @@ class Component extends React.Component {
               </li>
             </ul>
           </Col>
-          <Col className="action icons">
+          <Col className="action icons" style={{ zIndex: "0" }}>
             <ul className="list-unstyled flex-this">
               <li className="search-hover">
                 <Button
