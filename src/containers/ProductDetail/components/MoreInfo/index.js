@@ -28,11 +28,11 @@ class Moreinfo extends Component {
         product, attributes, similarProducts, lang,
       } = this.props;
       const similarProductsLimit = isMobileOnly ? 2 : window.innerWidth >= 576 && window.innerWidth <= 991 ? 3 : 6;
-      const shouldLoop = similarProducts.length > similarProductsLimit;
+      // const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {
         slidesPerView: similarProductsLimit,
         spaceBetween: 0,
-        loop: shouldLoop,
+        loop: false,
         autoplay: {
           delay: 10000,
           disableOnInteraction: false,

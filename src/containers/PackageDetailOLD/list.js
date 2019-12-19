@@ -39,6 +39,7 @@ class List extends React.Component {
   // };
 
   handleSimilarProductIncrement = async (product) => {
+    console.log('product: ', product);
     const { intl } = this.props;
     if (this.props.isLoggedIn) {
       const result = await this.props.incrementProductRemotely({
@@ -438,6 +439,7 @@ class List extends React.Component {
                     className="btn btn-link"
                     onClick={() => this.handleSimilarProductIncrement(prod)}
                   >
+                    hello
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"

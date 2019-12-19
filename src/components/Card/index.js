@@ -30,6 +30,7 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
+    console.log('item: ', item);
     const { intl, elastic } = this.props;
     try {
       if (localStorage.getItem('auth') !== null) {
@@ -251,18 +252,15 @@ class Card extends React.Component {
             });
           }
         } else if (item.id) {
-          const result = await this.props.getPackageProducts({
-            id: item.id,
-          });
-
+          const result = await this.props.getPackageProducts({ id: item.id });
+          // console.log('result: ', result);
           const products = result.payload.data.products.map(prod => ({
             ...prod,
             insymd: Date.now(),
           }));
 
           this.props.incrementPackageProductsLocally(products);
-
-          const errors = this.props.errors.filter(prod => prod.recipeid === item.recipeid);
+          const errors = this.props.errors.filter(prod => prod.id === item.id);
 
           if (errors.length > 0) {
             const titles = errors.map(err => err.title);
@@ -288,7 +286,7 @@ class Card extends React.Component {
             });
           }
         } else {
-          //
+          console.log('hello: ', item);
         }
 
         this.setState({ loading: false });
@@ -814,10 +812,10 @@ class Card extends React.Component {
                       aria-hidden="true"
                     />
                   </Button>
-                  <Button onClick={() => this.handleIncrement(item)}>
+                  <button onClick={this.handleIncrement(item)}>
                     <i className="fa fa-cart-plus" aria-hidden="true" />
-                    <span />
-                  </Button>
+                    {/* <span /> */}
+                  </button>
                 </span>
               </div>
             </div >
