@@ -369,7 +369,7 @@ class Component extends React.Component {
               <Col xs={12} sm={12} md={18} lg={18} xl={18} />
               <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Form.Item className="text">
-                  <ButtonGoogle className="btn btn-dark hover-effect" disabled={load} htmlType="submit" style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <ButtonGoogle className="btn btn-dark hover-effect" disabled={load} onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
                     <span className="text-uppercase"><FormattedMessage id="shared.form.button.save" /></span>
                   </ButtonGoogle>
                 </Form.Item>
