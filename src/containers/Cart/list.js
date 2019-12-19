@@ -10,7 +10,6 @@ import React from "react";
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { message, Affix, notification } from 'antd';
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import ButtonGoogle from "@material-ui/core/Button";

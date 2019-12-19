@@ -143,6 +143,17 @@ class Signin extends React.Component {
             localStorage.setItem('auth', JSON.stringify(r.payload));
             localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
             localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+            });
             // eslint-disable-next-line consistent-return
             this.props.getUserInfo().then(async (res) => {
               if (res.payload.success) {
