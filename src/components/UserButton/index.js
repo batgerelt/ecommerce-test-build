@@ -71,7 +71,6 @@ class UserButton extends React.Component {
 
   handleLogoutClick = () => {
     this.setState({ visible: false });
-    this.props.clearCookie();
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
     this.props.clearUserModelState();
@@ -109,12 +108,13 @@ class UserButton extends React.Component {
   };
 
   componentDidUpdate() {
-    if (localStorage.getItem("auth") !== null) {
+    /* if (localStorage.getItem("auth") !== null) {
       let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
       if (jwtDecode(token).exp < Date.now() / 1000) {
+        console.log("token expired");
         this.handleLogout();
       }
-    }
+    } */
   }
 
   uploadPick = () => {
@@ -171,10 +171,23 @@ class UserButton extends React.Component {
 
   handleLogout = () => {
     this.setState({ visible: false });
-    this.props.clearCookie();
     this.props.logout();
     this.props.clearLocally();
     this.props.clearUserModelState();
+    if (localStorage.getItem('auth') === null) {
+      const { intl } = this.props;
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
+      });
+    }
   }
 
   renderImage = () => {
