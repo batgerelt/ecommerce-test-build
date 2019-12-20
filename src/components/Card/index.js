@@ -812,10 +812,10 @@ class Card extends React.Component {
                       aria-hidden="true"
                     />
                   </Button>
-                  <button onClick={this.handleIncrement(item)}>
+                  <Button onClick={() => this.handleIncrement(item)}>
                     <i className="fa fa-cart-plus" aria-hidden="true" />
                     {/* <span /> */}
-                  </button>
+                  </Button>
                 </span>
               </div>
             </div >
