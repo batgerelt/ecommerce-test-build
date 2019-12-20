@@ -3462,6 +3462,11 @@ button:disabled{
 }
 
 // profile custom input
+.image-container {
+  .search-hover {
+    z-index: 0;
+  }
+}
 
 .MuiCardContent-root {
   padding-left: 10px !important;
@@ -3491,7 +3496,7 @@ button:disabled{
 // .cart-table-container tr:first-child:hover input {
 //   background-color: transparent !important;
 // }
-
+.image-container
 .btn:hover {
   opacity: .8;
 }
