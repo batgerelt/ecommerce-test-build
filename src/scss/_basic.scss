@@ -4092,3 +4092,22 @@ div.sticky-btn{
     display: inline !important;
   }
 }
+
+.cart-deliveryinfo{
+  padding: 0% !important;
+
+  .ant-alert{
+    border-radius: 0%;
+  }
+
+  .ant-alert-with-description{
+    padding: 5px 0px 5px 64px !important;
+    font-weight: 500;
+  }
+
+  .ant-alert-icon{
+    transition: "0.3s" !important;
+    transform: "scale(1.4)" !important;
+  }
+  
+}

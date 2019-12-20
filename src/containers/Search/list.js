@@ -511,8 +511,8 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
-      return null;
+      return console.log(error);
+      // return null;
     }
   };
 
