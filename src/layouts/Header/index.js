@@ -51,14 +51,9 @@ class AppHeader extends Component {
 
   handleChangeSearchWord = (e) => {
     const { value } = e.target;
-    this.setState({ word: value });
+
     if (value !== null && value.length >= 1) {
-      this.props.searchWord({ keyword: value });
-      // .then((res) => {
-      //   if (res !== undefined) {
-      //     res.payload.success ? this.setState({ suggestion: res.payload.data, word: value }) : null;
-      //   } else { this.setState({ suggestion: [], word: value }); }
-      // });
+      // this.props.searchWord({ keyword: value });
     }
   };
 
@@ -93,14 +88,14 @@ class AppHeader extends Component {
     this.setState({ isSearch: !this.state.isSearch });
   };
 
-  handleKeyPress = (categoryid, searchword) => {
-    if (categoryid === 0 && searchword === "") {
+  handleKeyPress = (categoryid) => {
+    if (categoryid === 0 && document.getElementById('searchHeaderInput').value === "") {
       return null;
     }
 
     this.props.history.push({
       pathname: `/search/${categoryid}/${moment()}`,
-      state: searchword,
+      state: document.getElementById('searchHeaderInput').value,
     });
     document.getElementById('searchHeaderInput').value = '';
     return this.setState({ word: '', isSearch: false });
@@ -402,7 +397,7 @@ class AppHeader extends Component {
         </div>
       );
     } catch (error) {
-      console.log('error: ', error);
+      // console.log('error: ', error);
       return null;
     }
   }
