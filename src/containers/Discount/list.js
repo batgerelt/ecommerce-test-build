@@ -71,22 +71,7 @@ class Discount extends React.Component {
     });
   }
 
-  loadMoreRows = () => {
-    try {
-      if (this.state.startsWith >= 10) {
-        setTimeout(() => {
-          this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-            if (res.payload.success) {
-              this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), startsWith: this.state.startsWith + 20, total: res.payload.data.hits.total.value });
-            }
-          });
-        }, 1000);
-      }
-      return null;
-    } catch (error) {
-      return console.log(error);
-    }
-  };
+  loadMoreRows = () => this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
 
   noRowsRenderer = () => null;
 
@@ -200,7 +185,7 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { products } = this.state;
+      const { discountproducts } = this.props;
       return (
         <div className="container pad10 discount-list">
           <div className="row row10">
@@ -208,8 +193,8 @@ class Discount extends React.Component {
               {({ width }) => {
                 const rowCount = this.getRowsAmount(
                   width,
-                  products.length,
-                  this.state.headerProducts.length + products.length !== this.state.total,
+                  discountproducts.length,
+                  this.state.headerProducts.length + discountproducts.length !== this.state.total,
                 );
                 return (
                   <InfiniteLoader
@@ -223,7 +208,7 @@ class Discount extends React.Component {
                         this.generateIndexesForRow(
                           index,
                           maxItemsPerRow,
-                          products.length,
+                          discountproducts.length,
                         ).length > 0;
                       return !true || allItemsLoaded;
                     }}
@@ -249,8 +234,8 @@ class Discount extends React.Component {
                               const rowItems = this.generateIndexesForRow(
                                 index,
                                 maxItemsPerRow,
-                                products.length,
-                              ).map(itemIndex => products[itemIndex]._source);
+                                discountproducts.length,
+                              ).map(itemIndex => discountproducts[itemIndex]);
                               let tmp = {};
                               let topH = style.top;
                               tmp.top = topH;

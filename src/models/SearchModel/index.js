@@ -188,7 +188,7 @@ class Model extends BaseModel {
           ...state,
           isFetchingNew: false,
           newproducts: this.pushProduct(action.payload.data.hits.hits),
-          newproductCount: state.newproductCount + 20,
+          newproductCount: state.newproductCount + 50,
         };
 
       // GET SEARCH DISCOUNT PRODUCT
@@ -201,7 +201,7 @@ class Model extends BaseModel {
           ...state,
           isFetchingDiscount: false,
           discountproducts: this.pushProduct(action.payload.data.hits.hits),
-          discountproductCount: state.discountproductCount + 20,
+          discountproductCount: state.discountproductCount + 50,
         };
 
       // GET ALL PROMOTION

@@ -66,14 +66,7 @@ class Bookmarks extends PureComponent {
     window.scrollTo(0, 0);
   }
 
-  loadMoreRows = async () => {
-    // this.setState({ loadingCart: true });
-    await this.props
-      .getNewProducts({
-        body: { ...this.state, startsWith: this.props.newproductCount },
-      });
-    // .then(res => this.setState({ loadingCart: false }));
-  };
+  loadMoreRows = () => this.props.getNewProducts({ body: { ...this.state, startsWith: this.props.newproductCount } });
 
   noRowsRenderer = () => null;
 
@@ -273,19 +266,16 @@ class Bookmarks extends PureComponent {
                               tmp.position = style.position;
                               return (
                                 <div style={style} key={key} className="jss148">
-                                  {/* {console.log('onChildScroll', !!newproducts[index])} */}
                                   {
-                                    index > newproducts.length ? <Spin indicator={Loader} /> : (
-                                      rowItems.map(itemId => (
-                                        <Card
-                                          elastic
-                                          key={itemId.skucd + key}
-                                          shape={CARD_TYPES.slim}
-                                          item={itemId}
-                                          {...this.props}
-                                        />
-                                      ))
-                                    )
+                                    rowItems.map(itemId => (
+                                      <Card
+                                        elastic
+                                        key={itemId.skucd + key}
+                                        shape={CARD_TYPES.slim}
+                                        item={itemId}
+                                        {...this.props}
+                                      />
+                                    ))
                                   }
                                 </div>
                               );
