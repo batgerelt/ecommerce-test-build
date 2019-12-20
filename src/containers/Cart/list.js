@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import ButtonGoogle from "@material-ui/core/Button";
+import { Alert } from "antd";
 import { Notification } from "../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
@@ -910,8 +911,15 @@ class Cart extends React.Component {
                       </td>
                     </tr>
                     <tr className="table-action">
-                      <td colSpan="2">
-                        {lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
+                      <td colSpan="3" className="cart-deliveryinfo">
+                        {
+                          prod.deliveryinfo &&
+                          <Alert
+                            showIcon
+                            description={lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
+                            type="info"
+                          />
+                        }
                       </td>
                       <td colSpan="2">
                         <div className="text-right single-action">
