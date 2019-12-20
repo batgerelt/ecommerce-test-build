@@ -11,7 +11,7 @@ class Model extends BaseModel {
     },
     productbrand: [],
     searchattribute: [],
-    searchword: [],
+    suggestion: [],
     searchkeyword: [],
     searchKeyWordResponse: [],
     isFetchingSearch: false,
@@ -152,7 +152,7 @@ class Model extends BaseModel {
       case this.model.searchword.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.searchword.response:
-        return { ...state, searchword: action.payload.data };
+        return { ...state, suggestion: action.payload.data };
 
         // GET SEARCH KEY WORD
       case this.model.searchkeyword.request:

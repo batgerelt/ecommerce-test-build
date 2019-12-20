@@ -14,7 +14,6 @@ import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
-import { Static as StaticModel } from "../../../../models";
 import { SwalModals, IndividualTab } from "../";
 
 const RadioGroup = Radio.Group;
@@ -105,10 +104,8 @@ class DeliveryInfo extends React.Component {
       userinfo, products, mainState,
     } = this.props;
     if (mainState.activeKey === '2') {
-      console.log('activeKey: ');
       this.props.onSubmitDeliveryPanel();
     } else if (mainState.activeKey === '3') {
-      console.log('activeKey: ');
       if (!this.state.checkedAgreement) {
         agreementId.scrollIntoView({
           behavior: 'smooth',
