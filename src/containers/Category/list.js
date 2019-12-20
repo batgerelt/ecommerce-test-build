@@ -87,8 +87,8 @@ class CategoryInfo extends React.Component {
     });
   };
 
-  handleViewChange = (e) => {
-    this.props.resetSearch();
+  handleViewChange = () => {
+    // this.props.resetSearch();
     if (this.state.isListViewOn) {
       this.setState({ shapeType: 2, isListViewOn: !this.state.isListViewOn });
     } else {
