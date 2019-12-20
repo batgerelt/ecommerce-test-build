@@ -105,8 +105,10 @@ class DeliveryInfo extends React.Component {
       userinfo, products, mainState,
     } = this.props;
     if (mainState.activeKey === '2') {
+      console.log('activeKey: ');
       this.props.onSubmitDeliveryPanel();
     } else if (mainState.activeKey === '3') {
+      console.log('activeKey: ');
       if (!this.state.checkedAgreement) {
         agreementId.scrollIntoView({
           behavior: 'smooth',

@@ -50,7 +50,7 @@ class Checkout extends React.Component {
       epointUsedPoint: 0,
       cardInfo: null,
       freeCond: 0,
-      submitLoading: true,
+      submitLoading: false,
     };
   }
 

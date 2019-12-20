@@ -275,7 +275,7 @@ class AppHeader extends Component {
                               className="input d-flex search-input"
                             >
                               <input
-                                // value={word}
+                                value={word}
                                 // required={item.id === 0 && word === ''}
                                 onInvalid={this.hadleValidate}
                                 list="cat"

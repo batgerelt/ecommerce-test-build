@@ -61,4 +61,4 @@ class Page extends React.Component {
   }
 }
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(Page));
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

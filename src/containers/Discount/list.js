@@ -18,19 +18,7 @@ import {
 } from "react-virtualized";
 import { Card, Banner, PageBanner } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
-import windowSize from 'react-window-size';
 
-const ITEM_HEIGHT = 340;
-const RowItem = React.memo(function RowItem({ item, ...props }) {
-  return (
-    <Card
-      isDiscount
-      shape={CARD_TYPES.slim}
-      item={item}
-      {...props}
-    />
-  );
-});
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -290,4 +278,4 @@ class Discount extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(React.memo(Discount)));
+export default injectIntl(Discount);
