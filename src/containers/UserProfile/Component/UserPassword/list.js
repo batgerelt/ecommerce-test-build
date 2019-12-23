@@ -138,7 +138,7 @@ class Component extends React.Component {
     return (
       <div className="user-menu-content" style={{ margin: "0px !important" }}>
         <p className="title" style={{ textTransform: "uppercase" }}>
-          <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
+          <span>Нууц үг солих</span>
         </p>
         <Divider />
         <div className="user-profile-container">

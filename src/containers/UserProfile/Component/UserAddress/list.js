@@ -435,7 +435,7 @@ class Component extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="user-menu-content">
-        <p className="title">
+        <p className="title" style={{ textTransform: "uppercase" }}>
           <span><FormattedMessage id="profile.deliveryAddress.title" /></span>
         </p>
         <Divider />

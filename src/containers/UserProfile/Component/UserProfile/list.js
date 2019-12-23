@@ -147,6 +147,7 @@ class Component extends React.Component {
           // eslint-disable-next-line no-else-return
         } else {
           this.props.updateMain({ body: param }).then((res) => {
+            console.log("Res", res);
             if (res.payload.success) {
               this.getdata();
               store.addNotification({

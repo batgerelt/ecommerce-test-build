@@ -517,7 +517,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("address", {
                           initialValue: this.checkError(chosenAddress.address),
-                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                          // rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                         })(
                           <Input className="col-md-12" size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                         )}

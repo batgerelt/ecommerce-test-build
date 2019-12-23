@@ -112,7 +112,7 @@ function SimilarProduct({
             {formatter.format(product.sprice || product.price)}₮
           </span>
         </Link>
-        <div className="search-hover action">
+        <div className="action">
           <Button
             onClick={handleIncrementClick}
             disabled={loading}

@@ -319,10 +319,11 @@ function PackageProduct({
               </div>
             </div>
           </form>
-          <div className="search-hover action">
+          <div className="action">
             <Button
               onClick={handleAddToCartClick}
               disabled={loading}
+              style={{ zIndex: "0" }}
             >
               <i
                 className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`}
