@@ -11,7 +11,7 @@ class Model extends BaseModel {
     },
     productbrand: [],
     searchattribute: [],
-    searchword: [],
+    suggestion: [],
     searchkeyword: [],
     searchKeyWordResponse: [],
     isFetchingSearch: false,
@@ -152,7 +152,7 @@ class Model extends BaseModel {
       case this.model.searchword.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.searchword.response:
-        return { ...state, searchword: action.payload.data };
+        return { ...state, suggestion: action.payload.data };
 
         // GET SEARCH KEY WORD
       case this.model.searchkeyword.request:
@@ -188,7 +188,7 @@ class Model extends BaseModel {
           ...state,
           isFetchingNew: false,
           newproducts: this.pushProduct(action.payload.data.hits.hits),
-          newproductCount: state.newproductCount + 20,
+          newproductCount: state.newproductCount + 50,
         };
 
       // GET SEARCH DISCOUNT PRODUCT
@@ -201,7 +201,7 @@ class Model extends BaseModel {
           ...state,
           isFetchingDiscount: false,
           discountproducts: this.pushProduct(action.payload.data.hits.hits),
-          discountproductCount: state.discountproductCount + 20,
+          discountproductCount: state.discountproductCount + 50,
         };
 
       // GET ALL PROMOTION

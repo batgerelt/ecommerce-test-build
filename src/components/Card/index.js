@@ -30,7 +30,6 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
-    console.log('item: ', item);
     const { intl, elastic } = this.props;
     try {
       if (localStorage.getItem('auth') !== null) {

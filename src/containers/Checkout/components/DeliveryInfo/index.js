@@ -14,7 +14,6 @@ import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
-import { Static as StaticModel } from "../../../../models";
 import { SwalModals, IndividualTab } from "../";
 
 const RadioGroup = Radio.Group;

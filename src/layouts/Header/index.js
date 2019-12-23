@@ -24,7 +24,6 @@ class AppHeader extends Component {
       isDropdownOpen: false,
       isSearchDropdownOpen: false,
       item: { id: 0, name: "", name_en: '' },
-      suggestion: [],
       word: "",
       keywordid: null,
       isSearch: false,
@@ -51,19 +50,10 @@ class AppHeader extends Component {
   }
 
   handleChangeSearchWord = (e) => {
-    try {
-      const { value } = e.target;
-      if (value !== null && value.length >= 1) {
-        this.props.searchWord({ keyword: value }).then((res) => {
-          if (res !== undefined) {
-            res.payload.success ? this.setState({ suggestion: res.payload.data, word: value }) : null;
-          } else { this.setState({ suggestion: [], word: value }); }
-        });
-      } else if (value.length === 1) {
-        this.setState({ suggestion: [], word: value });
-      }
-    } catch (error) {
-      console.log('error: ', error);
+    const { value } = e.target;
+
+    if (value !== null && value.length >= 1) {
+      // this.props.searchWord({ keyword: value });
     }
   };
 
@@ -98,15 +88,16 @@ class AppHeader extends Component {
     this.setState({ isSearch: !this.state.isSearch });
   };
 
-  handleKeyPress = (categoryid, searchword) => {
-    if (categoryid === 0 && searchword === "") {
+  handleKeyPress = (categoryid) => {
+    if (categoryid === 0 && document.getElementById('searchHeaderInput').value === "") {
       return null;
     }
 
     this.props.history.push({
       pathname: `/search/${categoryid}/${moment()}`,
-      state: searchword,
+      state: document.getElementById('searchHeaderInput').value,
     });
+    document.getElementById('searchHeaderInput').value = '';
     return this.setState({ word: '', isSearch: false });
   }
 
@@ -275,6 +266,7 @@ class AppHeader extends Component {
                               className="input d-flex search-input"
                             >
                               <input
+                                id="searchHeaderInput"
                                 // value={word}
                                 // required={item.id === 0 && word === ''}
                                 onInvalid={this.hadleValidate}
@@ -284,7 +276,7 @@ class AppHeader extends Component {
                                   id: "header.searchBar.placeholder",
                                 })}
                                 style={{ boxShadow: "none", fontSize: "14px" }}
-                                onChange={this.handleChangeSearchWord}
+                                onChange={e => this.handleChangeSearchWord(e)}
                                 onKeyPress={e =>
                                   (e.key === "Enter"
                                     ? this.handleKeyPress(item.id, word)
@@ -301,7 +293,7 @@ class AppHeader extends Component {
                                     : null)
                                 }
                               >
-                                {this.state.suggestion.map(item => (
+                                {this.props.search.suggestion.map(item => (
                                   <option key={item.id} value={item.keyword} />
                                 ))}
                               </datalist>
@@ -405,6 +397,7 @@ class AppHeader extends Component {
         </div>
       );
     } catch (error) {
+      // console.log('error: ', error);
       return null;
     }
   }
