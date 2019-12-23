@@ -23,7 +23,7 @@ const RadioGroup = Radio.Group;
 
 class DeliveryPanel extends React.Component {
   state = {
-    defaultActiveKey: 1,
+    defaultActiveKey: 3,
     districtLocation: [],
     committeLocation: [],
     selectLoading: false,
