@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate, Input } from "antd";
+import { Rate, Input, Modal } from "antd";
 import { store } from 'react-notifications-component';
 import {
   Card,
@@ -21,6 +21,8 @@ class Comment extends Component {
   state = {
     comment: "",
     comments: [],
+    giftvisible: false,
+    imgnm: null,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -35,6 +37,10 @@ class Comment extends Component {
     }
   };
 
+  onCancel = () => {
+    this.setState({ giftvisible: false });
+  }
+
   handleRateChange = (e) => {
     if (localStorage.getItem("auth") !== null) {
       const {
@@ -43,7 +49,11 @@ class Comment extends Component {
       let skucd = detail.skucd;
       let rate = e * 2;
       addRate({ skucd, rate }).then((res) => {
+        console.log("res: ", res.payload);
         if (res.payload.success) {
+          if (res.payload.data !== "") {
+            this.setState({ giftvisible: true, imgnm: res.payload.data });
+          }
           getProductRate({ skucd });
           getProductDetail({ skucd });
         } else {
@@ -84,7 +94,11 @@ class Comment extends Component {
       if (comment !== "") {
         let { skucd } = product;
         addComment({ skucd, comm: comment }).then((res) => {
+          console.log("res: ", res.payload);
           if (res.payload.success) {
+            if (res.payload.data !== "") {
+              this.setState({ giftvisible: true, imgnm: res.payload.data });
+            }
             this.setState({ comment: "" });
             this.props.getProductComment({ skucd: product.skucd });
           } else {
@@ -124,6 +138,7 @@ class Comment extends Component {
         product, comments, user, auth, intl, isLoggedIn, rate,
       } = this.props;
       let realImage = "";
+      let img = process.env.IMAGE + this.state.imgnm;
       if (localStorage.getItem('img')) {
         let realImage1 = localStorage.getItem('img');
         if (realImage1.slice(0, 5) === "https") {
@@ -216,6 +231,16 @@ class Comment extends Component {
               </div>
             </div>
           )}
+          <Modal
+            title=""
+            visible={this.state.giftvisible}
+            onCancel={this.onCancel}
+            closeOnEsc
+            footer={null}
+            className="no-padding"
+          >
+            <img alt="haha" src={img} style={{ width: "100%" }} />
+          </Modal>
         </div>
       );
     } catch (error) {
