@@ -47,6 +47,7 @@ class Discount extends React.Component {
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0);
     this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success && res.payload.data) {
         this.setState({
@@ -59,7 +60,9 @@ class Discount extends React.Component {
     });
   }
 
-  loadMoreRows = () => this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
+  loadMoreRows = () => {
+    this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
+  }
 
   noRowsRenderer = () => null;
 
@@ -153,7 +156,6 @@ class Discount extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-
     const { windowWidth } = this.props;
 
     if (windowWidth < 576) {
@@ -169,6 +171,31 @@ class Discount extends React.Component {
     }
 
     return tmp;
+  }
+
+  _rowRenderer = (
+    {
+      index, isScrolling, isVisible, key, style,
+    }, width) => {
+    const { discountproducts } = this.props;
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+    const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, discountproducts.length).map(itemIndex => discountproducts[itemIndex]);
+    return (
+      <div style={style} key={key} className="jss148">
+        {
+          rowItems.map(itemId => (
+            <Card
+              isDiscount
+              elastic
+              key={itemId.skucd + key}
+              shape={CARD_TYPES.slim}
+              item={itemId}
+              {...this.props}
+            />
+          ))
+        }
+      </div>
+    );
   }
 
   renderFooterProduct = () => {
@@ -215,40 +242,9 @@ class Discount extends React.Component {
                             rowCount={rowCount}
                             rowHeight={this.generateItemHeight(width)}
                             onRowsRendered={onRowsRendered}
-                            rowRenderer={({ index, style, key }) => {
-                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                width,
-                              );
-                              const rowItems = this.generateIndexesForRow(
-                                index,
-                                maxItemsPerRow,
-                                discountproducts.length,
-                              ).map(itemIndex => discountproducts[itemIndex]);
-                              let tmp = {};
-                              let topH = style.top;
-                              tmp.top = topH;
-                              tmp.height = style.height;
-                              tmp.left = style.left;
-                              tmp.width = style.width;
-                              tmp.position = style.position;
-                              return (
-                                <div style={style} key={key} className="jss148">
-                                  {
-                                    rowItems.map(itemId => (
-                                      <Card
-                                        isDiscount
-                                        elastic
-                                        key={itemId.skucd + key}
-                                        shape={CARD_TYPES.slim}
-                                        item={itemId}
-                                        {...this.props}
-                                      />
-                                    ))
-                                  }
-                                </div>
-                              );
-                            }}
+                            rowRenderer={e => this._rowRenderer(e, width)}
                             noRowsRenderer={this.noRowsRenderer}
+                            overscanRowCount={50}
                           />
                         )}
                       </WindowScroller>
@@ -271,7 +267,7 @@ class Discount extends React.Component {
         {this.props.menuDiscount === undefined ? null : this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
-        {this.state.startsWith >= 10 ? this.renderFooterProduct() : null}
+        {this.renderFooterProduct()}
         <BackTop />
       </div>
     );

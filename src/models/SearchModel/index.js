@@ -193,9 +193,9 @@ class Model extends BaseModel {
 
       // GET SEARCH DISCOUNT PRODUCT
       case this.model.discountproduct.request:
-        return { ...state, isFetchingNew: true, current: this.requestCase(state.current, action) };
+        return { ...state, isFetchingDiscount: true, current: this.requestCase(state.current, action) };
       case this.model.discountproduct.error:
-        return { ...state, isFetchingNew: false, current: this.errorCase(state.current, action) };
+        return { ...state, isFetchingDiscount: false, current: this.errorCase(state.current, action) };
       case this.model.discountproduct.response:
         return {
           ...state,
