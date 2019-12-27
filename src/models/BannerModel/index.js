@@ -10,6 +10,8 @@ class Model extends BaseModel {
       data: {},
     },
     homepagebanner: [],
+    isHomepageBannerLoading: true,
+
     pagebanner: [],
     banner: [],
     discountbanner: [],
@@ -79,11 +81,11 @@ class Model extends BaseModel {
     switch (action.type) {
       // GET HOMEPAGE BANNER
       case this.model.homepagebanner.request:
-        return { ...state, current: this.requestCase(state.current, action) };
+        return { ...state };
       case this.model.homepagebanner.error:
-        return { ...state, current: this.errorCase(state.current, action) };
+        return { ...state };
       case this.model.homepagebanner.response:
-        return { ...state, homepagebanner: action.payload.data };
+        return { ...state, isHomepageBannerLoading: false, homepagebanner: action.payload.data };
 
       // GET PAGE BANNER
       case this.model.pagesbanner.request:

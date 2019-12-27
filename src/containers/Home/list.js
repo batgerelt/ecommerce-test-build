@@ -1,12 +1,10 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
 import moment from "moment";
-// import MessengerCustomerChat from "react-messenger-customer-chat";
 import { Icon } from "react-fa";
-// import { BackTop } from "antd";
 import { isMobileOnly } from 'react-device-detect';
 
-import { Slider, Widget, Banner } from "../../components";
+import { Slider, Widget, Banner, Loader } from "../../components";
 import { WIDGET_SLUGS } from "../../utils/Consts";
 
 const sliderParams = {
@@ -224,23 +222,22 @@ class Homepage extends React.Component {
   }
 
   render() {
+    console.log(this.props.isHomepageBannerLoading);
     return (
       <div className="top-container homepage-container">
         {this.renderMainBanner()}
-        {this.renderBlocks()}
-
-        <div className="main-slide">
-          <div className="container pad10">
-            {this.renderBrandSlider()}
-
-            {/* <MessengerCustomerChat
-              pageId="122186685842490"
-              appId="424697635063811"
-              htmlRef={window.location.pathname}
-            /> */}
+        {
+          this.props.isHomepageBannerLoading ? <Loader />
+            :
+          <div>
+            {this.renderBlocks()}
+            <div className="main-slide">
+              <div className="container pad10">
+                {this.renderBrandSlider()}
+              </div>
+            </div>
           </div>
-        </div>
-        {/* <BackTop /> */}
+        }
       </div>
     );
   }

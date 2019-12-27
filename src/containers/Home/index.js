@@ -61,29 +61,11 @@ class Page extends React.Component {
       return this.setState({ banner });
     });
     this.props.getWidget();
-    this.props.getPackage({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
+    this.props.getPackage({});
     this.props.getNewProduct({});
-    this.props.getRecipe({
-      order: 'date_desc',
-      start: 0,
-      rowcnt: 20,
-    });
-    this.props.getDiscountProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 20,
-      order: `date_desc`,
-    });
-    this.props.getEmartProduct({
-      jumcd: '99',
-      start: 0,
-      rowcnt: 20,
-      order: `date_desc`,
-    });
+    this.props.getRecipe({});
+    this.props.getDiscountProduct({});
+    this.props.getEmartProduct({});
   }
 
   render() {
