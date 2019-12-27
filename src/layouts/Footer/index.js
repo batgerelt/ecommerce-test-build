@@ -171,16 +171,20 @@ class Footer extends React.Component {
             <li>
               <strong><FormattedMessage id="footer.contract.title" /></strong>
             </li>
-            <li>
+            <li className="d-flex">
+              <i className="fa fa-map-marker" aria-hidden="true" />
               <span>{lang === "mn" ? staticinfo.address : staticinfo.address_en}</span>
             </li>
-            <li>
+            <li className="d-flex">
+              <i className="fa fa-phone" aria-hidden="true" />
               <span>{staticinfo.phone}</span>
             </li>
-            <li>
+            <li className="d-flex">
+              <i className="fa fa-envelope-o" aria-hidden="true" />
               <span>{staticinfo.email}</span>
             </li>
-            <li>
+            <li className="d-flex">
+              <i className="fa fa-globe" aria-hidden="true" />
               <span>
                 <a href={staticinfo.website} target="_blank " rel="noopener" className="text-white">{staticinfo.website}</a>
               </span>
