@@ -3496,6 +3496,35 @@ button:disabled{
 // .cart-table-container tr:first-child:hover input {
 //   background-color: transparent !important;
 // }
+.deliveryTypeName {
+  font-size: 13px !important;
+}
+
+.author {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.new-comment-box {
+   p {
+     margin-bottom: 0px !important;
+   }
+   .ant-rate-star:not(:last-child) {
+     margin-right: 2px;
+   }
+}
+
+.MuiCard-root {
+  margin-bottom: 10px !important;
+}
+
+.main-rating {
+  margin-bottom: 0px !important;
+}
+
+.checkout-container .content-container .hand-pay .form-check {
+  padding: 5px 5px 5px 10px !important;
+}
 
 .image-container
 .btn:hover {

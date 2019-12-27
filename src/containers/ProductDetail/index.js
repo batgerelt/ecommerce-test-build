@@ -2,12 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Spin } from "antd";
+import CryptoJS from "crypto-js";
 import {
   Auth as AuthModel,
   Product as ProductModel,
   Cart as CartModel,
   Locale as LocaleModel,
 } from "../../models";
+import { EncryptKey } from "../../../src/utils/Consts";
 import List from "./list";
 import { Loader } from "../../components";
 import { LoginModal } from "../../components/Login";
@@ -42,6 +44,7 @@ class Page extends React.Component {
 
   componentWillMount() {
     this.getData(this.props.match.params.id);
+    this.getFeedback();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,6 +52,17 @@ class Page extends React.Component {
     if (id !== nextProps.match.params.id) {
       this.setState({ loading: true });
       this.getData(nextProps.match.params.id);
+    }
+  }
+
+  getFeedback() {
+    if (this.props.match.params.orderid !== undefined) {
+      let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
+      let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
+      let plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      this.props.isFeedBack({ orderid: plaintext, skucd: this.props.match.params.id }).then((res) => {
+        console.log(res);
+      });
     }
   }
 
