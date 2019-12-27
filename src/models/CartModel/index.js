@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-fallthrough */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
@@ -159,6 +160,23 @@ class Model extends BaseModel {
             "incrementRecipeProductsRemotely",
           ),
         },
+        incrementOrderProducts: {
+          request: this.buildActionName(
+            "request",
+            data.model,
+            "incrementOrderProducts",
+          ),
+          response: this.buildActionName(
+            "response",
+            data.model,
+            "incrementOrderProducts",
+          ),
+          error: this.buildActionName(
+            "error",
+            data.model,
+            "incrementOrderProducts",
+          ),
+        },
         packageProducts: {
           request: this.buildActionName(
             "request",
@@ -316,6 +334,13 @@ class Model extends BaseModel {
       url: `/cookrecipe/${id}/products`,
       method: "GET",
       model: this.model.recipeProducts,
+    });
+
+  incrementOrderProducts = ({ orderid }) =>
+    asyncFn({
+      url: `/order/ordertobasket/${orderid}`,
+      method: "POST",
+      model: this.model.incrementOrderProducts,
     });
 
   incrementRecipeProductsLocally = products => ({
@@ -874,6 +899,14 @@ class Model extends BaseModel {
       case this.model.incrementRecipeProductsRemotely.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.incrementRecipeProductsRemotely.response:
+        return { ...state, products: action.payload.data.items };
+
+      case this.model.incrementOrderProducts.request:
+        console.log("gaga");
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.incrementOrderProducts.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.incrementOrderProducts.response:
         return { ...state, products: action.payload.data.items };
 
       case this.model.packageProducts.request:

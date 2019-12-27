@@ -35,24 +35,24 @@ class LoginModal extends React.Component {
   };
 
   closeLoginModal = () => {
-    this.props.form.resetFields();
     this.setState({ visible: false });
+    this.props.form.resetFields();
   }
 
   handleRegistrationModal = () => {
-    this.closeLoginModal();
     this.props.RegistrationModal.handleSignup();
+    this.closeLoginModal();
   };
 
   handleForgetModal = () => {
-    this.props.form.resetFields();
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
+    this.props.form.resetFields();
   }
 
   handleResetVisible = () => {
-    this.props.form.resetFields();
     this.setState({ visible: false });
     this.setState({ isVisibleReset: !this.state.isVisibleReset });
+    this.props.form.resetFields();
   }
 
   goHome() {

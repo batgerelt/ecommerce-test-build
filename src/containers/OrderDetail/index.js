@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import {
   Auth as AuthModel,
   Profile as ProfileModel,
+  Cart as CartModel,
 } from "../../models";
 import List from "./list";
 import { EncryptKey } from "../../utils/Consts";
@@ -13,12 +14,14 @@ import { EncryptKey } from "../../utils/Consts";
 const mapStateToProps = state => ({
   ...state.auth,
   ...state.profile,
+  ...state.cart,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     AuthModel,
     ...ProfileModel,
+    ...CartModel,
   }, dispatch),
 });
 

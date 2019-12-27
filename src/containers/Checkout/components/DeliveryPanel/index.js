@@ -354,7 +354,7 @@ class DeliveryPanel extends React.Component {
                         k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
                       }
                       return (
-                        <Col xs={24} sm={24} md={8} lg={9} xl={8} className="padd10" key={i}>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
                           <div
                             className="form-check col-md-12"
                             style={{
@@ -368,11 +368,11 @@ class DeliveryPanel extends React.Component {
                             <Radio value={item.id} name={item.id} disabled={!(item.isenable === 1)} className="col-md-12">
                               <img
                                 alt="icon"
-                                width="40px"
-                                height="40px"
+                                width="30px"
+                                height="30px"
                                 src={require("../../../../scss/assets/images/demo/" + k)}
                               />
-                              <strong>{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
+                              <strong className="deliveryTypeName" >{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
                             </Radio>
                           </div>
                         </Col>

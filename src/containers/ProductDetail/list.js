@@ -68,12 +68,14 @@ class ProductDetail extends React.Component {
   renderCommentList = () => {
     try {
       const {
-        detail, comment, addComment, getProductComment, addRate, getProductRate, rate, getProductDetail, match,
+        detail, comment, addComment, getProductComment, addRate, getProductRate, rate, getProductDetail, match, isFeedBack, isfeedbacks,
       } = this.props;
       return (
         <Comment
           rate={rate}
           detail={detail.products === null ? {} : detail.products}
+          isFeedBack={isFeedBack}
+          isfeedbacks={isfeedbacks}
           getProductRate={getProductRate}
           addRate={addRate}
           product={detail.products}

@@ -94,10 +94,12 @@ class Card extends React.Component {
             packageid: item.id,
           });
           this.setState({ loading: false });
+          console.log("res", result.payload);
           const failedProducts = result.payload.data.fail;
-
+          console.log("failedProduct", failedProducts);
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
+            console.log("names", names);
             store.addNotification({
               insert: "top",
               container: "top-right",

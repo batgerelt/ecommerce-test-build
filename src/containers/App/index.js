@@ -146,6 +146,7 @@ class App extends Component {
                           <Route path="/recipe" component={Recipe} />
                           <Route path="/package" component={Package} />
                           <Route path="/season" component={Season} />
+                          <Route path="/productdetail/:id/:orderid" component={ProductDetail} />
                           <Route path="/productdetail/:id" component={ProductDetail} />
                           <Route path="/checkout" component={Checkout} />
                           <Route path="/info/:id" component={Static} />

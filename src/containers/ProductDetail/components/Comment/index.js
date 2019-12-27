@@ -5,14 +5,10 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate, Input, Modal } from "antd";
+import { Rate, Input, Modal, Avatar, Row, Col } from "antd";
 import { store } from 'react-notifications-component';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-} from '@material-ui/core';
+import CryptoJS from "crypto-js";
+import { EncryptKey } from "../../../../utils/Consts";
 import { Notification } from "../../../../components";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
 
@@ -23,11 +19,24 @@ class Comment extends Component {
     comments: [],
     giftvisible: false,
     imgnm: null,
+    thisRate: 0,
   };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id !== nextProps.match.params.id) {
       this.setState({ comment: "" });
+    }
+  }
+
+  componentWillMount() {
+    if (this.props.match.params.orderid !== undefined) {
+      let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
+      let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
+      let plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      console.log("comment component wiil mount", this.props.isfeedbacks);
+      this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
+        console.log(res);
+      });
     }
   }
 
@@ -42,21 +51,36 @@ class Comment extends Component {
   }
 
   handleRateChange = (e) => {
-    if (localStorage.getItem("auth") !== null) {
-      const {
-        detail, addRate, getProductRate, intl, getProductDetail,
-      } = this.props;
-      let skucd = detail.skucd;
-      let rate = e * 2;
-      addRate({ skucd, rate }).then((res) => {
-        console.log("res: ", res.payload);
-        if (res.payload.success) {
-          if (res.payload.data !== "") {
-            this.setState({ giftvisible: true, imgnm: res.payload.data });
-          }
-          getProductRate({ skucd });
-          getProductDetail({ skucd });
-        } else {
+    this.setState({ thisRate: e * 2 }, () => console.log("rate", this.state.thisRate));
+  };
+
+  handleCommentSend = (e) => {
+    const { intl, product } = this.props;
+    let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
+    let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
+    let plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    const params = {
+      comment: this.state.comment,
+      skucd: product.skucd,
+      orderid: parseFloat(plaintext),
+      rate: this.state.thisRate,
+    };
+    console.log("params", params);
+    if (params.rate === 0) {
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="warning" text="Үнэлгээ хоосон байна." />,
+      });
+    } else {
+      this.props.addRate({ body: params }).then((res) => {
+        if (!res.payload.success) {
           store.addNotification({
             insert: "top",
             container: "top-right",
@@ -68,66 +92,13 @@ class Comment extends Component {
             },
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
+        } else {
+          this.props.getProductComment({ skucd: product.skucd });
+          this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
+            console.log(res);
+          });
         }
       });
-    } else {
-      store.addNotification({
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: false,
-        },
-        content: <Notification type="warning" text="Уг үйлдлийг нэвтэрсний дараа хийнэ." />,
-      });
-    }
-  };
-
-  handleCommentSend = (e) => {
-    const { comment } = this.state;
-    const {
-      addComment, product, auth, intl,
-    } = this.props;
-    if (auth) {
-      if (comment !== "") {
-        let { skucd } = product;
-        addComment({ skucd, comm: comment }).then((res) => {
-          console.log("res: ", res.payload);
-          if (res.payload.success) {
-            if (res.payload.data !== "") {
-              this.setState({ giftvisible: true, imgnm: res.payload.data });
-            }
-            this.setState({ comment: "" });
-            this.props.getProductComment({ skucd: product.skucd });
-          } else {
-            store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 3000,
-                onScreen: false,
-              },
-              content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
-            });
-          }
-        });
-      } else {
-        store.addNotification({
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 3000,
-            onScreen: false,
-          },
-          content: <Notification type="warning" text="Сэтгэгдэл бичнэ үү." />,
-        });
-      }
     }
   }
 
@@ -149,7 +120,7 @@ class Comment extends Component {
       }
       return (
         <div className="comments-container">
-          {auth && (
+          {localStorage.getItem("auth") && this.props.isfeedbacks.status === 1 ? (
             <div className="write-comment">
               <div className="author">
                 <div className="image-container">
@@ -170,10 +141,10 @@ class Comment extends Component {
 
               <form>
                 <div className="form-group">
-                  <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
+                  <div className="main-rating">
                     <Rate
                       allowHalf
-                      value={rate / 2}
+                      value={this.state.thisRate / 2}
                       onChange={this.handleRateChange}
                     />
                     <p className="text upper-first">
@@ -197,14 +168,13 @@ class Comment extends Component {
                 <button
                   type="button"
                   className="btn btn-dark text-uppercase"
-                  disabled={this.state.comment === ""}
                   onClick={this.handleCommentSend}
                 >
                   <FormattedMessage id="productDetail.comment.form.button" />
                 </button>
               </form>
             </div>
-          )}
+          ) : null}
 
           {comments.length !== 0 && (
             <div className="product-comment" >
@@ -215,18 +185,56 @@ class Comment extends Component {
               </h1>
               <div className="comments-list">
                 {comments.map((comment, index) => (
-                  <div className="single" key={index}>
-                    <Card>
-                      <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p">
+                  <div
+                    className="new-comment-box"
+                    style={{
+                      padding: "10px", marginBottom: "10px",
+                    }}
+                  >
+                    <Row>
+                      <Col span={1} style={{ marginRight: "10px" }}>
+                        <Avatar size="large" src={`${process.env.IMAGES}${comment.imgnm}`} />
+                      </Col>
+                      <Col span={22}>
+                        <strong><p>{comment.fname}</p></strong>
+                        <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
+                        <p>
+                          <Rate
+                            disabled
+                            defaultValue={comment.rate / 2}
+                          />
                           {comment.commnt}
-                        </Typography>
-                      </CardContent>
-                      <CardHeader
-                        subheader={moment(comment.idate).format("YYYY.MM.DD HH:mm:ss")}
-                      />
-                    </Card>
+                        </p>
+                      </Col>
+                    </Row>
                   </div>
+                  /* <Card index={index} style={{ marginBottom: "10px !important" }}>
+                    <CardHeader
+                      avatar={
+                        <Avatar size="large" icon="user" />
+                        // <img src="https://cdn.mos.cms.futurecdn.net/M72XmJtbLMzEYF5JZnx6ti-320-80.jpg" alt="avatar" stlye={{ width: "100%" }} />
+                      }
+                      title={comment.fname}
+                      subheader={
+                        <div>
+                          <Rate
+                            allowHalf
+                            value={10}
+                          />
+                          <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
+                        </div>
+                      }
+                    />
+                    <CardMedia
+                      image="/static/images/cards/paella.jpg"
+                      title="Paella dish"
+                    />
+                    <CardContent>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        {comment.commnt}
+                      </Typography>
+                    </CardContent>
+                  </Card> */
                 ))}
               </div>
             </div>

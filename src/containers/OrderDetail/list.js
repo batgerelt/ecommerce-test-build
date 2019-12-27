@@ -1,24 +1,38 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BackTop, Avatar } from "antd";
-import store from "../../../src/scss/assets/images/demo/store.png";
+import Button from '@material-ui/core/Button';
+import { store } from 'react-notifications-component';
+import CryptoJS from "crypto-js";
+import store1 from "../../../src/scss/assets/images/demo/store.png";
+import { Notification } from "../../components";
+import { EncryptKey } from "../../utils/Consts";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class List extends React.Component {
+  state = { loading: false }
+
+  encryptUrl = (id) => {
+    let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
+    return ciphertext.toString().replace(/\+/g, 'xMl3Jk').replace(/\//ig, 'Por21Ld').replace(/=/g, 'Ml32');
+  }
+
   renderTable = () => {
     const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
+      console.log("orderDetail", orderdetail);
       return orderdetail.items.map((item, index) => (
         <tr key={index}>
           <td>
             <div className="flex-this">
               <div className="image-container default">
-                <Link to={item.route}>
+                <Link to={`${item.route}`}>
                   <span
                     className="image"
                     style={{ backgroundImage: `url(${process.env.IMAGE}${item.img})` }}
@@ -26,7 +40,7 @@ class List extends React.Component {
                 </Link>
               </div>
               <div className="info-container">
-                <Link to={item.route}>
+                <Link to={`${item.route}`}>
                   <strong style={{ color: "rgba(0, 0, 0, 0.5)" }}>{lang === "mn" ? item.title : item.titl_en}</strong>
                   <span>{lang === "mn" ? item.back : item.back_en}</span>
                 </Link>
@@ -46,6 +60,16 @@ class List extends React.Component {
           <td>
             <p className="price total font12-mobile" style={{ textAlign: "right" }}>
               <strong>{formatter.format(item.orderamount)}₮</strong>
+              {
+                item.status !== 0 ?
+                  <Button>
+                    <Link to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}>
+                      <p style={{ fontSize: "12px", color: "#FFB81C", fontWeight: "500" }}>Санал хүсэлт</p>
+                    </Link>
+                  </Button>
+                  :
+                  null
+              }
             </p>
           </td>
         </tr>
@@ -136,6 +160,11 @@ class List extends React.Component {
                 </p>
               </div>
             </div>
+            <div style={{ width: "100% !important" }}>
+              <Button className="btn btn-main" disabled={this.state.loading} variant="contained" onClick={this.handleClick} style={{ backgroundColor: "#FFB81C", marginBottom: "10px", marginTop: "10px" }}>
+                <span>Захиалгыг сагсанд нэмэх</span>
+              </Button>
+            </div>
           </div>
         );
       }
@@ -163,6 +192,39 @@ class List extends React.Component {
     }
   }
 
+  handleClick = () => {
+    const { intl } = this.props;
+    this.setState({ loading: true });
+    this.props.incrementOrderProducts({ orderid: this.props.orderdetail.info.id }).then((result) => {
+      console.log("result", result);
+      this.setState({ loading: false });
+      const failedProducts = result.payload.data.fail;
+      if (failedProducts.length > 0) {
+        let names = failedProducts.map(prod => prod.values[1]);
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(
+              { id: "208" },
+              {
+                name: names.join(", "),
+                qty: result.payload.data.qty,
+              },
+            )}
+          />,
+        });
+      }
+    });
+  }
+
   render() {
     const { orderdetail } = this.props;
     let content;
@@ -184,18 +246,11 @@ class List extends React.Component {
               </h1>
               <div className="row row10">
                 <div className="col-xl-8 padd0" style={{ padding: "0px !important" }}>
-                  <div className="row" style={{ padding: "0px !important" }}>
-                    <div className="col">
-                      <Link
-                        to="/profile/delivery"
-                        className="btn btn-link pull-right"
-                      >
-                        <Avatar size="small" shape="square" src={store} />
-                        <span style={{ fontSize: "14.4px" }}> <FormattedMessage id="orderDetail.button.showOrderList" /></span>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="cart-table table-responsive">
+                  <div className="cart-table table-responsive text-right">
+                    <Link to="/profile/delivery" className="btn btn-link">
+                      <Avatar size="small" shape="square" src={store1} />
+                      <span><FormattedMessage id="orderDetail.button.showOrderList" /></span>
+                    </Link>
                     {content}
                     <table className="table table-borderless font12-mobile">
                       <thead className="thead-light">

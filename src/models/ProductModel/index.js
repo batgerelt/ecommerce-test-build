@@ -1,3 +1,4 @@
+/* eslint-disable no-global-assign */
 /* eslint-disable array-callback-return */
 import BaseModel from '../BaseModel';
 import { asyncFn } from '../utils';
@@ -31,6 +32,9 @@ class Model extends BaseModel {
     allFetched: false,
     addedWishList: false,
     skumoreinfo: 0,
+    isfeedbacks: {
+      status: 0,
+    },
   }
 
   constructor(data = {}) {
@@ -91,6 +95,11 @@ class Model extends BaseModel {
           request: this.buildActionName('request', data.model, 'prodavailablesku'),
           response: this.buildActionName('response', data.model, 'prodavailablesku'),
           error: this.buildActionName('error', data.model, 'prodavailablesku'),
+        },
+        isfeedback: {
+          request: this.buildActionName('request', data.model, 'isfeedback'),
+          response: this.buildActionName('response', data.model, 'isfeedback'),
+          error: this.buildActionName('error', data.model, 'isfeedback'),
         },
         productdetailcategorys: {
           request: this.buildActionName('request', data.model, 'productdetailcategorys'),
@@ -175,12 +184,17 @@ class Model extends BaseModel {
   getProductAvailable = ({
     custid, skucd, qty, iscart,
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
+  isFeedBack = ({ orderid, skucd }) => asyncFn({ url: `/product/isfeedback/${orderid}/${skucd}`, method: 'GET', model: this.model.isfeedback });
+
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
   addWishList = ({ skucd }) => asyncFn({ url: `/customer/wishlist/${skucd}`, method: 'POST', model: this.addWishListModel });
   addWishListPackage = ({ id }) => asyncFn({ url: `/customer/wishlist/package/${id}`, method: 'POST', model: this.addWishListPackageModel });
   addWishListRecipe = ({ id }) => asyncFn({ url: `/customer/wishlist/recipe/${id}`, method: 'POST', model: this.addWishListRecipeModel });
   removeAddedWishColor = () => ({ type: "REMOVE_ADDED_WISH_LIST_COLOR" });
-  addRate = ({ skucd, rate }) => asyncFn({ url: `/product/rate/${skucd}/${rate}`, method: 'POST', model: this.addRateModel });
+  addRate = ({ body }) =>
+    asyncFn({
+      body, url: `/product/feedback`, method: 'POST', model: this.addRateModel,
+    });
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
   getMoreInfoElastic = ({ skucd }) => asyncFn({ url: `/product/elastic/${skucd}`, method: 'GET', model: this.model.elasticmoreinfo });
@@ -288,6 +302,13 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.prodavailablesku.response:
         return { ...state, prodavailablesku: action.payload.data };
+      // GET FEEDBACK
+      case this.model.isfeedback.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.isfeedback.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.isfeedback.response:
+        return { ...state, isfeedbacks: action.payload.data };
       // GET PRODUCT DETAIL CATEGORYS
       case this.model.productdetailcategorys.request:
         return { ...state, current: this.requestCase(state.current, action) };
