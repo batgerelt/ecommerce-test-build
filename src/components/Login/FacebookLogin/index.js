@@ -44,6 +44,7 @@ class FacebookLogin1 extends React.Component {
           onClick={this.componentClicked}
           callback={this.responseFacebook}
           textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
+          size="large"
         />
       );
     }

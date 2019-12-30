@@ -323,7 +323,7 @@ class Detail extends Component {
             }}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />
-            <span style={{ paddingLeft: "5px" }}><FormattedMessage id="productDetail.button.addToCart" /></span>
+            <span style={{ paddingLeft: "5px" }}>{detail.availableqty < 1 ? <span>Дууссан</span> : <FormattedMessage id="productDetail.button.addToCart" />}</span>
           </Button>
         </div>
         {detail.sdate !== null && detail.edate !== null && (

@@ -20,11 +20,15 @@ class Comment extends Component {
     giftvisible: false,
     imgnm: null,
     thisRate: 0,
+    isShow: false,
   };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id !== nextProps.match.params.id) {
       this.setState({ comment: "" });
+    }
+    if (this.props.match.params.orderid === undefined) {
+      this.setState({ isShow: false });
     }
   }
 
@@ -33,15 +37,35 @@ class Comment extends Component {
       let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
       let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
       let plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      console.log("comment component wiil mount", this.props.isfeedbacks);
+      console.log(plaintext);
       this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
-        console.log(res);
+        if (res.payload.data.status === 1) {
+          this.setState({ isShow: true });
+        } else {
+          this.setState({ isShow: false });
+        }
       });
     }
   }
 
+  componentDidMount() {
+    console.log("didMound");
+    if (this.props.match.params.orderid !== undefined) {
+      let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
+      let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
+      let plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
+        if (res.payload.data.status === 1) {
+          this.setState({ isShow: true });
+        }
+      });
+    } else {
+      this.setState({ isShow: false });
+    }
+  }
+
   handleCommitChange = (e) => {
-    if (e.target.value.length <= 120) {
+    if (e.target.value.length <= 240) {
       this.setState({ comment: e.target.value });
     }
   };
@@ -51,7 +75,7 @@ class Comment extends Component {
   }
 
   handleRateChange = (e) => {
-    this.setState({ thisRate: e * 2 }, () => console.log("rate", this.state.thisRate));
+    this.setState({ thisRate: e * 2 }, () => console.log(this.state.thisRate));
   };
 
   handleCommentSend = (e) => {
@@ -65,7 +89,6 @@ class Comment extends Component {
       orderid: parseFloat(plaintext),
       rate: this.state.thisRate,
     };
-    console.log("params", params);
     if (params.rate === 0) {
       store.addNotification({
         insert: "top",
@@ -93,10 +116,9 @@ class Comment extends Component {
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
         } else {
+          this.setState({ isShow: true });
           this.props.getProductComment({ skucd: product.skucd });
-          this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
-            console.log(res);
-          });
+          this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id });
         }
       });
     }
@@ -120,7 +142,7 @@ class Comment extends Component {
       }
       return (
         <div className="comments-container">
-          {localStorage.getItem("auth") && this.props.isfeedbacks.status === 1 ? (
+          {localStorage.getItem("auth") && this.state.isShow ? (
             <div className="write-comment">
               <div className="author">
                 <div className="image-container">
@@ -162,7 +184,7 @@ class Comment extends Component {
                     id="emailHelp"
                     className="form-text text-muted text-right"
                   >
-                    {this.state.comment.length} / 120
+                    {this.state.comment.length} / 240
                   </small>
                 </div>
                 <button
@@ -186,55 +208,29 @@ class Comment extends Component {
               <div className="comments-list">
                 {comments.map((comment, index) => (
                   <div
+                    key={index}
                     className="new-comment-box"
                     style={{
                       padding: "10px", marginBottom: "10px",
                     }}
                   >
                     <Row>
-                      <Col span={1} style={{ marginRight: "10px" }}>
+                      <Col xs={3} sm={3} md={2} lg={1} xl={1} style={{ marginRight: "10px" }}>
                         <Avatar size="large" src={`${process.env.IMAGES}${comment.imgnm}`} />
                       </Col>
-                      <Col span={22}>
+                      <Col xs={20} sm={20} md={21} lg={22} xl={22}>
                         <strong><p>{comment.fname}</p></strong>
                         <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
-                        <p>
+                        <div className="main-rating" style={{ float: "left" }}>
                           <Rate
                             disabled
                             defaultValue={comment.rate / 2}
                           />
-                          {comment.commnt}
-                        </p>
+                        </div>
+                        <p style={{ verticalAlign: "middle" }}>{comment.commnt}</p>
                       </Col>
                     </Row>
                   </div>
-                  /* <Card index={index} style={{ marginBottom: "10px !important" }}>
-                    <CardHeader
-                      avatar={
-                        <Avatar size="large" icon="user" />
-                        // <img src="https://cdn.mos.cms.futurecdn.net/M72XmJtbLMzEYF5JZnx6ti-320-80.jpg" alt="avatar" stlye={{ width: "100%" }} />
-                      }
-                      title={comment.fname}
-                      subheader={
-                        <div>
-                          <Rate
-                            allowHalf
-                            value={10}
-                          />
-                          <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
-                        </div>
-                      }
-                    />
-                    <CardMedia
-                      image="/static/images/cards/paella.jpg"
-                      title="Paella dish"
-                    />
-                    <CardContent>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        {comment.commnt}
-                      </Typography>
-                    </CardContent>
-                  </Card> */
                 ))}
               </div>
             </div>

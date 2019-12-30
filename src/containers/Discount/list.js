@@ -41,7 +41,7 @@ class Discount extends React.Component {
       module: 'discount',
       startsWith: 0,
       rowCount: 10,
-      orderColumn: 'updateddate_desc',
+      orderColumn: 'catid_desc',
       highlight: false,
     };
   }

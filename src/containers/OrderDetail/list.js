@@ -41,24 +41,24 @@ class List extends React.Component {
               </div>
               <div className="info-container">
                 <Link to={`${item.route}`}>
-                  <strong style={{ color: "rgba(0, 0, 0, 0.5)" }}>{lang === "mn" ? item.title : item.titl_en}</strong>
-                  <span>{lang === "mn" ? item.back : item.back_en}</span>
+                  <strong style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "15px" }}>{lang === "mn" ? item.title : item.titl_en}</strong>
+                  <span style={{ fontSize: "14px" }}>{lang === "mn" ? item.back : item.back_en}</span>
                 </Link>
               </div>
             </div>
           </td>
           <td>
-            <p className="price font12-mobile" style={{ textAlign: "right" }}>
+            <p className="price font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
               {formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮
             </p>
           </td>
           <td>
-            <p className="price total font12-mobile" style={{ textAlign: "right" }}>
+            <p className="price total font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
               {item.orderquantity}
             </p>
           </td>
           <td>
-            <p className="price total font12-mobile" style={{ textAlign: "right" }}>
+            <p className="price total font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
               <strong>{formatter.format(item.orderamount)}₮</strong>
               {
                 item.status !== 0 ?

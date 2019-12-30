@@ -60,9 +60,7 @@ class Page extends React.Component {
       let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
       let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
       let plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      this.props.isFeedBack({ orderid: plaintext, skucd: this.props.match.params.id }).then((res) => {
-        console.log(res);
-      });
+      this.props.isFeedBack({ orderid: plaintext, skucd: this.props.match.params.id });
     }
   }
 

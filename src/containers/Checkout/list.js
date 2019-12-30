@@ -243,9 +243,6 @@ class Checkout extends React.Component {
         chosenAddress.phone1 !== values.phone1 ? chosenAddress.phone1 = values.phone1 : null;
         chosenAddress.name !== values.name ? chosenAddress.name = values.name : null;
         chosenAddress.address !== values.address ? values.address !== undefined ? chosenAddress.address = values.address : null : null;
-        /* chosenAddress.phone1 = values.phone1;
-        chosenAddress.name = values.name;
-        chosenAddress.address = values.address; */
         if (values.email !== undefined && userinfo.info.email === null) {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
