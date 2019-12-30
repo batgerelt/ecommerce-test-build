@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable radix */
 import React from "react";
+import { Modal } from "antd";
 import { FormattedMessage } from "react-intl";
 import {
   FacebookShareButton,
@@ -20,6 +21,10 @@ import {
 import { ProductNotFound } from "../";
 
 class ProductDetail extends React.Component {
+  onCancel = () => {
+    this.setState({ giftvisible: false });
+  }
+
   renderRealational = () => {
     try {
       const { relational } = this.props;
@@ -72,6 +77,7 @@ class ProductDetail extends React.Component {
       } = this.props;
       return (
         <Comment
+          onVisible={this.onVisible}
           rate={rate}
           detail={detail.products === null ? {} : detail.products}
           isFeedBack={isFeedBack}
