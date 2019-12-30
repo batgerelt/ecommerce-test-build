@@ -517,7 +517,7 @@ class CategoryInfo extends React.Component {
 
   isRowLoaded = ({ index }) => index < this.state.products.length;
 
-  noRowsRenderer = () => <h1> hello </h1>;
+  noRowsRenderer = () => null;
 
   getRowsAmount = (width, itemsAmount, hasMore) => {
     const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
@@ -649,6 +649,7 @@ class CategoryInfo extends React.Component {
                     <WindowScroller>
                       {({ height, scrollTop }) => (
                         <List
+                          overscanRowCount={1000}
                           style={{ outline: 'none' }}
                           autoHeight
                           estimatedRowSize={0}
@@ -659,7 +660,7 @@ class CategoryInfo extends React.Component {
                           rowCount={rowCount}
                           rowHeight={this.generateItemHeight(width)}
                           onRowsRendered={onRowsRendered}
-                          rowRenderer={({ index, style, key }) => {
+                          rowRenderer={({ index, style, isVisible }) => {
                             const maxItemsPerRow = this.getMaxItemsAmountPerRow(
                               width,
                             );
@@ -669,19 +670,36 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
-                                {rowItems.map((itemId, index) => (
-                                  <Card
-                                    elastic
-                                    list={isListViewOn}
-                                    key={index}
-                                    shape={this.state.shapeType}
-                                    item={itemId}
-                                    LoginModal={this.props.LoginModal}
-                                    addWishList={this.props.addWishList}
-                                    {...this.props}
-                                  />
-                                ))}
+                              <div style={style} key={index} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
+                                {rowItems.map((itemId, index) => {
+                                  if (!isVisible) {
+                                    return (
+                                      <Card
+                                        elastic
+                                        list={isListViewOn}
+                                        key={index}
+                                        shape={this.state.shapeType}
+                                        item={itemId}
+                                        LoginModal={this.props.LoginModal}
+                                        addWishList={this.props.addWishList}
+                                        {...this.props}
+                                      />
+                                    );
+                                  }
+
+                                  return (
+                                    <Card
+                                      elastic
+                                      list={isListViewOn}
+                                      key={index}
+                                      shape={this.state.shapeType}
+                                      item={itemId}
+                                      LoginModal={this.props.LoginModal}
+                                      addWishList={this.props.addWishList}
+                                      {...this.props}
+                                    />
+                                  );
+                                })}
                               </div>
                             );
                           }}

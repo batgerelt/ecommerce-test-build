@@ -22,7 +22,7 @@ class Model extends BaseModel {
     isFetchingNew: false,
     discountproducts: [],
     discountproductCount: 10,
-    isFetchingDiscount: false,
+    isFetchingDiscount: true,
     isLoadingSearch: false,
   }
 
@@ -193,15 +193,14 @@ class Model extends BaseModel {
 
       // GET SEARCH DISCOUNT PRODUCT
       case this.model.discountproduct.request:
-        return { ...state, isFetchingDiscount: true, current: this.requestCase(state.current, action) };
+        return { ...state, isFetchingDiscount: true };
       case this.model.discountproduct.error:
-        return { ...state, isFetchingDiscount: false, current: this.errorCase(state.current, action) };
+        return { ...state, isFetchingDiscount: false };
       case this.model.discountproduct.response:
         return {
           ...state,
           isFetchingDiscount: false,
-          discountproducts: this.pushProduct(action.payload.data.hits.hits),
-          discountproductCount: state.discountproductCount + 50,
+          discountproducts: action.payload.data.hits.hits,
         };
 
       // GET ALL PROMOTION

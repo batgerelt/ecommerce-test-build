@@ -153,7 +153,7 @@ class App extends Component {
                           <Route path="/category/:id" component={Category} />
                           <Route path="/brand/:id" component={Brand} />
                           <Route path="/recipedetail/:id" component={RecipeDetail} />
-                          <Route path="/cart" render={() => <Cart {...this.props} {...this} />} />
+                          <Route path="/cart" component={Cart} />
                           <Route path="/packagedetail/:id" component={PackageDetail} />
                           <Route path="/emart" component={Emart} />
                           <Route path="/profile" component={Profile} />

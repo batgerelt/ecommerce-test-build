@@ -777,7 +777,7 @@ class Cart extends React.Component {
       const lang = this.props.intl.locale;
       const { isadd, ismin } = this.state;
       let content1;
-
+      console.log('this.props.location: ', this.props.location);
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
           <div className="empty-cart">
@@ -912,13 +912,20 @@ class Cart extends React.Component {
                     </tr>
                     <tr className="table-action">
                       <td colSpan="3" className="cart-deliveryinfo">
+                        {/*
+                          Хүргэлтийн мэдээллийг detail болон cart наас нэмэх үед өөр өөр байгаа тул
+                          доорх байдлаар шалгасан ба уг нь API дээр хийсэн бол
+                        */}
                         {
-                          prod.deliveryinfo &&
-                          <Alert
-                            showIcon
-                            description={lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
-                            type="info"
-                          />
+                          prod.deliveryinfo !== null ? (
+                            prod.deliveryisshow === undefined || prod.deliveryisshow === 1 ? (
+                              <Alert
+                                showIcon
+                                description={lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
+                                type="info"
+                              />
+                            ) : null
+                          ) : null
                         }
                       </td>
                       <td colSpan="2">

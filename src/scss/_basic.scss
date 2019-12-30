@@ -12,6 +12,7 @@ main {
 }
 html{
   --antd-wave-shadow-color: #ffb200 !important;
+  scroll-behavior: smooth !important;
 }
 
 ::selection{
@@ -4145,4 +4146,17 @@ div.sticky-btn{
     transform: "scale(1.4)" !important;
   }
   
+}
+
+.footer-contract{
+  li{
+    i{
+      color: white;
+      font-size: 18px;
+    }
+
+    span{
+      margin-left: 10px;
+    }
+  }
 }
