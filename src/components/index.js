@@ -19,6 +19,7 @@ import SearchFilterSet from "./SearchFilterSet";
 import ElasticLabel from "./ElasticLabel";
 import Notification from "./Notification";
 import ForgetModal from "./ForgetModal";
+import FiveCard from "./CartWidget/FiveCard";
 
 export {
   Exception,
@@ -42,4 +43,5 @@ export {
   ElasticLabel,
   Notification,
   ForgetModal,
+  FiveCard,
 };

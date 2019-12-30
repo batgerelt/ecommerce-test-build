@@ -12,7 +12,6 @@ main {
 }
 html{
   --antd-wave-shadow-color: #ffb200 !important;
-  scroll-behavior: smooth !important;
 }
 
 ::selection{
@@ -3998,10 +3997,12 @@ div.sticky-btn{
 
 .skeleton-box {
   display: inline-block;
-  height: 1em;
+  height: 2em;
   position: relative;
   overflow: hidden;
   background-color: #DDDBDD;
+  width: 100%;
+  z-index: 0;
 
   &::after {
     position: absolute;
@@ -4017,46 +4018,13 @@ div.sticky-btn{
       rgba(#fff, 0.5) 60%,
       rgba(#fff, 0)
     );
-    animation: shimmer 1.5s infinite;
+    animation: shimmer 0.5s infinite;
     content: '';
   }
 
   @keyframes shimmer {
     100% {
       transform: translateX(100%);
-    }
-  }
-}
-
-.blog-post {
-  &__headline {
-    font-size: 1.25em;
-    font-weight: bold;
-  }
-
-  &__meta {
-    font-size: 0.85em;
-    color: #6b6b6b;
-  }
-}
-
-.o-media {
-  display: flex;
-  
-  &__body {
-    flex-grow: 1;
-    margin-left: 1em;
-  }
-}
-
-.o-vertical-spacing {
-  > * + * {
-    margin-top: 0.75em;
-  }
-  
-  &--l {
-    > * + * {
-      margin-top: 2em;
     }
   }
 }

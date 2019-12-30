@@ -9,16 +9,11 @@
 /* eslint-disable radix */
 import React, { PureComponent } from "react";
 import { injectIntl } from "react-intl";
-import { BackTop, Spin } from "antd";
-import {
-  InfiniteLoader,
-  WindowScroller,
-  List,
-  AutoSizer,
-} from "react-virtualized";
-import { Card, PageBanner, Banner, Loader } from "../../components";
+import { BackTop } from "antd";
+import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
+
+import { Card, FiveCard, PageBanner, Banner } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
-import windowSize from "react-window-size";
 
 class Bookmarks extends PureComponent {
   infiniteLoaderRef = React.createRef();
@@ -62,24 +57,11 @@ class Bookmarks extends PureComponent {
     });
   }
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
   loadMoreRows = () => this.props.getNewProducts({ body: { ...this.state, startsWith: this.props.newproductCount } });
 
   noRowsRenderer = () => null;
 
-  isRowLoaded = (index, width) => {
-    const { newproducts } = this.props;
-    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-    const allItemsLoaded =
-      this.generateIndexesForRow(index, maxItemsPerRow, newproducts.length)
-        .length > 0;
-    return !true || allItemsLoaded;
-  };
-
-  getMaxItemsAmountPerRow = (width) => {
+  getMaxItemsAmountPerRow = () => {
     const { windowWidth } = this.props;
 
     if (windowWidth < 576) {
@@ -95,8 +77,8 @@ class Bookmarks extends PureComponent {
     }
   };
 
-  getRowsAmount = (width, itemsAmount, hasMore) => {
-    const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+  getRowsAmount = (itemsAmount, hasMore) => {
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow();
     return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
   };
 
@@ -119,14 +101,9 @@ class Bookmarks extends PureComponent {
       return (
         menuNew[0] && (
           <PageBanner
-            title={
-              intl.locale === "mn" ? menuNew[0].menunm : menuNew[0].menunm_en
-            }
-            subtitle={
-              intl.locale === "mn"
-                ? menuNew[0].subtitle
-                : menuNew[0].subtitle_en
-            }
+            className="newpagetitlebanner"
+            title={intl.locale === "mn" ? menuNew[0].menunm : menuNew[0].menunm_en}
+            subtitle={intl.locale === "mn" ? menuNew[0].subtitle : menuNew[0].subtitle_en}
             banners={banner.length === 0 ? [] : banner.header}
             bgColor="#00A1E4"
           />
@@ -137,9 +114,8 @@ class Bookmarks extends PureComponent {
     }
   };
 
-  generateItemHeight = (width) => {
+  generateItemHeight = () => {
     let tmp;
-
     const { windowWidth } = this.props;
 
     if (windowWidth < 576) {
@@ -204,37 +180,26 @@ class Bookmarks extends PureComponent {
       return (
         <div className="container pad10 new-list">
           <div className="row row10">
-            <AutoSizer disableHeight>
+            <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = this.getRowsAmount(
-                  width,
-                  newproducts.length,
-                  this.state.total !==
-                    newproducts.length + this.state.headerProducts.length,
-                );
+                const rowCount = this.getRowsAmount(newproducts.length, this.state.total !== newproducts.length + this.state.headerProducts.length);
                 return (
                   <InfiniteLoader
-                    ref={this.infiniteLoaderRef}
+                    className="InfiniteLoader"
                     rowCount={rowCount}
                     isRowLoaded={({ index }) => {
-                      const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                      const allItemsLoaded =
-                        this.generateIndexesForRow(
-                          index,
-                          maxItemsPerRow,
-                          newproducts.length,
-                        ).length > 0;
+                      const maxItemsPerRow = this.getMaxItemsAmountPerRow();
+                      const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, newproducts.length).length > 0;
                       return !true || allItemsLoaded;
                     }}
                     loadMoreRows={this.loadMoreRows}
                   >
                     {({ onRowsRendered, registerChild }) => (
-                      <WindowScroller>
+                      <WindowScroller className="WindowScroller">
                         {({
                           height,
                           scrollTop,
                           isScrolling,
-                          onChildScroll,
                         }) => (
                           <List
                             style={{ outline: "none" }}
@@ -242,37 +207,26 @@ class Bookmarks extends PureComponent {
                             ref={registerChild}
                             height={height}
                             isScrolling={isScrolling}
-                            scrollTop={scrollTop}
                             width={width}
+                            scrollTop={window.innerWidth < 767 ? scrollTop : (scrollTop - (this.generateItemHeight() * 2 + 200))}
                             rowCount={rowCount}
-                            rowHeight={this.generateItemHeight(width)}
+                            rowHeight={this.generateItemHeight()}
                             onRowsRendered={onRowsRendered}
-                            rowRenderer={({ index, style, key }) => {
-                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(
-                                width,
-                              );
-                              const rowItems = this.generateIndexesForRow(
-                                index,
-                                maxItemsPerRow,
-                                newproducts.length,
-                              ).map(itemIndex => newproducts[itemIndex]);
-                              let tmp = {};
-                              let topH = style.top;
-                              tmp.top =
-                                topH - this.generateItemHeight(width) * 2 - 10;
-                              tmp.height = style.height;
-                              tmp.left = style.left;
-                              tmp.width = style.width;
-                              tmp.position = style.position;
+                            rowRenderer={({
+                              index, style, key, isVisible,
+                            }) => {
+                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                              const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, newproducts.length).map(itemIndex => newproducts[itemIndex]);
                               return (
                                 <div style={style} key={key} className="jss148">
                                   {
-                                    rowItems.map(itemId => (
-                                      <Card
+                                    rowItems.map(i => (
+                                      <FiveCard
                                         elastic
-                                        key={itemId.skucd + key}
+                                        isVisible={isVisible}
+                                        key={i.skucd}
                                         shape={CARD_TYPES.slim}
-                                        item={itemId}
+                                        item={i}
                                         {...this.props}
                                       />
                                     ))
@@ -303,11 +257,11 @@ class Bookmarks extends PureComponent {
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
-        {this.state.startsWith >= 10 ? this.renderFooterProduct() : null}
+        {this.renderFooterProduct()}
         <BackTop />
       </div>
     );
   }
 }
 
-export default windowSize(injectIntl(Bookmarks));
+export default injectIntl(Bookmarks);

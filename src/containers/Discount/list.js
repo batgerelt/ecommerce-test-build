@@ -10,11 +10,15 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
 import { BackTop } from "antd";
-import InfiniteScroll from 'react-infinite-scroller';
-import { Card, Banner, PageBanner, Loader } from "../../components";
+import {
+  InfiniteLoader,
+  WindowScroller,
+  List,
+  AutoSizer,
+} from "react-virtualized";
+import { Card, Banner, PageBanner, FiveCard } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
-let count = 10;
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -37,18 +41,19 @@ class Discount extends React.Component {
       module: 'discount',
       startsWith: 0,
       rowCount: 10,
-      orderColumn: 'updateddate_desc',
+      orderColumn: 'catid_desc',
       highlight: false,
     };
   }
 
   componentWillMount() {
     window.scrollTo(0, 0);
-    this.props.getDiscountProducts({ body: { ...this.state } }).then((res) => {
+    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
       if (res.payload.success && res.payload.data) {
         this.setState({
           headerProducts: res.payload.data.hits.hits,
           rowCount: 20,
+          startsWith: 10,
           total: res.payload.data.hits.total.value,
         });
       }
@@ -56,14 +61,44 @@ class Discount extends React.Component {
   }
 
   loadMoreRows = () => {
-    let self = this;
-    let { products } = this.state;
-    this.props.getDiscountProducts({ body: { ...this.state, startsWith: count } })
-      .then((res) => {
-        res.payload.data.hits.hits.map(i => products.push(i._source));
-        self.setState({ products });
-      });
+    this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
   }
+
+  noRowsRenderer = () => null;
+
+  getMaxItemsAmountPerRow = () => {
+    const { windowWidth } = this.props;
+
+    if (windowWidth < 576) {
+      return 2;
+    } else if (windowWidth < 768) {
+      return 2;
+    } else if (windowWidth < 992) {
+      return 4;
+    } else if (windowWidth < 1200) {
+      return 4;
+    } else {
+      return 5;
+    }
+  };
+
+  getRowsAmount = (itemsAmount, hasMore) => {
+    const maxItemsPerRow = this.getMaxItemsAmountPerRow();
+    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+  };
+
+  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
+    const result = [];
+    const startIndex = rowIndex * maxItemsPerRow;
+    for (
+      let i = startIndex;
+      i < Math.min(startIndex + maxItemsPerRow, itemsAmount);
+      i++
+    ) {
+      result.push(i);
+    }
+    return result;
+  };
 
   renderMainBanner = () => {
     try {
@@ -119,40 +154,96 @@ class Discount extends React.Component {
     }
   };
 
-  loadItems = () => {
+  generateItemHeight = () => {
+    let tmp;
+    const { windowWidth } = this.props;
 
+    if (windowWidth < 576) {
+      tmp = 320;
+    } else if (windowWidth < 768) {
+      tmp = 405;
+    } else if (windowWidth < 992) {
+      tmp = 320;
+    } else if (windowWidth < 1200) {
+      tmp = 375;
+    } else {
+      tmp = 370;
+    }
+
+    return tmp;
   }
 
   renderFooterProduct = () => {
     try {
-      const { products } = this.state;
-      console.log('products: ', products);
-      let items = [];
-      products.map((i, index) => items.push(
-        <Card
-          elastic
-          key={index}
-          shape={CARD_TYPES.slim}
-          item={i}
-          {...this.props}
-        />,
-      ));
-
+      const { discountproducts } = this.props;
       return (
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={this.loadMoreRows}
-          hasMore={!this.props.isFetchingDiscount}
-          // loader={<div className="d-flex justify-content-center">loading...</div>}
-          threshold={500}
-        >
-          <div className="container pad10 discount-list">
-            <div className="row row10">
-              {items}
-            </div>
+        <div className="container pad10 discount-list">
+          <div className="row row10">
+            <AutoSizer disableHeight >
+              {({ width }) => {
+                const rowCount = this.getRowsAmount(discountproducts.length, this.state.total !== discountproducts.length + this.state.headerProducts.length);
+                return (
+                  <InfiniteLoader
+                    className="InfiniteLoader"
+                    rowCount={rowCount}
+                    isRowLoaded={({ index }) => {
+                      const maxItemsPerRow = this.getMaxItemsAmountPerRow();
+                      const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, discountproducts.length).length > 0;
+                      return !true || allItemsLoaded;
+                    }}
+                    loadMoreRows={this.loadMoreRows}
+                  >
+                    {({ onRowsRendered, registerChild }) => (
+                      <WindowScroller className="WindowScroller">
+                        {({
+                          height,
+                          scrollTop,
+                          isScrolling,
+                        }) => (
+                          <List
+                            style={{ outline: "none" }}
+                            autoHeight
+                            ref={registerChild}
+                            height={height}
+                            isScrolling={isScrolling}
+                            width={width}
+                            scrollTop={window.innerWidth < 767 ? scrollTop : (scrollTop - (this.generateItemHeight() * 2 + 200))}
+                            rowCount={rowCount}
+                            rowHeight={this.generateItemHeight()}
+                            onRowsRendered={onRowsRendered}
+                            rowRenderer={({
+                              index, style, key, isVisible,
+                            }) => {
+                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
+                              const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, discountproducts.length).map(itemIndex => discountproducts[itemIndex]);
+                              return (
+                                <div style={style} key={key} className="jss148">
+                                  {
+                                    rowItems.map(i => (
+                                      <FiveCard
+                                        elastic
+                                        isVisible={isVisible}
+                                        key={i.skucd}
+                                        shape={CARD_TYPES.slim}
+                                        item={i}
+                                        {...this.props}
+                                      />
+                                    ))
+                                  }
+                                </div>
+                              );
+                            }}
+                            noRowsRenderer={this.noRowsRenderer}
+                          />
+                        )}
+                      </WindowScroller>
+                    )}
+                  </InfiniteLoader>
+                );
+              }}
+            </AutoSizer>
           </div>
-        </InfiniteScroll>
-
+        </div>
       );
     } catch (error) {
       return console.log(error);

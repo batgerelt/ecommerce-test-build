@@ -649,7 +649,6 @@ class CategoryInfo extends React.Component {
                     <WindowScroller>
                       {({ height, scrollTop }) => (
                         <List
-                          overscanRowCount={1000}
                           style={{ outline: 'none' }}
                           autoHeight
                           estimatedRowSize={0}
@@ -671,35 +670,18 @@ class CategoryInfo extends React.Component {
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
                               <div style={style} key={index} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
-                                {rowItems.map((itemId, index) => {
-                                  if (!isVisible) {
-                                    return (
-                                      <Card
-                                        elastic
-                                        list={isListViewOn}
-                                        key={index}
-                                        shape={this.state.shapeType}
-                                        item={itemId}
-                                        LoginModal={this.props.LoginModal}
-                                        addWishList={this.props.addWishList}
-                                        {...this.props}
-                                      />
-                                    );
-                                  }
-
-                                  return (
-                                    <Card
-                                      elastic
-                                      list={isListViewOn}
-                                      key={index}
-                                      shape={this.state.shapeType}
-                                      item={itemId}
-                                      LoginModal={this.props.LoginModal}
-                                      addWishList={this.props.addWishList}
-                                      {...this.props}
-                                    />
-                                  );
-                                })}
+                                {rowItems.map((itemId, index) => (
+                                  <Card
+                                    elastic
+                                    list={isListViewOn}
+                                    key={index}
+                                    shape={this.state.shapeType}
+                                    item={itemId}
+                                    LoginModal={this.props.LoginModal}
+                                    addWishList={this.props.addWishList}
+                                    {...this.props}
+                                  />
+                                ))}
                               </div>
                             );
                           }}

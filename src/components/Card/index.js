@@ -583,6 +583,7 @@ class Card extends React.Component {
                         backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                         backgroundSize: "contain",
                       }}
+                      // onLoad={this.props.onLoad}
                     />
                   </Link>
                   {elastic ? <ElasticLabel data={item} tags={tags} isDiscount={isDiscount} /> :
