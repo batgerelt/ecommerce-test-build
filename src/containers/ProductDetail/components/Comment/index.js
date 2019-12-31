@@ -38,7 +38,6 @@ class Comment extends Component {
       let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
       let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
       let plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      console.log(plaintext);
       this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id }).then((res) => {
         if (res.payload.data.status === 1) {
           this.setState({ isShow: true });
@@ -70,6 +69,10 @@ class Comment extends Component {
     }
   };
 
+  giftvisibleTrue = (img) => {
+    console.log("getVisibleTrue");
+    this.setState({ giftvisible: true, imgnm: img });
+  }
   onCancel = () => {
     this.setState({ giftvisible: false });
   }
@@ -103,7 +106,7 @@ class Comment extends Component {
       });
     } else {
       this.props.addRate({ body: params }).then((res) => {
-        console.log("res", res.payload);
+        console.log("addRate", res.payload);
         if (!res.payload.success) {
           store.addNotification({
             insert: "top",
@@ -117,7 +120,10 @@ class Comment extends Component {
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
         } else {
-          this.setState({ isShow: true });
+          if (res.payload.data !== "") {
+            this.giftvisibleTrue(res.payload.data);
+          }
+          this.setState({ isShow: false });
           this.props.getProductComment({ skucd: product.skucd });
           this.props.isFeedBack({ orderid: parseFloat(plaintext), skucd: this.props.match.params.id });
         }
