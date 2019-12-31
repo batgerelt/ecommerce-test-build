@@ -32,6 +32,7 @@ class CategoryInfo extends React.Component {
     super(props);
 
     this.state = {
+      visible: false,
       products: [],
       catid: null,
       isListViewOn: false,
@@ -51,6 +52,14 @@ class CategoryInfo extends React.Component {
       aggregations: [],
       ismore: false,
     };
+  }
+
+  visibleFalse = () => {
+    this.setState({ visible: false });
+  }
+
+  visibleTrue = () => {
+    this.setState({ visible: true });
   }
 
   componentWillMount() {
@@ -88,7 +97,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleViewChange = () => {
-    // this.props.resetSearch();
     if (this.state.isListViewOn) {
       this.setState({ shapeType: 2, isListViewOn: !this.state.isListViewOn });
     } else {
@@ -314,7 +322,6 @@ class CategoryInfo extends React.Component {
             onSelect={this.handleClickCategory}
             showIcon={false}
             defaultExpandAll
-          // defaultExpandParent={false}
           >
             {categories.buckets.map(one => (
               <Tree.TreeNode
@@ -355,7 +362,6 @@ class CategoryInfo extends React.Component {
       }
       return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -374,7 +380,6 @@ class CategoryInfo extends React.Component {
             this.container = node;
           }}
         >
-          {/* <Affix offsetTop={150} style={{ width: '100%' }} > */}
           <div
             className={`left-panel-container ${
               this.state.isMobilePanel ? "show" : null
@@ -429,11 +434,9 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
-          {/* </Affix> */}
         </div>
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -459,7 +462,7 @@ class CategoryInfo extends React.Component {
                   <div className="text-right d-block d-md-none">
                     <a
                       className="btn btn-gray btn-filter"
-                      onClick={this.showMobilePanel}
+                      onClick={this.visibleTrue}
                     >
                       <i className="fa fa-filter" aria-hidden="true" />
                       <span className="text-uppercase">
@@ -505,7 +508,6 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   };
@@ -756,6 +758,69 @@ class CategoryInfo extends React.Component {
     }
   };
 
+  renderMobileLeftPanel = () => {
+    try {
+      const { visible, aggregations } = this.state;
+      return (
+        <li className="list-inline-item user">
+          <div className={`mobile-menu-container ${visible ? ' activated' : ''}`} >
+            <div className={`fixed-mobile-menu ${visible ? ' activated' : ''}`} style={{ backgroundColor: "white" }}>
+              <div style={{ padding: "10px", marginTop: "20px" }}>
+                <button
+                  className="button buttonBlack filter-cross"
+                  onClick={this.showMobilePanel}
+                >
+                  <img
+                    src={crossImage}
+                    alt="cross"
+                    height="25px"
+                    aria-hidden="true"
+                  />
+                </button>
+                <h5 className="title">
+                  <strong><FormattedMessage id="search.filter.title" /></strong>
+                </h5>
+                <p className="title">
+                  <span><FormattedMessage id="search.filter.category.title" /></span>
+                </p>
+                <div className="accordion" id="accordionExample">
+                  <div
+                    id="collapseOne"
+                    className="collapse show"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordionExample"
+                  >
+                    <div className="collapse-content">
+                      <ul className="list-unstyled">
+                        {this.renderCategoryList()}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h5 className="title">
+                    <strong><FormattedMessage id="search.filter.filter.title" /></strong>
+                  </h5>
+                  <div className="left-filter">
+                    <SearchFilterSet
+                      onRef={ref => (this.FilterSet = ref)}
+                      {...this.props}
+                      {...this}
+                      data={aggregations}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={`fixed-left-side ${visible ? ' activated' : ''}`} style={{ width: "100%", height: "100%", backgroundColor: "transparent !important" }} onClick={this.visibleFalse} />
+          </div>
+        </li>
+      );
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
   render() {
     const { id } = this.props.match.params;
     if (id !== searchid) {
@@ -763,17 +828,20 @@ class CategoryInfo extends React.Component {
     }
 
     return (
-      <div className="top-container elastic-container">
-        <div className="section category-search">
-          <div className="container pad10">
-            {this.renderBreadCrumb()}
-            <div className="row row10">
-              {this.renderLeftPanel()}
-              {this.renderFilteredList()}
+      <div>
+        <div className="top-container elastic-container">
+          <div className="section category-search">
+            <div className="container pad10">
+              {this.renderBreadCrumb()}
+              <div className="row row10">
+                {this.renderLeftPanel()}
+                {this.renderFilteredList()}
+              </div>
             </div>
           </div>
+          <BackTop />
         </div>
-        <BackTop />
+        {this.renderMobileLeftPanel()}
       </div>
     );
   }

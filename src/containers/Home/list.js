@@ -222,7 +222,6 @@ class Homepage extends React.Component {
   }
 
   render() {
-    console.log(this.props.isHomepageBannerLoading);
     return (
       <div className="top-container homepage-container">
         {this.renderMainBanner()}

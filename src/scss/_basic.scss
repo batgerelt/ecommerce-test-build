@@ -3462,6 +3462,9 @@ button:disabled{
 }
 
 // profile custom input
+.MuiButton-root {
+  min-width: 10px !important;
+}
 .image-container {
   .search-hover {
     z-index: 0;

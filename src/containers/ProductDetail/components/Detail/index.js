@@ -52,24 +52,6 @@ class Detail extends Component {
           <span className="small-title">
             {detail.back && lang === "mn" ? `${this.checkError(detail.back)}` : `${this.checkError(detail.back_en)}`}
           </span>
-          {/* selectedCat && (
-            <p className="big-text">
-              <strong>
-                <Link to={selectedCat.route} style={{ color: "#6c757d" }}>
-                  {lang === "mn" ? selectedCat.name : selectedCat.name_en}
-                </Link>
-              </strong>
-            </p>
-          ) */}
-          {
-            /*  detail.feature && (
-               <p className="big-text">
-                 <strong>
-                   {lang === "mn" ? detail.feature : detail.feature_en}
-                 </strong>
-               </p>
-             ) */
-          }
           <div className="main-rating">
             <Rate allowHalf disabled value={rate === null ? 0 : rate / 2} />
             <p className="text">
@@ -79,16 +61,7 @@ class Detail extends Component {
               )
             </p>
           </div>
-          {/* <div className="main-rating" style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }}>
-            <Rate
-              allowHalf
-              value={isLoggedIn ? rate / 2 : 0}
-              onChange={this.handleRateChange}
-            />
-            <p className="text upper-first">
-              ({isLoggedIn ? intl.formatMessage({ id: "productDetail.rate.text" }) : intl.formatMessage({ id: "productDetail.rate.text2" })})
-            </p>
-          </div> */}
+
           {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
               <div className="product-bottom-info">
@@ -97,13 +70,11 @@ class Detail extends Component {
                     <div className="col col-sm-6">
                       <dt>
                         {lang === "mn" ? attr.value : attr.value_en}
-                        {/* {attr.value} */}
                       </dt>
                     </div>
                     <div className="col col-sm-6">
                       <dd>
                         {lang === "mn" ? attr.name : attr.name_en}
-                        {/* {attr.title} */}
                       </dd>
                     </div>
                   </div>
@@ -323,7 +294,7 @@ class Detail extends Component {
             }}
           >
             <i className="fa fa-shopping-cart" aria-hidden="true" />
-            <span style={{ paddingLeft: "5px" }}>{detail.availableqty < 1 ? <span>Дууссан</span> : <FormattedMessage id="productDetail.button.addToCart" />}</span>
+            <span style={{ paddingLeft: "5px" }}>{detail.availableqty < 1 ? <FormattedMessage id="productDetail.button.soldout" /> : <FormattedMessage id="productDetail.button.addToCart" />}</span>
           </Button>
         </div>
         {detail.sdate !== null && detail.edate !== null && (

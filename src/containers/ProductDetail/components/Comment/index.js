@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/img-redundant-alt */
@@ -49,7 +50,6 @@ class Comment extends Component {
   }
 
   componentDidMount() {
-    console.log("didMound");
     if (this.props.match.params.orderid !== undefined) {
       let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
       let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
@@ -103,6 +103,7 @@ class Comment extends Component {
       });
     } else {
       this.props.addRate({ body: params }).then((res) => {
+        console.log("res", res.payload);
         if (!res.payload.success) {
           store.addNotification({
             insert: "top",
@@ -124,6 +125,38 @@ class Comment extends Component {
     }
   }
 
+  renderComment = (comment) => {
+    return (
+      <Col span={24}>
+        <Row>
+          <Col xs={3} sm={3} md={2} lg={1} xl={1} style={{ marginRight: "10px" }}>
+            <div className="image-container">
+              <Avatar size="large" src={`${process.env.IMAGES}${comment.imgnm}`} />
+            </div>
+          </Col>
+          <Col xs={20} sm={20} md={20} lg={21} xl={21}>
+            <strong><p>{comment.fname}</p></strong>
+            <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Col xs={23} sm={23} md={12} lg={3} xl={3}>
+              <div className="main-rating">
+                <Rate
+                  disabled
+                  defaultValue={comment.rate / 2}
+                />
+              </div>
+            </Col>
+            <Col xs={23} sm={23} md={11} lg={20} xl={20}>
+              <p>{comment.commnt}</p>
+            </Col>
+          </Col>
+        </Row>
+      </Col>
+    );
+  }
 
   renderCommentList = () => {
     try {
@@ -210,26 +243,9 @@ class Comment extends Component {
                   <div
                     key={index}
                     className="new-comment-box"
-                    style={{
-                      padding: "10px", marginBottom: "10px",
-                    }}
+                    style={{ padding: "10px" }}
                   >
-                    <Row>
-                      <Col xs={3} sm={3} md={2} lg={1} xl={1} style={{ marginRight: "10px" }}>
-                        <Avatar size="large" src={`${process.env.IMAGES}${comment.imgnm}`} />
-                      </Col>
-                      <Col xs={20} sm={20} md={21} lg={22} xl={22}>
-                        <strong><p>{comment.fname}</p></strong>
-                        <p>{moment(comment.idate).format("YYYY.MM.DD HH:mm")}</p>
-                        <div className="main-rating" style={{ float: "left" }}>
-                          <Rate
-                            disabled
-                            defaultValue={comment.rate / 2}
-                          />
-                        </div>
-                        <p style={{ verticalAlign: "middle" }}>{comment.commnt}</p>
-                      </Col>
-                    </Row>
+                    {this.renderComment(comment)}
                   </div>
                 ))}
               </div>
