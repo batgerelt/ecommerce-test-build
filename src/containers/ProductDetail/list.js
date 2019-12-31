@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable consistent-return */
 /* eslint-disable radix */
 import React from "react";
@@ -145,6 +146,7 @@ class ProductDetail extends React.Component {
   renderSocialButtons = () => {
     try {
       const { detail } = this.props;
+      console.log('detail: ', detail);
       return (
         <div className="social-buttons">
           <ul className="list-inline">
@@ -156,6 +158,11 @@ class ProductDetail extends React.Component {
                 url={window.location.href}
                 quote={detail.products.name}
                 className="Demo__some-network__share-button"
+                children={
+                  <div>
+                    <img alt="hello" src={process.env.IMAGE + detail.products.img} />
+                  </div>
+                }
               >
                 <FacebookIcon size={25} round />
               </FacebookShareButton>
