@@ -774,10 +774,10 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
+      console.log('products: ', products);
       const lang = this.props.intl.locale;
       const { isadd, ismin } = this.state;
       let content1;
-      console.log('this.props.location: ', this.props.location);
       if (this.props.location.state !== undefined && this.props.location.state.isReturn) {
         content1 = (
           <div className="empty-cart">
@@ -797,17 +797,7 @@ class Cart extends React.Component {
 
       if (products && products.length > 0) {
         products = products.filter(product => product.qty);
-        // products.sort((a, b) => {
-        //   if (typeof a.insymd === "string") {
-        //     a.insymd = new Date(a.insymd).getTime();
-        //   }
-
-        //   if (typeof b.insymd === "string") {
-        //     b.insymd = new Date(b.insymd).getTime();
-        //   }
-
-        //   return b.insymd - a.insymd;
-        // });
+        console.log('products: ', products);
 
         content = (
           <div>
@@ -833,6 +823,7 @@ class Cart extends React.Component {
               </thead>
               {products.map((prod, index) => {
                 const title = lang === "mn" ? prod.title || prod.title : prod.title_en || prod.title_en;
+                console.log('title: ', title);
 
                 return (
                   <tbody key={index}>
@@ -854,7 +845,7 @@ class Cart extends React.Component {
                               to={prod.route || `/productdetail/${prod.skucd}` || ""}
                               style={{ color: "#6c757d" }}
                             >
-                              <strong>{title.length < 35 ? title : `${title.substring(0, 35)}...`}</strong>
+                              <strong>{title && (title.length < 35 ? title : `${title.substring(0, 35)}...`)}</strong>
                               <span className="featured">
                                 {lang === "mn"
                                   ? prod.featuretxt || prod.feature
