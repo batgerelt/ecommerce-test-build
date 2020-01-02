@@ -1411,6 +1411,12 @@ h1.title {
         padding-top: 20px !important;
         padding-bottom: 20px !important;
     }
+
+    .cart-deliveryinfo{
+        .ant-alert-with-description{
+            padding: 5px 5px 5px 5px !important
+        }
+    }
 }
 
 // md (< 992px)

@@ -9,10 +9,6 @@ class index extends Component {
     this.setState({ isOpen: false });
   }
 
-  shouldComponentUpdate() {
-    return true;
-  }
-
   render() {
     const { isOpen } = this.state;
     return (
