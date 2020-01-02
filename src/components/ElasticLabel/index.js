@@ -292,8 +292,9 @@ class index extends Component {
                 line-height: 1.4;
                 letter-spacing: 0.2px;
                 bottom: ${
-                lang === "mn" || lang === null ? "4px" : "-3px"
+                lang === "mn" || lang === null ? "3px" : "-3px"
                 };
+                word-spacing: 3px;
               }
              `}
               <span className="text" style={{ top: list ? "110px" : "" }}>

@@ -57,7 +57,7 @@ const request = ({
     body: JSON.stringify(body),
   }).then((response) => {
     if (response.status === 401) {
-      // localStorage.setItem('tokenExpired', true);
+      localStorage.setItem('tokenExpired', true);
       localStorage.removeItem('auth');
     }
 

@@ -61,8 +61,8 @@ class Gallery extends Component {
       const { current } = this.state;
       return (
         <Magnifier
-          smallImage={images[current].mdmimg}
-          largeImage={images[current].lrgimg}
+          smallImage={images.length > current ? images[current].mdmimg : images[0].mdmimg}
+          largeImage={images.length > current ? images[current].lrgimg : images[0].lrgimg}
         />
       );
     } catch (error) {
