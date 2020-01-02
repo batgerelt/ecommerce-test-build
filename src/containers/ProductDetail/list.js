@@ -146,7 +146,6 @@ class ProductDetail extends React.Component {
   renderSocialButtons = () => {
     try {
       const { detail } = this.props;
-      console.log('detail: ', detail);
       return (
         <div className="social-buttons">
           <ul className="list-inline">

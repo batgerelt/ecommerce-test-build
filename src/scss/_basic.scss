@@ -4108,8 +4108,12 @@ div.sticky-btn{
   }
 
   .ant-alert-with-description{
-    padding: 5px 0px 5px 64px !important;
+    padding: 5px 0px 5px 64px;
     font-weight: 500;
+  }
+
+  .ant-alert-description{
+    text-align: justify;
   }
 
   .ant-alert-icon{

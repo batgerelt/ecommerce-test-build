@@ -774,7 +774,6 @@ class Cart extends React.Component {
   renderContent = () => {
     try {
       let products = this.state.tempProducts;
-      console.log('products: ', products);
       const lang = this.props.intl.locale;
       const { isadd, ismin } = this.state;
       let content1;
@@ -797,7 +796,6 @@ class Cart extends React.Component {
 
       if (products && products.length > 0) {
         products = products.filter(product => product.qty);
-        console.log('products: ', products);
 
         content = (
           <div>
@@ -823,7 +821,6 @@ class Cart extends React.Component {
               </thead>
               {products.map((prod, index) => {
                 const title = lang === "mn" ? prod.title || prod.title : prod.title_en || prod.title_en;
-                console.log('title: ', title);
 
                 return (
                   <tbody key={index}>
@@ -904,14 +901,14 @@ class Cart extends React.Component {
                     <tr className="table-action">
                       <td colSpan="3" className="cart-deliveryinfo">
                         {/*
-                          Хүргэлтийн мэдээллийг detail болон cart наас нэмэх үед өөр өөр байгаа тул
+                          Хүргэлтийн мэдээллийг detail болон cart, ижил бараа наас нэмэх үед өөр өөр байгаа тул
                           доорх байдлаар шалгасан ба уг нь API дээр хийсэн бол
                         */}
                         {
-                          prod.deliveryinfo !== null ? (
-                            prod.deliveryisshow === undefined || prod.deliveryisshow === 1 ? (
+                          prod.deliveryinfo !== null && prod.deliveryinfo !== undefined ? (
+                            (prod.deliveryisshow === undefined || prod.deliveryisshow === 1) && prod.deliveryinfo !== "" ? (
                               <Alert
-                                showIcon
+                                showIcon={window.innerWidth > 575}
                                 description={lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
                                 type="info"
                               />
@@ -921,7 +918,7 @@ class Cart extends React.Component {
                       </td>
                       <td colSpan="2">
                         <div className="text-right single-action">
-                          <ul className="list-unstyled">
+                          <ul className="list-unstyled d-f-center">
                             <li className="cart-footer-btn">
                               <ButtonGoogle
                                 className={`${isMobile ? 'pl-0' : null} upper-first`}
