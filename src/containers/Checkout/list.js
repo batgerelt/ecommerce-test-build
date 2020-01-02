@@ -232,6 +232,7 @@ class Checkout extends React.Component {
 
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
+    let isEmail = false;
     const {
       products,
       userinfo,
@@ -246,7 +247,8 @@ class Checkout extends React.Component {
         if (values.email !== undefined && userinfo.info.email === null) {
           this.props.addUserEmail(values.email).then((res) => {
             if (!res.payload.success) {
-              this.setState({ isEmail: false });
+              // this.setState({ isEmail: false });
+              isEmail = false;
               store.addNotification({
                 insert: "top",
                 container: "top-right",
@@ -259,7 +261,8 @@ class Checkout extends React.Component {
                 content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
               });
             } else {
-              this.setState({ isEmail: true });
+              // this.setState({ isEmail: true });
+              isEmail = false;
             }
           });
         }
@@ -304,7 +307,8 @@ class Checkout extends React.Component {
         this.getDeliveryTypeValue(body, this.state.chosenDate);
         if (products.length !== 0) {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
-            if (this.state.isEmail) {
+            // if (this.state.isEmail) {
+            if (isEmail) {
               if (isMobile) {
                 /*  let paymentType = document.getElementById("paymentType");
                  paymentType.scrollIntoView({
@@ -329,7 +333,8 @@ class Checkout extends React.Component {
             this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
               this.changeLoading(false);
               if (res.payload.success) {
-                if (this.state.isEmail) {
+                // if (this.state.isEmail) {
+                if (isEmail) {
                   this.changeDeliveryType(true);
                   this.setState({ activeKey: "3" });
                   let paymentType = document.getElementById("paymentType");
