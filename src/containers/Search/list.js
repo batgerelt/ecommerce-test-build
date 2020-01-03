@@ -95,7 +95,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -138,7 +138,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -177,7 +177,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -214,7 +214,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
@@ -290,7 +290,7 @@ class CategoryInfo extends React.Component {
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         this.setState({
           products: res.payload.data.hits.hits,
           loading: !this.state.loading,
