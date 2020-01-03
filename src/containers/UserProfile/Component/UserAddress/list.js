@@ -357,7 +357,7 @@ class Component extends React.Component {
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-              <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+              <span className="top-text">{intl.formatMessage({ id: "shared.form.address" })}</span>
               <Form.Item>
                 {getFieldDecorator("homeaddress", {
                   rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],

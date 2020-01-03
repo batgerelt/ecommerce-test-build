@@ -451,7 +451,7 @@ class DeliveryPanel extends React.Component {
                   <Col span={24}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
                       <Col xs={20} sm={20} md={23} lg={23} xl={23}>
-                        <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+                        <span className="top-text">{intl.formatMessage({ id: "shared.form.addressSelect.placeholder" })}</span>
                         <Form.Item className="select-button">
                           {getFieldDecorator("id", {
                             initialValue: this.checkError(chosenAddress.id),
@@ -513,7 +513,7 @@ class DeliveryPanel extends React.Component {
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address.placeholder" })}</span>
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address" })}</span>
                       <Form.Item>
                         {getFieldDecorator("address", {
                           initialValue: this.checkError(chosenAddress.address),

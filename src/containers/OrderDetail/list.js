@@ -62,11 +62,18 @@ class List extends React.Component {
               <strong>{formatter.format(item.orderamount)}₮</strong>
               {
                 item.status !== 0 ?
-                  <Button>
-                    <Link to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}>
-                      <p style={{ fontSize: "12px", color: "#FFB81C", fontWeight: "500" }}>Санал хүсэлт</p>
-                    </Link>
-                  </Button>
+                  <Link to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}>
+                    <Button
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "500",
+                        color: "#FFFFFF",
+                        backgroundColor: "#FFB81C",
+                      }}
+                    >
+                      <FormattedMessage id="orderDetail.info.leaveFeedback" />
+                    </Button>
+                  </Link>
                   :
                   null
               }
