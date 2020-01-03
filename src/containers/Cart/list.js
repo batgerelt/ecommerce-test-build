@@ -898,7 +898,7 @@ class Cart extends React.Component {
                         {this.renderTotalPrice(prod)}
                       </td>
                     </tr>
-                    <tr className="table-action">
+                    <tr className="table-action cart-footer">
                       <td colSpan="3" className="cart-deliveryinfo">
                         {/*
                           Хүргэлтийн мэдээллийг detail болон cart, ижил бараа наас нэмэх үед өөр өөр байгаа тул
@@ -908,7 +908,7 @@ class Cart extends React.Component {
                           prod.deliveryinfo !== null && prod.deliveryinfo !== undefined ? (
                             (prod.deliveryisshow === undefined || prod.deliveryisshow === 1) && prod.deliveryinfo !== "" ? (
                               <Alert
-                                showIcon={window.innerWidth > 575}
+                                showIcon
                                 description={lang === "mn" ? prod.deliveryinfo : prod.deliveryinfo_en}
                                 type="info"
                               />
