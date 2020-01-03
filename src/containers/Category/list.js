@@ -260,7 +260,7 @@ class CategoryInfo extends React.Component {
     });
   };
 
-  handleClickCategory = (cat) => {
+  handleClickCategory = (cat, event) => {
     const { categoryall } = this.props;
     let isChangeCategory = false;
     try {
@@ -272,12 +272,13 @@ class CategoryInfo extends React.Component {
           .replace(/=/g, '":"')}"}`).lvl;
       isChangeCategory = categoryall.find(i => i.id.toString() === cat[0].toString()).lvl < lvl;
     } catch (error) {
-      console.log('error: ', error);
+      null;
     }
     const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.props.getCategoryParents({ id: cat.length === 0 ? searchid : cat[0] });
     this.FilterSet.resetField();
+    let cate = categoryall.find(i => i.id === Number(cat));
 
     const params = {
       catId: cat.length === 0 ? searchid : cat[0],
@@ -307,6 +308,10 @@ class CategoryInfo extends React.Component {
         });
       }
     });
+
+    if (event.node.props.children === undefined || event.node.props.children[0] === null) {
+      this.visibleFalse();
+    }
   };
 
   renderCategoryList = () => {
@@ -314,7 +319,6 @@ class CategoryInfo extends React.Component {
       const { categoryall, intl } = this.props;
       const lang = intl.locale;
       const { categories } = this.state;
-
       if (categories.buckets.length !== 0) {
         return (
           <Tree.DirectoryTree
@@ -327,6 +331,7 @@ class CategoryInfo extends React.Component {
               <Tree.TreeNode
                 title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
                 key={one.key}
+                id={one.doc_count}
               >
                 {one.buckets.buckets &&
                   one.buckets.buckets.map((two) => {
@@ -335,6 +340,7 @@ class CategoryInfo extends React.Component {
                         <Tree.TreeNode
                           title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
                           key={two.key}
+                          id={two.doc_count}
                         >
                           {
                             two.buckets !== undefined && two.buckets.buckets !== undefined ?
@@ -347,6 +353,7 @@ class CategoryInfo extends React.Component {
                                         : categoryall.find(i => i.id === three.key).nameen
                                     }
                                     key={three.key}
+                                    id={three.doc_count}
                                   />
                               )) : null
                           }

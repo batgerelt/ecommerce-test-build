@@ -2,21 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 class MainMenu extends React.Component {
-  handleDetail = (id) => {
-    this.props.getCategoryInfo({ id });
-    this.props.categoryFilter({
-      body: {
-        catid: id,
-        parameters: [],
-        minprice: 0,
-        maxprice: 0,
-        ordercol: "currentprice_asc",
-        rowcount: 0,
-        startswith: 0,
-      },
-    });
-  };
-
   render() {
     const data = this.props && this.props.dataSource;
     const lang = this.props.intl.locale;
@@ -42,7 +27,6 @@ class MainMenu extends React.Component {
                     <li
                       className="active"
                       key={ind}
-                      onClick={() => this.handleDetail(it.id)}
                     >
                       <Link
                         to={item.route ? `${it.route}?lvl=${it.lvl}` : '#'}

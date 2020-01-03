@@ -218,7 +218,7 @@ class CategoryInfo extends React.Component {
     });
   };
 
-  handleClickCategory = (cat) => {
+  handleClickCategory = (cat, event) => {
     const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
@@ -250,6 +250,10 @@ class CategoryInfo extends React.Component {
         });
       }
     });
+
+    if (event.node.props.children === undefined || event.node.props.children[0] === null) {
+      this.visibleFalse();
+    }
   }
 
   renderCategoryList = () => {
