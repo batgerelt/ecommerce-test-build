@@ -39,7 +39,7 @@ class FacebookLogin1 extends React.Component {
           disableMobileRedirect
           appId={SOCIAL_IDS.facebook}
           autoLoad={false}
-          fields="name,email,picture"
+          fields="name,email,picture.type(large)"
           cssClass="btn btn-block btn-social btn-facebook"
           onClick={this.componentClicked}
           callback={this.responseFacebook}
