@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Rate, Input, Modal, Avatar, Row, Col } from "antd";
+import { Rate, Input, Modal, Avatar, Row, Col, Divider } from "antd";
 import { store } from 'react-notifications-component';
 import CryptoJS from "crypto-js";
 import { EncryptKey } from "../../../../utils/Consts";
@@ -22,6 +22,7 @@ class Comment extends Component {
     imgnm: null,
     thisRate: 0,
     isShow: false,
+    loading: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -105,9 +106,10 @@ class Comment extends Component {
         content: <Notification type="warning" text="Үнэлгээ хоосон байна." />,
       });
     } else {
+      this.setState({ loading: true });
       this.props.addRate({ body: params }).then((res) => {
-        console.log("addRate", res.payload);
         if (!res.payload.success) {
+          this.setState({ loading: false });
           store.addNotification({
             insert: "top",
             container: "top-right",
@@ -120,6 +122,7 @@ class Comment extends Component {
             content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
           });
         } else {
+          this.setState({ loading: false });
           if (res.payload.data !== "") {
             this.giftvisibleTrue(res.payload.data);
           }
@@ -150,16 +153,20 @@ class Comment extends Component {
             <Col xs={23} sm={23} md={12} lg={3} xl={3}>
               <div className="main-rating">
                 <Rate
+                  allowHalf
                   disabled
                   defaultValue={comment.rate / 2}
                 />
               </div>
             </Col>
             <Col xs={23} sm={23} md={11} lg={20} xl={20}>
-              <p>{comment.commnt}</p>
+              <p style={{ paddingTop: "7px" }}>{comment.commnt}</p>
             </Col>
           </Col>
         </Row>
+        <div className="comment-list-box">
+          <Divider />
+        </div>
       </Col>
     );
   }
@@ -230,6 +237,7 @@ class Comment extends Component {
                   type="button"
                   className="btn btn-dark text-uppercase"
                   onClick={this.handleCommentSend}
+                  disabled={this.state.loading}
                 >
                   <FormattedMessage id="productDetail.comment.form.button" />
                 </button>
@@ -238,7 +246,7 @@ class Comment extends Component {
           ) : null}
 
           {comments.length !== 0 && (
-            <div className="product-comment" >
+            <div className="product-comment">
               <h1 className="title">
                 <span className="text-uppercase">
                   <FormattedMessage id="productDetail.comment.list.title" />
