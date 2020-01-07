@@ -31,7 +31,7 @@ ReactDOM.hydrate(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router>
-          <Route component={ComingSoon} />
+          <Route component={App} />
         </Router>
       </PersistGate>
     </Provider>

@@ -3462,7 +3462,16 @@ button:disabled{
 }
 
 // profile custom input
+.paddRight10 {
+  padding-right: 10px;
+}
 
+.comment-list-box {
+  .ant-divider,
+  .ant-divider-horizontal {
+    margin: 7px 0 !important;
+  }
+}
 .ant-menu-item:hover,
 .ant-menu-item-active,
 .ant-menu:not(.ant-menu-inline),

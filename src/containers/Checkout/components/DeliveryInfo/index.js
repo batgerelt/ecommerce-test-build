@@ -99,18 +99,27 @@ class DeliveryInfo extends React.Component {
 
   handleSubmit = (e) => {
     this.setState({ loading: true });
-    let agreementId = document.getElementById("agreementId");
     const {
       userinfo, products, mainState,
     } = this.props;
     if (mainState.activeKey === '2') {
       this.props.onSubmitDeliveryPanel();
+      if (isMobile) {
+        if (this.state.notif) {
+          window.scrollTo(0, 700);
+        } else {
+          window.scrollTo(0, 85);
+        }
+      }
     } else if (mainState.activeKey === '3') {
       if (!this.state.checkedAgreement) {
-        agreementId.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
+        if (isMobile) {
+          if (this.state.notif) {
+            window.scrollTo(0, 700);
+          } else {
+            window.scrollTo(0, 85);
+          }
+        }
         this.setState({ notif: true });
       } else if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {
         this.props.changeLoading(true);
@@ -142,7 +151,6 @@ class DeliveryInfo extends React.Component {
         this.sendPayment(tmp);
       }
     }
-
     this.setState({ loading: false });
   }
 
