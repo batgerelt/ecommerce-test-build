@@ -14,7 +14,10 @@ class Model extends BaseModel {
     emartproduct: [],
     discountproduct: [],
     newproduct: [],
+
+    isProductDetail: true,
     detail: null,
+
     attribute: [],
     relational: [],
     collection: [],
@@ -240,12 +243,9 @@ class Model extends BaseModel {
         };
 
       // GET DETAIL
-      case this.model.detail.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.detail.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.detail.response:
-        return { ...state, detail: action.payload.data };
+      case this.model.detail.request: return { ...state, isProductDetail: true };
+      case this.model.detail.error: return { ...state, isProductDetail: false };
+      case this.model.detail.response: return { ...state, detail: action.payload.data, isProductDetail: false };
 
       // GET ATTRIBUTE
       case this.model.attribute.request:

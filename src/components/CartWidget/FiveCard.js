@@ -375,38 +375,60 @@ class FiveCard extends Component {
         <Link to={`/productdetail/${item.skucd}`}>
           <span
             style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
-            {lang === 'mn' ? item.title : item.title_en ? item.title_en : item.title}
+            {lang === "mn"
+              ? item.title
+              : item.title_en
+              ? item.title_en
+              : item.title}
           </span>
           <span
             style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
-            {lang === 'mn' ? item.shortnm : item.shortnm_en ? item.shortnm_en : item.shortnm}
+            {lang === "mn"
+              ? item.shortnm
+              : item.shortnm_en
+              ? item.shortnm_en
+              : item.shortnm}
           </span>
         </Link>
-        <Rate
-          allowHalf
-          disabled
-          defaultValue={0}
-          value={item.rate / 2}
-        />
+        <Rate allowHalf disabled defaultValue={0} value={item.rate / 2} />
         <div className="price">
           {item.pricetag && (
-            <span className="pricetag" >
-              {lang === "mn" ? item.pricetag : item.pricetag_en ? item.pricetag_en : item.pricetag}
+            <span className="pricetag">
+              {lang === "mn"
+                ? item.pricetag
+                : item.pricetag_en
+                ? item.pricetag_en
+                : item.pricetag}
             </span>
           )}
-          <span className="current">
-            {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
-          </span>
+
+          {
+            // elastic-aas hymdraltai baraa-g ilgeeh bolomjgui tul ingej shalgaj bui
+            item.discountprice && item.discountprice !== 0 ? (
+              <React.Fragment>
+                <small className="sale">
+                  {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+                </small>
+                <span className="current">
+                  {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}              ₮
+                </span>
+              </React.Fragment>
+            ) : (
+              <span className="current">
+                {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
+              </span>
+            )
+          }
         </div>
       </div>
     );

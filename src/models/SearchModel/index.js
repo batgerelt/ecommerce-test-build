@@ -20,9 +20,12 @@ class Model extends BaseModel {
     newproducts: [],
     newproductCount: 10,
     isFetchingNew: false,
-    discountproducts: [],
-    discountproductCount: 10,
+
+    discountproductfromelastic: [],
+    discountproductCount: 0,
     isFetchingDiscount: false,
+    discountproductTotal: 0,
+
     isLoadingSearch: false,
   }
 
@@ -108,9 +111,13 @@ class Model extends BaseModel {
     body, url: `/search/elastic`, method: 'POST', model: this.model.newproduct,
   })
 
+  // DISCOUNT PRODUCTS
   getDiscountProducts = ({ body } = {}) => asyncFn({
     body, url: `/search/elastic`, method: 'POST', model: this.model.discountproduct,
   })
+  resetDiscountProducts = () => ({
+    type: 'RESET_DISCOUNT_PRODUCTS',
+  });
 
   resetSearch = () => ({
     type: 'resetsearch',
@@ -200,8 +207,9 @@ class Model extends BaseModel {
         return {
           ...state,
           isFetchingDiscount: false,
-          discountproducts: this.pushProduct(action.payload.data.hits.hits),
-          discountproductCount: state.discountproductCount + 50,
+          discountproductTotal: action.payload.data.hits.total.value,
+          discountproductfromelastic: this.pushProduct(action.payload.data.hits.hits),
+          discountproductCount: state.discountproductCount + 20,
         };
 
       // GET ALL PROMOTION
@@ -215,6 +223,9 @@ class Model extends BaseModel {
       // RESET SEARCH
       case 'resetsearch':
         return { ...state, searchKeyWordResponse: state.searchKeyWordResponse.hits.hits.splice(0, 20) };
+
+      case 'RESET_DISCOUNT_PRODUCTS':
+        return { ...state, discountproductfromelastic: [], discountproductCount: 0 };
 
       // GET ALL TAGS
       case this.model.tags.request:

@@ -916,7 +916,7 @@ class Cart extends React.Component {
                           ) : null
                         }
                       </td>
-                      <td colSpan="2">
+                      <td colSpan="4">
                         <div className="text-right single-action">
                           <ul className="list-unstyled d-f-center">
                             <li className="cart-footer-btn">

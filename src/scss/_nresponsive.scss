@@ -2091,15 +2091,18 @@ h1.title {
     }
 
     .cart-footer{
+        min-width: 100%;
         display: table !important;
     }
 
     .cart-deliveryinfo{
+        min-width: 100%;
         .ant-alert-icon{
             left: 10px;
         }
 
         .ant-alert-with-description{
+            min-height: 60px;
             padding: 5px 5px 5px 40px;
         }
     }

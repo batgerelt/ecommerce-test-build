@@ -19,6 +19,7 @@ import {
 import { Card, Banner, PageBanner, FiveCard } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
+const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5; // Нэг мөрөнд карт хэдээр зурагдах
 class Discount extends React.Component {
   infiniteLoaderRef = React.createRef();
   constructor(props) {
@@ -40,24 +41,10 @@ class Discount extends React.Component {
       maxPrice: 0,
       module: 'discount',
       startsWith: 0,
-      rowCount: 10,
+      rowCount: 20,
       orderColumn: 'catid_desc',
       highlight: false,
     };
-  }
-
-  componentWillMount() {
-    window.scrollTo(0, 0);
-    this.props.searchProduct({ body: { ...this.state } }).then((res) => {
-      if (res.payload.success && res.payload.data) {
-        this.setState({
-          headerProducts: res.payload.data.hits.hits,
-          rowCount: 20,
-          startsWith: 10,
-          total: res.payload.data.hits.total.value,
-        });
-      }
-    });
   }
 
   loadMoreRows = () => {
@@ -181,7 +168,7 @@ class Discount extends React.Component {
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = this.getRowsAmount(discountproducts.length, this.state.total !== discountproducts.length + this.state.headerProducts.length);
+                const rowCount = discountproducts.length / itemsInRow + 1;
                 return (
                   <InfiniteLoader
                     className="InfiniteLoader"
@@ -254,8 +241,8 @@ class Discount extends React.Component {
     return (
       <div className="top-container top-container-responsive discount-container">
         {this.props.menuDiscount === undefined ? null : this.renderMainBanner()}
-        {this.renderHeaderProduct()}
-        {this.renderSubBanner()}
+        {/* {this.renderHeaderProduct()} */}
+        {/* {this.renderSubBanner()} */}
         {this.renderFooterProduct()}
         <BackTop />
       </div>
