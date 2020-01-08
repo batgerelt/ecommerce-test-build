@@ -127,7 +127,8 @@ class LoginModal extends React.Component {
             await this.props.getUserInfo();
             await this.props.getSystemLocation();
           }
-          this.setState({ loading: false });
+          this.setState({ loading: false }, () => console.log("this.state.loading: ", this.state.loading));
+          this.closeLoginModal();
         } catch (e) {
           console.log(e);
         }
@@ -168,7 +169,7 @@ class LoginModal extends React.Component {
       }
       return null;
     }
-    this.closeLoginModal();
+    // this.closeLoginModal();
     localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);

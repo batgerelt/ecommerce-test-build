@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { message } from "antd";
 import FacebookLogin from 'react-facebook-login';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { SOCIAL_IDS } from "../../../utils/Consts";
@@ -13,6 +14,9 @@ class FacebookLogin1 extends React.Component {
 
   responseFacebook = (response) => {
     let param = [];
+    if (response.status === "unknown") {
+      message.warning("Фэйсбүүктэй холбогдоход алдаа гарлаа.");
+    }
     if (response && response.userID) {
       param = {
         username: response.name,

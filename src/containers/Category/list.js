@@ -11,7 +11,7 @@
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
-import { Spin, Select, BackTop, Tree, Icon } from "antd";
+import { Spin, Select, BackTop, Tree, Icon, Row, Col } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -254,7 +254,6 @@ class CategoryInfo extends React.Component {
           count: 20,
           attributes,
         });
-
         // window.scrollTo(0, 0);
       }
     });
@@ -378,20 +377,14 @@ class CategoryInfo extends React.Component {
 
   renderLeftPanel = () => {
     try {
-      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
+      const leftPanel = ``;
 
       return (
-        <div
-          className="col-lg-3 col-md-4 pad10"
-          ref={(node) => {
-            this.container = node;
-          }}
-        >
+        <Col xs={0} sm={0} md={8} lg={6} xl={6} className="pad10">
           <div
-            className={`left-panel-container ${
-              this.state.isMobilePanel ? "show" : null
-              }`}
-            onClick={this.showMobilePanel}
+            ref={(node) => {
+              this.container = node;
+            }}
           >
             <div className={leftPanel}>
               <button
@@ -441,7 +434,7 @@ class CategoryInfo extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </Col>
       );
     } catch (error) {
       return null;
@@ -453,66 +446,68 @@ class CategoryInfo extends React.Component {
       const { intl, searchKeyWordResponse } = this.props;
 
       return (
-        <div className="col-lg-9 col-md-8 pad10">
-          <div className="list-filter pad10">
-            <div className="row row10">
-              <div className="col-md-4 pad10">
-                <div className="total-result">
-                  <p className="text">
-                    <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
-                    <FormattedMessage id="search.searchResult.label.found" />
-                  </p>
+        <Col xs={24} sm={24} md={16} lg={18} xl={18} className="pad10">
+          <div /* className="col-lg-9 col-md-8 pad10" */>
+            <div className="list-filter pad10">
+              <div className="row row10">
+                <div className="col-md-4 pad10">
+                  <div className="total-result">
+                    <p className="text">
+                      <strong style={{ marginRight: 5 }}>{searchKeyWordResponse.hits.total.value}</strong>
+                      <FormattedMessage id="search.searchResult.label.found" />
+                    </p>
+                  </div>
+                </div>
+                <div className="col-md-8 pad10">
+                  <form className="flex-this end">
+                    <div className="text-right d-block d-md-none">
+                      <a
+                        className="btn btn-gray btn-filter"
+                        onClick={this.visibleTrue}
+                      >
+                        <i className="fa fa-filter" aria-hidden="true" />
+                        <span className="text-uppercase">
+                          <FormattedMessage id="search.filter.filter.title" />
+                        </span>
+                      </a>
+                    </div>
+                    <div className="form-group my-select flex-this pr-1">
+                      <Select
+                        onChange={this.handleChangeOrder}
+                        className="form-control"
+                        id="inputState"
+                        placeholder={intl.formatMessage({ id: "search.sort.label" })}
+                      >
+                        <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
+                        <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
+                      </Select>
+                    </div>
+                    <div className="form-group flex-this pl-2">
+                      <div
+                        className={this.state.isListViewOn ? "btn active  p-1" : "btn  p-1"}
+                        onClick={this.handleViewChange}
+                      >
+                        <i className="fa fa-th-list" aria-hidden="true" />
+                      </div>
+                      <div
+                        className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
+                        onClick={this.handleViewChange}
+                      >
+                        <i className="fa fa-th" aria-hidden="true" />
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <div className="col-md-8 pad10">
-                <form className="flex-this end">
-                  <div className="text-right d-block d-md-none">
-                    <a
-                      className="btn btn-gray btn-filter"
-                      onClick={this.visibleTrue}
-                    >
-                      <i className="fa fa-filter" aria-hidden="true" />
-                      <span className="text-uppercase">
-                        <FormattedMessage id="search.filter.filter.title" />
-                      </span>
-                    </a>
-                  </div>
-                  <div className="form-group my-select flex-this pr-1">
-                    <Select
-                      onChange={this.handleChangeOrder}
-                      className="form-control"
-                      id="inputState"
-                      placeholder={intl.formatMessage({ id: "search.sort.label" })}
-                    >
-                      <Select.Option value="currentprice_desc"><FormattedMessage id="search.sort.values.priceDesc" /></Select.Option>
-                      <Select.Option value="currentprice_asc"><FormattedMessage id="search.sort.values.priceAsc" /></Select.Option>
-                    </Select>
-                  </div>
-                  <div className="form-group flex-this pl-2">
-                    <div
-                      className={this.state.isListViewOn ? "btn active  p-1" : "btn  p-1"}
-                      onClick={this.handleViewChange}
-                    >
-                      <i className="fa fa-th-list" aria-hidden="true" />
-                    </div>
-                    <div
-                      className={this.state.isListViewOn ? "btn pr-0" : "btn active pr-0"}
-                      onClick={this.handleViewChange}
-                    >
-                      <i className="fa fa-th" aria-hidden="true" />
-                    </div>
-                  </div>
-                </form>
-              </div>
+            </div>
+
+            <div className={styles.center}>
+              <Spin spinning={this.state.loading} indicator={<Loader />}>
+                {this.renderProducts()}
+              </Spin>
             </div>
           </div>
-
-          <div className={styles.center}>
-            <Spin spinning={this.state.loading} indicator={<Loader />}>
-              {this.renderProducts()}
-            </Spin>
-          </div>
-        </div>
+        </Col>
       );
     } catch (error) {
       return null;
@@ -841,8 +836,10 @@ class CategoryInfo extends React.Component {
             <div className="container pad10">
               {this.renderBreadCrumb()}
               <div className="row row10">
-                {this.renderLeftPanel()}
-                {this.renderFilteredList()}
+                <Row style={{ width: "100%" }}>
+                  {this.renderLeftPanel()}
+                  {this.renderFilteredList()}
+                </Row>
               </div>
             </div>
           </div>
