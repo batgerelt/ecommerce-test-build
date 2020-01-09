@@ -17,7 +17,6 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import mnMN from "./utils/locale";
 import App from "./containers/App";
-import ComingSoon from "./coming-soon";
 import registerServiceWorker from "./registerServiceWorker";
 import configureStore from "./store/configureStore";
 

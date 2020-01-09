@@ -338,9 +338,7 @@ class Card extends React.Component {
 
   removeAddedWishColorTime = () => {
     const { removeAddedWishColor } = this.props;
-    setTimeout(() => {
-      removeAddedWishColor();
-    }, 500);
+    removeAddedWishColor();
   }
 
   renderCards = () => {

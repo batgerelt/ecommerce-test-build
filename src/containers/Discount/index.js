@@ -9,7 +9,7 @@ import {
   Cart as CartModel,
   Auth as AuthModel,
   Locale as LocaleModel,
-  Search as SearchModel,
+  Discount,
 } from "../../models";
 import List from "./list";
 import { LoginModal } from "../../components/Login";
@@ -22,6 +22,7 @@ const mapStateToProps = state => ({
   ...state.auth,
   ...state.locale,
   ...state.search,
+  ...state.discount,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -32,7 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...CartModel,
     ...AuthModel,
     ...LocaleModel,
-    ...SearchModel,
+    ...Discount,
   }, dispatch),
 });
 
