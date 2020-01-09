@@ -74,7 +74,8 @@ class UserButton extends React.Component {
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
     this.props.clearUserModelState();
-    this.props.clearDetail();
+    this.props.clearDetailModelState();
+    this.props.clearProfileModalState();
     if (localStorage.getItem('auth') === null) {
       const { intl } = this.props;
       store.addNotification({
@@ -130,6 +131,7 @@ class UserButton extends React.Component {
         localStorage.setItem('img', response.payload.data);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
+            localStorage.setItem('percent', res.payload.data.info.cstatus);
             localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             this.setState({ showButton: false });
           }
@@ -144,7 +146,7 @@ class UserButton extends React.Component {
     const intl = this.props;
     let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
     return (
-      <div /* style={{ width: "230px" }} */>
+      <div style={{ width: "230px" }}>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
         <p className="text text-center">
           <strong style={{ color: "white" }}>
@@ -167,27 +169,6 @@ class UserButton extends React.Component {
         </p>
       </div>
     );
-  }
-
-  handleLogout = () => {
-    this.setState({ visible: false });
-    this.props.logout();
-    this.props.clearLocally();
-    this.props.clearUserModelState();
-    if (localStorage.getItem('auth') === null) {
-      const { intl } = this.props;
-      store.addNotification({
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: false,
-        },
-        content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
-      });
-    }
   }
 
   renderImage = () => {
@@ -257,7 +238,7 @@ class UserButton extends React.Component {
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
-              <span className="">{user === null ? " " : user.firstname}</span>
+              <span className="">{user === null ? " " : localStorage.getItem('emartmall_co')}</span>
             </Link>
             {/* Desktop */}
             <div className={`dropdown ${visible ? ' open' : ''}`} >

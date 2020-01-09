@@ -30,7 +30,6 @@ class SwalModals extends React.Component {
     MySwal.close();
   }
 
-
   onSubmit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {

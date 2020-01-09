@@ -1,8 +1,8 @@
 /**
- * @author A.Adiyasuren
- * @email adya971019@gmail.com
- * @create date 2019-07-03 17:54:26
- * @modify date 2019-07-03 17:54:26
+ * @author Ariunkhuslen
+ * @email ga.ariuka27@gmail.com
+ * @create date 2020-01-08 13:45:06
+ * @modify date 2020-01-08 13:45:06
  * @desc [description]
  */
 import BaseModel from '../BaseModel';
@@ -20,7 +20,6 @@ class Model extends BaseModel {
     paymentTypes: [],
     bankInfo: [],
     companyInfo: {},
-    epointCardInfo: {},
     connectEpoint: {},
     zoneSettingDate: [],
     checkProductZone: [],

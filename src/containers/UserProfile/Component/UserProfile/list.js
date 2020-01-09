@@ -308,7 +308,7 @@ class Component extends React.Component {
             <span className="top-text">{intl.formatMessage({ id: "shared.form.epoint.placeholder" })}</span>
             <Form.Item>
               {getFieldDecorator("cardPoint", {
-                initialValue: formatter.format(card.status === 1 ? card.point : 0),
+                initialValue: formatter.format(card.point),
               })(
                 <Input className="profile-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
               )}
@@ -565,7 +565,7 @@ class Component extends React.Component {
               <Col xs={12} sm={12} md={18} lg={18} xl={18} />
               <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Form.Item className="text">
-                  <ButtonGoogle className="btn btn-dark hover-effect" htmlType="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
+                  <ButtonGoogle className="btn btn-dark hover-effect" htmltype="submit" onClick={this.handleSubmit} style={{ background: '#343a40', height: "40px", width: "100%" }}>
                     <span className="text-uppercase" style={{ fontWeight: "500" }}><FormattedMessage id="shared.form.button.save" /></span>
                   </ButtonGoogle >
                 </Form.Item>
@@ -578,7 +578,13 @@ class Component extends React.Component {
               </Col>
             </Col>
           </Form>
-          {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(userInfo.card)}
+          {
+            this.props.epointCardInfo !== null ?
+              this.props.epointCardInfo.length === 0 ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(this.props.epointCardInfo)
+              :
+              <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} />
+          }
+          {/* {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(userInfo.card)} */}
         </div >
       );
     } catch (error) {

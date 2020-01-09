@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class UserProfile extends React.Component {
   componentWillMount() {
     this.props.getCustomer();
+    this.props.getEpoint();
   }
   render() {
     return <List {...this.props} />;

@@ -1,3 +1,11 @@
+/**
+ * @author Ariunkhuslen
+ * @email ga.ariuka27@gmail.com
+ * @create date 2020-01-08 13:44:46
+ * @modify date 2020-01-08 13:44:46
+ * @desc [description]
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

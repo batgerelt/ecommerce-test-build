@@ -116,6 +116,7 @@ class List extends React.Component {
         localStorage.setItem('img', response.payload.data);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
+            localStorage.setItem('percent', res.payload.data.info.cstatus);
             localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             this.setState({ showButton: false });
           }

@@ -198,7 +198,7 @@ class Model extends BaseModel {
   addComment = ({ skucd, comm }) => asyncFn({ url: `/product/comment/${skucd}/${comm}`, method: 'POST', model: this.addCommentModel });
   addViewList = ({ skucd }) => asyncFn({ url: `/customer/viewlist/${skucd}`, method: 'POST', model: this.AddViewModel });
   getMoreInfoElastic = ({ skucd }) => asyncFn({ url: `/product/elastic/${skucd}`, method: 'GET', model: this.model.elasticmoreinfo });
-  clearDetail = () => ({
+  clearDetailModelState = () => ({
     type: "CLEAR_DETAIL",
   });
   reducer = (state = this.initialState, action) => {

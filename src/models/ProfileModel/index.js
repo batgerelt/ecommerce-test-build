@@ -3,6 +3,7 @@ import { asyncFn } from "../utils";
 
 class Model extends BaseModel {
   initialState = {
+    epointCardInfo: [],
     history: [],
     wish: [],
     delivery: [],
@@ -15,6 +16,21 @@ class Model extends BaseModel {
     super(data);
     if (data.model) {
       this.model = {
+        getEpoint: {
+          request: this.buildActionName("request", data.model, "getepoint"),
+          response: this.buildActionName("response", data.model, "getepoint"),
+          error: this.buildActionName("error", data.model, "getepoint"),
+        },
+        systemlocation: {
+          request: this.buildActionName("request", data.model, "systemlocation"),
+          response: this.buildActionName("response", data.model, "systemlocation"),
+          error: this.buildActionName("error", data.model, "systemlocation"),
+        },
+        districtlocation: {
+          request: this.buildActionName("request", data.model, "districtlocation"),
+          response: this.buildActionName("response", data.model, "districtlocation"),
+          error: this.buildActionName("error", data.model, "districtlocation"),
+        },
         history: {
           request: this.buildActionName("request", data.model, "history"),
           response: this.buildActionName("response", data.model, "history"),
@@ -31,25 +47,13 @@ class Model extends BaseModel {
           error: this.buildActionName("error", data.model, "delivery"),
         },
         deliveryAddress: {
-          request: this.buildActionName(
-            "request",
-            data.model,
-            "deliveryaddress",
-          ),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "deliveryaddress",
-          ),
+          request: this.buildActionName("request", data.model, "deliveryaddress"),
+          response: this.buildActionName("response", data.model, "deliveryaddress"),
           error: this.buildActionName("error", data.model, "deliveryaddress"),
         },
         resetPassword: {
           request: this.buildActionName("request", data.model, "resetpassword"),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "resetpassword",
-          ),
+          response: this.buildActionName("response", data.model, "resetpassword"),
           error: this.buildActionName("error", data.model, "resetpassword"),
         },
         deleteWish: {
@@ -59,20 +63,12 @@ class Model extends BaseModel {
         },
         deleteHistory: {
           request: this.buildActionName("request", data.model, "deletehistory"),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "deletehistory",
-          ),
+          response: this.buildActionName("response", data.model, "deletehistory"),
           error: this.buildActionName("error", data.model, "deletehistory"),
         },
         deleteAddress: {
           request: this.buildActionName("request", data.model, "deleteaddress"),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "deleteaddress",
-          ),
+          response: this.buildActionName("response", data.model, "deleteaddress"),
           error: this.buildActionName("error", data.model, "deleteaddress"),
         },
         addWish: {
@@ -80,49 +76,10 @@ class Model extends BaseModel {
           response: this.buildActionName("response", data.model, "addwish"),
           error: this.buildActionName("error", data.model, "addwish"),
         },
-        /* customer: {
-          request: this.buildActionName("request", data.model, "customer"),
-          response: this.buildActionName("response", data.model, "customer"),
-          error: this.buildActionName("error", data.model, "customer"),
-        }, */
         committelocation: {
-          request: this.buildActionName(
-            "request",
-            data.model,
-            "committelocation",
-          ),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "committelocation",
-          ),
+          request: this.buildActionName("request", data.model, "committelocation"),
+          response: this.buildActionName("response", data.model, "committelocation"),
           error: this.buildActionName("error", data.model, "committelocation"),
-        },
-        systemlocation: {
-          request: this.buildActionName(
-            "request",
-            data.model,
-            "systemlocation",
-          ),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "systemlocation",
-          ),
-          error: this.buildActionName("error", data.model, "systemlocation"),
-        },
-        districtlocation: {
-          request: this.buildActionName(
-            "request",
-            data.model,
-            "districtlocation",
-          ),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "districtlocation",
-          ),
-          error: this.buildActionName("error", data.model, "districtlocation"),
         },
         useraddress: {
           request: this.buildActionName("request", data.model, "useraddress"),
@@ -140,16 +97,8 @@ class Model extends BaseModel {
           error: this.buildActionName("error", data.model, "updatemain"),
         },
         changePassword: {
-          request: this.buildActionName(
-            "request",
-            data.model,
-            "changepassword",
-          ),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "changepassword",
-          ),
+          request: this.buildActionName("request", data.model, "changepassword"),
+          response: this.buildActionName("response", data.model, "changepassword"),
           error: this.buildActionName("error", data.model, "changepassword"),
         },
         emartCard: {
@@ -159,11 +108,7 @@ class Model extends BaseModel {
         },
         checkConfirm: {
           request: this.buildActionName("request", data.model, "checkconfirm"),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "checkconfirm",
-          ),
+          response: this.buildActionName("response", data.model, "checkconfirm"),
           error: this.buildActionName("error", data.model, "checkconfirm"),
         },
         userPic: {
@@ -183,87 +128,100 @@ class Model extends BaseModel {
         },
         editemail: {
           request: this.buildActionName("request", data.model, "editemail"),
-          response: this.buildActionName(
-            "response",
-            data.model,
-            "editemail",
-          ),
+          response: this.buildActionName("response", data.model, "editemail"),
           error: this.buildActionName("error", data.model, "editemail"),
         },
       };
     }
   }
-  // Location
+  clearProfileModalState = () => ({
+    type: "CLEAR_PROFILE",
+  });
+
   getSystemLocationProfile = () =>
     asyncFn({
       url: `/systemlocation`,
       method: "GET",
       model: this.model.systemlocation,
     });
+
   getDistrictLocation = ({ id } = {}) =>
     asyncFn({
       url: `/systemlocation/${id}`,
       method: "GET",
       model: this.model.districtlocation,
     });
+
+  getEpoint = () =>
+    asyncFn({
+      url: `/customer/card`,
+      method: 'GET',
+      model: this.model.getEpoint,
+    });
+
   getCommmitteLocation = ({ provid, distid } = {}) =>
     asyncFn({
       url: `/systemlocation/committe/${provid}/${distid}`,
       method: "GET",
       model: this.model.committelocation,
     });
-  // GET
+
   getUserInfoProfile = () =>
     asyncFn({
       url: `/customer/address`,
       method: "GET",
       model: this.model.useraddress,
     });
-  // getCustomer = () =>
-  //   asyncFn({ url: `/customer`, method: "GET", model: this.model.customer });
+
   getHistory = () =>
     asyncFn({
       url: `/customer/viewlist`,
       method: "GET",
       model: this.model.history,
     });
+
   getWish = () =>
     asyncFn({
       url: `/customer/wishlist`,
       method: "GET",
       model: this.model.wish,
     });
+
   getWishByCount = ({ count }) =>
     asyncFn({
       url: `/customer/wishlist/${count}`,
       method: "GET",
       model: this.model.wish,
     });
+
   getDelivery = () =>
     asyncFn({
       url: `/order/all`,
       method: "GET",
       model: this.model.delivery,
     });
+
   getDeliveryAddress = ({ custid }) =>
     asyncFn({
       url: `/cutomer/address/${custid}`,
       method: "GET",
       model: this.model.deliveryAddress,
     });
+
   getOrderDetail = ({ ordid }) =>
     asyncFn({
       url: `/order/detail/${ordid}`,
       method: "GET",
       model: this.model.orderDetail,
     });
-  // POST
+
   addWish = ({ skucd }) =>
     asyncFn({
       url: `/customer/wishlist/${skucd}`,
       method: `POST`,
       model: this.model.addWish,
     });
+
   addAddress = ({ body }) =>
     asyncFn({
       body,
@@ -271,6 +229,7 @@ class Model extends BaseModel {
       method: `POST`,
       model: this.model.addAddress,
     });
+
   userPic = ({ body, isfiles }) =>
     asyncFn({
       body,
@@ -279,7 +238,7 @@ class Model extends BaseModel {
       model: this.model.userPic,
       isfiles,
     });
-  // PUT
+
   resetPassword = ({ body }) =>
     asyncFn({
       body,
@@ -287,12 +246,14 @@ class Model extends BaseModel {
       method: `PUT`,
       model: this.model.resetPassword,
     });
+
   emartCard = ({ cardno, pincode }) =>
     asyncFn({
       url: `/customer/card/${cardno}/${pincode}`,
       method: `POST`,
       model: this.model.emartCard,
     });
+
   changePassword = ({ key, password }) =>
     asyncFn(
       {
@@ -301,12 +262,14 @@ class Model extends BaseModel {
         model: this.model.changePassword,
       },
     );
+
   checkKey = ({ key }) =>
     asyncFn({
       url: `/customer/checkpasswordkey/${key}`,
       method: `GET`,
       model: this.model.checkKey,
     });
+
   updateMain = ({ body }) =>
     asyncFn({
       body,
@@ -314,77 +277,74 @@ class Model extends BaseModel {
       method: `PUT`,
       model: this.model.updateMain,
     });
+
   confirm = ({ key }) =>
     asyncFn({
       url: `/customer/checkkey/${key}`,
       method: `PUT`,
       model: this.model.checkConfirm,
     });
-  resetPassword = ({ body }) =>
-    asyncFn({
-      body,
-      url: `/customer/passreset`,
-      method: `PUT`,
-      model: this.model.resetPassword,
-    });
-  emartCard = ({ cardno, pincode }) =>
-    asyncFn({
-      url: `/customer/card/${cardno}/${pincode}`,
-      method: `POST`,
-      model: this.model.emartCard,
-    });
-  changePassword = ({ key, password }) =>
-    asyncFn(
-      {
-        url: `/customer/putchangepass/${key}/${password}`,
-        method: `PUT`,
-        model: this.model.changePassword,
-      },
-    );
-  checkKey = ({ key }) =>
-    asyncFn({
-      url: `/customer/checkpasswordkey/${key}`,
-      method: `GET`,
-      model: this.model.checkKey,
-    });
-  updateMain = ({ body }) =>
-    asyncFn({
-      body,
-      url: `/customer`,
-      method: `PUT`,
-      model: this.model.updateMain,
-    });
-  confirm = ({ key }) =>
-    asyncFn({
-      url: `/customer/checkkey/${key}`,
-      method: `PUT`,
-      model: this.model.checkConfirm,
-    });
-  // DELETE
+
   deleteWish = ({ skucd }) =>
     asyncFn({
       url: `/customer/wishlist/${skucd}`,
       method: `DELETE`,
       model: this.model.deleteWish,
     });
+
   deleteHistory = ({ skucd }) =>
     asyncFn({
       url: `/customer/seenlist/${skucd}`,
       method: `DELETE`,
       model: this.model.deleteHistory,
     });
+
   deleteAddress = ({ id }) =>
     asyncFn({
       url: `/customer/address/${id}`,
       method: `DELETE`,
       model: this.model.deleteAddress,
     });
+
   editEmail = values => asyncFn({
     url: `/customer/profilemail/${values}`, method: 'PUT', model: this.model.editemail,
   });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // LOG OUT
+      case "CLEAR_PROFILE":
+        return {
+          ...state,
+          epointCardInfo: [],
+          history: [],
+          wish: [],
+          delivery: [],
+          orderdetail: [],
+          confirms: [],
+          checkKeys: [],
+        };
+      // GET EPOINT
+      case this.model.getEpoint.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.getEpoint.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.getEpoint.response:
+        return { ...state, epointCardInfo: action.payload.data };
+      // GET SYSTEM LOCATION
+      case this.model.systemlocation.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.systemlocation.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.systemlocation.response:
+        return { ...state, systemlocation: action.payload.data };
+      // GET DISTRICT LOCATION
+      case this.model.districtlocation.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.districtlocation.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.districtlocation.response:
+        return { ...state, districtlocation: action.payload.data };
       // GET Order Detail
       case this.model.orderDetail.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -405,18 +365,7 @@ class Model extends BaseModel {
       case this.model.useraddress.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.useraddress.response:
-        return {
-          ...state,
-          useraddress: action.payload.data,
-          addrs: action.payload.data.addrs,
-        };
-      // GET Customer info
-      /* case this.model.customer.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.customer.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.customer.response:
-        return { ...state, userInfo: action.payload.data }; */
+        return { ...state, useraddress: action.payload.data, addrs: action.payload.data.addrs };
       // GET Histrory products
       case this.model.history.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -493,7 +442,6 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.checkKey.response:
         return { ...state, checkKeys: action.payload };
-      // LOCATION
       // GET COMMITTE LOCATION
       case this.model.committelocation.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -501,20 +449,7 @@ class Model extends BaseModel {
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.committelocation.response:
         return { ...state, committelocation: action.payload.data };
-      // GET SYSTEM LOCATION
-      case this.model.systemlocation.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.systemlocation.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.systemlocation.response:
-        return { ...state, systemlocation: action.payload.data };
-      // GET DISTRICT LOCATION
-      case this.model.districtlocation.request:
-        return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.districtlocation.error:
-        return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.districtlocation.response:
-        return { ...state, districtlocation: action.payload.data };
+
       default:
         return state;
     }

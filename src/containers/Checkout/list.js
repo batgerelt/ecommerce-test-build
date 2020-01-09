@@ -48,7 +48,8 @@ class Checkout extends React.Component {
       chosenPaymentType: {},
       useEpoint: false,
       epointUsedPoint: 0,
-      cardInfo: null,
+      cardInfo: [],
+      ePointServer: {},
       freeCond: 0,
       submitLoading: false,
     };
@@ -85,6 +86,9 @@ class Checkout extends React.Component {
   componentWillMount = () => {
     this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
+    this.props.getEpoint().then((res) => {
+      this.setState({ cardInfo: res.payload.data, ePointServer: res.payload });
+    });
     if (this.checkLoggedIn()) {
       if (!this.props.loading) {
         this.setState({ activeKey: "2", chnged: true });

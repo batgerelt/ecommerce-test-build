@@ -1,3 +1,10 @@
+/**
+ * @author Ariunkhuslen
+ * @email ga.ariuka27@gmail.com
+ * @create date 2020-01-08 14:46:04
+ * @modify date 2020-01-08 14:46:04
+ * @desc [description]
+ */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-danger */
@@ -25,6 +32,7 @@ const mapStateToProps = state => ({
   ...state.cart,
   ...state.staticcontent,
   getOrderDetail: state.profile.getOrderDetail,
+  epointCardInfo: state.profile.epointCardInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -47,18 +55,16 @@ class Page extends React.Component {
     this.getData();
   }
 
-  getData = async () => {
+  getData = () => {
     this.props.getPaymentTypes();
-    await this.props.getDeliveryTypes();
+    this.props.getDeliveryTypes();
     this.props.getBankInfo();
     if (localStorage.getItem("auth") !== null) {
-      await this.props.getUserInfo().then((res) => {
-        this.setState({ loading: false });
+      this.props.getUserInfo().then(() => {
+        this.props.getSystemLocation().then(() => {
+          this.setState({ loading: false });
+        });
       });
-      this.props.getSystemLocation();
-      /* this.props.getEpointCardInfo().then((res) => {
-        console.log(res);
-      }); */
     } else {
       this.setState({ loading: false });
     }

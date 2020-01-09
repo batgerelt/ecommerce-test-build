@@ -181,111 +181,107 @@ class IndividualTab extends React.Component {
     return false;
   }
 
-
   renderForm = () => {
     try {
       const { intl, mainState } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { useEpoint } = this.state;
-      return (
-        <Form onSubmit={this.onSubmit} style={{ padding: "10px 0px" }}>
-          {
-            mainState.cardInfo === null ?
-              <div>
-                <div className="row row10 checkoutFormContainer">
-                  <Col span={24}>
-                    <div className="form-group">
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                        <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
-                        <Form.Item>
-                          {getFieldDecorator("cardno", {
-                            initialValue: this.state.cardno,
-                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
-                            { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
-                            { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) }],
-                          })(
-                            <NumberInput
-                              placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
-                              maxLength={14}
-                              allowClear
-                              size="large"
-                              className="col-md-12"
-                              autoComplete="new-password"
-                              onClick={this.cardNovalue}
-                            />,
-                          )}
-                        </Form.Item>
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                        <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
-                        <Form.Item>
-                          {getFieldDecorator("pincode", {
-                            initialValue: "",
-                            rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) }],
-                          })(
-                            <NumberInput
-                              placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
-                              maxLength={4}
-                              allowClear
-                              type="password"
-                              size="large"
-                              className="col-md-12"
-                              autoComplete="new-password"
-                            />,
-                          )}
-                        </Form.Item>
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                        <div className="text d-flex delivery-info-message" style={{ padding: "8px 15px 8px 15px" }}>
-                          <i
-                            className="fa fa-info"
-                            aria-hidden="true"
-                            style={{
-                              width: '24px',
-                              fontSize: '1.2rem',
-                              color: '#feb415',
-                              textAlign: "left",
-                              display: "block",
-                            }}
-                          />
-                          <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: "shared.form.cardPassword.warningmessage" })}</p>
-                        </div>
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                        <button style={{ margin: '0px', width: '100%', fontSize: '0.8rem' }} type="submit" disabled={this.checkCardValue()} className="btn btn-dark"><FormattedMessage id="shared.form.button.connect" /></button>
-                      </Col>
+      if (mainState.ePointServer.success !== undefined && !mainState.ePointServer.success) {
+        return (
+          <div>
+            <div className="row row10 checkoutFormContainer">
+              <Col span={24}>
+                <div className="form-group">
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("cardno", {
+                        initialValue: this.state.cardno,
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.required" }) },
+                        { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardno.validation.pattern" }) },
+                        { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) }],
+                      })(
+                        <NumberInput
+                          placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
+                          maxLength={14}
+                          allowClear
+                          size="large"
+                          className="col-md-12"
+                          autoComplete="new-password"
+                          onClick={this.cardNovalue}
+                        />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("pincode", {
+                        initialValue: "",
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.cardPassword.validation.required" }) }],
+                      })(
+                        <NumberInput
+                          placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
+                          maxLength={4}
+                          allowClear
+                          type="password"
+                          size="large"
+                          className="col-md-12"
+                          autoComplete="new-password"
+                        />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                    <div className="text d-flex delivery-info-message" style={{ padding: "8px 15px 8px 15px" }}>
+                      <i
+                        className="fa fa-info"
+                        aria-hidden="true"
+                        style={{
+                          width: '24px',
+                          fontSize: '1.2rem',
+                          color: '#feb415',
+                          textAlign: "left",
+                          display: "block",
+                        }}
+                      />
+                      <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: "shared.form.cardPassword.warningmessage" })}</p>
                     </div>
                   </Col>
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                    <button style={{ margin: '0px', width: '100%', fontSize: '0.8rem' }} type="submit" disabled={this.checkCardValue()} className="btn btn-dark"><FormattedMessage id="shared.form.button.connect" /></button>
+                  </Col>
                 </div>
-              </div> :
-              <div>
-                <Col span={24} style={{ display: 'flex', marginBottom: '10px' }}>
-                  <Col xs={14} sm={14} md={14} lg={14} xl={14}>
-                    {getFieldDecorator("cardPoint", {
-                      initialValue: formatter.format(mainState.cardInfo.status === 1 ? mainState.cardInfo.point : 0),
-                      rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
-                    })(
-                      <Input size="large" autoComplete="false" disabled type="text" placeholder={intl.formatMessage({ id: "shared.form.epoint.placeholder" })} style={{ marginBottom: 0, paddingLeft: '10px' }} className="col-md-12" />,
-                    )}
-                    {
-                      mainState.cardInfo.status === 0 ?
-                        <label style={{
-                          marginLeft: "1rem", fontSize: "0.7rem", marginTop: "0.2rem",
-                        }}
-                        >
-                          {intl.formatMessage({ id: mainState.cardInfo.code })}
-                        </label>
-                        : ""
-                    }
-                  </Col>
-                  <Col xs={7} sm={7} md={7} lg={7} xl={7} style={{ marginLeft: '12px' }}>
-                    <button className="second-btn btn btn-dark" style={{ marginTop: '6px', marginBottom: '0px' }} disabled={!!(useEpoint || mainState.cardInfo.status === 0)} onClick={this.handleUsePoint}>
-                      <FormattedMessage id="shared.form.button.use" />
-                    </button>
-                  </Col>
-                </Col>
-              </div>
-          }
+              </Col>
+            </div>
+          </div>
+        );
+      }
+      return (
+        <Form style={{ padding: "10px 0px" }}>
+          <div>
+            <Col span={24} style={{ display: 'flex', marginBottom: '10px' }}>
+              <Col xs={14} sm={14} md={14} lg={14} xl={14}>
+                {getFieldDecorator("cardPoint", {
+                  initialValue: 0,
+                  rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
+                })(
+                  <Input size="large" disabled type="text" style={{ marginBottom: 0, paddingLeft: '10px' }} className="col-md-12" />,
+                )}
+                <label style={{
+                  marginLeft: "1rem", fontSize: "0.7rem", marginTop: "0.2rem",
+                }}
+                >
+                  {intl.formatMessage({ id: "624" })}
+                </label>
+              </Col>
+              <Col xs={7} sm={7} md={7} lg={7} xl={7} style={{ marginLeft: '12px' }}>
+                <button className="second-btn btn btn-dark" style={{ marginTop: '6px', marginBottom: '0px' }} disabled>
+                  <FormattedMessage id="shared.form.button.use" />
+                </button>
+              </Col>
+            </Col>
+          </div>
         </Form >
       );
     } catch (error) {
