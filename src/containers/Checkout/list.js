@@ -83,12 +83,17 @@ class Checkout extends React.Component {
     }
   }
 
+  getEpointSignin = () => {
+    if (localStorage.getItem('emartmall_token') !== null) {
+      this.props.getEpoint().then((res) => {
+        this.setState({ cardInfo: res.payload.data, ePointServer: res.payload });
+      });
+    }
+  }
+
   componentWillMount = () => {
     this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
-    this.props.getEpoint().then((res) => {
-      this.setState({ cardInfo: res.payload.data, ePointServer: res.payload });
-    });
     if (this.checkLoggedIn()) {
       if (!this.props.loading) {
         this.setState({ activeKey: "2", chnged: true });
@@ -502,7 +507,7 @@ class Checkout extends React.Component {
                   </div>
                 </div>
                 {
-                  localStorage.getItem("auth") ?
+                  localStorage.getItem("emartmall_token") ?
                     <DeliveryInfo
                       onRef={ref => (this.DeliveryInfo = ref)}
                       onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
@@ -512,6 +517,7 @@ class Checkout extends React.Component {
                       changeCardInfo={this.changeCardInfo}
                       container={this.container}
                       changeEpointUsedPoint={this.changeEpointUsedPoint}
+                      getEpointSignin={this.getEpointSignin}
                       {...this.props}
                     /> : null
                 }

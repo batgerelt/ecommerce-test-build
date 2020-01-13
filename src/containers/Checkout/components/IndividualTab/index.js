@@ -24,6 +24,10 @@ class IndividualTab extends React.Component {
     cardno: null,
   };
 
+  componentWillMount() {
+    this.props.getEpointSignin();
+  }
+
   errorMsg = (code) => {
     // MySwal.hideLoading();
     MySwal.close();
@@ -248,8 +252,8 @@ class IndividualTab extends React.Component {
                       <p className="text flex-this" style={{ fontSize: "13px" }}>{intl.formatMessage({ id: "shared.form.cardPassword.warningmessage" })}</p>
                     </div>
                   </Col>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                    <button style={{ margin: '0px', width: '100%', fontSize: '0.8rem' }} type="submit" disabled={this.checkCardValue()} className="btn btn-dark"><FormattedMessage id="shared.form.button.connect" /></button>
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" style={{ marginBottom: "10px" }}>
+                    <button style={{ margin: '0px', width: '100%', fontSize: '0.8rem' }} onClick={this.connectEpoint} disabled={this.checkCardValue()} className="btn btn-dark"><FormattedMessage id="shared.form.button.connect" /></button>
                   </Col>
                 </div>
               </Col>
@@ -260,11 +264,10 @@ class IndividualTab extends React.Component {
       return (
         <Form style={{ padding: "10px 0px" }}>
           <div>
-            <Col span={24} style={{ display: 'flex', marginBottom: '10px' }}>
+            <Col span={24} style={{ display: 'flex' }}>
               <Col xs={14} sm={14} md={14} lg={14} xl={14}>
                 {getFieldDecorator("cardPoint", {
-                  initialValue: 0,
-                  rules: [{ required: false, message: intl.formatMessage({ id: "shared.form.epoint.validation.required" }) }],
+                  initialValue: mainState.ePointServer.success ? mainState.cardInfo.point : 0,
                 })(
                   <Input size="large" disabled type="text" style={{ marginBottom: 0, paddingLeft: '10px' }} className="col-md-12" />,
                 )}
@@ -272,11 +275,11 @@ class IndividualTab extends React.Component {
                   marginLeft: "1rem", fontSize: "0.7rem", marginTop: "0.2rem",
                 }}
                 >
-                  {intl.formatMessage({ id: "624" })}
+                  {mainState.ePointServer.success ? null : intl.formatMessage({ id: "624" })}
                 </label>
               </Col>
               <Col xs={7} sm={7} md={7} lg={7} xl={7} style={{ marginLeft: '12px' }}>
-                <button className="second-btn btn btn-dark" style={{ marginTop: '6px', marginBottom: '0px' }} disabled>
+                <button className="second-btn btn btn-dark" style={{ marginTop: '6px', marginBottom: '0px' }} onClick={this.handleUsePoint} disabled={useEpoint}>
                   <FormattedMessage id="shared.form.button.use" />
                 </button>
               </Col>

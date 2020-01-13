@@ -41,7 +41,7 @@ class Component extends React.Component {
     };
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
-        localStorage.setItem('next', JSON.stringify(res.payload.data.info));
+        localStorage.setItem('emartmall_co', res.payload.data.info.firstname);
         localStorage.setItem('percent', res.payload.data.info.cstatus);
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
@@ -147,7 +147,6 @@ class Component extends React.Component {
           // eslint-disable-next-line no-else-return
         } else {
           this.props.updateMain({ body: param }).then((res) => {
-            console.log("Res", res);
             if (res.payload.success) {
               this.getdata();
               store.addNotification({

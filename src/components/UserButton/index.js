@@ -132,7 +132,6 @@ class UserButton extends React.Component {
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('percent', res.payload.data.info.cstatus);
-            localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             this.setState({ showButton: false });
           }
         });
@@ -192,6 +191,15 @@ class UserButton extends React.Component {
     }
   }
 
+  handleLoginhandleLogin = () => {
+    const { pathname } = this.props.location;
+    if (pathname === "/checkout") {
+      console.log("checkoutLogin: ", this.props.checkoutLogin);
+    } else {
+      this.handleLogin();
+    }
+  }
+
   render() {
     const { pathname } = this.props.location;
     const {
@@ -204,7 +212,7 @@ class UserButton extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
-      <li className="list-inline-item login-button-material" onClick={this.handleLogin}>
+      <li className="list-inline-item login-button-material" onClick={this.handleLoginhandleLogin}>
         <ButtonGoogle>
           <div className="text-uppercase" style={{ cursor: 'default' }}>
             <FormattedMessage id="header.profile.text" />
@@ -214,16 +222,6 @@ class UserButton extends React.Component {
     );
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        const user1 = JSON.parse(localStorage.getItem('next'));
-        let user = [];
-        user = user1;
-        let lucky1 = [];
-        if (user1 === null) {
-          const lucky = JSON.parse(localStorage.getItem('auth'));
-          user = lucky.data[0].info.customerInfo;
-          localStorage.setItem('next', JSON.stringify(user));
-          localStorage.setItem('img', user.imgnm);
-        }
         let realImage = "";
         let realImage1 = localStorage.getItem('img');
         if (realImage1.slice(0, 5) === "https") {
@@ -238,7 +236,7 @@ class UserButton extends React.Component {
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
               </div>
-              <span className="">{user === null ? " " : localStorage.getItem('emartmall_co')}</span>
+              <span className="">{localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}</span>
             </Link>
             {/* Desktop */}
             <div className={`dropdown ${visible ? ' open' : ''}`} >
@@ -250,7 +248,7 @@ class UserButton extends React.Component {
                         <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
                       </div>
                       <p className="name">
-                        {user === null ? " " : user.firstname}
+                        {localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}
                       </p>
                     </div>
                     {this.renderProgress1()}
@@ -363,11 +361,11 @@ class UserButton extends React.Component {
                             indicator={antIcon}
                           >
                             <div className={style.avatarpreview}>
-                              {showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.renderImage(user)}
+                              {showButton ? <div id="imagePreview" style={{ backgroundImage: `url(${imageUrl})` }} /> : this.renderImage(localStorage.getItem('emartmall_co'))}
                             </div>
                           </Spin>
                         </Upload>
-                        <span style={{ color: "white" }}>{user === null ? " " : user.firstname}</span>
+                        <span style={{ color: "white" }}>{localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}</span>
                         {this.state.showButton ? <Button style={{ marginLeft: "10px", padding: "5px 5px 5px 5px" }} onClick={this.uploadPick}><p style={{ marginBottom: "0px", color: "black" }}>{intl.formatMessage({ id: "shared.form.button.save" })}</p></Button> : null}
                       </div>
                       {this.renderProgress()}
