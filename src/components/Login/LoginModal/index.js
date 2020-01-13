@@ -259,10 +259,11 @@ class LoginModal extends React.Component {
       }
       return null;
     }
-    // this.closeLoginModal();
     localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+    localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
+    localStorage.setItem('emartmall_token', result.payload.data[0].info.access_token);
     if (pathname === `/productdetail/${sku}`) {
       this.props.getProductRate({ skucd: sku });
       this.props.addViewList({ skucd: sku });

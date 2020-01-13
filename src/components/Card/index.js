@@ -29,7 +29,6 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
-    console.log('bagts');
     const { intl, elastic } = this.props;
     try {
       if (localStorage.getItem('auth') !== null) {
@@ -120,7 +119,6 @@ class Card extends React.Component {
           }
         } else {
           this.setState({ loading: false });
-          //
         }
       } else {
         if (item.skucd) {

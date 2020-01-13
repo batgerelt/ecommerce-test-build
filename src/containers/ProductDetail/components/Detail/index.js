@@ -21,6 +21,7 @@ class Detail extends Component {
     this.state = {
       productQty: this.props.detail.products.addminqty || 1,
       rate: 0,
+      loading: false,
     };
   }
 
@@ -284,7 +285,7 @@ class Detail extends Component {
           <Button
             ref={this.proceedRef}
             className="btn btn-main text-uppercase"
-            disabled={detail.availableqty < 1}
+            disabled={detail.availableqty < 1 || this.state.loading}
             onClick={() => this.handleAddToCart(detail)}
             style={{
               backgroundColor: "#FFB81C",
@@ -293,7 +294,8 @@ class Detail extends Component {
               fontSize: "14.4px",
             }}
           >
-            <i className="fa fa-shopping-cart" aria-hidden="true" />
+            <i className={`fa ${this.state.loading ? "fa-spin" : "fa fa-shopping-cart"}`} aria-hidden="true" />
+            {/* <i className="fa fa-shopping-cart" aria-hidden="true" /> */}
             <span style={{ paddingLeft: "5px" }}>{detail.availableqty < 1 ? <FormattedMessage id="productDetail.button.soldout" /> : <FormattedMessage id="productDetail.button.addToCart" />}</span>
           </Button>
         </div>
@@ -346,9 +348,6 @@ class Detail extends Component {
 
     let price = detail.price;
 
-    // if (detail.issalekg && detail.kgproduct[0]) {
-    //   price = detail.kgproduct[0].salegramprice;
-    // }
     if (detail.discountprice !== 0) {
       price = detail.discountprice;
     }
@@ -471,6 +470,7 @@ class Detail extends Component {
 
   // eslint-disable-next-line consistent-return
   handleAddToCart = async (product) => {
+    this.setState({ loading: true });
     const { intl } = this.props;
     if (this.props.isLoggedIn) {
       const result = await this.props.increaseProductByQtyRemotely({
@@ -509,13 +509,13 @@ class Detail extends Component {
         qty: this.state.productQty,
         insymd: Date.now(),
       });
-      this.props.increaseProductByQtyLocally({
+      await this.props.increaseProductByQtyLocally({
         ...product,
         qty: this.state.productQty,
         insymd: Date.now(),
       });
 
-      const updated = this.props.products.find(prod => prod.skucd === product.skucd);
+      const updated = await this.props.products.find(prod => prod.skucd === product.skucd);
       if (updated && updated.error) {
         const messages = defineMessages({
           warning: {
@@ -541,6 +541,7 @@ class Detail extends Component {
         });
       }
     }
+    this.setState({ loading: false });
   };
 
   render() {
