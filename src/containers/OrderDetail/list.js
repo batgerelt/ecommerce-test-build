@@ -26,7 +26,6 @@ class List extends React.Component {
     const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
-      console.log("orderDetail", orderdetail);
       return orderdetail.items.map((item, index) => (
         <tr key={index}>
           <td>
@@ -203,7 +202,6 @@ class List extends React.Component {
     const { intl } = this.props;
     this.setState({ loading: true });
     this.props.incrementOrderProducts({ orderid: this.props.orderdetail.info.id }).then((result) => {
-      console.log("result", result);
       this.setState({ loading: false });
       const failedProducts = result.payload.data.fail;
       if (failedProducts.length > 0) {

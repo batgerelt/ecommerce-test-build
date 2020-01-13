@@ -505,6 +505,7 @@ class DeliveryInfo extends React.Component {
                   changeCardInfo={this.props.changeCardInfo}
                   changeEpointUsedPoint={this.props.changeEpointUsedPoint}
                   showModal={this.showModal}
+                  getEpointSignin={this.props.getEpointSignin}
                 /> : null
               }
               <Checkbox className={this.state.notif ? "agreementcheck" : ""} checked={checkedAgreement} onChange={this.handleAgreement} autoFocus={this.state.notif} />

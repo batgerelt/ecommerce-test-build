@@ -29,6 +29,7 @@ class Card extends React.Component {
 
   // eslint-disable-next-line consistent-return
   handleIncrement = async (item) => {
+    console.log('bagts');
     const { intl, elastic } = this.props;
     try {
       if (localStorage.getItem('auth') !== null) {
@@ -93,19 +94,16 @@ class Card extends React.Component {
             packageid: item.id,
           });
           this.setState({ loading: false });
-          console.log("res", result.payload);
           const failedProducts = result.payload.data.fail;
-          console.log("failedProduct", failedProducts);
           if (failedProducts.length > 0) {
             const names = failedProducts.map(prod => prod.values[1]);
-            console.log("names", names);
             store.addNotification({
               insert: "top",
               container: "top-right",
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 3000,
+                duration: 5000,
                 onScreen: false,
               },
               content: <Notification
@@ -253,7 +251,7 @@ class Card extends React.Component {
           }
         } else if (item.id) {
           const result = await this.props.getPackageProducts({ id: item.id });
-          // console.log('result: ', result);
+
           const products = result.payload.data.products.map(prod => ({
             ...prod,
             insymd: Date.now(),
@@ -270,7 +268,7 @@ class Card extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 3000,
+                duration: 5000,
                 onScreen: false,
               },
               content: <Notification
@@ -580,7 +578,7 @@ class Card extends React.Component {
                         backgroundImage: `url(${process.env.IMAGE + (item.img === undefined ? item.imgnm : item.img)})`,
                         backgroundSize: "contain",
                       }}
-                      // onLoad={this.props.onLoad}
+                    // onLoad={this.props.onLoad}
                     />
                   </Link>
                   {elastic ? <ElasticLabel data={item} tags={tags} isDiscount={isDiscount} /> :

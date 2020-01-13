@@ -117,7 +117,6 @@ class List extends React.Component {
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('percent', res.payload.data.info.cstatus);
-            localStorage.setItem('next', JSON.stringify(res.payload.data.info));
             this.setState({ showButton: false });
           }
         });
@@ -157,7 +156,7 @@ class List extends React.Component {
             position: 'absolute',
           }}
         >
-          <strong style={{ marginBottom: "-10px" }}>{info.firstname}</strong>
+          <strong style={{ marginBottom: "-10px" }}>{localStorage.getItem('emartmall_co')}</strong>
           {this.state.showButton ?
             <Button style={{ marginTop: "-5px", marginLeft: "5px", color: "black" }} onClick={this.uploadPick}>{intl.formatMessage({ id: "shared.form.button.save" })}</Button>
             :

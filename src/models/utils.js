@@ -26,6 +26,10 @@ const request = ({
       if (response.status === 401 || response.status === 403) {
         // localStorage.setItem('tokenExpired', true);
         localStorage.removeItem('auth');
+        localStorage.removeItem('emartmall_token');
+        localStorage.removeItem('emartmall_co');
+        localStorage.removeItem('img');
+        localStorage.removeItem('percent');
       }
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -59,6 +63,10 @@ const request = ({
     if (response.status === 401) {
       localStorage.setItem('tokenExpired', true);
       localStorage.removeItem('auth');
+      localStorage.removeItem('emartmall_token');
+      localStorage.removeItem('emartmall_co');
+      localStorage.removeItem('img');
+      localStorage.removeItem('percent');
     }
 
     if (!response.ok) {

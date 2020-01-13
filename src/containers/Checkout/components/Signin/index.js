@@ -68,7 +68,6 @@ class Signin extends React.Component {
     localStorage.setItem('img', r.payload.data[0].info.customerInfo.imgnm);
     localStorage.setItem('auth', JSON.stringify(r.payload));
     localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
-    localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
     // eslint-disable-next-line consistent-return
     this.props.getUserInfo().then(async (res) => {
       if (res.payload.success) {
@@ -139,10 +138,10 @@ class Signin extends React.Component {
         this.props.login({ body: { ...values } }).then(async (r) => {
           this.setState({ loading: true });
           if (r.payload.success) {
+            localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
             localStorage.setItem('img', r.payload.data[0].info.customerInfo.imgnm);
             localStorage.setItem('auth', JSON.stringify(r.payload));
             localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
-            localStorage.setItem('next', JSON.stringify(r.payload.data[0].info.customerInfo));
             store.addNotification({
               insert: "top",
               container: "top-right",
@@ -156,14 +155,16 @@ class Signin extends React.Component {
             });
             // eslint-disable-next-line consistent-return
             this.props.getUserInfo().then(async (res) => {
+              localStorage.setItem('emartmall_token', r.payload.data[0].info.access_token);
               if (res.payload.success) {
                 if (res.payload.data.main !== null) {
-                  this.props.getDistrictLocation({ id: res.payload.data.main.provinceid });
+                  this.props.getDistrictLocation({ id: res.payload.data.main.provinceid }).then(() => {
+                    localStorage.setItem('emartmall_token', r.payload.data[0].info.access_token);
+                  });
                   this.props.getCommmitteLocation({ provid: res.payload.data.main.provinceid, distid: res.payload.data.main.districtid });
                 }
-
+                this.props.getSystemLocation();
                 let confirmResult = await this.props.confirmCartRemotely();
-
                 if (!confirmResult.payload.success) {
                   if (confirmResult.payload.data.length > 0) {
                     let reasons = [];
@@ -198,7 +199,6 @@ class Signin extends React.Component {
                         />,
                       });
                     }
-
                     return this.props.history.push("/cart");
                   }
                 }
@@ -250,9 +250,6 @@ class Signin extends React.Component {
             }).catch((err) => {
               console.log('err: ', err);
             });
-            this.props.getSystemLocation({});
-            await this.props.getUserInfo();
-            await this.props.getSystemLocation();
           } else {
             store.addNotification({
               insert: "top",
@@ -337,7 +334,7 @@ class Signin extends React.Component {
               </Button>
               <label className="checkout-hover" style={{ float: "right" }}>
                 <Link
-                  to=""
+                  to="#"
                   className="btn btn-link upper-first forgot-password"
                   onClick={this.handleResetPassword}
                 >

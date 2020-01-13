@@ -30,7 +30,6 @@ class OrderDetail extends React.Component {
     let id = this.props.match.params.id.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
     let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
     let plaintext = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("plaintext", plaintext);
     this.props.getOrderDetail({ ordid: plaintext });
   }
 
