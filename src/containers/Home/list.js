@@ -3,6 +3,7 @@ import { injectIntl } from 'react-intl';
 import moment from "moment";
 import { Icon } from "react-fa";
 import { isMobileOnly } from 'react-device-detect';
+import { BackTop } from "antd";
 
 import { Slider, Widget, Banner, Loader } from "../../components";
 import { WIDGET_SLUGS } from "../../utils/Consts";
@@ -237,6 +238,7 @@ class Homepage extends React.Component {
             </div>
           </div>
         }
+        <BackTop />
       </div>
     );
   }

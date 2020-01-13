@@ -70,7 +70,7 @@ class Bookmarks extends PureComponent {
 
   generateItemHeight = () => {
     if (window.innerWidth < 576) {
-      return 300;
+      return 320;
     } else if (window.innerWidth < 768) {
       return 405;
     } else if (window.innerWidth < 992) {
@@ -81,7 +81,6 @@ class Bookmarks extends PureComponent {
       return 350;
     }
   }
-
 
   renderSubBanner = () => {
     try {
