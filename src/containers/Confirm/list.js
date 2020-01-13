@@ -16,7 +16,6 @@ class List extends React.Component {
   };
 
   handleLogin = () => {
-    this.setState({ second: false });
     this.props.LoginModal.handleLoginModal();
   }
 

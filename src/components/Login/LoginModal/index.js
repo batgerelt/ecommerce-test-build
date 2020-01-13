@@ -56,6 +56,7 @@ class LoginModal extends React.Component {
   }
 
   goHome() {
+    console.log(this.state.confirm);
     return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
   }
 
@@ -166,7 +167,7 @@ class LoginModal extends React.Component {
                     this.props.getUserInfo();
                     this.props.getSystemLocation();
                     this.setState(
-                      { loading: false },
+                      { loading: false, confirm: direct },
                       this.closeLoginModal(),
                       localStorage.setItem('emartmall_token', result.payload.data[0].info.access_token),
                       store.addNotification({
@@ -180,7 +181,6 @@ class LoginModal extends React.Component {
                         },
                         content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
                       }),
-
                     );
                     if (res !== undefined) {
                       if (!res.payload.success) {

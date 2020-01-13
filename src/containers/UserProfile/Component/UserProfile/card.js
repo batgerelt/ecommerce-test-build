@@ -60,7 +60,7 @@ class Component extends React.Component {
         this.setState({ loader: true });
         this.props.emartCard({ cardno: values.cardno, pincode: values.password }).then((res) => {
           if (res.payload.success) {
-            this.props.getCustomer();
+            this.props.getEpoint();
             if (res.payload.data.imgnm !== null) {
               this.props.showModal(res.payload.data.imgnm);
             }
