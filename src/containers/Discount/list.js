@@ -9,19 +9,19 @@
 /* eslint-disable radix */
 import React from "react";
 import { injectIntl } from 'react-intl';
-import { BackTop } from "antd";
+import { BackTop, Spin } from "antd";
 import {
   InfiniteLoader,
   WindowScroller,
   List,
   AutoSizer,
 } from "react-virtualized";
-import { Card, Banner, PageBanner, FiveCard } from "../../components";
+import { Card, Banner, PageBanner, FiveCard, Loader } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
-const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5; // Нэг мөрөнд карт хэдээр зурагдах
+const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
+
 class Discount extends React.Component {
-  infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -51,28 +51,45 @@ class Discount extends React.Component {
     this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
   }
 
-  noRowsRenderer = () => null;
-
-  getMaxItemsAmountPerRow = () => {
-    const { windowWidth } = this.props;
-
-    if (windowWidth < 576) {
-      return 2;
-    } else if (windowWidth < 768) {
-      return 2;
-    } else if (windowWidth < 992) {
-      return 4;
-    } else if (windowWidth < 1200) {
-      return 4;
-    } else {
-      return 5;
+  renderMainBanner = () => {
+    try {
+      const { banner, menuDiscount, intl } = this.props;
+      return (
+        <PageBanner
+          title={intl.locale === "mn" ? menuDiscount[0].menunm : menuDiscount[0].menunm_en}
+          subtitle={intl.locale === "mn" ? menuDiscount[0].subtitle : menuDiscount[0].subtitle_en}
+          banners={banner.length === 0 ? [] : banner.header}
+          bgColor="#EF3340"
+        />
+      );
+    } catch (error) {
+      return null;
     }
   };
 
-  getRowsAmount = (itemsAmount, hasMore) => {
-    const maxItemsPerRow = this.getMaxItemsAmountPerRow();
-    return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+  renderSubBanner = () => {
+    try {
+      return <Banner data={this.props.banner.footer} />;
+    } catch (error) {
+      return null;
+    }
   };
+
+  generateItemHeight = () => {
+    if (window.innerWidth < 576) {
+      return 320;
+    } else if (window.innerWidth < 768) {
+      return 405;
+    } else if (window.innerWidth < 992) {
+      return 320;
+    } else if (window.innerWidth < 1200) {
+      return 375;
+    } else {
+      return 370;
+    }
+  }
+
+  noRowsRenderer = () => null;
 
   generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
     const result = [];
@@ -87,98 +104,24 @@ class Discount extends React.Component {
     return result;
   };
 
-  renderMainBanner = () => {
-    try {
-      const { banner, menuDiscount, intl } = this.props;
-      return menuDiscount[0] && (
-        <PageBanner
-          title={intl.locale === "mn" ? menuDiscount[0].menunm : menuDiscount[0].menunm_en}
-          subtitle={intl.locale === "mn" ? menuDiscount[0].subtitle : menuDiscount[0].subtitle_en}
-          banners={banner.length === 0 ? [] : banner.header}
-          bgColor="#EF3340"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderHeaderProduct = () => {
-    try {
-      const { headerProducts } = this.state;
-      const data = [];
-
-      headerProducts.map(i => data.push(i._source));
-      return (
-        <div className="container pad10" style={{ paddingTop: '20px' }}>
-          <div className="row row10">
-            {
-              headerProducts.map((item, i) => (
-                <Card
-                  isDiscount
-                  elastic
-                  key={i}
-                  shape={CARD_TYPES.slim}
-                  item={item._source}
-                  {...this.props}
-                />
-              ))
-            }
-          </div>
-        </div>
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderSubBanner = () => {
-    try {
-      return <Banner data={this.props.banner.footer} />;
-    } catch (error) {
-      // return console.log(error);
-      return null;
-    }
-  };
-
-  generateItemHeight = () => {
-    let tmp;
-    const { windowWidth } = this.props;
-
-    if (windowWidth < 576) {
-      tmp = 320;
-    } else if (windowWidth < 768) {
-      tmp = 405;
-    } else if (windowWidth < 992) {
-      tmp = 320;
-    } else if (windowWidth < 1200) {
-      tmp = 375;
-    } else {
-      tmp = 370;
-    }
-
-    return tmp;
-  }
-
   renderFooterProduct = () => {
     try {
-      const { discountproducts, discountproductTotal } = this.props;
+      const { discountproducts } = this.props;
       return (
         <div className="container pad10 discount-list">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = discountproducts.length / itemsInRow + (discountproductTotal !== discountproducts.length ? 1 : 0);
+                const rowCount = discountproducts.length / itemsInRow + 1;
                 return (
                   <InfiniteLoader
-                    className="InfiniteLoader"
                     rowCount={rowCount}
                     isRowLoaded={({ index }) => {
-                      const maxItemsPerRow = this.getMaxItemsAmountPerRow();
-                      const allItemsLoaded = this.generateIndexesForRow(index, maxItemsPerRow, discountproducts.length).length > 0;
+                      const allItemsLoaded = this.generateIndexesForRow(index, itemsInRow, discountproducts.length).length > 0;
                       return !true || allItemsLoaded;
                     }}
-                    loadMoreRows={this.loadMoreRows}
+                    loadMoreRows={() => this.loadMoreRows()}
+                    threshold={1}
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <WindowScroller className="WindowScroller">
@@ -196,31 +139,27 @@ class Discount extends React.Component {
                             width={width}
                             scrollTop={scrollTop}
                             rowCount={rowCount}
-                            rowHeight={this.generateItemHeight()}
+                            rowHeight={() => this.generateItemHeight()}
+                            noRowsRenderer={this.noRowsRenderer}
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({
                               index, style, key, isVisible,
-                            }) => {
-                              const maxItemsPerRow = this.getMaxItemsAmountPerRow(width);
-                              const rowItems = this.generateIndexesForRow(index, maxItemsPerRow, discountproducts.length).map(itemIndex => discountproducts[itemIndex]);
-                              return (
-                                <div style={style} key={key} className="jss148">
-                                  {
-                                    rowItems.map(i => (
-                                      <FiveCard
-                                        elastic
-                                        isVisible={isVisible}
-                                        key={i.skucd}
-                                        shape={CARD_TYPES.slim}
-                                        item={i}
-                                        {...this.props}
-                                      />
+                            }) => (
+                              <div style={style} key={key} className="jss148">
+                                {
+                                  discountproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
+                                    <FiveCard
+                                      elastic
+                                      isVisible={isVisible}
+                                      key={i.skucd}
+                                      shape={CARD_TYPES.slim}
+                                      item={i}
+                                      {...this.props}
+                                    />
                                     ))
-                                  }
-                                </div>
-                              );
-                            }}
-                            noRowsRenderer={this.noRowsRenderer}
+                                }
+                              </div>
+                              )}
                           />
                         )}
                       </WindowScroller>
@@ -239,13 +178,15 @@ class Discount extends React.Component {
 
   render() {
     return (
-      <div className="top-container top-container-responsive discount-container">
-        {this.props.menuDiscount === undefined ? null : this.renderMainBanner()}
-        {/* {this.renderHeaderProduct()} */}
-        {/* {this.renderSubBanner()} */}
-        {this.renderFooterProduct()}
-        <BackTop />
-      </div>
+      <Spin spinning={this.state.loading} indicator={<Loader />}>
+        <div className="top-container top-container-responsive discount-container">
+          {this.renderMainBanner()}
+          {/* {this.renderHeaderProduct()} */}
+          {/* {this.renderSubBanner()} */}
+          {this.renderFooterProduct()}
+          <BackTop />
+        </div>
+      </Spin>
     );
   }
 }

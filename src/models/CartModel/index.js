@@ -1034,7 +1034,6 @@ class Model extends BaseModel {
           });
 
           const errors = cartProducts.filter(prod => prod.error);
-          console.log('errors: ', errors);
 
           return {
             ...state,
