@@ -13,6 +13,7 @@ import TotalPrice from './TotalPrice';
 
 function PackageProductList({
   id,
+  intl,
   intl: { formatMessage },
   products,
   increaseProductsByQtyLocally,
@@ -128,18 +129,31 @@ function PackageProductList({
     } else {
       const prods = packageProducts.filter(prod => prod.qty > 0);
 
-      increasePackageProductsByQtyLocally(prods);
-
-      const errors = errors && errors.filter(
-        prod => prod.id === parseInt(id, 10),
-      );
-
+      const { payload } = await increasePackageProductsByQtyLocally(prods);
+      const errors = payload.filter(prod => prod.id === parseInt(id, 10));
+      console.log('errors: ', errors);
       if (errors) {
         const names = errors.map(err => err.title);
-        renderNotification({
-          code: '205',
-          names: names.join(", "),
-          qty: products.length - errors.length,
+        console.log('names: ', names);
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification
+            type="warning"
+            text={intl.formatMessage(
+              { id: "205" },
+              {
+                names: names.join(", "),
+                qty: products.length - errors.length,
+              },
+            )}
+          />,
         });
       }
     }
