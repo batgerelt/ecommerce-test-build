@@ -20,6 +20,7 @@ import { Card, Banner, PageBanner, FiveCard, Loader } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
+let scrollIndex = 0;
 
 class Discount extends React.Component {
   constructor(props) {
@@ -77,32 +78,19 @@ class Discount extends React.Component {
 
   generateItemHeight = () => {
     if (window.innerWidth < 576) {
-      return 320;
+      return 300;
     } else if (window.innerWidth < 768) {
       return 405;
     } else if (window.innerWidth < 992) {
-      return 320;
+      return 300;
     } else if (window.innerWidth < 1200) {
       return 375;
     } else {
-      return 370;
+      return 350;
     }
   }
 
   noRowsRenderer = () => null;
-
-  generateIndexesForRow = (rowIndex, maxItemsPerRow, itemsAmount) => {
-    const result = [];
-    const startIndex = rowIndex * maxItemsPerRow;
-    for (
-      let i = startIndex;
-      i < Math.min(startIndex + maxItemsPerRow, itemsAmount);
-      i++
-    ) {
-      result.push(i);
-    }
-    return result;
-  };
 
   renderFooterProduct = () => {
     try {
@@ -116,10 +104,7 @@ class Discount extends React.Component {
                 return (
                   <InfiniteLoader
                     rowCount={rowCount}
-                    isRowLoaded={({ index }) => {
-                      const allItemsLoaded = this.generateIndexesForRow(index, itemsInRow, discountproducts.length).length > 0;
-                      return !true || allItemsLoaded;
-                    }}
+                    isRowLoaded={({ index }) => discountproducts[index * itemsInRow]}
                     loadMoreRows={() => this.loadMoreRows()}
                     threshold={1}
                   >
@@ -138,6 +123,7 @@ class Discount extends React.Component {
                             isScrolling={isScrolling}
                             width={width}
                             scrollTop={scrollTop}
+                            scrollToRow={scrollIndex}
                             rowCount={rowCount}
                             rowHeight={() => this.generateItemHeight()}
                             noRowsRenderer={this.noRowsRenderer}
@@ -156,7 +142,7 @@ class Discount extends React.Component {
                                       item={i}
                                       {...this.props}
                                     />
-                                    ))
+                                  ))
                                 }
                               </div>
                               )}

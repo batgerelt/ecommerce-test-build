@@ -17,8 +17,9 @@ class Model extends BaseModel {
     isFetchingSearch: false,
     promotionall: [],
     tags: [],
+
     newproducts: [],
-    newproductCount: 10,
+    newproductCount: 0,
     isFetchingNew: false,
 
     discountproductfromelastic: [],
