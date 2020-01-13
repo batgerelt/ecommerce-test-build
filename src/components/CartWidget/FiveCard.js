@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Rate } from "antd";
-import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
+import { injectIntl, defineMessages } from 'react-intl';
 import Button from "@material-ui/core/Button";
 import { store } from 'react-notifications-component';
 
