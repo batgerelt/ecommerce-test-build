@@ -162,13 +162,13 @@ class Discount extends React.Component {
 
   renderFooterProduct = () => {
     try {
-      const { discountproducts } = this.props;
+      const { discountproducts, discountproductTotal } = this.props;
       return (
         <div className="container pad10 discount-list">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = discountproducts.length / itemsInRow + 1;
+                const rowCount = discountproducts.length / itemsInRow + (discountproductTotal !== discountproducts.length ? 1 : 0);
                 return (
                   <InfiniteLoader
                     className="InfiniteLoader"
@@ -194,7 +194,7 @@ class Discount extends React.Component {
                             height={height}
                             isScrolling={isScrolling}
                             width={width}
-                            scrollTop={window.innerWidth < 767 ? scrollTop : (scrollTop - (this.generateItemHeight() * 2 + 200))}
+                            scrollTop={scrollTop}
                             rowCount={rowCount}
                             rowHeight={this.generateItemHeight()}
                             onRowsRendered={onRowsRendered}

@@ -15,7 +15,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Rate } from "antd";
 import { store } from 'react-notifications-component';
-import windowSize from 'react-window-size';
 import Button from "@material-ui/core/Button";
 import { Label, ElasticLabel, Notification } from "../";
 import { CARD_TYPES, LABEL_TYPES } from "../../utils/Consts";
@@ -844,4 +843,4 @@ Card.propTypes = {
   className: PropTypes.string,
 };
 
-export default windowSize(injectIntl(connect(mapStateToProps)(Card)));
+export default injectIntl(connect(mapStateToProps)(Card));
