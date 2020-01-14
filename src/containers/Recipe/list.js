@@ -11,7 +11,6 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-// import InfiniteScroll from 'react-infinite-scroller';
 import { BackTop } from "antd";
 import windowSize from 'react-window-size';
 import { CardList, Banner, PageBanner, Card } from "../../components";
@@ -92,44 +91,34 @@ class Recipe extends React.Component {
   };
 
   generateItemHeight = (item, width) => {
-    // const { recipeScroll } = this.props;
-    // if (width >= 340 && width < 500) {
-    //   return 2475;
-    // }
-    // if (recipeScroll[item.index].length <= 3) {
-    //   return 306.5;
-    // }
-    // return ITEM_HEIGHT;
-
     let tmp;
-
     const { windowWidth } = this.props;
-
-    // iPhone 5/SE
-    if (windowWidth < 321) {
-      tmp = 2360;
+    switch (windowWidth) {
+      case windowWidth < 321:
+        tmp = 2360;
+        break;
+      case windowWidth < 376:
+        tmp = 2655;
+        break;
+      case windowWidth < 415:
+        tmp = 2865;
+        break;
+      case windowWidth < 576:
+        tmp = 3700;
+        break;
+      case windowWidth < 768:
+        tmp = 535;
+        break;
+      case windowWidth < 992:
+        tmp = 645;
+        break;
+      case windowWidth < 1200:
+        tmp = 795;
+        break;
+      default:
+        tmp = 900;
+        break;
     }
-    // iPhone 6/7/8
-    else if (windowWidth < 376) {
-      tmp = 2655;
-    }
-    // iPhone 6/7/8 Plus
-    else if (windowWidth < 415) {
-      tmp = 2865;
-    }
-    // mobile (horizontal)
-    else if (windowWidth < 576) {
-      tmp = 3700;
-    } else if (windowWidth < 768) {
-      tmp = 535;
-    } else if (windowWidth < 992) {
-      tmp = 645;
-    } else if (windowWidth < 1200) {
-      tmp = 795;
-    } else {
-      tmp = 900;
-    }
-
     return tmp;
   }
 

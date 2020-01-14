@@ -1,6 +1,4 @@
 /* eslint-disable react/no-children-prop */
-/* eslint-disable consistent-return */
-/* eslint-disable radix */
 import React from "react";
 import { Modal } from "antd";
 import { FormattedMessage } from "react-intl";
@@ -26,28 +24,6 @@ class ProductDetail extends React.Component {
     this.setState({ giftvisible: false });
   }
 
-  renderRealational = () => {
-    try {
-      const { relational } = this.props;
-      return <Relational relatedProducts={relational} {...this.props} />;
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderGallery = () => {
-    try {
-      const { detail } = this.props;
-      return (
-        <Gallery
-          images={detail.images}
-          tags={detail.products.tags}
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
   renderDetails = () => {
     try {
       const {
@@ -100,17 +76,6 @@ class ProductDetail extends React.Component {
     }
   };
 
-  renderDeliveryInfo = () => {
-    try {
-      const { detail } = this.props;
-      return (
-        <Delivery detail={detail.products} {...this.props} />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   // eslint-disable-next-line consistent-return
   renderMoreInfo = () => {
     try {
@@ -120,21 +85,6 @@ class ProductDetail extends React.Component {
           product={detail.products}
           attributes={attribute.length === 0 ? [] : attribute}
           similarProducts={collection}
-          {...this.props}
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderBreadCrumb = () => {
-    try {
-      const { detail, categorymenu } = this.props;
-      return (
-        <Breadcrumb
-          product={detail.products}
-          categories={categorymenu}
           {...this.props}
         />
       );
@@ -184,16 +134,26 @@ class ProductDetail extends React.Component {
   };
 
   render() {
+    const {
+      relational, detail, attribute, collection, categorymenu,
+    } = this.props;
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">
           <div className="container pad10">
-            {this.renderBreadCrumb()}
+            <Breadcrumb
+              product={detail.products}
+              categories={categorymenu}
+              {...this.props}
+            />
             <div className="product-detail-page col-md-12 col-sm-12 col-lg-12">
               <div className="row row10">
                 <div className="col-lg-9 row">
                   <div className="col-xl-5 col-lg-5 col-md-5 gallery-wrapper">
-                    {this.renderGallery()}
+                    <Gallery
+                      images={detail.images}
+                      tags={detail.products.tags}
+                    />
                     {this.renderSocialButtons()}
                   </div>
                   {this.renderDetails()}
@@ -201,12 +161,17 @@ class ProductDetail extends React.Component {
                 <div className="col-lg-3 ">
                   <div className="cart-info filter-sticky">
                     <div className="product-plus">
-                      {this.renderDeliveryInfo()}
-                      {this.renderRealational()}
+                      <Delivery detail={detail.products} {...this.props} />
+                      <Relational relatedProducts={relational} {...this.props} />
                     </div>
                   </div>
                 </div>
-                {this.renderMoreInfo()}
+                <Moreinfo
+                  product={detail.products}
+                  attributes={attribute.length === 0 ? [] : attribute}
+                  similarProducts={collection}
+                  {...this.props}
+                />
                 {this.renderCommentList()}
               </div>
             </div>

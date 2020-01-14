@@ -1,8 +1,6 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-const-assign */
 /* eslint-disable react/no-danger */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable import/first */
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { Component } from "react";
 import { FormattedMessage } from 'react-intl';
 import { CardSlider } from "../../../../components";
@@ -12,23 +10,20 @@ let skucd = null;
 class Moreinfo extends Component {
   shouldComponentUpdate(nextProps) {
     const { similarProducts, detail } = nextProps;
-
     if (similarProducts.length === 0 || this.props.similarProducts !== similarProducts) { return true; }
     if (skucd !== detail.products.skucd) {
       skucd = detail.products.skucd;
       return true;
     }
-
     return false;
   }
 
-  renderMoreInfo = () => {
+  render() {
     try {
       let {
         product, attributes, similarProducts, lang,
       } = this.props;
       const similarProductsLimit = isMobileOnly ? 2 : window.innerWidth >= 576 && window.innerWidth <= 991 ? 3 : 6;
-      // const shouldLoop = similarProducts.length > similarProductsLimit;
       const params = {
         slidesPerView: similarProductsLimit,
         spaceBetween: 0,
@@ -48,28 +43,6 @@ class Moreinfo extends Component {
       };
       return (
         <div className="col-md-12 col-lg-12 col-sm-12 col-xl-12 ck-editor">
-          {/* !!attributes && !!attributes.length && (
-            <div style={{ marginTop: "40px", marginBottom: "0" }}>
-              <h1 className="title">
-                <span className="text-uppercase">
-                  <FormattedMessage id="productDetail.moreInfo.title" />
-                </span>
-              </h1>
-              <div className="product-bottom-info">
-                {attributes.map((attr, index) => (
-                  <div key={index} className="row row10">
-                    <dt className="col-sm-3" style={{ maxWidth: "15%" }}>
-                      {lang === "mn" ? attr.value : attr.value_en}
-                    </dt>
-                    <dd className="col-sm-6">
-                      {lang === "mn" ? attr.name : attr.name_en}
-                    </dd>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) */}
-
           {!!similarProducts && !!similarProducts.length && (
             <div className="similar-products">
               <h1 className="title">
@@ -107,10 +80,6 @@ class Moreinfo extends Component {
     } catch (error) {
       return console.log(error);
     }
-  };
-
-  render() {
-    return this.renderMoreInfo();
   }
 }
 

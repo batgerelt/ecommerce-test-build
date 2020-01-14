@@ -56,7 +56,6 @@ class LoginModal extends React.Component {
   }
 
   goHome() {
-    console.log(this.state.confirm);
     return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
   }
 
@@ -122,10 +121,19 @@ class LoginModal extends React.Component {
         try {
           this.setState({ loading: true });
           this.props.login({ body: { ...values } }).then((result) => {
-            // Amjilttai newtreh
+            // Амжилттай нэвтэрсэн үед
             if (result.payload.success) {
               localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
-              localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
+
+              let realImage = "";
+              let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+              if (realImage1.slice(0, 5) === "https") {
+                realImage = result.payload.data[0].info.customerInfo.imgnm;
+              } else {
+                realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+              }
+              localStorage.setItem('img', realImage);
+
               localStorage.setItem('auth', JSON.stringify(result.payload));
               localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
               if (pathname === `/productdetail/${sku}`) {
@@ -203,7 +211,7 @@ class LoginModal extends React.Component {
                 }
               });
             }
-            // newtreh oroldlogo amjiltgui
+            // Нэвтрэх оролдлого амжилтгүй үед
             if (result.payload.code) {
               store.addNotification({
                 insert: "top",
@@ -259,7 +267,14 @@ class LoginModal extends React.Component {
       }
       return null;
     }
-    localStorage.setItem('img', result.payload.data[0].info.customerInfo.imgnm);
+    let realImage = "";
+    let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+    if (realImage1.slice(0, 5) === "https") {
+      realImage = result.payload.data[0].info.customerInfo.imgnm;
+    } else {
+      realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+    }
+    localStorage.setItem('img', realImage);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
     localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);

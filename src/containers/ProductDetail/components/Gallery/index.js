@@ -1,7 +1,6 @@
 /* eslint-disable react/require-default-props */
-/* eslint-disable radix */
-/* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable radix */
 import React, { Component } from "react";
 import { injectIntl } from 'react-intl';
 import PropTypes from "prop-types";
@@ -49,11 +48,9 @@ class Gallery extends Component {
     });
   };
 
-  renderImages = () => {
-    return this.props.images.map(image => ({
-      src: `${process.env.IMAGE}${image.lrgimg}`,
-    }));
-  }
+  renderImages = () => this.props.images.map(image => ({
+    src: `${process.env.IMAGE}${image.lrgimg}`,
+  }))
 
   renderMagnify = () => {
     try {
@@ -70,7 +67,7 @@ class Gallery extends Component {
     }
   };
 
-  renderContent = () => {
+  render() {
     try {
       const { images, tags, intl } = this.props;
       const { current, isLightBoxOpen } = this.state;
@@ -97,23 +94,21 @@ class Gallery extends Component {
           {images && (
             <div className="thumbs">
               <ul className="list-inline">
-                {images.map((image, index) => {
-                  return (
-                    <li key={index} className="list-inline-item">
-                      <a
-                        className="image-container"
-                        onClick={this.handleThumbnailClick}
-                        name={index}
-                      >
-                        <img
-                          alt={`image${index}`}
-                          className={`image${index}`}
-                          src={`${process.env.IMAGE}${image.mniimg}`}
-                        />
-                      </a>
-                    </li>
-                  );
-                })}
+                {images.map((image, index) => (
+                  <li key={index} className="list-inline-item">
+                    <a
+                      className="image-container"
+                      onClick={this.handleThumbnailClick}
+                      name={index}
+                    >
+                      <img
+                        alt={`image${index}`}
+                        className={`image${index}`}
+                        src={`${process.env.IMAGE}${image.mniimg}`}
+                      />
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -136,10 +131,6 @@ class Gallery extends Component {
     } catch (error) {
       return console.log(error);
     }
-  };
-
-  render() {
-    return this.renderContent();
   }
 }
 

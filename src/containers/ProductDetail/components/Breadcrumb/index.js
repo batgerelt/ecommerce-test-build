@@ -1,16 +1,15 @@
+/* eslint-disable no-loop-func */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 class Breadcrumb extends Component {
-  // eslint-disable-next-line consistent-return
-  renderBreadCrumb = () => {
+  render() {
     try {
       const { product, categories } = this.props;
       let parentCats = [];
       let catId = product.catid;
       while (catId && catId !== 0) {
-        // eslint-disable-next-line no-loop-func
         const category = categories.find(cat => cat.id === catId);
         if (category) {
           parentCats.push(category);
@@ -40,10 +39,6 @@ class Breadcrumb extends Component {
     } catch (error) {
       return console.log(error);
     }
-  };
-
-  render() {
-    return this.renderBreadCrumb();
   }
 }
 

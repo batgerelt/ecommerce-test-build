@@ -3,10 +3,9 @@ import React, { Component } from "react";
 import { FormattedMessage } from 'react-intl';
 
 class Delivery extends Component {
-  renderDelivery = () => {
+  render() {
     try {
       const { detail } = this.props;
-
       return (
         <div className="block product-delivery">
           <p className="title upper-first">
@@ -28,10 +27,6 @@ class Delivery extends Component {
     } catch (error) {
       return console.log(error);
     }
-  };
-
-  render() {
-    return this.renderDelivery();
   }
 }
 
