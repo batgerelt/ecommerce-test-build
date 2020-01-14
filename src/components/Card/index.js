@@ -73,7 +73,7 @@ class Card extends React.Component {
               animationIn: ["animated", "fadeIn"],
               animationOut: ["animated", "fadeOut"],
               dismiss: {
-                duration: 3000,
+                duration: 6000,
                 onScreen: false,
               },
               content: <Notification

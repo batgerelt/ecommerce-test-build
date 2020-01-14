@@ -295,7 +295,6 @@ class Detail extends Component {
             }}
           >
             <i className={`fa ${this.state.loading ? "fa-spin" : "fa fa-shopping-cart"}`} aria-hidden="true" />
-            {/* <i className="fa fa-shopping-cart" aria-hidden="true" /> */}
             <span style={{ paddingLeft: "5px" }}>{detail.availableqty < 1 ? <FormattedMessage id="productDetail.button.soldout" /> : <FormattedMessage id="productDetail.button.addToCart" />}</span>
           </Button>
         </div>

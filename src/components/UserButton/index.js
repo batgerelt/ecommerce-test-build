@@ -172,20 +172,9 @@ class UserButton extends React.Component {
 
   renderImage = () => {
     try {
-      let realImage = "";
-      let realImage1 = localStorage.getItem('img');
-      if (realImage1.slice(0, 5) === "https") {
-        realImage = localStorage.getItem('img');
-      } else {
-        realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-      }
       return (
-        <div id="imagePreview" style={{ backgroundImage: `url(${realImage})` }} />
+        <div id="imagePreview" style={{ backgroundImage: `url(${localStorage.getItem('img')})` }} />
       );
-      /* const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-      return (
-        <div id="imagePreview" style={{ backgroundImage: `url(${realImage})` }} />
-      ); */
     } catch (error) {
       return console.log(error);
     }
@@ -222,19 +211,11 @@ class UserButton extends React.Component {
     );
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {
-        let realImage = "";
-        let realImage1 = localStorage.getItem('img');
-        if (realImage1.slice(0, 5) === "https") {
-          realImage = localStorage.getItem('img');
-        } else {
-          realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-        }
-        /* const realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img')); */
         content = (
           <li className="list-inline-item user">
             <Link to="#" className="flex-this" onClick={this.showpro}>
               <div className="image-container default">
-                <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
+                <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : localStorage.getItem('img')})` }} />
               </div>
               <span className="">{localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}</span>
             </Link>
@@ -245,7 +226,7 @@ class UserButton extends React.Component {
                   <div className="menu-header" style={{ display: "none" }}>
                     <div className="flex-this">
                       <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : realImage})` }} />
+                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : localStorage.getItem('img')})` }} />
                       </div>
                       <p className="name">
                         {localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}

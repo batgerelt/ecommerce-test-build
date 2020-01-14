@@ -176,16 +176,7 @@ class Comment extends Component {
       const {
         product, comments, user, auth, intl, isLoggedIn, rate,
       } = this.props;
-      let realImage = "";
       let img = process.env.IMAGE + this.state.imgnm;
-      if (localStorage.getItem('img')) {
-        let realImage1 = localStorage.getItem('img');
-        if (realImage1.slice(0, 5) === "https") {
-          realImage = localStorage.getItem('img');
-        } else {
-          realImage = JSON.stringify(process.env.IMAGES + localStorage.getItem('img'));
-        }
-      }
       return (
         <div className="comments-container">
           {localStorage.getItem("auth") && this.state.isShow ? (
@@ -194,7 +185,7 @@ class Comment extends Component {
                 <div className="image-container">
                   <span
                     className="image8"
-                    style={{ backgroundImage: `url(${auth ? realImage : defaultAvatar})` }}
+                    style={{ backgroundImage: `url(${auth ? localStorage.getItem('img') : defaultAvatar})` }}
                   />
                 </div>
                 <p className="name">

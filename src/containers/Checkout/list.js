@@ -143,18 +143,6 @@ class Checkout extends React.Component {
     </div>
   );
 
-  callback = (key) => {
-    const { activeKey } = this.state;
-    this.scrollTo(0, 0);
-    if (key === "3" && activeKey === "2") {
-      this.onSubmitDeliveryPanel();
-    } else if (key === "2" && activeKey === "3") {
-      this.setState({ activeKey: "2" });
-    } else {
-      this.setState({ activeKey: key });
-    }
-  };
-
   changeLoading = (val) => {
     this.setState({ loading: val });
   }
@@ -239,53 +227,86 @@ class Checkout extends React.Component {
     });
   }
 
+  callback = (key) => {
+    const { activeKey } = this.state;
+    this.scrollTo(0, 0);
+    if (key === "3" && activeKey === "2") {
+      // this.setState({ activeKey: "3" });
+      this.onSubmitDeliveryPanel();
+    } else if (key === "2" && activeKey === "3") {
+      this.setState({ activeKey: "2" });
+    } else {
+      this.setState({ activeKey: key });
+    }
+  };
+
+  changeChosenAddress = (item) => {
+    if (this.props.userinfo.main !== null) {
+      console.log("item if", item);
+      this.setState({ chosenAddress: item });
+    } else {
+      console.log("item else", item);
+      item.name = this.props.userinfo.info.firstname;
+      item.phone1 = this.props.userinfo.info.phone1;
+      item.address = this.props.userinfo.info.address;
+      this.setState({ chosenAddress: item });
+    }
+  }
+
+  changeAddressType = (item) => {
+    this.setState({ addresstype: item });
+  }
+
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
     let isEmail = true;
+    const { chosenAddress, addresstype, chosenDelivery } = this.state;
     const {
       products,
       userinfo,
       intl,
     } = this.props;
-    const { chosenAddress, addresstype, chosenDelivery } = this.state;
-    this.state.deliveryPanelForm.validateFields((err, values) => {
+
+    this.state.deliveryPanelForm.validateFields(async (err, values) => {
       if (!err) {
         chosenAddress.phone1 !== values.phone1 ? chosenAddress.phone1 = values.phone1 : null;
         chosenAddress.name !== values.name ? chosenAddress.name = values.name : null;
         chosenAddress.address !== values.address ? values.address !== undefined ? chosenAddress.address = values.address : null : null;
+
         if (values.email !== undefined && userinfo.info.email === null) {
-          this.props.addUserEmail(values.email).then((res) => {
-            if (!res.payload.success) {
-              isEmail = false;
-              store.addNotification({
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                  duration: 3000,
-                  onScreen: false,
-                },
-                content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
-              });
-            } else {
-              isEmail = false;
-            }
-          });
+          let result = await this.props.addUserEmail(values.email);
+          if (!result.payload.success) {
+            isEmail = false;
+            store.addNotification({
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 3000,
+                onScreen: false,
+              },
+              content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+            });
+          }
         }
+
         let body = {};
         body.id = chosenAddress.id;
         body.custid = 1;
         body.locid = chosenAddress.locid;
-        body.address = values.address;
         body.name = values.name;
         body.phonE1 = values.phone1;
+        body.address = chosenAddress.address === undefined ? values.address : chosenAddress.address;
+        body.provincenm = chosenAddress.provincenm;
+        body.districtnm = chosenAddress.districtnm;
+        body.committeenm = chosenAddress.committeenm;
+
         if (addresstype === "new" && chosenDelivery.id !== 3) {
           this.props.addAddress({ body }).then((res) => {
             if (res.payload.success) {
               chosenAddress.id = res.payload.data;
               body.id = res.payload.data;
-              this.changeChosenAddress(chosenAddress);
               this.changeAddressType("edit");
               this.props.getUserInfo().then((res) => {
                 if (res.payload.success) {
@@ -307,21 +328,10 @@ class Checkout extends React.Component {
             }
           });
         }
-        body.address = chosenAddress.address;
-        body.provincenm = chosenAddress.provincenm;
-        body.districtnm = chosenAddress.districtnm;
-        body.committeenm = chosenAddress.committeenm;
-        this.getDeliveryTypeValue(body, this.state.chosenDate);
+
         if (products.length !== 0) {
           if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
             if (isEmail) {
-              /* if (isMobile) {
-                 let paymentType = document.getElementById("paymentType");
-                 paymentType.scrollIntoView({
-                   behavior: 'smooth',
-                   block: 'center',
-                 });
-              } */
               this.changeDeliveryType(true);
               this.setState({ activeKey: "3" });
             }
@@ -375,23 +385,11 @@ class Checkout extends React.Component {
             });
           }
         }
+        if (isEmail) {
+          this.setState({ activeKey: "3" });
+        }
       }
     });
-  }
-
-  changeChosenAddress = (item) => {
-    if (this.props.userinfo.main !== null) {
-      this.setState({ chosenAddress: item });
-    } else {
-      item.name = this.props.userinfo.info.firstname;
-      item.phone1 = this.props.userinfo.info.phone1;
-      item.address = this.props.userinfo.info.address;
-      this.setState({ chosenAddress: item });
-    }
-  }
-
-  changeAddressType = (item) => {
-    this.setState({ addresstype: item });
   }
 
   changeChosenRadio = (item) => {
@@ -544,3 +542,4 @@ class Checkout extends React.Component {
 }
 
 export default injectIntl(Checkout);
+

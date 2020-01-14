@@ -12,6 +12,7 @@ const formatter = new Intl.NumberFormat("en-US");
 class Relational extends Component {
   state = {
     isShowMoreClicked: false,
+    loading: false,
   };
 
   handleShowMoreClick = () => {
@@ -20,6 +21,7 @@ class Relational extends Component {
 
   handleIncrementClick = async (product) => {
     const { intl } = this.props;
+    this.setState({ loading: true });
     try {
       if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
@@ -71,6 +73,7 @@ class Relational extends Component {
           }));
         }
       }
+      this.setState({ loading: false });
     } catch (e) {
       console.log(e);
     }
@@ -87,11 +90,12 @@ class Relational extends Component {
     return relatedProducts;
   };
 
-  renderRelatedProducts = (limit = 4) => {
+  render() {
     try {
       let { relatedProducts } = this.props;
       const { isShowMoreClicked } = this.state;
       const lang = this.props.intl.locale;
+      let limit = 4;
       let data = this.getSlicedData(limit);
       return (
         !!data.length && (
@@ -138,7 +142,7 @@ class Relational extends Component {
                         className="action btn btn-link"
                         onClick={() => this.handleIncrementClick(prod)}
                       >
-                        <i className="fa fa-cart-plus" aria-hidden="true" />
+                        <i className={`fa ${this.state.loading ? "fa-spin" : "fa fa-cart-plus"}`} aria-hidden="true" />
                       </ButtonGoogle>
                     </div>
                   </div>
@@ -165,10 +169,6 @@ class Relational extends Component {
     } catch (error) {
       return console.log(error);
     }
-  };
-
-  render() {
-    return this.renderRelatedProducts();
   }
 }
 
