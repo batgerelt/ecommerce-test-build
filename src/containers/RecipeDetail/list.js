@@ -529,18 +529,19 @@ class List extends React.Component {
             </div>
             <div className="col-sm-6 col-md-8">
               <h4 className="step-title">
-                <li style={{ color: "rgb(255, 182, 0)", fontSize: "25px" }}>
-                  <span
-                    style={{
-                      color: "black",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      marginLeft: "-19px",
-                    }}
-                  >
-                    <FormattedMessage id="recipeDetail.label.step" />. {++index}
-                  </span>
-                </li>
+                <ul className="circle">
+                  <li>
+                    <span
+                      style={{
+                        color: "black",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <FormattedMessage id="recipeDetail.label.step" />. {++index}
+                    </span>
+                  </li>
+                </ul>
               </h4>
               {lang === "mn" ? step.description : step.description_en}
               <p />
