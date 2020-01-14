@@ -20,6 +20,7 @@ import ElasticLabel from "./ElasticLabel";
 import Notification from "./Notification";
 import ForgetModal from "./ForgetModal";
 import FiveCard from "./CartWidget/FiveCard";
+import SkeltonCard from "./Skeltons/Card";
 
 export {
   Exception,
@@ -44,4 +45,5 @@ export {
   Notification,
   ForgetModal,
   FiveCard,
+  SkeltonCard,
 };

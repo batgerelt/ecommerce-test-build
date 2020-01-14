@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ElasticLabel } from "../";
+import { ElasticLabel } from "..";
 
 const height = window.innerWidth < 575 ? '180px' : '232px';
 class productDetail extends Component {

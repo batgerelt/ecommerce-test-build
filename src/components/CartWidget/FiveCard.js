@@ -7,7 +7,7 @@ import { injectIntl, defineMessages } from 'react-intl';
 import Button from "@material-ui/core/Button";
 import { store } from 'react-notifications-component';
 
-import Skeltons from "../Skeltons/FiveCard";
+import Skeltons from "../Skeltons/Image";
 import { ElasticLabel, Notification } from "../";
 
 const formatter = new Intl.NumberFormat("en-US");

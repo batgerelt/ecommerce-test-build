@@ -113,6 +113,9 @@ class Footer extends React.Component {
       return (
         <div className="col-sm-6 col-lg-3 pad10 d-f-center">
           <ul className="list-unstyled">
+            <li>
+              <strong><FormattedMessage id="footer.terms.title" /></strong>
+            </li>
             {staticpages.map((item, index) => {
               if (item.pagetype === 1) {
                 return (
@@ -141,6 +144,9 @@ class Footer extends React.Component {
       return (
         <div className="col-sm-6 col-lg-3 pad10 d-f-center">
           <ul className="list-unstyled">
+            <li>
+              <strong><FormattedMessage id="footer.customercorner.title" /></strong>
+            </li>
             {staticpages.map((item, index) => {
               if (item.pagetype === 2) {
                 return (

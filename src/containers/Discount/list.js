@@ -16,11 +16,11 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import { Card, Banner, PageBanner, FiveCard, Loader } from "../../components";
+import { SkeltonCard, Banner, PageBanner, FiveCard, Loader } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
-let scrollIndex = 0;
+let skel;
 
 class Discount extends React.Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class Discount extends React.Component {
   }
 
   loadMoreRows = () => {
+    console.log('loadMoreRows: ');
     this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
   }
 
@@ -90,42 +91,38 @@ class Discount extends React.Component {
     }
   }
 
+  getRowsAmount = (itemsAmount, hasMore) => Math.ceil(itemsAmount / itemsInRow) + (hasMore ? 1 : 0);
+
   noRowsRenderer = () => null;
 
   renderFooterProduct = () => {
     try {
-      const { discountproducts } = this.props;
+      const { discountproducts, discountproductTotal, isFetchingDiscount } = this.props;
       return (
         <div className="container pad10 discount-list">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = discountproducts.length / itemsInRow + 1;
+                const rowCount = Math.ceil(discountproducts.length / itemsInRow + (discountproductTotal === 0 ? 1 : discountproductTotal !== discountproducts.length ? 1 : 0));
                 return (
                   <InfiniteLoader
                     rowCount={rowCount}
-                    isRowLoaded={({ index }) => discountproducts[index * itemsInRow]}
-                    loadMoreRows={() => this.loadMoreRows()}
+                    isRowLoaded={({ index }) => !!discountproducts[index * itemsInRow] || false}
+                    loadMoreRows={this.loadMoreRows}
                     threshold={1}
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <WindowScroller className="WindowScroller">
-                        {({
-                          height,
-                          scrollTop,
-                          isScrolling,
-                        }) => (
+                        {({ height, scrollTop }) => (
                           <List
                             style={{ outline: "none" }}
                             autoHeight
                             ref={registerChild}
                             height={height}
-                            isScrolling={isScrolling}
                             width={width}
                             scrollTop={scrollTop}
-                            scrollToRow={scrollIndex}
                             rowCount={rowCount}
-                            rowHeight={() => this.generateItemHeight()}
+                            rowHeight={this.generateItemHeight}
                             noRowsRenderer={this.noRowsRenderer}
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({
@@ -144,6 +141,7 @@ class Discount extends React.Component {
                                     />
                                   ))
                                 }
+                                { isFetchingDiscount && <SkeltonCard /> }
                               </div>
                               )}
                           />
