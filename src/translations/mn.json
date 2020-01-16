@@ -165,7 +165,7 @@
 	"orderDetail.table.col.productName": "Бүтээгдэхүүний нэр",
 	"orderDetail.table.col.quantity": "Тоо хэмжээ",
 	"orderDetail.table.col.totalPrice": "Нийт дүн",
-	"orderDetail.table.col.unitPrice": "Нэгжийн үнэ",
+	"orderDetail.table.col.unitPrice": "Нэгж үнэ",
 	"orderDetail.table.title": "Захиалсан бараанууд",
 	"orderDetail.title.orderNumber": "Захиалга",
 	"orderDetail.info.leaveFeedback": "Үнэлгээ өгөх",

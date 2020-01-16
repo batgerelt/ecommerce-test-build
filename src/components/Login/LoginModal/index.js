@@ -124,15 +124,19 @@ class LoginModal extends React.Component {
             // Амжилттай нэвтэрсэн үед
             if (result.payload.success) {
               localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
-
-              let realImage = "";
-              let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
-              if (realImage1.slice(0, 5) === "https") {
-                realImage = result.payload.data[0].info.customerInfo.imgnm;
+              console.log("img: ", result.payload.data[0].info.customerInfo.imgnm);
+              if (result.payload.data[0].info.customerInfo.imgnm !== null) {
+                let realImage = "";
+                let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+                if (realImage1.slice(0, 5) === "https") {
+                  realImage = result.payload.data[0].info.customerInfo.imgnm;
+                } else {
+                  realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+                }
+                localStorage.setItem('img', realImage);
               } else {
-                realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+                localStorage.setItem('img', null);
               }
-              localStorage.setItem('img', realImage);
 
               localStorage.setItem('auth', JSON.stringify(result.payload));
               localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
@@ -267,14 +271,18 @@ class LoginModal extends React.Component {
       }
       return null;
     }
-    let realImage = "";
-    let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
-    if (realImage1.slice(0, 5) === "https") {
-      realImage = result.payload.data[0].info.customerInfo.imgnm;
+    if (result.payload.data[0].info.customerInfo.imgnm !== null) {
+      let realImage = "";
+      let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+      if (realImage1.slice(0, 5) === "https") {
+        realImage = result.payload.data[0].info.customerInfo.imgnm;
+      } else {
+        realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+      }
+      localStorage.setItem('img', realImage);
     } else {
-      realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+      localStorage.setItem('img', null);
     }
-    localStorage.setItem('img', realImage);
     localStorage.setItem('auth', JSON.stringify(result.payload));
     localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
     localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
