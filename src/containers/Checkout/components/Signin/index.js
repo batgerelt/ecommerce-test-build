@@ -65,14 +65,18 @@ class Signin extends React.Component {
       }
       return null;
     }
-    let realImage = "";
-    let realImage1 = r.payload.data[0].info.customerInfo.imgnm;
-    if (realImage1.slice(0, 5) === "https") {
-      realImage = r.payload.data[0].info.customerInfo.imgnm;
+    if (r.payload.data[0].info.customerInfo.imgnm !== null) {
+      let realImage = "";
+      let realImage1 = r.payload.data[0].info.customerInfo.imgnm;
+      if (realImage1.slice(0, 5) === "https") {
+        realImage = r.payload.data[0].info.customerInfo.imgnm;
+      } else {
+        realImage = JSON.stringify(process.env.IMAGES + r.payload.data[0].info.customerInfo.imgnm);
+      }
+      localStorage.setItem('img', realImage);
     } else {
-      realImage = JSON.stringify(process.env.IMAGES + r.payload.data[0].info.customerInfo.imgnm);
+      localStorage.setItem('img', null);
     }
-    localStorage.setItem('img', realImage);
     localStorage.setItem('auth', JSON.stringify(r.payload));
     localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
     localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
@@ -139,14 +143,18 @@ class Signin extends React.Component {
         this.props.login({ body: { ...values } }).then(async (r) => {
           this.setState({ loading: true });
           if (r.payload.success) {
-            let realImage = "";
-            let realImage1 = r.payload.data[0].info.customerInfo.imgnm;
-            if (realImage1.slice(0, 5) === "https") {
-              realImage = r.payload.data[0].info.customerInfo.imgnm;
+            if (r.payload.data[0].info.customerInfo.imgnm !== null) {
+              let realImage = "";
+              let realImage1 = r.payload.data[0].info.customerInfo.imgnm;
+              if (realImage1.slice(0, 5) === "https") {
+                realImage = r.payload.data[0].info.customerInfo.imgnm;
+              } else {
+                realImage = JSON.stringify(process.env.IMAGES + r.payload.data[0].info.customerInfo.imgnm);
+              }
+              localStorage.setItem('img', realImage);
             } else {
-              realImage = JSON.stringify(process.env.IMAGES + r.payload.data[0].info.customerInfo.imgnm);
+              localStorage.setItem('img', null);
             }
-            localStorage.setItem('img', realImage);
             localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
             localStorage.setItem('auth', JSON.stringify(r.payload));
             localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);

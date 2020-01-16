@@ -40,7 +40,7 @@ class Component extends React.Component {
         <tr key={index} className="order-table-responsive">
           <td>
             <Link to={`/order/${this.encryptUrl(item.id)}`}>
-              <span>#{item.ordernumber}</span>
+              <span style={{ padding: "5px" }}>#{item.ordernumber}</span>
             </Link>
             {
               isMobile

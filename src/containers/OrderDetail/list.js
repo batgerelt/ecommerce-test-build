@@ -8,6 +8,7 @@ import { BackTop, Avatar } from "antd";
 import Button from '@material-ui/core/Button';
 import { store } from 'react-notifications-component';
 import CryptoJS from "crypto-js";
+import { isMobile } from "react-device-detect";
 import store1 from "../../../src/scss/assets/images/demo/store.png";
 import { Notification } from "../../components";
 import { EncryptKey } from "../../utils/Consts";
@@ -28,7 +29,7 @@ class List extends React.Component {
       const { orderdetail } = this.props;
       return orderdetail.items.map((item, index) => (
         <tr key={index}>
-          <td>
+          <td className="column-1 padding5to10">
             <div className="flex-this">
               <div className="image-container default">
                 <Link to={`${item.route}`}>
@@ -38,45 +39,52 @@ class List extends React.Component {
                   />
                 </Link>
               </div>
-              <div className="info-container">
-                <Link to={`${item.route}`}>
-                  <strong style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "15px" }}>{lang === "mn" ? item.title : item.titl_en}</strong>
-                  <span style={{ fontSize: "14px" }}>{lang === "mn" ? item.back : item.back_en}</span>
-                </Link>
-              </div>
+              <Link to={`${item.route}`} className="text-left info-container">
+                <strong><p style={{ color: "rgba(0, 0, 0, 0.5)" }}>{lang === "mn" ? item.title : item.titl_en}</p></strong>
+                <span>{lang === "mn" ? item.back : item.back_en}</span>
+              </Link>
             </div>
           </td>
+          {
+            isMobile ?
+              <td>
+                <p>{formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮</p>
+                <p>{item.orderquantity}</p>
+              </td> : null
+          }
+          {
+            !isMobile ?
+              <td>
+                <p>{formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮</p>
+              </td>
+              : null
+          }
+          {
+            !isMobile ?
+              <td>
+                <p>{item.orderquantity}</p>
+              </td>
+              : null
+          }
           <td>
-            <p className="price font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
-              {formatter.format(item.newprice > 0 ? item.newprice : item.price)}₮
-            </p>
-          </td>
-          <td>
-            <p className="price total font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
-              {item.orderquantity}
-            </p>
-          </td>
-          <td>
-            <p className="price total font12-mobile" style={{ textAlign: "right", fontSize: "15px" }}>
-              <strong>{formatter.format(item.orderamount)}₮</strong>
-              {
-                item.status !== 0 ?
-                  <Link to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}>
-                    <Button
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: "500",
-                        color: "#FFFFFF",
-                        backgroundColor: "#FFB81C",
-                      }}
-                    >
-                      <FormattedMessage id="orderDetail.info.leaveFeedback" />
-                    </Button>
-                  </Link>
-                  :
-                  null
-              }
-            </p>
+            <p>{formatter.format(item.orderamount)}₮</p>
+            {
+              item.status !== 0 ?
+                <Link
+                  to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}
+                  style={{
+                    color: "#FFFFFF",
+                    backgroundColor: "#FFB81C",
+                    padding: "2px",
+                    borderRadius: "2px",
+                    fontSize: "10px",
+                  }}
+                >
+                  <FormattedMessage id="orderDetail.info.leaveFeedback" />
+                </Link>
+                :
+                null
+            }
           </td>
         </tr>
       ));
@@ -260,19 +268,28 @@ class List extends React.Component {
                     <table className="table table-borderless font12-mobile">
                       <thead className="thead-light">
                         <tr>
-                          <th className="column-1 font12-mobile padd2-mobile"><FormattedMessage id="orderDetail.table.col.productName" /></th>
-                          <th className="column-2 font12-mobile padd2-mobile">
-                            <span className="text-right"><FormattedMessage id="orderDetail.table.col.unitPrice" /></span>
-                          </th>
-                          <th className="column-3 font12-mobile padd2-mobile">
-                            <span className="text-right"><FormattedMessage id="orderDetail.table.col.quantity" /></span>
-                          </th>
-                          <th className="column-4 font12-mobile padd2-mobile">
-                            <span>
-                              <p className="price total font12-mobile padd2-mobile text-right" >
-                                <FormattedMessage id="orderDetail.table.col.totalPrice" />
-                              </p>
-                            </span>
+                          <th className="column-1"><FormattedMessage id="orderDetail.table.col.productName" /></th>
+                          {
+                            isMobile ?
+                              <th className="text-right">
+                                <FormattedMessage id="orderDetail.table.col.unitPrice" /><br />
+                                <FormattedMessage id="orderDetail.table.col.quantity" />
+                              </th> : null
+                          }
+                          {
+                            !isMobile ?
+                              <th className="text-right">
+                                <FormattedMessage id="orderDetail.table.col.unitPrice" />
+                              </th> : null
+                          }
+                          {
+                            !isMobile ?
+                              <th className="text-right">
+                                <FormattedMessage id="orderDetail.table.col.quantity" />
+                              </th> : null
+                          }
+                          <th className="text-right">
+                            <FormattedMessage id="orderDetail.table.col.totalPrice" />
                           </th>
                         </tr>
                       </thead>
