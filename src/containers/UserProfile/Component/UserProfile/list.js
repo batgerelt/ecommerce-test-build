@@ -581,7 +581,7 @@ class Component extends React.Component {
             this.props.epointCardInfo !== null ?
               this.props.epointCardInfo.length === 0 ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(this.props.epointCardInfo)
               :
-              <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} />
+              <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} getEpoint={this.props.getEpoint} />
           }
           {/* {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(userInfo.card)} */}
         </div >

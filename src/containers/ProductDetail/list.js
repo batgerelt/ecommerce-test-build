@@ -184,7 +184,7 @@ class ProductDetail extends React.Component {
       );
     }
     return (
-      this.props.loading ? "" : <ProductNotFound />
+      <div>{this.props.isEmpty ? <ProductNotFound /> : ""}</div>
     );
   }
 }

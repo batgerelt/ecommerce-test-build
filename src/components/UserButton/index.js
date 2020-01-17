@@ -404,13 +404,6 @@ class UserButton extends React.Component {
                           </Link>
                         </li>
                       </ul>
-                      {/* <div onClick={this.handleLogoutClick}>
-                        <Link to="#" className="btn btn-gray">
-                          <span className="text-uppercase" style={{ color: "white" }}>
-                            <FormattedMessage id="header.profile.logout" />
-                          </span>
-                        </Link>
-                      </div> */}
                       <div className="text-right" onClick={this.handleLogoutClick}>
                         <ButtonGoogle className="btn" style={{ border: "1px solid white", color: "white", width: "100%" }}>
                           <span className="text-uppercase">

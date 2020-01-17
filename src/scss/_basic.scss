@@ -2,13 +2,6 @@ body {
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.1px;
 }
-//facebook left
-.fb_customer_chat_bubble_pop_in {
-  left: 20px !important;
-}
-.fb_iframe_widget iframe {
-  left: 20px !important;
-}
 
 main {
   background-color: white;
@@ -3469,6 +3462,23 @@ button:disabled{
 }
 
 // profile custom input
+.responsive-font14 {
+  font-size: 16px !important;
+}
+
+.responsive-font10 {
+  font-size: 14px;
+}
+
+.comment-image {
+  .author {
+    .image-container {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+}
+
 ul.circle {
   color: #FFB81C;
 }

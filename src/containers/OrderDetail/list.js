@@ -28,7 +28,7 @@ class List extends React.Component {
     try {
       const { orderdetail } = this.props;
       return orderdetail.items.map((item, index) => (
-        <tr key={index}>
+        <tr key={index} className="responsive-font14">
           <td className="column-1 padding5to10">
             <div className="flex-this">
               <div className="image-container default">
@@ -72,12 +72,12 @@ class List extends React.Component {
               item.status !== 0 ?
                 <Link
                   to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}
+                  className="responsive-font10"
                   style={{
                     color: "#FFFFFF",
                     backgroundColor: "#FFB81C",
                     padding: "2px",
                     borderRadius: "2px",
-                    fontSize: "10px",
                   }}
                 >
                   <FormattedMessage id="orderDetail.info.leaveFeedback" />

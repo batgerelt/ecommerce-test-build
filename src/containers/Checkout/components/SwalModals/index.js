@@ -93,6 +93,7 @@ class SwalModals extends Component {
   };
 
   handleChangeAddress = () => {
+    this.props.changeAddress();
     MySwal.close();
   }
 
