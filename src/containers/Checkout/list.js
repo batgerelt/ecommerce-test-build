@@ -242,10 +242,8 @@ class Checkout extends React.Component {
 
   changeChosenAddress = (item) => {
     if (this.props.userinfo.main !== null) {
-      console.log("item if", item);
       this.setState({ chosenAddress: item });
     } else {
-      console.log("item else", item);
       item.name = this.props.userinfo.info.firstname;
       item.phone1 = this.props.userinfo.info.phone1;
       item.address = this.props.userinfo.info.address;
@@ -255,6 +253,10 @@ class Checkout extends React.Component {
 
   changeAddressType = (item) => {
     this.setState({ addresstype: item });
+  }
+
+  changeAddress = () => {
+    this.setState({ activeKey: "2" });
   }
 
   onSubmitDeliveryPanel = (e) => {
@@ -365,7 +367,6 @@ class Checkout extends React.Component {
                       type={"delete"}
                       data={[]}
                       ordData={[]}
-                      paymentId={document.getElementById("paymentType")}
                       onRef={ref => (this.SwalModals = ref)}
                       {...this}
                       {...this.props}
@@ -373,11 +374,12 @@ class Checkout extends React.Component {
                   ),
                   type: "warning",
                   animation: true,
-                  button: false,
-                  showCloseButton: false,
+                  button: true,
+                  showCloseButton: true,
                   showCancelButton: false,
                   showConfirmButton: false,
                   focusConfirm: false,
+                  allowEscapeKey: false,
                   allowOutsideClick: false,
                   closeOnEsc: false,
                 });

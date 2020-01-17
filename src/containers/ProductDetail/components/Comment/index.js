@@ -12,6 +12,7 @@ import CryptoJS from "crypto-js";
 import { EncryptKey } from "../../../../utils/Consts";
 import { Notification } from "../../../../components";
 import defaultAvatar from "../../../../scss/assets/images/demo/defaultAvatar.png";
+import style from "./style.less";
 
 const { TextArea } = Input;
 class Comment extends Component {
@@ -135,12 +136,18 @@ class Comment extends Component {
   }
 
   renderComment = (comment) => {
+    let image = JSON.stringify(process.env.IMAGES + comment.imgnm);
     return (
       <Col span={24}>
         <Row>
-          <Col xs={3} sm={3} md={2} lg={1} xl={1} style={{ marginRight: "10px" }}>
-            <div className="image-container">
-              <Avatar size="large" src={`${process.env.IMAGES}${comment.imgnm}`} />
+          <Col className="comment-image" xs={3} sm={3} md={2} lg={1} xl={1} style={{ marginRight: "10px" }}>
+            <div className="author">
+              <div className="image-container">
+                <span
+                  className="image8"
+                  style={{ backgroundImage: `url(${image})` }}
+                />
+              </div>
             </div>
           </Col>
           <Col xs={20} sm={20} md={20} lg={21} xl={21}>

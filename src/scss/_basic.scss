@@ -3469,6 +3469,23 @@ button:disabled{
 }
 
 // profile custom input
+.responsive-font14 {
+  font-size: 16px !important;
+}
+
+.responsive-font10 {
+  font-size: 14px;
+}
+
+.comment-image {
+  .author {
+    .image-container {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+}
+
 ul.circle {
   color: #FFB81C;
 }

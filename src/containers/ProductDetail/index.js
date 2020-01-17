@@ -61,8 +61,12 @@ class Page extends React.Component {
   }
 
   getData = (id) => {
-    // const { id } = this.props.match.params;
-    this.props.getProductDetail({ skucd: id });
+    this.setState({ isEmpty: false });
+    this.props.getProductDetail({ skucd: id }).then((res) => {
+      if (res.payload.data.products === null) {
+        this.setState({ isEmpty: true });
+      }
+    });
     this.props.getProductRelational({ skucd: id });
     this.props.getProductComment({ skucd: id });
     this.props.getProductCollection({ skucd: id });
