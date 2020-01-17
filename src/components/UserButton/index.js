@@ -120,7 +120,6 @@ class UserButton extends React.Component {
       if (response.payload.success) {
         let realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
         localStorage.setItem('img', realImage);
-        console.log(realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('percent', res.payload.data.info.cstatus);
