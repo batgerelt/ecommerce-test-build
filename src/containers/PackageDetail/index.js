@@ -106,13 +106,7 @@ function PackageDetail({
   );
 }
 
-const mapStateToProps = ({
-  package: { info, images, packageDetail },
-}) => ({
-  info,
-  images,
-  packageDetail,
-});
+const mapStateToProps = ({ package: { info, images, packageDetail } }) => ({ info, images, packageDetail });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
@@ -121,6 +115,4 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch),
 });
 
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(injectIntl(PackageDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(PackageDetail));

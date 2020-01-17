@@ -102,16 +102,11 @@ class ProductDetail extends React.Component {
             <li className="list-inline-item share-text upper-first">
               <span><FormattedMessage id="shared.share" />:</span>
             </li>
+            {console.log(window.location.href)}
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <FacebookShareButton
                 url={window.location.href}
                 quote={detail.products.name}
-                className="Demo__some-network__share-button"
-                children={
-                  <div>
-                    <img alt="hello" src={process.env.IMAGE + detail.products.img} />
-                  </div>
-                }
               >
                 <FacebookIcon size={25} round />
               </FacebookShareButton>
@@ -120,7 +115,6 @@ class ProductDetail extends React.Component {
               <TwitterShareButton
                 url={window.location.href}
                 quote={detail.products.name}
-                className="Demo__some-network__share-button"
               >
                 <TwitterIcon size={25} round />
               </TwitterShareButton>
