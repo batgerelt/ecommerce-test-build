@@ -113,7 +113,8 @@ class List extends React.Component {
       isfiles,
     }).then((response) => {
       if (response.payload.success) {
-        localStorage.setItem('img', response.payload.data);
+        let realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
+        localStorage.setItem('img', realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('percent', res.payload.data.info.cstatus);

@@ -108,16 +108,6 @@ class UserButton extends React.Component {
     }
   };
 
-  componentDidUpdate() {
-    /* if (localStorage.getItem("auth") !== null) {
-      let token = JSON.parse(localStorage.getItem("auth")).data[0].info.access_token;
-      if (jwtDecode(token).exp < Date.now() / 1000) {
-        console.log("token expired");
-        this.handleLogout();
-      }
-    } */
-  }
-
   uploadPick = () => {
     const { file } = this.state;
     const data = new FormData();
@@ -128,7 +118,9 @@ class UserButton extends React.Component {
       isfiles,
     }).then((response) => {
       if (response.payload.success) {
-        localStorage.setItem('img', response.payload.data);
+        let realImage = JSON.stringify(process.env.IMAGES + response.payload.data);
+        localStorage.setItem('img', realImage);
+        console.log(realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
             localStorage.setItem('percent', res.payload.data.info.cstatus);
