@@ -16,7 +16,7 @@ function PackageProductList({
   intl,
   intl: { formatMessage },
   products,
-  increaseProductsByQtyLocally,
+  errors,
   increaseProductsByQtyRemotely,
   increasePackageProductsByQtyLocally,
 }) {
@@ -128,13 +128,10 @@ function PackageProductList({
       }
     } else {
       const prods = packageProducts.filter(prod => prod.qty > 0);
+      const res = await increasePackageProductsByQtyLocally(prods);
 
-      const { payload } = await increasePackageProductsByQtyLocally(prods);
-      const errors = payload.filter(prod => prod.id === parseInt(id, 10));
-      console.log('errors: ', errors);
       if (errors) {
         const names = errors.map(err => err.title);
-        console.log('names: ', names);
         store.addNotification({
           insert: "top",
           container: "top-right",
@@ -216,6 +213,8 @@ function PackageProductList({
   );
 }
 
+const mapStateToProps = ({ cart: { errors } }) => ({ errors });
+
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     increaseProductsByQtyLocally: CartModel.increaseProductsByQtyLocally,
@@ -225,6 +224,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(injectIntl(PackageProductList));

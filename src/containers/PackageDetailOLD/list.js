@@ -276,9 +276,7 @@ class List extends React.Component {
       }));
 
       products = products.filter(prod => prod.qty > 0);
-
       this.props.increasePackageProductsByQtyLocally(products);
-
       const errors = this.props.errors && this.props.errors.filter(prod => prod.id === parseInt(this.props.match.params.id, 10));
 
       if (errors.length > 0) {
@@ -439,7 +437,6 @@ class List extends React.Component {
                     className="btn btn-link"
                     onClick={() => this.handleSimilarProductIncrement(prod)}
                   >
-                    hello
                     <i
                       className="fa fa-cart-plus"
                       aria-hidden="true"

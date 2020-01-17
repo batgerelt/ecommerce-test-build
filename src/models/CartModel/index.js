@@ -1,3 +1,5 @@
+/* eslint-disable no-debugger */
+/* eslint-disable semi */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable no-fallthrough */
 /* eslint-disable no-restricted-globals */
@@ -644,11 +646,7 @@ class Model extends BaseModel {
                 }
               }
             } else {
-              product.error = from === "package"
-                ? "205"
-                : from === "recipe"
-                  ? "206"
-                  : "200";
+              product.error = from === "package" ? "205" : from === "recipe" ? "206" : "200";
             }
           }
         }
@@ -902,7 +900,6 @@ class Model extends BaseModel {
         return { ...state, products: action.payload.data.items };
 
       case this.model.incrementOrderProducts.request:
-        console.log("gaga");
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.incrementOrderProducts.error:
         return { ...state, current: this.errorCase(state.current, action) };
@@ -948,79 +945,11 @@ class Model extends BaseModel {
         return { ...state, products: action.payload.data.items };
 
       case "CART_INCREASE_PACKAGE_PRODUCTS_BY_QTY_LOCALLY":
-        // let cartProducts = [...state.products];
-        // const packageProducts = [...action.payload];
-
-        // packageProducts.forEach((packageProduct) => {
-        //   const found = cartProducts.find(
-        //     cartProduct => cartProduct.skucd === packageProduct.skucd,
-        //   );
-
-        //   if (found) {
-        //     const newQty = parseInt(packageProduct.qty, 10) + found.qty;
-
-        //     if (!found.availableqty) {
-        //       if (found.salemaxqty > 0) {
-        //         if (newQty > found.salemaxqty) {
-        //           found.qty = found.addminqty > 1
-        //             ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
-        //             : found.salemaxqty;
-        //           found.error = "202";
-        //         } else {
-        //           found.qty = newQty;
-        //           found.error = null;
-        //         }
-        //       } else if (found.salemaxqty === 0) {
-        //         found.qty = newQty;
-        //         found.error = null;
-        //       } else {
-        //         found.error = '200';
-        //       }
-        //     } else {
-        //       if (found.availableqty > 0) {
-        //         if (found.salemaxqty > 0) {
-        //           if (newQty > found.salemaxqty) {
-        //             found.qty = found.addminqty > 1
-        //               ? Math.floor(found.salemaxqty / found.addminqty) * found.addminqty
-        //               : found.salemaxqty;
-        //             found.error = "202";
-        //           } else {
-        //             found.qty = newQty;
-        //             found.error = null;
-        //           }
-        //         } else {
-        //           if (newQty > found.availableqty) {
-        //             found.qty = found.addminqty > 1
-        //               ? Math.floor(found.availableqty / found.addminqty) * found.addminqty
-        //               : found.availableqty;
-        //             found.error = "200";
-        //           } else {
-        //             found.qty = newQty;
-        //             found.error = null;
-        //           }
-        //         }
-        //       } else {
-        //         found.error = "200";
-        //       }
-        //     }
-
-        //     const index = cartProducts.findIndex(prod => prod.skucd === found.skucd);
-
-        //     cartProducts[index] = found;
-        //   } else {
-        //     cartProducts.push(packageProduct);
-        //   }
-        // });
-
-        // return {
-        //   ...state,
-        //   products: cartProducts.filter(cartProduct => !cartProduct.error),
-        //   // errors: errors.length > 0 ? errors : [],
-        // };
-
         try {
           let { products: cartProducts } = state;
           let packageProducts = [...action.payload];
+
+          // debugger
 
           packageProducts.forEach((prod) => {
             this.updateReduxStore(
@@ -1034,10 +963,18 @@ class Model extends BaseModel {
           });
 
           const errors = cartProducts.filter(prod => prod.error);
+          const updateCartProducts = cartProducts.filter(prod => prod.error === null || prod.error === undefined);
+
+          if (updateCartProducts.length === 0) {
+            return {
+              ...state,
+              errors: errors.length > 0 ? errors : [],
+            };
+          }
 
           return {
             ...state,
-            products: cartProducts,
+            products: updateCartProducts,
             errors: errors.length > 0 ? errors : [],
           };
         } catch (e) {
