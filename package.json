@@ -55,6 +55,7 @@
     "redux-persist": "^5.4.0",
     "redux-promise-middleware": "^6.1.1",
     "redux-thunk": "^2.2.0",
+    "share-facebook": "^1.0.1",
     "source-map-explorer": "^2.2.0",
     "style-it": "^2.1.4",
     "sweetalert2": "^8.15.2",

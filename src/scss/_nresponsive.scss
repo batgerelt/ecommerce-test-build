@@ -526,6 +526,9 @@ h1.title {
     }
 }
 
+.ant-back-top{
+    left: 100px !important;
+}
 
 // lg (< 1200px)
 @media (max-width: 1199px) {
@@ -1435,6 +1438,11 @@ h1.title {
     .e-breadcrumb {
         padding: 0px 0px 10px 0px;
     }
+    
+    .ant-back-top{
+        left: 50px !important;
+    }
+    
 }
 
 // xs (< 768px)
@@ -2106,6 +2114,10 @@ h1.title {
             min-height: 60px;
             padding: 5px 5px 5px 40px;
         }
+    }
+
+    .static-page{
+        padding: 20px 20px !important;
     }
 }
 

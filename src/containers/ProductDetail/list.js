@@ -1,6 +1,5 @@
 /* eslint-disable react/no-children-prop */
 import React from "react";
-import { Modal } from "antd";
 import { FormattedMessage } from "react-intl";
 import {
   FacebookShareButton,
@@ -8,6 +7,7 @@ import {
   FacebookIcon,
   TwitterIcon,
 } from "react-share";
+// import shareFacebook from "share-facebook";
 import {
   Relational,
   Gallery,
@@ -102,14 +102,24 @@ class ProductDetail extends React.Component {
             <li className="list-inline-item share-text upper-first">
               <span><FormattedMessage id="shared.share" />:</span>
             </li>
-            {console.log(window.location.href)}
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <FacebookShareButton
+                children={<span><p>heloooooooooo</p><img width={50} alt="logo" src={process.env.IMAGE + detail.images[0].img} /></span>}
                 url={window.location.href}
+                href={window.location.href}
                 quote={detail.products.name}
               >
                 <FacebookIcon size={25} round />
               </FacebookShareButton>
+            </li>
+            <li>
+              {/* <Fbshare
+                quote="Check this library to help you create share facebook url"
+                href="https://bukinoshita.io"
+                redirect_uri="https://bukinoshita.io"
+                app_id="730767227416524"
+              /> */}
+              {/* <a href={shareFacebook({ redirect_uri: window.location.href, url: window.location.href, app_id: '730767227416524' })}>S</a> */}
             </li>
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <TwitterShareButton

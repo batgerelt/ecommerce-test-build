@@ -32,6 +32,7 @@ class Homepage extends React.Component {
             ? []
             : products.emartproduct.product;
           widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
+          widget.icon = <Icon name="home" color="red" />;
           break;
         case WIDGET_SLUGS.discount:
           widget.items = products.discountproduct.product.length === 0
