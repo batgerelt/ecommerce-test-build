@@ -136,7 +136,6 @@ class Comment extends Component {
   }
 
   renderComment = (comment) => {
-    console.log(comment.rate);
     let image = JSON.stringify(process.env.IMAGES + comment.imgnm);
     return (
       <Col span={24}>

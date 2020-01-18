@@ -503,11 +503,11 @@ class Detail extends Component {
         });
       }
     } else {
-      console.log({
+      /* console.log({
         ...product,
         qty: this.state.productQty,
         insymd: Date.now(),
-      });
+      }); */
       await this.props.increaseProductByQtyLocally({
         ...product,
         qty: this.state.productQty,
