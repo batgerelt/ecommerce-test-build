@@ -21,7 +21,7 @@ class Relational extends Component {
 
   handleIncrementClick = async (product) => {
     const { intl } = this.props;
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     try {
       if (this.props.isLoggedIn) {
         const result = await this.props.incrementProductRemotely({
@@ -73,7 +73,7 @@ class Relational extends Component {
           }));
         }
       }
-      this.setState({ loading: false });
+      // this.setState({ loading: false });
     } catch (e) {
       console.log(e);
     }
