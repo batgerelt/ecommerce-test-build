@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/no-children-prop */
 import React from "react";
+import { Helmet } from "react-helmet";
 import { FormattedMessage } from "react-intl";
 import {
   FacebookShareButton,
@@ -119,6 +121,19 @@ class ProductDetail extends React.Component {
                 redirect_uri="https://bukinoshita.io"
                 app_id="730767227416524"
               /> */}
+              {/* <div
+                className="fb-share-button"
+                data-href="https://developers.facebook.com/docs/plugins/"
+                data-layout="button"
+                data-size="large"
+              >
+                <a
+                  target="_blank"
+                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                  className="fb-xfbml-parse-ignore"
+                >Share
+                </a>
+              </div> */}
               {/* <a href={shareFacebook({ redirect_uri: window.location.href, url: window.location.href, app_id: '730767227416524' })}>S</a> */}
             </li>
             <li className="list-inline-item" style={{ cursor: "pointer" }}>

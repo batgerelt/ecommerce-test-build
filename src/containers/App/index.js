@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable import/first */
@@ -105,7 +106,6 @@ class App extends Component {
     this.props.getStaticInfo();
     this.props.getTags();
     this.props.setLang();
-    localStorage.setItem('tokenExpired', false);
   }
   componentDidMount() {
     this.props.getCategoryMenu();
