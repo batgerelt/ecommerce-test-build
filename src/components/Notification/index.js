@@ -6,7 +6,7 @@ import styles from "./styles.less";
 class index extends Component {
   renderContent = () => {
     try {
-      const { type, text } = this.props;
+      const { type, text, title } = this.props;
 
       if (type === "success") {
         return (
@@ -16,7 +16,7 @@ class index extends Component {
             </div>
 
             <div className="content">
-              <p>{text}</p>
+              <p>{title !== undefined ? <strong>{title}<br /></strong> : null}{text}</p>
             </div>
           </div>
         );
@@ -26,9 +26,8 @@ class index extends Component {
             <div className="icon">
               <Icon type="exclamation-circle" theme="filled" />
             </div>
-
             <div className="content">
-              <p>{text}</p>
+              <p>{title !== undefined ? <strong>{title}<br /></strong> : null}{text}</p>
             </div>
           </div>
         );
@@ -41,7 +40,7 @@ class index extends Component {
           </div>
 
           <div className="content">
-            <p>{text}</p>
+            <p>{title !== undefined ? <strong>{title}<br /></strong> : null}{text}</p>
           </div>
         </div>
       );

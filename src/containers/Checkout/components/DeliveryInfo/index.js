@@ -98,6 +98,7 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    console.log("response");
     this.setState({ loading: true });
     const {
       userinfo, products, mainState,
@@ -111,9 +112,23 @@ class DeliveryInfo extends React.Component {
           window.scrollTo(0, 85);
         }
       }
+      if (window.innerWidth < 1024) {
+        if (this.state.notif) {
+          window.scrollTo(0, 700);
+        } else {
+          window.scrollTo(0, 85);
+        }
+      }
     } else if (mainState.activeKey === '3') {
       if (!this.state.checkedAgreement) {
         if (isMobile) {
+          if (this.state.notif) {
+            window.scrollTo(0, 700);
+          } else {
+            window.scrollTo(0, 85);
+          }
+        }
+        if (window.innerWidth < 1024) {
           if (this.state.notif) {
             window.scrollTo(0, 700);
           } else {

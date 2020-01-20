@@ -228,7 +228,7 @@ class LoginModal extends React.Component {
                 },
                 content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
               });
-              this.setState({ loading: false }, () => console.log("failed"));
+              this.setState({ loading: false });
             }
           });
         } catch (e) {

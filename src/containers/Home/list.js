@@ -76,7 +76,6 @@ class Homepage extends React.Component {
           break;
         default:
       }
-
       if (widget.items && widget.items.length > 0) {
         blocks.push(<Widget key={widget.slug} widgetData={widget} {...this.props} />);
       }
@@ -228,16 +227,17 @@ class Homepage extends React.Component {
       <div className="top-container homepage-container">
         {this.renderMainBanner()}
         {
-          this.props.isHomepageBannerLoading ? <Loader />
+          this.props.isHomepageBannerLoading ?
+            <Loader />
             :
-          <div>
-            {this.renderBlocks()}
-            <div className="main-slide">
-              <div className="container pad10">
-                {this.renderBrandSlider()}
+            <div>
+              {this.renderBlocks()}
+              <div className="main-slide">
+                <div className="container pad10">
+                  {this.renderBrandSlider()}
+                </div>
               </div>
             </div>
-          </div>
         }
         <BackTop />
       </div>

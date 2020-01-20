@@ -374,8 +374,8 @@ class Checkout extends React.Component {
                   ),
                   type: "warning",
                   animation: true,
-                  button: true,
-                  showCloseButton: true,
+                  button: false,
+                  showCloseButton: false,
                   showCancelButton: false,
                   showConfirmButton: false,
                   focusConfirm: false,
@@ -427,6 +427,7 @@ class Checkout extends React.Component {
   }
 
   handleSubmit = () => {
+    console.log("gaga");
     this.DeliveryInfo.handleSubmit();
   }
   render() {
