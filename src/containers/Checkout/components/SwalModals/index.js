@@ -118,10 +118,10 @@ class SwalModals extends Component {
           this.errorMsg("Уучлаарай таны сагс хоосон байна. Сагсандаа бараа нэмнэ үү ?");
           this.props.history.push("/cart");
         } else {
-          this.props.paymentId.scrollIntoView({
+          /* this.props.paymentId.scrollIntoView({
             behavior: 'smooth',
             block: 'center',
-          });
+          }); */
           MySwal.close();
           this.props.changeDeliveryType(true);
           this.props.callback("3");
