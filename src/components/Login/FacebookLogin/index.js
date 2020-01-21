@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { message } from "antd";
-import { FacebookLogin } from 'react-facebook-login-component';
+import FacebookLogin from 'react-facebook-login';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { SOCIAL_IDS } from "../../../utils/Consts";
 
@@ -33,38 +33,20 @@ class FacebookLogin1 extends React.Component {
   };
   render() {
     const { intl } = this.props;
-    let fbContent;
-    if (this.state.isLoggedIn) {
-      fbContent = null;
-    } else {
-      fbContent = (
-        // <FacebookLogin
-        //   isMobile
-        //   disableMobileRedirect
-        //   appId={SOCIAL_IDS.facebook}
-        //   autoLoad={false}
-        //   fields="name,email,picture.type(large)"
-        //   cssClass="btn btn-block btn-social btn-facebook"
-        //   onClick={this.componentClicked}
-        //   callback={this.responseFacebook}
-        //   textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
-        //   size="metro"
-        // />
-        <FacebookLogin
-          socialId={SOCIAL_IDS.facebook}
-          language="mn_MN"
-          scope="name,email,picture.type(large)"
-          responseHandler={this.responseFacebook}
-          xfbml
-          fields="name,email,picture.type(large)"
-          version="v2.5"
-          className="btn btn-block btn-social btn-facebook"
-          buttonText={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
-        />
-      );
-    }
+
     return (
-      <div>{fbContent}</div>
+      <FacebookLogin
+        isMobile
+        disableMobileRedirect
+        appId={SOCIAL_IDS.facebook}
+        autoLoad={false}
+        fields="name,email,picture.type(large)"
+        cssClass="btn btn-block btn-social btn-facebook"
+        onClick={this.componentClicked}
+        callback={this.responseFacebook}
+        textButton={intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
+        size="metro"
+      />
     );
   }
 }
