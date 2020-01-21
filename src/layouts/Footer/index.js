@@ -111,7 +111,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-6 col-lg-3 pad10 d-f-center">
+        <div className="col-sm-6 col-lg-3 pad10 d-f-center footer-contract">
           <ul className="list-unstyled">
             <li>
               <strong><FormattedMessage id="footer.terms.title" /></strong>
@@ -142,7 +142,7 @@ class Footer extends React.Component {
       const { staticpages } = this.props.staticcontent;
 
       return (
-        <div className="col-sm-6 col-lg-3 pad10 d-f-center">
+        <div className="col-sm-6 col-lg-3 pad10 d-f-center footer-contract">
           <ul className="list-unstyled">
             <li>
               <strong><FormattedMessage id="footer.customercorner.title" /></strong>

@@ -106,7 +106,7 @@
 	"checkout.swal.button.removeFromCartAndProceed": "Remove from cart and proceed",
 	"checkout.swal.info.contract": "Please contact us if you have any questions about delivery. Thank you.",
 	"checkout.swal.info.orderCancellation": "Please notice that your payment will be cancelled automatically if you don't make it in {hours} hours.",
-	"checkout.swal.info.orderPayment": "The above account will be used to make payments. and {orderNumber} should be written down on transaction description.",
+	"checkout.swal.info.orderPayment": "Your order will be confirmed after payment which has to be made within {orderNumber} yours. Please note that if payment is not made within that period, delivery may be delayed and the order may be canceled.",
 	"checkout.swal.info.success": "Your order is registered successfully",
 	"checkout.swal.label.account": "Account",
 	"checkout.swal.label.accountNumber": "Account number",

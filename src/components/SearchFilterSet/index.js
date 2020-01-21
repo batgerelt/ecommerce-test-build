@@ -3,7 +3,6 @@
 /* eslint-disable radix */
 import React from "react";
 import { injectIntl } from 'react-intl';
-// import { Collapse } from "react-collapse";
 import { Slider, Collapse, Icon, Form } from "antd";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";

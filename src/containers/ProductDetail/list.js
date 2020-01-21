@@ -9,7 +9,6 @@ import {
   FacebookIcon,
   TwitterIcon,
 } from "react-share";
-// import shareFacebook from "share-facebook";
 import {
   Relational,
   Gallery,
