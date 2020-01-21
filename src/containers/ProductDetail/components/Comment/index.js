@@ -206,7 +206,7 @@ class Comment extends Component {
               </div>
 
               <form>
-                <div className="form-group">
+                <div className="form-group sent-comment">
                   <div className="main-rating">
                     <Rate
                       allowHalf

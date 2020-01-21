@@ -23,7 +23,7 @@ const RadioGroup = Radio.Group;
 
 class DeliveryPanel extends React.Component {
   state = {
-    defaultActiveKey: 3,
+    defaultActiveKey: 1,
     districtLocation: [],
     committeLocation: [],
     selectLoading: false,
@@ -56,6 +56,20 @@ class DeliveryPanel extends React.Component {
     } catch (error) {
       return console.log(error);
     }
+  }
+
+  getZoneSetting = (found) => {
+    this.setState({ dateLoading: true });
+    const { defaultActiveKey, inzone } = this.state;
+    let locid = found.locid;
+    let deliverytype = defaultActiveKey;
+    this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
+      this.setState({ dateLoading: false });
+      if (res.payload.success) {
+        this.props.changeChosenDate(res.payload.data.deliveryDate);
+        this.setState({ zoneSetting: res.payload.data });
+      }
+    });
   }
 
   getDistrict = (id, type) => {
@@ -114,20 +128,6 @@ class DeliveryPanel extends React.Component {
         this.setState({ inzone: found.inzone });
       }
       this.setState({ selectLoading: false });
-    });
-  }
-
-  getZoneSetting = (found) => {
-    this.setState({ dateLoading: true });
-    const { defaultActiveKey, inzone } = this.state;
-    let locid = found.locid;
-    let deliverytype = defaultActiveKey;
-    this.props.getZoneSettings({ locid, deliverytype }).then((res) => {
-      this.setState({ dateLoading: false });
-      if (res.payload.success) {
-        this.props.changeChosenDate(res.payload.data.deliveryDate);
-        this.setState({ zoneSetting: res.payload.data });
-      }
     });
   }
 
