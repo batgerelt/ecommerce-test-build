@@ -136,7 +136,12 @@ class Comment extends Component {
   }
 
   renderComment = (comment) => {
-    let image = JSON.stringify(process.env.IMAGES + comment.imgnm);
+    let image = null;
+    if (comment.imgnm.slice(0, 5) === "https") {
+      image = comment.imgnm;
+    } else {
+      image = JSON.stringify(process.env.IMAGES + comment.imgnm);
+    }
     return (
       <Col span={24}>
         <Row>
