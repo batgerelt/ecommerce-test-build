@@ -129,9 +129,11 @@ class Checkout extends React.Component {
       orderAmount,
       skucdList: skus,
     };
-    this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
-      this.setState({ deliveryPrice: res.payload.data.price });
-    });
+    if (localStorage.getItem('emartmall_token') !== null && this.props.userinfo.main !== null) {
+      this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+        this.setState({ deliveryPrice: res.payload.data.price });
+      });
+    }
   }
 
   changeDeliveryType = (value) => {

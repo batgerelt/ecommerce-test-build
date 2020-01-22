@@ -480,11 +480,13 @@ class Component extends React.Component {
       </Col>
     );
   }
+
   renderProfile = () => {
     try {
       const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { userInfo } = this.props;
+      console.log("epointCardResponse", this.props.epointCardResponse);
       return (
         <div className="row row10">
           <Form>
@@ -583,7 +585,6 @@ class Component extends React.Component {
               :
               <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} getEpoint={this.props.getEpoint} />
           }
-          {/* {userInfo.card === undefined ? <Card emartCard={this.props.emartCard} getCustomer={this.props.getCustomer} showModal={this.showModal} /> : this.renderCard(userInfo.card)} */}
         </div >
       );
     } catch (error) {
