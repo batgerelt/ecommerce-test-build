@@ -3,7 +3,8 @@ import { asyncFn } from "../utils";
 
 class Model extends BaseModel {
   initialState = {
-    epointCardInfo: [],
+    epointCardInfo: {},
+    epointCardResponse: null,
     history: [],
     wish: [],
     delivery: [],
@@ -330,7 +331,7 @@ class Model extends BaseModel {
       case this.model.getEpoint.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.getEpoint.response:
-        return { ...state, epointCardInfo: action.payload.data };
+        return { ...state, epointCardInfo: action.payload.data, epointCardResponse: action.payload };
       // GET SYSTEM LOCATION
       case this.model.systemlocation.request:
         return { ...state, current: this.requestCase(state.current, action) };

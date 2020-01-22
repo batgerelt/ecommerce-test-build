@@ -26,6 +26,7 @@ class Model extends BaseModel {
     basketNewProducts: [],
     sendOrder: [],
     golomtMerchant: '',
+    deliveryPrice: 0,
   }
 
   constructor(data = {}) {
@@ -87,6 +88,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'golomtMerchant'),
           error: this.buildActionName('error', data.model, 'golomtMerchant'),
         },
+        deliveryPrice: {
+          request: this.buildActionName('request', data.model, 'deliveryprice'),
+          response: this.buildActionName('response', data.model, 'deliveryprice'),
+          error: this.buildActionName('error', data.model, 'deliveryprice'),
+        },
       };
     }
     this.checkEpointPinModel = {
@@ -96,6 +102,9 @@ class Model extends BaseModel {
     };
   }
 
+  getDeliveryPrice = ({ body }) => asyncFn({
+    body, url: `/checkout/deliveryprice`, method: 'POST', model: this.model.deliveryPrice,
+  })
   getBankInfo = () => asyncFn({ url: `/checkout/bankInfo`, method: 'GET', model: this.model.bankInfo });
   getPaymentTypes = () => asyncFn({ url: `/checkout/Paymenttypes`, method: 'GET', model: this.model.paymentTypes });
   getDeliveryTypes = () => asyncFn({ url: `/checkout/deliveryTypes`, method: 'GET', model: this.model.deliveryTypes });
@@ -118,6 +127,14 @@ class Model extends BaseModel {
   });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // DELIVERY PRICE
+      case this.model.deliveryPrice.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.deliveryPrice.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.deliveryPrice.response:
+        return { ...state, deliveryPrice: action.payload.data };
+
       // GET CART BANK INFO
       case this.model.bankInfo.request:
         return { ...state, current: this.requestCase(state.current, action) };
