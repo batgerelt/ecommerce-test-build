@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
 import { store } from 'react-notifications-component';
+import moment from "moment";
 import {
   LoginRegisterPanel,
   PaymentTypePanel,
@@ -52,6 +53,7 @@ class Checkout extends React.Component {
       ePointServer: {},
       freeCond: 0,
       submitLoading: false,
+      deliveryPrice: 0,
     };
   }
 
@@ -107,6 +109,29 @@ class Checkout extends React.Component {
       this.setState({ cardInfo: userinfo.card });
     }
     this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
+    this.getDeliveryPrice();
+  }
+
+  getDeliveryPrice = () => {
+    let type = "1";
+    if (this.state.chosenDelivery.id !== undefined) {
+      type = this.state.chosenDelivery.id;
+    }
+    let skus = [];
+    this.props.products.map((ind) => {
+      skus.push(ind.skucd);
+    });
+    let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
+    const param = {
+      typeid: type,
+      deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
+      locid: this.props.userInfo.main.locid,
+      orderAmount,
+      skucdList: skus,
+    };
+    this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+      this.setState({ deliveryPrice: res.payload.data.price });
+    });
   }
 
   changeDeliveryType = (value) => {
@@ -210,13 +235,13 @@ class Checkout extends React.Component {
       item.price += this.state.freeCond;
       this.setState({ freeCond: 0 });
     }
-    this.setState({ chosenDelivery: item });
+    this.setState({ chosenDelivery: item }, () => this.getDeliveryPrice());
   }
 
   getDeliveryTypeValue = (body, date) => { }
 
   changeChosenDate = (item) => {
-    this.setState({ chosenDate: item });
+    this.setState({ chosenDate: item }, () => this.getDeliveryPrice());
   }
 
   scrollTo = (top, left) => {

@@ -56,20 +56,6 @@ class Page extends React.Component {
   }
 
   getData = () => {
-    console.log("this.props", this.props);
-    let skus = [];
-    this.props.products.map((ind) => {
-      console.log(ind.skucd);
-    });
-    const param = {
-      typeid: "1",
-      deliveryDate: "2020-01-22T01:29:33.381Z",
-      locid: this.props.userInfo.main.locid,
-      orderAmount: 205,
-      skucdList: [
-        "8656170005332",
-      ],
-    };
     this.props.getPaymentTypes();
     this.props.getDeliveryTypes();
     this.props.getBankInfo();
@@ -82,10 +68,6 @@ class Page extends React.Component {
     } else {
       this.setState({ loading: false });
     }
-    /* this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
-      console.log("res", res);
-    }); */
-    console.log(this.props);
   }
 
   render() {
