@@ -388,7 +388,7 @@ class LoginModal extends React.Component {
                   placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                   className="form-control"
                   autoComplete="off"
-                  autoFocus
+                  autoFocus={window.innerWidth > 576}
                 />,
               )}
             </Form.Item>

@@ -1621,12 +1621,8 @@ body {
   background-color: #262a32;
 }
 
-.food-post {
-  padding: 20px;
-}
-
 .food-post .image-container {
-  border-radius: 5px;
+  border-radius: 5px 0px 0px;
   overflow: hidden;
 }
 
@@ -4118,10 +4114,6 @@ form .e-input-group .count-text {
 }
 
 @media (max-width: 991.97px) {
-  .food-post {
-    padding: 5px;
-  }
-
   .main-nav {
     position: relative;
   }

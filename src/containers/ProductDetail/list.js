@@ -118,7 +118,7 @@ class ProductDetail extends React.Component {
                 quote="Check this library to help you create share facebook url"
                 href="https://bukinoshita.io"
                 redirect_uri="https://bukinoshita.io"
-                app_id="730767227416524"
+                app_id="1438714326447694"
               /> */}
               {/* <div
                 className="fb-share-button"
@@ -133,7 +133,7 @@ class ProductDetail extends React.Component {
                 >Share
                 </a>
               </div> */}
-              {/* <a href={shareFacebook({ redirect_uri: window.location.href, url: window.location.href, app_id: '730767227416524' })}>S</a> */}
+              {/* <a href={shareFacebook({ redirect_uri: window.location.href, url: window.location.href, app_id: '1438714326447694' })}>S</a> */}
             </li>
             <li className="list-inline-item" style={{ cursor: "pointer" }}>
               <TwitterShareButton
