@@ -55,10 +55,6 @@ class LoginModal extends React.Component {
     this.props.form.resetFields();
   }
 
-  goHome() {
-    return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
-  }
-
   handleSubmitForget = (e) => {
     e.preventDefault();
     const { intl } = this.props;
@@ -124,7 +120,6 @@ class LoginModal extends React.Component {
             // Амжилттай нэвтэрсэн үед
             if (result.payload.success) {
               localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
-              console.log("img: ", result.payload.data[0].info.customerInfo.imgnm);
               if (result.payload.data[0].info.customerInfo.imgnm !== null) {
                 let realImage = "";
                 let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
@@ -351,6 +346,10 @@ class LoginModal extends React.Component {
     });
   }
 
+  goHome() {
+    return this.state.confirm ? <Redirect to="/" /> : this.state.goCart ? <Redirect to="/cart" /> : null;
+  }
+
   onRemember = (e) => {
     this.setState({ isRemember: !this.state.isRemember });
   };
@@ -367,7 +366,6 @@ class LoginModal extends React.Component {
           onOk={this.handleLoginModal}
           onCancel={this.closeLoginModal}
           footer={null}
-          centered
         >
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
@@ -410,7 +408,6 @@ class LoginModal extends React.Component {
                 htmlType="submit"
                 className="btn btn-block btn-login text-uppercase"
                 loading={this.state.loading}
-              // disabled={this.state.loading}
               >{" "}
                 <FormattedMessage id="shared.form.button.login" />
               </Button>
