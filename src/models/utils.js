@@ -30,10 +30,10 @@ const request = ({
         localStorage.removeItem('emartmall_co');
         localStorage.removeItem('img');
         localStorage.removeItem('percent');
+        return response.json();
       }
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
+
+      if (!response.ok) { throw new Error(response.statusText); }
       return response.json();
     });
   }
@@ -60,18 +60,17 @@ const request = ({
     credentials: 'include',
     body: JSON.stringify(body),
   }).then((response) => {
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
       localStorage.setItem('tokenExpired', true);
       localStorage.removeItem('auth');
       localStorage.removeItem('emartmall_token');
       localStorage.removeItem('emartmall_co');
       localStorage.removeItem('img');
       localStorage.removeItem('percent');
+      return response.json();
     }
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
+    if (!response.ok) { throw new Error(response.statusText); }
     return response.json();
   });
 };

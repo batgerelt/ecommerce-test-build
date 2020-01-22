@@ -52,6 +52,14 @@ class Page extends React.Component {
   componentWillMount() {
     // this.props.getCategoryMenu();
     this.props.getBrand();
+    this.props.getWidget();
+    this.props.getPackage({});
+    this.props.getNewProduct({});
+    this.props.getRecipe({});
+    this.props.getDiscountProduct({});
+    this.props.getEmartProduct({});
+
+    // maaybe have error
     this.props.getHomePageBanner().then(res => {
       const { banner } = this.state;
       const response = res.payload.data;
@@ -60,12 +68,6 @@ class Page extends React.Component {
       banner.footer.push(response.footer[Math.floor(Math.random() * response.footer.length)]);
       return this.setState({ banner });
     });
-    this.props.getWidget();
-    this.props.getPackage({});
-    this.props.getNewProduct({});
-    this.props.getRecipe({});
-    this.props.getDiscountProduct({});
-    this.props.getEmartProduct({});
   }
 
   render() {

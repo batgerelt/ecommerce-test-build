@@ -675,7 +675,6 @@ class Card extends React.Component {
                       {featureText}
                     </span>
                   </Link>
-
                   {
                     item.id === undefined && item.recipeid === undefined ?
                       <Rate
