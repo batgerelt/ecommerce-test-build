@@ -1310,7 +1310,14 @@ h1.title {
     // ~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>~~>
     
     .main-slide {
-        margin: 0px 0px 20px 0px;
+        margin-top: -20px;
+        padding-bottom: 20px;
+    }
+
+    .homepage-container{
+        .main-slide{
+            margin-top: -20px;
+        }
     }
 
     .whole-page-title {
@@ -2135,6 +2142,10 @@ h1.title {
 @media (min-device-width: 1200px) {
     #root {
         margin-top: 147px !important;
+    }
+
+    .main-slide {
+        margin-top: -7px;
     }
 
     .whole-page-title {
