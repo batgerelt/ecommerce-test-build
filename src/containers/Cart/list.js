@@ -78,15 +78,8 @@ class Cart extends React.Component {
           if (result.payload.data.length > 0) {
             let reasons = [];
             result.payload.data.forEach(msg => (
-              reasons.push(intl.formatMessage(
-                { id: msg.code },
-                {
-                  name: msg.values[1],
-                  qty: msg.values[2],
-                },
-              ))
+              reasons.push(msg.values[1])
             ));
-
             if (reasons.length > 0) {
               store.addNotification({
                 insert: "top",
