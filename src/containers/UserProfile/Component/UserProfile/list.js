@@ -313,6 +313,9 @@ class Component extends React.Component {
               )}
             </Form.Item>
           </Col>
+          <Col className="text-right" span={24}>
+            <p>Ипойнттой холбогдоход алдаа гарлаа.</p>
+          </Col>
         </Form>
       </Col>
     );

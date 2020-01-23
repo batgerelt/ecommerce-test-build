@@ -13,6 +13,7 @@ import {
   Recipe as RecipeModel,
   Search as SearchModel,
   Cart as CartModel,
+  User as UserModel,
   Auth as AuthModel,
 } from "../../models";
 import { LoginModal } from "../../components/Login";
@@ -28,6 +29,7 @@ const mapStateToProps = state => ({
   ...state.recipe,
   ...state.search,
   ...state.cart,
+  ...state.user,
   ...state.auth,
 });
 
@@ -42,6 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ...RecipeModel,
     ...SearchModel,
     ...CartModel,
+    ...UserModel,
     ...AuthModel,
   }, dispatch),
 });

@@ -258,7 +258,6 @@ class Checkout extends React.Component {
     const { activeKey } = this.state;
     this.scrollTo(0, 0);
     if (key === "3" && activeKey === "2") {
-      // this.setState({ activeKey: "3" });
       this.onSubmitDeliveryPanel();
     } else if (key === "2" && activeKey === "3") {
       this.setState({ activeKey: "2" });

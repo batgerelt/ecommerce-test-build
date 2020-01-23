@@ -32,7 +32,7 @@ class DeliveryInfo extends React.Component {
       chosenInfo: {},
       organizationData: [],
       notif: false,
-      checkedEpoint: !(props.mainState.cardInfo === null),
+      checkedEpoint: (props.mainState.cardInfo === null),
       giftvisible: false,
       imgnm: null,
       loading: false,
