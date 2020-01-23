@@ -109,31 +109,32 @@ class Checkout extends React.Component {
       this.setState({ cardInfo: userinfo.card });
     }
     this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
+
     this.getDeliveryPrice();
   }
 
   getDeliveryPrice = () => {
-    let type = "1";
-    if (this.state.chosenDelivery.id !== undefined) {
-      type = this.state.chosenDelivery.id;
-    }
-    let skus = [];
-    this.props.products.map((ind) => {
-      skus.push(ind.skucd);
-    });
-    let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
-    const param = {
-      typeid: type,
-      deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
-      locid: this.props.userInfo.main.locid,
-      orderAmount,
-      skucdList: skus,
-    };
-    if (localStorage.getItem('emartmall_token') !== null && this.props.userinfo.main !== null) {
+    /* if (localStorage.getItem('emartmall_token') !== null && this.props.userinfo.main !== null) {
+      let type = "1";
+      if (this.state.chosenDelivery.id !== undefined) {
+        type = this.state.chosenDelivery.id;
+      }
+      let skus = [];
+      this.props.products.map((ind) => {
+        skus.push(ind.skucd);
+      });
+      let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
+      const param = {
+        typeid: type,
+        deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
+        locid: this.props.userInfo.main.locid,
+        orderAmount,
+        skucdList: skus,
+      };
       this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
         this.setState({ deliveryPrice: res.payload.data.price });
       });
-    }
+    } */
   }
 
   changeDeliveryType = (value) => {
@@ -258,7 +259,6 @@ class Checkout extends React.Component {
     const { activeKey } = this.state;
     this.scrollTo(0, 0);
     if (key === "3" && activeKey === "2") {
-      // this.setState({ activeKey: "3" });
       this.onSubmitDeliveryPanel();
     } else if (key === "2" && activeKey === "3") {
       this.setState({ activeKey: "2" });
