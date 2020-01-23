@@ -42,7 +42,7 @@ class CategoryInfo extends React.Component {
       loading: true,
       minPrice: 0,
       maxPrice: 0,
-      sort: "",
+      sort: "rate_desc",
       isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -52,6 +52,7 @@ class CategoryInfo extends React.Component {
       count: 0,
       aggregations: [],
       expandedCategory: [],
+      // orderColumn: 'rate_desc',
     };
   }
 

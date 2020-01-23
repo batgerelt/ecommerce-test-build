@@ -765,7 +765,6 @@ button{
   }
 }
 .food-post {
-  padding: 20px;
 
   .image-container {
     border-radius: 5px;
@@ -2717,8 +2716,7 @@ form {
   }
 
   .swiper-container {
-    border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 20px 0px !important;
   }
 }
 

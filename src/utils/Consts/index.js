@@ -39,9 +39,9 @@ Object.freeze(CARD_LIST_TYPES);
 const PRODUCTS_PER_PAGE = 20;
 /* Here is your client ID: O23leWRUHkvqDWiHcThRXtCl */
 const SOCIAL_IDS = {
-  google: "492787014778-jkoa45hq4odam1b7r4b8cegrjbn6qo12.apps.googleusercontent.com",
+  google: "845113891404-qlj5hpuro8aivst2veeqhthtbdsjjdhh.apps.googleusercontent.com",
   // Real
-  facebook: "730767227416524",
+  facebook: "1438714326447694",
 };
 Object.freeze(SOCIAL_IDS);
 
