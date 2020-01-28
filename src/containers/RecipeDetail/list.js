@@ -4,6 +4,7 @@ import { injectIntl, FormattedDate, FormattedMessage, defineMessages } from 'rea
 import { Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { store } from 'react-notifications-component';
+import Products from "./products";
 import { Slider, Notification } from "../../components";
 import chef from "../../../src/scss/assets/images/demo/chef.png";
 import time from "../../../src/scss/assets/images/demo/time.png";
@@ -161,13 +162,15 @@ class List extends React.Component {
     try {
       const { intl } = this.props;
 
-      if (this.props.isLoggedIn) {
+      if (localStorage.getItem('emartmall_token') !== null) {
+        this.setState({ loading: true });
         const result = await this.props.incrementProductRemotely({
           custid: this.props.data[0].info.customerInfo.id,
           skucd: product.skucd,
           qty: product.addminqty || 1,
           iscart: 0,
         });
+        this.setState({ loading: false });
         if (!result.payload.success) {
           const messages = defineMessages({
             error: {
@@ -328,6 +331,7 @@ class List extends React.Component {
     try {
       const { lang } = this.props;
       const products = this.props.recipeProducts;
+      const { loading } = this.state;
       return products.map((item, index) => (
         <li key={index}>
           <div className="single flex-this">
@@ -369,7 +373,7 @@ class List extends React.Component {
                   className="btn btn-link"
                   onClick={() => this.handleIncrementClick(item)}
                 >
-                  <i className="fa fa-cart-plus" aria-hidden="true" />
+                  <i className={`fa ${loading ? "fa-spin" : "fa-cart-plus"}`} aria-hidden="true" />
                   {" "}
                 </button>
               </div>
@@ -397,7 +401,11 @@ class List extends React.Component {
               <FormattedMessage id="shared.sidebar.title.recipeProducts" />
             </strong>
           </p>
-          <ul className="list-unstyled">{this.renderProd()}</ul>
+          <ul className="list-unstyled">
+            {products.map((item, index) => (
+              <Products item={item} key={index} data={this.props.data} incrementProductRemotely={this.props.incrementProductRemotely} incrementProductLocally={this.props.incrementProductLocally} />
+            ))}
+          </ul>
           <div className="more-link text-center">
             <div className="pack-price">
               <p className="text flex-this end">

@@ -489,7 +489,6 @@ class Component extends React.Component {
       const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       const { userInfo } = this.props;
-      console.log("epointCardResponse", this.props.epointCardResponse);
       return (
         <div className="row row10">
           <Form>
