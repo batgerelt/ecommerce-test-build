@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Loader, Notification } from "../../../../components";
+import Products from "./products";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -15,7 +16,7 @@ class Component extends React.Component {
   onDelete = item => async (e) => {
     e.preventDefault();
     this.setState({ loader: true });
-    this.props.deleteWish({ skucd: item.skucd }).then((res) => {
+    this.props.deleteWish({ skucd: item.skucd }).then(() => {
       this.props.getWish().then((res) => {
         if (res.payload.success) {
           this.setState({ loader: false });
@@ -61,85 +62,9 @@ class Component extends React.Component {
   }
   renderProducts = () => {
     try {
-      const { wish, lang } = this.props;
+      const { wish } = this.props;
       return wish.map((item, index) => (
-        <Row className="single flex-this flex-space" span={24} style={{ width: "100%", border: "1px solid white" }} key={index}>
-          <Col className="product">
-            <div className="flex-this">
-              <div className="image-container default">
-                <Link to={item.route ? item.route : " "}>
-                  <span
-                    className="image"
-                    style={{
-                      backgroundImage: `url(${process.env.IMAGE + item.img})`,
-                    }}
-                  />
-                </Link>
-              </div>
-              <div className="info">
-                <Link to={item.route ? item.route : " "}>
-                  <p className="name">{lang === "mn" ? item.title : item.title_en}</p>
-                  <p className="text">{lang === "mn" ? item.feature : item.feature_en}</p>
-                </Link>
-                <Rate allowHalf value={item.rate / 2} disabled />
-              </div>
-            </div>
-          </Col>
-          <Col className="action price">
-            <ul className="list-unstyled">
-              {
-                item.pricetag !== null
-                  ? localStorage.getItem('lang') === "mn"
-                    ? (
-                      <li style={{ textAlign: "left", width: "100%" }}>
-                        <span className="price-pro">
-                          <span>{`${item.pricetag}`}</span>
-                        </span>
-                      </li>
-                    )
-                    : (
-                      <li style={{ textAlign: "left", width: "100%" }}>
-                        <span className="price-pro">
-                          <span>{`${item.pricetag_en}`}</span>
-                        </span>
-                      </li>
-                    )
-                  : null
-              }
-              <li>
-                <span className="price-pro">
-                  {
-                    item.pricetag !== null
-                      ? localStorage.getItem('lang') === "mn"
-                        ? <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                        : <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                      : <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                  }
-                </span>
-              </li>
-            </ul>
-          </Col>
-          <Col className="action icons" style={{ zIndex: "0" }}>
-            <ul className="list-unstyled flex-this">
-              <li className="search-hover">
-                <Button
-                  className="action btn btn-link"
-                  onClick={this.handleIncrement(item)}
-                >
-                  <i className="fa fa-cart-plus" aria-hidden="true" />
-                </Button>
-              </li>
-              <li className="search-hover">
-                <Button
-                  className="action btn btn-link"
-                  onClick={this.onDelete(item)}
-                >
-                  <i className="fa fa-times" aria-hidden="true" />
-                </Button>
-              </li>
-            </ul>
-          </Col>
-        </Row>
+        <Products key={index} item={item} incrementProductRemotely={this.props.incrementProductRemotely} onDelete={this.onDelete} />
       ));
     } catch (error) {
       return console.log(error);

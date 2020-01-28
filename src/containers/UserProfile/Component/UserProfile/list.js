@@ -25,7 +25,7 @@ class Component extends React.Component {
       distid: "01",
       commid: 3335,
     },
-    giftvisible: null,
+    giftvisible: true,
   };
 
   componentWillMount() {
@@ -307,14 +307,14 @@ class Component extends React.Component {
             <span className="top-text">{intl.formatMessage({ id: "shared.form.epoint.placeholder" })}</span>
             <Form.Item>
               {getFieldDecorator("cardPoint", {
-                initialValue: formatter.format(card.point),
+                initialValue: this.props.epointCardResponse === null ? 0 : this.props.epointCardResponse.success ? formatter.format(card.point) : 0,
               })(
-                <Input className="profile-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
+                <Input className="profi,le-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
               )}
             </Form.Item>
           </Col>
           <Col className="text-right" span={24}>
-            <p>Ипойнттой холбогдоход алдаа гарлаа.</p>
+            {this.props.epointCardResponse === null ? intl.formatMessage({ id: "624" }) : this.props.epointCardResponse.success ? null : intl.formatMessage({ id: "624" }) }
           </Col>
         </Form>
       </Col>

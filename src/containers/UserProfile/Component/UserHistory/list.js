@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import { store } from 'react-notifications-component';
 import Button from "@material-ui/core/Button";
+import Products from "./products";
 import { Loader, Notification } from "../../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
 class Component extends React.Component {
   state = { loader: false, wish: [] };
+
   async componentDidMount() {
     const result = await this.props.getWish();
     if (result.payload.success) {
@@ -21,12 +23,13 @@ class Component extends React.Component {
   onDelete = item => async (e) => {
     e.preventDefault();
     this.setState({ loader: true });
-    this.props.deleteHistory({ skucd: item.skucd }).then((res) => {
-      this.props.getHistory().then((res) => {
+    this.props.deleteHistory({ skucd: item.skucd }).then(() => {
+      this.props.getHistory().then(() => {
         this.setState({ loader: false });
       });
     });
   }
+
   addHistory = item => async (e) => {
     e.preventDefault();
     const result = await this.props.addWishList({ skucd: item.skucd });
@@ -34,12 +37,14 @@ class Component extends React.Component {
       this.removeAddedWishColorTime();
     }
   }
+
   removeAddedWishColorTime() {
     const { removeAddedWishColor } = this.props;
     setTimeout(() => {
       removeAddedWishColor();
     }, 500);
   }
+
   handleIncrement = item => async (e) => {
     e.preventDefault();
     const { intl } = this.props;
@@ -76,118 +81,36 @@ class Component extends React.Component {
       });
     }
   }
+
   handleRateChange = (e, item) => {
     this.props.addRate({
       skucd: item.skucd,
       rate: Number(e) * 2,
     });
   };
+
   renderProducts = () => {
     try {
       const { history, lang } = this.props;
       return history.map((item, index) => {
         const isSaved = this.state.wish.find(w => w.skucd === item.skucd);
         return (
-          <Row className="single flex-this flex-space" key={index} style={{ border: "1px solid white" }}>
-            <Col className="product">
-              <div className="flex-this">
-                <div className="image-container default">
-                  <Link to={item.route ? item.route : " "}>
-                    <span
-                      className="image"
-                      style={{
-                        backgroundImage: `url(${process.env.IMAGE + item.img})`,
-                      }}
-                    />
-                  </Link>
-                </div>
-                <div className="info">
-                  <Link to={item.route ? item.route : " "}>
-                    <p className="name">{lang === "mn" ? item.title : item.title_en}</p>
-                    <p className="text">{lang === "mn" ? item.feature : item.feature_en}</p>
-                  </Link>
-                  <Rate allowHalf value={item.rate / 2} disabled />
-                </div>
-              </div>
-            </Col>
-            <Col className="action price">
-              <ul className="list-unstyled">
-                {
-                  item.pricetag !== null
-                    ? localStorage.getItem('lang') === "mn"
-                      ? (
-                        <li style={{ textAlign: "left", width: "100%" }}>
-                          <span className="price-pro">
-                            <span>{`${item.pricetag}`}</span>
-                          </span>
-                        </li>
-                      )
-                      : (
-                        <li style={{ textAlign: "left", width: "100%" }}>
-                          <span className="price-pro">
-                            <span>{`${item.pricetag_en}`}</span>
-                          </span>
-                        </li>
-                      )
-                    : null
-                }
-                <li>
-                  <span className="price-pro">
-                    {
-                      item.pricetag !== null
-                        ? localStorage.getItem('lang') === "mn"
-                          ? <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                          : <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                        : <span>{`${formatter.format(item.currentprice)}₮`}</span>
-                    }
-                  </span>
-                </li>
-              </ul>
-            </Col>
-            <Col className="action icons" style={{ zIndex: "0" }}>
-              <ul className="list-unstyled flex-this">
-                <li className="search-hover">
-                  <Button
-                    className="action btn btn-link"
-                    onClick={this.addHistory(item)}
-                  >
-                    <i
-                      className={`fa fa-heart${isSaved ? '' : '-o'}`}
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </li>
-                <li className="search-hover">
-                  <Button
-                    className="action btn btn-link"
-                    onClick={this.handleIncrement(item)}
-                  >
-                    <i
-                      className="fa fa-cart-plus"
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </li>
-                <li className="search-hover">
-                  <Button
-                    className="action btn btn-link"
-                    onClick={this.onDelete(item)}
-                  >
-                    <i
-                      className="fa fa-times"
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </li>
-              </ul>
-            </Col>
-          </Row>
+          <Products
+            key={index}
+            isSaved={isSaved}
+            item={item}
+            addHistory={this.addHistory}
+            handleIncrement={this.handleIncrement}
+            onDelete={this.onDelete}
+            incrementProductRemotely={this.props.incrementProductRemotely}
+          />
         );
       });
     } catch (error) {
       return console.log(error);
     }
   }
+
   renderNULL() {
     return (
       <div>
@@ -199,9 +122,9 @@ class Component extends React.Component {
       </div>
     );
   }
+
   render() {
     const loaders = this.state.loader;
-    const icon = <Icon type="sync" spin />;
     return (
       <div className="user-menu-content">
         <p className="title" style={{ textTransform: "uppercase" }}>

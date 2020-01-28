@@ -172,7 +172,7 @@ class List extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="profile-section" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
-        <div className="container">
+        <div className="container" style={{ paddingLeft: "5px !important", paddingRight: "5px !important" }}>
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }} >

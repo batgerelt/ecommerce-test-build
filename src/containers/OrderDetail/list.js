@@ -266,30 +266,30 @@ class List extends React.Component {
                     </Link>
                     {content}
                     <table className="table table-borderless font12-mobile">
-                      <thead className="thead-light">
+                      <thead className="thead-light" >
                         <tr>
-                          <th className="column-1"><FormattedMessage id="orderDetail.table.col.productName" /></th>
+                          <th className="column-1"><span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.productName" /></span></th>
                           {
                             isMobile ?
                               <th className="text-right">
-                                <FormattedMessage id="orderDetail.table.col.unitPrice" /><br />
-                                <FormattedMessage id="orderDetail.table.col.quantity" />
+                                <span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.unitPrice" /></span><br />
+                                <span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.quantity" /></span>
                               </th> : null
                           }
                           {
                             !isMobile ?
                               <th className="text-right">
-                                <FormattedMessage id="orderDetail.table.col.unitPrice" />
+                                <span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.unitPrice" /></span>
                               </th> : null
                           }
                           {
                             !isMobile ?
                               <th className="text-right">
-                                <FormattedMessage id="orderDetail.table.col.quantity" />
+                                <span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.quantity" /></span>
                               </th> : null
                           }
                           <th className="text-right">
-                            <FormattedMessage id="orderDetail.table.col.totalPrice" />
+                            <span style={{ fontWeight: "700" }}><FormattedMessage id="orderDetail.table.col.totalPrice" /></span>
                           </th>
                         </tr>
                       </thead>

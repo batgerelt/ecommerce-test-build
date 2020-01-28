@@ -106,33 +106,34 @@ class Slider extends React.Component {
                       )}
                     </div>
                   </div>
-                </a>
-              ) : (
-                <div className="slide-container">
-                  <div className="slide-content text-uppercase">
-                    {item && item.isshownm !== 0 && (
-                      <div>
-                        <h2 className="title">
-                          {lang === "mn" ? item.bannernm : item.bannernm_en}
-                        </h2>
-                        <p className="text">
-                          {lang === "mn" ? item.description : item.description_en}
-                        </p>
-                      </div>
-                    )}
-                    {item && item.link && (
-                      <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
-                        <i className="fa fa-long-arrow-right" aria-hidden="true" />
-                        <span className="text-uppercase">
-                          {item.btntext && item.btntext.trim()
-                            ? lang === "mn" ? item.btntext : item.btntext_en
-                            : intl.formatMessage({ id: "shared.form.button.more" })}
-                        </span>
-                      </a>
-                    )}
+                </a>)
+                :
+                (
+                  <div className="slide-container">
+                    <div className="slide-content text-uppercase">
+                      {item && item.isshownm !== 0 && (
+                        <div>
+                          <h2 className="title">
+                            {lang === "mn" ? item.bannernm : item.bannernm_en}
+                          </h2>
+                          <p className="text">
+                            {lang === "mn" ? item.description : item.description_en}
+                          </p>
+                        </div>
+                      )}
+                      {item && item.link && (
+                        <a href={item.link ? item.link : '#'} target="_blank" className="btn btn-main">
+                          <i className="fa fa-long-arrow-right" aria-hidden="true" />
+                          <span className="text-uppercase">
+                            {item.btntext && item.btntext.trim()
+                              ? lang === "mn" ? item.btntext : item.btntext_en
+                              : intl.formatMessage({ id: "shared.form.button.more" })}
+                          </span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )
+                )
             }
           </div>
         );
