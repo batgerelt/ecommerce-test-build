@@ -19,7 +19,7 @@ import UserModel from "./UserModel";
 import AttributeModel from "./AttributeModel";
 import DiscountModel from "./DiscountModel";
 
-/** Redux-ийн state-д үүсэх model бүрийг үүсгэх */
+/** Redux-ийн state-д үүсэх model үбрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
 const Locale = new LocaleModel({ model: 'locale' });
 const Category = new CategoryModel({ model: 'category' });

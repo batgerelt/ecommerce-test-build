@@ -16,11 +16,11 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
+import Helmet from "react-helmet";
 import { SkeltonCard, Banner, PageBanner, FiveCard, Loader } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
-let skel;
 
 class Discount extends React.Component {
   constructor(props) {
@@ -48,18 +48,40 @@ class Discount extends React.Component {
     };
   }
 
-  loadMoreRows = () => {
-    console.log('loadMoreRows: ');
-    this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
+  renderHelmet = () => {
+    const { menuDiscount, intl } = this.props;
+    return (
+      <Helmet>
+        {/* HTML META TAGS */}
+        <title>{intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en}</title>
+        <meta name="description" content={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en} />
+        <meta name="keywords" content="emartmall,emart,ecommerce,shopping,e-mart,имарт,хямдрал,discount" />
+        <meta name="url" content={window.location.href} />
+
+        {/* FACEBOOK SHARE META TAGS */}
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en} />
+        <meta property="og:description" content={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
+
+        {/* TWITTER SHARE META TAGS */}
+        <meta name="twitter:site" content={window.location.href} />
+        <meta name="twitter:title" content={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en} />
+        <meta name="twitter:description" content={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en} />
+      </Helmet>
+    );
   }
+
+  loadMoreRows = () => this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
 
   renderMainBanner = () => {
     try {
       const { banner, menuDiscount, intl } = this.props;
       return (
         <PageBanner
-          title={intl.locale === "mn" ? menuDiscount[0].menunm : menuDiscount[0].menunm_en}
-          subtitle={intl.locale === "mn" ? menuDiscount[0].subtitle : menuDiscount[0].subtitle_en}
+          title={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en}
+          subtitle={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#EF3340"
         />
@@ -164,6 +186,7 @@ class Discount extends React.Component {
     return (
       <Spin spinning={this.state.loading} indicator={<Loader />}>
         <div className="top-container top-container-responsive discount-container">
+          {this.renderHelmet()}
           {this.renderMainBanner()}
           {/* {this.renderHeaderProduct()} */}
           {/* {this.renderSubBanner()} */}

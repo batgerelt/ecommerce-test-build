@@ -19,7 +19,7 @@ import {
   List,
   AutoSizer,
 } from "react-virtualized";
-import windowSize from 'react-window-size';
+import Helmet from "react-helmet";
 
 import { SearchNotFound } from "../";
 import { Card, Loader, SearchFilterSet } from "../../components";
@@ -67,6 +67,13 @@ class CategoryInfo extends React.Component {
       attributes: [],
     });
   }
+
+  renderHelmet = () => (
+    <Helmet>
+        {/* HTML META TAGS */}
+        <title>Emart-Online</title>
+    </Helmet>
+  )
 
   visibleFalse = () => {
     this.setState({ visible: false });
@@ -604,21 +611,19 @@ class CategoryInfo extends React.Component {
 
   generateItemHeight = (width) => {
     let tmp;
-
-    const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 
-    if (windowWidth < 576) { // is mobile
-      tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 370 : windowWidth < 475 ? 450 : 480;
-    } else if (windowWidth >= 576 && windowWidth <= 767) {
+    if (window.innerWidth < 576) { // is mobile
+      tmp = window.innerWidth < 365 ? 340 : window.innerWidth < 420 ? 370 : window.innerWidth < 475 ? 450 : 480;
+    } else if (window.innerWidth >= 576 && window.innerWidth <= 767) {
       tmp = 365;
-    } else if (windowWidth >= 768 && windowWidth <= 991) {
+    } else if (window.innerWidth >= 768 && window.innerWidth <= 991) {
       tmp = 350;
     }
 
-    else if (windowWidth < 992) {
+    else if (window.innerWidth < 992) {
       tmp = isList ? 120 : 365;
-    } else if (windowWidth < 1200) {
+    } else if (window.innerWidth < 1200) {
       tmp = isList ? 120 : 285;
     } else {
       tmp = isList ? 120 : 305;
@@ -641,20 +646,19 @@ class CategoryInfo extends React.Component {
   };
 
   getMaxItemsAmountPerRow = (width) => {
-    const windowWidth = this.props.windowWidth;
     const isList = this.state.isListViewOn;
 
     if (isList) {
       return 1;
     }
 
-    if (windowWidth < 576) {
+    if (window.innerWidth < 576) {
       return 1;
-    } else if (windowWidth < 768) {
+    } else if (window.innerWidth < 768) {
       return 3;
-    } else if (windowWidth < 992) {
+    } else if (window.innerWidth < 992) {
       return 3;
-    } else if (windowWidth < 1200) {
+    } else if (window.innerWidth < 1200) {
       return 3;
     } else {
       return 3;
@@ -838,6 +842,7 @@ class CategoryInfo extends React.Component {
 
     return (
       <div className="top-container elastic-container">
+        {this.renderHelmet()}
         <div className="section search-result">
           <div className="container pad10">
             {this.state.nodata ? (
@@ -857,4 +862,4 @@ class CategoryInfo extends React.Component {
   }
 }
 
-export default windowSize(injectIntl(CategoryInfo));
+export default injectIntl(CategoryInfo);
