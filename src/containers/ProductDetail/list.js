@@ -39,6 +39,7 @@ class ProductDetail extends React.Component {
         <meta property="og:description" content={products.description} />
         <meta property="og:image" content={process.env.IMAGE + images[0].img} />
         <meta property="og:image:secure_url" content={process.env.IMAGE + images[0].img} />
+        <meta itemProp="image" content={process.env.IMAGE + images[0].img} />
         <title>{products.title}</title>
       </Helmet>
     );

@@ -27,11 +27,11 @@ class Homepage extends React.Component {
   renderHelmet = () => (
     <Helmet>
       <title>{this.props.intl.locale === "en" ? "Home page" : "Нүүр хуудас"}</title>
-      <meta property="og:url" content="https://www.emartmall.mn/" />
+      {/* <meta property="og:url" content="https://www.emartmall.mn/" />
       <meta property="og:title" content={this.props.intl.locale === "en" ? "Emart-Online Home page" : "Emart-Online Нүүр хуудас"} />
       <meta property="og:description" content="Та бүхэнд хамгийн ойр байрлах Emartmall..." />
       <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
-      <meta property="og:image:secure_url" content="https://api.emartmall.mn/Resource/emartmall.png" />
+      <meta property="og:image:secure_url" content="https://api.emartmall.mn/Resource/emartmall.png" /> */}
       <meta name="keywords" content="batgerelt,gerelt,thehubggrlt" />
     </Helmet>
   )
@@ -238,7 +238,7 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="top-container homepage-container">
-        {this.renderHelmet()}
+        {/* {this.renderHelmet()} */}
         {this.renderMainBanner()}
         {
           this.props.isHomepageBannerLoading ?
