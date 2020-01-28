@@ -11,6 +11,7 @@ import React, { PureComponent } from "react";
 import { injectIntl } from "react-intl";
 import { BackTop } from "antd";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
+import Helmet from "react-helmet";
 
 import { Card, FiveCard, PageBanner, Banner } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
@@ -45,6 +46,31 @@ class Bookmarks extends PureComponent {
     };
   }
 
+  renderHelmet = () => {
+    const { menuNew, intl } = this.props;
+    return (
+      <Helmet>
+        {/* HTML META TAGS */}
+        <title>{intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}</title>
+        <meta name="description" content={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en} />
+        <meta name="keywords" content="emartmall,emart,ecommerce,shopping,e-mart,имарт,шинэ,new" />
+        <meta name="url" content={window.location.href} />
+
+        {/* FACEBOOK SHARE META TAGS */}
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en} />
+        <meta property="og:description" content={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
+
+        {/* TWITTER SHARE META TAGS */}
+        <meta name="twitter:site" content={window.location.href} />
+        <meta name="twitter:title" content={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en} />
+        <meta name="twitter:description" content={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en} />
+      </Helmet>
+    );
+  }
+
   loadMoreRows = () => this.props.getNewProducts({ body: { ...this.state, startsWith: this.props.newproductCount } });
 
   noRowsRenderer = () => null;
@@ -53,15 +79,13 @@ class Bookmarks extends PureComponent {
     try {
       const { banner, menuNew, intl } = this.props;
       return (
-        menuNew[0] && (
-          <PageBanner
-            className="newpagetitlebanner"
-            title={intl.locale === "mn" ? menuNew[0].menunm : menuNew[0].menunm_en}
-            subtitle={intl.locale === "mn" ? menuNew[0].subtitle : menuNew[0].subtitle_en}
-            banners={banner.length === 0 ? [] : banner.header}
-            bgColor="#00A1E4"
-          />
-        )
+        <PageBanner
+          className="newpagetitlebanner"
+          title={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}
+          subtitle={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en}
+          banners={banner.length === 0 ? [] : banner.header}
+          bgColor="#00A1E4"
+        />
       );
     } catch (error) {
       return console.log(error);
@@ -162,6 +186,7 @@ class Bookmarks extends PureComponent {
   render() {
     return (
       <div className="top-container newproduct-container">
+        {this.renderHelmet()}
         {this.renderMainBanner()}
         {/* {this.renderHeaderProduct()} */}
         {/* {this.renderSubBanner()} */}

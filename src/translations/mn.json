@@ -104,7 +104,7 @@
 	"checkout.swal.button.continueCheckOut": "Үргэлжлүүлэх",
 	"checkout.swal.button.changeAddress": "Хаяг солих",
 	"checkout.swal.button.removeFromCartAndProceed": "Барааг сагснаас хасаад захиалгыг үргэлжлүүлэх",
-	"checkout.swal.info.contract": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар холбогдоно уу. Баярлалаа.",
+	"checkout.swal.info.contract": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар холбогдоно уу. Баярлалаа",
 	"checkout.swal.info.orderCancellation": "Та төлбөрөө {hours} цагийн дотор төлснөөр таны захиалга баталгаажиж идэвхжинэ. Тус хугацаанд төлбөр төлөгдөөгүй тохиолдолд захиалгыг автоматаар цуцлах болохыг анхаарна уу.",
 	"checkout.swal.info.orderPayment": " Та төлбөрөө {orderNumber} цагийн дотор төлснөөр таны захиалга баталгаажиж идэвхжинэ. Тус хугацаанд төлбөр төлөгдөөгүй тохиолдолд хүргэлт хойшлогдох болон захиалга цуцлагдаж болохыг анхаарна уу.",
 	"checkout.swal.info.success": "Таны захиалга амжилттай бүртгэгдлээ",
@@ -372,7 +372,7 @@
 	"paymentReturn.info.orderAmount": "Мөнгөн дүн",
 	"paymentReturn.info.paymentType": "Төлбөрийн төрөл",
 	"paymentReturn.info.shippingInformation": "Хүргэлтийн мэдээлэл",
-	"paymentReturn.info.anyQuestion": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар хобогдоно уу. Баярлалаа",
+	"paymentReturn.info.anyQuestion": "Хүргэлттэй холбоотой лавлах зүйлс байвал доорх утсаар холбогдоно уу. Баярлалаа",
 	"paymentReturn.info.contactNumber": "Лавлах утас",
 	"paymentReturn.info.backHome": "Нүүр хуудасруу буцах",
 	"paymentReturn.info.viewOrder": "Захиалга харах"

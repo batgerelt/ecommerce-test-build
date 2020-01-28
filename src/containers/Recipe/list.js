@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable brace-style */
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable radix */
 import React from "react";
+import Helmet from "react-helmet";
 import { injectIntl } from 'react-intl';
 import {
   InfiniteLoader,
@@ -28,13 +30,38 @@ class Recipe extends React.Component {
     window.scrollTo(0, 0);
   }
 
+  renderHelmet = () => {
+    const { menuRecipe, intl } = this.props;
+    return (
+      <Helmet>
+        {/* HTML META TAGS */}
+        <title>{intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}</title>
+        <meta name="description" content={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en} />
+        <meta name="keywords" content="emartmall,emart,ecommerce,shopping,e-mart,имарт,шинэ,new" />
+        <meta name="url" content={window.location.href} />
+
+        {/* FACEBOOK SHARE META TAGS */}
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en} />
+        <meta property="og:description" content={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
+
+        {/* TWITTER SHARE META TAGS */}
+        <meta name="twitter:site" content={window.location.href} />
+        <meta name="twitter:title" content={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en} />
+        <meta name="twitter:description" content={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en} />
+      </Helmet>
+    );
+  }
+
   renderMainBanner = () => {
     try {
       const { banner, menuRecipe, intl } = this.props;
-      return menuRecipe[0] && (
+      return (
         <PageBanner
-          title={intl.locale === "mn" ? menuRecipe[0].menunm : menuRecipe[0].menunm_en}
-          subtitle={intl.locale === "mn" ? menuRecipe[0].subtitle : menuRecipe[0].subtitle_en}
+          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
+          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#F2769B"
         />
@@ -193,6 +220,7 @@ class Recipe extends React.Component {
   render() {
     return (
       <div className="top-container top-container-responsive recipe-container">
+        {this.renderHelmet()}
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}

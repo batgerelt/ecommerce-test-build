@@ -8,6 +8,7 @@
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
 import React from "react";
+import Helmet from "react-helmet";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
 import {
@@ -80,6 +81,17 @@ class CategoryInfo extends React.Component {
       return console.log(error);
     }
   }
+
+  renderHelmet = () => {
+    const { menuRecipe, intl } = this.props;
+    return (
+      <Helmet>
+        {/* HTML META TAGS */}
+        <title>{intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}</title>
+      </Helmet>
+    );
+  }
+
 
   visibleFalse = () => {
     this.setState({ visible: false });
@@ -248,7 +260,7 @@ class CategoryInfo extends React.Component {
     });
   };
 
-  handleClickCategory = (cat, event) => {
+  handleClickCategory = (cat) => {
     const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading });
     this.FilterSet.resetField();
@@ -278,13 +290,10 @@ class CategoryInfo extends React.Component {
           count: 20,
           promotion: this.state.promotion === cat.id ? true : cat.id,
           aggregations: res.payload.data,
+          visible: false,
         });
       }
     });
-
-    if (event.node.props.children === undefined || event.node.props.children[0] === null) {
-      this.visibleFalse();
-    }
   }
 
   renderCategoryList = () => {

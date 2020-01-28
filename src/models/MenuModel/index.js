@@ -107,7 +107,7 @@ class Model extends BaseModel {
       case this.model.discount.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.discount.response:
-        return { ...state, menuDiscount: action.payload.data };
+        return { ...state, menuDiscount: action.payload.data[0] };
 
       // GET NEW
       case this.model.new.request:
@@ -115,7 +115,7 @@ class Model extends BaseModel {
       case this.model.new.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.new.response:
-        return { ...state, menuNew: action.payload.data };
+        return { ...state, menuNew: action.payload.data[0] };
 
       // GET RECIPE
       case this.model.recipe.request:
@@ -123,7 +123,7 @@ class Model extends BaseModel {
       case this.model.recipe.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.recipe.response:
-        return { ...state, menuRecipe: action.payload.data };
+        return { ...state, menuRecipe: action.payload.data[0] };
 
       // GET PACKAGE
       case this.model.package.request:
@@ -131,7 +131,7 @@ class Model extends BaseModel {
       case this.model.package.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.package.response:
-        return { ...state, menuPackage: action.payload.data };
+        return { ...state, menuPackage: action.payload.data[0] };
 
       default:
         return state;

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-children-prop */
 import React from "react";
 import { Helmet } from "react-helmet";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -21,6 +21,29 @@ import {
 import { ProductNotFound } from "../";
 
 class ProductDetail extends React.Component {
+  renderHelmet = () => {
+    const { images, products } = this.props.detail;
+    const lang = this.props.intl.locale;
+    return (
+      <Helmet>
+        <meta name="description" content={products.description} />
+        <meta name="url" content={window.location.href} />
+
+        <meta name="twitter:title" content={lang === "en" ? products.title_en : products.title} />
+        <meta name="twitter:description" content={products.description} />
+        <meta name="twitter:image" content={process.env.IMAGE + images[0].img} />
+        <meta name="twitter:site" content={window.location.href} />
+
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={lang === "en" ? products.title_en : products.title} />
+        <meta property="og:description" content={products.description} />
+        <meta property="og:image" content={process.env.IMAGE + images[0].img} />
+        <meta property="og:image:secure_url" content={process.env.IMAGE + images[0].img} />
+        <title>{products.title}</title>
+      </Helmet>
+    );
+  }
+
   onCancel = () => {
     this.setState({ giftvisible: false });
   }
@@ -158,6 +181,7 @@ class ProductDetail extends React.Component {
     if (this.props.detail !== null && this.props.detail.products !== null) {
       return (
         <div className="section">
+          {this.renderHelmet()}
           <div className="container pad10">
             <Breadcrumb
               product={detail.products}
@@ -203,4 +227,4 @@ class ProductDetail extends React.Component {
   }
 }
 
-export default ProductDetail;
+export default injectIntl(ProductDetail);

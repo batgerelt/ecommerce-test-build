@@ -170,7 +170,7 @@ class App extends Component {
                   </ScrollToTop>
                   <MessengerCustomerChat
                     pageId="1438714326447694"
-                    appId="2707334876026775"
+                    appId="703587213505099"
                     htmlRef={"www.emartmall.mn"}
                     themeColor="#ffb200"
                     minimized
@@ -189,7 +189,4 @@ class App extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

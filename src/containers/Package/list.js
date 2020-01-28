@@ -13,6 +13,7 @@ import {
   AutoSizer,
 } from "react-virtualized";
 import windowSize from 'react-window-size';
+import Helmet from "react-helmet";
 import { CardList, Banner, PageBanner, Card } from "../../components";
 import { CARD_LIST_TYPES } from "../../utils/Consts";
 
@@ -31,13 +32,39 @@ class Discount extends React.Component {
     window.scrollTo(0, 0);
   }
 
+  renderHelmet = () => {
+    const { menuPackage, intl } = this.props;
+    return (
+      <Helmet>
+        {/* HTML META TAGS */}
+        <title>{intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}</title>
+        <meta name="description" content={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en} />
+        <meta name="keywords" content="emartmall,emart,ecommerce,shopping,e-mart,имарт,шинэ,new" />
+        <meta name="url" content={window.location.href} />
+
+        {/* FACEBOOK SHARE META TAGS */}
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en} />
+        <meta property="og:description" content={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
+
+        {/* TWITTER SHARE META TAGS */}
+        <meta name="twitter:site" content={window.location.href} />
+        <meta name="twitter:title" content={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en} />
+        <meta name="twitter:description" content={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en} />
+      </Helmet>
+    );
+  }
+
+
   renderMainBanner = () => {
     try {
       const { banner, menuPackage, intl } = this.props;
-      return menuPackage[0] && (
+      return (
         <PageBanner
-          title={intl.locale === "mn" ? menuPackage[0].menunm : menuPackage[0].menunm_en}
-          subtitle={intl.locale === "mn" ? menuPackage[0].subtitle : menuPackage[0].subtitle_en}
+          title={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}
+          subtitle={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en}
           banners={banner.length === 0 ? [] : banner.header}
           bgColor="#8CBD3F"
         />
@@ -199,6 +226,7 @@ class Discount extends React.Component {
   render() {
     return (
       <div className="top-container top-container-responsive package-container">
+        {this.renderHelmet()}
         {this.renderMainBanner()}
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
