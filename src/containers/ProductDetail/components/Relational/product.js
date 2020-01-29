@@ -16,6 +16,7 @@ class Relational extends Component {
 
   handleIncrementClick = async (product) => {
     const { intl } = this.props;
+    const { lang } = intl.locale;
     try {
       if (localStorage.getItem('emartmall_token') !== null) {
         this.setState({ loading: true });
@@ -55,20 +56,30 @@ class Relational extends Component {
       } else {
         product.insymd = Date.now();
         this.props.incrementProductLocally(product);
-
         const updated = this.props.products.find(prod => prod.skucd === product.skucd);
-
-        if (updated && updated.error !== undefined) {
+        if (updated === undefined) {
           const messages = defineMessages({
             error: {
-              id: updated.error,
+              id: 200,
             },
           });
-
-          message.warning(intl.formatMessage(messages.error, {
-            name: updated.title,
-            qty: updated.qty,
-          }));
+          store.addNotification({
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: false,
+            },
+            content: <Notification
+              type="warning"
+              text={intl.formatMessage(messages.error, {
+                name: product.title,
+                qty: product.qty,
+              })}
+            />,
+          });
         }
       }
     } catch (e) {
