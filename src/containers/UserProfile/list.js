@@ -1,8 +1,9 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Avatar, Progress, Upload, Button, Spin, Icon, Row, Col, notification } from "antd";
+import { Avatar, Progress, Upload, Button, Spin, Icon, Row, Col } from "antd";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
+import Helmet from "react-helmet";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../components";
 import upload from "../../../src/scss/assets/images/demo/upload.png";
@@ -166,12 +167,16 @@ class List extends React.Component {
   }
 
   render() {
+    const lang = this.props.intl.locale;
     const { match } = this.props;
     const { pathname } = this.props.location;
     const { imageUrl, showButton, loading } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="profile-section" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
+        <Helmet>
+          <title>{lang === "mn" ? "Хувийн мэдээлэл" : "Profile"}</title>
+        </Helmet>
         <div className="container" style={{ paddingLeft: "5px !important", paddingRight: "5px !important" }}>
           <div className="user-section">
             <div>

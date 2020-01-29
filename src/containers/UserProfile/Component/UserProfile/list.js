@@ -25,7 +25,7 @@ class Component extends React.Component {
       distid: "01",
       commid: 3335,
     },
-    giftvisible: true,
+    giftvisible: false,
   };
 
   componentWillMount() {
@@ -207,9 +207,7 @@ class Component extends React.Component {
   }
 
   onCancel = () => {
-    this.props.getCustomer().then((res) => {
-      console.log("Ипойнт үлдэгдлээ харах оролдлого хийв.");
-    });
+    this.props.getCustomer();
     this.setState({ giftvisible: false });
   }
 
@@ -314,7 +312,7 @@ class Component extends React.Component {
             </Form.Item>
           </Col>
           <Col className="text-right" span={24}>
-            {this.props.epointCardResponse === null ? intl.formatMessage({ id: "624" }) : this.props.epointCardResponse.success ? null : intl.formatMessage({ id: "624" }) }
+            {this.props.epointCardResponse === null ? intl.formatMessage({ id: "624" }) : this.props.epointCardResponse.success ? null : intl.formatMessage({ id: "624" })}
           </Col>
         </Form>
       </Col>

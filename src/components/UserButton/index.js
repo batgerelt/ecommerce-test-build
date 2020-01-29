@@ -204,11 +204,11 @@ class UserButton extends React.Component {
       if (JSON.parse(localStorage.getItem('auth')).success) {
         content = (
           <li className="list-inline-item user">
-            <Link to="#" className="flex-this" onClick={this.showpro}>
+            <Link to="#" className="" onClick={this.showpro}>
               <div className="image-container default">
                 <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : localStorage.getItem('img')})` }} />
               </div>
-              <span className="">{localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}</span>
+              <span><strong>{localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}</strong></span>
             </Link>
             {/* Desktop */}
             <div className={`dropdown ${visible ? ' open' : ''}`} >
