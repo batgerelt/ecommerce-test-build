@@ -10,12 +10,7 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
 import { BackTop, Spin } from "antd";
-import {
-  InfiniteLoader,
-  WindowScroller,
-  List,
-  AutoSizer,
-} from "react-virtualized";
+import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import Helmet from "react-helmet";
 import { SkeltonCard, Banner, PageBanner, FiveCard, Loader } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
@@ -99,6 +94,14 @@ class Discount extends React.Component {
     }
   };
 
+  // нэг мөр хоосон харагдаад байсан тул skelton харуулав
+  // skelton нь нэг мөр харагдана mobile(2 card) tablet(4 card) desktop(5 card) etc...
+  renderSkeltonCard = () => {
+    let result = [];
+    for (let i = 0; i < itemsInRow; i++) { result.push(<SkeltonCard key={i} />); }
+    return result;
+  }
+
   generateItemHeight = () => {
     if (window.innerWidth < 576) {
       return 320;
@@ -163,7 +166,7 @@ class Discount extends React.Component {
                                     />
                                   ))
                                 }
-                                { isFetchingDiscount && <SkeltonCard /> }
+                                {isFetchingDiscount && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment> }
                               </div>
                               )}
                           />
@@ -192,6 +195,7 @@ class Discount extends React.Component {
           {/* {this.renderSubBanner()} */}
           {this.renderFooterProduct()}
           <BackTop />
+          {/* <EmartMallScroll /> */}
         </div>
       </Spin>
     );

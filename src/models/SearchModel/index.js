@@ -74,11 +74,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'newproduct'),
           error: this.buildActionName('error', data.model, 'newproduct'),
         },
-        discountproduct: {
-          request: this.buildActionName('request', data.model, 'discountproduct'),
-          response: this.buildActionName('response', data.model, 'discountproduct'),
-          error: this.buildActionName('error', data.model, 'discountproduct'),
-        },
+        // discountproduct: {
+        //   request: this.buildActionName('request', data.model, 'discountproduct'),
+        //   response: this.buildActionName('response', data.model, 'discountproduct'),
+        //   error: this.buildActionName('error', data.model, 'discountproduct'),
+        // },
         searchFromHeader: {
           request: this.buildActionName('request', data.model, 'searchFromHeader'),
           response: this.buildActionName('response', data.model, 'searchFromHeader'),
@@ -112,10 +112,10 @@ class Model extends BaseModel {
     body, url: `/search/elastic`, method: 'POST', model: this.model.newproduct,
   })
 
-  // DISCOUNT PRODUCTS
-  getDiscountProducts = ({ body } = {}) => asyncFn({
-    body, url: `/search/elastic`, method: 'POST', model: this.model.discountproduct,
-  })
+  // // DISCOUNT PRODUCTS
+  // getDiscountProducts = ({ body } = {}) => asyncFn({
+  //   body, url: `/search/elastic`, method: 'POST', model: this.model.discountproduct,
+  // })
   resetDiscountProducts = () => ({
     type: 'RESET_DISCOUNT_PRODUCTS',
   });
@@ -200,18 +200,18 @@ class Model extends BaseModel {
         };
 
       // GET SEARCH DISCOUNT PRODUCT
-      case this.model.discountproduct.request:
-        return { ...state, isFetchingDiscount: true, current: this.requestCase(state.current, action) };
-      case this.model.discountproduct.error:
-        return { ...state, isFetchingDiscount: false, current: this.errorCase(state.current, action) };
-      case this.model.discountproduct.response:
-        return {
-          ...state,
-          isFetchingDiscount: false,
-          discountproductTotal: action.payload.data.hits.total.value,
-          discountproductfromelastic: this.pushProduct(action.payload.data.hits.hits),
-          discountproductCount: state.discountproductCount + 20,
-        };
+      // case this.model.discountproduct.request:
+      //   return { ...state, isFetchingDiscount: true, current: this.requestCase(state.current, action) };
+      // case this.model.discountproduct.error:
+      //   return { ...state, isFetchingDiscount: false, current: this.errorCase(state.current, action) };
+      // case this.model.discountproduct.response:
+      //   return {
+      //     ...state,
+      //     isFetchingDiscount: false,
+      //     discountproductTotal: action.payload.data.hits.total.value,
+      //     discountproductfromelastic: this.pushProduct(action.payload.data.hits.hits),
+      //     discountproductCount: state.discountproductCount + 20,
+      //   };
 
       // GET ALL PROMOTION
       case this.model.promotionAll.request:
