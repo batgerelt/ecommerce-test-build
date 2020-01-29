@@ -27,7 +27,8 @@ class Discount extends React.Component {
     this.state = { headerProducts: [] };
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getPackageScroll({ order: "date_desc", start: count, rowcnt: 8 });
     window.scrollTo(0, 0);
   }

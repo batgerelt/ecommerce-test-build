@@ -44,7 +44,8 @@ class Page extends React.Component {
     banner: { header: [], footer: [] },
   }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getPackage({ order: "date_desc", start: 0, rowcnt: 8 });
 
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав

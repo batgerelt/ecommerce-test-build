@@ -36,7 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getNewMenu({});
 
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав

@@ -24,7 +24,8 @@ class IndividualTab extends React.Component {
     cardno: null,
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getEpointSignin();
   }
 

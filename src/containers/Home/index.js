@@ -52,7 +52,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { banner: { header: [], middle: [], footer: [] } }
   /** Home хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     // this.props.getCategoryMenu();
     this.props.getBrand();
     this.props.getWidget();

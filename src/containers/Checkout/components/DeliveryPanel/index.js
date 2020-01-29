@@ -34,7 +34,8 @@ class DeliveryPanel extends React.Component {
     requiredField: true,
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     try {
       const { main, info } = this.props.userinfo;
       const { deliveryTypes } = this.props;

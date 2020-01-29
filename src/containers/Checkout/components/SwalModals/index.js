@@ -39,7 +39,8 @@ class SwalModals extends Component {
     });
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     const { type } = this.props;
     if (type === "msgBank") {
       const { dataValue } = this.props;

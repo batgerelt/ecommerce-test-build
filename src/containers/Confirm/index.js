@@ -53,7 +53,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class PackageDetail extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getStaticInfo();
     this.props.confirm({ key: this.props.match.params.key }).then((res) => {
       if (!res.payload.success) {

@@ -122,7 +122,7 @@ class Bookmarks extends PureComponent {
   // skelton нь нэг мөр харагдана mobile(2 card) tablet(4 card) desktop(5 card) etc...
   renderSkeltonCard = () => {
     let result = [];
-    for (let i = 0; i < itemsInRow; i++) { result.push(<SkeltonCard />); }
+    for (let i = 0; i < itemsInRow; i++) { result.push(<SkeltonCard key={i} />); }
     return result;
   }
 

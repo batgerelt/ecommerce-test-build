@@ -19,7 +19,8 @@ class List extends React.Component {
     this.props.LoginModal.handleLoginModal();
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     setInterval(() => {
       if (!this.props.LoginModal.state.visible) {
         const { time } = this.state;

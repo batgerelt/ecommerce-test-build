@@ -56,7 +56,8 @@ class CategoryInfo extends React.Component {
     };
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getData();
   }
 

@@ -26,7 +26,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class OrderDetail extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     let id = this.props.match.params.id.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
     let bytes = CryptoJS.AES.decrypt(id, EncryptKey);
     let plaintext = bytes.toString(CryptoJS.enc.Utf8);

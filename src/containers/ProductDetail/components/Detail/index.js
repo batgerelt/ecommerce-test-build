@@ -25,7 +25,8 @@ class Detail extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.detail.products.skucd !== nextProps.detail.products.skucd) {
       this.setState({ productQty: nextProps.detail.products.addminqty || 1 });
     }

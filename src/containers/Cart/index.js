@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -37,7 +38,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     try {
       if (localStorage.getItem('auth') !== null) {
         this.props.getProducts(this.props.data[0].info.customerInfo.id);

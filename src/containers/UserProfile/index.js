@@ -35,7 +35,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class UserProfile extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     if (localStorage.getItem('auth') !== null) {
       this.props.getCustomer();
     }

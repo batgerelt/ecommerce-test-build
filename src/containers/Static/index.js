@@ -20,7 +20,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 class Page extends React.Component {
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getStaticPage({ id: this.props.match.params.id });
   }
 

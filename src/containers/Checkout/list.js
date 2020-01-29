@@ -77,7 +77,8 @@ class Checkout extends React.Component {
     this.setState({ deliveryPanelForm: item });
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.products !== nextProps.products) {
       this.setState({ totalPrice: this.getTotalPrice(nextProps.products), totalQty: this.getTotalQty(nextProps.products) }, () => {
         this.changeDeliveryTab(this.state.chosenDelivery);
@@ -93,7 +94,8 @@ class Checkout extends React.Component {
     }
   }
 
-  componentWillMount = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount = () => {
     this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
     if (this.checkLoggedIn()) {

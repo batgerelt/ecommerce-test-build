@@ -38,12 +38,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { isEmpty: false, loadingCollection: true };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getData(this.props.match.params.id);
     this.getFeedback();
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { id } = this.props.match.params;
     if (id !== nextProps.match.params.id) {
       this.setState({ loading: true });
