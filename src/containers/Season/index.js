@@ -43,7 +43,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { banner: { header: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     const { banner } = this.state;
     this.props.getSeasonBanner().then((res) => {
       banner.header.push(res.payload.data.header);

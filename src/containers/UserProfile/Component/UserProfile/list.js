@@ -28,7 +28,8 @@ class Component extends React.Component {
     giftvisible: false,
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getdata();
   }
 

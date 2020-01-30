@@ -17,7 +17,8 @@ class PaymentTypePanel extends React.Component {
     };
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     const { paymentTypes } = this.props;
     this.props.setChosenPaymentType(paymentTypes[0]);
   }

@@ -46,7 +46,8 @@ class DeliveryInfo extends React.Component {
     this.props.onRef(undefined);
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getUserInfo().then((res) => {
       if (res.payload.data.card !== undefined) {
         this.setState({ checkedEpoint: true });

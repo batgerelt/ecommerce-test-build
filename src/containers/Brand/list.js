@@ -8,6 +8,7 @@
 /* eslint-disable one-var-declaration-per-line */
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable camelcase */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop, Tree, Icon, Affix } from "antd";
@@ -53,7 +54,8 @@ class CategoryInfo extends React.Component {
     };
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getData();
   }
 

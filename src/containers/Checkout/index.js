@@ -8,6 +8,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-danger */
+/* eslint-disable camelcase */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -51,7 +52,8 @@ class Page extends React.Component {
     loading: true,
     loadingType: true,
   }
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getData();
   }
 

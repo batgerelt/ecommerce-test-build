@@ -8,6 +8,7 @@
 /* eslint-disable one-var-declaration-per-line */
 /* eslint-disable one-var */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable camelcase */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
@@ -62,7 +63,8 @@ class CategoryInfo extends React.Component {
     this.setState({ visible: true });
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.getData();
   }
 

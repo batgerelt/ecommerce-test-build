@@ -8,12 +8,13 @@
 /* eslint-disable import/first */
 /* eslint-disable radix */
 import React, { PureComponent } from "react";
+import { BrowserRouter } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { BackTop } from "antd";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import Helmet from "react-helmet";
 
-import { Card, FiveCard, PageBanner, Banner } from "../../components";
+import { SkeltonCard, FiveCard, PageBanner, Banner } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
@@ -40,10 +41,13 @@ class Bookmarks extends PureComponent {
       module: "new",
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "startnew_desc, endnew_asc, updatedate_desc",
+      orderColumn: "startnew_desc,endnew_asc,updatedate_desc",
       highlight: false,
       total: 0,
     };
+  }
+
+  componentDidMount() {
   }
 
   renderHelmet = () => {
@@ -114,15 +118,24 @@ class Bookmarks extends PureComponent {
     }
   };
 
+  // нэг мөр хоосон харагдаад байсан тул skelton харуулав
+  // skelton нь нэг мөр харагдана mobile(2 card) tablet(4 card) desktop(5 card) etc...
+  renderSkeltonCard = () => {
+    let result = [];
+    for (let i = 0; i < itemsInRow; i++) { result.push(<SkeltonCard key={i} />); }
+    return result;
+  }
+
   renderFooterProduct = () => {
     try {
-      const { newproducts } = this.props;
+      const { newproducts, isFetchingnew, newproductTotal } = this.props;
       return (
         <div className="container pad10 discount-list">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
-                const rowCount = newproducts.length / itemsInRow + 1;
+                const rowCount = Math.ceil(newproducts.length / itemsInRow + (newproductTotal === 0 ? 1 : newproductTotal !== newproducts.length ? 1 : 0));
+                // console.log('rowCount: ', rowCount);
                 return (
                   <InfiniteLoader
                     rowCount={rowCount}
@@ -131,7 +144,7 @@ class Bookmarks extends PureComponent {
                     threshold={1}
                   >
                     {({ onRowsRendered, registerChild }) => (
-                      <WindowScroller className="WindowScroller">
+                      <WindowScroller className="newPageWindowScroller">
                         {({
                           height,
                           scrollTop,
@@ -153,6 +166,7 @@ class Bookmarks extends PureComponent {
                               index, style, key, isVisible,
                             }) => (
                               <div style={style} key={key} className="jss148">
+                                {console.log(scrollTop, index)}
                                 {
                                   newproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
                                     <FiveCard
@@ -164,7 +178,8 @@ class Bookmarks extends PureComponent {
                                       {...this.props}
                                     />
                                   ))
-                                }
+                                  }
+                                {isFetchingnew && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment>}
                               </div>
                               )}
                           />

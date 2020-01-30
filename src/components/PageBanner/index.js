@@ -10,7 +10,8 @@ class PageHeader extends React.Component {
     selected: [],
   };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.setState({ ...this.props });
     this.setState({
       selected: this.props.banners[
@@ -19,7 +20,8 @@ class PageHeader extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.banners.length !== nextProps.banners.length) {
       this.setState({
         selected: nextProps.banners[

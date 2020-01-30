@@ -22,7 +22,8 @@ class Component extends React.Component {
     imgnm: null,
   };
 
-  componentWillMount() { }
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() { }
 
   handleSubmit = (e) => {
     e.preventDefault();

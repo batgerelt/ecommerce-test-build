@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class PackageDetail extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getDetailPackage({ id: this.props.match.params.id });
     this.props.getInfoPackage({ id: this.props.match.params.id }).then((res1) => {
     });

@@ -26,7 +26,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class UserProfile extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getWish();
   }
   render() {

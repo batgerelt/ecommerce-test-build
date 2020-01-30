@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import {
   Banner as BannerModel,
-  Product as ProductModel,
   Menu as MenuModel,
   Cart as CartModel,
   Auth as AuthModel,
@@ -28,7 +27,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     ...BannerModel,
-    ...ProductModel,
     ...MenuModel,
     ...CartModel,
     ...AuthModel,
@@ -40,7 +38,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  componentDidMount() {
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
     this.props.getDiscountBanner().then((res) => {
       if (res.payload.success) {

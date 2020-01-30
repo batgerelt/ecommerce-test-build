@@ -5,10 +5,10 @@ import { LoginModal } from "../../components/Login";
 import {
   Auth as AuthModel,
   Banner as BannerModel,
-  Product as ProductModel,
   Menu as MenuModel,
   Cart as CartModel,
   Search as SearchModel,
+  New,
 } from "../../models";
 import List from "./list";
 
@@ -19,23 +19,25 @@ const mapStateToProps = state => ({
   ...state.menu,
   ...state.cart,
   ...state.search,
+  ...state.new,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...bindActionCreators({
     ...AuthModel,
     ...BannerModel,
-    ...ProductModel,
     ...MenuModel,
     ...CartModel,
     ...SearchModel,
+    ...New,
   }, dispatch),
 });
 
 class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getNewMenu({});
 
     // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав

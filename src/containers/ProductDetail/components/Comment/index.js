@@ -26,7 +26,8 @@ class Comment extends Component {
     loading: false,
   };
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id !== nextProps.match.params.id) {
       this.setState({ comment: "" });
     }
@@ -35,7 +36,8 @@ class Comment extends Component {
     }
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     if (this.props.match.params.orderid !== undefined) {
       let id = this.props.match.params.orderid.toString().replace(/xMl3Jk/g, '+').replace(/Por21Ld/g, '/').replace(/Ml32/g, '=');
       let bytes = CryptoJS.AES.decrypt(id, EncryptKey);

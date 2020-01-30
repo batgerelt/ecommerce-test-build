@@ -26,7 +26,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class RecipeDetail extends React.Component {
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getRecipeDetail({ id: this.props.match.params.id });
     this.props.getRecipeProducts({ id: this.props.match.params.id });
   }

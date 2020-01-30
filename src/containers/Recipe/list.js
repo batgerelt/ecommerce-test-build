@@ -25,7 +25,8 @@ class Recipe extends React.Component {
   infiniteLoaderRef = React.createRef();
   state = { headerProducts: [], loading: false, data: [] };
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.getRecipeScroll({ order: "date_desc", start: count, rowcnt: 6 });
     window.scrollTo(0, 0);
   }

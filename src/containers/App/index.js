@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/extensions */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-expressions */
@@ -101,7 +102,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class App extends Component {
   state = { dataSource: {} };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getMenu();
     this.props.getStaticInfo();
     this.props.getTags();

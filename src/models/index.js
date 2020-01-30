@@ -18,6 +18,7 @@ import CheckoutModel from "./CheckoutModel";
 import UserModel from "./UserModel";
 import AttributeModel from "./AttributeModel";
 import DiscountModel from "./DiscountModel";
+import NewProductModel from "./NewProductModel";
 
 /** Redux-ийн state-д үүсэх model үбрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -40,6 +41,7 @@ const Checkout = new CheckoutModel({ model: 'checkout' });
 const User = new UserModel({ model: 'user' });
 const Attribute = new AttributeModel({ model: 'attribute' });
 const Discount = new DiscountModel({ model: 'discount' });
+const New = new NewProductModel({ model: 'new' });
 
 export {
   Auth,
@@ -62,4 +64,5 @@ export {
   User,
   Attribute,
   Discount,
+  New,
 };

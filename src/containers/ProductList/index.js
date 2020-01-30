@@ -30,7 +30,8 @@ class Page extends React.Component {
     brand: true, emart: true, attribute: true, products: [],
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     this.props.match.params.id ?
       this.props.searchProductBrand({ id: this.props.match.params.id })
         .then(res => this.setState({ products: res.payload.data })) :

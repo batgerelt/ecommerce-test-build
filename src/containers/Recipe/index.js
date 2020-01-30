@@ -36,7 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Discount хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     // banner - аас өмнөх 6 картын бараа
     this.props.getRecipe({ order: "date_desc", start: 0, rowcnt: 6 });
     this.props.getRecipeMenu({});
