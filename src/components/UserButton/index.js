@@ -192,13 +192,11 @@ class UserButton extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
-      <li className="list-inline-item login-button-material" onClick={this.handleLoginhandleLogin}>
-        <ButtonGoogle>
-          <div className="text-uppercase" style={{ cursor: 'default' }}>
-            <FormattedMessage id="header.profile.text" />
-          </div>
-        </ButtonGoogle>
-      </li>
+      <ButtonGoogle onClick={this.handleLoginhandleLogin}>
+        <div className="text-uppercase" style={{ cursor: 'default' }}>
+          <FormattedMessage id="header.profile.text" />
+        </div>
+      </ButtonGoogle>
     );
     if (localStorage.getItem('auth') !== null) {
       if (JSON.parse(localStorage.getItem('auth')).success) {

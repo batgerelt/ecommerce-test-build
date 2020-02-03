@@ -167,7 +167,7 @@ class LoginModal extends React.Component {
                         });
                         let k = res.payload.data.length - products.length;
                         if (resCount !== prodCount) {
-                          this.setState({ goCart: true }, () => console.log("3"));
+                          this.setState({ goCart: true });
                         }
                       });
                     }
