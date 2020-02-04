@@ -51,7 +51,7 @@ class Model extends BaseModel {
     }
   }
 
-  getPackage = ({ order = `price_desc`, start = 0, rowcnt = 20 }) =>
+  getPackage = ({ order = `date_desc`, start = 0, rowcnt = 20 }) =>
     asyncFn({ url: `/package/${order}/${start}/${rowcnt}`, method: "GET", model: this.model.all });
   getPackageScroll = ({ order = `price_desc`, start = 0, rowcnt = 20 }) =>
     asyncFn({ url: `/package/${order}/${start}/${rowcnt}`, method: "GET", model: this.model.packageScroll });
