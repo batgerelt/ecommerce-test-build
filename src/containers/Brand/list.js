@@ -704,7 +704,7 @@ class CategoryInfo extends React.Component {
                               <div
                                 style={style}
                                 key={key}
-                                className={`jss148 ${
+                                className={`emartmall-scroll-list ${
                                   this.state.isListViewOn ? "pl-1" : ""
                                   }`}
                               >

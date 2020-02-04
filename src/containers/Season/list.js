@@ -644,7 +644,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
+                              <div style={style} key={key} className={`emartmall-scroll-list ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic
@@ -687,7 +687,7 @@ class CategoryInfo extends React.Component {
           title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
           subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
           banners={banner.header}
-          bgColor="#00CFB4"
+          bgColor="#FFAD00"
         />
       );
     } catch (error) {

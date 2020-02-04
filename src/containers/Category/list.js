@@ -669,7 +669,7 @@ class CategoryInfo extends React.Component {
                               products.length,
                             ).map(itemIndex => products[itemIndex]._source);
                             return (
-                              <div style={style} key={key} className={`jss148 ${this.state.isListViewOn ? 'pl-1' : ''}`}>
+                              <div style={style} key={key} className={`emartmall-scroll-list ${this.state.isListViewOn ? 'pl-1' : ''}`}>
                                 {rowItems.map((itemId, index) => (
                                   <Card
                                     elastic

@@ -27,6 +27,7 @@
     "react-content-loader": "^4.3.2",
     "react-dev-utils": "^4.2.3",
     "react-device-detect": "^1.7.5",
+    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^16.8.6",
     "react-fa": "^5.0.0",
     "react-facebook-login": "^4.1.1",

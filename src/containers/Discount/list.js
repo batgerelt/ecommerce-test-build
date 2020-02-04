@@ -16,6 +16,7 @@ import { SkeltonCard, Banner, PageBanner, FiveCard, Loader } from "../../compone
 import { CARD_TYPES } from "../../utils/Consts";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
+let scrollTopNumber = 0;
 
 class Discount extends React.Component {
   constructor(props) {
@@ -42,6 +43,14 @@ class Discount extends React.Component {
       highlight: false,
     };
   }
+
+  // componentDidMount() {
+  //   console.log('componentDidMount', this.props);
+  //   console.log(scrollTopNumber);
+  //   if (this.props.history.action === "POP") {
+  //     scrollTopNumber
+  //   }
+  // }
 
   renderHelmet = () => {
     const { menuDiscount, intl } = this.props;
@@ -120,6 +129,8 @@ class Discount extends React.Component {
 
   noRowsRenderer = () => null;
 
+  handleDetail = index => scrollTopNumber = index;
+
   renderFooterProduct = () => {
     try {
       const { discountproducts, discountproductTotal, isFetchingDiscount } = this.props;
@@ -146,6 +157,8 @@ class Discount extends React.Component {
                             height={height}
                             width={width}
                             scrollTop={scrollTop}
+                            // scrollToIndex={scrollTopNumber}
+                            onScroll={e => console.log(e)}
                             rowCount={rowCount}
                             rowHeight={this.generateItemHeight}
                             noRowsRenderer={this.noRowsRenderer}
@@ -153,17 +166,19 @@ class Discount extends React.Component {
                             rowRenderer={({
                               index, style, key, isVisible,
                             }) => (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className="emartmall-scroll-list">
                                 {
-                                  discountproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
-                                    <FiveCard
-                                      elastic
-                                      isVisible={isVisible}
-                                      key={i.skucd}
-                                      shape={CARD_TYPES.slim}
-                                      item={i}
-                                      {...this.props}
-                                    />
+                                    discountproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
+                                      <FiveCard
+                                        elastic
+                                        rowIndex={index}
+                                        isVisible={isVisible}
+                                        key={i.skucd}
+                                        shape={CARD_TYPES.slim}
+                                        item={i}
+                                        handleDetail={this.handleDetail}
+                                        {...this.props}
+                                      />
                                   ))
                                 }
                                 {isFetchingDiscount && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment> }

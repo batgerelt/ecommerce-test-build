@@ -20,7 +20,6 @@ import { CARD_TYPES } from "../../utils/Consts";
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
 
 class Bookmarks extends PureComponent {
-  infiniteLoaderRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -145,11 +144,7 @@ class Bookmarks extends PureComponent {
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <WindowScroller className="newPageWindowScroller">
-                        {({
-                          height,
-                          scrollTop,
-                          isScrolling,
-                        }) => (
+                        {({ height, scrollTop, isScrolling }) => (
                           <List
                             style={{ outline: "none" }}
                             autoHeight
@@ -165,7 +160,7 @@ class Bookmarks extends PureComponent {
                             rowRenderer={({
                               index, style, key, isVisible,
                             }) => (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className="emartmall-scroll-list">
                                 {console.log(scrollTop, index)}
                                 {
                                   newproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (

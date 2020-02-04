@@ -243,7 +243,7 @@ class Model extends BaseModel {
         };
 
       // GET DETAIL
-      case this.model.detail.request: return { ...state, isProductDetail: true };
+      case this.model.detail.request: return { ...state, isProductDetail: true, detail: { images: [], products: [] } };
       case this.model.detail.error: return { ...state, isProductDetail: false };
       case this.model.detail.response: return { ...state, detail: action.payload.data, isProductDetail: false };
 

@@ -4,7 +4,7 @@ import moment from "moment";
 import { Icon } from "react-fa";
 import { isMobileOnly } from 'react-device-detect';
 import { BackTop } from "antd";
-import Helmet from "react-helmet";
+import Helmet, { HelmetProvider } from "react-helmet";
 
 import { Slider, Widget, Banner, Loader } from "../../components";
 import { WIDGET_SLUGS } from "../../utils/Consts";
@@ -26,13 +26,20 @@ class Homepage extends React.Component {
   // User's browser, Social share, Google search engine's keyboard rendering function (html header tags property rendering)
   renderHelmet = () => (
     <Helmet>
-      <title>{this.props.intl.locale === "en" ? "Home page" : "Нүүр хуудас"}</title>
-      {/* <meta property="og:url" content="https://www.emartmall.mn/" />
+      <link rel="image_src" href="https://api.emartmall.mn/Resource/emartmall.png" />
+      <meta name="description" content="Та бүхэнд хамгийн ойр байрлах Emartmall" />
+      <meta name="url" content={window.location.href} />
+
+      <meta property="og:url" content={window.location.href} />
       <meta property="og:title" content={this.props.intl.locale === "en" ? "Emart-Online Home page" : "Emart-Online Нүүр хуудас"} />
-      <meta property="og:description" content="Та бүхэнд хамгийн ойр байрлах Emartmall..." />
-      <meta property="og:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
-      <meta property="og:image:secure_url" content="https://api.emartmall.mn/Resource/emartmall.png" /> */}
-      <meta name="keywords" content="batgerelt,gerelt,thehubggrlt" />
+      <meta property="og:description" content="Та бүхэнд хамгийн ойр байрлах Emartmall" />
+
+      <meta name="twitter:site" content={window.location.href} />
+      <meta name="twitter:title" content="Emart-Online" />
+      <meta name="twitter:description" content="Та бүхэнд хамгийн ойр байрлах Emartmall" />
+      <meta name="twitter:image" content="https://api.emartmall.mn/Resource/emartmall.png" />
+      <title>{this.props.intl.locale === "en" ? "Home page" : "Нүүр хуудас"}</title>
+
     </Helmet>
   )
   getBlocks = (widgets, products) => {
@@ -238,7 +245,7 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="top-container homepage-container">
-        {/* {this.renderHelmet()} */}
+        {this.renderHelmet()}
         {this.renderMainBanner()}
         {
           this.props.isHomepageBannerLoading ?

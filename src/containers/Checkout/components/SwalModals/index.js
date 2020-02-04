@@ -335,7 +335,7 @@ class SwalModals extends Component {
                             className="fa fa-info"
                             aria-hidden="true"
                           />
-                          <p style={{ fontSize: "13px", textAlign: "justify" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">2</b>` }) }} />
+                          <p style={{ fontSize: "13px", textAlign: "justify" }} dangerouslySetInnerHTML={{ __html: intl.formatMessage(messages.warning2, { hours: `<b class="fontBold">24</b>` }) }} />
                         </div>
                       </div>
                     </TabPane>

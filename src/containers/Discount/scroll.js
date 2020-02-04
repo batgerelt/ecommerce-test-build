@@ -70,7 +70,7 @@ function emartMallScroll(props) {
                             rowRenderer={({
                               index, style, key, isVisible,
                             }) => (
-                              <div style={style} key={key} className="jss148">
+                              <div style={style} key={key} className="emartmall-scroll-list">
                                 {console.log('height, scrollTop: ', height, scrollTop)}
                                 {
                                             discountproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (

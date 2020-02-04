@@ -1,8 +1,11 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Spin } from "antd";
 import CryptoJS from "crypto-js";
+import { FormattedMessage, injectIntl } from "react-intl";
+
 import {
   Auth as AuthModel,
   Product as ProductModel,
@@ -13,7 +16,7 @@ import { EncryptKey } from "../../../src/utils/Consts";
 import List from "./list";
 import { Loader } from "../../components";
 import { LoginModal } from "../../components/Login";
-import Skelton from "../../components/Skeltons/productDetail";
+
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -35,12 +38,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   ),
 });
 
+
 class Page extends React.Component {
   state = { isEmpty: false, loadingCollection: true };
 
   // eslint-disable-next-line camelcase
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.getData(this.props.match.params.id);
     this.getFeedback();
   }
@@ -80,22 +83,53 @@ class Page extends React.Component {
     }
   };
 
+  renderHelmet = () => {
+    try {
+      const { images, products } = this.props.detail;
+      const lang = this.props.intl.locale;
+      return (
+        <Helmet>
+          <title>{products.title}</title>
+          <meta name="url" content={window.location.href} />
+          <link rel="image_src" href={process.env.IMAGE + images[0].img} />
+          <meta name="description" content={products.description} />
+
+          <meta name="twitter:title" content={lang === "en" ? products.title_en : products.title} />
+          <meta name="twitter:description" content={products.description} />
+          <meta name="twitter:image" content={process.env.IMAGE + images[0].img} />
+          <meta name="twitter:site" content={window.location.href} />
+
+          <meta property="og:type" content="product" />
+          <meta property="og:url" content={window.location.href} />
+          <meta property="og:title" content={lang === "en" ? products.title_en : products.title} />
+          <meta property="og:description" content={products.description} />
+          <meta property="og:image" content={process.env.IMAGE + images[0].img} />
+          <meta property="product:availability" content="in stock" />
+          <meta property="product:condition" content="new" />
+          <meta property="product:price:amount" content="119000" />
+          <meta property="product:price:currency" content="MNT" />
+          <meta property="product:retailer_item_id" content="FL4396" />
+        </Helmet>
+      );
+    } catch (error) { return console.log('null: ', null); }
+  }
+
   render() {
     return (
-      <Spin
-        spinning={this.props.isProductDetail}
-        indicator={<Loader />}
-      >
-        {
+      <React.Fragment>
+        <Spin
+          spinning={this.props.isProductDetail}
+          indicator={<Loader />}
+        >
+          {this.renderHelmet()}
+
           <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
-        }
-        <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-      </Spin>
+          <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
+        </Spin>
+      </React.Fragment>
+
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Page);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Page));
