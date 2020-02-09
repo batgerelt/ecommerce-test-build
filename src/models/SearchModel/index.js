@@ -146,7 +146,7 @@ class Model extends BaseModel {
       case this.model.productbrand.response:
         return { ...state, productbrand: action.payload.data };
 
-        // GET SEARCH ATTRIBUTE
+      // GET SEARCH ATTRIBUTE
       case this.model.searchattribute.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.searchattribute.error:
@@ -162,7 +162,7 @@ class Model extends BaseModel {
       case this.model.searchword.response:
         return { ...state, suggestion: action.payload.data };
 
-        // GET SEARCH KEY WORD
+      // GET SEARCH KEY WORD
       case this.model.searchkeyword.request:
         return { ...state, current: this.requestCase(state.current, action) };
       case this.model.searchkeyword.error:

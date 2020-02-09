@@ -64,7 +64,7 @@ class Detail extends Component {
             </p>
           </div>
 
-          {!!attributes && !!attributes.length && (
+          {/* {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
               <div className="product-bottom-info">
                 {attributes.map((attr, index) => (
@@ -83,7 +83,7 @@ class Detail extends Component {
                 ))}
               </div>
             </div>
-          )}
+          )} */}
           {
             attributes.length === 0 ?
               <div className="gift">

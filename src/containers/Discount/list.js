@@ -39,7 +39,7 @@ class Discount extends React.Component {
       module: 'discount',
       startsWith: 0,
       rowCount: 20,
-      orderColumn: 'catid_desc,rate_desc',
+      orderColumn: 'catid_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC',
       highlight: false,
     };
   }
@@ -166,8 +166,9 @@ class Discount extends React.Component {
                             rowRenderer={({
                               index, style, key, isVisible,
                             }) => (
-                              <div style={style} key={key} className="emartmall-scroll-list">
-                                {
+                                // eslint-disable-next-line react/jsx-indent
+                                <div style={style} key={key} className="emartmall-scroll-list">
+                                  {
                                     discountproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
                                       <FiveCard
                                         elastic
@@ -179,10 +180,10 @@ class Discount extends React.Component {
                                         handleDetail={this.handleDetail}
                                         {...this.props}
                                       />
-                                  ))
-                                }
-                                {isFetchingDiscount && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment> }
-                              </div>
+                                    ))
+                                  }
+                                  {isFetchingDiscount && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment>}
+                                </div>
                               )}
                           />
                         )}

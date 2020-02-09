@@ -612,7 +612,7 @@ class Component extends React.Component {
           footer={null}
           className="no-padding"
         >
-          <img alt="haha" src={img} style={{ width: "100%" }} />
+          <img alt="images" src={img} style={{ width: "100%" }} />
         </Modal>
       </div>
     );

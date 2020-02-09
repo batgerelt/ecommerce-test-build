@@ -73,7 +73,7 @@ class Model extends BaseModel {
   getNewMenu = ({ id = 'new' }) => asyncFn({ url: `/menu/${id}`, method: 'GET', model: this.model.new });
   getRecipeMenu = ({ id = 'recipe' }) => asyncFn({ url: `/menu/${id}`, method: 'GET', model: this.model.recipe });
   getPackageMenu = ({ id = 'package' }) => asyncFn({ url: `/menu/${id}`, method: 'GET', model: this.model.package });
-  getSeasonMenu = ({ id = 'season' }) => asyncFn({ url: `/menu/${id}`, method: 'GET', model: this.model.season });
+  getSeasonMenu = ({ id }) => asyncFn({ url: `/menu/${id}`, method: 'GET', model: this.model.season });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {

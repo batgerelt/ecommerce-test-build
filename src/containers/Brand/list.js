@@ -39,7 +39,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "",
+      sort: "ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -758,7 +758,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: "ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       highlight: false,
     };
 

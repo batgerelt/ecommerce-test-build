@@ -24,6 +24,7 @@ import Emart from "./Emart";
 import Brand from "./Brand";
 import SearchNotFound from "./Exception/SearchNotFound";
 import ProductNotFound from "./Exception/ProductNotFound";
+import Menu from "./Menu";
 
 export {
   App,
@@ -52,4 +53,5 @@ export {
   Brand,
   SearchNotFound,
   ProductNotFound,
+  Menu,
 };

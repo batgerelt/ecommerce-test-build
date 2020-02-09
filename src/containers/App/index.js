@@ -57,6 +57,7 @@ import {
   Order,
   Emart,
   Brand,
+  Menu,
 } from "../";
 import PaymentReturn from "../Checkout/components/PaymentReturn";
 
@@ -147,8 +148,8 @@ class App extends Component {
                           <Route path="/recipe" component={Recipe} />
                           <Route path="/package" component={Package} />
                           <Route path="/season" component={Season} />
-                          <Route path="/productdetail/:id" component={ProductDetail} />
                           <Route path="/productdetail/:id/:orderid" component={ProductDetail} />
+                          <Route path="/productdetail/:id" component={ProductDetail} />
                           <Route path="/checkout" component={Checkout} />
                           <Route path="/info/:id" component={Static} />
                           <Route path="/category/:id" component={Category} />
@@ -164,6 +165,7 @@ class App extends Component {
                           <Route path="/order/:id" component={Order} />
                           <Route path="/golomtPayment" component={PaymentReturn} />
                           <Route path="/qpayReturn" component={PaymentReturn} />
+                          <Route path="/e/:id" component={Menu} />
                           <Route path="*" component={Notfound} />
                         </Switch>
                       </div>

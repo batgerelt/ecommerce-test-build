@@ -32,6 +32,8 @@ class DeliveryPanel extends React.Component {
     zoneSetting: null,
     dateLoading: false,
     requiredField: true,
+    changeDist: true,
+    changeCom: true,
   };
 
   // eslint-disable-next-line camelcase
@@ -51,7 +53,7 @@ class DeliveryPanel extends React.Component {
         this.getCommitte(main.provinceid, main.districtid, false);
       } else {
         this.props.changeAddressType("new");
-        this.setState({ noAddress: true });
+        this.setState({ noAddress: true, changeDist: false, changeCom: false });
         this.getDistrictAndCommitte(0);
       }
     } catch (error) {
@@ -100,7 +102,8 @@ class DeliveryPanel extends React.Component {
           chosenAddress.committeeid = res.payload.data[0].id;
           chosenAddress.committeenm = res.payload.data[0].name;
           chosenAddress.locid = res.payload.data[0].locid;
-          this.props.changeChosenAddress(chosenAddress);
+          let last = false;
+          this.props.changeChosenAddress(chosenAddress, last);
           this.getZoneSetting(chosenAddress);
         }
       }
@@ -110,6 +113,7 @@ class DeliveryPanel extends React.Component {
 
   onChangeLoc = (e) => {
     const { addrs } = this.props.userinfo;
+    let last = true;
     let found = addrs.find(item => item.id === e);
     this.props.changeAddressType("edit");
     this.setState({ selectLoading: true });
@@ -125,7 +129,7 @@ class DeliveryPanel extends React.Component {
         this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts });
         this.getZoneSetting(found);
         this.setFieldsValue(found);
-        this.props.changeChosenAddress(found);
+        this.props.changeChosenAddress(found, last);
         this.setState({ inzone: found.inzone });
       }
       this.setState({ selectLoading: false });
@@ -168,24 +172,31 @@ class DeliveryPanel extends React.Component {
   }
 
   onChangeDistLoc = (e) => {
+    this.props.form.setFieldsValue({
+      committeeid: null,
+    });
+    let last = false;
+    this.setState({ changeDist: true, changeCom: false });
     const { districtLocation } = this.state;
     const { chosenAddress } = this.props.mainState;
     let found = districtLocation.find(item => item.id === e);
     chosenAddress.districtid = found.id;
     chosenAddress.districtnm = found.name;
-    this.props.changeChosenAddress(chosenAddress);
+    this.props.changeChosenAddress(chosenAddress, last);
     this.getCommitte(chosenAddress.provinceid, chosenAddress.districtid, true);
   }
 
   onChangeCommitteLoc = (e) => {
     const { chosenAddress } = this.props.mainState;
     const { committeLocation, inzone } = this.state;
+    let tab = true;
+    this.setState({ changeCom: true });
     let found = committeLocation.find(item => item.id === e);
     chosenAddress.committeeid = found.id;
     chosenAddress.committeenm = found.name;
     chosenAddress.locid = found.locid;
     this.getZoneSetting(found);
-    this.props.changeChosenAddress(chosenAddress);
+    this.props.changeChosenAddress(chosenAddress, tab);
     this.setState({ inzone: found.inzone });
   }
 
@@ -193,7 +204,7 @@ class DeliveryPanel extends React.Component {
     const { deliveryTypes, intl } = this.props;
     let found = deliveryTypes.find(item => item.id === parseInt(e.target.value));
     if (found.isenable === 1) {
-      this.props.changeDeliveryTab(found);
+      this.props.changeDeliveryTab(found, this.state.changeCom);
       this.setState({ defaultActiveKey: e.target.value, requiredField: found.id === 3 ? false : true }, () => {
         this.getZoneSetting(this.props.mainState.chosenAddress);
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
@@ -240,6 +251,16 @@ class DeliveryPanel extends React.Component {
     return tmp;
   }
 
+  renderLocationCommit = (locations) => {
+    let tmp;
+    if (locations.length !== 0 && this.state.changeDist) {
+      tmp = locations.map((item, i) => {
+        return (<Option key={i} value={item.id}>{item.name}</Option>);
+      });
+    }
+    return tmp;
+  }
+
   renderAddrsOption = () => {
     try {
       const { userinfo, intl } = this.props;
@@ -276,7 +297,8 @@ class DeliveryPanel extends React.Component {
   };
 
   dateStringChange = (date, datestring) => {
-    this.props.changeChosenDate(datestring);
+    let click = true;
+    this.props.changeChosenDate(datestring, this.state.changeCom, click);
   }
 
   checkError = (value) => {
@@ -286,7 +308,7 @@ class DeliveryPanel extends React.Component {
     return value;
   };
 
-  getDistrictAndCommitte = (id) => {
+  getDistrictAndCommitte = (id, last, isNew) => {
     try {
       const { chosenAddress } = this.props.mainState;
       this.setState({ selectLoading: true });
@@ -302,9 +324,7 @@ class DeliveryPanel extends React.Component {
           chosenAddress.locid = res.payload.data.committees[0].locid;
           this.setState({ committeLocation: res.payload.data.committees, districtLocation: res.payload.data.districts }, () => {
             this.getZoneSetting(chosenAddress);
-            // neg
-            this.props.changeChosenAddress(chosenAddress);
-            // this.setState({ chosenAddress });
+            this.props.changeChosenAddress(chosenAddress, last, isNew);
             this.setFieldsValue(chosenAddress);
           });
         }
@@ -316,10 +336,11 @@ class DeliveryPanel extends React.Component {
 
   handleAddAddress = (e) => {
     e.preventDefault();
-    // guraw
-    // this.setState({ addresstype: "new" });
+    let last = true;
+    let last1 = false;
+    this.setState({ changeDist: false, changeCom: false });
     this.props.changeAddressType("new");
-    this.getDistrictAndCommitte(0);
+    this.getDistrictAndCommitte(0, last1, last);
   }
 
   onChangeLast = (value) => {
@@ -341,6 +362,7 @@ class DeliveryPanel extends React.Component {
     } = this.props;
     const lang = intl.locale;
     const { main, info } = this.props.userinfo;
+    let location = "location";
     if (this.props.userinfo.info !== undefined) {
       return (
         <div>
@@ -495,6 +517,7 @@ class DeliveryPanel extends React.Component {
                           rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                         })(
                           <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Option value={null} disabled>Сонгох</Option>
                             {this.renderLocation(districtLocation)}
                           </Select>,
                         )}
@@ -508,7 +531,8 @@ class DeliveryPanel extends React.Component {
                           rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
                         })(
                           <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
-                            {this.renderLocation(committeLocation)}
+                            <Option value={null} disabled>Сонгох</Option>
+                            {this.renderLocationCommit(committeLocation)}
                           </Select>,
                         )}
                       </Form.Item>

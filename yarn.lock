@@ -7456,12 +7456,6 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-collapse@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/react-collapse/-/react-collapse-4.0.3.tgz#b96de959ed0092a43534630b599a4753dd76d543"
-  dependencies:
-    prop-types "^15.5.8"
-
 react-content-loader@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-4.3.2.tgz#2f6546c883707d399a2abc2efd00edcb8f584618"
@@ -7500,6 +7494,14 @@ react-dev-utils@^4.2.3:
 react-device-detect@^1.7.5:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.7.5.tgz#04c8a6475d67b5ac4f984c8d912ec11134f5b893"
+
+react-document-meta@^3.0.0-beta.2:
+  version "3.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/react-document-meta/-/react-document-meta-3.0.0-beta.2.tgz#4a4b4c0b18277e4707d13ede163536ba216d5956"
+  integrity sha512-iRQ2tFsYFXVARPXIVjTmEbdkf+Ngz/NJYvQPdUjuE4U0icUpPD5F9OfpKZDy06msya3p58IWHRu+2P8x9Lli+w==
+  dependencies:
+    prop-types "^15.5.8"
+    react-side-effect "^1.1.0"
 
 react-dom@^16.8.6:
   version "16.8.6"
@@ -8448,11 +8450,6 @@ shallowequal@^0.2.2:
 shallowequal@^1.0.1, shallowequal@^1.0.2, shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
-
-share-facebook@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/share-facebook/-/share-facebook-1.0.1.tgz#69f027d8e7b64a70cfa4ec3456e9fe76bfe8b1d2"
-  integrity sha512-qeUxgnzhCmLMBa6FHVl+gXXAZbcvNijkYQDCzrZxImmsyzJjoehsznL9XABKjGY3LCYJtRTHebrC9EKxzFSWfQ==
 
 shebang-command@^1.2.0:
   version "1.2.0"

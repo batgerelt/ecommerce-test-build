@@ -40,7 +40,7 @@ class Bookmarks extends PureComponent {
       module: "new",
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "startnew_desc,endnew_asc,updatedate_desc",
+      orderColumn: "startnew_desc, endnew_asc, updatedate_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       highlight: false,
       total: 0,
     };
@@ -160,22 +160,23 @@ class Bookmarks extends PureComponent {
                             rowRenderer={({
                               index, style, key, isVisible,
                             }) => (
-                              <div style={style} key={key} className="emartmall-scroll-list">
-                                {console.log(scrollTop, index)}
-                                {
-                                  newproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
-                                    <FiveCard
-                                      elastic
-                                      isVisible={isVisible}
-                                      key={i.skucd}
-                                      shape={CARD_TYPES.slim}
-                                      item={i}
-                                      {...this.props}
-                                    />
-                                  ))
+                                // eslint-disable-next-line react/jsx-indent
+                                <div style={style} key={key} className="emartmall-scroll-list">
+                                  {console.log(scrollTop, index)}
+                                  {
+                                    newproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
+                                      <FiveCard
+                                        elastic
+                                        isVisible={isVisible}
+                                        key={i.skucd}
+                                        shape={CARD_TYPES.slim}
+                                        item={i}
+                                        {...this.props}
+                                      />
+                                    ))
                                   }
-                                {isFetchingnew && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment>}
-                              </div>
+                                  {isFetchingnew && <React.Fragment>{this.renderSkeltonCard()}</React.Fragment>}
+                                </div>
                               )}
                           />
                         )}

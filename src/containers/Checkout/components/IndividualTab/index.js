@@ -268,7 +268,7 @@ class IndividualTab extends React.Component {
             <Col span={24} style={{ display: 'flex' }}>
               <Col xs={14} sm={14} md={14} lg={14} xl={14}>
                 {getFieldDecorator("cardPoint", {
-                  initialValue: mainState.ePointServer.success ? mainState.cardInfo.point : 0,
+                  initialValue: mainState.ePointServer.success ? formatter.format(mainState.cardInfo.point) : 0,
                 })(
                   <Input size="large" disabled type="text" style={{ marginBottom: 0, paddingLeft: '10px' }} className="col-md-12" />,
                 )}

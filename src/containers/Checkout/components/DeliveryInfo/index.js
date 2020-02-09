@@ -491,8 +491,8 @@ class DeliveryInfo extends React.Component {
               </p>
               <p className="text flex-space">
                 <span><FormattedMessage id="shared.sidebar.label.deliveryCost" />:</span>
-                {/* <strong>{`${formatter.format(this.checkError(mainState.deliveryPrice))}₮`}</strong> */}
-                <strong>{`${formatter.format(this.checkError(mainState.chosenDelivery.price))}₮`}</strong>
+                <strong>{`${formatter.format(this.checkError(mainState.deliveryPrice))}₮`}</strong>
+                {/* <strong>{`${formatter.format(this.checkError(mainState.chosenDelivery.price))}₮`}</strong> */}
               </p>
               {
                 mainState.useEpoint ?
@@ -505,8 +505,8 @@ class DeliveryInfo extends React.Component {
               <hr />
               <p className="text flex-space result-price">
                 <span><FormattedMessage id="checkout.sidebar.label.totalAmount" />:</span>
-                {/* <strong>{formatter.format(mainState.totalPrice + (mainState.deliveryPrice) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong> */}
-                <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
+                <strong>{formatter.format(mainState.totalPrice + (mainState.deliveryPrice) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong>
+                {/* <strong>{formatter.format(mainState.totalPrice + (mainState.chosenDelivery.price !== undefined ? mainState.chosenDelivery.price : 0) - (mainState.useEpoint ? mainState.epointUsedPoint : 0))}₮</strong> */}
               </p>
               {
                 mainState.chosenRadio === 1 ?

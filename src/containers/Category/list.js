@@ -40,7 +40,7 @@ class CategoryInfo extends React.Component {
       loading: false,
       minPrice: 0,
       maxPrice: 0,
-      sort: "",
+      sort: "ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       isMobilePanel: false,
       ITEM_HEIGHT: 294.98,
       shapeType: 2,
@@ -69,6 +69,7 @@ class CategoryInfo extends React.Component {
   }
 
   handleChangeOrder = (e) => {
+    console.log(e);
     const { isLoggedIn, data } = this.props;
     this.setState({ loading: !this.state.loading, sort: e });
     const params = {
@@ -720,7 +721,7 @@ class CategoryInfo extends React.Component {
       maxPrice: 0,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: "ISAVAILABLE_DESC",
+      orderColumn: "ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       highlight: false,
     };
 

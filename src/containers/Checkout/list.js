@@ -57,12 +57,6 @@ class Checkout extends React.Component {
     };
   }
 
-  /* componentDidUpdate(nextProps) {
-    if (localStorage.getItem('auth') === null) {
-      this.props.history.push("/");
-    }
-  } */
-
   errorMsg = (txt) => {
     MySwal.fire({
       type: "error",
@@ -77,8 +71,7 @@ class Checkout extends React.Component {
     this.setState({ deliveryPanelForm: item });
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.products !== nextProps.products) {
       this.setState({ totalPrice: this.getTotalPrice(nextProps.products), totalQty: this.getTotalQty(nextProps.products) }, () => {
         this.changeDeliveryTab(this.state.chosenDelivery);
@@ -94,8 +87,7 @@ class Checkout extends React.Component {
     }
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount = () => {
+  componentWillMount = () => {
     this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
     if (this.checkLoggedIn()) {
@@ -111,32 +103,99 @@ class Checkout extends React.Component {
       this.setState({ cardInfo: userinfo.card });
     }
     this.setState({ totalPrice: this.getTotalPrice(products), totalQty: this.getTotalQty(products) });
-
     this.getDeliveryPrice();
   }
 
-  getDeliveryPrice = () => {
-    /* if (localStorage.getItem('emartmall_token') !== null && this.props.userinfo.main !== null) {
-      let type = "1";
-      if (this.state.chosenDelivery.id !== undefined) {
-        type = this.state.chosenDelivery.id;
+  getDeliveryPrice = (last, isNew) => {
+    if (localStorage.getItem('emartmall_token') !== null) {
+      if (this.state.chosenDelivery.id === 1) {
+        if (last === false) {
+          this.setState({ deliveryPrice: 0 });
+        }
+        if (this.props.userinfo.main !== null) {
+          let type = "1";
+          if (this.state.chosenDelivery.id !== undefined) {
+            type = this.state.chosenDelivery.id;
+          }
+          let skus = [];
+          this.props.products.map((ind) => {
+            skus.push(ind.skucd);
+          });
+          let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
+          const param = {
+            typeid: type,
+            deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
+            locid: this.state.chosenAddress.locid === undefined ? this.props.userinfo.main.locid : this.state.chosenAddress.locid,
+            orderAmount,
+            skucdList: skus,
+          };
+          if (this.state.addresstype === "new" && last === false) {
+            this.setState({ deliveryPrice: 0 });
+          } else {
+            this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+              if (res.payload.success) {
+                this.setState({ deliveryPrice: res.payload.data.price });
+              }
+            });
+          }
+        }
+
+        if (last === true) {
+          let type = "1";
+          if (this.state.chosenDelivery.id !== undefined) {
+            type = this.state.chosenDelivery.id;
+          }
+          let skus = [];
+          this.props.products.map((ind) => {
+            skus.push(ind.skucd);
+          });
+          let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
+          const param = {
+            typeid: type,
+            deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
+            locid: this.state.chosenAddress.locid,
+            orderAmount,
+            skucdList: skus,
+          };
+          this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+            if (res.payload.success) {
+              this.setState({ deliveryPrice: res.payload.data.price });
+            }
+          });
+        }
       }
-      let skus = [];
-      this.props.products.map((ind) => {
-        skus.push(ind.skucd);
-      });
-      let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
-      const param = {
-        typeid: type,
-        deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
-        locid: this.props.userInfo.main.locid,
-        orderAmount,
-        skucdList: skus,
-      };
-      this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
-        this.setState({ deliveryPrice: res.payload.data.price });
-      });
-    } */
+
+      if (this.state.chosenDelivery.id === 2) {
+        let type = "1";
+        if (this.state.chosenDelivery.id !== undefined) {
+          type = this.state.chosenDelivery.id;
+        }
+        let skus = [];
+        this.props.products.map((ind) => {
+          skus.push(ind.skucd);
+        });
+        let orderAmount = this.state.totalPrice === 0 ? this.getTotalPrice(this.props.products) : this.state.totalPrice;
+        const param = {
+          typeid: type,
+          deliveryDate: this.state.chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : this.state.chosenDate,
+          locid: this.state.chosenAddress.locid === undefined ? this.props.userinfo.main.locid : this.state.chosenAddress.locid,
+          orderAmount,
+          skucdList: skus,
+        };
+        this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+          this.setState({ deliveryPrice: res.payload.data.price });
+        });
+      }
+
+      if (this.state.chosenDelivery.id === 3) {
+        const param = {
+          type: "3",
+        };
+        this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
+          this.setState({ deliveryPrice: res.payload.data.price });
+        });
+      }
+    }
   }
 
   changeDeliveryType = (value) => {
@@ -231,7 +290,7 @@ class Checkout extends React.Component {
       : 0;
   };
 
-  changeDeliveryTab = (item) => {
+  changeDeliveryTab = (item, last) => {
     const { totalPrice } = this.state;
     if (totalPrice >= item.freecondition && item.freecondition !== 0) {
       this.setState({ freeCond: item.price });
@@ -240,13 +299,13 @@ class Checkout extends React.Component {
       item.price += this.state.freeCond;
       this.setState({ freeCond: 0 });
     }
-    this.setState({ chosenDelivery: item }, () => this.getDeliveryPrice());
+    this.setState({ chosenDelivery: item }, () => this.getDeliveryPrice(last));
   }
 
   getDeliveryTypeValue = (body, date) => { }
 
-  changeChosenDate = (item) => {
-    this.setState({ chosenDate: item }, () => this.getDeliveryPrice());
+  changeChosenDate = (item, changeCom, click) => {
+    this.setState({ chosenDate: item }, () => (click === true ? this.getDeliveryPrice(changeCom) : null));
   }
 
   scrollTo = (top, left) => {
@@ -269,14 +328,14 @@ class Checkout extends React.Component {
     }
   };
 
-  changeChosenAddress = (item) => {
+  changeChosenAddress = (item, last, isNew) => {
     if (this.props.userinfo.main !== null) {
-      this.setState({ chosenAddress: item });
+      this.setState({ chosenAddress: item }, this.getDeliveryPrice(last, isNew));
     } else {
       item.name = this.props.userinfo.info.firstname;
       item.phone1 = this.props.userinfo.info.phone1;
       item.address = this.props.userinfo.info.address;
-      this.setState({ chosenAddress: item });
+      this.setState({ chosenAddress: item }, () => this.getDeliveryPrice(last, isNew));
     }
   }
 
@@ -456,9 +515,9 @@ class Checkout extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log("gaga");
     this.DeliveryInfo.handleSubmit();
   }
+
   render() {
     const {
       submitLoading,
@@ -574,4 +633,3 @@ class Checkout extends React.Component {
 }
 
 export default injectIntl(Checkout);
-
