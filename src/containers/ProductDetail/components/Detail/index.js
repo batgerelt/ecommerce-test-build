@@ -64,7 +64,7 @@ class Detail extends Component {
             </p>
           </div>
 
-          {/* {!!attributes && !!attributes.length && (
+          {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
               <div className="product-bottom-info">
                 {attributes.map((attr, index) => (
@@ -83,7 +83,7 @@ class Detail extends Component {
                 ))}
               </div>
             </div>
-          )} */}
+          )}
           {
             attributes.length === 0 ?
               <div className="gift">
@@ -140,6 +140,10 @@ class Detail extends Component {
     }
   };
 
+  checkNan(item) {
+    return isNaN(item) ? 0 : item;
+  }
+
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
     if (!detail) {
@@ -161,11 +165,11 @@ class Detail extends Component {
             {
               detail.discountprice !== 0 ?
                 <small className="sale">
-                  {formatter.format(detail.volumeprice)}₮
+                  {this.checkNan(formatter.format(detail.volumeprice))}₮
                 </small> : ""
             }
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {formatter.format(detail.totprice)}₮
+              {this.checkNan(formatter.format(detail.totprice))}₮
             </span>
           </div>
         </div>
@@ -191,10 +195,10 @@ class Detail extends Component {
             </span>
             <div className="price product-detail">
               <small className="sale">
-                {formatter.format(price)}₮
+                {this.checkNan(formatter.format(price))}₮
               </small>
               <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-                {formatter.format(salePrice)}₮
+                {this.checkNan(formatter.format(salePrice))}₮
               </span>
             </div>
           </div>
@@ -209,7 +213,7 @@ class Detail extends Component {
               {priceTitle}
             </span>
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
+              {this.checkNan(formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice))}₮
             </span>
           </div>
           {kiloPrice}
@@ -265,7 +269,7 @@ class Detail extends Component {
           <span className="upper-first">
             <FormattedMessage id="productDetail.label.totalPrice" />:
           </span>
-          <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
+          <strong>{this.checkNan(formatter.format(this.getTotalPrice(detail)))}₮</strong>
         </div>
 
         <div className="btn-container text-right">

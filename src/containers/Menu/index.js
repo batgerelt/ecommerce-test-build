@@ -67,6 +67,7 @@ class Page extends React.Component {
       return this.setState(banner);
     });
     this.props.getSeasonMenu({ id }).then((res) => {
+      console.log(id, res);
       this.setState({ loading: false, promotid: res.payload.data[0].promotid });
     });
   }

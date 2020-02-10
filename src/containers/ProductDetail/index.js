@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import { Spin } from "antd";
 import CryptoJS from "crypto-js";
 import { FormattedMessage, injectIntl } from "react-intl";
-
 import {
   Auth as AuthModel,
   Product as ProductModel,
@@ -16,7 +15,6 @@ import { EncryptKey } from "../../../src/utils/Consts";
 import List from "./list";
 import { Loader } from "../../components";
 import { LoginModal } from "../../components/Login";
-
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -37,7 +35,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch,
   ),
 });
-
 
 class Page extends React.Component {
   state = { isEmpty: false, loadingCollection: true };
@@ -111,7 +108,9 @@ class Page extends React.Component {
           <meta property="product:retailer_item_id" content="FL4396" />
         </Helmet>
       );
-    } catch (error) { return console.log('null: ', null); }
+    } catch (error) {
+      return null;
+    }
   }
 
   render() {
@@ -122,7 +121,6 @@ class Page extends React.Component {
           indicator={<Loader />}
         >
           {this.renderHelmet()}
-
           <List {...this.props} {...this} isEmpty={this.state.isEmpty} loading={this.state.loading} isLoggedIn={localStorage.getItem('auth') !== null} />
           <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
         </Spin>

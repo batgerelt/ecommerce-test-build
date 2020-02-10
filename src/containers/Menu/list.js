@@ -141,11 +141,12 @@ class CategoryInfo extends React.Component {
   };
 
   rderHelmet = () => {
-    const { menuRecipe, intl } = this.props;
+    const { menuRecipe } = this.props;
+    const lang = this.props.intl;
     return (
       <Helmet>
         {/* HTML META TAGS */}
-        <title>{intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}</title>
+        <title>Улирал</title>
       </Helmet>
     );
   }
@@ -351,18 +352,18 @@ class CategoryInfo extends React.Component {
       const { promotionall } = this.props;
       const { promotions, categoryId } = this.state;
       const { buckets } = promotions.buckets;
-      let array = [];
+      /* let array = [];
       // eslint-disable-next-line array-callback-return
       promotionall.map((item, key) => {
         // eslint-disable-next-line no-confusing-arrow
         buckets.find(i => i.key === item.id ? array.push(i) : null);
-      });
+      }); */
       const lang = this.props.intl;
       if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              array.map((cat, key) => (
+              buckets.map((cat, key) => (
                 <div>
                   {cat.key === 272 ?
                     null
@@ -698,20 +699,12 @@ class CategoryInfo extends React.Component {
       return menuSeason[0] && (
         <div>
           {
-            this.props.match.params.id === "valentines" ?
-              <PageBanner
-                title={lang === "mn" ? "Валентины баяр" : "Valentine's Day "}
-                subtitle={lang === "mn" ? " " : " "}
-                banners={banner.header}
-                bgColor="pink"
-              />
-              :
-              <PageBanner
-                title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
-                subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
-                banners={banner.header}
-                bgColor="#FFAD00"
-              />
+            <PageBanner
+              title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+              subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
+              banners={banner.header}
+              bgColor="#FFAD00"
+            />
           }
         </div>
       );
@@ -786,6 +779,7 @@ class CategoryInfo extends React.Component {
   render() {
     return (
       <div className="top-container elastic-container">
+        {this.rderHelmet()}
         {this.renderBanner()}
         <div className="section season">
           <div className="container pad10">

@@ -43,7 +43,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
@@ -72,7 +72,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
@@ -89,7 +89,7 @@ class ProductDetail extends React.Component {
         />
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
@@ -146,7 +146,7 @@ class ProductDetail extends React.Component {
         </div>
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
