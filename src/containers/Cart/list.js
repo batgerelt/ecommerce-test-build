@@ -15,6 +15,7 @@ import { store } from 'react-notifications-component';
 import ButtonGoogle from "@material-ui/core/Button";
 import { Alert } from "antd";
 import { Notification } from "../../components";
+import { AdditionQuestion } from "./components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -30,6 +31,7 @@ class Cart extends React.Component {
       showButton: true,
       isadd: { loading: false, index: null },
       ismin: { loading: false, index: null },
+      isContinue: false,
     };
   }
 
@@ -64,16 +66,20 @@ class Cart extends React.Component {
     return product;
   });
 
+  redirectUrl = () => this.setState({ shouldRedirect: true });
+
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
     try {
       if (this.props.isLoggedIn) {
-        this.setState({ loading: true });
+        this.setState({ loading: true, isContinue: true });
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
 
         if (result.payload.success) {
-          this.setState({ shouldRedirect: true });
+          // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
+          // redux дээр хадаглах шаардлаггүй өгөгдөл гэж үзсэн тул then ийг ашиглав
+          this.props.getCheckGift();
         } else {
           if (result.payload.data.length > 0) {
             let reasons = [];
@@ -102,7 +108,6 @@ class Cart extends React.Component {
                 />,
               });
             }
-
             this.setState({ loading: false, shouldRedirect: false });
           }
         }
@@ -1041,6 +1046,7 @@ class Cart extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.isContinue && <AdditionQuestion {...this.props} redirectUrl={this.redirectUrl} />}
       </div>
     );
   }

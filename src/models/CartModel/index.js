@@ -18,6 +18,7 @@ class Model extends BaseModel {
       data: {},
     },
     products: [],
+    addionquestions: [],
   };
 
   constructor(data = {}) {
@@ -252,6 +253,12 @@ class Model extends BaseModel {
             "confirmCartRemotely",
           ),
         },
+
+        checkgift: {
+          request: this.buildActionName('request', data.model, 'checkgift'),
+          response: this.buildActionName('response', data.model, 'checkgift'),
+          error: this.buildActionName('error', data.model, 'checkgift'),
+        },
       };
     }
   }
@@ -279,6 +286,18 @@ class Model extends BaseModel {
     type: "CART_DECREMENT_PRODUCT_LOCALLY",
     payload: product,
   });
+
+  removeAdditionQuestiom = item => ({
+    type: "REMOVE_ADDITION_QUESTION",
+    payload: item,
+  })
+
+  setAdditionAnswer = skucd => ({
+    type: "SET_ADDITION_ANSWER",
+    payload: skucd,
+  })
+
+  getCheckGift = () => asyncFn({ url: `/checkout/checkgift`, method: 'GET', model: this.model.checkgift });
 
   decrementProductRemotely = ({ skucd, qty, iscart }) =>
     asyncFn({
@@ -1031,7 +1050,32 @@ class Model extends BaseModel {
           console.log(e);
         }
         return state;
+      
+      // CHECKT GIFT
+      case this.model.checkgift.request: return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.checkgift.error: return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.checkgift.response: return { ...state, addionquestions: action.payload.data };
 
+      // REMOVE_ADDITION_QUESTION
+      case "REMOVE_ADDITION_QUESTION":
+        try {
+          let { addionquestions } = state;
+          addionquestions.map((i, index) => (i.skucd === action.payload.skucd) && addionquestions.splice(index, 1));
+          return { ...state, addionquestions };
+        } catch (error) { return state; }
+
+      // REMOVE_ADDITION_QUESTION
+      case "SET_ADDITION_ANSWER":
+        try {
+          let { products, addionquestions } = state;
+          const { skucd, note } = action.payload;
+          
+          products.find(i => i.skucd === skucd).note = note;
+          addionquestions.map((i, index) => (i.skucd === action.payload.skucd) && addionquestions.splice(index, 1));
+          
+          return { ...state, products, addionquestions };
+        } catch (error) { return state; }
+      
       default:
         return state;
     }
