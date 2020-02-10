@@ -64,7 +64,7 @@ class Detail extends Component {
             </p>
           </div>
 
-          {/* {!!attributes && !!attributes.length && (
+          {!!attributes && !!attributes.length && (
             <div className="detail-attribute-container">
               <div className="product-bottom-info">
                 {attributes.map((attr, index) => (
@@ -83,7 +83,7 @@ class Detail extends Component {
                 ))}
               </div>
             </div>
-          )} */}
+          )}
           {
             attributes.length === 0 ?
               <div className="gift">
@@ -139,6 +139,10 @@ class Detail extends Component {
       this.proceedRef.current.focus();
     }
   };
+
+  checkNan(item) {
+    return isNaN(item) ? 0 : item;
+  }
 
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
@@ -265,7 +269,7 @@ class Detail extends Component {
           <span className="upper-first">
             <FormattedMessage id="productDetail.label.totalPrice" />:
           </span>
-          <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
+          <strong>{this.getTotalPrice(detail)}₮</strong>
         </div>
 
         <div className="btn-container text-right">

@@ -289,6 +289,7 @@ class Component extends React.Component {
   renderCard(card) {
     const { getFieldDecorator } = this.props.form;
     const { intl } = this.props;
+    console.log(this.props.epointCardInfo);
     return (
       <Col span={24}>
         <Form>
