@@ -165,11 +165,11 @@ class Detail extends Component {
             {
               detail.discountprice !== 0 ?
                 <small className="sale">
-                  {this.checkNan(formatter.format(detail.volumeprice))}₮
+                  {formatter.format(detail.volumeprice)}₮
                 </small> : ""
             }
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {this.checkNan(formatter.format(detail.totprice))}₮
+              {formatter.format(detail.totprice)}₮
             </span>
           </div>
         </div>
@@ -195,10 +195,10 @@ class Detail extends Component {
             </span>
             <div className="price product-detail">
               <small className="sale">
-                {this.checkNan(formatter.format(price))}₮
+                {formatter.format(price)}₮
               </small>
               <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-                {this.checkNan(formatter.format(salePrice))}₮
+                {formatter.format(salePrice)}₮
               </span>
             </div>
           </div>
@@ -213,7 +213,7 @@ class Detail extends Component {
               {priceTitle}
             </span>
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {this.checkNan(formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice))}₮
+              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}
@@ -269,7 +269,7 @@ class Detail extends Component {
           <span className="upper-first">
             <FormattedMessage id="productDetail.label.totalPrice" />:
           </span>
-          <strong>{this.checkNan(formatter.format(this.getTotalPrice(detail)))}₮</strong>
+          <strong>{this.getTotalPrice(detail)}₮</strong>
         </div>
 
         <div className="btn-container text-right">

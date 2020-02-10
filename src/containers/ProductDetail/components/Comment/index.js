@@ -74,7 +74,6 @@ class Comment extends Component {
   };
 
   giftvisibleTrue = (img) => {
-    console.log("getVisibleTrue");
     this.setState({ giftvisible: true, imgnm: img });
   }
   onCancel = () => {
