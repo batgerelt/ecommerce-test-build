@@ -699,12 +699,20 @@ class CategoryInfo extends React.Component {
       return menuSeason[0] && (
         <div>
           {
-            <PageBanner
-              title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
-              subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
-              banners={banner.header}
-              bgColor="#FFAD00"
-            />
+            this.props.match.params.id === "valentines" ?
+              <PageBanner
+                title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+                subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
+                banners={banner.header}
+                bgColor="pink"
+              />
+            :
+              <PageBanner
+                title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+                subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
+                banners={banner.header}
+                bgColor="#FFAD00"
+              />
           }
         </div>
       );
