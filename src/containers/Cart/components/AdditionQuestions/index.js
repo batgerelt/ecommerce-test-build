@@ -20,27 +20,38 @@ class component extends React.Component {
     });
   }
   render() {
-    const { addionquestions } = this.props;
+    const { addionquestions, isAddionLoading, redirectUrl } = this.props;
     const { getFieldDecorator } = this.props.form;
 
-    addionquestions.length === 0 && this.props.redirectUrl();
+    (addionquestions.length === 0 && isAddionLoading === false) && redirectUrl && this.props.redirectUrl();
     try {
       return addionquestions.length !== 0 && (
         <Modal
           visible={addionquestions.length !== 0}
           onCancel={() => this.props.removeAdditionQuestiom(addionquestions[0])}
           onOk={e => this.handleSubmit(e, addionquestions[0].skucd)}
+          okButtonProps={{
+            className: 'btn',
+            style: { backgroundColor: '#ffc629', color: "rgba(0,0,0,0.65)" },
+            type: "default",
+          }}
+          closable={false}
+          bodyStyle={{
+            padding: '0px',
+          }}
+          className="modal-footer-block"
         >
           <div className="justify-content-center">
             <React.Fragment>
-              <img alt="addition-question" src={process.env.IMAGE + addionquestions[0].imgnm} style={{ width: '100%' }} />
-              <p className="mt-2 d-f-center">{addionquestions[0].note}</p>
-              <Form onSubmit={e => this.handleSubmit(e, addionquestions[0].skucd)}>
+              <img alt="addition-question" src={process.env.IMAGE + addionquestions[0].imgnm} style={{ width: '100%', borderRadius: '3px 3px 0px 0px' }} />
+              {/* <p className="mt-2 d-f-center">{addionquestions[0].note}</p> */}
+              <Form onSubmit={e => this.handleSubmit(e, addionquestions[0].skucd)} className="mt-3 d-f-center mx-3">
                 <Form.Item>
                   {getFieldDecorator('note', { rules: [{ required: false }] })(
                     <Input
+                      size="large"
                       autoFocus
-                      prefix={<Icon type="gift" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      prefix={<Icon type="gift" style={{ color: '#ffc629' }} />}
                       placeholder={addionquestions[0].note}
                     />,
                   )}

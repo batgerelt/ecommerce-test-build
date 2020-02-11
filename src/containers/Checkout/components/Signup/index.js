@@ -61,6 +61,7 @@ class Signup extends React.Component {
       if (!err) {
         if (values.password === values.confirmpassword) {
           this.props.signup({ body: { ...values } }).then((res) => {
+            // амжилттай бүртгүүлсэн үед
             if (res.payload.success) {
               this.props.form.resetFields();
               this.props.handleChange(e, 0);

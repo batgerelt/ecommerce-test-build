@@ -19,6 +19,7 @@ class Model extends BaseModel {
     },
     products: [],
     addionquestions: [],
+    isAddionLoading: false,
   };
 
   constructor(data = {}) {
@@ -1052,9 +1053,9 @@ class Model extends BaseModel {
         return state;
       
       // CHECKT GIFT
-      case this.model.checkgift.request: return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.checkgift.error: return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.checkgift.response: return { ...state, addionquestions: action.payload.data };
+      case this.model.checkgift.request: return { ...state, isAddionLoading: true };
+      case this.model.checkgift.error: return { ...state, isAddionLoading: false };
+      case this.model.checkgift.response: return { ...state, addionquestions: action.payload.data, isAddionLoading: false };
 
       // REMOVE_ADDITION_QUESTION
       case "REMOVE_ADDITION_QUESTION":
