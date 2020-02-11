@@ -1,5 +1,6 @@
 import React from "react";
 import { injectIntl } from 'react-intl';
+import valentine from "../../../src/scss/assets/images/valentineBanner.png";
 
 class PageHeader extends React.Component {
   state = {
@@ -44,14 +45,19 @@ class PageHeader extends React.Component {
     try {
       const { title, subtitle, bgColor } = this.props;
       // console.log(this.state.selected);
+      console.log(this.props.title);
+
       return (
         <div
           className="whole-page-title class container banner-pad"
           style={{
             backgroundImage: `url(${
-              this.state.selected === undefined
-                ? ""
-                : process.env.IMAGE + this.state.selected.imgnm
+              this.props.title === "valentine" ?
+                valentine
+                :
+                this.state.selected === undefined
+                  ? ""
+                  : process.env.IMAGE + this.state.selected.imgnm
               })`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right",
