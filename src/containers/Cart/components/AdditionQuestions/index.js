@@ -47,12 +47,13 @@ class component extends React.Component {
               {/* <p className="mt-2 d-f-center">{addionquestions[0].note}</p> */}
               <Form onSubmit={e => this.handleSubmit(e, addionquestions[0].skucd)} className="mt-3 d-f-center mx-3">
                 <Form.Item>
-                  {getFieldDecorator('note', { rules: [{ required: false }] })(
+                  {getFieldDecorator('note', { rules: [{ required: true, message: 'Хэвлүүлэх нэрээ оруулна уу' }] })(
                     <Input
                       size="large"
                       autoFocus
                       prefix={<Icon type="gift" style={{ color: '#ffc629' }} />}
                       placeholder={addionquestions[0].note}
+                      maxLength={100}
                     />,
                   )}
                 </Form.Item>
