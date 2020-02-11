@@ -140,13 +140,9 @@ class Detail extends Component {
     }
   };
 
-  checkNan(item) {
-    return isNaN(item) ? 0 : item;
-  }
 
   renderCartInfo = () => {
     const detail = this.props.detail.products ? this.props.detail.products : null;
-    if (!detail) {
       return null;
     }
     const { intl } = this.props;
@@ -154,6 +150,7 @@ class Detail extends Component {
     let priceInfo = null;
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
+    // console.log("detail: ", detail);
     if (detail.issalekg) {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
@@ -213,7 +210,7 @@ class Detail extends Component {
               {priceTitle}
             </span>
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
+              {this.checkNan(formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice))}₮
             </span>
           </div>
           {kiloPrice}
@@ -269,7 +266,7 @@ class Detail extends Component {
           <span className="upper-first">
             <FormattedMessage id="productDetail.label.totalPrice" />:
           </span>
-          <strong>{this.getTotalPrice(detail)}₮</strong>
+          <strong>{formatter.format(this.getTotalPrice(detail))}₮</strong>
         </div>
 
         <div className="btn-container text-right">
