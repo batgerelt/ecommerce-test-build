@@ -10,6 +10,7 @@ import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import LatinInput from "../../../../components/Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../../../../components/Login/";
+import { AdditionQuestion } from "../../../Cart/components";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -142,6 +143,8 @@ class Signin extends React.Component {
       if (!err) {
         this.props.login({ body: { ...values } }).then(async (r) => {
           this.setState({ loading: true });
+
+          // амжилттай нэвтэрсэн үед
           if (r.payload.success) {
             if (r.payload.data[0].info.customerInfo.imgnm !== null) {
               let realImage = "";
@@ -298,7 +301,8 @@ class Signin extends React.Component {
       const { intl } = this.props;
       const { getFieldDecorator } = this.props.form;
       return (
-        <Form onSubmit={this.onSubmitLogin}>
+        <Form onSubmit={this.onSubmitLogin} className="modal-footer-block">
+          <AdditionQuestion {...this.props} redirectUrl={false} />
           <div className="row row10">
             <div className="offset-md-3 col-md-6 pad10">
               <Form.Item style={{ marginBottom: "10px" }}>

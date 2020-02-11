@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable react/jsx-first-prop-new-line */
 /* eslint-disable arrow-parens */
 /* eslint-disable no-unused-expressions */
@@ -66,21 +67,22 @@ class Cart extends React.Component {
     return product;
   });
 
-  redirectUrl = () => this.setState({ shouldRedirect: true });
+  redirectUrl = () => {
+    this.setState({ shouldRedirect: true });
+    console.log('redirectUrl');
+  }
 
   // eslint-disable-next-line consistent-return
   handleConfirmClick = async () => {
     try {
       if (this.props.isLoggedIn) {
+        // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
+        this.props.getCheckGift();
+
         this.setState({ loading: true, isContinue: true });
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
-
-        if (result.payload.success) {
-          // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
-          // redux дээр хадаглах шаардлаггүй өгөгдөл гэж үзсэн тул then ийг ашиглав
-          this.props.getCheckGift();
-        } else {
+        if (result.payload.success) {} else {
           if (result.payload.data.length > 0) {
             let reasons = [];
             result.payload.data.forEach(msg => (
@@ -108,10 +110,11 @@ class Cart extends React.Component {
                 />,
               });
             }
-            this.setState({ loading: false, shouldRedirect: false });
+            // this.setState({ loading: false, shouldRedirect: false });
           }
         }
       } else {
+        console.log('handleConfirmClick else');
         this.setState({ shouldRedirect: true });
       }
     } catch (error) {
@@ -956,7 +959,7 @@ class Cart extends React.Component {
   };
 
   render() {
-    const { products, staticinfo } = this.props;
+    const { products, staticinfo, isAddionLoading } = this.props;
     const { loading } = this.state;
     const lang = this.props.intl.locale;
 
@@ -973,6 +976,7 @@ class Cart extends React.Component {
                 <FormattedMessage id="cart.title" />
               </span>
             </h1>
+            {(this.state.isContinue || isAddionLoading) && <AdditionQuestion {...this.props} redirectUrl={this.redirectUrl} />}
             <div className="row row10">
               <div className="col-xl-8 col-lg-8 pad10">
                 <div className="row">
@@ -1046,7 +1050,6 @@ class Cart extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.isContinue && <AdditionQuestion {...this.props} redirectUrl={this.redirectUrl} />}
       </div>
     );
   }
