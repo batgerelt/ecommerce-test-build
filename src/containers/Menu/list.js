@@ -352,12 +352,12 @@ class CategoryInfo extends React.Component {
       const { promotionall } = this.props;
       const { promotions, categoryId } = this.state;
       const { buckets } = promotions.buckets;
-      /* let array = [];
+      let array = [];
       // eslint-disable-next-line array-callback-return
       promotionall.map((item, key) => {
         // eslint-disable-next-line no-confusing-arrow
         buckets.find(i => i.key === item.id ? array.push(i) : null);
-      }); */
+      });
       const lang = this.props.intl;
       if (promotions) {
         return (
