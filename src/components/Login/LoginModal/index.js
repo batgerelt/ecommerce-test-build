@@ -132,9 +132,8 @@ class LoginModal extends React.Component {
               } else {
                 localStorage.setItem('img', null);
               }
-
               localStorage.setItem('auth', JSON.stringify(result.payload));
-              localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+              localStorage.setItem('percent', (Number(result.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
               if (pathname === `/productdetail/${sku}`) {
                 this.props.getProductRate({ skucd: sku });
                 this.props.addViewList({ skucd: sku });
@@ -279,7 +278,7 @@ class LoginModal extends React.Component {
       localStorage.setItem('img', null);
     }
     localStorage.setItem('auth', JSON.stringify(result.payload));
-    localStorage.setItem('percent', result.payload.data[0].info.customerInfo.cstatus);
+    localStorage.setItem('percent', (Number(result.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
     localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
     localStorage.setItem('emartmall_token', result.payload.data[0].info.access_token);
     if (pathname === `/productdetail/${sku}`) {

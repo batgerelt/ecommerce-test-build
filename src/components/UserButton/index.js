@@ -122,7 +122,8 @@ class UserButton extends React.Component {
         localStorage.setItem('img', realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
-            localStorage.setItem('percent', res.payload.data.info.cstatus);
+            // localStorage.setItem('percent', (Number( res.payload.data.info.cstatus) + 1) * 25);
+            localStorage.setItem('percent', (Number(res.payload.data.info.cstatus)));
             this.setState({ showButton: false });
           }
         });
@@ -134,7 +135,7 @@ class UserButton extends React.Component {
 
   renderProgress() {
     const intl = this.props;
-    let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
+    let percents = localStorage.getItem('percent');
     return (
       <div style={{ width: "230px" }}>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
@@ -149,7 +150,7 @@ class UserButton extends React.Component {
   }
 
   renderProgress1() {
-    let percents = (Number(localStorage.getItem('percent')) + 1) * 25;
+    let percents = localStorage.getItem('percent');
     return (
       <div>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />

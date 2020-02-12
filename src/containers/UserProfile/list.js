@@ -78,8 +78,7 @@ class List extends React.Component {
 
   renderProgress = (data) => {
     let info = data;
-    let percents = localStorage.getItem("percent");
-    percents = (Number(percents) + 1) * 25;
+    let percents = localStorage.getItem('percent');
     return (
       <div>
         <Progress className="renderprogress" percent={percents} strokeColor="#feb415" showInfo={false} style={{ fontSize: "16px" }} />
@@ -118,7 +117,7 @@ class List extends React.Component {
         localStorage.setItem('img', realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
-            localStorage.setItem('percent', res.payload.data.info.cstatus);
+            localStorage.setItem('percent', (Number(res.payload.data.info.cstatus) + 1) * 25);
             this.setState({ showButton: false });
           }
         });
@@ -130,7 +129,7 @@ class List extends React.Component {
     try {
       const { userInfo } = this.props;
       return (
-        <div id="imagePreview" style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : localStorage.getItem('img')})` }} />
+        <div style={{ backgroundImage: `url(${userInfo.info.imgnm === undefined || userInfo.info.imgnm === null ? upload : localStorage.getItem('img')})` }} />
       );
     } catch (error) {
       return console.log(error);
@@ -139,8 +138,7 @@ class List extends React.Component {
 
   renderName(info) {
     const { intl } = this.props;
-    let percents = localStorage.getItem("percent");
-    percents = (Number(percents) + 1) * 25;
+    let percents = localStorage.getItem('percent');
     try {
       return (
         <span
@@ -177,7 +175,7 @@ class List extends React.Component {
         <Helmet>
           <title>{lang === "mn" ? "Хувийн мэдээлэл" : "Profile"}</title>
         </Helmet>
-        <div className="container" style={{ paddingLeft: "5px !important", paddingRight: "5px !important" }}>
+        <div className="container" /* style={{ paddingLeft: "5px !important", paddingRight: "5px !important" }} */>
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }} >
