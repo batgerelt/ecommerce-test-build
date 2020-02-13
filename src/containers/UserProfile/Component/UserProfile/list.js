@@ -43,7 +43,7 @@ class Component extends React.Component {
     this.props.getCustomer().then((res) => {
       if (res.payload.success) {
         localStorage.setItem('emartmall_co', res.payload.data.info.firstname);
-        localStorage.setItem('percent', res.payload.data.info.cstatus);
+        localStorage.setItem('percent', (Number(res.payload.data.info.cstatus) + 1) * 25);
         if (res.payload.data.main) {
           param.provid = res.payload.data.main.provinceid;
           param.distid = res.payload.data.main.districtid;

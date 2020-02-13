@@ -19,6 +19,7 @@ import UserModel from "./UserModel";
 import AttributeModel from "./AttributeModel";
 import DiscountModel from "./DiscountModel";
 import NewProductModel from "./NewProductModel";
+import DynamicMenuModel from "./DynamicMenuModel";
 
 /** Redux-ийн state-д үүсэх model үбрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -42,6 +43,7 @@ const User = new UserModel({ model: 'user' });
 const Attribute = new AttributeModel({ model: 'attribute' });
 const Discount = new DiscountModel({ model: 'discount' });
 const New = new NewProductModel({ model: 'new' });
+const DynamicMenu = new DynamicMenuModel({ model: 'dynamicmenu ' });
 
 export {
   Auth,
@@ -65,4 +67,5 @@ export {
   Attribute,
   Discount,
   New,
+  DynamicMenu,
 };

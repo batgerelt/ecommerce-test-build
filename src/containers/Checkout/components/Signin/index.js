@@ -79,7 +79,7 @@ class Signin extends React.Component {
       localStorage.setItem('img', null);
     }
     localStorage.setItem('auth', JSON.stringify(r.payload));
-    localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
+    localStorage.setItem('percent', (Number(r.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
     localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
     localStorage.setItem('emartmall_token', r.payload.data[0].info.access_token);
     // eslint-disable-next-line consistent-return
@@ -166,7 +166,7 @@ class Signin extends React.Component {
             }
             localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
             localStorage.setItem('auth', JSON.stringify(r.payload));
-            localStorage.setItem('percent', r.payload.data[0].info.customerInfo.cstatus);
+            localStorage.setItem('percent', (Number(r.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
             store.addNotification({
               insert: "top",
               container: "top-right",
