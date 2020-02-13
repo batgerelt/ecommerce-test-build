@@ -211,7 +211,7 @@ class Detail extends Component {
               {priceTitle}
             </span>
             <span className="current" style={{ marginLeft: "5px", fontSize: "16px" }}>
-              {this.checkNan(formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice))}₮
+              {formatter.format(detail.issalekg === 0 ? detail.totprice : detail.currentprice)}₮
             </span>
           </div>
           {kiloPrice}

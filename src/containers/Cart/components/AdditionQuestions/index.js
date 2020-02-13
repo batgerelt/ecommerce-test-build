@@ -53,7 +53,7 @@ class component extends React.Component {
                       autoFocus
                       prefix={<Icon type="gift" style={{ color: '#ffc629' }} />}
                       placeholder={addionquestions[0].note}
-                      maxLength={100}
+                      maxLength={30}
                     />,
                   )}
                 </Form.Item>

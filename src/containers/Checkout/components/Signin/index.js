@@ -126,6 +126,12 @@ class Signin extends React.Component {
           } else {
             this.props.callback("2");
           }
+
+          // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
+          this.props.getCheckGift().then((res) => {
+            console.log('res: ', res);
+            res.payload.data.length !== 0 ? this.props.history.push("/cart") : null;
+          });
         });
       } else {
         console.log("error: ", res.payload);
@@ -266,6 +272,11 @@ class Signin extends React.Component {
               } else {
                 console.log(res.payload);
               }
+
+              // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
+              this.props.getCheckGift().then((res) => {
+                res.payload.data.length !== 0 ? this.props.history.push("/cart") : null;
+              });
             }).catch((err) => {
               console.log('err: ', err);
             });
