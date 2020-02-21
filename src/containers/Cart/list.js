@@ -69,7 +69,6 @@ class Cart extends React.Component {
 
   redirectUrl = () => {
     this.setState({ shouldRedirect: true });
-    console.log('redirectUrl');
   }
 
   // eslint-disable-next-line consistent-return
@@ -574,7 +573,8 @@ class Cart extends React.Component {
       let { price } = product;
 
       if (product.addminqty > 1) {
-        price = product.currentunitprice;
+        // elastic search-өөс сагсанд нэмэнх үед sprice гэж ирж байгаа
+        price = product.currentunitprice || product.sprice || product.price;
 
         if (product.salepercent && product.discountunitprice) {
           price = product.discountunitprice;

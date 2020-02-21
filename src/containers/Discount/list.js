@@ -79,22 +79,6 @@ class Discount extends React.Component {
 
   loadMoreRows = () => this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } });
 
-  renderMainBanner = () => {
-    try {
-      const { banner, menuDiscount, intl } = this.props;
-      return (
-        <PageBanner
-          title={intl.locale === "mn" ? menuDiscount.menunm : menuDiscount.menunm_en}
-          subtitle={intl.locale === "mn" ? menuDiscount.subtitle : menuDiscount.subtitle_en}
-          banners={banner.length === 0 ? [] : banner.header}
-          bgColor="#EF3340"
-        />
-      );
-    } catch (error) {
-      return null;
-    }
-  };
-
   renderSubBanner = () => {
     try {
       return <Banner data={this.props.banner.footer} />;
@@ -135,7 +119,7 @@ class Discount extends React.Component {
     try {
       const { discountproducts, discountproductTotal, isFetchingDiscount } = this.props;
       return (
-        <div className="container pad10 discount-list">
+        <div className="container pad10 discount-list px-0">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
@@ -202,11 +186,12 @@ class Discount extends React.Component {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <Spin spinning={this.state.loading} indicator={<Loader />}>
         <div className="top-container top-container-responsive discount-container">
           {this.renderHelmet()}
-          {this.renderMainBanner()}
+          <PageBanner banner={banner.header} />
           {/* {this.renderHeaderProduct()} */}
           {/* {this.renderSubBanner()} */}
           {this.renderFooterProduct()}

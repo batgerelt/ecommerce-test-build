@@ -401,11 +401,11 @@ h5 {
   align-items: center;
   justify-content: space-between;
 }
-@media (max-width: 1000px) {
-  .whole-page-title {
-    background-size: 0 !important;
-  }
-}
+// @media (max-width: 1000px) {
+//   .whole-page-title {
+//     background-size: 0 !important;
+//   }
+// }
 
 @media (min-width: 1440px) {
   .container-laptop {

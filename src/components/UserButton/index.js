@@ -193,7 +193,7 @@ class UserButton extends React.Component {
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     const profilemenu = `${this.state.pro ? " open" : ""}`;
     let content = (
-      <ButtonGoogle onClick={this.handleLoginhandleLogin}>
+      <ButtonGoogle onClick={this.handleLoginhandleLogin} className="pr-0">
         <div className="text-uppercase" style={{ cursor: 'default' }}>
           <FormattedMessage id="header.profile.text" />
         </div>

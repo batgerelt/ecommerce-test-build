@@ -63,7 +63,7 @@ class Page extends React.Component {
     const { banner } = this.state;
     this.setState({ loading: true, promotid: null });
     this.props.getSeasonBanner().then((res) => {
-      banner.header.push(res.payload.data.header);
+      banner.header = res.payload.data.header;
       return this.setState(banner);
     });
     this.props.getSeasonMenu({ id }).then((res) => {

@@ -7,7 +7,7 @@
 import React from "react";
 
 class Banner extends React.Component {
-  state = { width: 0 }
+  state = { width: window.innerWidth }
   changeScreen = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
@@ -27,7 +27,7 @@ class Banner extends React.Component {
       // this.getImageColor(process.env.IMAGE + selected.imgnm);
       return (
         <div className="banner-container" style={{ height: `${width < 767 ? '200px' : 'auto'}` }}>
-          <span style={{ backgroundImage: `url(${process.env.IMAGE + (width < 767 ?  selected.mobimgnm : selected.imgnm)})` }} />
+          <span className="page_header_banner_left" style={{ backgroundColor: selected.lcolor }} />
           <div className="container pad10">
             <a href={selected.link ? selected.link : "#"} target="_blank">
               <img
@@ -38,6 +38,7 @@ class Banner extends React.Component {
               />
             </a>
           </div>
+          <span className="page_header_banner_rigth" style={{ backgroundColor: selected.lcolor }} />
         </div>
       );
     } catch (error) {

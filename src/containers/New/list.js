@@ -78,23 +78,6 @@ class Bookmarks extends PureComponent {
 
   noRowsRenderer = () => null;
 
-  renderMainBanner = () => {
-    try {
-      const { banner, menuNew, intl } = this.props;
-      return (
-        <PageBanner
-          className="newpagetitlebanner"
-          title={intl.locale === "mn" ? menuNew.menunm : menuNew.menunm_en}
-          subtitle={intl.locale === "mn" ? menuNew.subtitle : menuNew.subtitle_en}
-          banners={banner.length === 0 ? [] : banner.header}
-          bgColor="#00A1E4"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   generateItemHeight = () => {
     if (window.innerWidth < 576) {
       return 320;
@@ -129,7 +112,7 @@ class Bookmarks extends PureComponent {
     try {
       const { newproducts, isFetchingnew, newproductTotal } = this.props;
       return (
-        <div className="container pad10 discount-list">
+        <div className="container pad10 discount-list px-0">
           <div className="row row10">
             <AutoSizer disableHeight >
               {({ width }) => {
@@ -162,7 +145,6 @@ class Bookmarks extends PureComponent {
                             }) => (
                                 // eslint-disable-next-line react/jsx-indent
                                 <div style={style} key={key} className="emartmall-scroll-list">
-                                  {console.log(scrollTop, index)}
                                   {
                                     newproducts.slice(index * itemsInRow, (index * itemsInRow) + itemsInRow).map(i => (
                                       <FiveCard
@@ -195,10 +177,11 @@ class Bookmarks extends PureComponent {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <div className="top-container newproduct-container">
         {this.renderHelmet()}
-        {this.renderMainBanner()}
+        <PageBanner banner={banner.header} />
         {/* {this.renderHeaderProduct()} */}
         {/* {this.renderSubBanner()} */}
         {this.renderFooterProduct()}

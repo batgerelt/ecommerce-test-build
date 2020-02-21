@@ -741,9 +741,10 @@ class CategoryInfo extends React.Component {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <div className="top-container elastic-container">
-        {this.renderBanner()}
+        <PageBanner banner={banner.header} />
         <div className="section season">
           <div className="container pad10">
             <div className="row row10">

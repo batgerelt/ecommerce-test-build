@@ -470,7 +470,7 @@ class CategoryInfo extends React.Component {
       const { loading } = this.state;
 
       return (
-        <div className="col-lg-9 col-md-8 pad10">
+        <div className="col-lg-9 col-md-8 pad10 px-0">
           <div className="list-filter pad10">
             <div className="row">
               <div className="col-md-4">
@@ -786,10 +786,11 @@ class CategoryInfo extends React.Component {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <div className="top-container elastic-container">
         {this.rderHelmet()}
-        {this.renderBanner()}
+        <PageBanner banner={banner.header} />
         <div className="section season">
           <div className="container pad10">
             <div className="row row10">

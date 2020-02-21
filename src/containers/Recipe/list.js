@@ -56,22 +56,6 @@ class Recipe extends React.Component {
     );
   }
 
-  renderMainBanner = () => {
-    try {
-      const { banner, menuRecipe, intl } = this.props;
-      return (
-        <PageBanner
-          title={intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}
-          subtitle={intl.locale === "mn" ? menuRecipe.subtitle : menuRecipe.subtitle_en}
-          banners={banner.length === 0 ? [] : banner.header}
-          bgColor="#F2769B"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   renderSubBanner = () => {
     try {
       return (<Banner data={this.props.banner.footer} style={{ marginBottom: '20px' }} />);
@@ -219,10 +203,11 @@ class Recipe extends React.Component {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <div className="top-container top-container-responsive recipe-container">
         {this.renderHelmet()}
-        {this.renderMainBanner()}
+        <PageBanner banner={banner.header} />
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
         {this.renderFooterProduct()}

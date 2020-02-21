@@ -47,7 +47,7 @@ class Page extends React.Component {
   UNSAFE_componentWillMount() {
     const { banner } = this.state;
     this.props.getSeasonBanner().then((res) => {
-      banner.header.push(res.payload.data.header);
+      banner.header = res.payload.data.header;
       return this.setState(banner);
     });
     this.props.getSeasonMenu({});

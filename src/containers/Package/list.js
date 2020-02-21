@@ -58,23 +58,6 @@ class Discount extends React.Component {
     );
   }
 
-
-  renderMainBanner = () => {
-    try {
-      const { banner, menuPackage, intl } = this.props;
-      return (
-        <PageBanner
-          title={intl.locale === "mn" ? menuPackage.menunm : menuPackage.menunm_en}
-          subtitle={intl.locale === "mn" ? menuPackage.subtitle : menuPackage.subtitle_en}
-          banners={banner.length === 0 ? [] : banner.header}
-          bgColor="#8CBD3F"
-        />
-      );
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   renderHeaderProduct = () => {
     try {
       const { widgetAll } = this.props;
@@ -225,10 +208,11 @@ class Discount extends React.Component {
   };
 
   render() {
+    const { banner } = this.props;
     return (
       <div className="top-container top-container-responsive package-container">
         {this.renderHelmet()}
-        {this.renderMainBanner()}
+        <PageBanner banner={banner.header} />
         {this.renderHeaderProduct()}
         {this.renderSubBanner()}
         {this.renderFooterProduct()}

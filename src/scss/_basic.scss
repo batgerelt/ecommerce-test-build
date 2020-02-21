@@ -43,7 +43,7 @@ input[type="text"]{
 
 .top-nav {
   background-color: $gray05;
-  height: 36px;
+  height: 35px;
 
   form {
     position: relative;
@@ -145,7 +145,7 @@ button{
 }
 
 .top-main {
-  padding: 10px 0;
+  padding: 5px 0;
 
   .logo {
     display: block;
@@ -2004,50 +2004,50 @@ form {
     }
   }
 }
-.page-main-banner > .whole-page-title {
-  -webkit-filter: blur(50px);
-  -moz-filter: blur(50px);
-  -ms-filter: blur(50px);
-  -o-filter: blur(50px);
-  filter: blur(50px);
-}
+// .page-main-banner > .whole-page-title {
+//   -webkit-filter: blur(50px);
+//   -moz-filter: blur(50px);
+//   -ms-filter: blur(50px);
+//   -o-filter: blur(50px);
+//   filter: blur(50px);
+// }
 
-.whole-page-title {
-  padding: 20px 0;
+// .whole-page-title {
+//   padding: 20px 0;
 
-  h2 {
-    font-weight: 300;
-    color: #fff;
+//   h2 {
+//     font-weight: 300;
+//     color: #fff;
 
-    strong {
-      font-size: 1rem;
-      display: block;
-    }
-  }
-  .text {
-    margin-bottom: 0;
-    font-size: 1.2rem;
-    text-align: right;
-  }
-  &.color-yellow {
-    background-color: #f9ee59;
-  }
-  &.color-green {
-    background-color: #b5e8b9;
-  }
-  &.color-purple {
-    background-color: #d2c4e9;
-  }
-  &.color-main {
-    background-color: $main;
-  }
-  &.color-light-green {
-    background-color: #eff4c3;
-  }
-  &.color-blue {
-    background-color: #bbdefb;
-  }
-}
+//     strong {
+//       font-size: 1rem;
+//       display: block;
+//     }
+//   }
+//   .text {
+//     margin-bottom: 0;
+//     font-size: 1.2rem;
+//     text-align: right;
+//   }
+//   &.color-yellow {
+//     background-color: #f9ee59;
+//   }
+//   &.color-green {
+//     background-color: #b5e8b9;
+//   }
+//   &.color-purple {
+//     background-color: #d2c4e9;
+//   }
+//   &.color-main {
+//     background-color: $main;
+//   }
+//   &.color-light-green {
+//     background-color: #eff4c3;
+//   }
+//   &.color-blue {
+//     background-color: #bbdefb;
+//   }
+// }
 .checkout-container {
   .accordion {
     margin-top: 20px;
@@ -3947,12 +3947,12 @@ div.sticky-btn{
 
 .header-home-icon{
   .MuiButton-text{
-    padding: 8px 15px !important;
+    padding: 8px 5px !important;
   }
 
   .MuiButton-root{
-    border-radius: 20px !important;
-    min-width: 40px !important;
+    border-radius: 0px !important;
+    min-width: 30px !important;
   }
 }
 

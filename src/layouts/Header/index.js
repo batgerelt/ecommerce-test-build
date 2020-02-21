@@ -114,7 +114,7 @@ class AppHeader extends Component {
       const { staticinfo } = this.props.staticcontent;
       return (
         <div className="top-nav">
-          <div className="container container-laptop">
+          <div className="container">
             <div className="row row10">
               <div className="col-lg-6 col-md-6 d-none d-md-block">
                 <ul className="list-inline left-panel">
@@ -183,9 +183,9 @@ class AppHeader extends Component {
 
       return (
         <div className="top-main header-container">
-          <div className="container container-laptop pad10">
+          <div className="container">
             <div className="row">
-              <div className="col-lg-8 col-md-7 col-6 pad10">
+              <div className="col-lg-8 col-md-7 col-6 pad10 pl-0">
                 <div className="flex-this flex-space">
                   <Button
                     className="d-block d-md-none button buttonGrey header-mobile-menu"
@@ -335,7 +335,7 @@ class AppHeader extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-4 col-md-5 col-6 pad10">
+              <div className="col-lg-4 col-md-5 col-6 pad10 header-search-cart-container">
                 <div className="action">
                   <ul className="list-inline text-right">
                     <li className="list-inline-item search-icon">
@@ -386,7 +386,7 @@ class AppHeader extends Component {
                           </Link>
                         )}
                     </li>
-                    <li className="list-inline-item">
+                    <li className="list-inline-item Vdwasd_213124">
                       <CartButton {...this.props} />
                     </li>
                   </ul>
@@ -436,11 +436,11 @@ class AppHeader extends Component {
       return (
 
         <div className="main-nav">
-          <div className="container container-laptop pad10">
-            <ul className="list-inline horizontal">
-              <li className="list-inline-item active header-home-icon" style={{ paddingLeft: '0px' }}>
+          <div className="container px-0">
+            <ul className="list-inline d-flex">
+              <li className="list-inline-item active header-home-icon pl-0">
                 <Button>
-                  <Link to="/" style={{ paddingLeft: '0px' }}>
+                  <Link to="/" className="pl-0">
                     <Icon
                       type="home"
                       theme="filled"
