@@ -209,7 +209,7 @@ class IndividualTab extends React.Component {
                         <NumberInput
                           placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })}
                           maxLength={14}
-                          allowClear
+                          allowclear
                           size="large"
                           className="col-md-12"
                           autoComplete="new-password"
@@ -228,7 +228,7 @@ class IndividualTab extends React.Component {
                         <NumberInput
                           placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
                           maxLength={4}
-                          allowClear
+                          allowclear
                           type="password"
                           size="large"
                           className="col-md-12"

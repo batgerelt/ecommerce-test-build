@@ -93,6 +93,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'deliveryprice'),
           error: this.buildActionName('error', data.model, 'deliveryprice'),
         },
+        deliveryDate: {
+          request: this.buildActionName('request', data.model, 'deliverydate'),
+          response: this.buildActionName('response', data.model, 'deliverydate'),
+          error: this.buildActionName('error', data.model, 'deliverydate'),
+        },
       };
     }
     this.checkEpointPinModel = {
@@ -101,7 +106,9 @@ class Model extends BaseModel {
       error: this.buildActionName('error', 'checkepointpin'),
     };
   }
-
+  getDeliveryTime = ({ deliverydate }) => asyncFn({
+    url: `/checkout/deliverycycle/${deliverydate}`, method: 'GET', model: this.model.deliveryDate,
+  })
   getDeliveryPrice = ({ body }) => asyncFn({
     body, url: `/checkout/deliveryprice`, method: 'POST', model: this.model.deliveryPrice,
   })
@@ -127,6 +134,14 @@ class Model extends BaseModel {
   });
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
+      // DELIVERY DATE
+      case this.model.deliveryDate.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.deliveryDate.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.deliveryDate.response:
+        return { ...state, deliveryTime: action.payload.data };
+
       // DELIVERY PRICE
       case this.model.deliveryPrice.request:
         return { ...state, current: this.requestCase(state.current, action) };

@@ -151,7 +151,6 @@ class Detail extends Component {
     let priceInfo = null;
     let priceTitle = `${intl.formatMessage({ id: "productDetail.label.price" })}: `;
     let kiloPrice = null;
-    // console.log("detail: ", detail);
     if (detail.issalekg) {
       priceTitle = `${detail.pricetag} ${intl.formatMessage({ id: "productDetail.label.gramPrice" })}: `;
       kiloPrice = (
@@ -505,18 +504,14 @@ class Detail extends Component {
           />,
         });
       }
+      this.setState({ loading: false });
     } else {
-      /* console.log({
-        ...product,
-        qty: this.state.productQty,
-        insymd: Date.now(),
-      }); */
-      await this.props.increaseProductByQtyLocally({
+      let res = await this.props.increaseProductByQtyLocally({
         ...product,
         qty: this.state.productQty,
         insymd: Date.now(),
       });
-
+      this.setState({ loading: false });
       const updated = await this.props.products.find(prod => prod.skucd === product.skucd);
       if (updated && updated.error) {
         const messages = defineMessages({
@@ -543,7 +538,6 @@ class Detail extends Component {
         });
       }
     }
-    this.setState({ loading: false });
   };
 
   render() {

@@ -148,12 +148,15 @@ class DeliveryInfo extends React.Component {
         tmp.custName = mainState.chosenAddress.name;
         tmp.custAddressId = mainState.chosenAddress.id;
         tmp.phone1 = mainState.chosenAddress.phone1;
+        tmp.phone2 = mainState.phone2;
         tmp.paymentType = mainState.chosenPaymentType.id;
         tmp.addPoint = 0;
         tmp.deliveryDate = mainState.chosenDate;
         tmp.usedPoint = mainState.epointUsedPoint;
         tmp.items = products;
         tmp.locId = mainState.chosenAddress.locid;
+        tmp.DeliveryCycleId = mainState.chosenDeliveryCycleId;
+        tmp.deliveryDesc = mainState.deliveryDesc;
         tmp.custAddress =
           `${mainState.chosenAddress.provincenm},
           ${mainState.chosenAddress.districtnm},

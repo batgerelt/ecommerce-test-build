@@ -35,7 +35,7 @@ class PaymentTypePanel extends React.Component {
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
-        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10" key={item.id}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10" key={item.id}>
           <label className="card radio-card" style={{ boxShadow: chosenPaymentType.id === item.id ? 'inset 0 0 0 1px #feb415' : '' }}>
             <div className="radio-button-container" style={{ marginTop: "5px" }}>
               <input

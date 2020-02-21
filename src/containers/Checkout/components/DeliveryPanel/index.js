@@ -13,13 +13,15 @@
 /* eslint-disable import/newline-after-import */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Input, Form, Select, DatePicker, message, Radio, notification, Col, Button } from "antd";
+import { Input, Form, Select, DatePicker, message, Radio, notification, Col, Button, Divider } from "antd";
 import { store } from 'react-notifications-component';
 import moment from "moment";
 import { Notification } from "../../../../components";
 import LetterInput from "../../../../components/Input/LetterInput";
+import DateModal from "../DateModal";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const { TextArea } = Input;
 
 class DeliveryPanel extends React.Component {
   state = {
@@ -34,6 +36,8 @@ class DeliveryPanel extends React.Component {
     requiredField: true,
     changeDist: true,
     changeCom: true,
+    visible: this.props.visible,
+    clear: false,
   };
 
   // eslint-disable-next-line camelcase
@@ -71,6 +75,7 @@ class DeliveryPanel extends React.Component {
       if (res.payload.success) {
         this.props.changeChosenDate(res.payload.data.deliveryDate);
         this.setState({ zoneSetting: res.payload.data });
+        this.props.changeZoneSet(res.payload.data);
       }
     });
   }
@@ -201,6 +206,7 @@ class DeliveryPanel extends React.Component {
   }
 
   changeTab = (e) => {
+    this.props.clickDateFalse();
     const { deliveryTypes, intl } = this.props;
     let found = deliveryTypes.find(item => item.id === parseInt(e.target.value));
     if (found.isenable === 1) {
@@ -298,6 +304,7 @@ class DeliveryPanel extends React.Component {
 
   dateStringChange = (date, datestring) => {
     let click = true;
+    this.props.clickDate();
     this.props.changeChosenDate(datestring, this.state.changeCom, click);
   }
 
@@ -346,6 +353,20 @@ class DeliveryPanel extends React.Component {
   onChangeLast = (value) => {
     this.props.form.setFieldsValue({ name: value });
   };
+
+  renderDeliveryCycle = () => {
+    try {
+      const { timeType } = this.props.mainState;
+      let temp = timeType.map((item, key) => (<Option value={item.id} key={key}>{item.cyclenm}{" "}{item.stime}{"-"}{item.etime}</Option>));
+      return temp;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  onDeliveryCycle = (e) => {
+    this.props.changechosenDeliveryCycleId(e, this.props.mainState.chosenDate, this.props.mainState.timeType);
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -428,7 +449,7 @@ class DeliveryPanel extends React.Component {
                         initialValue: this.checkError(chosenAddress.name),
                         rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
                       })(
-                        <LetterInput size="large" autoComplete="off" allowClear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
+                        <LetterInput size="large" autoComplete="off" allowclear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
                       )}
                     </Form.Item>
                   </Col>
@@ -450,7 +471,7 @@ class DeliveryPanel extends React.Component {
                           className="col-md-12"
                           placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                           autoComplete="off"
-                          allowClear={info.email === null ? true : false}
+                          // allowclear={info.email === null ? true : false}
                           disabled={info.email === null ? false : true}
                         />,
                       )}
@@ -465,15 +486,15 @@ class DeliveryPanel extends React.Component {
                         { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                         { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
                       })(
-                        <Input size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                        <Input size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
                       )}
                     </Form.Item>
                   </Col>
                 </Col>
-                {defaultActiveKey !== 3 && main !== null ? (
-                  <Col span={24}>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
-                      <Col xs={20} sm={20} md={23} lg={23} xl={23}>
+                <Col span={24}>
+                  {defaultActiveKey !== 3 && main !== null ? (
+                    <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
+                      <Col xs={20} sm={20} md={22} lg={22} xl={22}>
                         <span className="top-text">{intl.formatMessage({ id: "shared.form.addressSelect.placeholder" })}</span>
                         <Form.Item className="select-button">
                           {getFieldDecorator("id", {
@@ -486,14 +507,27 @@ class DeliveryPanel extends React.Component {
                           )}
                         </Form.Item>
                       </Col>
-                      <Col xs={4} sm={4} md={1} lg={1} xl={1}>
+                      <Col xs={4} sm={4} md={2} lg={2} xl={2}>
                         <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
                       </Col>
                     </Col>
+                  ) : (
+                      null
+                    )}
+                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("phone2", {
+                        initialValue: null,
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                        { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                        { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+                      })(
+                        <Input size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                      )}
+                    </Form.Item>
                   </Col>
-                ) : (
-                    null
-                  )}
+                </Col>
                 {defaultActiveKey !== 3 ? (
                   <Col span={24}>
                     <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
@@ -544,7 +578,7 @@ class DeliveryPanel extends React.Component {
                           initialValue: this.checkError(chosenAddress.address),
                           rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                         })(
-                          <Input className="col-md-12" size="large" autoComplete="off" allowClear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
+                          <Input className="col-md-12" size="large" autoComplete="off" allowclear type="text" />,
                         )}
                       </Form.Item>
                     </Col>
@@ -553,25 +587,45 @@ class DeliveryPanel extends React.Component {
                     null
                   )}
               </div>
-              <Col span={24}>
-                <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10" style={{ float: 'right', marginBottom: '10px' }}>
-                  <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.label.deliveryDate" }) : intl.formatMessage({ id: "shared.form.label.getYourselfDate" })}</span>
+              <div>
+                <Divider />
+                <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
+                  <span className="top-text">{intl.formatMessage({ id: "shared.form.explanation" })}</span>
+                  <Form.Item>
+                    {getFieldDecorator("explanation", {})(
+                      <TextArea rows={4} placeholder={intl.formatMessage({ id: "shared.form.explanation" })} allowclear />,
+                    )}
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ float: 'right', marginBottom: '15px' }}>
+                  <span className="top-text" style={{ fontWeight: "700 !important" }}>{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.label.deliveryDate" }) : intl.formatMessage({ id: "shared.form.label.getYourselfDate" })}</span>
                   <DatePicker
                     size="large"
                     className="col-md-12"
                     format="YYYY-MM-DD"
-                    showTime={false}
                     placeholder="Огноо сонгох"
                     value={chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : moment(chosenDate, "YYYY-MM-DD")}
-                    allowClear={false}
                     onChange={(date, dateString) =>
                       this.dateStringChange(date, dateString)
                     }
+                    allowClear={this.state.clear}
                     disabled={dateLoading}
                     disabledDate={this.disabledDate}
                   />
                 </Col>
-              </Col>
+                <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                  <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.deliverycycle" }) : intl.formatMessage({ id: "shared.form.deliverycycleGet" })}</span>
+                  <Form.Item>
+                    {getFieldDecorator("deliveryTime", {
+                      initialValue: this.props.mainState.chosenDeliveryCycleId,
+                    })(
+                      <Select className="col-md-12" onChange={this.onDeliveryCycle}>
+                        {this.renderDeliveryCycle()}
+                      </Select>,
+                    )}
+                  </Form.Item>
+                </Col>
+              </div>
             </Form>
           </div>
         </div>

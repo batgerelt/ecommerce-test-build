@@ -5,7 +5,7 @@
 /* eslint-disable radix */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Collapse, Spin, message } from "antd";
+import { Collapse, Spin, message, Modal, DatePicker } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
@@ -20,6 +20,7 @@ import {
   SwalModals,
 } from "./components";
 import { Loader, Notification } from "../../components";
+import DateModal from "./components/DateModal";
 
 const MySwal = withReactContent(Swal);
 const Panel = Collapse.Panel;
@@ -54,6 +55,13 @@ class Checkout extends React.Component {
       freeCond: 0,
       submitLoading: false,
       deliveryPrice: 0,
+      visible: false,
+      dateClick: false,
+      zoneSet: null,
+      chosenDeliveryCycleId: null,
+      deliveryDesc: null,
+      timeType: [],
+      phone2: null,
     };
   }
 
@@ -88,7 +96,6 @@ class Checkout extends React.Component {
   }
 
   componentWillMount = () => {
-    this.scrollTo(0, 0);
     const { products, userinfo } = this.props;
     if (this.checkLoggedIn()) {
       if (!this.props.loading) {
@@ -305,7 +312,16 @@ class Checkout extends React.Component {
   getDeliveryTypeValue = (body, date) => { }
 
   changeChosenDate = (item, changeCom, click) => {
+    let temp = moment(item).format('YYYY-MM-DD');
     this.setState({ chosenDate: item }, () => (click === true ? this.getDeliveryPrice(changeCom) : null));
+    this.props.getDeliveryTime({ deliverydate: temp }).then((res) => {
+      this.setState({ timeType: res.payload.data, chosenDeliveryCycleId: res.payload.data[0].id });
+    });
+  }
+
+  changechosenDeliveryCycleId = (temp, item, timeType) => {
+    this.clickDate();
+    this.setState({ chosenDeliveryCycleId: temp, chosenDate: item, timeType });
   }
 
   scrollTo = (top, left) => {
@@ -318,7 +334,6 @@ class Checkout extends React.Component {
 
   callback = (key) => {
     const { activeKey } = this.state;
-    this.scrollTo(0, 0);
     if (key === "3" && activeKey === "2") {
       this.onSubmitDeliveryPanel();
     } else if (key === "2" && activeKey === "3") {
@@ -347,63 +362,69 @@ class Checkout extends React.Component {
     this.setState({ activeKey: "2" });
   }
 
+  changeZoneSet = (item) => {
+    this.setState({ zoneSet: item });
+  }
+
+  clickDate = () => {
+    this.setState({ dateClick: true });
+  }
+
+  clickDateFalse = () => {
+    this.setState({ dateClick: false });
+  }
+
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
-    let isEmail = true;
-    const { chosenAddress, addresstype, chosenDelivery } = this.state;
-    const {
-      products,
-      userinfo,
-      intl,
-    } = this.props;
+    if (!this.state.dateClick) {
+      MySwal.fire({
+        html: (
+          <SwalModals
+            visible={this.state.visible}
+            type={"date"}
+            data={[]}
+            ordData={[]}
+            onRef={ref => (this.SwalModals = ref)}
+            chosenDate={this.state.chosenDate}
+            zoneSet={this.state.zoneSet}
+            getDeliveryTime={this.props.getDeliveryTime}
+            clickDate={this.clickDate}
+            chosenDeliveryCycleId={this.state.chosenDeliveryCycleId}
+            changeChosenDate={this.changeChosenDate}
+            changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
+            deliveryId={this.state.chosenDelivery.id}
+          />
+        ),
+        animation: true,
+        button: false,
+        showCloseButton: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+        focusConfirm: false,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        closeOnEsc: true,
+      });
+    } else {
+      let isEmail = true;
+      const { chosenAddress, addresstype, chosenDelivery } = this.state;
+      const {
+        products,
+        userinfo,
+        intl,
+      } = this.props;
 
-    this.state.deliveryPanelForm.validateFields(async (err, values) => {
-      if (!err) {
-        chosenAddress.phone1 !== values.phone1 ? chosenAddress.phone1 = values.phone1 : null;
-        chosenAddress.name !== values.name ? chosenAddress.name = values.name : null;
-        chosenAddress.address !== values.address ? values.address !== undefined ? chosenAddress.address = values.address : null : null;
+      this.state.deliveryPanelForm.validateFields(async (err, values) => {
+        if (!err) {
+          this.setState({ phone2: values.phone2, deliveryDesc: values.explanation });
+          chosenAddress.phone1 !== values.phone1 ? chosenAddress.phone1 = values.phone1 : null;
+          chosenAddress.name !== values.name ? chosenAddress.name = values.name : null;
+          chosenAddress.address !== values.address ? values.address !== undefined ? chosenAddress.address = values.address : null : null;
 
-        if (values.email !== undefined && userinfo.info.email === null) {
-          let result = await this.props.addUserEmail(values.email);
-          if (!result.payload.success) {
-            isEmail = false;
-            store.addNotification({
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 3000,
-                onScreen: false,
-              },
-              content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
-            });
-          }
-        }
-
-        let body = {};
-        body.id = chosenAddress.id;
-        body.custid = 1;
-        body.locid = chosenAddress.locid;
-        body.name = values.name;
-        body.phonE1 = values.phone1;
-        body.address = chosenAddress.address === undefined ? values.address : chosenAddress.address;
-        body.provincenm = chosenAddress.provincenm;
-        body.districtnm = chosenAddress.districtnm;
-        body.committeenm = chosenAddress.committeenm;
-
-        if (addresstype === "new" && chosenDelivery.id !== 3) {
-          this.props.addAddress({ body }).then((res) => {
-            if (res.payload.success) {
-              chosenAddress.id = res.payload.data;
-              body.id = res.payload.data;
-              this.changeAddressType("edit");
-              this.props.getUserInfo().then((res) => {
-                if (res.payload.success) {
-                  this.setState({ noAddress: false });
-                }
-              });
-            } else {
+          if (values.email !== undefined && userinfo.info.email === null) {
+            let result = await this.props.addUserEmail(values.email);
+            if (!result.payload.success) {
+              isEmail = false;
               store.addNotification({
                 insert: "top",
                 container: "top-right",
@@ -413,73 +434,111 @@ class Checkout extends React.Component {
                   duration: 3000,
                   onScreen: false,
                 },
-                content: <Notification type="success" text={intl.formatMessage({ id: res.payload.message })} />,
+                content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
               });
             }
-          });
-        }
+          }
 
-        if (products.length !== 0) {
-          if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
-            if (isEmail) {
-              this.changeDeliveryType(true);
-              this.setState({ activeKey: "3" });
-            }
-          } else {
-            this.changeLoading(true);
-            let locid = this.state.chosenAddress.locid;
-            let tmp = [];
-            products.map((item) => {
-              let it = {
-                skucd: item.skucd,
-                qty: item.qty,
-              };
-              tmp.push(it);
-            });
-            this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
-              this.changeLoading(false);
+          let body = {};
+          body.id = chosenAddress.id;
+          body.custid = 1;
+          body.locid = chosenAddress.locid;
+          body.name = values.name;
+          body.phonE1 = values.phone1;
+          body.address = chosenAddress.address === undefined ? values.address : chosenAddress.address;
+          body.provincenm = chosenAddress.provincenm;
+          body.districtnm = chosenAddress.districtnm;
+          body.committeenm = chosenAddress.committeenm;
+
+          if (addresstype === "new" && chosenDelivery.id !== 3) {
+            this.props.addAddress({ body }).then((res) => {
               if (res.payload.success) {
-                if (isEmail) {
-                  this.changeDeliveryType(true);
-                  this.setState({ activeKey: "3" });
-                  let paymentType = document.getElementById("paymentType");
-                  paymentType.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                  });
-                }
+                chosenAddress.id = res.payload.data;
+                body.id = res.payload.data;
+                this.changeAddressType("edit");
+                this.props.getUserInfo().then((res) => {
+                  if (res.payload.success) {
+                    this.setState({ noAddress: false });
+                  }
+                });
               } else {
-                MySwal.fire({
-                  html: (
-                    <SwalModals
-                      type={"delete"}
-                      data={[]}
-                      ordData={[]}
-                      onRef={ref => (this.SwalModals = ref)}
-                      {...this}
-                      {...this.props}
-                    />
-                  ),
-                  type: "warning",
-                  animation: true,
-                  button: false,
-                  showCloseButton: false,
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  focusConfirm: false,
-                  allowEscapeKey: false,
-                  allowOutsideClick: false,
-                  closeOnEsc: false,
+                store.addNotification({
+                  insert: "top",
+                  container: "top-right",
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 3000,
+                    onScreen: false,
+                  },
+                  content: <Notification type="success" text={intl.formatMessage({ id: res.payload.message })} />,
                 });
               }
             });
           }
+
+          if (products.length !== 0) {
+            if (chosenDelivery.id === 3 || chosenDelivery.id === 2) {
+              if (isEmail) {
+                this.changeDeliveryType(true);
+                this.setState({ activeKey: "3" });
+              }
+            } else {
+              this.changeLoading(true);
+              let locid = this.state.chosenAddress.locid;
+              let tmp = [];
+              products.map((item) => {
+                let it = {
+                  skucd: item.skucd,
+                  qty: item.qty,
+                };
+                tmp.push(it);
+              });
+              this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
+                this.changeLoading(false);
+                if (res.payload.success) {
+                  if (isEmail) {
+                    this.changeDeliveryType(true);
+                    this.setState({ activeKey: "3" });
+                    let paymentType = document.getElementById("paymentType");
+                    paymentType.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'center',
+                    });
+                  }
+                } else {
+                  MySwal.fire({
+                    html: (
+                      <SwalModals
+                        type={"delete"}
+                        data={[]}
+                        ordData={[]}
+                        onRef={ref => (this.SwalModals = ref)}
+                        {...this}
+                        {...this.props}
+                      />
+                    ),
+                    type: "warning",
+                    animation: true,
+                    button: false,
+                    showCloseButton: false,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    focusConfirm: false,
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    closeOnEsc: false,
+                  });
+                }
+              });
+            }
+          }
+          if (isEmail) {
+            this.setState({ activeKey: "3" });
+          }
         }
-        if (isEmail) {
-          this.setState({ activeKey: "3" });
-        }
-      }
-    });
+      });
+    }
   }
 
   changeChosenRadio = (item) => {
@@ -570,6 +629,11 @@ class Checkout extends React.Component {
                               changeAddressType={this.changeAddressType}
                               setDeliveryPanelForm={this.setDeliveryPanelForm}
                               changeChosenDate={this.changeChosenDate}
+                              visible={this.state.visible}
+                              clickDate={this.clickDate}
+                              clickDateFalse={this.clickDateFalse}
+                              changeZoneSet={this.changeZoneSet}
+                              changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
                             />
                           </Panel>
                           <Panel

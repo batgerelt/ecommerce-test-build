@@ -12,14 +12,7 @@ class ForgetModal extends React.Component {
     visible: false,
   };
 
-  componentWillUnmount() {
-    this.props.onRef(null);
-  }
-  componentDidMount() {
-    this.props.onRef(this);
-  }
-
-  handleSubmit = (e) => {
+  handleSubmitForget = (e) => {
     e.preventDefault();
     const { intl } = this.props;
     this.props.form.validateFields(async (err, values) => {
@@ -51,15 +44,11 @@ class ForgetModal extends React.Component {
             content: <Notification type="success" text={intl.formatMessage({ id: res.payload.code })} />,
           });
           this.props.form.resetFields();
-          this.handleForgetModal();
+          this.props.handleForgetModal();
         });
       }
     });
   };
-
-  zhandleForgetModal = () => {
-    this.setState({ visible: !this.state.visible });
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -68,11 +57,11 @@ class ForgetModal extends React.Component {
     return (
       <Modal
         title={intl.formatMessage({ id: "forgottenPasswordModal.title" })}
-        visible={visible}
-        onCancel={this.handleForgetModal}
+        visible={this.props.visible}
+        onCancel={this.props.handleForgetModal}
         footer={null}
       >
-        <Form onSubmit={this.handleSubmit} className="login-form">
+        <Form onSubmit={this.handleSubmitForget} className="login-form">
           <Form.Item>
             {getFieldDecorator("email", {
               rules: [
@@ -84,7 +73,7 @@ class ForgetModal extends React.Component {
               ],
             })(
               <Input
-                allowClear
+                allowclear
                 className="form-control"
                 placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                 size="large"
