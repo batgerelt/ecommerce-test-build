@@ -8,13 +8,14 @@ import { defineMessages } from "react-intl";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import { Collapse, Tabs, Divider, Button } from "antd";
+import { Collapse, Tabs, Divider, Button, DatePicker, Col, Row, Select, Form, Input } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { isMobile } from "react-device-detect";
 
 import { intl } from '../../../../components/IntlGlobalProvider';
 import { EncryptKey } from "../../../../utils/Consts";
+import DateModal from "../DateModal";
 
 const MySwal = withReactContent(Swal);
 const formatter = new Intl.NumberFormat("en-US");
@@ -22,6 +23,7 @@ const formatter = new Intl.NumberFormat("en-US");
 const Panel = Collapse.Panel;
 // eslint-disable-next-line prefer-destructuring
 const TabPane = Tabs.TabPane;
+const { Option } = Select;
 
 class SwalModals extends Component {
   state = {
@@ -111,6 +113,16 @@ class SwalModals extends Component {
     });
   }
 
+  onClose = () => {
+    MySwal.close();/*
+    console.log(this.props);
+    this.props.form.getFieldsValue((err, values) => {
+      if (!err) {
+        console.log(err);
+      }
+    }); */
+  }
+
   onSubmit = () => {
     const { checkProductZone } = this.props;
     this.props.replaceProductsRemotely({ body: checkProductZone.data.skucds }).then((res) => {
@@ -144,6 +156,7 @@ class SwalModals extends Component {
         checkProductZone, type, dataValue, ordData, readyBtn, totalQty, intl,
       } = this.props;
       const { mode } = this.state;
+      const { getFieldDecorator } = this.props.form;
       if (type === "continueOrder") {
         const { msgId, onSubmit } = this.props;
         const messages = defineMessages({
@@ -630,6 +643,15 @@ class SwalModals extends Component {
           </div>
         );
       }
+      if (type === "date") {
+        return (
+          <DateModal
+            visible
+            onClose={this.onClose}
+            {...this.props}
+          />
+        );
+      }
       return null;
     } catch (error) {
       console.log(error);
@@ -637,4 +659,4 @@ class SwalModals extends Component {
   }
 }
 
-export default SwalModals;
+export default Form.create({ name: "Modal" })(SwalModals);

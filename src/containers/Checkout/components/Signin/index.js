@@ -145,6 +145,7 @@ class Signin extends React.Component {
   onSubmitLogin = (e) => {
     e.preventDefault();
     const { intl } = this.props;
+    this.setState({ loading: true });
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.props.login({ body: { ...values } }).then(async (r) => {

@@ -122,8 +122,7 @@ class UserButton extends React.Component {
         localStorage.setItem('img', realImage);
         this.props.getCustomer().then((res) => {
           if (res.payload.success) {
-            // localStorage.setItem('percent', (Number( res.payload.data.info.cstatus) + 1) * 25);
-            localStorage.setItem('percent', (Number(res.payload.data.info.cstatus)));
+            localStorage.setItem('percent', res.payload.data.info.cstatus);
             this.setState({ showButton: false });
           }
         });
@@ -135,7 +134,7 @@ class UserButton extends React.Component {
 
   renderProgress() {
     const intl = this.props;
-    let percents = localStorage.getItem('percent');
+    let percents = Number(localStorage.getItem('percent'));
     return (
       <div style={{ width: "230px" }}>
         <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
@@ -144,19 +143,6 @@ class UserButton extends React.Component {
             <FormattedMessage id="header.profile.userInfo" />
           </strong>
           <span style={{ color: "white" }}>{percents}%</span>
-        </p>
-      </div>
-    );
-  }
-
-  renderProgress1() {
-    let percents = localStorage.getItem('percent');
-    return (
-      <div>
-        <Progress percent={percents} strokeColor="#feb415" showInfo={false} />
-        <p className="text text-center">
-          <strong><FormattedMessage id="header.profile.userInfo" /></strong>
-          <span>{percents}%</span>
         </p>
       </div>
     );
@@ -213,17 +199,6 @@ class UserButton extends React.Component {
             <div className={`dropdown ${visible ? ' open' : ''}`} >
               <div className="drop-content">
                 <div className="profile-menu" >
-                  <div className="menu-header" style={{ display: "none" }}>
-                    <div className="flex-this">
-                      <div className="image-container default">
-                        <span className="image" style={{ backgroundImage: `url(${localStorage.getItem('img') === "null" ? avatar : localStorage.getItem('img')})` }} />
-                      </div>
-                      <p className="name">
-                        {localStorage.getItem('emartmall_co') === null ? " " : localStorage.getItem('emartmall_co')}
-                      </p>
-                    </div>
-                    {this.renderProgress1()}
-                  </div>
                   <ul className="list-unstyled">
                     <li onClick={this.showpro}>
                       <Link to="/profile" className="flex-this">

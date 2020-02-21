@@ -1,10 +1,11 @@
 import React from "react";
+import { Button } from "antd";
 import { injectIntl } from 'react-intl';
 
 class FacebookLogin1 extends React.Component {
   facebookLogin = () => {
+    this.props.loadingClick();
     if (!window.FB) return;
-
     window.FB.getLoginStatus((response) => {
       if (response.status === 'connected') {
         this.facebookLoginHandler(response);
@@ -15,6 +16,7 @@ class FacebookLogin1 extends React.Component {
   }
 
   facebookLoginHandler = (response) => {
+    this.props.loadingClick();
     if (response.status === 'connected') {
       window.FB.api('/me', { fields: 'id,name,email,picture.type(large)' }, (userData) => {
         let result = {
@@ -29,18 +31,15 @@ class FacebookLogin1 extends React.Component {
         };
         this.props.loginSocial(result);
       });
-    } else {
-      // message.warning("Фэйсбүүктэй холбогдоход алдаа гарлаа.");
     }
   }
 
   render() {
     const { intl } = this.props;
-
     return (
-      <div onClick={() => this.facebookLogin()} className="btn btn-block btn-social btn-facebook">
+      <button onClick={() => this.facebookLogin()} className="btn btn-block btn-social btn-facebook" disabled={this.props.loading}>
         {intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
-      </div>
+      </button>
       // <FacebookLogin
       //   isMobile
       //   disableMobileRedirect

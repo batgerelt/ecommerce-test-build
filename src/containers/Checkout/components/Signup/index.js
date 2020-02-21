@@ -162,7 +162,7 @@ class Signup extends React.Component {
                     }],
                   })(
                     <LatinInput
-                      allowClear
+                      allowclear
                       type="text"
                       placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                       autoComplete="off"
@@ -288,7 +288,7 @@ export default injectIntl(Form.create({ name: "checkoutregister" })(Signup));
                   }],
                 })(
                   <LatinInput
-                    allowClear
+                    allowclear
                     type="text"
                     placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                     autoComplete="off"

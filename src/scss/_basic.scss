@@ -3460,6 +3460,98 @@ button:disabled{
 }
 
 // profile custom input
+/* .ant-radio-button-wrapper {
+  margin: 10px;
+  border-radius: 8px !important;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+  width: 0px !important;
+} */
+/* .ant-radio-button-wrapper:first-child {
+  border-radius: 0px !important;
+}
+
+.ant-radio-button-wrapper:last-child {
+  border-radius: 0px !important;
+} */
+.ant-radio-group {
+  width: 100%;
+  text-align: center;
+}
+
+.ant-radio-group-solid {
+  width: 100%;
+  text-align: center;
+}
+
+.ant-radio-button-wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.ant-radio-group-solid
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  color: #FFF !important;
+  background: #FFB81C !important;
+  border-color: #FFB81C !important;
+}
+
+.ant-radio-group-solid
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #FFF !important;
+  background: #FFB81C !important;
+  border-color: #FFB81C !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: #FFB81C !important
+}
+
+.ant-radio-button-wrapper:hover {
+  color: #FFB81C;
+}
+
+.DayPicker {
+  width: 100%;
+}
+
+.DayPicker-Months {
+  .DayPicker-Month {
+    width: 100%;
+  }
+}
+
+.DayPicker-Weekday {
+  font-weight: 500;
+}
+
+.DayPicker-Day {
+  font-weight: 500;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day-outside) {
+  background-color: Orange;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+  background-color: orange;
+}
+
+.ant-select-dropdown {
+  z-index: 9999999999 !important;
+}
+.ant-select-dropdown-menu-item {
+  z-index: 9999999999 !important;
+}
+
+.ant-calendar-picker-container{
+  z-index: 9999999999 !important;
+}
+.ant-calendar-picker-container-placement-bottomLeft {
+  z-index: 9999999999 !important;
+}
+
 .ant-collapse-header {
   padding: 0px !important;
 }

@@ -134,7 +134,6 @@ class App extends Component {
                     <RegistrationModal onRef={ref => (this.RegistrationModal = ref)} {...this.props} />
                     <Mobilemenu onRef={ref => (this.Mobilemenu = ref)} {...this.props} {...this} />
                     <TokenExpiredModal {...this} {...this.props} />
-
                     {/** fixed header */}
                     <Header onRef={ref => (this.Header = ref)} {...this.props} {...this} />
 

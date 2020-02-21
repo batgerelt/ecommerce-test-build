@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-else-return */
 /* eslint-disable brace-style */
@@ -352,18 +353,30 @@ class CategoryInfo extends React.Component {
       const { promotionall } = this.props;
       const { promotions, categoryId } = this.state;
       const { buckets } = promotions.buckets;
-      let array = [];
-      // eslint-disable-next-line array-callback-return
-      promotionall.map((item, key) => {
-        // eslint-disable-next-line no-confusing-arrow
-        buckets.find(i => i.key === item.id ? array.push(i) : null);
-      });
       const lang = this.props.intl;
+
+      let array = [];
+      let tmpArray = [];
+      let tempArray = [];
+      let res = this.props.promotid.split(",");
+
+      promotionall.map((item) => {
+        buckets.find(i => (i.key === item.id ? array.push(i) : null));
+      });
+
+      res.map((item) => {
+        tmpArray.push(Number(item));
+      });
+
+      array.map((item) => {
+        tmpArray.find(i => (i === item.key ? tempArray.push(item) : null));
+      });
+
       if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              buckets.map((cat, key) => (
+              tempArray.map((cat, key) => (
                 <div>
                   {cat.key === 272 ?
                     null

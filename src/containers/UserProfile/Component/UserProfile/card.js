@@ -117,7 +117,7 @@ class Component extends React.Component {
                   { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.cardNumber.validation.pattern" }) },
                   { len: 14, message: intl.formatMessage({ id: "shared.form.cardNumber.validation.min" }) },
                 ],
-              })(<NumberInput onClick={this.cardNovalue} className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowClear />)}
+              })(<NumberInput onClick={this.cardNovalue} className="profile-custom-input" placeholder={intl.formatMessage({ id: "shared.form.cardNumber.placeholder" })} autoComplete="new-password" maxLength={14} allowclear />)}
             </Form.Item>
           </Col>
 
@@ -132,7 +132,7 @@ class Component extends React.Component {
                 className="profile-custom-input"
                 placeholder={intl.formatMessage({ id: "shared.form.cardPassword.placeholder" })}
                 maxLength={4}
-                allowClear
+                allowclear
                 type="password"
                 autoComplete="new-password"
               />)}

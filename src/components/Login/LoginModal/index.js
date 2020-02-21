@@ -9,6 +9,7 @@ import { Link, Redirect } from "react-router-dom";
 import LatinInput from "../../Input/LatinInput";
 import { FacebookLogin, GoogleLogin } from "../";
 import { Notification } from "../../";
+import { ForgetModal } from "../../ForgetModal";
 
 class LoginModal extends React.Component {
   state = {
@@ -28,6 +29,10 @@ class LoginModal extends React.Component {
 
   componentDidMount() {
     this.props.onRef(this);
+  }
+
+  loadingClick = () => {
+    this.setState({ loading: !this.state.loading });
   }
 
   handleLoginModal = () => {
@@ -433,7 +438,7 @@ class LoginModal extends React.Component {
               </Col>
             </Form.Item>
           </Form>
-          <FacebookLogin {...this.props} {...this} />
+          <FacebookLogin {...this.props} {...this} loading={this.state.loading} />
           <GoogleLogin {...this.props} {...this} />
           {this.props.RegistrationModal ?
             <div className="text-center">
@@ -463,42 +468,7 @@ class LoginModal extends React.Component {
           }
           {this.goHome()}
         </Modal>
-        <Modal
-          title={intl.formatMessage({ id: "forgottenPasswordModal.title" })}
-          visible={this.state.isVisibleReset}
-          onCancel={this.handleForgetModal}
-          footer={null}
-        >
-          <Form onSubmit={this.handleSubmitForget} className="login-form">
-            <Form.Item>
-              {getFieldDecorator("email1", {
-                rules: [
-                  {
-                    message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
-                    type: "email",
-                  },
-                ],
-              })(
-                <Input
-                  allowClear
-                  className="form-control"
-                  placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
-                  size="large"
-                  autoComplete="off"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="btn btn-block btn-login text-uppercase"
-              >
-                <FormattedMessage id="shared.form.button.next" />
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+        <ForgetModal visible={this.state.isVisibleReset} handleForgetModal={this.handleForgetModal} reset={this.props.reset} resetFields={this.props.form.resetFields} />
       </div>
     );
   }

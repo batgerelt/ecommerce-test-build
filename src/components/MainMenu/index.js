@@ -12,7 +12,6 @@ class MainMenu extends React.Component {
     const data = this.props && this.props.dataSource;
     const { pathname, search } = this.props.history.location;
     let tmp = data.map((item, index) => {
-      console.log('item: ', item.link.includes('/e'));
       return (
         <Button key={index}>
           <li className="list-inline-item">

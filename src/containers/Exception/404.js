@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import emptyCart from "../../scss/assets/icon/not-found.jpg";
 
 class SearchNotFound extends Component {
+  componentWillMount() {
+    /* if (this.props.match.url.slice(0, 3) === "/s/") {
+      window.location.reload();
+    } */
+  }
   render() {
     return (
       <div className="search-not-found">
