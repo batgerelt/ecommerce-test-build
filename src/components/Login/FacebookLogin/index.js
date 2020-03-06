@@ -4,7 +4,6 @@ import { injectIntl } from 'react-intl';
 
 class FacebookLogin1 extends React.Component {
   facebookLogin = () => {
-    this.props.loadingClick();
     if (!window.FB) return;
     window.FB.getLoginStatus((response) => {
       if (response.status === 'connected') {
@@ -16,7 +15,6 @@ class FacebookLogin1 extends React.Component {
   }
 
   facebookLoginHandler = (response) => {
-    this.props.loadingClick();
     if (response.status === 'connected') {
       window.FB.api('/me', { fields: 'id,name,email,picture.type(large)' }, (userData) => {
         let result = {
@@ -29,6 +27,7 @@ class FacebookLogin1 extends React.Component {
           oauthId: userData.id,
           imgUrl: userData.picture.data.url,
         };
+        console.log("result: ", result);
         this.props.loginSocial(result);
       });
     }
@@ -37,7 +36,7 @@ class FacebookLogin1 extends React.Component {
   render() {
     const { intl } = this.props;
     return (
-      <button onClick={() => this.facebookLogin()} className="btn btn-block btn-social btn-facebook" disabled={this.props.loading}>
+      <button onClick={() => this.facebookLogin()} className="btn btn-block btn-social btn-facebook">
         {intl.formatMessage({ id: "shared.form.button.facebookLogin" })}
       </button>
       // <FacebookLogin

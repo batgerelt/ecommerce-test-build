@@ -211,7 +211,7 @@ class DeliveryInfo extends React.Component {
             this.openLastModal("qpay", [], res.payload.data);
           }
 
-          if (mainState.chosenPaymentType.id === 1) {
+          if (mainState.chosenPaymentType.id === 1 || mainState.chosenPaymentType.id === 4) {
             this.changeWindow(res);
           }
         } else if (res.payload.code === "621") {
@@ -261,6 +261,9 @@ class DeliveryInfo extends React.Component {
   }
 
   changeWindow = (res) => {
+    const { intl } = this.props;
+    const lang = intl.locale;
+
     let mapForm = document.createElement("form");
     mapForm.target = "_self";
     mapForm.method = "POST";
@@ -296,12 +299,24 @@ class DeliveryInfo extends React.Component {
     signature.name = "signature";
     signature.value = res.payload.data.url.signature;
 
+    let social = document.createElement("input");
+    social.type = "hidden";
+    social.name = "social";
+    social.value = res.payload.data.url.social;
+
+    // let color = document.createElement("input");
+    // social.type = "hidden";
+    // social.name = "color";
+    // social.value = "#FFB81C";
+
     mapForm.appendChild(keyNumber);
     mapForm.appendChild(transNumber);
     mapForm.appendChild(trans_amount);
     mapForm.appendChild(time);
     mapForm.appendChild(lang_ind);
     mapForm.appendChild(signature);
+    mapForm.appendChild(social);
+    // mapForm.appendChild(color);
 
     document.body.appendChild(mapForm);
     let map = window.open(res.payload.data.url.url, "_self", "");

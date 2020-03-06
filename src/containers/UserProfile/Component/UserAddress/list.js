@@ -47,8 +47,13 @@ class Component extends React.Component {
         this.setState({ systemlocation: res.payload.data });
         this.props.getDistrictLocation({ id: param.provid }).then((res) => {
           if (res.payload.success) {
-            this.setState({ districtlocation: res.payload.data });
-            this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
+            this.setState({
+              districtlocation: res.payload.data,
+              address: param,
+              loader: false,
+            });
+            /* this.props.getCommmitteLocation({ provid: param.provid, distid: param.distid }).then((res) => {
+              console.log("55", res);
               if (res.payload.success) {
                 this.setState({
                   committelocation: res.payload.data,
@@ -57,7 +62,7 @@ class Component extends React.Component {
                   loader: false,
                 });
               }
-            });
+            }); */
           }
         });
       }

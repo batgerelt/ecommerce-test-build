@@ -4,14 +4,15 @@
 import React from 'react';
 import moment from "moment";
 import { DayPicker, DateUtils } from 'react-day-picker';
-import { Modal, Form, Input, Icon, DatePicker, Col, Button, Select, Divider, Radio, Typography, Spin } from 'antd';
+import { Modal, Form, Input, Icon, DatePicker, Col, Button, Select, Divider, Radio, Typography, Spin, Avatar } from 'antd';
 import 'react-day-picker/lib/style.css';
+import delivery from "../../../../src/scss/assets/images/car.png";
 
 const { Option } = Select;
 const { Text } = Typography;
 
 const WEEKDAYS_SHORT = {
-  ru: ['Да', 'Мя', 'Лха', 'Пү', 'Ба', 'Бя', 'Ня'],
+  ru: ['Ня', 'Да', 'Мя', 'Лха', 'Пү', 'Ба', 'Бя'],
 };
 const MONTHS = {
   ru: [
@@ -45,7 +46,6 @@ class component extends React.Component {
     this.switchLocale = this.switchLocale.bind(this);
     this.state = {
       selectedDay: "Thu Feb 20 2020 12:00:00 GMT+0800 (Ulaanbaatar Standard Time)",
-      isOpen: false,
       timeTypes: null,
       locale: localStorage.getItem("lang") === "mn" ? 'ru' : 'en',
       DeliveryCycleId: null,
@@ -69,8 +69,6 @@ class component extends React.Component {
         this.setState({ timeTypes: res.payload.data });
       });
 
-      this.props.clickDate();
-
       return null;
     } catch (error) {
       return null;
@@ -80,14 +78,6 @@ class component extends React.Component {
   switchLocale(e) {
     const locale = e.target.value || 'ru';
     this.setState({ locale });
-  }
-
-  handleSubmit = (e) => {
-    let foo = moment(this.state.selectedDay).format('YYYY-MM-DD');
-    if (this.state.DeliveryCycleId !== null) {
-      this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
-      this.props.onClose();
-    }
   }
 
   disabledDate = (current) => {
@@ -114,17 +104,19 @@ class component extends React.Component {
   }
 
   handleDayClick(day, { selected }) {
-    let disable = this.disabledDate(day);
-    if (!disable) {
-      this.setState({ load: true });
-      let mm = day.getMonth() + 1;
-      let dd = day.getDate();
-      let yy = day.getFullYear();
-      let myDateString = `${yy}-${mm}-${dd}`;
-      this.setState({
-        selectedDay: selected ? undefined : day,
-      });
-      this.getDelivery(myDateString);
+    if (selected === undefined) {
+      let disable = this.disabledDate(day);
+      if (!disable) {
+        this.setState({ load: true });
+        let mm = day.getMonth() + 1;
+        let dd = day.getDate();
+        let yy = day.getFullYear();
+        let myDateString = `${yy}-${mm}-${dd}`;
+        this.setState({
+          selectedDay: selected ? undefined : day,
+        });
+        this.getDelivery(myDateString);
+      }
     }
   }
 
@@ -149,17 +141,31 @@ class component extends React.Component {
     this.setState({ DeliveryCycleId: e.target.value });
   }
 
+  handleSubmit = (e) => {
+    let foo = moment(this.state.selectedDay).format('YYYY-MM-DD');
+    if (this.state.DeliveryCycleId !== null) {
+      this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
+      this.props.onClose();
+    }
+  }
+
   render() {
-    console.log(this.props.deliveryId);
     const { locale } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
     return (
       <div className="justify-content-center">
         <React.Fragment>
-          <Form>
-            <Col span={24} className="text-left">
-              <p className="title font-weight-bold" style={{ fontSize: "17px" }}>Хүргэлтээр авах өдөр, цагаа баталгаажуулна уу.</p>
-              <Divider />
+          <Form onSubmit={this.handleSubmit}>
+            <Col span={24} className="text-left" >
+              <Col span={24}>
+                <div className="d-flex justify-content-center">
+                  <Avatar shape="square" size={64} src={delivery} />
+                  <span className="title font-weight-bold d-flex pl-1 align-items-center" >{this.props.deliveryId !== 3 ? "Хүргэлтээр авах өдөр, цагаа баталгаажуулна уу." : "Очиж авах өдөр, цагаа баталгаажуулна уу."}</span>
+                </div>
+              </Col>
+            </Col>
+            <Col span={24} style={{ margin: "0px" }}>
+              <Divider style={{ marginBottom: "0px", marginTop: "0px" }} />
             </Col>
             <Col span={24}>
               <Spin indicator={antIcon} spinning={this.state.load}>
@@ -178,7 +184,7 @@ class component extends React.Component {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Text strong>Хүргэлтээр авах цагаа сонгоно уу</Text>
+                  <Text strong>{this.props.deliveryId !== 3 ? "Хүргэлтээр авах цагаа сонгоно уу" : "Очиж авах цагаа сонгоно уу"}</Text>
                 </Col>
                 <Col span={24}>
                   <Radio.Group value={this.state.DeliveryCycleId} buttonStyle="solid" onChange={this.handleClick}>
@@ -186,9 +192,11 @@ class component extends React.Component {
                   </Radio.Group>
                 </Col>
               </Spin>
+              <Col span={24}>
+                <Divider style={{ marginTop: "0px" }} />
+              </Col>
               <Col span={24} className="text-right">
-                <Divider style={{ margin: "0px !important" }} />
-                <button className="btn btn-block btn-login text-uppercase" onClick={this.handleSubmit} variant="contained">
+                <button className="btn btn-block btn-login text-uppercase" htmlType="submit" variant="contained">
                   БАТАЛГААЖУУЛАХ
                 </button>
               </Col>

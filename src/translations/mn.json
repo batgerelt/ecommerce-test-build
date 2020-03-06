@@ -343,7 +343,7 @@
 	"shared.sidebar.button.proceed": "Үргэлжлүүлэх",
 	"shared.sidebar.button.showAll": "Бүгдийг харах",
 	"shared.sidebar.button.showAllRelatedProducts": "Бүх хослох барааг харах",
-	"shared.sidebar.button.addToCart": "Сагсанд нэмэх",
+	"shared.sidebar.button.addToCart": "Бүгдийг сагсанд нэмэх",
 	"shared.sidebar.checkbox.acceptance": "Үйлчилгээний нөхцлийг зөвшөөрөх",
 	"shared.sidebar.label.deliveryCost": "Хүргэлтийн төлбөр",
 	"shared.sidebar.label.deliveryType": "Хүргэлтийн төрөл",

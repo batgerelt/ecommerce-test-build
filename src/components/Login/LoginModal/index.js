@@ -31,10 +31,6 @@ class LoginModal extends React.Component {
     this.props.onRef(this);
   }
 
-  loadingClick = () => {
-    this.setState({ loading: !this.state.loading });
-  }
-
   handleLoginModal = () => {
     this.setState({ visible: true });
   };
@@ -97,13 +93,125 @@ class LoginModal extends React.Component {
   };
 
   loginSocial = (param) => {
+    const { intl } = this.props;
+    const { pathname } = this.props.location;
+    let sku = pathname.slice(pathname.length - 13, pathname.length);
+    let direct = false;
+    if (this.props.match.url.slice(0, 8) === "/confirm") {
+      direct = true;
+    }
     this.closeLoginModal();
-    this.props.ouathLog({ body: { ...param } }).then(async (res) => {
-      this.logData(res);
-      if (res.payload.success) {
+    this.props.ouathLog({ body: { ...param } }).then(async (result) => {
+      if (result.payload.success) {
+        localStorage.setItem('emartmall_co', result.payload.data[0].info.customerInfo.firstname);
+        if (result.payload.data[0].info.customerInfo.imgnm !== null) {
+          let realImage = "";
+          let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+          if (realImage1.slice(0, 5) === "https") {
+            realImage = result.payload.data[0].info.customerInfo.imgnm;
+          } else {
+            realImage = JSON.stringify(process.env.IMAGES + result.payload.data[0].info.customerInfo.imgnm);
+          }
+          localStorage.setItem('img', realImage);
+        } else {
+          localStorage.setItem('img', null);
+        }
+        localStorage.setItem('auth', JSON.stringify(result.payload));
+        localStorage.setItem('percent', (Number(result.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
+        if (pathname === `/productdetail/${sku}`) {
+          this.props.getProductRate({ skucd: sku });
+          this.props.addViewList({ skucd: sku });
+        }
+        this.props.getCustomer().then(async (res) => {
+          if (res.payload.success) {
+            localStorage.removeItem(this.state.isRemember ? true : 'username');
+            let products = [];
+            if (this.props.cart === undefined) {
+              products = this.props.products;
+            } else {
+              products = this.props.cart.products;
+            }
+            if (products !== undefined) {
+              products = products.map(prod => ({
+                skucd: prod.skucd,
+                qty: prod.qty,
+              }));
+            }
+            this.props.increaseProductsByQtyRemotely({ iscart: 0, body: products }).then((res) => {
+              if (products !== undefined) {
+                this.props.getProducts().then((res) => {
+                  let resCount = 0;
+                  let prodCount = 0;
+                  res.payload.data.map((item) => {
+                    resCount += item.qty;
+                  });
+                  products.map((item) => {
+                    prodCount += item.qty;
+                  });
+                  let k = res.payload.data.length - products.length;
+                  if (resCount !== prodCount) {
+                    this.setState({ goCart: true });
+                  }
+                });
+              }
+              this.props.getUserInfo();
+              this.props.getSystemLocation();
+              this.setState(
+                { loading: false, confirm: direct },
+                this.closeLoginModal(),
+                localStorage.setItem('emartmall_token', result.payload.data[0].info.access_token),
+                store.addNotification({
+                  insert: "top",
+                  container: "top-right",
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 3000,
+                    onScreen: false,
+                  },
+                  content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
+                }),
+              );
+              if (res !== undefined) {
+                if (!res.payload.success) {
+                  store.addNotification({
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                      duration: 3000,
+                      onScreen: false,
+                    },
+                    content: <Notification type="warning" text={intl.formatMessage({ id: res.payload.code })} />,
+                  });
+                }
+              }
+            });
+          } else {
+            console.log(res.payload);
+          }
+        });
+      }
+      // Нэвтрэх оролдлого амжилтгүй үед
+      if (result.payload.code) {
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="warning" text={intl.formatMessage({ id: result.payload.code })} />,
+        });
+        this.setState({ loading: false });
+      }
+      if (result.payload.success) {
         this.setState({ confirm: this.state.direct });
-        await this.props.getUserInfo();
-        await this.props.getSystemLocation();
+        /* await this.props.getUserInfo();
+        await this.props.getSystemLocation(); */
       }
     });
   }
@@ -438,7 +546,7 @@ class LoginModal extends React.Component {
               </Col>
             </Form.Item>
           </Form>
-          <FacebookLogin {...this.props} {...this} loading={this.state.loading} />
+          <FacebookLogin {...this.props} {...this} />
           <GoogleLogin {...this.props} {...this} />
           {this.props.RegistrationModal ?
             <div className="text-center">
