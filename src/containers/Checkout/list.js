@@ -590,6 +590,7 @@ class Checkout extends React.Component {
   }
 
   handleSubmit = () => {
+    console.log("end darlaa");
     this.DeliveryInfo.handleSubmit();
   }
 

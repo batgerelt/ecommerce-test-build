@@ -155,7 +155,7 @@ class component extends React.Component {
     return (
       <div className="justify-content-center">
         <React.Fragment>
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
             <Col span={24} className="text-left" >
               <Col span={24}>
                 <div className="d-flex justify-content-center">
@@ -196,7 +196,7 @@ class component extends React.Component {
                 <Divider style={{ marginTop: "0px" }} />
               </Col>
               <Col span={24} className="text-right">
-                <button className="btn btn-block btn-login text-uppercase" htmlType="submit" variant="contained">
+                <button className="btn btn-block btn-login text-uppercase" onClick={this.handleSubmit}>
                   БАТАЛГААЖУУЛАХ
                 </button>
               </Col>

@@ -99,12 +99,12 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    console.log("end darlaa");
     this.setState({ loading: true });
     const {
       userinfo, products, mainState,
     } = this.props;
     if (mainState.activeKey === '2') {
-      this.props.onSubmitDeliveryPanel();
       if (isMobile) {
         if (this.state.notif) {
           window.scrollTo(0, 700);
@@ -123,6 +123,7 @@ class DeliveryInfo extends React.Component {
       } else {
         window.scrollTo(0, 85);
       }
+      this.props.onSubmitDeliveryPanel();
     } else if (mainState.activeKey === '3') {
       if (!this.state.checkedAgreement) {
         if (isMobile) {

@@ -25,9 +25,78 @@ class PaymentTypePanel extends React.Component {
 
   changeRadio = (e) => {
     const { paymentTypes } = this.props;
-    let found = paymentTypes.find(item => item.id === parseInt(e.target.id));
-    this.props.setChosenPaymentType(found);
+    paymentTypes.map((item, index) => (
+      item.id === e.target.value ? this.props.setChosenPaymentType(item) : ""
+    ));
   };
+
+  renderIcons(id, selected) {
+    const { chosenPaymentType } = this.props.mainState;
+    switch (id) {
+      case 1:
+        if (chosenPaymentType.id === 1) {
+          return (<img
+            alt="icon"
+            width="35px"
+            height="auto"
+            src={require("../../../../scss/assets/svg/card-black.svg")}
+          />);
+        }
+        return (<img
+          alt="icon"
+          width="35px"
+          height="auto"
+          src={require("../../../../scss/assets/svg/card.svg")}
+        />);
+      case 2:
+        if (chosenPaymentType.id === 2) {
+          return (<img
+            alt="icon"
+            width="35px"
+            height="auto"
+            src={require("../../../../scss/assets/svg/envelope-black.svg")}
+          />);
+        }
+        return (<img
+          alt="icon"
+          width="35px"
+          height="auto"
+          src={require("../../../../scss/assets/svg/envelope.svg")}
+        />);
+      case 3:
+        if (chosenPaymentType.id === 3) {
+          return (<img
+            alt="icon"
+            width="35px"
+            height="auto"
+            src={require("../../../../scss/assets/svg/qrcode-white.svg")}
+          />);
+        }
+        return (<img
+          alt="icon"
+          width="35px"
+          height="auto"
+          src={require("../../../../scss/assets/svg/qrcode-orange.svg")}
+        />);
+      case 4:
+        if (chosenPaymentType.id === 4) {
+          return (<img
+            alt="icon"
+            width="35px"
+            height="auto"
+            src={require("../../../../scss/assets/svg/social-black.svg")}
+          />);
+        }
+        return (<img
+          alt="icon"
+          width="35px"
+          height="auto"
+          src={require("../../../../scss/assets/svg/social.svg")}
+        />);
+      default:
+        return null;
+    }
+  }
 
   renderPaymentTypes = () => {
     const { paymentTypes, intl } = this.props;
@@ -35,41 +104,17 @@ class PaymentTypePanel extends React.Component {
     let tmp;
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
-        <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10" key={item.id}>
-          <label className="card radio-card" style={{ boxShadow: chosenPaymentType.id === item.id ? 'inset 0 0 0 1px #feb415' : '' }}>
-            <div className="radio-button-container" style={{ marginTop: "5px" }}>
-              <input
-                className="form-check-input radio-button"
-                type="radio"
-                name="paymentRadios"
-                checked={chosenPaymentType.id === item.id}
-                id={item.id}
-                onChange={this.changeRadio}
-              />
-              <span className="checkmark" style={{ right: "15px" }} />
-            </div>
-            <h5 className="title radio-button-title">
-              {item.id === 4 ?
-                <img
-                  alt="icon"
-                  width="32px"
-                  height="40px"
-                  src={require("../../../../scss/assets/icons/SocialPay.png")}
-                />
-                :
-                <i
-                  className={item.imgnm}
-                  aria-hidden="true"
-                  style={{ marginTop: "10px" }}
-                />
-              }
+        <Col xs={24} sm={24} md={12} lg={12} xl={12} key={item.id} style={{ padding: "5px" }}>
+          <Radio.Button className=" d-flex align-items-center" value={item.id} style={{ height: "auto", minHeight: "100px" }}>
+            <h5 className="title radio-button-title text-left">
+              {this.renderIcons(item.id)}
               <p>
-                <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
-                <span>{intl.locale === "mn" ? item.description : item.description_en}</span>
+                <span className="text-uppercase" style={{ fontSize: "16px", color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}` }}>{intl.locale === "mn" ? item.name : item.name_en}</span>
+                <span style={{ color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}` }}>{intl.locale === "mn" ? item.description : item.description_en}</span>
               </p>
             </h5>
-          </label>
-        </Col>
+          </Radio.Button>
+        </Col >
       ));
     }
     return tmp;
@@ -96,7 +141,7 @@ class PaymentTypePanel extends React.Component {
   }
 
   render() {
-    const { chosenRadio } = this.props.mainState;
+    const { chosenRadio, chosenPaymentType } = this.props.mainState;
     return (
       <Form name="paymenttypeform" onSubmit={this.onSubmit}>
         <div className="content-container" style={{ paddingRight: '0px', paddingLeft: '0px' }}>
@@ -145,10 +190,12 @@ class PaymentTypePanel extends React.Component {
             </Col>
           </Col>
           <Col span={24}>
-            {this.renderPaymentTypes()}
+            <Radio.Group buttonStyle="solid" onChange={this.changeRadio} value={chosenPaymentType.id}>
+              {this.renderPaymentTypes()}
+            </Radio.Group>
           </Col>
         </div>
-      </Form>
+      </Form >
     );
   }
 }
