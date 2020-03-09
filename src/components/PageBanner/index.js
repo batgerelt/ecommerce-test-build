@@ -7,7 +7,7 @@ class Component extends React.Component {
     try {
       const { banner } = this.props;
       const { locale } = this.props.intl;
-      if (banner.length !== 0) {
+      if (banner) {
         const imgnm = window.innerWidth < 576 ? (locale === "mn" ? banner[0].mobimgnm : banner[0].mobimgnm_en) : (locale === "mn" ? banner[0].imgnm : banner[0].imgnm_en);
 
         return (
@@ -23,7 +23,7 @@ class Component extends React.Component {
 
       return null;
     } catch (error) {
-      return console.log("Page header banner warning: => ", error);
+      return null;
     }
   }
 }

@@ -26,9 +26,9 @@ class Banner extends React.Component {
       const selected = data.length === undefined ? data : data[0];
       // this.getImageColor(process.env.IMAGE + selected.imgnm);
       return (
-        <div className="banner-container" style={{ height: `${width < 767 ? '200px' : 'auto'}` }}>
+        <div className="d-flex" style={{ height: `${width < 767 ? '200px' : 'auto'}` }}>
           <span className="page_header_banner_left" style={{ backgroundColor: selected.lcolor }} />
-          <div className="container pad10">
+          <div className="container m-0 p-0">
             <a href={selected.link ? selected.link : "#"} target="_blank">
               <img
                 id="banner-image-id"
@@ -38,7 +38,7 @@ class Banner extends React.Component {
               />
             </a>
           </div>
-          <span className="page_header_banner_rigth" style={{ backgroundColor: selected.lcolor }} />
+          <span className="page_header_banner_rigth" style={{ backgroundColor: selected.rcolor }} />
         </div>
       );
     } catch (error) {

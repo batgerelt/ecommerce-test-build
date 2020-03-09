@@ -18,7 +18,7 @@ class Model extends BaseModel {
     newbanner: [],
     packagebanner: [],
     recipebanner: [],
-    seasonbanner: [],
+    dynamicbanner: [],
   }
 
   constructor(data = {}) {
@@ -60,10 +60,10 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'recipebanner'),
           error: this.buildActionName('error', data.model, 'recipebanner'),
         },
-        seasonbanner: {
-          request: this.buildActionName('request', data.model, 'seasonbanner'),
-          response: this.buildActionName('response', data.model, 'seasonbanner'),
-          error: this.buildActionName('error', data.model, 'seasonbanner'),
+        dynamicbanner: {
+          request: this.buildActionName('request', data.model, 'dynamicbanner'),
+          response: this.buildActionName('response', data.model, 'dynamicbanner'),
+          error: this.buildActionName('error', data.model, 'dynamicbanner'),
         },
       };
     }
@@ -75,7 +75,7 @@ class Model extends BaseModel {
   getNewBanner = () => asyncFn({ url: `/banner/new`, method: 'GET', model: this.model.newbanner });
   getPackageBanner = () => asyncFn({ url: `/banner/package`, method: 'GET', model: this.model.packagebanner });
   getRecipeBanner = () => asyncFn({ url: `/banner/recipe`, method: 'GET', model: this.model.recipebanner });
-  getSeasonBanner = () => asyncFn({ url: `/banner/season`, method: 'GET', model: this.model.seasonbanner });
+  getDynamicBanner = ({ id }) => asyncFn({ url: `/banner/menu/${id}`, method: 'GET', model: this.model.dynamicbanner });
 
   reducer = (state = this.initialState, action) => {
     switch (action.type) {
@@ -135,13 +135,13 @@ class Model extends BaseModel {
       case this.model.recipebanner.response:
         return { ...state, recipebanner: action.payload.data };
 
-      // GET SEASONBANNER
-      case this.model.seasonbanner.request:
+      // GET dynamicbanner
+      case this.model.dynamicbanner.request:
         return { ...state, current: this.requestCase(state.current, action) };
-      case this.model.seasonbanner.error:
+      case this.model.dynamicbanner.error:
         return { ...state, current: this.errorCase(state.current, action) };
-      case this.model.seasonbanner.response:
-        return { ...state, seasonbanner: action.payload.data };
+      case this.model.dynamicbanner.response:
+        return { ...state };
 
       default:
         return state;

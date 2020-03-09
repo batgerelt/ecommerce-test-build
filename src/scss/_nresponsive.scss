@@ -531,7 +531,7 @@ h1.title {
 }
 
 .page_header_banner_container{
-    height: 150px;
+    height: 220px;
 
     div{
         margin: 0px;
@@ -1945,22 +1945,12 @@ h1.title {
             font-size: 20px !important;
         }
     }
-
-    .page_header_banner_left, .page_header_banner_rigth{
-        display: none;
-    }
-
-    .page_header_banner_container{
-        .container{
-            display: none;
-        }
-    }
 }
 
 // xs (< 576px)
 @media (max-width: 575px) {
     #root {
-        margin-top: 104px !important;
+        margin-top: 84px !important;
     }
 
     .static-container{

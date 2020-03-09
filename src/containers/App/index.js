@@ -42,7 +42,6 @@ import {
   New,
   Recipe,
   Package,
-  Season,
   ProductDetail,
   Static,
   Checkout,
@@ -57,7 +56,7 @@ import {
   Order,
   Emart,
   Brand,
-  Menu,
+  DynamicMenu,
 } from "../";
 import PaymentReturn from "../Checkout/components/PaymentReturn";
 
@@ -146,7 +145,6 @@ class App extends Component {
                           <Route path="/new" component={New} />
                           <Route path="/recipe" component={Recipe} />
                           <Route path="/package" component={Package} />
-                          <Route path="/season" component={Season} />
                           <Route path="/productdetail/:id/:orderid" component={ProductDetail} />
                           <Route path="/productdetail/:id" component={ProductDetail} />
                           <Route path="/checkout" component={Checkout} />
@@ -164,7 +162,7 @@ class App extends Component {
                           <Route path="/order/:id" component={Order} />
                           <Route path="/golomtPayment" component={PaymentReturn} />
                           <Route path="/qpayReturn" component={PaymentReturn} />
-                          <Route path="/e/:id" component={Menu} />
+                          <Route path="/e/:id" component={DynamicMenu} />
                           <Route path="*" component={Notfound} />
                         </Switch>
                       </div>

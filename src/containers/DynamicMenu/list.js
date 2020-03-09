@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable camelcase */
 /* eslint-disable no-else-return */
 /* eslint-disable brace-style */
 /* eslint-disable no-unreachable */
@@ -31,10 +33,11 @@ class CategoryInfo extends React.Component {
     super(props);
 
     this.state = {
+      categoryId: null,
       visible: false,
       products: [],
       isListViewOn: false,
-      loading: true,
+      loading: false,
       isMobilePanel: false,
       ITEM_HEIGHT: 284.98,
       shapeType: 2,
@@ -44,14 +47,13 @@ class CategoryInfo extends React.Component {
       count: 0,
       aggregations: [],
       promotions: [],
-
       catId: 0,
       custId: 0,
       value: "",
       attribute: "",
       color: "",
       brand: "",
-      promotion: true,
+      promotion: null,
       minPrice: 0,
       maxPrice: 0,
       startsWith: 0,
@@ -61,14 +63,37 @@ class CategoryInfo extends React.Component {
     };
   }
 
-  // eslint-disable-next-line camelcase
+  /* UNSAFE_componentWillReceiveProps(nextProps) {
+    const { id } = this.props.match.params;
+    if (id !== nextProps.match.params.id) {
+      this.getData();
+    }
+  } */
+
   UNSAFE_componentWillMount() {
+    this.getData();
+  }
+
+  getData = () => {
     try {
-      return this.props.searchProduct({
-        body: { ...this.state },
-      }).then((res) => {
+      const param = {
+        catId: 0,
+        custId: 0,
+        value: "",
+        attribute: "",
+        color: "",
+        brand: "",
+        promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+        minPrice: 0,
+        maxPrice: 0,
+        startsWith: 0,
+        rowCount: 20,
+        orderColumn: 'updateddate_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC',
+        highlight: false,
+      };
+      this.setState({ loading: true, promotion: null });
+      this.props.searchProduct({ body: { ...param } }).then((res) => {
         if (res.payload.success && res.payload.data) {
-          // window.scrollTo(0, 0);
           this.setState({
             products: res.payload.data.hits.hits,
             startsWith: 20,
@@ -78,21 +103,54 @@ class CategoryInfo extends React.Component {
           });
         }
       });
+      return null;
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   }
 
+  loadMoreRows = () => {
+    try {
+      const { searchKeyWordResponse } = this.props;
+      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
+        const { isLoggedIn, data } = this.props;
+        const params = {
+          catId: 0,
+          custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
+          value: searchword,
+          attribute: this.state.attributes.join(','),
+          color: this.state.colors.join(','),
+          brand: this.state.brands.join(','),
+          promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+          minPrice: this.state.minPrice,
+          maxPrice: this.state.maxPrice,
+          startsWith: this.state.count,
+          rowCount: 20,
+          orderColumn: this.state.orderColumn,
+          highlight: false,
+        };
+        this.props.searchProduct({ body: { ...params } }).then((res) => {
+          if (res.payload.success) {
+            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
+          }
+        });
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  };
+
   renderHelmet = () => {
-    const { menuRecipe, intl } = this.props;
+    const { menuRecipe } = this.props;
+    const lang = this.props.intl;
     return (
       <Helmet>
         {/* HTML META TAGS */}
-        <title>{intl.locale === "mn" ? menuRecipe.menunm : menuRecipe.menunm_en}</title>
+        <title>Улирал</title>
       </Helmet>
     );
   }
-
 
   visibleFalse = () => {
     this.setState({ visible: false });
@@ -104,8 +162,7 @@ class CategoryInfo extends React.Component {
 
   handleChangeOrder = (e) => {
     const { isLoggedIn, data } = this.props;
-    this.setState({ loading: !this.state.loading });
-
+    this.setState({ loading: !this.state.loading, orderColumn: e });
     const params = {
       catId: 0,
       custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
@@ -113,7 +170,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
       minPrice: this.state.minPrice,
       maxPrice: 0,
       startsWith: 0,
@@ -122,7 +179,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -135,8 +191,6 @@ class CategoryInfo extends React.Component {
   };
 
   handleViewChange = () => {
-    // this.props.resetSearch();
-
     if (this.state.isListViewOn) {
       this.setState({ shapeType: 2, isListViewOn: !this.state.isListViewOn });
     } else {
@@ -154,16 +208,15 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
       minPrice: e[0],
       maxPrice: e[1],
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: this.state.orderColumn,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
@@ -184,16 +237,15 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: this.state.orderColumn,
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
@@ -206,7 +258,6 @@ class CategoryInfo extends React.Component {
     if (e.target.checked) { brands.push(brand); }
     else { brands.map((i, index) => (i === brand ? brands.splice(index, 1) : null)); }
     this.setState({ loading: !this.state.loading, brands });
-
     const params = {
       catId: 0,
       custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
@@ -214,16 +265,16 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: brands.join(','),
-      promotion: this.state.promotion,
+      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: this.state.orderColumn,
       highlight: false,
     };
+
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
@@ -244,17 +295,16 @@ class CategoryInfo extends React.Component {
       attribute: attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion,
+      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: this.state.orderColumn,
       highlight: false,
     };
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({ products: res.payload.data.hits.hits, loading: !this.state.loading, count: 20 });
       }
@@ -263,9 +313,12 @@ class CategoryInfo extends React.Component {
 
   handleClickCategory = (cat) => {
     const { isLoggedIn, data } = this.props;
-    this.setState({ loading: !this.state.loading });
-    this.FilterSet.resetField();
-
+    this.setState({ loading: true });
+    if (cat.key === this.state.categoryId) {
+      this.setState({ categoryId: null, promotion: this.props.promotid });
+    } else {
+      this.setState({ categoryId: cat.key, promotion: cat.key });
+    }
     const params = {
       catId: 0,
       custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
@@ -273,12 +326,12 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.colors.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === cat.id ? true : cat.id,
+      promotion: cat.key === this.state.categoryId ? this.props.promotid : cat.key,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
       rowCount: 20,
-      orderColumn: this.state.sort,
+      orderColumn: this.state.orderColumn,
       highlight: false,
     };
 
@@ -286,9 +339,8 @@ class CategoryInfo extends React.Component {
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
-          loading: !this.state.loading,
+          loading: false,
           count: 20,
-          promotion: this.state.promotion === cat.id ? true : cat.id,
           aggregations: res.payload.data,
           visible: false,
         });
@@ -299,18 +351,48 @@ class CategoryInfo extends React.Component {
   renderCategoryList = () => {
     try {
       const { promotionall } = this.props;
-      const { promotions } = this.state;
+      const { promotions, categoryId } = this.state;
+      const { buckets } = promotions.buckets;
       const lang = this.props.intl;
+
+      let array = [];
+      let tmpArray = [];
+      let tempArray = [];
+      let res = this.props.promotid.split(",");
+
+      promotionall.map((item) => {
+        buckets.find(i => (i.key === item.id ? array.push(i) : null));
+      });
+
+      res.map((item) => {
+        tmpArray.push(Number(item));
+      });
+
+      array.map((item) => {
+        tmpArray.find(i => (i === item.key ? tempArray.push(item) : null));
+      });
+
       if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              promotionall.map((cat, index) => (
-                <li key={index} className={cat.id === this.state.promotion ? "selected" : "disabled"} >
-                  <span onClick={() => this.handleClickCategory(cat)}>
-                    {lang === "mn" ? cat.name : cat.nameen}
-                  </span>
-                </li>
+              tempArray.map((cat, key) => (
+                <div>
+                  {cat.key === 272 ?
+                    null
+                    :
+                    <li key={key} className={cat.key === categoryId ? "selected" : "disabled"} >
+                      <span onClick={() => this.handleClickCategory(cat)}>
+                        {
+                          lang === "mn" ?
+                            promotionall.find(i => i.id === cat.key).name
+                            :
+                            promotionall.find(i => i.id === cat.key).nameen
+                        }
+                      </span>
+                    </li>
+                  }
+                </div>
               ))
             }
           </ul>
@@ -318,7 +400,6 @@ class CategoryInfo extends React.Component {
       }
       return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   }
@@ -388,7 +469,6 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // console.log(error);
       return null;
     }
   }
@@ -400,18 +480,19 @@ class CategoryInfo extends React.Component {
   renderFilteredList = () => {
     try {
       const { intl, searchKeyWordResponse } = this.props;
+      const { loading } = this.state;
 
       return (
-        <div className="col-lg-9 col-md-8 pad10">
+        <div className="col-lg-9 col-md-8 pad10 px-0">
           <div className="list-filter pad10">
             <div className="row">
               <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>
-                      {searchKeyWordResponse.hits.total.value}
+                      {loading ? "" : searchKeyWordResponse.hits.total.value}
                     </strong>
-                    <FormattedMessage id="search.searchResult.label.found" />
+                    {loading ? "" : <FormattedMessage id="search.searchResult.label.found" />}
                   </p>
                 </div>
               </div>
@@ -468,7 +549,6 @@ class CategoryInfo extends React.Component {
         </div>
       );
     } catch (error) {
-      // return console.log(error);
       return null;
     }
   }
@@ -531,7 +611,6 @@ class CategoryInfo extends React.Component {
     if (isList) {
       return 1;
     }
-
     if (windowWidth < 576) {
       return 1;
     } else if (windowWidth < 768) {
@@ -542,40 +621,6 @@ class CategoryInfo extends React.Component {
       return 3;
     } else {
       return 3;
-    }
-  };
-
-  loadMoreRows = () => {
-    try {
-      const { searchKeyWordResponse } = this.props;
-      if (this.state.products.length < searchKeyWordResponse.hits.total.value && !this.state.loading) {
-        const { isLoggedIn, data } = this.props;
-        const params = {
-          catId: 0,
-          custId: isLoggedIn ? data[0].info.customerInfo.id : 0,
-          value: searchword,
-          attribute: this.state.attributes.join(','),
-          color: this.state.colors.join(','),
-          brand: this.state.brands.join(','),
-          promotion: this.state.promotion,
-          minPrice: this.state.minPrice,
-          maxPrice: this.state.maxPrice,
-          startsWith: this.state.count,
-          rowCount: 20,
-          orderColumn: this.state.sort,
-          highlight: false,
-        };
-
-        this.props.searchProduct({ body: { ...params } }).then((res) => {
-          if (res.payload.success) {
-            this.setState({ products: this.state.products.concat(res.payload.data.hits.hits), count: this.state.count + 20 });
-          }
-        });
-      }
-
-      return null;
-    } catch (error) {
-      return console.log(error);
     }
   };
 
@@ -656,7 +701,7 @@ class CategoryInfo extends React.Component {
 
       return null;
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
@@ -665,15 +710,28 @@ class CategoryInfo extends React.Component {
     try {
       const { menuSeason, banner } = this.props;
       return menuSeason[0] && (
-        <PageBanner
-          title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
-          subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
-          banners={banner.header}
-          bgColor="#FFAD00"
-        />
+        <div>
+          {
+            this.props.match.params.id === "valentines" ?
+              <PageBanner
+                title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+                subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
+                banners={banner.header}
+                bgColor="#F596B8"
+                isValentina
+              />
+              :
+              <PageBanner
+                title={lang === "mn" ? menuSeason[0].menunm : menuSeason[0].menunm_en}
+                subtitle={lang === "mn" ? menuSeason[0].subtitle : menuSeason[0].subtitle_en}
+                banners={banner.header}
+                bgColor="#FFAD00"
+              />
+          }
+        </div>
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   }
 
@@ -736,7 +794,7 @@ class CategoryInfo extends React.Component {
         </li>
       );
     } catch (error) {
-      return console.log(error);
+      return null;
     }
   };
 
@@ -744,6 +802,7 @@ class CategoryInfo extends React.Component {
     const { banner } = this.props;
     return (
       <div className="top-container elastic-container">
+        {this.renderHelmet()}
         <PageBanner banner={banner.header} />
         <div className="section season">
           <div className="container pad10">

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -41,24 +42,51 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 class Page extends React.Component {
-  state = { banner: { header: [] } }
+  state = {
+    banner: [],
+    loading: false,
+    promotid: null,
+  }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
-    const { banner } = this.state;
-    this.props.getSeasonBanner().then((res) => {
-      banner.header = res.payload.data.header;
-      return this.setState(banner);
+    this.getData(this.props.match.params.id);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.getData(nextProps.match.params.id);
+    }
+  }
+
+  getData = (id) => {
+    this.setState({ loading: true, promotid: null });
+    this.props.getDynamicBanner({ id }).then((res) => {
+      console.log(this.props);
+      if (res.payload.success) {
+        if (res.payload.data !== null) {
+          let tmp = [];
+          tmp.push(res.payload.data);
+          this.setState({ banner: tmp });
+        }
+      }
     });
-    this.props.getSeasonMenu({});
+    this.props.getSeasonMenu({ id }).then((res) => {
+      this.setState({ loading: false, promotid: res.payload.data[0].promotid });
+    });
   }
 
   render() {
     return (
-      <div>
-        <List {...this.props} {...this} isLoggedIn={localStorage.getItem('auth') !== null} banner={this.state.banner} />
+      <Spin
+        spinning={this.state.loading}
+        indicator={<Loader />}
+      >
+        {this.state.promotid !== null ?
+          <List {...this.props} {...this} promotid={this.state.promotid} isLoggedIn={localStorage.getItem('auth') !== null} banner={this.state.banner} />
+          : ""}
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
-      </div>
+      </Spin>
     );
   }
 }

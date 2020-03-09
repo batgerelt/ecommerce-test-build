@@ -6,7 +6,6 @@ import Discount from "./Discount";
 import New from "./New";
 import Recipe from "./Recipe";
 import Package from "./Package";
-import Season from "./Season";
 import Static from "./Static";
 import Cart from "./Cart";
 import ProductDetail from "./ProductDetail";
@@ -24,7 +23,7 @@ import Emart from "./Emart";
 import Brand from "./Brand";
 import SearchNotFound from "./Exception/SearchNotFound";
 import ProductNotFound from "./Exception/ProductNotFound";
-import Menu from "./Menu";
+import DynamicMenu from "./DynamicMenu";
 
 export {
   App,
@@ -34,7 +33,6 @@ export {
   New,
   Recipe,
   Package,
-  Season,
   Static,
   ProductDetail,
   Checkout,
@@ -53,5 +51,5 @@ export {
   Brand,
   SearchNotFound,
   ProductNotFound,
-  Menu,
+  DynamicMenu,
 };
