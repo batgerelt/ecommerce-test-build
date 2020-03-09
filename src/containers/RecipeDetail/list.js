@@ -408,12 +408,12 @@ class List extends React.Component {
           </ul>
           <div className="more-link text-center">
             <div className="pack-price">
-              <p className="text flex-this end">
+              {/* <p className="text flex-this end">
                 <span style={{ fontSize: "1.6rem" }}>
                   <FormattedMessage id="recipeDetail.recipe.product.label.price" />:
                 </span>
                 <strong>{formatter.format(total)}₮</strong>
-              </p>
+              </p> */}
               <button
                 type="button"
                 disabled={loading}

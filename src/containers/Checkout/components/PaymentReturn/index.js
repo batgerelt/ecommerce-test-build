@@ -92,7 +92,6 @@ class Payment extends React.Component {
 
 
   render() {
-    // <PaymentReturn loading {...this.props} {...this} />
     const { loading } = this.state;
     return (
       loading ?

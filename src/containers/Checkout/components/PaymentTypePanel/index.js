@@ -49,11 +49,20 @@ class PaymentTypePanel extends React.Component {
               <span className="checkmark" style={{ right: "15px" }} />
             </div>
             <h5 className="title radio-button-title">
-              <i
-                className={item.imgnm}
-                aria-hidden="true"
-                style={{ marginTop: "10px" }}
-              />
+              {item.id === 4 ?
+                <img
+                  alt="icon"
+                  width="32px"
+                  height="40px"
+                  src={require("../../../../scss/assets/icons/SocialPay.png")}
+                />
+                :
+                <i
+                  className={item.imgnm}
+                  aria-hidden="true"
+                  style={{ marginTop: "10px" }}
+                />
+              }
               <p>
                 <strong>{intl.locale === "mn" ? item.name : item.name_en}</strong>
                 <span>{intl.locale === "mn" ? item.description : item.description_en}</span>

@@ -38,6 +38,7 @@ class DeliveryPanel extends React.Component {
     changeCom: true,
     visible: this.props.visible,
     clear: false,
+    explanation: null,
   };
 
   // eslint-disable-next-line camelcase
@@ -368,6 +369,20 @@ class DeliveryPanel extends React.Component {
     this.props.changechosenDeliveryCycleId(e, this.props.mainState.chosenDate, this.props.mainState.timeType);
   }
 
+  compareToFirstPassword = (rule, value, callback) => {
+    if (value && value === this.props.form.getFieldValue("phone1")) {
+      callback("Утасны дугаар давхцсан байна");
+    } else {
+      callback();
+    }
+  };
+
+  changeExplanation = (e) => {
+    if (e.target.value.length < 101) {
+      this.setState({ explanation: this.props.form.getFieldValue("explanation") });
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -398,7 +413,7 @@ class DeliveryPanel extends React.Component {
                         k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
                       }
                       return (
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" key={i}>
+                        <Col xs={24} sm={24} md={24 / deliveryTypes.length} lg={24 / deliveryTypes.length} xl={24 / deliveryTypes.length} className="padd10" key={i}>
                           <div
                             className="form-check col-md-12"
                             style={{
@@ -471,14 +486,13 @@ class DeliveryPanel extends React.Component {
                           className="col-md-12"
                           placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                           autoComplete="off"
-                          // allowclear={info.email === null ? true : false}
                           disabled={info.email === null ? false : true}
                         />,
                       )}
                     </Form.Item>
                   </Col>
                   <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
                     <Form.Item>
                       {getFieldDecorator("phone1", {
                         initialValue: this.checkError(chosenAddress.phone1),
@@ -515,13 +529,15 @@ class DeliveryPanel extends React.Component {
                       null
                     )}
                   <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
-                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })}</span>
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2</span>
                     <Form.Item>
                       {getFieldDecorator("phone2", {
                         initialValue: null,
                         rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                        { validator: this.compareToFirstPassword },
                         { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
                         { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+
                       })(
                         <Input size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
                       )}
@@ -578,7 +594,7 @@ class DeliveryPanel extends React.Component {
                           initialValue: this.checkError(chosenAddress.address),
                           rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                         })(
-                          <Input className="col-md-12" size="large" autoComplete="off" allowclear type="text" />,
+                          <Input className="col-md-12" size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                         )}
                       </Form.Item>
                     </Col>
@@ -590,10 +606,17 @@ class DeliveryPanel extends React.Component {
               <div>
                 <Divider />
                 <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
-                  <span className="top-text">{intl.formatMessage({ id: "shared.form.explanation" })}</span>
+                  <span className="top-text">Нэмэлт мэдээлэл</span>
                   <Form.Item>
-                    {getFieldDecorator("explanation", {})(
-                      <TextArea rows={4} placeholder={intl.formatMessage({ id: "shared.form.explanation" })} allowclear />,
+                    {getFieldDecorator("explanation", {
+                      initialValue: this.state.explanation,
+                    })(
+                      <TextArea
+                        placeholder={"Хүргэлтийн үйлчилгээний үед анхаарах нэмэлт мэдээллээ үлдээнэ үү!"}
+                        rows={4}
+                        allowclear
+                        onChange={this.changeExplanation}
+                      />,
                     )}
                   </Form.Item>
                 </Col>

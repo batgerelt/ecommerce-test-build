@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-string-refs */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
@@ -56,15 +57,21 @@ class Checkout extends React.Component {
       submitLoading: false,
       deliveryPrice: 0,
       visible: false,
+
       dateClick: false,
       zoneSet: null,
       chosenDeliveryCycleId: null,
       deliveryDesc: null,
       timeType: [],
       phone2: null,
+
+      openModal: true,
     };
   }
 
+  OpenModal = () => {
+    this.setState({ openModal: false });
+  }
   errorMsg = (txt) => {
     MySwal.fire({
       type: "error",
@@ -320,8 +327,9 @@ class Checkout extends React.Component {
   }
 
   changechosenDeliveryCycleId = (temp, item, timeType) => {
+    let last = true;
     this.clickDate();
-    this.setState({ chosenDeliveryCycleId: temp, chosenDate: item, timeType });
+    this.setState({ chosenDeliveryCycleId: temp, chosenDate: item, timeType }, () => this.getDeliveryPrice(last));
   }
 
   scrollTo = (top, left) => {
@@ -377,36 +385,43 @@ class Checkout extends React.Component {
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
     if (!this.state.dateClick) {
-      MySwal.fire({
-        html: (
-          <SwalModals
-            visible={this.state.visible}
-            type={"date"}
-            data={[]}
-            ordData={[]}
-            onRef={ref => (this.SwalModals = ref)}
-            chosenDate={this.state.chosenDate}
-            zoneSet={this.state.zoneSet}
-            getDeliveryTime={this.props.getDeliveryTime}
-            clickDate={this.clickDate}
-            chosenDeliveryCycleId={this.state.chosenDeliveryCycleId}
-            changeChosenDate={this.changeChosenDate}
-            changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
-            deliveryId={this.state.chosenDelivery.id}
-          />
-        ),
-        animation: true,
-        button: false,
-        showCloseButton: false,
-        showCancelButton: false,
-        showConfirmButton: false,
-        focusConfirm: false,
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        closeOnEsc: true,
+      this.state.deliveryPanelForm.validateFields(async (err, values) => {
+        if (!err) {
+          MySwal.fire({
+            html: (
+              <SwalModals
+                visible={this.state.visible}
+                type={"date"}
+                data={[]}
+                ordData={[]}
+                onRef={ref => (this.SwalModals = ref)}
+                chosenDate={this.state.chosenDate}
+                zoneSet={this.state.zoneSet}
+                getDeliveryTime={this.props.getDeliveryTime}
+                clickDate={this.clickDate}
+                chosenDeliveryCycleId={this.state.chosenDeliveryCycleId}
+                changeChosenDate={this.changeChosenDate}
+                changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
+                deliveryId={this.state.chosenDelivery.id}
+                openModal={this.state}
+
+              />
+            ),
+            animation: true,
+            button: false,
+            showCloseButton: false,
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            closeOnEsc: true,
+          });
+        }
       });
     } else {
       let isEmail = true;
+      let isReturn = true;
       const { chosenAddress, addresstype, chosenDelivery } = this.state;
       const {
         products,
@@ -494,7 +509,7 @@ class Checkout extends React.Component {
                 };
                 tmp.push(it);
               });
-              this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
+              await this.props.getCheckProductZone({ body: tmp, locid }).then((res) => {
                 this.changeLoading(false);
                 if (res.payload.success) {
                   if (isEmail) {
@@ -507,6 +522,7 @@ class Checkout extends React.Component {
                     });
                   }
                 } else {
+                  isReturn = false;
                   MySwal.fire({
                     html: (
                       <SwalModals
@@ -533,7 +549,7 @@ class Checkout extends React.Component {
               });
             }
           }
-          if (isEmail) {
+          if (isEmail && isReturn) {
             this.setState({ activeKey: "3" });
           }
         }
