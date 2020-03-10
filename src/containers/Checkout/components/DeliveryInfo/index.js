@@ -99,7 +99,6 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log("end darlaa");
     this.setState({ loading: true });
     const {
       userinfo, products, mainState,
@@ -127,18 +126,10 @@ class DeliveryInfo extends React.Component {
     } else if (mainState.activeKey === '3') {
       if (!this.state.checkedAgreement) {
         if (isMobile) {
-          if (this.state.notif) {
-            window.scrollTo(0, 700);
-          } else {
-            window.scrollTo(0, 85);
-          }
+          window.scrollTo(0, 700);
         }
         if (window.innerWidth < 1024) {
-          if (this.state.notif) {
-            window.scrollTo(0, 700);
-          } else {
-            window.scrollTo(0, 85);
-          }
+          window.scrollTo(0, 700);
         }
         this.setState({ notif: true });
       } else if (userinfo !== undefined && userinfo !== null && userinfo.length !== 0) {

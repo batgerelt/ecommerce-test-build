@@ -452,7 +452,7 @@ class DeliveryPanel extends React.Component {
                         className="fa fa-info"
                         aria-hidden="true"
                       />
-                      <p className="text flex-this" style={{ fontSize: "13px" }}>{lang === 'mn' ? this.checkError(mainState.chosenDelivery.featuretxt) : this.checkError(mainState.chosenDelivery.featuretxt_en)}</p>
+                      <p className="text flex-this text-justify" style={{ fontSize: "13px" }}>{lang === 'mn' ? this.checkError(mainState.chosenDelivery.featuretxt) : this.checkError(mainState.chosenDelivery.featuretxt_en)}</p>
                     </div>
                   </Col>
                 </Col>
