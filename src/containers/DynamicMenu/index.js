@@ -62,12 +62,13 @@ class Page extends React.Component {
   getData = (id) => {
     this.setState({ loading: true, promotid: null });
     this.props.getDynamicBanner({ id }).then((res) => {
-      console.log(this.props);
       if (res.payload.success) {
         if (res.payload.data !== null) {
           let tmp = [];
           tmp.push(res.payload.data);
           this.setState({ banner: tmp });
+        } else {
+          this.setState({ banner: [] });
         }
       }
     });

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-else-return */
@@ -11,6 +12,7 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Spin, Select, BackTop } from "antd";
 import {
@@ -53,7 +55,7 @@ class CategoryInfo extends React.Component {
       attribute: "",
       color: "",
       brand: "",
-      promotion: null,
+      promotion: this.props.match.params.promotid,
       minPrice: 0,
       maxPrice: 0,
       startsWith: 0,
@@ -381,7 +383,11 @@ class CategoryInfo extends React.Component {
                   {cat.key === 272 ?
                     null
                     :
-                    <li key={key} className={cat.key === categoryId ? "selected" : "disabled"} >
+                    <Link
+                      to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.key).id}`}
+                      key={key}
+                      className={cat.key === categoryId || cat.key == this.props.match.params.promotid ? "selected" : "selected"}
+                    >
                       <span onClick={() => this.handleClickCategory(cat)}>
                         {
                           lang === "mn" ?
@@ -390,7 +396,7 @@ class CategoryInfo extends React.Component {
                             promotionall.find(i => i.id === cat.key).nameen
                         }
                       </span>
-                    </li>
+                    </Link>
                   }
                 </div>
               ))
@@ -803,7 +809,7 @@ class CategoryInfo extends React.Component {
     return (
       <div className="top-container elastic-container">
         {this.renderHelmet()}
-        <PageBanner banner={banner.header} />
+        <PageBanner banner={banner} />
         <div className="section season">
           <div className="container pad10">
             <div className="row row10">

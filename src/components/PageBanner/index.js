@@ -8,7 +8,7 @@ class Component extends React.Component {
       const { banner } = this.props;
       const { locale } = this.props.intl;
       if (banner) {
-        const imgnm = window.innerWidth < 576 ? (locale === "mn" ? banner[0].mobimgnm : banner[0].mobimgnm_en) : (locale === "mn" ? banner[0].imgnm : banner[0].imgnm_en);
+        const imgnm = window.innerWidth < 576 ? (locale === "mn" ? banner[0].mobimgnm : banner[0].mobimgnm_en) : (locale === "mn" ? banner[0].imgnm : banner[0].imgnm_en ? banner[0].imgnm : banner[0].imgnm_en);
 
         return (
           <React.Fragment>
@@ -22,9 +22,7 @@ class Component extends React.Component {
       }
 
       return null;
-    } catch (error) {
-      return null;
-    }
+    } catch (error) { return null; }
   }
 }
 

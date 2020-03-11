@@ -162,7 +162,10 @@ class App extends Component {
                           <Route path="/order/:id" component={Order} />
                           <Route path="/golomtPayment" component={PaymentReturn} />
                           <Route path="/qpayReturn" component={PaymentReturn} />
+
+                          <Route path="/e/:id/:promotid" component={DynamicMenu} />
                           <Route path="/e/:id" component={DynamicMenu} />
+
                           <Route path="*" component={Notfound} />
                         </Switch>
                       </div>
