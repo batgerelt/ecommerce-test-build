@@ -6,6 +6,8 @@ import moment from "moment";
 import { DayPicker, DateUtils } from 'react-day-picker';
 import { Modal, Form, Input, Icon, DatePicker, Col, Button, Select, Divider, Radio, Typography, Spin, Avatar } from 'antd';
 import 'react-day-picker/lib/style.css';
+import { store } from 'react-notifications-component';
+import { Notification } from "../../../components";
 import delivery from "../../../../src/scss/assets/images/car.png";
 
 const { Option } = Select;
@@ -14,6 +16,7 @@ const { Text } = Typography;
 const WEEKDAYS_SHORT = {
   ru: ['Ня', 'Да', 'Мя', 'Лха', 'Пү', 'Ба', 'Бя'],
 };
+
 const MONTHS = {
   ru: [
     '1-р сар',
@@ -31,9 +34,6 @@ const MONTHS = {
   ],
 };
 
-const FIRST_DAY_OF_WEEK = {
-  ru: 1,
-};
 // Translate aria-labels
 const LABELS = {
   ru: { nextMonth: 'следующий месяц', previousMonth: 'предыдущий месяц' },
@@ -63,7 +63,7 @@ class component extends React.Component {
       let foo = new Date(chosenDate);
       let param = moment(chosenDate).format('YYYY-MM-DD');
 
-      this.setState({ selectedDay: foo, DeliveryCycleId: chosenDeliveryCycleId });
+      this.setState({ selectedDay: foo/* , DeliveryCycleId: chosenDeliveryCycleId */ });
 
       this.props.getDeliveryTime({ deliverydate: param }).then((res) => {
         this.setState({ timeTypes: res.payload.data });
@@ -122,7 +122,7 @@ class component extends React.Component {
 
   getDelivery = (myDateString) => {
     this.props.getDeliveryTime({ deliverydate: myDateString }).then((res) => {
-      this.setState({ timeTypes: res.payload.data, DeliveryCycleId: res.payload.data[0].id }, () => this.setState({ load: false }));
+      this.setState({ timeTypes: res.payload.data/* , DeliveryCycleId: res.payload.data[0].id */ }, () => this.setState({ load: false }));
     });
   }
 
@@ -144,8 +144,20 @@ class component extends React.Component {
   handleSubmit = (e) => {
     let foo = moment(this.state.selectedDay).format('YYYY-MM-DD');
     if (this.state.DeliveryCycleId !== null) {
+      this.props.clickDateFalse();
       this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
-      this.props.onClose();
+    } else {
+      store.addNotification({
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: false,
+        },
+        content: <Notification type="info" text={"Хүргэлтээр авах цагаа сонгоно уу"} />,
+      });
     }
   }
 

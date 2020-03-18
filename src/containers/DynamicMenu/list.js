@@ -55,7 +55,7 @@ class CategoryInfo extends React.Component {
       attribute: "",
       color: "",
       brand: "",
-      promotion: this.props.match.params.promotid,
+      promotion: null,
       minPrice: 0,
       maxPrice: 0,
       startsWith: 0,
@@ -358,46 +358,37 @@ class CategoryInfo extends React.Component {
       const lang = this.props.intl;
 
       let array = [];
-      let tmpArray = [];
       let tempArray = [];
       let res = this.props.promotid.split(",");
 
-      promotionall.map((item) => {
-        buckets.find(i => (i.key === item.id ? array.push(i) : null));
+      buckets.map((item) => {
+        res.find(i => (Number(i) === item.key ? tempArray.push(item) : null));
       });
 
       res.map((item) => {
-        tmpArray.push(Number(item));
-      });
-
-      array.map((item) => {
-        tmpArray.find(i => (i === item.key ? tempArray.push(item) : null));
+        tempArray.find(i => (i.key === Number(item) ? array.push(i) : null));
       });
 
       if (promotions) {
         return (
           <ul className="list-unstyled category-list">
             {
-              tempArray.map((cat, key) => (
-                <div>
-                  {cat.key === 272 ?
-                    null
-                    :
-                    <Link
-                      to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.key).id}`}
-                      key={key}
-                      className={cat.key === categoryId || cat.key == this.props.match.params.promotid ? "selected" : "selected"}
-                    >
-                      <span onClick={() => this.handleClickCategory(cat)}>
-                        {
-                          lang === "mn" ?
-                            promotionall.find(i => i.id === cat.key).name
-                            :
-                            promotionall.find(i => i.id === cat.key).nameen
-                        }
-                      </span>
-                    </Link>
-                  }
+              array.map((cat, key) => (
+                <div key={key}>
+                  <Link
+                    to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.key).id}`}
+                    key={key}
+                    className={cat.key === categoryId || cat.key == this.props.match.params.promotid ? "selected" : "selected"}
+                  >
+                    <span onClick={() => this.handleClickCategory(cat)}>
+                      {
+                        lang === "mn" ?
+                          promotionall.find(i => i.id === cat.key).name
+                          :
+                          promotionall.find(i => i.id === cat.key).nameen
+                      }
+                    </span>
+                  </Link>
                 </div>
               ))
             }

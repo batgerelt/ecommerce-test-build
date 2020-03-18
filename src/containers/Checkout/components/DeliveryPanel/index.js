@@ -304,9 +304,9 @@ class DeliveryPanel extends React.Component {
   };
 
   dateStringChange = (date, datestring) => {
-    let click = true;
-    this.props.clickDate();
-    this.props.changeChosenDate(datestring, this.state.changeCom, click);
+    /* let click = true;
+    this.props.clickDate(); */
+    this.props.changeChosenDate(datestring, this.state.changeCom);
   }
 
   checkError = (value) => {
@@ -610,12 +610,15 @@ class DeliveryPanel extends React.Component {
                   <Form.Item>
                     {getFieldDecorator("explanation", {
                       initialValue: this.state.explanation,
+                      rules: [{
+                        max: 100,
+                        message: "100 тэмдэгтэнд багтаан бичнэ үү",
+                      }],
                     })(
                       <TextArea
                         placeholder={"Хүргэлтийн үйлчилгээний үед анхаарах нэмэлт мэдээллээ үлдээнэ үү!"}
                         rows={4}
                         allowclear
-                        onChange={this.changeExplanation}
                       />,
                     )}
                   </Form.Item>

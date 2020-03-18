@@ -11,7 +11,7 @@ import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { Checkbox, Modal, Button, Radio } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { isMobile } from "react-device-detect";
+import { isMobile, isIOS } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import { SwalModals, IndividualTab } from "../";
@@ -550,15 +550,13 @@ class DeliveryInfo extends React.Component {
         {
           !isMobile ?
             isLoggedIn ?
-              <div className="sticky-btn">
-                <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || loading}>
-                  <span className="text-uppercase">
-                    {
-                      mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
-                    }
-                  </span>
-                </button>
-              </div>
+              <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || loading}>
+                <span className="text-uppercase">
+                  {
+                    mainState.activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />
+                  }
+                </span>
+              </button>
               : null : null
         }
 

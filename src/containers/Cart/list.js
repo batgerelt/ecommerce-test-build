@@ -76,12 +76,13 @@ class Cart extends React.Component {
     try {
       if (this.props.isLoggedIn) {
         // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
-        this.props.getCheckGift();
-
-        this.setState({ loading: true, isContinue: true });
         let result = await this.props.confirmCartRemotely();
         const { intl } = this.props;
-        if (result.payload.success) {} else {
+
+        if (result.payload.success) {
+          this.props.getCheckGift();
+          this.setState({ loading: true, isContinue: true });
+        } else {
           if (result.payload.data.length > 0) {
             let reasons = [];
             result.payload.data.forEach(msg => (

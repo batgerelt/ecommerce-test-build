@@ -2049,6 +2049,7 @@ form {
   }
 }
 .checkout-container {
+  margin-top: 20px !important;
   .accordion {
     margin-top: 20px;
   }
@@ -3459,6 +3460,7 @@ button:disabled{
 }
 
 // profile custom input
+
 /* .ant-radio-button-wrapper {
   margin: 10px;
   border-radius: 8px !important;
@@ -3472,6 +3474,17 @@ button:disabled{
 .ant-radio-button-wrapper:last-child {
   border-radius: 0px !important;
 } */
+
+.radio-height {
+  min-height: 80px !important;
+  max-height: 100px !important;
+}
+
+.radio-title {
+  min-height: 80px !important;
+  max-height: 100px !important;
+}
+
 .ant-radio-group {
   width: 100%;
   text-align: center;
@@ -3555,7 +3568,6 @@ button:disabled{
 .responsive-font14 {
   font-size: 16px !important;
 }
-
 .responsive-font10 {
   font-size: 14px;
 }
@@ -3996,6 +4008,15 @@ div.sticky-btn{
   bottom: 0px !important;
   width: 100%;
   z-index: 9;
+}
+
+.custom-sticky {
+  -webkit-position: sticky !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 9 !important;
+  width: 100% !important;
 }
 
 .header-container{

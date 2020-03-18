@@ -9,7 +9,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Collapse, Spin, message, Modal, DatePicker } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { isMobile } from "react-device-detect";
+import { isMobile, isIOS } from "react-device-detect";
 import { store } from 'react-notifications-component';
 import moment from "moment";
 import {
@@ -379,7 +379,8 @@ class Checkout extends React.Component {
   }
 
   clickDateFalse = () => {
-    this.setState({ dateClick: false });
+    this.setState({ dateClick: false }, () => this.onSubmitDeliveryPanel());
+    MySwal.close();
   }
 
   onSubmitDeliveryPanel = (e) => {
@@ -399,12 +400,13 @@ class Checkout extends React.Component {
                 zoneSet={this.state.zoneSet}
                 getDeliveryTime={this.props.getDeliveryTime}
                 clickDate={this.clickDate}
+                clickDateFalse={this.clickDateFalse}
                 chosenDeliveryCycleId={this.state.chosenDeliveryCycleId}
                 changeChosenDate={this.changeChosenDate}
                 changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
                 deliveryId={this.state.chosenDelivery.id}
                 openModal={this.state}
-
+                onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
               />
             ),
             animation: true,
@@ -417,6 +419,9 @@ class Checkout extends React.Component {
             allowOutsideClick: false,
             closeOnEsc: true,
           });
+        } else if (isMobile) {
+          console.log("end");
+          window.scrollTo(0, 300);
         }
       });
     } else {
@@ -590,7 +595,6 @@ class Checkout extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log("end darlaa");
     this.DeliveryInfo.handleSubmit();
   }
 
@@ -694,15 +698,22 @@ class Checkout extends React.Component {
                 <div className="col-lg-8 pad10" />
                 {
                   isMobile ?
-                    isLoggedIn ?
-                      <div className="sticky-btn">
+                    !isIOS ?
+                      <div className="custom-sticky">
                         <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
                           <span className="text-uppercase">
                             {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
                           </span>
                         </button>
                       </div>
-                      : null : null
+                      :
+                      <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
+                        <span className="text-uppercase">
+                          {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
+                        </span>
+                      </button>
+                    :
+                    null
                 }
               </div>
             </div>

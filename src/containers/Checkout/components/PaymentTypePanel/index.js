@@ -105,8 +105,8 @@ class PaymentTypePanel extends React.Component {
     if (paymentTypes.length !== 0) {
       tmp = paymentTypes.map((item, i) => (
         <Col xs={24} sm={24} md={12} lg={12} xl={12} key={item.id} style={{ padding: "5px" }}>
-          <Radio.Button className=" d-flex align-items-center" value={item.id} style={{ height: "auto", minHeight: "100px" }}>
-            <h5 className="title radio-button-title text-left">
+          <Radio.Button className="d-flex align-items-center radio-height" value={item.id}>
+            <h5 className="d-flex align-items-center text-left">
               {this.renderIcons(item.id)}
               <p>
                 <span className="text-uppercase" style={{ fontSize: "16px", color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}` }}>{intl.locale === "mn" ? item.name : item.name_en}</span>

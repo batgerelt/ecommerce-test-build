@@ -117,6 +117,11 @@ class SwalModals extends Component {
     MySwal.close();
   }
 
+  dateModalClose = () => {
+    MySwal.close();
+    this.props.onSubmitDeliveryPanel();
+  }
+
   onSubmit = () => {
     const { checkProductZone } = this.props;
     this.props.replaceProductsRemotely({ body: checkProductZone.data.skucds }).then((res) => {
@@ -638,6 +643,7 @@ class SwalModals extends Component {
           <DateModal
             visible
             onClose={this.onClose}
+            {...this}
             {...this.props}
           />
         );
