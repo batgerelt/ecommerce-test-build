@@ -70,6 +70,7 @@ class UserButton extends React.Component {
   handleLogin = () => { this.props.LoginModal.handleLoginModal(); };
 
   handleLogoutClick = () => {
+    const { pathname } = this.props.location;
     this.setState({ visible: false });
     this.props.logout();
     this.props.clearLocally(); // cart-iig hoosolj bgaa heseg
@@ -89,6 +90,9 @@ class UserButton extends React.Component {
         },
         content: <Notification type="success" text={intl.formatMessage({ id: "userButton.info.success" })} />,
       });
+    }
+    if (pathname === "/checkout") {
+      this.props.history.push("/");
     }
   }
 
@@ -160,9 +164,7 @@ class UserButton extends React.Component {
 
   handleLoginhandleLogin = () => {
     const { pathname } = this.props.location;
-    if (pathname === "/checkout") {
-      console.log("checkoutLogin: ", this.props.checkoutLogin);
-    } else {
+    if (pathname !== "/checkout") {
       this.handleLogin();
     }
   }

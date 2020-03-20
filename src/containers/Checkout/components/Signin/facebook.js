@@ -8,7 +8,6 @@ import { Notification } from "../../../../components";
 
 class FacebookLogin1 extends React.Component {
   loginSocial = (param) => {
-    console.log("Шинчилсэн хувилбар");
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
       this.loggedData(res);
       if (res.payload.success) {

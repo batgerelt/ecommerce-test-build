@@ -105,14 +105,6 @@ class SwalModals extends Component {
     this.props.history.push("cart");
   }
 
-  scrollTo = (top, left) => {
-    window.scroll({
-      top,
-      left,
-      behavior: 'smooth',
-    });
-  }
-
   onClose = () => {
     MySwal.close();
   }

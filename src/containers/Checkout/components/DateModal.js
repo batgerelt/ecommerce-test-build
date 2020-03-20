@@ -63,7 +63,7 @@ class component extends React.Component {
       let foo = new Date(chosenDate);
       let param = moment(chosenDate).format('YYYY-MM-DD');
 
-      this.setState({ selectedDay: foo/* , DeliveryCycleId: chosenDeliveryCycleId */ });
+      this.setState({ selectedDay: null/* , DeliveryCycleId: chosenDeliveryCycleId */ });
 
       this.props.getDeliveryTime({ deliverydate: param }).then((res) => {
         this.setState({ timeTypes: res.payload.data });
@@ -143,7 +143,7 @@ class component extends React.Component {
 
   handleSubmit = (e) => {
     let foo = moment(this.state.selectedDay).format('YYYY-MM-DD');
-    if (this.state.DeliveryCycleId !== null) {
+    if (this.state.DeliveryCycleId !== null || !this.props.isChooseDeliveryCycleId || this.state.selectedDay !== null) {
       this.props.clickDateFalse();
       this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
     } else {
@@ -156,7 +156,7 @@ class component extends React.Component {
           duration: 3000,
           onScreen: false,
         },
-        content: <Notification type="info" text={"Хүргэлтээр авах цагаа сонгоно уу"} />,
+        content: <Notification type="info" text={"Хүргэлтээр авах өдөр/цаг сонгоно уу"} />,
       });
     }
   }
@@ -164,6 +164,7 @@ class component extends React.Component {
   render() {
     const { locale } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+    const { isChooseDeliveryCycleId } = this.props;
     return (
       <div className="justify-content-center">
         <React.Fragment>
@@ -195,14 +196,19 @@ class component extends React.Component {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={24}>
-                  <Text strong>{this.props.deliveryId !== 3 ? "Хүргэлтээр авах цагаа сонгоно уу" : "Очиж авах цагаа сонгоно уу"}</Text>
-                </Col>
-                <Col span={24}>
-                  <Radio.Group value={this.state.DeliveryCycleId} buttonStyle="solid" onChange={this.handleClick}>
-                    {this.state.timeTypes !== null ? this.renderTimeTypes() : null}
-                  </Radio.Group>
-                </Col>
+                {isChooseDeliveryCycleId ?
+                  <div>
+                    <Col span={24}>
+                      <Text strong>{this.props.deliveryId !== 3 ? "Хүргэлтээр авах цагаа сонгоно уу" : "Очиж авах цагаа сонгоно уу"}</Text>
+                    </Col>
+                    <Col span={24}>
+                      <Radio.Group value={this.state.DeliveryCycleId} buttonStyle="solid" onChange={this.handleClick}>
+                        {this.state.timeTypes !== null ? this.renderTimeTypes() : null}
+                      </Radio.Group>
+                    </Col>
+                  </div>
+                  : null
+                }
               </Spin>
               <Col span={24}>
                 <Divider style={{ marginTop: "0px" }} />

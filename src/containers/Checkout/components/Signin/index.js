@@ -9,8 +9,8 @@ import { Link, Redirect } from "react-router-dom";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import LatinInput from "../../../../components/Input/LatinInput";
-import { GoogleLogin } from "../../../../components/Login/";
 import FacebookLogin from "./facebook";
+import GoogleLogin from "./google";
 import { AdditionQuestion } from "../../../Cart/components";
 
 class Signin extends React.Component {
@@ -21,6 +21,10 @@ class Signin extends React.Component {
       defaultActiveKey: 1,
       shouldRedirect: false,
     };
+  }
+
+  componentWillMount() {
+    console.log("singinIndex");
   }
 
   closeLoginModal = () => { }

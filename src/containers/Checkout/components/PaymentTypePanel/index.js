@@ -110,7 +110,7 @@ class PaymentTypePanel extends React.Component {
               {this.renderIcons(item.id)}
               <p>
                 <span className="text-uppercase" style={{ fontSize: "16px", color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}` }}>{intl.locale === "mn" ? item.name : item.name_en}</span>
-                <span style={{ color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}` }}>{intl.locale === "mn" ? item.description : item.description_en}</span>
+                <span style={{ color: `${item.id === chosenPaymentType.id ? "#494b57" : "black"}`, fontWeight: "unset" }}>{intl.locale === "mn" ? item.description : item.description_en}</span>
               </p>
             </h5>
           </Radio.Button>
@@ -140,6 +140,10 @@ class PaymentTypePanel extends React.Component {
     this.props.changeChosenRadio(e.target.value);
   }
 
+  handleClickCell = (e) => {
+    console.log(e);
+  }
+
   render() {
     const { chosenRadio, chosenPaymentType } = this.props.mainState;
     return (
@@ -159,7 +163,6 @@ class PaymentTypePanel extends React.Component {
                   <Col xs={24} sm={24} md={12} lg={12} xl={12} className="padd10">
                     <div className="form-check" style={{ width: '100%', marginRight: '20px', boxShadow: chosenRadio === 1 ? '0 0 0 1px #feb415' : '' }}>
                       <Radio value={1} style={{ width: '100%' }}>
-                        {/* <img alt="zurag" src={require("../../../../scss/assets/images/demo/shuurhai.png")} /> */}
                         <FormattedMessage id="shared.form.label.individual" />
                       </Radio>
                     </div>

@@ -86,7 +86,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -130,7 +129,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -169,7 +167,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -206,7 +203,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -247,7 +243,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -279,7 +274,6 @@ class CategoryInfo extends React.Component {
       highlight: false,
     };
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success) {
         this.setState({
           products: res.payload.data.hits.hits,
@@ -763,7 +757,6 @@ class CategoryInfo extends React.Component {
     };
 
     this.props.searchProduct({ body: { ...params } }).then((res) => {
-      // window.scrollTo(0, 0);
       if (res.payload.success && res.payload.data) {
         this.setState({
           products: res.payload.data.hits.hits,
