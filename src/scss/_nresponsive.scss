@@ -2159,6 +2159,10 @@ h1.title {
     .static-page{
         padding: 20px 20px !important;
     }
+
+    .page_header_banner_left, .page_header_banner_rigth{
+        display: none;
+    }
 }
 
 // (>= 1200px)
