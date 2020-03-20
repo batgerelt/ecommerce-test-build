@@ -64,6 +64,7 @@ class Checkout extends React.Component {
       deliveryDesc: null,
       timeType: [],
       phone2: null,
+      isChooseDeliveryCycleId: true,
 
       openModal: true,
     };
@@ -72,6 +73,7 @@ class Checkout extends React.Component {
   OpenModal = () => {
     this.setState({ openModal: false });
   }
+
   errorMsg = (txt) => {
     MySwal.fire({
       type: "error",
@@ -148,7 +150,7 @@ class Checkout extends React.Component {
           } else {
             this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
               if (res.payload.success) {
-                this.setState({ deliveryPrice: res.payload.data.price });
+                this.setState({ deliveryPrice: res.payload.data.price, isChooseDeliveryCycleId: res.payload.data.zone === 1 });
               }
             });
           }
@@ -173,7 +175,7 @@ class Checkout extends React.Component {
           };
           this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
             if (res.payload.success) {
-              this.setState({ deliveryPrice: res.payload.data.price });
+              this.setState({ deliveryPrice: res.payload.data.price, isChooseDeliveryCycleId: res.payload.data.zone === 1 });
             }
           });
         }
@@ -197,7 +199,7 @@ class Checkout extends React.Component {
           skucdList: skus,
         };
         this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
-          this.setState({ deliveryPrice: res.payload.data.price });
+          this.setState({ deliveryPrice: res.payload.data.price, isChooseDeliveryCycleId: res.payload.data.zone === 1 });
         });
       }
 
@@ -206,7 +208,7 @@ class Checkout extends React.Component {
           type: "3",
         };
         this.props.getDeliveryPrice({ body: { ...param } }).then((res) => {
-          this.setState({ deliveryPrice: res.payload.data.price });
+          this.setState({ deliveryPrice: 0, isChooseDeliveryCycleId: false });
         });
       }
     }
@@ -322,7 +324,7 @@ class Checkout extends React.Component {
     let temp = moment(item).format('YYYY-MM-DD');
     this.setState({ chosenDate: item }, () => (click === true ? this.getDeliveryPrice(changeCom) : null));
     this.props.getDeliveryTime({ deliverydate: temp }).then((res) => {
-      this.setState({ timeType: res.payload.data, chosenDeliveryCycleId: res.payload.data[0].id });
+      this.setState({ timeType: res.payload.data, chosenDeliveryCycleId: null });
     });
   }
 
@@ -333,6 +335,7 @@ class Checkout extends React.Component {
   }
 
   scrollTo = (top, left) => {
+    console.log("scroller");
     window.scroll({
       top,
       left,
@@ -383,6 +386,10 @@ class Checkout extends React.Component {
     MySwal.close();
   }
 
+  noModalClick = () => {
+    this.setState({ dateClick: false });
+  }
+
   onSubmitDeliveryPanel = (e) => {
     e !== undefined ? e.preventDefault() : '';
     if (!this.state.dateClick) {
@@ -407,6 +414,7 @@ class Checkout extends React.Component {
                 deliveryId={this.state.chosenDelivery.id}
                 openModal={this.state}
                 onSubmitDeliveryPanel={this.onSubmitDeliveryPanel}
+                isChooseDeliveryCycleId={this.state.isChooseDeliveryCycleId}
               />
             ),
             animation: true,
@@ -420,7 +428,6 @@ class Checkout extends React.Component {
             closeOnEsc: true,
           });
         } else if (isMobile) {
-          console.log("end");
           window.scrollTo(0, 300);
         }
       });
@@ -520,11 +527,13 @@ class Checkout extends React.Component {
                   if (isEmail) {
                     this.changeDeliveryType(true);
                     this.setState({ activeKey: "3" });
+                    window.scroll(0, 0);
+                    /* console.log("eddddd");
                     let paymentType = document.getElementById("paymentType");
                     paymentType.scrollIntoView({
                       behavior: 'smooth',
                       block: 'center',
-                    });
+                    }); */
                   }
                 } else {
                   isReturn = false;
@@ -655,6 +664,7 @@ class Checkout extends React.Component {
                               clickDateFalse={this.clickDateFalse}
                               changeZoneSet={this.changeZoneSet}
                               changechosenDeliveryCycleId={this.changechosenDeliveryCycleId}
+                              noModalClick={this.noModalClick}
                             />
                           </Panel>
                           <Panel
@@ -697,23 +707,25 @@ class Checkout extends React.Component {
                 }
                 <div className="col-lg-8 pad10" />
                 {
-                  isMobile ?
-                    !isIOS ?
-                      <div className="custom-sticky">
+                  localStorage.getItem("emartmall_token") ?
+                    isMobile ?
+                      !isIOS ?
+                        <div className="custom-sticky">
+                          <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
+                            <span className="text-uppercase">
+                              {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
+                            </span>
+                          </button>
+                        </div>
+                        :
                         <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
                           <span className="text-uppercase">
                             {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
                           </span>
                         </button>
-                      </div>
                       :
-                      <button className="btn btn-main btn-block" onClick={this.handleSubmit} disabled={!isLoggedIn || submitLoading}>
-                        <span className="text-uppercase">
-                          {activeKey === "2" ? "Төлбөрийн төрөл сонгох" : <FormattedMessage id="shared.sidebar.button.pay" />}
-                        </span>
-                      </button>
-                    :
-                    null
+                      null
+                    : null
                 }
               </div>
             </div>

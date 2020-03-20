@@ -207,7 +207,7 @@ class DeliveryPanel extends React.Component {
   }
 
   changeTab = (e) => {
-    this.props.noModalClick();
+    this.props.clickDateFalse();
     const { deliveryTypes, intl } = this.props;
     let found = deliveryTypes.find(item => item.id === parseInt(e.target.value));
     if (found.isenable === 1) {

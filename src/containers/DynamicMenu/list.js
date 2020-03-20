@@ -360,7 +360,6 @@ class CategoryInfo extends React.Component {
       let array = [];
       let tempArray = [];
       let res = this.props.promotid.split(",");
-
       buckets.map((item) => {
         res.find(i => (Number(i) === item.key ? tempArray.push(item) : null));
       });
@@ -378,16 +377,17 @@ class CategoryInfo extends React.Component {
                   <Link
                     to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.key).id}`}
                     key={key}
-                    className={cat.key === categoryId || cat.key == this.props.match.params.promotid ? "selected" : "selected"}
                   >
-                    <span onClick={() => this.handleClickCategory(cat)}>
-                      {
-                        lang === "mn" ?
-                          promotionall.find(i => i.id === cat.key).name
-                          :
-                          promotionall.find(i => i.id === cat.key).nameen
-                      }
-                    </span>
+                    <li className={cat.key === categoryId || cat.key == this.props.match.params.promotid ? "selected" : "disabled"}>
+                      <span onClick={() => this.handleClickCategory(cat)}>
+                        {
+                          lang === "mn" ?
+                            promotionall.find(i => i.id === cat.key).name
+                            :
+                            promotionall.find(i => i.id === cat.key).nameen
+                        }
+                      </span>
+                    </li>
                   </Link>
                 </div>
               ))

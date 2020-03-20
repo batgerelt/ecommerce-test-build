@@ -119,8 +119,6 @@ class DeliveryInfo extends React.Component {
         }
       } else if (this.state.notif) {
         window.scrollTo(0, 700);
-      } else {
-        window.scrollTo(0, 85);
       }
       this.props.onSubmitDeliveryPanel();
     } else if (mainState.activeKey === '3') {
@@ -296,11 +294,6 @@ class DeliveryInfo extends React.Component {
     social.name = "social";
     social.value = res.payload.data.url.social;
 
-    // let color = document.createElement("input");
-    // social.type = "hidden";
-    // social.name = "color";
-    // social.value = "#FFB81C";
-
     mapForm.appendChild(keyNumber);
     mapForm.appendChild(transNumber);
     mapForm.appendChild(trans_amount);
@@ -308,7 +301,6 @@ class DeliveryInfo extends React.Component {
     mapForm.appendChild(lang_ind);
     mapForm.appendChild(signature);
     mapForm.appendChild(social);
-    // mapForm.appendChild(color);
 
     document.body.appendChild(mapForm);
     let map = window.open(res.payload.data.url.url, "_self", "");
