@@ -549,6 +549,15 @@ h1.title {
     width: 25% !important;
 }
 
+.ck-editor{
+    .content{
+        figure{
+            padding-bottom: 0px !important;
+            height: 400px !important;
+        }
+    }
+}
+
 // lg (< 1200px)
 @media (max-width: 1199px) {
     #root {
@@ -1945,6 +1954,15 @@ h1.title {
             font-size: 20px !important;
         }
     }
+
+    .ck-editor{
+        .content{
+            figure{
+                padding-bottom: 0px !important;
+                height: 300px !important;
+            }
+        }
+    }
 }
 
 // xs (< 576px)
@@ -2238,6 +2256,15 @@ h1.title {
     .recipe-list,
     .package-list {
         margin-top: 20px;
+    }
+
+    .ck-editor{
+        .content{
+            figure{
+                padding-bottom: 0px !important;
+                height: 400px !important;
+            }
+        }
     }
 }
 
