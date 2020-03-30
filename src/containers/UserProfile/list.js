@@ -138,7 +138,7 @@ class List extends React.Component {
 
   renderName(info) {
     const { intl } = this.props;
-    let percents = localStorage.getItem('percent');
+    let percents = Number(localStorage.getItem('percent'));
     try {
       return (
         <span
@@ -175,7 +175,7 @@ class List extends React.Component {
         <Helmet>
           <title>{lang === "mn" ? "Хувийн мэдээлэл" : "Profile"}</title>
         </Helmet>
-        <div className="container" /* style={{ paddingLeft: "5px !important", paddingRight: "5px !important" }} */>
+        <div className="container">
           <div className="user-section">
             <div>
               <Row style={{ width: "100%" }} >

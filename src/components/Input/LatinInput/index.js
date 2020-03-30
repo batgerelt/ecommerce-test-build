@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Tooltip } from "antd";
+import { Input, Tooltip, message } from "antd";
 
 function formatNumber(value) {
   value += '';
@@ -23,6 +23,8 @@ class LatinInput extends React.Component {
     const reg = /^-?(0|[A-Za-z0-9][A-Za-z-_0-9@.]*)(\.[A-Za-z-_0-9@.]*)?$/;
     if (reg.test(value) || value === '') {
       this.props.onChange(value);
+    } else {
+      message.warning("Латин үсэг ашиглана уу");
     }
   };
 

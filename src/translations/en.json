@@ -241,6 +241,7 @@
 	"search.filter.title.color": "Color",
 	"search.filter.title.price": "Price",
 	"search.searchResult.label.found": "found",
+	"search.searchResult.label.product": "products",
 	"search.sort.label": "Sort",
 	"search.sort.values.priceAsc": "Lowest first",
 	"search.sort.values.priceDesc": "Highest first",

@@ -4,39 +4,44 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Spin } from "antd";
 import {
+  DynamicMenu as DynamicMenuModel,
   Banner as BannerModel,
-  Product as ProductModel,
-  Menu as MenuModel,
+  Category as CategoryModel,
   Filter as FilterModel,
   Cart as CartModel,
   Auth as AuthModel,
+  Product as ProductModel,
   Search as SearchModel,
+  Menu as MenuModel,
 } from "../../models";
-import { Loader } from "../../components";
 import List from "./list";
+import { Loader } from "../../components";
 import { LoginModal } from "../../components/Login";
 
 const mapStateToProps = state => ({
+  ...state.dynamicmenu,
   ...state.banner,
-  ...state.product,
-  ...state.menu,
+  ...state.category,
   ...state.filter,
   ...state.cart,
   ...state.auth,
+  ...state.product,
   ...state.search,
-  ...state.category,
-  ...state.attribute,
+  ...state.menu,
   ...state.brand,
+  ...state.attribute,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
-    ...BannerModel,
-    ...ProductModel,
+    ...DynamicMenuModel,
     ...MenuModel,
+    ...BannerModel,
+    ...CategoryModel,
     ...FilterModel,
     ...CartModel,
     ...AuthModel,
+    ...ProductModel,
     ...SearchModel,
   }, dispatch),
 });
@@ -47,8 +52,7 @@ class Page extends React.Component {
     loading: false,
     promotid: null,
   }
-  /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
-  // eslint-disable-next-line camelcase
+
   UNSAFE_componentWillMount() {
     this.getData(this.props.match.params.id);
   }
@@ -91,7 +95,6 @@ class Page extends React.Component {
     );
   }
 }
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

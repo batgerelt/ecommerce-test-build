@@ -107,6 +107,7 @@ class LoginModal extends React.Component {
         if (result.payload.data[0].info.customerInfo.imgnm !== null) {
           let realImage = "";
           let realImage1 = result.payload.data[0].info.customerInfo.imgnm;
+
           if (realImage1.slice(0, 5) === "https") {
             realImage = result.payload.data[0].info.customerInfo.imgnm;
           } else {
@@ -116,6 +117,7 @@ class LoginModal extends React.Component {
         } else {
           localStorage.setItem('img', null);
         }
+
         localStorage.setItem('auth', JSON.stringify(result.payload));
         localStorage.setItem('percent', (Number(result.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
         if (pathname === `/productdetail/${sku}`) {

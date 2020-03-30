@@ -308,7 +308,7 @@ class Component extends React.Component {
               {getFieldDecorator("cardPoint", {
                 initialValue: this.props.epointCardResponse === null ? 0 : this.props.epointCardResponse.success ? formatter.format(card.point) : 0,
               })(
-                <Input className="profi,le-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
+                <Input className="profile-custom-input" disabled style={{ backgroundColor: "white", color: "rgba(0,0,0,.5)" }} />,
               )}
             </Form.Item>
           </Col>

@@ -143,7 +143,25 @@ class component extends React.Component {
 
   handleSubmit = (e) => {
     let foo = moment(this.state.selectedDay).format('YYYY-MM-DD');
-    if (this.state.DeliveryCycleId !== null || !this.props.isChooseDeliveryCycleId || this.state.selectedDay !== null) {
+    const { isChooseDeliveryCycleId } = this.props;
+    if (isChooseDeliveryCycleId) {
+      if (this.state.selectedDay !== null && this.state.DeliveryCycleId) {
+        this.props.clickDateFalse();
+        this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
+      } else {
+        store.addNotification({
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: false,
+          },
+          content: <Notification type="info" text={"Хүргэлтээр авах өдөр/цаг сонгоно уу"} />,
+        });
+      }
+    } else if (this.state.selectedDay !== null) {
       this.props.clickDateFalse();
       this.props.changechosenDeliveryCycleId(this.state.DeliveryCycleId, foo, this.state.timeTypes);
     } else {

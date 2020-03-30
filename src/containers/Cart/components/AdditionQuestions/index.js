@@ -7,7 +7,6 @@
  * @desc [Админ талаас онцгой санал авах барааны санал асуулгыг авах component]
  */
 
-
 import React from 'react';
 import { Modal, Form, Input, Icon } from 'antd';
 
@@ -22,11 +21,11 @@ class component extends React.Component {
   render() {
     const { addionquestions, isAddionLoading, redirectUrl } = this.props;
     const { getFieldDecorator } = this.props.form;
-
     (addionquestions.length === 0 && isAddionLoading === false) && redirectUrl && this.props.redirectUrl();
     try {
       return addionquestions.length !== 0 && (
         <Modal
+          title={addionquestions[0].skunm}
           visible={addionquestions.length !== 0}
           onCancel={() => this.props.removeAdditionQuestiom(addionquestions[0])}
           onOk={e => this.handleSubmit(e, addionquestions[0].skucd)}

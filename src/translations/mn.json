@@ -241,6 +241,7 @@
 	"search.filter.title.color": "Өнгө",
 	"search.filter.title.price": "Үнэ",
 	"search.searchResult.label.found": "бараа олдлоо",
+	"search.searchResult.label.product": "бараа",
 	"search.sort.label": "Эрэмбэлэх",
 	"search.sort.values.priceAsc": "Үнэ өсөхөөр",
 	"search.sort.values.priceDesc": "Үнэ буурахаар",

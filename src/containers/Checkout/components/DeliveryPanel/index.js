@@ -639,7 +639,7 @@ class DeliveryPanel extends React.Component {
                     disabledDate={this.disabledDate}
                   />
                 </Col>
-                {mainState.isChooseDeliveryCycleId || defaultActiveKey !== 3 ?
+                {mainState.isChooseDeliveryCycleId && defaultActiveKey !== 3 ?
                   <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                     <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.deliverycycle" }) : intl.formatMessage({ id: "shared.form.deliverycycleGet" })}</span>
                     <Form.Item>
