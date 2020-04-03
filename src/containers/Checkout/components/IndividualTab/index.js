@@ -156,6 +156,7 @@ class IndividualTab extends React.Component {
           let usedPoint = 0;
           if (point > 0) {
             let deliveryPrice = chosenType.price;
+            console.log("epoint onoo: ", deliveryPrice);
             let tmp = mainState.cardInfo;
             if ((deliveryPrice + totalPrice) / 2 > tmp.point) {
               tmp.point = (parseFloat(tmp.point) - parseInt(point)).toFixed(2);

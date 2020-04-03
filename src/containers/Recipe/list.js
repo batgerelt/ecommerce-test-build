@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable brace-style */
 /* eslint-disable arrow-body-style */
@@ -15,7 +16,8 @@ import {
 } from "react-virtualized";
 import { BackTop } from "antd";
 import windowSize from 'react-window-size';
-import { CardList, Banner, PageBanner, Card } from "../../components";
+import { Banner, PageBanner, Card } from "../../components";
+import CardList from "./cardList";
 import { CARD_LIST_TYPES, CARD_TYPES } from "../../utils/Consts";
 
 const ITEM_HEIGHT = 870;
@@ -104,32 +106,36 @@ class Recipe extends React.Component {
 
   generateItemHeight = (item, width) => {
     let tmp;
-    const { windowWidth } = this.props;
-    switch (windowWidth) {
-      case windowWidth < 321:
-        tmp = 2360;
-        break;
-      case windowWidth < 376:
+    let windowWidth = this.props.windowWidth;
+
+    if (windowWidth < 321) {
+      tmp = 2360;
+    } else if (windowWidth < 376) {
+      if (this.props.recipeScroll[item.index].length < 6) {
+        tmp = 315 * this.props.recipeScroll[item.index].length;
+      } else {
         tmp = 2655;
-        break;
-      case windowWidth < 415:
-        tmp = 2865;
-        break;
-      case windowWidth < 576:
-        tmp = 3700;
-        break;
-      case windowWidth < 768:
-        tmp = 535;
-        break;
-      case windowWidth < 992:
-        tmp = 645;
-        break;
-      case windowWidth < 1200:
-        tmp = 795;
-        break;
-      default:
-        tmp = 900;
-        break;
+      }
+    } else if (windowWidth < 415) {
+      if (this.props.recipeScroll[item.index].length < 6) {
+        tmp = 342 * this.props.recipeScroll[item.index].length;
+      } else {
+        tmp = 2850;
+      }
+    } else if (windowWidth < 576) {
+      tmp = 3700;
+    } else if (windowWidth <= 768) {
+      tmp = 535;
+    } else if (windowWidth < 992) {
+      tmp = 645;
+    } else if (windowWidth < 1200) {
+      tmp = 705;
+    } else if (this.props.recipeScroll[item.index].length > 3 && this.props.recipeScroll[item.index].length < 6) {
+      tmp = 640;
+    } else if (this.props.recipeScroll[item.index].length < 4) {
+      tmp = 325;
+    } else {
+      tmp = 900;
     }
     return tmp;
   }
@@ -165,8 +171,8 @@ class Recipe extends React.Component {
                             onRowsRendered={onRowsRendered}
                             rowRenderer={({ index, style, key }) => {
                               return (
-                                <div style={style} key={key} className="">
-                                  {recipeScroll[index].length >= 6 ?
+                                <div style={style} key={key}>
+                                  {recipeScroll[index].length === 6 ?
                                     (
                                       <CardList
                                         cardListType={CARD_LIST_TYPES.vertical}
@@ -218,3 +224,32 @@ class Recipe extends React.Component {
 }
 
 export default windowSize(injectIntl(Recipe));
+/* switch (windowWidth) {
+      case windowWidth < 321:
+        tmp = 2360;
+        break;
+      case windowWidth < 376:
+        tmp = 2655;
+        break;
+      case windowWidth < 415:
+        tmp = 2865;
+        break;
+      case windowWidth < 576:
+        tmp = 3700;
+        break;
+      case windowWidth < 768:
+        tmp = 535;
+        break;
+      case windowWidth < 992:
+        tmp = 645;
+        if (item.index + 1 === this.props.recipeScroll.length) {
+          tmp = 230;
+        }
+        break;
+      case windowWidth < 1200:
+        tmp = 795;
+        break;
+      default:
+        tmp = 900;
+        break;
+    } */
