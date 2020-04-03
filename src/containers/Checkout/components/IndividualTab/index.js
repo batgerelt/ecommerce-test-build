@@ -149,6 +149,7 @@ class IndividualTab extends React.Component {
     if (password) {
       let cardno = mainState.cardInfo.cardno;
       this.props.checkEpointPin({ cardno, pincode: password }).then((res) => {
+        console.log(mainState);
         if (res.payload.success) {
           let chosenType = mainState.chosenDelivery;
           let totalPrice = mainState.totalPrice;
@@ -164,7 +165,7 @@ class IndividualTab extends React.Component {
               this.props.changeEpointUsedPoint(usedPoint);
             } else {
               tmp.point = (parseFloat(point) - parseFloat((deliveryPrice + totalPrice) / 2)).toFixed(2);
-              usedPoint = parseInt((deliveryPrice + totalPrice) / 2);
+              usedPoint = mainState.chosenDelivery.id !== 3 ? parseInt((deliveryPrice + totalPrice) / 2) : parseInt(totalPrice / 2);
               this.props.changeCardInfo(tmp);
               this.props.changeEpointUsedPoint(usedPoint);
             }

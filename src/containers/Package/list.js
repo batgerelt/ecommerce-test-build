@@ -96,42 +96,47 @@ class Discount extends React.Component {
   noRowsRenderer = () => null
 
   generateItemHeight = (item, width) => {
-    // try {
-    //   const { packageScroll } = this.props;
-    //   if (packageScroll[item.index].length <= 3) {
-    //     return 326.5;
-    //   }
-    //   if (width >= 300 && width < 390) {
-    //     return 1870.06;
-    //   }
-
-    //   if (width >= 390 && width < 480) {
-    //     return 2400;
-    //   }
-    //   if (width <= 752) {
-    //     return 2869.5;
-    //   }
-    //   return ITEM_HEIGHT;
-    // } catch (error) {
-    //   return console.log(error);
-    // }
-
     let tmp;
-
     const { windowWidth } = this.props;
-
     // iPhone 5/SE
+    let len = this.props.packageScroll[item.index].length;
     if (windowWidth < 321) {
       tmp = 1825;
     }
     // iPhone 6/7/8
     else if (windowWidth < 376) {
-      tmp = 2025;
+      if (len === 7 || len === 6) {
+        tmp = 1550;
+      } else if (len === 5 || len === 4) {
+        tmp = 1280;
+      } else if (len === 3) {
+        tmp = 960;
+      } else if (len === 2) {
+        tmp = 640;
+      } else if (len === 1) {
+        tmp = 320;
+      } else {
+        tmp = 2025;
+      }
     }
     // iPhone 6/7/8 Plus
     else if (windowWidth < 415) {
-      tmp = 2170;
+      if (len === 7 || len === 6) {
+        tmp = 1650;
+      } else if (len === 5 || len === 4) {
+        tmp = 1330;
+      } else if (len === 3) {
+        // 324
+        tmp = 1030;
+      } else if (len === 2) {
+        tmp = 680;
+      } else if (len === 1) {
+        tmp = 340;
+      } else {
+        tmp = 2170;
+      }
     }
+
     // mobile (horizontal)
     else if (windowWidth < 576) {
       tmp = 2735;
@@ -141,10 +146,11 @@ class Discount extends React.Component {
       tmp = 1350;
     } else if (windowWidth < 1200) {
       tmp = 1060;
+    } else if (this.props.packageScroll[item.index].length < 4) {
+      tmp = 330;
     } else {
       tmp = 655;
     }
-
     return tmp;
   }
 
