@@ -34,7 +34,7 @@ class Banner extends React.Component {
                 id="banner-image-id"
                 alt="banner"
                 src={process.env.IMAGE + (width < 767 ?  selected.mobimgnm : selected.imgnm)}
-                className="img-fluid"
+                className="img-fluid middle-panner"
               />
             </a>
           </div>
