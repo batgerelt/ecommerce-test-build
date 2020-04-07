@@ -71,8 +71,8 @@ class CategoryInfo extends React.Component {
 
   renderHelmet = () => (
     <Helmet>
-        {/* HTML META TAGS */}
-        <title>Emart-Online</title>
+      {/* HTML META TAGS */}
+      <title>Emart-Online</title>
     </Helmet>
   )
 

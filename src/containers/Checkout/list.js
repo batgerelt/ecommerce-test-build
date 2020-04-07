@@ -128,6 +128,7 @@ class Checkout extends React.Component {
         if (last === false) {
           this.setState({ deliveryPrice: 0 });
         }
+
         if (this.props.userinfo.main !== null) {
           let type = "1";
           if (this.state.chosenDelivery.id !== undefined) {
@@ -318,8 +319,6 @@ class Checkout extends React.Component {
     this.setState({ chosenDelivery: item }, () => this.getDeliveryPrice(last));
   }
 
-  getDeliveryTypeValue = (body, date) => { }
-
   changeChosenDate = (item, changeCom, click) => {
     let temp = moment(item).format('YYYY-MM-DD');
     this.setState({ chosenDate: item }, () => (click === true ? this.getDeliveryPrice(changeCom) : null));
@@ -345,12 +344,14 @@ class Checkout extends React.Component {
 
   callback = (key) => {
     const { activeKey } = this.state;
-    if (key === "3" && activeKey === "2") {
-      this.onSubmitDeliveryPanel();
-    } else if (key === "2" && activeKey === "3") {
-      this.setState({ activeKey: "2" });
-    } else {
-      this.setState({ activeKey: key });
+    if (key) {
+      if (key === "3" && activeKey === "2") {
+        this.onSubmitDeliveryPanel();
+      } else if (key === "2" && activeKey === "3") {
+        this.setState({ activeKey: "2" });
+      } else {
+        this.setState({ activeKey: key });
+      }
     }
   };
 
@@ -528,12 +529,6 @@ class Checkout extends React.Component {
                     this.changeDeliveryType(true);
                     this.setState({ activeKey: "3" });
                     window.scroll(0, 0);
-                    /* console.log("eddddd");
-                    let paymentType = document.getElementById("paymentType");
-                    paymentType.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'center',
-                    }); */
                   }
                 } else {
                   isReturn = false;
@@ -635,8 +630,8 @@ class Checkout extends React.Component {
                           {
                             localStorage.getItem("auth") === null ?
                               <Panel
-                                showArrow={false}
                                 header={this.customerTab()}
+                                showArrow={false}
                                 key="1"
                               >
                                 <LoginRegisterPanel onRef={ref => (this.LoginRegisterPanel = ref)} {...this} {...this.props} />
@@ -646,15 +641,14 @@ class Checkout extends React.Component {
                           <Panel
                             header={this.deliveryInfo()}
                             showArrow={false}
-                            disabled={!this.checkLoggedIn()}
                             key={"2"}
+                            disabled={!this.checkLoggedIn()}
                             id="deliveryPanelID"
                           >
                             <DeliveryPanel
                               {...this.props}
                               mainState={this.state}
                               changeDeliveryTab={this.changeDeliveryTab}
-                              getDeliveryTypeValue={this.getDeliveryTypeValue}
                               changeChosenAddress={this.changeChosenAddress}
                               changeAddressType={this.changeAddressType}
                               setDeliveryPanelForm={this.setDeliveryPanelForm}

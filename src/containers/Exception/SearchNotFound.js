@@ -4,7 +4,7 @@ import emptyCart from "../../scss/assets/icon/cart.jpg";
 class SearchNotFound extends Component {
   render() {
     return (
-      <div className="search-not-found">
+      <div className="search-not-found" style={{ marginTop: "20px" }}>
         <div className="text-center">
           <img src={emptyCart} alt="empty-cart" width={150} />
           <span>

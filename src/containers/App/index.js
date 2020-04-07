@@ -138,46 +138,44 @@ class App extends Component {
 
                     {/** Үндсэн root болон nested root-үүд доор байрлана */}
                     <Layout.Content>
-                      <div>
-                        <Switch>
-                          <Route exact path="/" component={Home} />
-                          <Route path="/discount" component={Discount} />
-                          <Route path="/new" component={New} />
-                          <Route path="/recipe" component={Recipe} />
-                          <Route path="/package" component={Package} />
-                          <Route path="/productdetail/:id/:orderid" component={ProductDetail} />
-                          <Route path="/productdetail/:id" component={ProductDetail} />
-                          <Route path="/checkout" component={Checkout} />
-                          <Route path="/info/:id" component={Static} />
-                          <Route path="/category/:id" component={Category} />
-                          <Route path="/brand/:id" component={Brand} />
-                          <Route path="/recipedetail/:id" component={RecipeDetail} />
-                          <Route path="/cart" component={Cart} />
-                          <Route path="/packagedetail/:id" component={PackageDetail} />
-                          <Route path="/emart" component={Emart} />
-                          <Route path="/profile" component={Profile} />
-                          <Route path="/search/:cat/:time" component={Search} />
-                          <Route path="/ResetPassword/:key" component={PassReset} />
-                          <Route path="/confirm/:key" component={Confirm} />
-                          <Route path="/order/:id" component={Order} />
-                          <Route path="/golomtPayment" component={PaymentReturn} />
-                          <Route path="/qpayReturn" component={PaymentReturn} />
+                      <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/discount" component={Discount} />
+                        <Route path="/new" component={New} />
+                        <Route path="/recipe" component={Recipe} />
+                        <Route path="/package" component={Package} />
+                        <Route path="/productdetail/:id/:orderid" component={ProductDetail} />
+                        <Route path="/productdetail/:id" component={ProductDetail} />
+                        <Route path="/checkout" component={Checkout} />
+                        <Route path="/info/:id" component={Static} />
+                        <Route path="/category/:id" component={Category} />
+                        <Route path="/brand/:id" component={Brand} />
+                        <Route path="/recipedetail/:id" component={RecipeDetail} />
+                        <Route path="/cart" component={Cart} />
+                        <Route path="/packagedetail/:id" component={PackageDetail} />
+                        <Route path="/emart" component={Emart} />
+                        <Route path="/profile" component={Profile} />
+                        <Route path="/search/:cat/:time" component={Search} />
+                        <Route path="/ResetPassword/:key" component={PassReset} />
+                        <Route path="/confirm/:key" component={Confirm} />
+                        <Route path="/order/:id" component={Order} />
+                        <Route path="/golomtPayment" component={PaymentReturn} />
+                        <Route path="/qpayReturn" component={PaymentReturn} />
 
-                          <Route path="/e/:id/:promotid" component={DynamicMenu} />
-                          <Route path="/e/:id" component={DynamicMenu} />
+                        <Route path="/e/:id/:promotid" component={DynamicMenu} />
+                        <Route path="/e/:id" component={DynamicMenu} />
 
-                          <Route path="*" component={Notfound} />
-                        </Switch>
-                      </div>
+                        <Route path="*" component={Notfound} />
+                      </Switch>
                     </Layout.Content>
                   </ScrollToTop>
-                  <MessengerCustomerChat
+                  {/* <MessengerCustomerChat
                     pageId="1438714326447694"
                     appId="703587213505099"
                     htmlRef={"www.emartmall.mn"}
                     themeColor="#ffb200"
                     minimized
-                  />
+                  /> */}
                   <ReactNotification />
                   <Footer {...this.props} />
                 </Layout>

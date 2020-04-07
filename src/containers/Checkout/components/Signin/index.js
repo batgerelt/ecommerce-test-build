@@ -23,14 +23,9 @@ class Signin extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log("singinIndex");
-  }
-
   closeLoginModal = () => { }
 
   loginSocial = (param) => {
-    console.log("Шинчилсэн хувилбар");
     this.props.ouathLog({ body: { ...param } }).then(async (res) => {
       this.loggedData(res);
       if (res.payload.success) {

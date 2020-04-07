@@ -5,22 +5,15 @@ import { FormattedMessage } from 'react-intl';
 
 class GoogleLogin extends React.Component {
   componentWillMount() {
-    console.log("willmount");
     this.googleSDK();
   }
 
-  componentDidMount() {
-    console.log("didMount");
-  }
-
   prepareLoginButton = () => {
-    console.log("googleClick");
     this.auth2.attachClickHandler(
       this.refs.googleLoginBtn,
       {},
       (googleUser) => {
         const profile = googleUser.getBasicProfile();
-        console.log('profile: ', profile);
         let param = {
           username: profile.getName(),
           firstname: profile.getName(),
