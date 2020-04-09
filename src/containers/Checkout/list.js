@@ -323,7 +323,10 @@ class Checkout extends React.Component {
     let temp = moment(item).format('YYYY-MM-DD');
     this.setState({ chosenDate: item }, () => (click === true ? this.getDeliveryPrice(changeCom) : null));
     this.props.getDeliveryTime({ deliverydate: temp }).then((res) => {
-      this.setState({ timeType: res.payload.data, chosenDeliveryCycleId: null });
+      this.state.deliveryPanelForm.setFieldsValue({
+        deliveryTime: null,
+      });
+      this.setState({ timeType: res.payload.data, dateClick: false });
     });
   }
 
@@ -334,7 +337,6 @@ class Checkout extends React.Component {
   }
 
   scrollTo = (top, left) => {
-    console.log("scroller");
     window.scroll({
       top,
       left,
