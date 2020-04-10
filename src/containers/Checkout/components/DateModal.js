@@ -122,7 +122,7 @@ class component extends React.Component {
 
   getDelivery = (myDateString) => {
     this.props.getDeliveryTime({ deliverydate: myDateString }).then((res) => {
-      this.setState({ timeTypes: res.payload.data/* , DeliveryCycleId: res.payload.data[0].id */ }, () => this.setState({ load: false }));
+      this.setState({ timeTypes: res.payload.data, DeliveryCycleId: null }, () => this.setState({ load: false }));
     });
   }
 
