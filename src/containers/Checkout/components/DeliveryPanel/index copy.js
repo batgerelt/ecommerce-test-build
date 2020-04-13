@@ -1,16 +1,9 @@
-/* eslint-disable react/jsx-indent */
-/* eslint-disable array-callback-return */
-/* eslint-disable radix */
-/* eslint-disable consistent-return */
-/* eslint-disable no-extra-semi */
 /* eslint-disable use-isnan */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable arrow-body-style */
-/* eslint-disable eol-last */
-/* eslint-disable no-unneeded-ternary */
-/* eslint-disable prefer-template */
 /* eslint-disable prefer-destructuring */
-/* eslint-disable import/newline-after-import */
+/* eslint-disable consistent-return */
+/* eslint-disable camelcase */
+/* eslint-disable react/jsx-indent */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Input, Form, Select, DatePicker, message, Radio, notification, Col, Button, Divider } from "antd";
@@ -19,7 +12,8 @@ import moment from "moment";
 import { Notification } from "../../../../components";
 import LetterInput from "../../../../components/Input/LetterInput";
 import DateModal from "../DateModal";
-const Option = Select.Option;
+
+const { Option } = Select;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 
@@ -41,7 +35,6 @@ class DeliveryPanel extends React.Component {
     explanation: null,
   };
 
-  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     try {
       const { main, info } = this.props.userinfo;
@@ -207,12 +200,12 @@ class DeliveryPanel extends React.Component {
   }
 
   changeTab = (e) => {
-    this.props.clickDateFalse();
+    this.props.noModalClick();
     const { deliveryTypes, intl } = this.props;
-    let found = deliveryTypes.find(item => item.id === parseInt(e.target.value));
+    let found = deliveryTypes.find(item => item.id === parseInt(e.target.value, 10));
     if (found.isenable === 1) {
       this.props.changeDeliveryTab(found, this.state.changeCom);
-      this.setState({ defaultActiveKey: e.target.value, requiredField: found.id === 3 ? false : true }, () => {
+      this.setState({ defaultActiveKey: e.target.value, requiredField: found.id !== 3 }, () => {
         this.getZoneSetting(this.props.mainState.chosenAddress);
         this.props.form.validateFields(['districtid', 'provinceid', 'committeeid', 'address'], { force: true });
       });
@@ -251,9 +244,7 @@ class DeliveryPanel extends React.Component {
   renderLocation = (locations) => {
     let tmp;
     if (locations.length !== 0) {
-      tmp = locations.map((item, i) => {
-        return (<Option key={i} value={item.id}>{item.name}</Option>);
-      });
+      tmp = locations.map((item, i) => (<Option key={i} value={item.id}>{item.name}</Option>));
     }
     return tmp;
   }
@@ -261,9 +252,7 @@ class DeliveryPanel extends React.Component {
   renderLocationCommit = (locations) => {
     let tmp;
     if (locations.length !== 0 && this.state.changeDist) {
-      tmp = locations.map((item, i) => {
-        return (<Option key={i} value={item.id}>{item.name}</Option>);
-      });
+      tmp = locations.map((item, i) => (<Option key={i} value={item.id}>{item.name}</Option>));
     }
     return tmp;
   }
@@ -276,7 +265,7 @@ class DeliveryPanel extends React.Component {
       if (userinfo.addrs.length !== 0) {
         tmp = userinfo.addrs.map((item, i) => {
           item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
-          return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
+          return (<Option key={i} value={item.id}>{`${main} - ${item.address}`}</Option>);
         });
       }
       return tmp;
@@ -295,6 +284,7 @@ class DeliveryPanel extends React.Component {
         if (moment(item.restdate, "YYYY-MM-DD").valueOf() === currentDateMill) {
           tmp = true;
         }
+        return null;
       });
       if (moment(zoneSetting.deliveryDate, "YYYY-MM-DD").add(30, 'days').valueOf() <= currentDateMill) {
         tmp = true;
@@ -304,8 +294,6 @@ class DeliveryPanel extends React.Component {
   };
 
   dateStringChange = (date, datestring) => {
-    /* let click = true;
-    this.props.clickDate(); */
     this.props.changeChosenDate(datestring, this.state.changeCom);
   }
 
@@ -409,8 +397,8 @@ class DeliveryPanel extends React.Component {
                   {
                     deliveryTypes.map((item, i) => {
                       let k = item.logo;
-                      if (parseInt(defaultActiveKey) === item.id) {
-                        k = item.logo.split(".")[0] + "color." + item.logo.split(".")[1];
+                      if (parseInt(defaultActiveKey, 10) === item.id) {
+                        k = `${item.logo.split(".")[0]}color.${item.logo.split(".")[1]}`;
                       }
                       return (
                         <Col xs={24} sm={24} md={24 / deliveryTypes.length} lg={24 / deliveryTypes.length} xl={24 / deliveryTypes.length} className="padd10" key={i}>
@@ -420,7 +408,7 @@ class DeliveryPanel extends React.Component {
                               paddingTop: '5px',
                               paddingBottom: '5px',
                               borderRadius: "4px",
-                              boxShadow: parseInt(defaultActiveKey) === item.id ? '0 0 0 1px #feb415' : '',
+                              boxShadow: parseInt(defaultActiveKey, 10) === item.id ? '0 0 0 1px #feb415' : '',
                             }}
                             onClick={e => this.changeTabError(e, item)}
                           >
@@ -429,7 +417,7 @@ class DeliveryPanel extends React.Component {
                                 alt="icon"
                                 width="30px"
                                 height="30px"
-                                src={require("../../../../scss/assets/images/demo/" + k)}
+                                src={require(`../../../../scss/assets/images/demo/${k}`)}
                               />
                               <strong className="deliveryTypeName" >{intl.locale === "mn" ? item.typenm : item.typenm_en}</strong>
                             </Radio>
@@ -486,7 +474,7 @@ class DeliveryPanel extends React.Component {
                           className="col-md-12"
                           placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
                           autoComplete="off"
-                          disabled={info.email === null ? false : true}
+                          disabled={info.email !== null}
                         />,
                       )}
                     </Form.Item>
@@ -564,7 +552,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("districtid", {
                           initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.districtid),
-                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
+                          rules: [{ required: defaultActiveKey !== "3", message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
                         })(
                           <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
                             <Option value={null} disabled>Сонгох</Option>
@@ -578,7 +566,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("committeeid", {
                           initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.committeeid),
-                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
+                          rules: [{ required: defaultActiveKey !== "3", message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
                         })(
                           <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
                             <Option value={null} disabled>Сонгох</Option>
@@ -592,7 +580,7 @@ class DeliveryPanel extends React.Component {
                       <Form.Item>
                         {getFieldDecorator("address", {
                           initialValue: this.checkError(chosenAddress.address),
-                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                          rules: [{ required: defaultActiveKey !== "3", message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
                         })(
                           <Input className="col-md-12" size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
                         )}
@@ -639,7 +627,7 @@ class DeliveryPanel extends React.Component {
                     disabledDate={this.disabledDate}
                   />
                 </Col>
-                {mainState.isChooseDeliveryCycleId || defaultActiveKey !== 3 ?
+                {mainState.isChooseDeliveryCycleId && defaultActiveKey !== 3 ?
                   <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
                     <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.deliverycycle" }) : intl.formatMessage({ id: "shared.form.deliverycycleGet" })}</span>
                     <Form.Item>

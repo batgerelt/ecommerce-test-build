@@ -19,8 +19,6 @@ import moment from "moment";
 import { Notification } from "../../../../components";
 import LetterInput from "../../../../components/Input/LetterInput";
 import DateModal from "../DateModal";
-import StandartPurchase from "./standartPurchase";
-import Getyourself from "./getYourself";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
@@ -209,7 +207,7 @@ class DeliveryPanel extends React.Component {
   }
 
   changeTab = (e) => {
-    this.props.noModalClick();
+    this.props.clickDateFalse();
     const { deliveryTypes, intl } = this.props;
     let found = deliveryTypes.find(item => item.id === parseInt(e.target.value));
     if (found.isenable === 1) {
@@ -250,6 +248,42 @@ class DeliveryPanel extends React.Component {
     }
   }
 
+  renderLocation = (locations) => {
+    let tmp;
+    if (locations.length !== 0) {
+      tmp = locations.map((item, i) => {
+        return (<Option key={i} value={item.id}>{item.name}</Option>);
+      });
+    }
+    return tmp;
+  }
+
+  renderLocationCommit = (locations) => {
+    let tmp;
+    if (locations.length !== 0 && this.state.changeDist) {
+      tmp = locations.map((item, i) => {
+        return (<Option key={i} value={item.id}>{item.name}</Option>);
+      });
+    }
+    return tmp;
+  }
+
+  renderAddrsOption = () => {
+    try {
+      const { userinfo, intl } = this.props;
+      let tmp;
+      let main = "";
+      if (userinfo.addrs.length !== 0) {
+        tmp = userinfo.addrs.map((item, i) => {
+          item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
+          return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
+        });
+      }
+      return tmp;
+    } catch (error) {
+      return console.log(error);
+    }
+  };
 
   disabledDate = (current) => {
     const { zoneSetting } = this.state;
@@ -270,6 +304,8 @@ class DeliveryPanel extends React.Component {
   };
 
   dateStringChange = (date, datestring) => {
+    /* let click = true;
+    this.props.clickDate(); */
     this.props.changeChosenDate(datestring, this.state.changeCom);
   }
 
@@ -319,6 +355,15 @@ class DeliveryPanel extends React.Component {
     this.props.form.setFieldsValue({ name: value });
   };
 
+  renderDeliveryCycle = () => {
+    try {
+      const { timeType } = this.props.mainState;
+      let temp = timeType.map((item, key) => (<Option value={item.id} key={key}>{item.cyclenm}{" "}{item.stime}{"-"}{item.etime}</Option>));
+      return temp;
+    } catch (error) {
+      return null;
+    }
+  }
 
   onDeliveryCycle = (e) => {
     this.props.changechosenDeliveryCycleId(e, this.props.mainState.chosenDate, this.props.mainState.timeType);
@@ -338,55 +383,13 @@ class DeliveryPanel extends React.Component {
     }
   }
 
-  renderDeliveryCycle = () => {
-    try {
-      const { timeType } = this.props.mainState;
-      let temp = timeType.map((item, key) => (<Option value={item.id} key={key}>{item.cyclenm}{" "}{item.stime}{"-"}{item.etime}</Option>));
-      return temp;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  renderAddrsOption = () => {
-    try {
-      const { userinfo, intl } = this.props;
-      let tmp;
-      let main = "";
-      if (userinfo.addrs.length !== 0) {
-        tmp = userinfo.addrs.map((item, i) => {
-          item.ismain === 1 ? main = intl.formatMessage({ id: "shared.form.address1.placeholder" }) : main = intl.formatMessage({ id: "shared.form.address2.placeholder" });
-          return (<Option key={i} value={item.id}>{main + " - " + item.address}</Option>);
-        });
-      }
-      return tmp;
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  renderLocationCommit = (locations) => {
-    let tmp;
-    if (locations.length !== 0 && this.state.changeDist) {
-      tmp = locations.map((item, i) => {
-        return (<Option key={i} value={item.id}>{item.name}</Option>);
-      });
-    }
-    return tmp;
-  }
-
-  renderLocation = (locations) => {
-    let tmp;
-    if (locations.length !== 0) {
-      tmp = locations.map((item, i) => {
-        return (<Option key={i} value={item.id}>{item.name}</Option>);
-      });
-    }
-    return tmp;
-  }
-
   render() {
-    const { defaultActiveKey } = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const {
+      defaultActiveKey, districtLocation, selectLoading,
+      noAddress, committeLocation, dateLoading,
+    } = this.state;
+    const { chosenAddress, chosenDate } = this.props.mainState;
     const {
       deliveryTypes,
       systemlocation,
@@ -394,6 +397,8 @@ class DeliveryPanel extends React.Component {
       mainState,
     } = this.props;
     const lang = intl.locale;
+    const { main, info } = this.props.userinfo;
+    let location = "location";
     if (this.props.userinfo.info !== undefined) {
       return (
         <div>
@@ -451,8 +456,205 @@ class DeliveryPanel extends React.Component {
                     </div>
                   </Col>
                 </Col>
-                {defaultActiveKey === 1 || defaultActiveKey === 2 ? <StandartPurchase {...this} {...this.props} bigState={this.state} /> : null}
-                {defaultActiveKey === 3 ? <Getyourself {...this} {...this.props} bigState={this.state} /> : null}
+                <Col span={24}>
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.firstname.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("name", {
+                        initialValue: this.checkError(chosenAddress.name),
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.customerName.validation.required" }) }],
+                      })(
+                        <LetterInput size="large" autoComplete="off" allowclear placeholder={intl.formatMessage({ id: "shared.form.customerName.placeholder" })} className="col-md-12" onChange={this.onChangeLast} />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.email.placeholder" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("email", {
+                        initialValue: this.checkError(info.email),
+                        rules: [
+                          {
+                            required: true,
+                            message: intl.formatMessage({ id: "shared.form.email.validation.required" }),
+                            type: "email",
+                          },
+                        ],
+                      })(
+                        <Input
+                          size="large"
+                          className="col-md-12"
+                          placeholder={intl.formatMessage({ id: "shared.form.email.placeholder" })}
+                          autoComplete="off"
+                          disabled={info.email === null ? false : true}
+                        />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 1</span>
+                    <Form.Item>
+                      {getFieldDecorator("phone1", {
+                        initialValue: this.checkError(chosenAddress.phone1),
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                        { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                        { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+                      })(
+                        <Input size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Col>
+                <Col span={24}>
+                  {defaultActiveKey !== 3 && main !== null ? (
+                    <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
+                      <Col xs={20} sm={20} md={22} lg={22} xl={22}>
+                        <span className="top-text">{intl.formatMessage({ id: "shared.form.addressSelect.placeholder" })}</span>
+                        <Form.Item className="select-button">
+                          {getFieldDecorator("id", {
+                            initialValue: this.checkError(chosenAddress.id),
+                            rules: [{ required: false, message: "Хаяг оруулна уу" }],
+                          })(
+                            <Select onChange={this.onChangeLoc} disabled={noAddress} optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.address.selectAddress.placeholder" })} className="add-select">
+                              {this.renderAddrsOption()}
+                            </Select>,
+                          )}
+                        </Form.Item>
+                      </Col>
+                      <Col xs={4} sm={4} md={2} lg={2} xl={2}>
+                        <Button className="addAddressBtn" onClick={this.handleAddAddress} icon="plus" size="large" style={{ borderRadius: "0px 4px 4px 0px", borderLeft: 'none', width: '100%' }} />
+                      </Col>
+                    </Col>
+                  ) : (
+                      null
+                    )}
+                  <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10">
+                    <span className="top-text">{intl.formatMessage({ id: "shared.form.phone1.placeholder" })} 2</span>
+                    <Form.Item>
+                      {getFieldDecorator("phone2", {
+                        initialValue: null,
+                        rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.phone1.validation.required" }) },
+                        { validator: this.compareToFirstPassword },
+                        { pattern: new RegExp("^[0-9]*$"), message: intl.formatMessage({ id: "shared.form.phone1.validation.pattern" }) },
+                        { len: 8, message: intl.formatMessage({ id: "shared.form.phone1.validation.min" }) }],
+
+                      })(
+                        <Input size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.phone1.placeholder" })} className="col-md-12" />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Col>
+                {defaultActiveKey !== 3 ? (
+                  <Col span={24}>
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.city.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("provinceid", {
+                          initialValue: `${systemlocation.find(i => i.gbn === 'U') === undefined ? [] : systemlocation.find(i => i.gbn === 'U').id}`,
+                          rules: [{ required: true, message: intl.formatMessage({ id: "shared.form.city.validation.required" }) }],
+                        })(
+                          <Select disabled placeholder={intl.formatMessage({ id: "shared.form.city.placeholder" })} showSearch optionFilterProp="children" className="col-md-12" onChange={this.onChangeMainLoc} >
+                            {this.renderLocation(systemlocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.district.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("districtid", {
+                          initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.districtid),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.district.validation.required" }) }],
+                        })(
+                          <Select className="col-md-12" showSearch optionFilterProp="children" placeholder={intl.formatMessage({ id: "shared.form.district.placeholder" })} onChange={this.onChangeDistLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Option value={null} disabled>Сонгох</Option>
+                            {this.renderLocation(districtLocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.khoroo.placeholder" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("committeeid", {
+                          initialValue: this.props.userinfo.main === null ? "" : this.checkError(chosenAddress.committeeid),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.khoroo.validation.required" }) }],
+                        })(
+                          <Select className="col-md-12" placeholder={intl.formatMessage({ id: "shared.form.khoroo.placeholder" })} showSearch optionFilterProp="children" onChange={this.onChangeCommitteLoc} disabled={selectLoading} loading={selectLoading}>
+                            <Option value={null} disabled>Сонгох</Option>
+                            {this.renderLocationCommit(committeLocation)}
+                          </Select>,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} className="padd10">
+                      <span className="top-text">{intl.formatMessage({ id: "shared.form.address" })}</span>
+                      <Form.Item>
+                        {getFieldDecorator("address", {
+                          initialValue: this.checkError(chosenAddress.address),
+                          rules: [{ required: defaultActiveKey === "3" ? false : true, message: intl.formatMessage({ id: "shared.form.address.validation.required" }) }],
+                        })(
+                          <Input className="col-md-12" size="large" autoComplete="off" allowclear type="text" placeholder={intl.formatMessage({ id: "shared.form.address.placeholder" })} />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Col>
+                ) : (
+                    null
+                  )}
+              </div>
+              <div>
+                <Divider />
+                <Col xs={24} sm={24} md={16} lg={16} xl={16} className="padd10">
+                  <span className="top-text">Нэмэлт мэдээлэл</span>
+                  <Form.Item>
+                    {getFieldDecorator("explanation", {
+                      initialValue: this.state.explanation,
+                      rules: [{
+                        max: 100,
+                        message: "100 тэмдэгтэнд багтаан бичнэ үү",
+                      }],
+                    })(
+                      <TextArea
+                        placeholder={"Хүргэлтийн үйлчилгээний үед анхаарах нэмэлт мэдээллээ үлдээнэ үү!"}
+                        rows={4}
+                        allowclear
+                      />,
+                    )}
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={8} lg={8} xl={8} className="padd10" style={{ float: 'right', marginBottom: '15px' }}>
+                  <span className="top-text" style={{ fontWeight: "700 !important" }}>{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.label.deliveryDate" }) : intl.formatMessage({ id: "shared.form.label.getYourselfDate" })}</span>
+                  <DatePicker
+                    size="large"
+                    className="col-md-12"
+                    format="YYYY-MM-DD"
+                    placeholder="Огноо сонгох"
+                    value={chosenDate === null ? moment(new Date(), "YYYY-MM-DD") : moment(chosenDate, "YYYY-MM-DD")}
+                    onChange={(date, dateString) =>
+                      this.dateStringChange(date, dateString)
+                    }
+                    allowClear={this.state.clear}
+                    disabled={dateLoading}
+                    disabledDate={this.disabledDate}
+                  />
+                </Col>
+                {mainState.isChooseDeliveryCycleId || defaultActiveKey !== 3 ?
+                  <Col xs={24} sm={24} md={8} lg={24} xl={8} className="padd10">
+                    <span className="top-text">{defaultActiveKey !== 3 ? intl.formatMessage({ id: "shared.form.deliverycycle" }) : intl.formatMessage({ id: "shared.form.deliverycycleGet" })}</span>
+                    <Form.Item>
+                      {getFieldDecorator("deliveryTime", {
+                        initialValue: mainState.chosenDeliveryCycleId,
+                      })(
+                        <Select className="col-md-12" onChange={this.onDeliveryCycle}>
+                          <Option value={null} disabled>Сонгох</Option>
+                          {this.renderDeliveryCycle()}
+                        </Select>,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  :
+                  null}
               </div>
             </Form>
           </div>

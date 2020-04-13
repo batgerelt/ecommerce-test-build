@@ -216,7 +216,7 @@ class Signin extends React.Component {
                         },
                         content: <Notification
                           type="warning"
-                          text={intl.formatMessagintl.formatMessage(
+                          text={intl.formatMessage(
                             { id: confirmResult.payload.code },
                             {
                               names: reasons.join(", "),
