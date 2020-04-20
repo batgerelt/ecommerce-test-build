@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
 import { Button } from "antd";
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
+
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 
