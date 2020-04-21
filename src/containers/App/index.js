@@ -166,7 +166,7 @@ class App extends Component {
                         <Route path="/e/:id/:promotid" component={DynamicMenu} />
                         <Route path="/e/:id" component={DynamicMenu} />
 
-                        <Route path="/dailydeal" component={TimeSale} />
+                        {/* <Route path="/dailydeal" component={TimeSale} /> */}
 
                         <Route path="*" component={Notfound} />
                       </Switch>
