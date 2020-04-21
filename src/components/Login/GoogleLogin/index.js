@@ -1,73 +1,29 @@
-// import React from "react";
-// import { connect } from "react-redux";
-// import { FormattedMessage } from 'react-intl';
-// import ReactGoogleLogin from "react-google-login";
-// import { toast } from "react-toastify";
-
-// import { SOCIAL_IDS } from "../../../utils/Consts";
-
-// class GoogleLogin extends React.Component {
-//   handleGoogleLoginResponse = (response) => {
-//     let param = [];
-//     if (response && response.profileObj) {
-//       param = {
-//         username: response.profileObj.givenName,
-//         firstname: response.profileObj.givenName,
-//         lastname: response.profileObj.familyName,
-//         phone: null,
-//         email: response.profileObj.email,
-//         oauthType: "Gmail",
-//         oauthId: response.profileObj.googleId,
-//         imgUrl: response.profileObj.imageUrl,
-//       };
-//       this.props.loginSocial(param);
-//     }
-//   };
-
-//   handleGoogleLoginFailure = (err) => {
-//     console.log(err);
-//   };
-
-//   notify = message => toast(message, { autoClose: 5000 });
-
-//   render() {
-//     return (
-//       <ReactGoogleLogin
-//         clientId={SOCIAL_IDS.google}
-//         onSuccess={this.handleGoogleLoginResponse}
-//         onFailure={this.handleGoogleLoginFailure}
-//         render={props => (
-//           <button
-//             className="btn btn-block btn-social btn-gmail"
-//             onClick={props.onClick}
-//           >
-//             <FormattedMessage id="shared.form.button.googleLogin" />
-//           </button>
-//         )}
-//       />
-//     );
-//   }
-// }
-
-// export default GoogleLogin;
-
-/* eslint-disable react/no-string-refs */
-/* eslint-disable func-names */
-import React from "react";
+/* global gapi */
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-class GoogleLogin extends React.Component {
-  componentDidMount() {
-    this.googleSDK();
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSignedIn: false,
+    };
   }
 
-  prepareLoginButton = () => {
-    this.auth2.attachClickHandler(
-      this.refs.googleLoginBtn,
-      {},
-      (googleUser) => {
-        const profile = googleUser.getBasicProfile();
-        console.log('profile: ', profile);
+  handleLogin = async () => {
+    window.gapi.load('auth2', () => {
+      let auth2 = gapi.auth2.init({
+        // Test client_id
+        // client_id: '885941849583-fai2isc5scoteqf4s50b0aee1s6cku39.apps.googleusercontent.com',
+        // Real client_id
+        client_id: '845113891404-qlj5hpuro8aivst2veeqhthtbdsjjdhh.apps.googleusercontent.com',
+        cookiepolicy: "single_host_origin",
+        scope: "profile email",
+      });
+
+      auth2.then(() => {
+        let profile = auth2.currentUser.get().getBasicProfile();
         let param = {
           username: profile.getName(),
           firstname: profile.getName(),
@@ -79,49 +35,79 @@ class GoogleLogin extends React.Component {
           imgUrl: profile.getImageUrl(),
         };
         this.props.loginSocial(param);
-      },
-      (error) => {
-        // alert(JSON.stringify(error));
-      },
-    );
-  };
-
-  googleSDK = () => {
-    window.googleSDKLoaded = () => {
-      window.gapi.load("auth2", () => {
-        this.auth2 = window.gapi.auth2.init({
-          client_id:
-            "845113891404-qlj5hpuro8aivst2veeqhthtbdsjjdhh.apps.googleusercontent.com",
-          cookiepolicy: "single_host_origin",
-          scope: "profile email",
-        });
-        this.prepareLoginButton();
       });
-    };
-
-    (function (d, s, id) {
-      let fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      let js = d.createElement(s);
-      js.id = id;
-      js.src = "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, "script", "google-jssdk"));
-  };
+    });
+  }
 
   render() {
     return (
-      <button
-        className="btn btn-block btn-social btn-gmail"
-        ref="googleLoginBtn"
-      >
-        <FormattedMessage id="shared.form.button.googleLogin" />
-      </button>
+      <div className="App">
+        <header className="App-header">
+          <button id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}><FormattedMessage id="shared.form.button.googleLogin" /></button>
+        </header>
+      </div>
     );
   }
 }
 
-export default GoogleLogin;
+export default App;
 
+
+/*
+import React, { Component } from 'react';
+
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSignedIn: false,
+    };
+  }
+
+  handleLogin = async () => {
+    window.gapi.load('auth2', () => {
+      let auth2 = gapi.auth2.init({
+        // client_id: '885941849583-fai2isc5scoteqf4s50b0aee1s6cku39.apps.googleusercontent.com',
+        client_id: '845113891404-qlj5hpuro8aivst2veeqhthtbdsjjdhh.apps.googleusercontent.com',
+        cookiepolicy: "single_host_origin",
+        scope: "profile email",
+      });
+
+      auth2.then(() => {
+        this.setState({
+          isSignedIn: auth2.isSignedIn.get(),
+        });
+      });
+
+      if (auth2.isSignedIn.get()) {
+        let profile = auth2.currentUser.get().getBasicProfile();
+        let param = {
+          username: profile.getName(),
+          firstname: profile.getName(),
+          lastname: profile.getName(),
+          phone: null,
+          email: profile.getEmail(),
+          oauthType: "Gmail",
+          oauthId: profile.getId(),
+          imgUrl: profile.getImageUrl(),
+        };
+        this.props.loginSocial(param);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <button id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}>Login with Google</button>
+        </header>
+      </div>
+    );
+  }
+}
+
+export default App;
+ */

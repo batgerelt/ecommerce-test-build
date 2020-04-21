@@ -2,7 +2,6 @@
 import React from 'react';
 
 function TotalPrice({ products }) {
-  console.log(products);
   const formatter = new Intl.NumberFormat("en-US");
 
   let totalPrice = 0;
@@ -15,7 +14,6 @@ function TotalPrice({ products }) {
     0,
   );
 
-  console.log(totalPrice);
 
   return (
     <strong>

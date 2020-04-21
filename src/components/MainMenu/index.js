@@ -14,7 +14,6 @@ class Component extends React.PureComponent {
   render() {
     const data = this.props && this.props.dataSource;
     const { pathname, search } = this.props.history.location;
-
     try {
       return (
         <span className="main-menu-list horizontal-scroll">
@@ -30,7 +29,17 @@ class Component extends React.PureComponent {
                 </li>
               </Button >
             ))
+
           }
+          {/* <Button>
+            <li className="list-inline-item">
+              <Link to="/dailydeal">
+                <span>
+                  {this.props.intl.locale === "mn" ? "Цагийн хаядрал" : "Daily deal"}
+                </span>
+              </Link>
+            </li>
+          </Button> */}
         </span>
       );
     } catch (error) {

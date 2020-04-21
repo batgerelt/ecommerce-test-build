@@ -549,6 +549,19 @@ h1.title {
     width: 25% !important;
 }
 
+.page_header_banner_container_time {
+    height: auto;
+
+    div{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
 .ck-editor{
     .content{
         figure{

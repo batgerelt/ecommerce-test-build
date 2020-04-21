@@ -156,6 +156,7 @@
 	"home.widget.new.readMore": "Бусад шинэ барааг үзэх",
 	"home.widget.package.readMore": "Бусад багцыг үзэх",
 	"home.widget.recipe.readMore": "Бусад хоолны жорыг үзэх",
+	"home.widget.dailydeal.readMore": "Цагийн хямдралтай бусад барааг үзэх",
 	"loginModal.info.success": "Амжилттай нэвтэрлээ",
 	"loginModal.linkToRegistration": "Та шинээр бүртгүүлэх бол {link} бүртгүүлнэ үү",
 	"loginModal.linkToRegistration.link": "ЭНД ДАРЖ",
