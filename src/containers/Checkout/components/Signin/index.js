@@ -1,7 +1,6 @@
-/* eslint-disable no-lonely-if */
-/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React from "react";
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Form, Button } from "antd";
@@ -9,9 +8,9 @@ import { Link, Redirect } from "react-router-dom";
 import { store } from 'react-notifications-component';
 import { Notification } from "../../../../components";
 import LatinInput from "../../../../components/Input/LatinInput";
-import FacebookLogin from "./facebook";
-import GoogleLogin from "./google";
+import { GoogleLogin } from "../../../../components/Login";
 import { AdditionQuestion } from "../../../Cart/components";
+import FacebookLogin from "./facebook";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -36,7 +35,6 @@ class Signin extends React.Component {
     });
   }
 
-  // eslint-disable-next-line consistent-return
   loggedData = (r) => {
     const { intl } = this.props;
     if (r.payload.success) {
@@ -83,7 +81,7 @@ class Signin extends React.Component {
     localStorage.setItem('percent', (Number(r.payload.data[0].info.customerInfo.cstatus) + 1) * 25);
     localStorage.setItem('emartmall_co', r.payload.data[0].info.customerInfo.firstname);
     localStorage.setItem('emartmall_token', r.payload.data[0].info.access_token);
-    // eslint-disable-next-line consistent-return
+
     this.props.getUserInfo().then(async (res) => {
       if (res.payload.success) {
         if (res.payload.data.main !== null) {
@@ -130,7 +128,6 @@ class Signin extends React.Component {
 
           // Админ талаас онцгой санал авах барааны мэдээллийг авах хүсэлт
           this.props.getCheckGift().then((res) => {
-            console.log('res: ', res);
             res.payload.data.length !== 0 ? this.props.history.push("/cart") : null;
           });
         });
@@ -179,7 +176,7 @@ class Signin extends React.Component {
               },
               content: <Notification type="success" text={intl.formatMessage({ id: "loginModal.info.success" })} />,
             });
-            // eslint-disable-next-line consistent-return
+
             this.props.getUserInfo().then(async (res) => {
               localStorage.setItem('emartmall_token', r.payload.data[0].info.access_token);
               if (res.payload.success) {
@@ -366,7 +363,7 @@ class Signin extends React.Component {
               >
                 <FormattedMessage id="shared.form.button.login" />
               </Button>
-              <label className="checkout-hover" style={{ float: "right" }}>
+              <label htmlFor="checkout-hover" className="checkout-hover" style={{ float: "right" }}>
                 <Link
                   to="#"
                   className="btn btn-link upper-first forgot-password"

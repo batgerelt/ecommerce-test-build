@@ -1,17 +1,20 @@
+/* eslint-disable no-mixed-operators */
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-
+import { Statistic } from "antd";
 import { CARD_LIST_TYPES, WIDGET_SLUGS } from "../../utils/Consts";
 import { CardList } from "../";
 
 import "./Widget.css";
 
+const { Countdown } = Statistic;
 class Widget extends React.Component {
   render() {
     const { widgetData } = this.props;
     const lang = this.props.intl.locale;
+    const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
     if (!widgetData) {
       return null;
     }
@@ -20,7 +23,7 @@ class Widget extends React.Component {
     if (widgetData.subtitle) {
       subtitle = (
         <p className="text">
-          {widgetData.icon ? widgetData.icon : null} {lang === "mn" ? widgetData.subtitle : widgetData.subtitle_en}
+          {widgetData.icon ? widgetData.icon : null} {lang === "mn" ? widgetData.subtitle : widgetData.subtitle_en}{" "} {widgetData.dailydeal ? <Countdown precision={10000} value={deadline} format="H:m:s" /> : null}
         </p>
       );
     }

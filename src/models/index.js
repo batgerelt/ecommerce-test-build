@@ -20,6 +20,7 @@ import AttributeModel from "./AttributeModel";
 import DiscountModel from "./DiscountModel";
 import NewProductModel from "./NewProductModel";
 import DynamicMenuModel from "./DynamicMenuModel";
+import DealModel from "./DealModel";
 
 /** Redux-ийн state-д үүсэх model үбрийг үүсгэх */
 const Auth = new AuthModel({ model: 'auth' });
@@ -44,6 +45,7 @@ const Attribute = new AttributeModel({ model: 'attribute' });
 const Discount = new DiscountModel({ model: 'discount' });
 const New = new NewProductModel({ model: 'new' });
 const DynamicMenu = new DynamicMenuModel({ model: 'dynamicmenu ' });
+const Deal = new DealModel({ model: 'deal' });
 
 export {
   Auth,
@@ -68,4 +70,5 @@ export {
   Discount,
   New,
   DynamicMenu,
+  Deal,
 };

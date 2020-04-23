@@ -23,20 +23,15 @@ function SimilarProduct({
   const handleIncrementClick = async () => {
     if (localStorage.getItem('auth')) {
       setLoading(true);
-
-      const {
-        payload: { code, data, success },
-      } = await incrementProductRemotely({
+      let result = await incrementProductRemotely({
         skucd: product.skucd,
         qty: product.addminqty || 1,
         iscart: 0,
       });
 
-      setLoading(false);
-
-      if (!success) {
+      if (!result.payload.success) {
         const messages = defineMessages({
-          error: { id: code },
+          error: { id: result.payload.code },
         });
 
         store.addNotification({
@@ -52,15 +47,16 @@ function SimilarProduct({
             <Notification
               type="warning"
               text={formatMessage(messages.error, {
-                name: data.values[1],
-                qty: data.values[2],
+                name: result.payload.data.values[1],
+                qty: result.payload.data.values[2],
               })}
             />
           ),
         });
       }
+      setLoading(false);
     } else {
-      // product.insymd = Date.now();
+      console.log("incrementProductLocally");
       incrementProductLocally(product);
 
       const updated = products.find(prod => prod.skucd === product.skucd);

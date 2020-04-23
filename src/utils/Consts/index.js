@@ -27,6 +27,7 @@ const WIDGET_SLUGS = {
   recipe: "recipe",
   package: "package",
   new: "new",
+  dailydeal: "dailydeal",
 };
 Object.freeze(WIDGET_SLUGS);
 

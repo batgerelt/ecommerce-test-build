@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.0.6",
     "@eredessil/react-id-swiper": "^1.7.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-brands-svg-icons": "^5.10.1",
@@ -24,6 +25,7 @@
     "promise": "8.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-component-countdown-timer": "^0.1.8",
     "react-content-loader": "^4.3.2",
     "react-day-picker": "^7.4.0",
     "react-dev-utils": "^4.2.3",
