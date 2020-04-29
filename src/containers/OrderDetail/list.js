@@ -67,6 +67,7 @@ class List extends React.Component {
                   </strong>
                 </div>
                 <div>
+                  r
                   <p className="qty footer">
                     {item.qty}/{item.qty}
                   </p>
@@ -98,6 +99,7 @@ class List extends React.Component {
       const lang = this.props.intl.locale;
       if (orderdetail.info !== null) {
         const { info } = this.props.orderdetail;
+        console.log(info.returnstatus);
         return (
           <div className="cart-info filter-sticky" style={{ fontSize: "13px" }}>
             <div className="">
@@ -188,7 +190,7 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.deliveredPrice" />:
+                  <FormattedMessage id="shared.sidebar.label.paymentAmount" />:
                 </span>
 
                 <span>{formatter.format(orderdetail.info.itemamount)}₮</span>
@@ -225,23 +227,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.paymentReturnStatus" />
                   :
                 </span>
-                {info.returnstatus === 0 ? (
-                  <span
-                    style={{
-                      background: "#FFAF00",
-                      paddingTop: "5px",
-                      paddingBottom: "5px",
-                      textAlign: "center",
-                      borderRadius: "5px",
-                      color: "white",
-                      width: "150px",
-                      fontSize: "10px",
-                      margin: "0px",
-                    }}
-                  >
-                    <FormattedMessage id="shared.sidebar.label.transactionFailed" />
-                  </span>
-                ) : (
+                {info.returnstatus === 1 ? (
                   <span
                     style={{
                       background: "#00796A",
@@ -256,6 +242,22 @@ class List extends React.Component {
                     }}
                   >
                     <FormattedMessage id="shared.sidebar.label.transactionComplete" />
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      background: "red",
+                      paddingTop: "5px",
+                      paddingBottom: "5px",
+                      textAlign: "center",
+                      borderRadius: "5px",
+                      color: "white",
+                      width: "150px",
+                      fontSize: "10px",
+                      margin: "0px",
+                    }}
+                  >
+                    <FormattedMessage id="shared.sidebar.label.transactionFailed" />
                   </span>
                 )}
               </p>
@@ -306,11 +308,19 @@ class List extends React.Component {
                   </span>
                 </p>
                 <p className="text flex-this">
+                  <i
+                    className="fa fa-calendar"
+                    aria-hidden="true"
+                    style={{ color: "#feb415" }}
+                  />
                   <span>
                     <FormattedMessage id="shared.sidebar.label.delieveredDate" />
                     :
                   </span>
-                  <span>{moment(info.deliverydate).format("YYYY-MM-DD")}</span>
+                  <span>
+                    {info.statusid === 12 &&
+                      moment(info.deliverydate).format("YYYY-MM-DD")}
+                  </span>
                 </p>
               </div>
             </div>

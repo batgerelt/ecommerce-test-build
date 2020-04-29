@@ -361,6 +361,7 @@
   "shared.sidebar.label.email": "Ebarimt receipt",
   "shared.sidebar.label.orderPrice": "Order price",
   "shared.sidebar.label.deliveredPrice": "Delivered amount",
+  "shared.sidebar.label.paymentAmount": "Payment amount",
   "shared.sidebar.label.delieveredDate": "Delivered date",
   "shared.sidebar.label.paidByCash": "Paid amount",
   "shared.sidebar.label.paidByEpoint": "Paid by epoint",

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from "react-intl";
 import { Divider, Rate, Avatar } from "antd";
 import CryptoJS from "crypto-js";
 import { Link } from "react-router-dom";
@@ -12,14 +12,19 @@ class Component extends React.Component {
   state = {};
   renderDate = (dateString) => {
     const dateParts = dateString.split("T")[0].split("-");
-    return <span className="date">{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>;
+    return (
+      <span className="date">{`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`}</span>
+    );
   };
   renderType = (item) => {
     try {
       const { lang } = this.props;
       const prod = item;
       return (
-        <p className="status" style={{ backgroundColor: item.customerstatuscolor }}>
+        <p
+          className="status"
+          style={{ backgroundColor: item.customerstatuscolor }}
+        >
           {lang === "mn" ? prod.statusnm : prod.statusnm_en}
         </p>
       );
@@ -30,8 +35,12 @@ class Component extends React.Component {
 
   encryptUrl = (id) => {
     let ciphertext = CryptoJS.AES.encrypt(id.toString(), EncryptKey);
-    return ciphertext.toString().replace(/\+/g, 'xMl3Jk').replace(/\//ig, 'Por21Ld').replace(/=/g, 'Ml32');
-  }
+    return ciphertext
+      .toString()
+      .replace(/\+/g, "xMl3Jk")
+      .replace(/\//gi, "Por21Ld")
+      .replace(/=/g, "Ml32");
+  };
 
   renderDelivery = () => {
     try {
@@ -42,26 +51,16 @@ class Component extends React.Component {
             <Link to={`/order/${this.encryptUrl(item.id)}`}>
               <span style={{ padding: "5px" }}>#{item.ordernumber}</span>
             </Link>
-            {
-              isMobile
-                ? (
-                  <React.Fragment>
-                    <br />
-                    {this.renderDate(item.orderdate)}
-                  </React.Fragment>
-                )
-                : ""
-            }
+            {isMobile ? (
+              <React.Fragment>
+                <br />
+                {this.renderDate(item.orderdate)}
+              </React.Fragment>
+            ) : (
+              ""
+            )}
           </td>
-          {
-            !isMobile
-              ? (
-                <td>
-                  {this.renderDate(item.orderdate)}
-                </td>
-              )
-              : ""
-          }
+          {!isMobile ? <td>{this.renderDate(item.orderdate)}</td> : ""}
           <td>{formatter.format(item.totalamount)}₮</td>
           <td>{this.renderType(item)}</td>
         </tr>
@@ -75,30 +74,30 @@ class Component extends React.Component {
     return (
       <div>
         <table className="table order-history">
-          <thead>
+          <thead hidden>
             <tr>
               <th>
                 <FormattedMessage id="profile.orderHistory.table.orderNo" />
-                {
-                  isMobile
-                    ? (
-                      <React.Fragment>
-                        <br />
-                        <FormattedMessage id="profile.orderHistory.table.date" />
-                      </React.Fragment>
-                    )
-                    : ""
-                }
-              </th>
-              {
-                !isMobile
-                  ? (
-                    <th>
+                {isMobile ? (
+                  <strong>
+                    <React.Fragment>
+                      {/* <br /> */}
                       <FormattedMessage id="profile.orderHistory.table.date" />
-                    </th>
-                  )
-                  : ""
-              }
+                    </React.Fragment>
+                  </strong>
+                ) : (
+                  ""
+                )}
+              </th>
+              {!isMobile ? (
+                <th>
+                  <strong>
+                    <FormattedMessage id="profile.orderHistory.table.date" />
+                  </strong>
+                </th>
+              ) : (
+                ""
+              )}
               <th>
                 <FormattedMessage id="profile.orderHistory.table.price" />
               </th>
@@ -117,7 +116,9 @@ class Component extends React.Component {
     return (
       <div className="user-menu-content">
         <p className="title" style={{ textTransform: "uppercase" }}>
-          <span style={{ textTransform: "uppercase" }}><FormattedMessage id="profile.orderHistory.title" /></span>
+          <span style={{ textTransform: "uppercase" }}>
+            <FormattedMessage id="profile.orderHistory.title" />
+          </span>
         </p>
         <div
           className=""

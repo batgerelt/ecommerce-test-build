@@ -362,6 +362,7 @@
   "shared.sidebar.label.email": "Ибаримтын имэйл",
   "shared.sidebar.label.orderPrice": "Захиалгын дүн",
   "shared.sidebar.label.deliveredPrice": "Хүргэгдсэн дүн",
+  "shared.sidebar.label.paymentAmount": "Төлбөл зохих",
   "shared.sidebar.label.delieveredDate": "Хүргэсэн огноо",
   "shared.sidebar.label.returnAmount": "Буцаах дүн",
   "shared.sidebar.label.paymentReturnStatus": "Буцаалтын төлөв",
