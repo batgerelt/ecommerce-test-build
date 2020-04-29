@@ -120,7 +120,7 @@ class List extends React.Component {
                 <span>
                   <FormattedMessage id="shared.sidebar.label.ordDelDate" />:
                 </span>
-                <span>{moment(info.delieverydate).format("YYYY-MM-DD")}</span>
+                <span>{moment(info.deliverydate).format("YYYY-MM-DD")}</span>
               </p>
               <p className="flex-space count">
                 <span>
@@ -238,7 +238,7 @@ class List extends React.Component {
                 {info.returnstatus === 1 ? (
                   <span
                     style={{
-                      background: "#00796A",
+                      background: "#16A58A",
                       paddingTop: "5px",
                       paddingBottom: "5px",
                       textAlign: "center",
