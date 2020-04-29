@@ -358,6 +358,7 @@
   "shared.sidebar.label.ePointCard": "Epoint card #",
   "shared.sidebar.label.orderStatus": "Order status",
   "shared.sidebar.label.ordDate": "Order date",
+  "shared.sidebar.label.ordDelDate": "Delivery date",
   "shared.sidebar.label.email": "Ebarimt receipt",
   "shared.sidebar.label.orderAmount": "Order price",
   "shared.sidebar.label.pricedAmount": "Delivered amount",

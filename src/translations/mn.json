@@ -359,6 +359,7 @@
   "shared.sidebar.label.ePointCard": "Ипойнт карт #",
   "shared.sidebar.label.orderStatus": "Захиалгын төлөв",
   "shared.sidebar.label.ordDate": "Захиалгын огноо",
+  "shared.sidebar.label.ordDelDate": "Хүргэлтийн огноо",
   "shared.sidebar.label.email": "Ибаримтын имэйл",
   "shared.sidebar.label.orderAmount": "Захиалгын дүн",
   "shared.sidebar.label.pricedAmount": "Хүргэгдсэн дүн",
