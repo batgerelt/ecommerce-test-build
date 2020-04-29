@@ -112,13 +112,13 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.orderDate" />:
+                  <FormattedMessage id="shared.sidebar.label.ordDate" />:
                 </span>
                 <span>{moment(info.orddate).format("YYYY-MM-DD")}</span>
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.orderId" />:
+                  <FormattedMessage id="shared.sidebar.label.orderNumber" />:
                 </span>
                 <span>{info.ordernumber}</span>
               </p>
@@ -146,7 +146,7 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.ePointCardId" />:
+                  <FormattedMessage id="shared.sidebar.label.ePointCard" />:
                 </span>
                 <span>{info.epointcard}</span>
               </p>
@@ -158,7 +158,7 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.deliveryCost" />:
+                  <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
                 </span>
                 <span>
                   {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
@@ -166,18 +166,18 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.orderPrice" />:
+                  <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.deliveryprice && info.deliveryprice.toLocaleString()}₮
+                  {info.itemamount && info.itemamount.toLocaleString()}₮
                 </span>
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.deliveredPrice" />:
+                  <FormattedMessage id="shared.sidebar.label.pricedAmount" />:
                 </span>
                 <span>
-                  {info.orderamount && info.orderamount.toLocaleString()}
+                  {info.pickedamount && info.pickedamount.toLocaleString()}₮
                 </span>
               </p>
             </div>
@@ -192,8 +192,11 @@ class List extends React.Component {
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paymentAmount" />:
                 </span>
-
-                <span>{formatter.format(orderdetail.info.itemamount)}₮</span>
+                <span>
+                  {info.statusid === 1 ? (
+                    null
+                  ) : formatter.format(orderdetail.info.itemamount)}₮
+                </span>
               </p>
               <p className="flex-space count">
                 <span>
@@ -207,10 +210,9 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.paidByCash" />:
                 </span>
                 <span>
-                  {formatter.format(
-                    orderdetail.info.totalamount - orderdetail.info.outpoint
-                  )}
-                  ₮
+                  {info.statusid === 1 ? (
+                    null
+                  ) : formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮
                 </span>
               </p>
               <Divider />
@@ -224,7 +226,7 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.paymentReturnStatus" />
+                  <FormattedMessage id="shared.sidebar.label.returnStatus" />
                   :
                 </span>
                 {info.returnstatus === 1 ? (
@@ -244,26 +246,27 @@ class List extends React.Component {
                     <FormattedMessage id="shared.sidebar.label.transactionComplete" />
                   </span>
                 ) : (
-                  <span
-                    style={{
-                      background: "red",
-                      paddingTop: "5px",
-                      paddingBottom: "5px",
-                      textAlign: "center",
-                      borderRadius: "5px",
-                      color: "white",
-                      width: "150px",
-                      fontSize: "10px",
-                      margin: "0px",
-                    }}
-                  >
-                    <FormattedMessage id="shared.sidebar.label.transactionFailed" />
-                  </span>
-                )}
+                    // eslint-disable-next-line react/jsx-indent
+                    <span
+                      style={{
+                        background: "red",
+                        paddingTop: "5px",
+                        paddingBottom: "5px",
+                        textAlign: "center",
+                        borderRadius: "5px",
+                        color: "white",
+                        width: "150px",
+                        fontSize: "10px",
+                        margin: "0px",
+                      }}
+                    >
+                      <FormattedMessage id="shared.sidebar.label.transactionFailed" />
+                    </span>
+                  )}
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.paymentReturnDate" />
+                  <FormattedMessage id="shared.sidebar.label.returnDate" />
                   :
                 </span>
                 <span>
@@ -317,8 +320,8 @@ class List extends React.Component {
                     <FormattedMessage id="shared.sidebar.label.delieveredDate" />
                     :
                   </span>
-                  <span>
-                    {info.statusid === 12 &&
+                  <span style={{ marginLeft: "2px" }}>
+                    {info.returnstatus === 1 &&
                       moment(info.deliverydate).format("YYYY-MM-DD")}
                   </span>
                 </p>
