@@ -190,7 +190,9 @@ class List extends React.Component {
                     color: "#DC143C",
                   }}
                 >
-                  -{formatter.format(orderdetail.info.totaldiscount)}₮
+                  {info.statusid === 1 ? (
+                    null
+                  ) : -formatter.format(orderdetail.info.totaldiscount)}₮
                 </span>
               </p>
 
@@ -201,7 +203,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.itemamount && info.itemamount.toLocaleString()}₮
+                  {info.itemamount ? info.itemamount.toLocaleString() : 0}₮
                 </span>
               </p>
 
@@ -210,7 +212,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.pricedAmount" />:
                 </span>
                 <span>
-                  {info.pickedamount && info.pickedamount.toLocaleString()}₮
+                  {info.pickedamount ? info.pickedamount.toLocaleString() : 0}₮
                 </span>
               </p>
 
@@ -244,7 +246,9 @@ class List extends React.Component {
                     color: "#DC143C",
                   }}
                 >
-                  -{formatter.format(orderdetail.info.outpoint)}₮
+                  {info.statusid === 1 ? (
+                    null
+                  ) : -formatter.format(orderdetail.info.outpoint)}₮
                 </span>
               </p>
 
@@ -306,7 +310,7 @@ class List extends React.Component {
                     // eslint-disable-next-line react/jsx-indent
                     <span
                       style={{
-                        background: "red",
+                        background: "#DC143C",
                         paddingTop: "5px",
                         paddingBottom: "5px",
                         textAlign: "center",
@@ -358,7 +362,7 @@ class List extends React.Component {
                   <span>
                     <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
                   </span>
-                  <span style={{ marginLeft: "2px" }}>
+                  <span style={{ marginLeft: "4px" }}>
                     <strong>
                       {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
                     </strong>
