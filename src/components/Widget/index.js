@@ -14,7 +14,8 @@ class Widget extends React.Component {
   render() {
     const { widgetData } = this.props;
     const lang = this.props.intl.locale;
-    const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
+    const countdown = !widgetData.dailydeal ? 1 : widgetData.dailydeal.hrs * 3600 + widgetData.dailydeal.mins * 60 + widgetData.dailydeal.secs;
+    const deadline = !widgetData.dailydeal ? Date.now() + 1000 * 60 * 60 * 24 * 0 + 1000 * 0 : Date.now() + 1000 * 60 * 60 * 24 * 0 + 1000 * countdown;
     if (!widgetData) {
       return null;
     }
@@ -23,7 +24,7 @@ class Widget extends React.Component {
     if (widgetData.subtitle) {
       subtitle = (
         <p className="text">
-          {widgetData.icon ? widgetData.icon : null} {lang === "mn" ? widgetData.subtitle : widgetData.subtitle_en}{" "} {widgetData.dailydeal ? <Countdown precision={10000} value={deadline} format="H:m:s" /> : null}
+          {widgetData.icon ? widgetData.icon : null} {lang === "mn" ? widgetData.subtitle : widgetData.subtitle_en}{" "} {widgetData.dailydeal ? <Countdown precision={10000} value={deadline} format="HH:mm:ss" /> : null}
         </p>
       );
     }

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-else-return */
 /* eslint-disable radix */
 /* eslint-disable no-unreachable */
@@ -9,13 +11,15 @@
 /* eslint-disable radix */
 import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { BackTop, Spin, Select } from "antd";
+import { BackTop, Spin, Select, Tree, Icon } from "antd";
 import { InfiniteLoader, WindowScroller, List, AutoSizer } from "react-virtualized";
 import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 import { SkeltonCard, Banner, Loader, SearchFilterSet } from "../../components";
 import { CARD_TYPES } from "../../utils/Consts";
-import Card from "./card";
-import PageBanner from "./banner";
+import Card from "./components/card";
+import PageBanner from "./components/banner";
+import crossImage from "../../scss/assets/svg/error-black.svg";
 
 const itemsInRow = window.innerWidth < 768 ? 2 : window.innerWidth < 1200 ? 4 : 5;
 let scrollTopNumber = 0;
@@ -28,25 +32,41 @@ class Discount extends React.Component {
       headerProducts: [],
       loading: false,
       total: 0,
+      isMobilePanel: false,
 
+      categoryId: null,
+      selectCat: false,
+
+      fetch: false,
+      loadingCart: false,
       catId: 0,
       custId: 0,
-      value: '',
+      value: "",
       attribute: "",
       color: "",
       brand: "",
       promotion: "",
       minPrice: 0,
       maxPrice: 0,
-      module: 'discount',
+      module: "hourdiscount",
       startsWith: 0,
       rowCount: 20,
-      orderColumn: 'catid_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC',
+      orderColumn: "startnew_desc, endnew_asc, updatedate_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
       highlight: false,
 
-      aggregations: [],
+      aggregations: null,
     };
   }
+
+  loadMoreRows = () =>
+    this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } }).then((res) => {
+      this.setState({
+        aggregations: res.payload.data,
+        categories: res.payload.data.aggregations.categories,
+      });
+      console.log("index");
+    },
+    );
 
   renderHelmet = () => {
     const { menuDiscount, intl } = this.props;
@@ -73,8 +93,6 @@ class Discount extends React.Component {
     );
   }
 
-  loadMoreRows = () => this.props.getDiscountProducts({ body: { ...this.state, startsWith: this.props.discountproductCount } }).then(res => this.setState({ aggregations: res.payload.data.aggregations }));
-
   renderSubBanner = () => {
     try {
       return <Banner data={this.props.banner.footer} />;
@@ -83,8 +101,6 @@ class Discount extends React.Component {
     }
   };
 
-  // нэг мөр хоосон харагдаад байсан тул skelton харуулав
-  // skelton нь нэг мөр харагдана mobile(2 card) tablet(4 card) desktop(5 card) etc...
   renderSkeltonCard = () => {
     let result = [];
     for (let i = 0; i < itemsInRow; i++) { result.push(<SkeltonCard key={i} />); }
@@ -115,8 +131,8 @@ class Discount extends React.Component {
     try {
       const { discountproducts, discountproductTotal, isFetchingDiscount } = this.props;
       return (
-        <div className="container pad10 discount-list px-0">
-          <div className="row row10">
+        <div className="container discount-list px-0">
+          <div className="row">
             <AutoSizer disableHeight >
               {({ width }) => {
                 const rowCount = Math.ceil(discountproducts.length / itemsInRow + (discountproductTotal === 0 ? 1 : discountproductTotal !== discountproducts.length ? 1 : 0));
@@ -137,7 +153,7 @@ class Discount extends React.Component {
                             height={height}
                             width={width}
                             scrollTop={scrollTop}
-                            onScroll={e => console.log(e)}
+                            /* onScroll={e => console.log(e)} */
                             rowCount={rowCount}
                             rowHeight={this.generateItemHeight}
                             noRowsRenderer={this.noRowsRenderer}
@@ -180,19 +196,199 @@ class Discount extends React.Component {
     }
   };
 
+  /* renderCategoryList = () => {
+    try {
+      console.log("promotionall: ", this.props.promotionall);
+      console.log("categoryId: ", this.state.categoryId);
+      console.log("bucket: ", this.state.aggregations);
+
+      const { promotionall } = this.props;
+      const { categoryId, bucket } = this.state;
+      const lang = this.props.intl;
+      let array = [];
+      let tempArray = [];
+      let res = this.props.promotid.split(",");
+
+      bucket.buckets.map((item) => {
+        res.find(i => (Number(i) === item.key ? tempArray.push(item) : null));
+      });
+
+      res.map((item) => {
+        promotionall.map(i => (i.id === Number(item) ? array.push(i) : null));
+      });
+
+      return (
+        <ul className="list-unstyled category-list">
+          {
+            array.map((cat, key) => (
+              <div key={key}>
+                <Link
+                  to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.id).id}`}
+                  key={key}
+                >
+                  <li className={cat.id === categoryId ? "selected" : "disabled"} >
+                    <span onClick={() => this.handleClickCategory(cat)}>
+                      {
+                        lang === "mn" ?
+                          promotionall.find(i => i.id === cat.id).name
+                          :
+                          promotionall.find(i => i.id === cat.id).nameen
+                      }
+                    </span>
+                  </li>
+                </Link>
+              </div>
+            ))
+          }
+        </ul>
+      );
+    } catch (error) {
+      return null;
+    }
+  } */
+
+  renderCategoryList = () => {
+    try {
+      const { categoryall, intl } = this.props;
+      const lang = intl.locale;
+      const { categories } = this.state;
+      if (categories.buckets.length !== 0) {
+        return (
+          <Tree.DirectoryTree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            showIcon={false}
+            defaultExpandAll
+          >
+            {categories.buckets.map(one => (
+              <Tree.TreeNode
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
+                key={one.key}
+                id={one.doc_count}
+              >
+                {one.buckets.buckets &&
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                          id={two.doc_count}
+                        >
+                          {
+                            two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                              two.buckets.buckets.map(three => (
+                                three.key === 0 ? null :
+                                  <Tree.TreeNode
+                                    title={
+                                      lang === "mn"
+                                        ? categoryall.find(i => i.id === three.key).name
+                                        : categoryall.find(i => i.id === three.key).nameen
+                                    }
+                                    key={three.key}
+                                    id={three.doc_count}
+                                  />
+                              )) : null
+                          }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
+              </Tree.TreeNode>
+            ))}
+          </Tree.DirectoryTree>
+        );
+      }
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  showMobilePanel = () => this.setState({ isMobilePanel: !this.state.isMobilePanel });
+
+  renderFilter = () => {
+    try {
+      const leftPanel = `left-panel${this.state.isMobilePanel ? " show" : ""}`;
+      return (
+        <div className="col-lg-3 col-md-4">
+          <div className={`left-panel-container ${this.state.isMobilePanel ? " show" : ""}`} onClick={this.showMobilePanel}>
+            <div className={leftPanel}>
+              <button
+                className="button buttonBlack filter-cross"
+                onClick={this.showMobilePanel}
+              >
+                <img
+                  src={crossImage}
+                  alt="cross"
+                  height="25px"
+                  aria-hidden="true"
+                />
+              </button>
+              <h5 className="title">
+                <strong>
+                  <FormattedMessage id="search.filter.title" />
+                </strong>
+              </h5>
+              <p className="title">
+                <span>
+                  <FormattedMessage id="search.filter.category.title" />
+                </span>
+              </p>
+              <div className="accordion" id="accordionExample">
+                <div
+                  id="collapseOne"
+                  className="collapse show"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div className="collapse-content">
+                    <ul className="list-unstyled">
+                      {this.renderCategoryList()}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h5 className="title">
+                  <strong>
+                    <FormattedMessage id="search.filter.filter.title" />
+                  </strong>
+                </h5>
+                <div className="left-filter">
+                  <SearchFilterSet
+                    onRef={ref => (this.FilterSet = ref)}
+                    {...this.props}
+                    {...this}
+                    data={this.state.aggregations}
+                    promotion
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } catch (error) {
+      return null;
+    }
+  }
+
   renderFilteredList = () => {
     try {
       const { loading } = this.state;
       const { intl } = this.props;
+      const { aggregations } = this.state;
       return (
-        <div className="col-lg-9 col-md-8 pad10 px-0">
-          <div className="list-filter pad10">
+        <div className="col-lg-9 col-md-8">
+          <div className="list-filter">
             <div className="row">
               <div className="col-md-4">
                 <div className="total-result">
                   <p className="text">
                     <strong style={{ marginRight: 5 }}>
-                      {/* {loading ? "" : searchKeyWordResponse.hits.total.value} */}
+                      {loading ? "" : aggregations ? aggregations.hits.total.value : null}
                     </strong>
                     {loading ? "" : <FormattedMessage id="search.searchResult.label.product" />}
                   </p>
@@ -244,81 +440,7 @@ class Discount extends React.Component {
               </div>
             </div>
           </div>
-          <div className="list-filter pad10">
-            <div className="row">
-              {this.renderFooterProduct()}
-            </div>
-          </div>
-        </div>
-      );
-    } catch (error) {
-      return console.log("error: ", error);
-    }
-  }
-
-  renderFilter = () => {
-    try {
-      const { aggregations } = this.state;
-      console.log(aggregations);
-      return (
-        <div className="col-lg-3 col-md-4 pad10">
-          <div className={`left-panel-container show`} >
-            {/* <div className={leftPanel}>
-              <button
-                className="button buttonBlack filter-cross"
-              // onClick={this.showMobilePanel}
-              >
-                <img
-                  // src={crossImage}
-                  alt="cross"
-                  height="25px"
-                  aria-hidden="true"
-                />
-              </button>
-              <h5 className="title">
-                <strong>
-                  <FormattedMessage id="search.filter.title" />
-                </strong>
-              </h5>
-              <p className="title">
-                <span>
-                  <FormattedMessage id="search.filter.category.title" />
-                </span>
-              </p>
-              <div className="accordion" id="accordionExample">
-                <div
-                  id="collapseOne"
-                  className="collapse show"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordionExample"
-                >
-                  <div className="collapse-content">
-                    <ul className="list-unstyled">
-                      {this.renderCategoryList()}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h5 className="title">
-                  <strong>
-                    <FormattedMessage id="search.filter.filter.title" />
-                  </strong>
-                </h5>
-                <div className="left-filter">
-                  <SearchFilterSet
-                    onRef={ref => (this.FilterSet = ref)}
-                    {...this.props}
-                    {...this}
-                    data={aggregations}
-                    promotion
-                  />
-                </div>
-              </div>
-
-            </div> */}
-          </div>
+          {this.renderFooterProduct()}
         </div>
       );
     } catch (error) {

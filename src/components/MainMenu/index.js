@@ -31,15 +31,6 @@ class Component extends React.PureComponent {
             ))
 
           }
-          {/* <Button>
-            <li className="list-inline-item">
-              <Link to="/dailydeal">
-                <span>
-                  {this.props.intl.locale === "mn" ? "Цагийн хаядрал" : "Daily deal"}
-                </span>
-              </Link>
-            </li>
-          </Button> */}
         </span>
       );
     } catch (error) {

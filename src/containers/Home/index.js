@@ -62,6 +62,8 @@ class Page extends React.Component {
     this.props.getRecipe({});
     this.props.getDiscountProduct({});
     this.props.getEmartProduct({});
+    this.props.getDailydealProduct({});
+    this.props.getCountDown({});
 
     // maaybe have error
     this.props.getHomePageBanner().then(res => {

@@ -57,7 +57,7 @@ import {
   Emart,
   Brand,
   DynamicMenu,
-  TimeSale,
+  DailyDeal,
 } from "../";
 import PaymentReturn from "../Checkout/components/PaymentReturn";
 
@@ -166,7 +166,7 @@ class App extends Component {
                         <Route path="/e/:id/:promotid" component={DynamicMenu} />
                         <Route path="/e/:id" component={DynamicMenu} />
 
-                        {/* <Route path="/dailydeal" component={TimeSale} /> */}
+                        <Route path="/dailydeal" component={DailyDeal} />
 
                         <Route path="*" component={Notfound} />
                       </Switch>
