@@ -52,6 +52,8 @@ class List extends React.Component {
                 />
               </Link>
             </div>
+
+
             <div className="p-info-container">
               <div>
                 <p className="header">
@@ -73,6 +75,8 @@ class List extends React.Component {
                 </div>
               </div>
             </div>
+
+
             <div className="rate-container">
               <div>
                 <p className="header">Үнэлгээ</p>
@@ -109,28 +113,33 @@ class List extends React.Component {
                   </strong>
                 </span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.ordDate" />:
                 </span>
                 <span>{moment(info.orddate).format("YYYY-MM-DD")}</span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.ordDelDate" />:
                 </span>
                 <span>{moment(info.deliverydate).format("YYYY-MM-DD")}</span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.orderNumber" />:
                 </span>
                 <span>{info.ordernumber}</span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.orderStatus" />:
                 </span>
+
                 <p
                   style={{
                     backgroundColor: orderdetail.info.customerstatuscolor,
@@ -149,26 +158,44 @@ class List extends React.Component {
                     : orderdetail.info.customerstatusname_en}
                 </p>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.ePointCard" />:
                 </span>
                 <span>{info.epointcard}</span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.email" />:
                 </span>
                 <span>{orderdetail.info.email}</span>
               </p>
+
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.orderAmount" />:
+                  <FormattedMessage id="shared.sidebar.label.orderAmountOri" />:
                 </span>
                 <span>
-                  {info.totalamount + info.totaldiscount.toLocaleString()}₮
+                  { formatter.format(orderdetail.info.totalamount + orderdetail.info.totaldiscount)}₮
                 </span>
               </p>
+
+              <p className="flex-space count">
+                <span>
+                  <FormattedMessage id="shared.sidebar.label.totalDiscount" />:
+                </span>
+                <span style={{
+                    color: "#DC143C",
+                  }}
+                >
+                  -{formatter.format(orderdetail.info.totaldiscount)}₮
+                </span>
+              </p>
+
+              <Divider />
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.orderAmount" />:
@@ -177,6 +204,7 @@ class List extends React.Component {
                   {info.itemamount && info.itemamount.toLocaleString()}₮
                 </span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.pricedAmount" />:
@@ -185,14 +213,18 @@ class List extends React.Component {
                   {info.pickedamount && info.pickedamount.toLocaleString()}₮
                 </span>
               </p>
+
             </div>
 
+
             <div>
+
               <p className="title-delivery">
                 <strong>
                   <FormattedMessage id="shared.sidebar.label.payment" />
                 </strong>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paymentAmount" />:
@@ -200,16 +232,22 @@ class List extends React.Component {
                 <span>
                   {info.statusid === 1 ? (
                     null
-                  ) : formatter.format(orderdetail.info.itemamount)}₮
+                  ) : formatter.format(orderdetail.info.totalamount)}₮
                 </span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paidByEpoint" />:
                 </span>
-
-                <span>{formatter.format(orderdetail.info.outpoint)}₮</span>
+                <span style={{
+                    color: "#DC143C",
+                  }}
+                >
+                  -{formatter.format(orderdetail.info.totaldiscount)}₮
+                </span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paidByCash" />:
@@ -220,7 +258,20 @@ class List extends React.Component {
                   ) : formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮
                 </span>
               </p>
+
+              <p className="flex-space count">
+                <span>
+                  <FormattedMessage id="shared.sidebar.label.paidByCashAmount" />:
+                </span>
+                <span>
+                  {info.statusid === 1 ? (
+                    null
+                  ) : formatter.format(orderdetail.info.paidamount)}₮
+                </span>
+              </p>
+
               <Divider />
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.returnAmount" />:
@@ -229,6 +280,7 @@ class List extends React.Component {
                   {info.returnamount ? info.returnamount.toLocaleString() : 0}₮
                 </span>
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.returnStatus" />
@@ -269,6 +321,7 @@ class List extends React.Component {
                     </span>
                   )}
               </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.returnDate" />
@@ -279,14 +332,18 @@ class List extends React.Component {
                     moment(info.returndate).format("YYYY-MM-DD")}
                 </span>
               </p>
+
             </div>
 
+
             <div>
+
               <p className="title-delivery">
                 <strong>
                   <FormattedMessage id="shared.sidebar.title.deliveryInfo" />
                 </strong>
               </p>
+
               <div className="content">
                 <p className="flex-this">
                   <i
@@ -307,6 +364,7 @@ class List extends React.Component {
                     </strong>
                   </span>
                 </p>
+
                 <p className="flex-this">
                   <i
                     className="fa fa-map-marker"
@@ -315,6 +373,7 @@ class List extends React.Component {
                   />
                   <span>{orderdetail.info.address}</span>
                 </p>
+
                 <p className="text flex-this">
                   <i
                     className="fa fa-user"
@@ -323,6 +382,7 @@ class List extends React.Component {
                   />
                   <span>{orderdetail.info.custname}</span>
                 </p>
+
                 <p className="text flex-this">
                   <i
                     className="fa fa-phone"
@@ -334,6 +394,7 @@ class List extends React.Component {
                     {orderdetail.info.phone2}
                   </span>
                 </p>
+
                 <p className="text flex-this">
                   <i
                     className="fa fa-calendar"
@@ -349,8 +410,11 @@ class List extends React.Component {
                       moment(info.deliverydate).format("YYYY-MM-DD")}
                   </span>
                 </p>
+
               </div>
             </div>
+
+
             <div style={{ width: "100% !important" }}>
               <Button
                 className="btn btn-main"
