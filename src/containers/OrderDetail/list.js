@@ -266,7 +266,7 @@ class List extends React.Component {
                 <span>
                   {info.statusid === 1 ? (
                     null
-                  ) : formatter.format(orderdetail.info.paidamount)}₮
+                  ) : formatter.format(orderdetail.info.paidamt)}₮
                 </span>
               </p>
 
