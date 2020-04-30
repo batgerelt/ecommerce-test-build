@@ -67,7 +67,6 @@ class List extends React.Component {
                   </strong>
                 </div>
                 <div>
-                  r
                   <p className="qty footer">
                     {item.qty}/{item.qty}
                   </p>
@@ -164,10 +163,10 @@ class List extends React.Component {
               </p>
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
+                  <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
+                  {info.totalamount + info.totaldiscount.toLocaleString()}₮
                 </span>
               </p>
               <p className="flex-space count">
@@ -289,6 +288,25 @@ class List extends React.Component {
                 </strong>
               </p>
               <div className="content">
+                <p className="flex-this">
+                  <i
+                    className="fa fa-truck"
+                    aria-hidden="true"
+                    style={{
+                    color: "#feb415",
+                    marginLeft: "-2px",
+                    marginRight: "2px",
+                    }}
+                  />
+                  <span>
+                    <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
+                  </span>
+                  <span style={{ marginLeft: "2px" }}>
+                    <strong>
+                      {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
+                    </strong>
+                  </span>
+                </p>
                 <p className="flex-this">
                   <i
                     className="fa fa-map-marker"
@@ -462,7 +480,10 @@ class List extends React.Component {
                     {orderdetail.info === undefined ? null : this.renderTable()}
                   </div>
                 </div>
-                <div className="col-xl-4 pad10">
+                <div
+                  className="col-xl-4 pad10"
+                  style={{ padding: "27px" }}
+                >
                   {orderdetail.info === undefined
                     ? null
                     : this.renderDelivery()}
