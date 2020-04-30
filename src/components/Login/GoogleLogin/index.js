@@ -1,6 +1,7 @@
 /* global gapi */
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Button } from "antd";
 
 class App extends Component {
   constructor(props) {
@@ -8,7 +9,12 @@ class App extends Component {
 
     this.state = {
       isSignedIn: false,
+      loading: false,
     };
+  }
+
+  componentWillMount = () => {
+    this.setState({ loading: false });
   }
 
   handleLogin = async () => {
@@ -23,6 +29,7 @@ class App extends Component {
       });
 
       auth2.then(() => {
+        this.setState({ loading: true });
         let profile = auth2.currentUser.get().getBasicProfile();
         let param = {
           username: profile.getName(),
@@ -43,7 +50,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <button id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}><FormattedMessage id="shared.form.button.googleLogin" /></button>
+          <button disabled={this.state.loading} id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}><FormattedMessage id="shared.form.button.googleLogin" /></button>
         </header>
       </div>
     );

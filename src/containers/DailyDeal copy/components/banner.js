@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 
 class Banner extends Component {
   state = {
-    time: 1000,
+    time: 60,
     sec: '',
     secaraw: '',
 
@@ -12,15 +12,15 @@ class Banner extends Component {
     minaraw: '',
   }
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
-    setInterval(() => {
-      this.setState({
-        time: this.state.time - 1,
-        sec: `num${Math.floor(Math.floor(this.state.time % 60) / 10)}`,
-        secM: `num${Math.floor(Math.floor(this.state.time % 60) % 10)}`,
-      });
-    }, 1000);
-  }
+  // UNSAFE_componentWillMount() {
+  //   setInterval(() => {
+  //     this.setState({
+  //       time: this.state.time - 1,
+  //       sec: `num${Math.floor(Math.floor(this.state.time % 60) / 10)}`,
+  //       secM: `num${Math.floor(Math.floor(this.state.time % 60) % 10)}`,
+  //     });
+  //   }, 1000);
+  // }
 
   componentWillUnmount() {
     clearInterval();
@@ -41,12 +41,12 @@ class Banner extends Component {
             <em className="color" />
 
             <em className="num0" />
-            <em className={this.state.min} />
+            <em className="num0" />
 
             <em className="color" />
 
-            <em className={this.state.sec} />
-            <em className={this.state.secM} />
+            <em className="num0" />
+            <em className="num0" />
           </div>
         </div>
       </div >

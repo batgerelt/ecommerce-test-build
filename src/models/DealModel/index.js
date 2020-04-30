@@ -35,7 +35,7 @@ class Model extends BaseModel {
   });
 
   // redux-ийн хямдралтай барааны мэдээллийг устгах
-  resetDiscountProducts = () => ({ type: 'DISCOUNT_PRODUCTS_RESET' });
+  resetDealProducts = () => ({ type: 'DAILYDEAL_PRODUCTS_RESET' });
 
   // Elastic-ийн явуулах боломжгүй барааны датаг авах (availableqty, unitprice, unitdiscountprice, currentunitprice)
   getMoreInfoElastic = ({ skucd }) => asyncFn({
@@ -62,7 +62,9 @@ class Model extends BaseModel {
           discountproductCount: state.discountproductCount + 20,
         };
 
-      case 'RESET_DISCOUNT_PRODUCTS': return { ...state, discountproductCount: [], discountproductCount: 0 };
+      case 'DAILYDEAL_PRODUCTS_RESET':
+        console.log("dailydealProductReset");
+        return { ...state, discountproductCount: [], discountproductCount: 0 };
 
       case this.model.elasticmoreinfo.request:
         return { ...state, current: this.requestCase(state.current, action) };

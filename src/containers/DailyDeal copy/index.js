@@ -39,14 +39,36 @@ class Page extends React.Component {
   state = { banner: { header: [], footer: [] } }
   /** Хуудсыг зурахад шаардагдах өгөгдлийг авах хүсэлтүүд */
   componentDidMount() {
-    // Хандалт бүрт санамсаргүйгээр харуулж байгаа ба setState хийх үед солигдоод байсныг нь энд оруулав
-    this.props.getDiscountMenu({});
+    this.getData();
+  }
+
+  getData = () => {
+    this.props.resetDealProducts();
+    const param = {
+      catId: 0,
+      value: "",
+      attribute: "",
+      color: "",
+      brand: "",
+      promotion: "",
+      minPrice: 0,
+      maxPrice: 0,
+      level: 0,
+      highlight: true,
+      attributeQty: 0,
+      custId: 0,
+      module: "hourdiscount",
+      language: "",
+      startsWith: 0,
+      rowCount: 0,
+      orderColumn: "updateddate_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
+    };
   }
 
   render() {
     return (
       <div>
-        <List {...this.props} {...this.state} {...this} />
+        {!this.state.loading ? <List {...this.props} {...this.state} {...this} /> : null}
         <LoginModal onRef={ref => (this.LoginModal = ref)} {...this.props} />
       </div>
     );

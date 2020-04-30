@@ -3504,6 +3504,10 @@ button:disabled {
 }
 
 // profile custom input //
+.nopadd {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
 
 #bg_sub {
   width: 100%;
@@ -3583,7 +3587,7 @@ button:disabled {
 
 .ant-statistic-content-value {
   font-weight: 500 !important;
-  font-size: 22px;
+  font-size: 28px;
   color: red !important;
 }
 

@@ -6,9 +6,8 @@ import { Rate } from "antd";
 import { injectIntl, defineMessages } from 'react-intl';
 import Button from "@material-ui/core/Button";
 import { store } from 'react-notifications-component';
-
-import Skeltons from "../../components/Skeltons/Image";
-import { ElasticLabel, Notification } from "../../components";
+import Skeltons from '../../../components/Skeltons/Image';
+import { ElasticLabel, Notification } from "../../../components";
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -106,7 +105,7 @@ class FiveCard extends Component {
                   {isNaN(item.price) ? 0 : formatter.format(item.price)}₮
                 </small>
                 <span className="current">
-                  {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}              ₮
+                  {isNaN(item.discountprice) ? 0 : formatter.format(item.discountprice)}₮
                 </span>
               </React.Fragment>
             ) : (
@@ -123,7 +122,7 @@ class FiveCard extends Component {
 
   render() {
     return (
-      <div className="col-four col-md-4 col-6">
+      <div className="col-four col-md-4 col-6 nopadd">
         <div className="single-product small-product sale-product timed-product">
           {this.renderImage()}
           {this.renderInfo()}

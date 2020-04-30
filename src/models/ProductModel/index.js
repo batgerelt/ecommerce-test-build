@@ -14,6 +14,8 @@ class Model extends BaseModel {
     emartproduct: [],
     discountproduct: [],
     newproduct: [],
+    dailydealproduct: [],
+    timercountdown: null,
 
     isProductDetail: true,
     detail: null,
@@ -38,6 +40,7 @@ class Model extends BaseModel {
     isfeedbacks: {
       status: 0,
     },
+    dealFetching: false,
   }
 
   constructor(data = {}) {
@@ -58,6 +61,11 @@ class Model extends BaseModel {
           request: this.buildActionName('request', data.model, 'newproduct'),
           response: this.buildActionName('response', data.model, 'newproduct'),
           error: this.buildActionName('error', data.model, 'newproduct'),
+        },
+        dailydealproduct: {
+          request: this.buildActionName('request', data.model, 'dailydealproduct'),
+          response: this.buildActionName('response', data.model, 'dailydealproduct'),
+          error: this.buildActionName('error', data.model, 'dailydealproduct'),
         },
         detail: {
           request: this.buildActionName('request', data.model, 'detail'),
@@ -124,6 +132,11 @@ class Model extends BaseModel {
           response: this.buildActionName('response', data.model, 'elasticmoreinfo'),
           error: this.buildActionName('error', data.model, 'elasticmoreinfo'),
         },
+        timercountdown: {
+          request: this.buildActionName('request', data.model, 'timercountdown'),
+          response: this.buildActionName('response', data.model, 'timercountdown'),
+          error: this.buildActionName('error', data.model, 'timercountdown'),
+        },
       };
     }
     this.addWishListModel = {
@@ -175,6 +188,9 @@ class Model extends BaseModel {
   getProductDetailimg = ({ skucd }) => asyncFn({ url: `/product/detailimg/${skucd}`, method: 'GET', model: this.model.detailimg });
   getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
   getCategorys = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
+  getCountDown = () => asyncFn({ url: `/widget/discounthour`, method: 'GET', model: this.model.timercountdown });
+
+
   getEmartProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `date_desc`,
   }) => asyncFn({ url: `/product/emartproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.emartproduct });
@@ -184,9 +200,14 @@ class Model extends BaseModel {
   getNewProduct = ({
     jumcd = '99', start = 0, rowcnt = 20, order = `price_asc`,
   }) => asyncFn({ url: `/product/newproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.newproduct });
+  getDailydealProduct = ({
+    jumcd = '99', start = 0, rowcnt = 20, order = `price_asc`,
+  }) => asyncFn({ url: `/product/dailydealproduct/${jumcd}/${start}/${rowcnt}/${order}`, method: 'GET', model: this.model.dailydealproduct });
+
   getProductAvailable = ({
     custid, skucd, qty, iscart,
   }) => asyncFn({ url: `/prodavailablesku/${custid}/${skucd}/${qty}/${iscart}`, method: 'GET', model: this.model.prodavailablesku });
+
   isFeedBack = ({ orderid, skucd }) => asyncFn({ url: `/product/isfeedback/${orderid}/${skucd}`, method: 'GET', model: this.model.isfeedback });
 
   getRecipeProduct = () => asyncFn({ url: `/cookrecipe`, method: 'GET', model: this.model.recipe });
@@ -211,6 +232,14 @@ class Model extends BaseModel {
           ...state,
           rate: 0,
         };
+      // GET COUNTDOWN
+      case this.model.timercountdown.request:
+        return { ...state, current: this.requestCase(state.current, action) };
+      case this.model.timercountdown.error:
+        return { ...state, current: this.errorCase(state.current, action) };
+      case this.model.timercountdown.response:
+        return { ...state, timercountdown: action.payload.data[0] };
+
       // GET EMART PRODUCT
       case this.model.emartproduct.request:
         return { ...state, current: this.requestCase(state.current, action) };
@@ -226,6 +255,14 @@ class Model extends BaseModel {
         return { ...state, discountFetching: false, current: this.errorCase(state.current, action) };
       case this.model.discountproduct.response:
         return { ...state, discountFetching: false, discountproduct: action.payload.data };
+
+      // GET DAILYDEAL PRODUCT
+      case this.model.dailydealproduct.request:
+        return { ...state, dealFetching: true, current: this.requestCase(state.current, action) };
+      case this.model.dailydealproduct.error:
+        return { ...state, dealFetching: false, current: this.errorCase(state.current, action) };
+      case this.model.dailydealproduct.response:
+        return { ...state, dealFetching: false, dailydealproduct: action.payload.data };
 
       // GET NEW PRODUCT
       case this.model.newproduct.request:

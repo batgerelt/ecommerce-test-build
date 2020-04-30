@@ -5,7 +5,7 @@ import { Icon } from "react-fa";
 import { isMobileOnly } from 'react-device-detect';
 import { BackTop } from "antd";
 import Helmet, { HelmetProvider } from "react-helmet";
-// import { HomeOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { HomeOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 import { Slider, Widget, Banner, Loader } from "../../components";
 import { WIDGET_SLUGS } from "../../utils/Consts";
@@ -53,9 +53,9 @@ class Homepage extends React.Component {
             ? []
             : products.emartproduct.product;
           widget.readMore = intl.formatMessage({ id: "home.widget.emart.readMore" });
-          // widget.icon = (
-          //   <HomeOutlined style={{ color: "red" }} />
-          // );
+          widget.icon = (
+            <HomeOutlined style={{ color: "red" }} />
+          );
           break;
         case WIDGET_SLUGS.discount:
           widget.items = products.discountproduct.product.length === 0
@@ -73,46 +73,46 @@ class Homepage extends React.Component {
             </span>
           );
           widget.readMore = intl.formatMessage({ id: "home.widget.discount.readMore" });
-          // widget.icon = (
-          //   <CalendarOutlined style={{ color: "red" }} />
-          // );
+          widget.icon = (
+            <CalendarOutlined style={{ color: "red" }} />
+          );
           break;
         case WIDGET_SLUGS.package:
           widget.items = products.packageAll.length === 0
             ? []
             : products.packageAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.package.readMore" });
-          // widget.icon = (
-          //   <HomeOutlined style={{ color: "red" }} />
-          // );
+          widget.icon = (
+            <HomeOutlined style={{ color: "red" }} />
+          );
           break;
         case WIDGET_SLUGS.recipe:
           widget.items = products.recipeAll.length === 0
             ? []
             : products.recipeAll;
           widget.readMore = intl.formatMessage({ id: "home.widget.recipe.readMore" });
-          // widget.icon = (
-          //   <HomeOutlined style={{ color: "red" }} />
-          // );
+          widget.icon = (
+            <HomeOutlined style={{ color: "red" }} />
+          );
           break;
         case WIDGET_SLUGS.new:
           widget.items = products.newproduct.length === 0
             ? []
             : products.newproduct;
           widget.readMore = intl.formatMessage({ id: "home.widget.new.readMore" });
-          // widget.icon = (
-          //   <HomeOutlined style={{ color: "red" }} />
-          // );
+          widget.icon = (
+            <HomeOutlined style={{ color: "red" }} />
+          );
           break;
         case WIDGET_SLUGS.dailydeal:
-          widget.items = products.emartproduct.product.length === 0
+          widget.items = products.dailydealproduct.product.length === 0
             ? []
-            : products.emartproduct.product;
+            : products.dailydealproduct.product;
           widget.readMore = intl.formatMessage({ id: "home.widget.dailydeal.readMore" });
-          widget.dailydeal = 1000;
-          // widget.icon = (
-          //   <ClockCircleOutlined style={{ color: "red" }} />
-          // );
+          widget.dailydeal = this.props.timercountdown;
+          widget.icon = (
+            <ClockCircleOutlined style={{ color: "red" }} />
+          );
           break;
         default:
       }
@@ -133,6 +133,7 @@ class Homepage extends React.Component {
         packageAll,
         newproduct,
         recipeAll,
+        dailydealproduct,
       } = this.props;
 
       const items = {
@@ -142,6 +143,7 @@ class Homepage extends React.Component {
           packageAll,
           newproduct,
           recipeAll,
+          dailydealproduct,
         },
         blocks: {
           widget: widgetAll,

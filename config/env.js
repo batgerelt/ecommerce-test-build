@@ -9,7 +9,7 @@ delete require.cache[require.resolve("./paths")];
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error(
-    "The NODE_ENV environment variable is required but was not specified."
+    "The NODE_ENV environment variable is required but was not specified.",
   );
 }
 let dotenvFiles = [
@@ -30,15 +30,15 @@ dotenvFiles.forEach((dotenvFile) => {
 const appDirectory = fs.realpathSync(process.cwd());
 process.env.NODE_PATH = (process.env.NODE_PATH || "")
   .split(path.delimiter)
-  .filter((folder) => folder && !path.isAbsolute(folder))
-  .map((folder) => path.resolve(appDirectory, folder))
+  .filter(folder => folder && !path.isAbsolute(folder))
+  .map(folder => path.resolve(appDirectory, folder))
   .join(path.delimiter);
 
 const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter((key) => REACT_APP.test(key))
+    .filter(key => REACT_APP.test(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
@@ -62,7 +62,7 @@ function getClientEnvironment(publicUrl) {
         // TEST_API: `http://10.0.0.22:8876/mn`,
         // TEST_IMAGE: `http://www.cdn.emartmall.mn/`,
         // TEST_IMAGES: `http://10.0.0.22:8876/`,
-      }
+      },
     );
 
   const stringified = {

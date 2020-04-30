@@ -24,7 +24,7 @@ import Brand from "./Brand";
 import SearchNotFound from "./Exception/SearchNotFound";
 import ProductNotFound from "./Exception/ProductNotFound";
 import DynamicMenu from "./DynamicMenu";
-import TimeSale from "./TimeSale";
+import DailyDeal from "./DailyDeal";
 
 export {
   App,
@@ -53,5 +53,5 @@ export {
   SearchNotFound,
   ProductNotFound,
   DynamicMenu,
-  TimeSale,
+  DailyDeal,
 };
