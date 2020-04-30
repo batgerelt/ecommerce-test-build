@@ -34,6 +34,7 @@ class List extends React.Component {
     const lang = this.props.intl.locale;
     try {
       const { orderdetail } = this.props;
+
       return orderdetail.items.map((item, index) => {
         // is mobile
         const title = lang === "mn" ? item.title : item.title_en;
@@ -102,7 +103,6 @@ class List extends React.Component {
       const lang = this.props.intl.locale;
       if (orderdetail.info !== null) {
         const { info } = this.props.orderdetail;
-        console.log(info.returnstatus);
         return (
           <div className="cart-info filter-sticky" style={{ fontSize: "13px" }}>
             <div className="">
@@ -190,9 +190,12 @@ class List extends React.Component {
                     color: "#DC143C",
                   }}
                 >
-                  {info.statusid === 1 ? (
-                    null
-                  ) : -formatter.format(orderdetail.info.totaldiscount)}₮
+                  {
+                  info.statusid === 1 || info.statusid === 8 ? (
+                    0
+                  ) : (formatter.format(orderdetail.info.totaldiscount === "" ? 0 : orderdetail.info.totaldiscount * -1))
+                  }
+                ₮
                 </span>
               </p>
 
@@ -246,9 +249,11 @@ class List extends React.Component {
                     color: "#DC143C",
                   }}
                 >
-                  {info.statusid === 1 ? (
-                    null
-                  ) : -formatter.format(orderdetail.info.outpoint)}₮
+                  {info.statusid === 1 || info.statusid === 8 ? (
+                    0
+                  ) : (formatter.format(orderdetail.info.totaldiscount === "" ? 0 : orderdetail.info.outpoint * -1))
+                  }
+                ₮
                 </span>
               </p>
 
