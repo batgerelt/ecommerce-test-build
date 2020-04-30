@@ -186,14 +186,9 @@ class List extends React.Component {
                 <span>
                   <FormattedMessage id="shared.sidebar.label.totalDiscount" />:
                 </span>
-                <span style={{
-                    color: "#DC143C",
-                  }}
-                >
+                <span>
                   {
-                  info.statusid === 1 || info.statusid === 8 ? (
-                    0
-                  ) : (formatter.format(orderdetail.info.totaldiscount === "" ? 0 : orderdetail.info.totaldiscount * -1))
+                  formatter.format(orderdetail.info.totaldiscount === 0 ? 0 : orderdetail.info.totaldiscount * -1)
                   }
                 ₮
                 </span>
@@ -206,7 +201,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.itemamount ? info.itemamount.toLocaleString() : 0}₮
+                  {info.itemamount ? info.totalamount.toLocaleString() : 0}₮
                 </span>
               </p>
 
@@ -232,12 +227,10 @@ class List extends React.Component {
 
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.paymentAmount" />:
+                  <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.statusid === 1 ? (
-                    null
-                  ) : formatter.format(orderdetail.info.totalamount)}₮
+                  {info.statusid === 1 ? 0 : formatter.format(orderdetail.info.totalamount)}₮
                 </span>
               </p>
 
@@ -245,13 +238,9 @@ class List extends React.Component {
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paidByEpoint" />:
                 </span>
-                <span style={{
-                    color: "#DC143C",
-                  }}
-                >
-                  {info.statusid === 1 || info.statusid === 8 ? (
-                    0
-                  ) : (formatter.format(orderdetail.info.totaldiscount === "" ? 0 : orderdetail.info.outpoint * -1))
+                <span>
+                  {
+                  formatter.format(orderdetail.info.outpoint === 0 ? 0 : orderdetail.info.outpoint * -1)
                   }
                 ₮
                 </span>
@@ -261,10 +250,7 @@ class List extends React.Component {
                 <span>
                   <FormattedMessage id="shared.sidebar.label.paidByCash" />:
                 </span>
-                <span>
-                  {info.statusid === 1 ? (
-                    null
-                  ) : formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮
+                <span>{info.statusid === 1 ? 0 : formatter.format(orderdetail.info.totalamount - orderdetail.info.outpoint)}₮
                 </span>
               </p>
 
@@ -273,9 +259,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.paidByCashAmount" />:
                 </span>
                 <span>
-                  {info.statusid === 1 ? (
-                    null
-                  ) : formatter.format(orderdetail.info.paidamt)}₮
+                  {info.statusid === 1 ? 0 : formatter.format(orderdetail.info.paidamt)}₮
                 </span>
               </p>
 
@@ -368,9 +352,7 @@ class List extends React.Component {
                     <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
                   </span>
                   <span style={{ marginLeft: "4px" }}>
-                    <strong>
-                      {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
-                    </strong>
+                    {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
                   </span>
                 </p>
 
