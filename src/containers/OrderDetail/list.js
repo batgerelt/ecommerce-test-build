@@ -244,7 +244,7 @@ class List extends React.Component {
                     color: "#DC143C",
                   }}
                 >
-                  -{formatter.format(orderdetail.info.totaldiscount)}₮
+                  -{formatter.format(orderdetail.info.outpoint)}₮
                 </span>
               </p>
 
