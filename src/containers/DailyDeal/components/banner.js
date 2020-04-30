@@ -12,15 +12,16 @@ class Banner extends Component {
     minaraw: '',
   }
   // eslint-disable-next-line camelcase
-  // UNSAFE_componentWillMount() {
-  //   setInterval(() => {
-  //     this.setState({
-  //       time: this.state.time - 1,
-  //       sec: `num${Math.floor(Math.floor(this.state.time % 60) / 10)}`,
-  //       secM: `num${Math.floor(Math.floor(this.state.time % 60) % 10)}`,
-  //     });
-  //   }, 1000);
-  // }
+  UNSAFE_componentWillMount() {
+    setInterval(() => {
+      // this.setState({
+      //   time: this.state.time - 1,
+      //   sec: `num${Math.floor(Math.floor(this.state.time % 60) / 10)}`,
+      //   secM: `num${Math.floor(Math.floor(this.state.time % 60) % 10)}`,
+      // });
+      // console.log(Math.floor(3 % 5));
+    }, 1000);
+  }
 
   componentWillUnmount() {
     clearInterval();

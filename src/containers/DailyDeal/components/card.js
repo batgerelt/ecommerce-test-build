@@ -561,7 +561,7 @@ class Card extends React.Component {
       }
       switch (shape) {
         case CARD_TYPES.wide:
-          console.log("wide");
+          // console.log("wide");
           return (
             <div className="col-sm-3 col-four col-md-4 col-6 nopadd">
               <div className="single-product big-product sale-product timed-product">
@@ -622,7 +622,7 @@ class Card extends React.Component {
             </div>
           );
         case CARD_TYPES.list:
-          console.log("wide");
+          // console.log("wide");
           return (
             <div className="single-product list-product sale-product">
               <div className="image-container">
