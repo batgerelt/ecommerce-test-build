@@ -3662,9 +3662,6 @@ button:disabled {
   .DayPicker-Day--disabled {
     background-color: unset !important;
   }
-  .DayPicker-Day--outside {
-    background-color: unset !important;
-  }
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day-outside) {
