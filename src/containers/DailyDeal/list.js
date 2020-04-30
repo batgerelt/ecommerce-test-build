@@ -379,7 +379,7 @@ class CategoryInfo extends React.Component {
     } else {
       tmp = isList ? 120 : 305;
     }
-    console.log(tmp);
+    // console.log(tmp);
     return tmp;
   };
 

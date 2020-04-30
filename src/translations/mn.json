@@ -349,6 +349,7 @@
   "shared.sidebar.button.showAllRelatedProducts": "Бүх хослох барааг харах",
   "shared.sidebar.button.addToCart": "Бүгдийг сагсанд нэмэх",
   "shared.sidebar.checkbox.acceptance": "Үйлчилгээний нөхцлийг зөвшөөрөх",
+  "shared.sidebar.label.deliveryCost": "Хүргэлтийн төлбөр",
   "shared.sidebar.label.deliveryPrice": "Хүргэлтийн төлбөр",
   "shared.sidebar.label.deliveryType": "Хүргэлтийн төрөл",
   "shared.sidebar.label.epoint": "Имартын карт",
