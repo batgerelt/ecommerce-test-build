@@ -279,7 +279,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.returnStatus" />
                   :
                 </span>
-                {info.returnstatus === "2" ? (
+                {info.returnstatus === "2" && (
                   <span
                     style={{
                       background: "#16A58A",
@@ -295,7 +295,8 @@ class List extends React.Component {
                   >
                     <FormattedMessage id="shared.sidebar.label.transactionComplete" />
                   </span>
-                ) : (
+                )}
+                {(info.returnamount !== null && info.returndate === null) ? (
                     // eslint-disable-next-line react/jsx-indent
                     <span
                       style={{
@@ -312,7 +313,8 @@ class List extends React.Component {
                     >
                       <FormattedMessage id="shared.sidebar.label.transactionFailed" />
                     </span>
-                  )}
+                  ) : null
+                }
               </p>
 
               <p className="flex-space count">
