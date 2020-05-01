@@ -279,7 +279,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.returnStatus" />
                   :
                 </span>
-                {info.returnstatus === 2 ? (
+                {info.returnstatus === "2" ? (
                   <span
                     style={{
                       background: "#16A58A",
@@ -299,7 +299,7 @@ class List extends React.Component {
                     // eslint-disable-next-line react/jsx-indent
                     <span
                       style={{
-                        background: "#DC143C",
+                        background: "#727272",
                         paddingTop: "5px",
                         paddingBottom: "5px",
                         textAlign: "center",

@@ -380,7 +380,7 @@
   "shared.sidebar.label.totalPrice": "Price",
   "shared.sidebar.label.totalDiscount": "Total discount",
   "shared.sidebar.label.unit": ".",
-  "shared.sidebar.label.transactionFailed": "Transaction declined",
+  "shared.sidebar.label.transactionFailed": "Transaction waiting",
   "shared.sidebar.label.transactionComplete": "Transaction complete",
   "shared.sidebar.title.deliveryInfo": "DELIVERY",
   "shared.sidebar.title.deliveryStatus": "Delivery status",
