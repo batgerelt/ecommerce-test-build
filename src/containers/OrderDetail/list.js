@@ -279,7 +279,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.returnStatus" />
                   :
                 </span>
-                {info.returnstatus === 1 ? (
+                {info.returnstatus === 2 ? (
                   <span
                     style={{
                       background: "#16A58A",
@@ -415,7 +415,7 @@ class List extends React.Component {
                 style={{
                   backgroundColor: "#FFB81C",
                   marginBottom: "10px",
-                  marginLeft: "60px",
+                  marginLeft: "8%",
                   marginTop: "10px",
                 }}
               >
@@ -537,7 +537,7 @@ class List extends React.Component {
                 </div>
                 <div
                   className="col-xl-4 pad10"
-                  style={{ padding: "27px" }}
+                  style={{ padding: "26px" }}
                 >
                   {orderdetail.info === undefined
                     ? null
