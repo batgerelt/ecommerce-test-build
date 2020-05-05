@@ -6,6 +6,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
 import { BackTop, Avatar, Divider } from "antd";
 import Button from "@material-ui/core/Button";
 import { store } from "react-notifications-component";
@@ -33,6 +34,7 @@ class List extends React.Component {
   renderTable = () => {
     const lang = this.props.intl.locale;
     try {
+      const { info } = this.props.orderdetail;
       const { orderdetail } = this.props;
 
       return orderdetail.items.map((item, index) => {
@@ -71,7 +73,7 @@ class List extends React.Component {
                 </div>
                 <div>
                   <p className="qty footer">
-                    {item.qty}/{item.qty}
+                    {info.statusid === 1 ? `${item.orderquantity}/0` : `${item.orderquantity}/${item.qty}`}
                   </p>
                 </div>
               </div>
@@ -80,11 +82,28 @@ class List extends React.Component {
 
             <div className="rate-container">
               <div>
-                <p className="header">Үнэлгээ</p>
+                {
+              item.status !== 0 ?
+                <Link
+                  to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}
+                  className="responsive-font10"
+                  style={{
+                    color: "#FFFFFF",
+                    backgroundColor: "#FFB81C",
+                    padding: "2px",
+                    borderRadius: "2px",
+                    fontSize: "12px",
+                  }}
+                >
+                  <FormattedMessage id="orderDetail.info.leaveFeedback" />
+                </Link>
+                :
+                null
+            }
               </div>
               <div>
                 <strong>
-                  <p className="footer">
+                  <p className="footer mt-3">
                     {item.orderamount && item.orderamount.toLocaleString()}₮
                   </p>
                 </strong>
@@ -130,13 +149,6 @@ class List extends React.Component {
 
               <p className="flex-space count">
                 <span>
-                  <FormattedMessage id="shared.sidebar.label.orderNumber" />:
-                </span>
-                <span>{info.ordernumber}</span>
-              </p>
-
-              <p className="flex-space count">
-                <span>
                   <FormattedMessage id="shared.sidebar.label.orderStatus" />:
                 </span>
 
@@ -173,12 +185,22 @@ class List extends React.Component {
                 <span>{orderdetail.info.email}</span>
               </p>
 
+            </div>
+
+
+            <div className="cart-info filter-sticky">
+              <p className="title-delivery">
+                <strong>
+                  <FormattedMessage id="shared.sidebar.label.payment" />
+                </strong>
+              </p>
+
               <p className="flex-space count">
                 <span>
                   <FormattedMessage id="shared.sidebar.label.orderAmountOri" />:
                 </span>
                 <span>
-                  { formatter.format(orderdetail.info.totalamount + orderdetail.info.totaldiscount)}₮
+                  {formatter.format(orderdetail.info.totalamount + orderdetail.info.totaldiscount)}₮
                 </span>
               </p>
 
@@ -188,7 +210,7 @@ class List extends React.Component {
                 </span>
                 <span>
                   {
-                  formatter.format(orderdetail.info.totaldiscount === 0 ? 0 : orderdetail.info.totaldiscount * -1)
+                    formatter.format(orderdetail.info.totaldiscount === 0 ? 0 : orderdetail.info.totaldiscount * -1)
                   }
                 ₮
                 </span>
@@ -201,36 +223,7 @@ class List extends React.Component {
                   <FormattedMessage id="shared.sidebar.label.orderAmount" />:
                 </span>
                 <span>
-                  {info.itemamount ? info.totalamount.toLocaleString() : 0}₮
-                </span>
-              </p>
-
-              <p className="flex-space count">
-                <span>
-                  <FormattedMessage id="shared.sidebar.label.pricedAmount" />:
-                </span>
-                <span>
-                  {info.pickedamount ? info.pickedamount.toLocaleString() : 0}₮
-                </span>
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="title-delivery">
-                <strong>
-                  <FormattedMessage id="shared.sidebar.label.payment" />
-                </strong>
-              </p>
-
-              <p className="flex-space count">
-                <span>
-                  <FormattedMessage id="shared.sidebar.label.orderAmount" />:
-                </span>
-                <span>
-                  {info.statusid === 1 ? 0 : formatter.format(orderdetail.info.totalamount)}₮
+                  {info.statusid === 0 ? 0 : formatter.format(orderdetail.info.totalamount)}₮
                 </span>
               </p>
 
@@ -240,7 +233,7 @@ class List extends React.Component {
                 </span>
                 <span>
                   {
-                  formatter.format(orderdetail.info.outpoint === 0 ? 0 : orderdetail.info.outpoint * -1)
+                    formatter.format(orderdetail.info.outpoint === 0 ? 0 : orderdetail.info.outpoint * -1)
                   }
                 ₮
                 </span>
@@ -297,23 +290,23 @@ class List extends React.Component {
                   </span>
                 )}
                 {(info.returnamount !== null && info.returndate === null) ? (
-                    // eslint-disable-next-line react/jsx-indent
-                    <span
-                      style={{
-                        background: "#727272",
-                        paddingTop: "5px",
-                        paddingBottom: "5px",
-                        textAlign: "center",
-                        borderRadius: "5px",
-                        color: "white",
-                        width: "150px",
-                        fontSize: "10px",
-                        margin: "0px",
-                      }}
-                    >
-                      <FormattedMessage id="shared.sidebar.label.transactionFailed" />
-                    </span>
-                  ) : null
+                  // eslint-disable-next-line react/jsx-indent
+                  <span
+                    style={{
+                      background: "#727272",
+                      paddingTop: "5px",
+                      paddingBottom: "5px",
+                      textAlign: "center",
+                      borderRadius: "5px",
+                      color: "white",
+                      width: "150px",
+                      fontSize: "10px",
+                      margin: "0px",
+                    }}
+                  >
+                    <FormattedMessage id="shared.sidebar.label.transactionFailed" />
+                  </span>
+                ) : null
                 }
               </p>
 
@@ -340,23 +333,6 @@ class List extends React.Component {
               </p>
 
               <div className="content">
-                <p className="flex-this">
-                  <i
-                    className="fa fa-truck"
-                    aria-hidden="true"
-                    style={{
-                    color: "#feb415",
-                    marginLeft: "-2px",
-                    marginRight: "2px",
-                    }}
-                  />
-                  <span>
-                    <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
-                  </span>
-                  <span style={{ marginLeft: "4px" }}>
-                    {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
-                  </span>
-                </p>
 
                 <p className="flex-this">
                   <i
@@ -388,6 +364,24 @@ class List extends React.Component {
                   </span>
                 </p>
 
+                <p className="flex-this">
+                  <i
+                    className="fa fa-truck"
+                    aria-hidden="true"
+                    style={{
+                      color: "#feb415",
+                      marginLeft: "-2px",
+                      marginRight: "2px",
+                    }}
+                  />
+                  <span>
+                    <FormattedMessage id="shared.sidebar.label.deliveryPrice" />:
+                  </span>
+                  <span style={{ marginLeft: "4px" }}>
+                    {info.deliveryamount && info.deliveryamount.toLocaleString()}₮
+                  </span>
+                </p>
+
                 <p className="text flex-this">
                   <i
                     className="fa fa-calendar"
@@ -401,6 +395,30 @@ class List extends React.Component {
                   <span style={{ marginLeft: "2px" }}>
                     {info.statusid === 6 &&
                       moment(info.deliverydate).format("YYYY-MM-DD")}
+                  </span>
+                </p>
+
+                <p
+                  className="text flex-this"
+                  style={{
+                    marginLeft: "5px",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faMoneyCheck}
+                    style={{ color: "#feb415" }}
+                  />
+                  <span style={{
+                    marginLeft: "18px",
+                  }}
+                  >
+                    <FormattedMessage id="shared.sidebar.label.pricedAmount" />:
+                  </span>
+                  <span style={{
+                    marginLeft: "2px",
+                  }}
+                  >
+                    {info.pickedamount ? info.pickedamount.toLocaleString() : 0}₮
                   </span>
                 </p>
 

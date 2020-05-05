@@ -172,6 +172,7 @@
   "orderDetail.table.title": "Ordered products",
   "orderDetail.title.orderNumber": "Order detail",
   "orderDetail.info.leaveFeedback": "Leave feedback",
+  "orderDetail.info.failedDelievery": "",
   "packageDetail.breadcrumb.home": "Home",
   "packageDetail.breadcrumb.package": "Package",
   "packageDetail.button.addToCart": "Add to cart",
