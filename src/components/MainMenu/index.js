@@ -20,13 +20,24 @@ class Component extends React.PureComponent {
           {
             data.map((item, index) => (
               <Button key={index}>
-                <li className="list-inline-item">
-                  <Link to={item.link}>
-                    <span style={{ color: pathname + search === item.link ? "#FFB81C" : "#FFFFFF" }}>
-                      {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
-                    </span>
-                  </Link>
-                </li>
+                {item.link === "/e/specialdeal" ?
+                  <li className="list-inline-item">
+                    <Link to={item.link}>
+                      <span style={{ color: "#ef3340" }}>
+                        {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
+                      </span>
+                    </Link>
+                  </li>
+                  :
+                  <li className="list-inline-item">
+                    <Link to={item.link}>
+                      <span style={{ color: pathname + search === item.link ? "#FFB81C" : "#FFFFFF" }}>
+                        {this.props.intl.locale === "mn" ? item.menunm : item.menunm_en}
+                      </span>
+                    </Link>
+                  </li>
+                }
+
               </Button >
             ))
 

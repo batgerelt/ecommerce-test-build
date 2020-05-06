@@ -99,6 +99,7 @@ class DeliveryInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    console.log("end", this.props.mainState.chosenDelivery.id);
     this.setState({ loading: true });
     const {
       userinfo, products, mainState,
@@ -172,6 +173,7 @@ class DeliveryInfo extends React.Component {
   }
 
   sendPayment = (tmp) => {
+    console.log("tmp: ", tmp);
     try {
       const { intl, mainState } = this.props;
       let data;

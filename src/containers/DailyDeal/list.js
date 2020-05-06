@@ -4,6 +4,7 @@ import React from "react";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from "react-router-dom";
 import { Spin, Select, BackTop, Tree, Icon, Row, Col } from "antd";
+import { isMobile } from "react-device-detect";
 import {
   InfiniteLoader,
   WindowScroller,
@@ -76,7 +77,7 @@ class CategoryInfo extends React.Component {
   getData = () => {
     this.setState({ loading: true });
     const { isLoggedIn, data } = this.props;
-
+    this.props.getCountDown({});
     const param = {
       catId: 0,
       value: "",
@@ -367,19 +368,20 @@ class CategoryInfo extends React.Component {
     const isList = this.state.isListViewOn;
 
     if (windowWidth < 576) { // is mobile
-      tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 370 : windowWidth < 475 ? 450 : 480;
+      tmp = windowWidth <= 320 ? 237 : windowWidth <= 360 ? 250 : windowWidth <= 375 ? 252 : windowWidth <= 420 ? 263 : 500;
+      console.log("fck");
+      // tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 253 : windowWidth < 475 ? 450 : 480;
     } else if (windowWidth >= 576 && windowWidth <= 767) {
       tmp = 365;
     } else if (windowWidth >= 768 && windowWidth <= 991) {
-      tmp = 350;
+      tmp = 333;
     } else if (windowWidth < 992) {
       tmp = isList ? 120 : 365;
     } else if (windowWidth < 1200) {
       tmp = isList ? 120 : 285;
     } else {
-      tmp = isList ? 120 : 305;
+      tmp = isList ? 120 : 265;
     }
-    // console.log(tmp);
     return tmp;
   };
 
@@ -403,9 +405,8 @@ class CategoryInfo extends React.Component {
     if (isList) {
       return 1;
     }
-
     if (windowWidth < 576) {
-      return 1;
+      return 2;
     } else if (windowWidth < 768) {
       return 3;
     } else if (windowWidth < 992) {
@@ -423,6 +424,7 @@ class CategoryInfo extends React.Component {
       const lang = this.props.intl;
       let array = [];
       let tempArray = [];
+      // console.log(bucket);
       let res = this.props.promotid.split(",");
 
       bucket.buckets.map((item) => {
@@ -442,7 +444,6 @@ class CategoryInfo extends React.Component {
                   to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.id).id}`}
                   key={key}
                 >
-                  {/* <li className={cat.key === categoryId || cat.key === Number(this.props.match.params.promotid) ? "selected" : "disabled"}> */}
                   <li className={cat.id === categoryId ? "selected" : "disabled"} >
                     <span onClick={() => this.handleClickCategory(cat)}>
                       {
@@ -758,10 +759,10 @@ class CategoryInfo extends React.Component {
   render() {
     return (
       <div className="top-container elastic-container">
-        <PageBanner />
+        <PageBanner timercountdown={this.props.timercountdown} />
         <div className="section season">
-          <div className="container pad10">
-            <div className="row row10">
+          <div className="container">
+            <div className="row">
               {this.renderLeftPanel()}
               {this.renderFilteredList()}
             </div>

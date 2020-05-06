@@ -29,7 +29,7 @@ class App extends Component {
       });
 
       auth2.then(() => {
-        this.setState({ loading: true });
+        // this.setState({ loading: true });
         let profile = auth2.currentUser.get().getBasicProfile();
         let param = {
           username: profile.getName(),
@@ -50,7 +50,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <button disabled={this.state.loading} id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}><FormattedMessage id="shared.form.button.googleLogin" /></button>
+          <button /* disabled={this.state.loading} */ id="loginButton" className="btn btn-block btn-social btn-gmail" onClick={this.handleLogin}><FormattedMessage id="shared.form.button.googleLogin" /></button>
         </header>
       </div>
     );

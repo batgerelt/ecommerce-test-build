@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-function Component({
-  timercountdown,
-}) {
-  const [seconds, setSeconds] = useState(11);
+const IntervalExample = () => {
+  const [seconds, setSeconds] = useState(0);
+
   useEffect(() => {
-    setSeconds(timercountdown);
     const interval = setInterval(() => {
-      setSeconds(timercountdown => timercountdown - 1);
-      console.log(seconds, timercountdown);
+      setSeconds(seconds => seconds + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -34,6 +31,6 @@ function Component({
       </div>
     </div>
   );
-}
+};
 
-export default Component;
+export default IntervalExample;

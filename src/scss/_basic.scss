@@ -3509,6 +3509,86 @@ button:disabled {
   padding-right: 5px !important;
 }
 
+//banner mobile
+@media (max-width: 768px) {
+  #bg_sub {
+    width: 100% !important;
+    position: absolute !important;
+    top: 48px !important;
+    left: 0 !important;
+  }
+  .header_obanjang {
+    position: relative !important;
+    z-index: 20 !important;
+    width: 785px !important;
+    height: 300px !important;
+    margin: 0 auto 0px !important;
+    background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/img_top_lc.png") no-repeat !important;
+    background-size: 100% auto !important;
+  }
+  .bg_obanjang {
+    height: 0px !important;
+    background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/bg_top.png") repeat-x !important;
+  }
+  .time_counter {
+    height: 121px !important;
+    overflow: hidden;
+    position: absolute;
+    left: 114px !important;
+    top: 126px !important;
+  }
+  .header_obanjang .time_counter {
+    em {
+      float: left;
+      position: relative;
+      width: 69px !important;
+      height: 69px !important;
+      margin-right: 5px !important;
+      margin-left: 6px !important;
+      background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/sp_time.png");
+      background-repeat: no-repeat;
+      background-size: 480px !important;
+    }
+    .num1 {
+      background-position: 0 0 !important;
+    }
+    .num2 {
+      background-position: -68.5px 0 !important
+    }
+    .num3 {
+      background-position: -137px 0 !important;
+    }
+    .num4 {
+      background-position: -205.5px 0 !important;
+    }
+    .num5 {
+      background-position: -274px 0 !important;
+    }
+    .num6 {
+      background-position: -343px 0 !important;
+    }
+    .num7 {
+      background-position: -412px 0 !important;
+    }
+    .num8 {
+      background-position: 0 -68.5px !important;
+    }
+    .num9 {
+      background-position: -68.5px -68.5px !important;
+    }
+    .num0 {
+      background-position: -138px -68.5px !important;
+    }
+    .color {
+      width: 10px !important;
+      margin: 0 5px !important;
+      background-position: -237px -68.5px !important;
+    }
+
+  }
+}
+//banner mobile end
+
 #bg_sub {
   width: 100%;
   position: absolute;

@@ -207,7 +207,7 @@ class component extends React.Component {
                       months={MONTHS[locale]}
                       weekdaysShort={WEEKDAYS_SHORT[locale]}
                       labels={LABELS[locale]}
-                      fixedWeeks
+                      showOutsideDays
 
                       selectedDays={this.state.selectedDay}
                       onDayClick={this.handleDayClick}

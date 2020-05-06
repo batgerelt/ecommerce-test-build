@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable no-global-assign */
 /* eslint-disable array-callback-return */
 import BaseModel from '../BaseModel';
@@ -189,6 +190,7 @@ class Model extends BaseModel {
   getProductDetailCategory = ({ skucd }) => asyncFn({ url: `/product/productdetailcategorys/${skucd}`, method: 'GET', model: this.model.productdetailcategorys });
   getCategorys = () => asyncFn({ url: `/category/menu`, method: 'GET', model: this.model.categorymenu });
   getCountDown = () => asyncFn({ url: `/widget/discounthour`, method: 'GET', model: this.model.timercountdown });
+  downTimer = () => ({ type: "DOWN_TIMER" });
 
 
   getEmartProduct = ({
@@ -238,7 +240,9 @@ class Model extends BaseModel {
       case this.model.timercountdown.error:
         return { ...state, current: this.errorCase(state.current, action) };
       case this.model.timercountdown.response:
-        return { ...state, timercountdown: action.payload.data[0] };
+        return { ...state, timercountdown: action.payload.data[0].hrs * 3600 + action.payload.data[0].mins * 60 + action.payload.data[0].secs };
+      case "DOWN_TIMER":
+        return { ...state, timercountdown: state.timercountdown - 1 };
 
       // GET EMART PRODUCT
       case this.model.emartproduct.request:

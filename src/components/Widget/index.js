@@ -14,7 +14,7 @@ class Widget extends React.Component {
   render() {
     const { widgetData } = this.props;
     const lang = this.props.intl.locale;
-    const countdown = !widgetData.dailydeal ? 1 : widgetData.dailydeal.hrs * 3600 + widgetData.dailydeal.mins * 60 + widgetData.dailydeal.secs;
+    const countdown = !widgetData.dailydeal ? 1 : widgetData.dailydeal;
     const deadline = !widgetData.dailydeal ? Date.now() + 1000 * 60 * 60 * 24 * 0 + 1000 * 0 : Date.now() + 1000 * 60 * 60 * 24 * 0 + 1000 * countdown;
     if (!widgetData) {
       return null;
