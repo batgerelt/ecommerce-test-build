@@ -13,7 +13,7 @@ import { store } from "react-notifications-component";
 import CryptoJS from "crypto-js";
 import moment from "moment";
 import { isMobile } from "react-device-detect";
-import store1 from "../../../src/scss/assets/images/demo/store.png";
+import cliplist from "../../../src/scss/assets/images/demo/cliplist.png";
 import { Notification } from "../../components";
 import { EncryptKey } from "../../utils/Consts";
 
@@ -73,7 +73,8 @@ class List extends React.Component {
                 </div>
                 <div>
                   <p className="qty footer">
-                    {info.statusid === 1 ? `${item.orderquantity}/0` : `${item.orderquantity}/${item.qty}`}
+                    {info.statusid === 1 ? `${item.orderquantity}/0` : `${item.orderquantity}/${item.qty === 0 ? "orderDetail.info.failedDelievery" : item.qty}`
+                    }
                   </p>
                 </div>
               </div>
@@ -89,10 +90,15 @@ class List extends React.Component {
                   className="responsive-font10"
                   style={{
                     color: "#FFFFFF",
-                    backgroundColor: "#FFB81C",
-                    padding: "2px",
-                    borderRadius: "2px",
-                    fontSize: "12px",
+                    backgroundColor: "#EBA50A ",
+                    fontSize: "10px",
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
+                    paddingLeft: "2px",
+                    paddingRight: "2px",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    margin: "0px",
                   }}
                 >
                   <FormattedMessage id="orderDetail.info.leaveFeedback" />
@@ -418,7 +424,7 @@ class List extends React.Component {
                     marginLeft: "2px",
                   }}
                   >
-                    {info.pickedamount ? info.pickedamount.toLocaleString() : 0}₮
+                    {info.statusid === 6 ? info.pickedamount.toLocaleString() : 0}₮
                   </span>
                 </p>
 
@@ -533,11 +539,14 @@ class List extends React.Component {
               <div className="row row10">
                 <div
                   className="col-xl-8 padd0"
-                  style={{ padding: "0px !important" }}
+                  style={{ padding: "0px" }}
                 >
-                  <div className="cart-table table-responsive text-right">
+                  <div
+                    className="cart-table table-responsive text-right"
+                    style={{ paddingLeft: "2%", paddingRight: "2%", }}
+                  >
                     <Link to="/profile/delivery" className="btn btn-link">
-                      <Avatar size="small" shape="square" src={store1} />
+                      <Avatar size="medium" shape="square" src={cliplist} />
                       <span>
                         <FormattedMessage id="orderDetail.button.showOrderList" />
                       </span>
@@ -557,7 +566,7 @@ class List extends React.Component {
                 </div>
                 <div
                   className="col-xl-4 pad10"
-                  style={{ padding: "26px" }}
+                  style={{ paddingTop: "26px", paddingLeft: "2%", paddingRight: "2%", }}
                 >
                   {orderdetail.info === undefined
                     ? null
