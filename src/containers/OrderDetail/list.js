@@ -73,15 +73,49 @@ class List extends React.Component {
                 </div>
                 <div>
                   <p className="qty footer">
-                    {info.statusid === 1 ? `${item.orderquantity}/0` : `${item.orderquantity}/${item.qty === 0 ? "orderDetail.info.failedDelievery" : item.qty}`
+                    {info.statusid === 1 ? `0` : `${item.qty}/${item.orderquantity}`
                     }
                   </p>
                 </div>
               </div>
             </div>
 
-
             <div className="rate-container">
+              <div>
+                {
+              item.status !== 0 ?
+                <Link
+                  to={`${item.route}/${this.encryptUrl(this.props.orderdetail.info.id)}`}
+                  className="responsive-font10"
+                  style={{
+                    color: "#FFFFFF",
+                    backgroundColor: "#EBA50A ",
+                    fontSize: "10px",
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
+                    paddingLeft: "2px",
+                    paddingRight: "2px",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    margin: "0px",
+                  }}
+                >
+                  <FormattedMessage id="orderDetail.info.leaveFeedback" />
+                </Link>
+                :
+                " "
+            }
+              </div>
+              <div>
+                <strong>
+                  <p className="footer mt-3">
+                    {item.orderamount && item.orderamount.toLocaleString()}₮
+                  </p>
+                </strong>
+              </div>
+            </div>
+
+            {/* <div className="rate-container">
               <div>
                 {
               item.status !== 0 ?
@@ -114,7 +148,7 @@ class List extends React.Component {
                   </p>
                 </strong>
               </div>
-            </div>
+            </div> */}
           </div>
         );
       });
