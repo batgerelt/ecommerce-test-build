@@ -1,6 +1,6 @@
 {
-  "main.css": "static/css/main.ee675425.css",
-  "main.js": "static/js/main.f4d26f38.js",
+  "main.css": "static/css/main.c6343db7.css",
+  "main.js": "static/js/main.864e0c06.js",
   "static\\media\\001-search.svg": "static/media/001-search.05c14bba.svg",
   "static\\media\\002-shopping-cart.svg": "static/media/002-shopping-cart.deb82563.svg",
   "static\\media\\003-chat-Copy.svg": "static/media/003-chat-Copy.d9d05ef9.svg",
@@ -30,6 +30,7 @@
   "static\\media\\lock.png": "static/media/lock.4e112593.png",
   "static\\media\\login.svg": "static/media/login.731c129f.svg",
   "static\\media\\logo.jpg": "static/media/logo.fc6ecce9.jpg",
+  "static\\media\\logo.png": "static/media/logo.f5cebdcd.png",
   "static\\media\\not-found.jpg": "static/media/not-found.f64949b8.jpg",
   "static\\media\\password.svg": "static/media/password.bf989ec6.svg",
   "static\\media\\profile.svg": "static/media/profile.43e810d2.svg",
