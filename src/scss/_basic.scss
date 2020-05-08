@@ -3504,13 +3504,94 @@ button:disabled {
 }
 
 // profile custom input //
+.product-info-deal {
+  background-color: #ffd040;
+}
+.detail-deal {
+  // background-color: #ffd040;
+}
+
 .nopadd {
   padding-left: 5px !important;
   padding-right: 5px !important;
 }
-
 //banner mobile
-@media (max-width: 768px) {
+@media (max-width: 414px) {
+  #bg_sub {
+    width: 100% !important;
+    position: absolute !important;
+    top: 84px !important;
+    left: 0 !important;
+  }
+  .header_obanjang {
+    position: relative !important;
+    z-index: 20 !important;
+    width: 100vw !important;
+    height: 210px !important;
+    margin: 0 auto 0px !important;
+    background: url("https://cdn.emartmall.mn/Resource/banner/1d467a2a-2c27-4486-b403-b85884acab5f.jpg") no-repeat !important;
+    background-size: 100% auto !important;
+  }
+  .bg_obanjang {
+    height: 0px !important;
+    background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/bg_top.png") repeat-x !important;
+  }
+  .time_counter {
+    left: 30px !important;
+    top: 60px !important;
+  }
+  .header_obanjang .time_counter {
+    em {
+      float: left;
+      position: relative;
+      width: 45px !important;
+      height: 45px !important;
+      margin-right: 8px !important;
+      background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/sp_time.png");
+      background-repeat: no-repeat;
+      background-size: 316px !important;
+    }
+    .num1 {
+      background-position: 0 0 !important;
+    }
+    .num2 {
+      background-position: -45px 0 !important
+    }
+    .num3 {
+      background-position: -90.5px 0 !important;
+    }
+    .num4 {
+      background-position: -135.5px 0 !important;
+    }
+    .num5 {
+      background-position: -180.5px 0 !important;
+    }
+    .num6 {
+      background-position: -225.5px 0 !important;
+    }
+    .num7 {
+      background-position: -271px 0 !important;
+    }
+    .num8 {
+      background-position: 0 -45px !important;
+    }
+    .num9 {
+      background-position: -45px -45px !important;
+    }
+    .num0 {
+      background-position: -90px -45px !important;
+    }
+    .color {
+      width: 10px !important;
+      margin: 0 5px !important;
+      background-position: -156px -45px !important;
+    }
+  }
+}
+//banner mobile end
+
+//banner tablet
+@media (min-device-width: 415px) and (max-device-width: 768px) {
   #bg_sub {
     width: 100% !important;
     position: absolute !important;
@@ -3520,7 +3601,7 @@ button:disabled {
   .header_obanjang {
     position: relative !important;
     z-index: 20 !important;
-    width: 785px !important;
+    width: 100vw !important;
     height: 300px !important;
     margin: 0 auto 0px !important;
     background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/img_top_lc.png") no-repeat !important;
@@ -3543,8 +3624,9 @@ button:disabled {
       position: relative;
       width: 69px !important;
       height: 69px !important;
-      margin-right: 5px !important;
-      margin-left: 6px !important;
+      margin-right: 8px !important;
+      // margin-right: 5px !important;
+      // margin-left: 6px !important;
       background: url("http://ui.ssgcdn.com/ui/em/img/emall_obanjang/sp_time.png");
       background-repeat: no-repeat;
       background-size: 480px !important;
@@ -3587,12 +3669,12 @@ button:disabled {
 
   }
 }
-//banner mobile end
+//banner tablet end
 
 #bg_sub {
   width: 100%;
   position: absolute;
-  top: 148px !important;
+  top: 148px;
   left: 0;
 }
 

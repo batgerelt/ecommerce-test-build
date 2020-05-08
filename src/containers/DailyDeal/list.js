@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable react/jsx-indent */
 /* eslint-disable array-callback-return */
 /* eslint-disable prefer-destructuring */
 import React from "react";
@@ -29,14 +31,16 @@ class CategoryInfo extends React.Component {
       loading: false,
       isCatChecked: false,
       isMobilePanel: false,
+      time: false,
 
       products: [],
       ITEM_HEIGHT: 294.98,
       shapeType: 2,
       count: 0,
       aggregations: [],
-      categoryId: this.props.match.params.promotid !== undefined ? Number(this.props.match.params.promotid) : null,
+      categoryId: "",
       selectCat: !!this.props.match.params.promotid,
+      categories: [],
 
       bucket: [],
       catid: 0,
@@ -77,7 +81,7 @@ class CategoryInfo extends React.Component {
   getData = () => {
     this.setState({ loading: true });
     const { isLoggedIn, data } = this.props;
-    this.props.getCountDown({});
+    this.props.getCountDown({}).then(res => this.setState({ time: true }));
     const param = {
       catId: 0,
       value: "",
@@ -122,7 +126,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.color.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -152,23 +156,18 @@ class CategoryInfo extends React.Component {
     }
   };
 
-  handleClickCategory = (cat) => {
-    const { isLoggedIn, data } = this.props;
+  handleClickCategory = (cat, event) => {
+    const { categoryId } = this.state;
+    this.setState({ loading: true, categoryId: Number(cat[0]) });
+    console.log(categoryId === Number(cat[0]) ? 0 : Number(cat[0]));
 
-    this.setState({ loading: true, selectCat: false });
-    if (cat.id === this.state.categoryId) {
-      this.setState({ categoryId: null, promotion: this.props.promotid });
-    } else {
-      this.setState({ categoryId: cat.id, promotion: cat.id });
-    }
-
-    const param = {
-      catId: 0,
+    const params = {
+      catId: categoryId === Number(cat[0]) ? 0 : Number(cat[0]),
       value: "",
       attribute: "",
       color: "",
       brand: "",
-      promotion: this.state.categoryId === cat.id ? this.props.promotid : cat.id,
+      promotion: "",
       minPrice: 0,
       maxPrice: 0,
       level: 0,
@@ -182,18 +181,12 @@ class CategoryInfo extends React.Component {
       orderColumn: "updateddate_desc, ISAVAILABLE_DESC, SALEPERCENT_DESC, RATE_DESC",
     };
 
-    this.props.searchProduct({ body: { ...param } }).then((res) => {
+    this.props.searchProduct({ body: { ...params } }).then((res) => {
       if (res.payload.success) {
-        this.setState({
-          products: res.payload.data.hits.hits,
-          loading: false,
-          count: 20,
-          aggregations: res.payload.data,
-          categories: res.payload.data.aggregations.categories,
-        });
+        this.setState({ products: res.payload.data.hits.hits, loading: false, count: 20 });
       }
     });
-  }
+  };
 
   handleChangeAttribute = (e, value, attribute) => {
     const { isLoggedIn, data } = this.props;
@@ -209,7 +202,7 @@ class CategoryInfo extends React.Component {
       attribute: attributes.join(','),
       color: this.state.color.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -238,7 +231,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.color.join(','),
       brand: brands.join(','),
-      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -268,7 +261,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: color.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+      promotion: "",
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
       startsWith: 0,
@@ -294,7 +287,7 @@ class CategoryInfo extends React.Component {
       attribute: this.state.attributes.join(','),
       color: this.state.color.join(','),
       brand: this.state.brands.join(','),
-      promotion: this.state.promotion === null ? this.props.promotid : this.state.promotion,
+      promotion: "",
       minPrice: e[0],
       maxPrice: e[1],
       startsWith: 0,
@@ -321,7 +314,7 @@ class CategoryInfo extends React.Component {
           attribute: this.state.attributes.join(','),
           color: this.state.color.join(","),
           brand: this.state.brands.join(","),
-          promotion: this.state.categoryId !== null ? this.state.categoryId : this.props.promotid,
+          promotion: "",
           minPrice: this.state.minPrice,
           maxPrice: this.state.maxPrice,
           level: 0,
@@ -369,7 +362,6 @@ class CategoryInfo extends React.Component {
 
     if (windowWidth < 576) { // is mobile
       tmp = windowWidth <= 320 ? 237 : windowWidth <= 360 ? 250 : windowWidth <= 375 ? 252 : windowWidth <= 420 ? 263 : 500;
-      console.log("fck");
       // tmp = windowWidth < 365 ? 340 : windowWidth < 420 ? 253 : windowWidth < 475 ? 450 : 480;
     } else if (windowWidth >= 576 && windowWidth <= 767) {
       tmp = 365;
@@ -419,51 +411,61 @@ class CategoryInfo extends React.Component {
 
   renderCategoryList = () => {
     try {
-      const { promotionall } = this.props;
-      const { categoryId, bucket } = this.state;
-      const lang = this.props.intl;
-      let array = [];
-      let tempArray = [];
-      // console.log(bucket);
-      let res = this.props.promotid.split(",");
-
-      bucket.buckets.map((item) => {
-        res.find(i => (Number(i) === item.key ? tempArray.push(item) : null));
-      });
-
-      res.map((item) => {
-        promotionall.map(i => (i.id === Number(item) ? array.push(i) : null));
-      });
-
-      return (
-        <ul className="list-unstyled category-list">
-          {
-            array.map((cat, key) => (
-              <div key={key}>
-                <Link
-                  to={`/e/${this.props.match.params.id}/${promotionall.find(i => i.id === cat.id).id}`}
-                  key={key}
-                >
-                  <li className={cat.id === categoryId ? "selected" : "disabled"} >
-                    <span onClick={() => this.handleClickCategory(cat)}>
-                      {
-                        lang === "mn" ?
-                          promotionall.find(i => i.id === cat.id).name
-                          :
-                          promotionall.find(i => i.id === cat.id).nameen
-                      }
-                    </span>
-                  </li>
-                </Link>
-              </div>
-            ))
-          }
-        </ul>
-      );
+      const { categoryall, intl } = this.props;
+      const lang = intl.locale;
+      const { categories, categoryId } = this.state;
+      if (categories.buckets.length !== 0) {
+        return (
+          <Tree.DirectoryTree
+            switcherIcon={<Icon type="down" />}
+            onSelect={this.handleClickCategory}
+            showIcon={false}
+          >
+            {categories.buckets.map(one => (
+              <Tree.TreeNode
+                title={lang === "mn" ? categoryall.find(i => i.id === one.key).name : categoryall.find(i => i.id === one.key).nameen}
+                key={one.key}
+                id={one.doc_count}
+              >
+                {one.buckets.buckets &&
+                  one.buckets.buckets.map((two) => {
+                    if (two.key !== 0) {
+                      return (
+                        <Tree.TreeNode
+                          title={lang === "mn" ? categoryall.find(i => i.id === two.key).name : categoryall.find(i => i.id === two.key).nameen}
+                          key={two.key}
+                          id={two.doc_count}
+                        >
+                          {
+                            two.buckets !== undefined && two.buckets.buckets !== undefined ?
+                              two.buckets.buckets.map(three => (
+                                three.key === 0 ? null :
+                                  <Tree.TreeNode
+                                    title={
+                                      lang === "mn"
+                                        ? categoryall.find(i => i.id === three.key).name
+                                        : categoryall.find(i => i.id === three.key).nameen
+                                    }
+                                    key={three.key}
+                                    id={three.doc_count}
+                                  />
+                              )) : null
+                          }
+                        </Tree.TreeNode>
+                      );
+                    }
+                    return null;
+                  })}
+              </Tree.TreeNode>
+            ))}
+          </Tree.DirectoryTree>
+        );
+      }
+      return <div className="block"><FormattedMessage id="search.filter.filter.noCategory" /></div>;
     } catch (error) {
       return null;
     }
-  }
+  };
 
   showMobilePanel = () =>
     this.setState({ isMobilePanel: !this.state.isMobilePanel });
@@ -756,10 +758,20 @@ class CategoryInfo extends React.Component {
     }
   };
 
+  renderBanner = () => {
+    try {
+      const { timercountdown } = this.props;
+      return <PageBanner timercountdown={timercountdown} getCountDown={this.props.getCountDown} />;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   render() {
+    const { time } = this.state;
     return (
       <div className="top-container elastic-container">
-        <PageBanner timercountdown={this.props.timercountdown} />
+        {time ? this.renderBanner() : null}
         <div className="section season">
           <div className="container">
             <div className="row">

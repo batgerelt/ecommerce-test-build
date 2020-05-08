@@ -11,6 +11,7 @@ import moment from "moment";
 import { store } from 'react-notifications-component';
 import Button from "@material-ui/core/Button";
 import { Notification } from "../../../../components";
+import logo from "../../../../../src/scss/assets/icon/logo.png";
 
 const formatter = new Intl.NumberFormat("en-US");
 class Detail extends Component {
@@ -39,6 +40,15 @@ class Detail extends Component {
     return `(${value})`;
   }
 
+  renderDailyDeal = () => (
+    <div className="product-info-deal">
+      <div style={{ padding: "10px 0px" }}>
+        <img alt="dailydeal" src={logo} style={{ padding: "0px 10px" }} />
+        <span className="detail-deal" >Хямдрал дуусахад 04 цаг 31 минут үлдсэн байна.</span>
+      </div>
+    </div>
+  )
+
   renderDetails = () => {
     const {
       categorymenu, isLoggedIn, intl, attributes,
@@ -49,6 +59,7 @@ class Detail extends Component {
     const selectedCat = detail.catid && categorymenu.find(cat => cat.id === detail.catid);
     return (
       <div className="col-xl-7 col-lg-7 col-md-7 product-info-wrapper">
+        {this.renderDailyDeal()}
         <div className="product-info">
           <h5 className="title">{lang === "mn" ? detail.title : detail.title_en}</h5>
           <span className="small-title">
