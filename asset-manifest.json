@@ -1,6 +1,6 @@
 {
   "main.css": "static/css/main.def55423.css",
-  "main.js": "static/js/main.55f3f9b5.js",
+  "main.js": "static/js/main.796781dd.js",
   "static\\media\\001-search.svg": "static/media/001-search.05c14bba.svg",
   "static\\media\\002-shopping-cart.svg": "static/media/002-shopping-cart.deb82563.svg",
   "static\\media\\003-chat-Copy.svg": "static/media/003-chat-Copy.d9d05ef9.svg",
@@ -10,7 +10,6 @@
   "static\\media\\car.png": "static/media/car.117dc5c9.png",
   "static\\media\\card-black.svg": "static/media/card-black.4ecbe480.svg",
   "static\\media\\card.svg": "static/media/card.bf607eb3.svg",
-  "static\\media\\cart.jpg": "static/media/cart.418c3fc0.jpg",
   "static\\media\\cliplist.png": "static/media/cliplist.a6cdbb52.png",
   "static\\media\\defaultAvatar.png": "static/media/defaultAvatar.16713bc1.png",
   "static\\media\\emart-logo.png": "static/media/emart-logo.ec6a1350.png",
@@ -43,6 +42,7 @@
   "static\\media\\qrcode-orange.svg": "static/media/qrcode-orange.f80349e3.svg",
   "static\\media\\qrcode-white.svg": "static/media/qrcode-white.fcba7580.svg",
   "static\\media\\redpoint.png": "static/media/redpoint.ea96bd79.png",
+  "static\\media\\searchnotfound.jpg": "static/media/searchnotfound.a166e18b.jpg",
   "static\\media\\sign-out.svg": "static/media/sign-out.166d224d.svg",
   "static\\media\\social-black.svg": "static/media/social-black.692015b1.svg",
   "static\\media\\social.svg": "static/media/social.24834b5b.svg",
