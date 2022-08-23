@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.emartmn.mobile",
+            "sha256_cert_fingerprints": [
+                "2F:21:BD:21:B0:52:42:F1:5E:C9:37:01:11:70:6C:99:80:CB:D5:3E:69:9B:C9:0B:F7:B7:11:56:82:6E:E0:CA"
+            ]
+        }
+    }
+]
